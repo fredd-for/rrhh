@@ -84,20 +84,66 @@ class SeguimientosController extends ControllerBase
 	{
 		$resul = Seguimientos::findFirstById($id);
 		if ($this->request->isPost()) {
-			$resul = Seguimientos::findFirstById($this->request->getPost('id'));
-			$resul->seguimiento = $this->request->getPost('seguimiento');
-			$resul->descripcion = $this->request->getPost('descripcion');
+			$resul->fk_usuario = 1;  //sesion id usuario
+			$resul->fk_unidad_organizacional = $this->request->getPost('fk_unidad_organizacional');
+			$resul->fk_usuariosolicitud = $this->request->getPost('fk_usuariosolicitud');
+			$resul->codigo_proceso = $this->request->getPost('codigo_proceso');
+			$resul->codigo_cargo = $this->request->getPost('codigo_cargo');
+			$resul->fk_cargo = $this->request->getPost('fk_cargo');
+			$resul->vacante = $this->request->getPost('vacante');
+			$resul->nro_solicitud = $this->request->getPost('nro_solicitud');
+			$resul->f_solicitud = $this->request->getPost('f_solicitud');
 			$resul->activo = true;
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
 				$this->flashSession->error("Error: no se guardo el registro...");
 			}
-			
 			$this->response->redirect('/seguimientos');
 		}
 		$this->view->setVar('seguimiento', $resul);		
-		//echo $this->view->render('../seguimientos/add', array('seguimiento' => 'hola'));
+
+		$this->tag->setDefault("fk_unidad_organizacional", $resul->fk_unidad_organizacional);
+		$oficinatmp = $this->tag->select(
+			array(
+				'fk_unidad_organizacional',
+				Oficinatmp::find(),
+				'using' => array('id', "oficina"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('oficina',$oficinatmp);
+
+		$this->tag->setDefault("fk_usuariosolicitud", $resul->fk_usuariosolicitud);
+		$usuario = $this->tag->select(
+			array(
+				'fk_usuariosolicitud',
+				Usuarios::find(),
+				'using' => array('id', "nombre"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('usuario',$usuario);
+
+		$this->tag->setDefault("fk_cargo", $resul->fk_cargo);
+		$cargo = $this->tag->select(
+			array(
+				'fk_cargo',
+				Cargotmp::find(),
+				'using' => array('id', "cargo"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('cargo',$cargo);
 	}
 
 	public function deleteAction($id)
