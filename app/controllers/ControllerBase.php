@@ -36,10 +36,13 @@ class ControllerBase extends Controller {
                     ->addCss('/assets/css/themes.css')
                     ->addCss('/js/datepicker/datepicker.css')
                     ->addCss('/js/datatables/dataTables.bootstrap.css')
-
+                    //->addCss('/js/wizard/prettify.css')
             //->addCss('/css/style-responsive.css')
             ;
             $this->assets
+                    ->addJs('/js/wizard/jquery-latest.js')
+                    ->addJs('/js/wizard/jquery.bootstrap.wizard.min.js')
+                    ->addJs('/js/wizard/prettify.js')
                     ->addJs('/assets/js/vendor/modernizr-2.7.1-respond-1.4.2.min.js')
                     ->addJs('/assets//js/vendor/bootstrap.min.js')
                     ->addJs('/assets//js/plugins.js')
@@ -48,9 +51,14 @@ class ControllerBase extends Controller {
                     ->addJs('/js/app.plugin.js')
                     //  ->addJs('/js/jquery-ui-1.9.0.custom.min.js')
                     ->addJs('/js/bootstrap.min.js')
+                    
+                    
                     ->addJs('/js/datepicker/bootstrap-datepicker.js')
                     //->addJs('/js/datatables/jquery.dataTables.js')
                     ->addJs('/js/datatables/dataTables.bootstrap.js')
+                    
+                    
+                    
             //  ->addJs('/js/jquery.uniform.js')
 
             ;

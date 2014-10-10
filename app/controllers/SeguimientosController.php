@@ -144,6 +144,63 @@ class SeguimientosController extends ControllerBase
 				)
 			);
 		$this->view->setVar('cargo',$cargo);
+
+		//$this->tag->setDefault("fk_normativa", $resul->fk_cargo);
+		$normativa = $this->tag->select(
+			array(
+				'fk_normativa',
+				Normativas::find(),
+				'using' => array('id', "normativa"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('normativa',$normativa);
+
+		$this->tag->setDefault("fk_componente", $resul->fk_componente);
+		$componente = $this->tag->select(
+			array(
+				'fk_componente',
+				Componentes::find(),
+				'using' => array('id', "componente"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('componente',$componente);
+
+		//$this->tag->setDefault("fk_fuentefinanciamiento", $resul->fk_fuentefinanciamiento);
+		$fuente = $this->tag->select(
+			array(
+				'fk_fuentefinanciamiento',
+				fuentefinanciamientos::find(),
+				'using' => array('id', "fuente"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('fuente',$fuente);		
+		
+
+		$this->tag->setDefault("fk_partida", $resul->fk_partida);
+		$partida = $this->tag->select(
+			array(
+				'fk_partida',
+				Partidas::find(),
+				'using' => array('id', "partida"),
+				'useEmpty' => true,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('partida',$partida);
 	}
 
 	public function deleteAction($id)
