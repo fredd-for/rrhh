@@ -61,7 +61,7 @@ class DasController extends ControllerBase
 	public function deleteAction($id)
 	{
 		$resul = Das::findFirstById($id);
-		$resul->activo = 0;
+		$resul->baja_logica = 0;
 		if ($resul->save()) {
 				$this->flashSession->success("Exito: Elimino correctamente el registro...");
 			}else{
