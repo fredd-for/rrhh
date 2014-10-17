@@ -76,6 +76,12 @@ class Cargos extends \Phalcon\Mvc\Model
     public $fecha_mod;
 
     /**
+     *
+     * @var integer
+     */
+    public $gestion;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -100,7 +106,8 @@ class Cargos extends \Phalcon\Mvc\Model
             'user_reg_id' => 'user_reg_id', 
             'fecha_reg' => 'fecha_reg', 
             'user_mod_id' => 'user_mod_id', 
-            'fecha_mod' => 'fecha_mod'
+            'fecha_mod' => 'fecha_mod',
+            'gestion' => 'gestion'
         );
     }
 

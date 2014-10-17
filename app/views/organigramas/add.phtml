@@ -26,7 +26,7 @@
 	</div>
 	<div>
 		<label>Fecha Finalización</label>
-		<input type="text" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>" placeholder="click para mostrar calendario" required>
+		<input type="text" name="fecha_fin" id="fecha_fin" value="" placeholder="click para mostrar calendario">
 	</div>
 	<div>
 		<button>Guardar</button>
@@ -45,7 +45,7 @@
 <script type="text/javascript">
 $(function(){
     $('#padre_id').change(function(){
-        var id=$(this).val(); //id oficina
+    var id=$(this).val(); //id oficina
     var v=$.ajax({
 	url:'../../ajax/sigla/'+id,
 	type:'POST',

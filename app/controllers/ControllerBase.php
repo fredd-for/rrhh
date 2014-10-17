@@ -34,10 +34,12 @@ class ControllerBase extends Controller {
                     ->addCss('/assets/css/plugins.css')
                     ->addCss('/assets/css/main.css')
                     ->addCss('/assets/css/themes.css')
+                    //CSS ingresados por freddy
                     ->addCss('/js/datepicker/datepicker.css')
                     ->addCss('/js/datatables/dataTables.bootstrap.css')
-                    //->addCss('/js/wizard/prettify.css')
-            //->addCss('/css/style-responsive.css')
+                    ->addCss('/js/jqwidgets/styles/jqx.base.css')
+
+                    
             ;
             $this->assets
                     ->addJs('/js/wizard/jquery-latest.js')
@@ -51,15 +53,33 @@ class ControllerBase extends Controller {
                     ->addJs('/js/app.plugin.js')
                     //  ->addJs('/js/jquery-ui-1.9.0.custom.min.js')
                     ->addJs('/js/bootstrap.min.js')
-                    
-                    
+                    //JS ingresado por Freddy                    
+                    ->addJs('/js/jqwidgets/scripts/jquery-1.11.1.min.js')
+                    ->addJs('/js/jqwidgets/jqxcore.js')
+                    ->addJs('/js/jqwidgets/jqxdata.js')
+                    ->addJs('/js/jqwidgets/jqxbuttons.js')
+                    ->addJs('/js/jqwidgets/jqxscrollbar.js')
+                    ->addJs('/js/jqwidgets/jqxdatatable.js')
+                    ->addJs('/js/jqwidgets/jqxlistbox.js')
+                    ->addJs('/js/jqwidgets/jqxdropdownlist.js')
+                    ->addJs('/js/jqwidgets/jqxpanel.js')
+                    ->addJs('/js/jqwidgets/jqxradiobutton.js')
+                    ->addJs('/js/jqwidgets/jqxinput.js')
                     ->addJs('/js/datepicker/bootstrap-datepicker.js')
-                    //->addJs('/js/datatables/jquery.dataTables.js')
                     ->addJs('/js/datatables/dataTables.bootstrap.js')
-                    
-                    
-                    
-            //  ->addJs('/js/jquery.uniform.js')
+
+                    ->addJs('/js/jqwidgets/jqxmenu.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.filter.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.sort.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.selection.js')
+                    ->addJs('/js/jqwidgets/jqxcalendar.js')
+                    ->addJs('/js/jqwidgets/jqxdatetimeinput.js')
+                    ->addJs('/js/jqwidgets/jqxcheckbox.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.pager.js')
+                    ->addJs('/js/jqwidgets/jqxnumberinput.js')
+                    ->addJs('/js/jqwidgets/jqxwindow.js')
+                    ->addJs('/js/jqwidgets/globalization/globalize.js')
 
             ;
             //menu
