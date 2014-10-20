@@ -216,12 +216,6 @@ class OrganigramasController extends ControllerBase
 */
 	public function listAction()
 	{
-		/*$customers[] = array(
-			'id' => $row['CompanyName'],
-			'unidad' => $row['ContactName'],
-			'sigla' => $row['ContactTitle']
-			);
-		*/
 		$resul = Organigramas::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
 		$this->view->disable();
 		foreach ($resul as $v) {
@@ -247,11 +241,12 @@ class OrganigramasController extends ControllerBase
 			$resul->fecha_ini = date("Y-m-d");
 			$resul->user_mod_id = 1;
 			$resul->fecha_mod = date("Y-m-d H:i:s");
-			if ($resul->save()) {
+			$resul->save()
+			/*if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
 				$this->flashSession->error("Error: no se guardo el registro...");
-			}	
+			}*/	
 			}
 			else{
 				$date = new DateTime($_POST['fecha_ini']);
@@ -275,12 +270,13 @@ class OrganigramasController extends ControllerBase
 			$resul->fecha_reg = date("Y-m-d H:i:s");
 			$resul->user_mod_id = 1;
 			$resul->fecha_mod = date("Y-m-d H:i:s");
-
-			if ($resul->save()) {
+			$resul->save()
+			/*if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
 				$this->flashSession->error("Error: no se guardo el registro...");
 			}
+			*/
 		}	
 		}
 		
@@ -291,11 +287,12 @@ class OrganigramasController extends ControllerBase
 	public function deleteAction(){
 		$resul = Organigramas::findFirstById($_POST['id']);
 			$resul->baja_logica = 0;
-			if ($resul->save()) {
+			$resul->save();
+			/*if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro eliminado correctamente...");
 			}else{
 				$this->flashSession->error("Error: no se guardo el registro...");
-			}
+			}*/
 		$this->view->disable();
 		echo json_encode();
 	}

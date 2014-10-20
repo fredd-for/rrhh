@@ -27,11 +27,11 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 100},
-			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: 50 },
-			{ text: 'Nro Resolucion', datafield: 'numero_res', width: 300 },
-			{ text: 'Fecha Emision', datafield: 'fecha_emi', width: 300 },
-			{ text: 'Fecha Aprobacion', datafield: 'fecha_apr', width: 300 },
+			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 50},
+			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: 350 },
+			{ text: 'Nro Resolucion', datafield: 'numero_res', width: 150 },
+			{ text: 'Fecha Emision', datafield: 'fecha_emi', width: 100 },
+			{ text: 'Fecha Aprobacion', datafield: 'fecha_apr', width: 100 },
 			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
@@ -46,6 +46,18 @@ $(document).ready(function () {
                      $("#id").val(dataRecord.id);
                      $("#tipo_resolucion").val(dataRecord.tipo_resolucion);
                      $("#numero_res").val(dataRecord.numero_res);
+                     
+                    var fecha=dataRecord.fecha_emi;
+					fecha=fecha.replace("-", "/").replace("-", "/");	  
+  					fecha= new Date(fecha);
+  					fecha.setDate(fecha.getDate());
+					$("#fecha_emi").jqxDateTimeInput('setDate', fecha);
+
+					var fecha=dataRecord.fecha_apr;
+					fecha=fecha.replace("-", "/").replace("-", "/");	  
+  					fecha= new Date(fecha);
+  					fecha.setDate(fecha.getDate());
+					$("#fecha_apr").jqxDateTimeInput('setDate', fecha);
 
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
@@ -78,18 +90,27 @@ $(document).ready(function () {
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#id").val("");
-            	$("#orden").val("");
-            	$("#nivel_estructural").val("");
+            	$("#tipo_resolucion").val("");
+            	$("#numero_res").val("");
             	$("#popupWindow").jqxWindow('open');
+            	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+            	fecha= new Date();
+  				fecha.setDate(fecha.getDate());
+				$("#fecha_emi").jqxDateTimeInput('setDate', fecha);
+				fecha= new Date();
+  				fecha.setDate(fecha.getDate());
+				$("#fecha_apr").jqxDateTimeInput('setDate', fecha);
             });
 
             $("#Save").click(function () {
+            	var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
+            	var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
             	var v=$.ajax({
                     	url:'../../resoluciones/save/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
-						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+						data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
+						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
 					});
@@ -112,12 +133,17 @@ $(document).ready(function () {
                     $("#popupWindow_delete").jqxWindow('hide');
                 }
             });
+
+            // create a jqxDateTimeInput.
+            //var f='2014-01-01'; 
+               	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+                $("#fecha_apr").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
 	});
 </script>
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1>Nivel Estructural</h1>		
+		<h1>Resoluciones</h1>		
 	</div>
 </div>
 
@@ -149,12 +175,20 @@ $(document).ready(function () {
 								<td align="left"><input id="id" name="id" type="hidden" /></td>
 							</tr>
 							<tr>
-								<td align="right">Orden:</td>
-								<td align="left"><input id="orden" name="orden" type="text" /></td>
+								<td align="right">Tipo Resolución:</td>
+								<td align="left"><input id="tipo_resolucion" name="tipo_resolucion" type="text" /></td>
 							</tr>
 							<tr>
-								<td align="right">Nivel Estructural:</td>
-								<td align="left"><input id="nivel_estructural" name="nivel_estructural" type="text" /></td>
+								<td align="right">Numero Resolución:</td>
+								<td align="left"><input id="numero_res" name="numero_res" type="text" /></td>
+							</tr>
+							<tr>
+								<td align="right">Fecha Emisión:</td>
+								<td align="left"><div id='fecha_emi'></div></td>
+							</tr>
+							<tr>
+								<td align="right">Fecha Aprobación:</td>
+								<td align="left"><div id='fecha_apr'></div></td>
 							</tr>
 							<tr>
 								<td align="right"></td>

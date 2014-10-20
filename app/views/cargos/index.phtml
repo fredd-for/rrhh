@@ -5,15 +5,15 @@ $(document).ready(function () {
 			datatype: "json",
 			datafields: [
 				{ name: 'id'},
-				{ name: 'resolucion_id'},
-				{ name: 'categoria'},
-				{ name: 'clase'},
-				{ name: 'nivel'},
+				{ name: 'unidad_administrativa'},
+				{ name: 'unidad_ejecutora'},
+				{ name: 'codigo'},
+				{ name: 'cargo'},
 				{ name: 'denominacion'},
-				{ name: 'sueldo'}
-				
+				{ name: 'sueldo'},
+				{ name: 'estado'}
 			],
-			url: '../../nivelsalariales/list',
+			url: '../../cargos/list',
 			cache: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
@@ -31,12 +31,13 @@ $(document).ready(function () {
 		filterable: true,
 		columns: [
 			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 50},
-			{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: 300 },
-			{ text: 'Categoria', datafield: 'categoria', width: 100 },
-			{ text: 'Clase', datafield: 'clase', width: 50 },
-			{ text: 'Nivel', datafield: 'nivel', width: 50 },
+			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: 350 },
+			{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', width: 150 },
+			{ text: 'Codigo', datafield: 'codigo', width: 100 },
+			{ text: 'Cargo', datafield: 'cargo', width: 100 },
 			{ text: 'Denominacion', datafield: 'denominacion', width: 100 },
-			{ text: 'Sueldo', datafield: 'sueldo', width: 100 },
+			{ text: 'Salarial', datafield: 'sueldo', width: 100 },
+			{ text: 'Estado', datafield: 'estado', width: 100 },
 			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
@@ -49,19 +50,13 @@ $(document).ready(function () {
                      var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
                      $("#titulo").text("Editar");
                      $("#id").val(dataRecord.id);
-                     $("#resolucion_id").val(dataRecord.resolucion_id);
-                     $("#categoria").val(dataRecord.categoria);
-                     $("#clase").val(dataRecord.clase);
-                     $("#nivel").val(dataRecord.nivel);
-                     $("#denominacion").val(dataRecord.denominacion);
-                     $("#sueldo").val(dataRecord.sueldo);
+                     $("#organigrama_id").val(dataRecord.organigrama_id);
+                     $("#ejecutora_id").val(dataRecord.ejecutora_id);
+                     $("#codigo").val(dataRecord.codigo);
+                     $("#cargo").val(dataRecord.cargo);
+                     $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
+                     $("#cargo_estado_id").val(dataRecord.cargo_estado_id);
 
-                    /*var fecha=dataRecord.fecha_ini;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_ini").jqxDateTimeInput('setDate', fecha);
-					*/
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
                  }
@@ -93,26 +88,21 @@ $(document).ready(function () {
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#id").val("");
-            	//$("#resolucion_id").val("");
-            	$("#categoria").val("");
-            	$("#clase").val("");
-            	$("#nivel").val("");
-            	$("#denominacion").val("");
-            	$("#sueldo").val("");
-            	/*fecha= new Date();
-  				fecha.setDate(fecha.getDate());
-				$("#fecha_ini").jqxDateTimeInput('setDate', fecha);
-				*/
-				$("#popupWindow").jqxWindow('open');				
+            	//$("#organigrama_id").val("");
+            	//$("#ejecutora_id").val("");
+            	$("#codigo").val("");
+            	$("#cargo").val("");
+            	//$("#nivelsalarial_id").val("");
+            	$("#cargo_estado_id").val("");
+            	$("#popupWindow").jqxWindow('open');
             });
 
             $("#Save").click(function () {
-            	//var fecha_ini = $('#fecha_ini').jqxDateTimeInput('getDate');
             	var v=$.ajax({
-                    	url:'../../nivelsalariales/save/',
+                    	url:'../../cargos/save/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val()},
+						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),ejecutora_id:$("#ejecutora_id").val(),codigo:$("#codigo").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:$("#cargo_estado_id").val()},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
@@ -124,7 +114,7 @@ $(document).ready(function () {
             $("#Eliminar").click(function () {
             	if (editrow >= 0) {
                     var v=$.ajax({
-                    	url:'../../nivelsalariales/delete/',
+                    	url:'../../cargos/delete/',
                     	type:'POST',
                     	datatype: 'json',
 						data:{id:$("#id").val()},
@@ -137,14 +127,12 @@ $(document).ready(function () {
                 }
             });
 
-            // create a jqxDateTimeInput.
-               	//$("#fecha_ini").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
 	});
 </script>
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1>Niveles Salariales</h1>		
+		<h1>Cargos</h1>		
 	</div>
 </div>
 
@@ -176,30 +164,25 @@ $(document).ready(function () {
 								<td align="left"><input id="id" name="id" type="hidden" /></td>
 							</tr>
 							<tr>
-								<td align="right">Resolución:</td>
-								<td align="left"><?php echo $resolucion ?></td>
+								<td align="right">Organigrama:</td>
+								<td align="left"><?php echo $organigrama ?></td>
 							</tr>
 							<tr>
-								<td align="right">Categoria:</td>
-								<td align="left"><input id="categoria" name="categoria" type="text" /></td>
+								<td align="right">Unidad Ejecutora:</td>
+								<td align="left"><?php echo $ejecutora ?></td>
 							</tr>
 							<tr>
-								<td align="right">Clase:</td>
-								<td align="left"><input id="clase" name="clase" type="text" /></td>
+								<td align="right">Codigo:</td>
+								<td align="left"><input id="codigo" name="codigo" type="text" /></td>
 							</tr>
 							<tr>
-								<td align="right">Nivel:</td>
-								<td align="left"><input id="nivel" name="nivel" type="text" /></td>
+								<td align="right">Cargo:</td>
+								<td align="left"><input id="cargo" name="cargo" type="text" /></td>
 							</tr>
 							<tr>
-								<td align="right">Denominación:</td>
-								<td align="left"><input id="denominacion" name="denominacion" type="text" /></td>
+								<td align="right">Nivel Salarial:</td>
+								<td align="left"><?php echo $nivelsalarial ?></td>
 							</tr>
-							<tr>
-								<td align="right">Sueldo:</td>
-								<td align="left"><input id="sueldo" name="sueldo" type="text" /></td>
-							</tr>
-							
 							<tr>
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">

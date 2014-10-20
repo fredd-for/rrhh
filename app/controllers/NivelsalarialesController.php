@@ -6,101 +6,102 @@
 class NivelsalarialesController extends ControllerBase
 {
 	public function initialize() {
-        parent::initialize();
-    }
+		parent::initialize();
+	}
 
 	public function indexAction()
 	{
-		$resul = Nivelsalariales::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
-		$this->view->setVar('nivelsalarial', $resul);	
-	}
-
-	public function addAction()
-	{
-		if ($this->request->isPost()) {
-			$resul = new Nivelsalariales();
-			$resul->resolucion_id = $this->request->getPost('resolucion_id');
-			$resul->gestion = date("Y");
-			$resul->categoria = $this->request->getPost('categoria');
-			$resul->clase = $this->request->getPost('clase');
-			$resul->nivel = $this->request->getPost('nivel');
-			$resul->sub_nivel_salarial = 0;
-			$resul->denominacion = $this->request->getPost('denominacion');
-			$resul->sueldo = $this->request->getPost('sueldo');
-			//$resul->fecha_ini = date("Y-m-d");
-			//$resul->fecha_fin = date("Y-m-d");
-			$resul->estado = 1;
-			$resul->baja_logica = 1;
-			if ($resul->save()) {
-				$this->flashSession->success("Exito: Registro guardado correctamente...");
-			}else{
-				$this->flashSession->error("Error: no se guardo el registro...");
-			}
-			$this->response->redirect('/nivelsalariales');
-		}
-
 		$resolucion = $this->tag->select(
 			array(
 				'resolucion_id',
 				Resoluciones::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "tipo_resolucion"),
-				'useEmpty' => false,
-				'emptyText' => '(Seleccionar)',
-				'emptyValue' => '',
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '0',
 				'class' => 'form-control'
 				)
 			);
 		$this->view->setVar('resolucion',$resolucion);
-
 	}
 
-	public function editAction($id)
+	public function listAction()
 	{
-		$resul = Nivelsalariales::findFirstById($id);
-		if ($this->request->isPost()) {
-			$resul = Nivelsalariales::findFirstById($this->request->getPost('id'));
-			$resul->resolucion_id = $this->request->getPost('resolucion_id');
-			$resul->categoria = $this->request->getPost('categoria');
-			$resul->clase = $this->request->getPost('clase');
-			$resul->nivel = $this->request->getPost('nivel');
-			$resul->denominacion = $this->request->getPost('denominacion');
-			$resul->sueldo = $this->request->getPost('sueldo');
-			if ($resul->save()) {
-				$this->flashSession->success("Exito: Registro guardado correctamente...");
-			}else{
-				$this->flashSession->error("Error: no se guardo el registro...");
-			}
+		//$resul = Nivelsalariales::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
+		$model = new Nivelsalariales();
+        $resul = $model->lista();
+
+		$this->view->disable();
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'resolucion_id' => $v->tipo_resolucion,
+				'categoria' => $v->categoria,
+				'clase' => $v->clase,
+				'nivel' => $v->nivel,
+				'denominacion' => $v->denominacion,
+				'sueldo' => $v->sueldo
+				//'fecha_ini' => date("Y-m-d",strtotime($v->fecha_ini))
+				);
+		}
+		echo json_encode($customers);
+	}
+
+	public function saveAction()
+	{
+		if (isset($_POST['id'])) {
+			//$date = new DateTime($_POST['fecha_ini']);
+			//$fecha_ini = $date->format('Y-m-d');
 			
-			$this->response->redirect('/nivelsalariales');
-		}
-		$this->view->setVar('nivelsalarial', $resul);		
-		
-		$this->tag->setDefault("resolucion_id", $resul->resolucion_id);
-		$resolucion = $this->tag->select(
-			array(
-				'resolucion_id',
-				Resoluciones::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "tipo_resolucion"),
-				'useEmpty' => false,
-				'emptyText' => '(Seleccionar)',
-				'emptyValue' => '',
-				'class' => 'form-control'
-				)
-			);
-		$this->view->setVar('resolucion',$resolucion);
+			if ($_POST['id']>0) {
+				$resul = Nivelsalariales::findFirstById($_POST['id']);
+				$resul->resolucion_id = $_POST['resolucion_id'];
+				$resul->categoria = $_POST['categoria'];
+				$resul->clase = $_POST['clase'];
+				$resul->nivel = $_POST['nivel'];
+				$resul->denominacion = $_POST['denominacion'];
+				$resul->sueldo = $_POST['sueldo'];
+				$resul->save();
+				if ($resul->save()) {
+					$msm = array('msm' => 'Exito: Se guardo correctamente' );
+				}else{
+					$msm = array('msm' => 'Error: No se guardo el registro' );
+				}
+			}
+			else{
+				$resul = new Nivelsalariales();
+				$resul->resolucion_id = $_POST['resolucion_id'];
+				$resul->gestion =date("Y");
+				$resul->categoria = $_POST['categoria'];
+				$resul->clase = $_POST['clase'];
+				$resul->nivel = $_POST['nivel'];
+				$resul->sub_nivel_salarial = 0;
+				$resul->denominacion = $_POST['denominacion'];
+				$resul->sueldo = $_POST['sueldo'];
+				//$resul->fecha_ini = $fecha_ini;
+				//$resul->fecha_fin = $fecha_emi;
+				$resul->estado = 1;
+				$resul->baja_logica = 1;
+				$resul->save();
+				/*if ($resul->save()) {
+					$msm = array('msm' => 'Exito: Se guardo correctamente' );
+				}else{
+					$msm = array('msm' => 'Error: No se guardo el registro' );
+				}
+				*/
+		}	
 	}
+	$this->view->disable();
+	echo json_encode();
+}
 
-	public function deleteAction($id)
-	{
-		$resul = Nivelsalariales::findFirstById($id);
-		$resul->baja_logica = 0;
-		if ($resul->save()) {
-				$this->flashSession->success("Exito: Elimino correctamente el registro...");
-			}else{
-				$this->flashSession->error("Error: no se elimino ningun registro...");
-		}
-		$this->response->redirect('/nivelsalariales');
-	}
+public function deleteAction(){
+	$resul = Nivelsalariales::findFirstById($_POST['id']);
+	$resul->baja_logica = 0;
+	$resul->save();
+	$this->view->disable();
+	echo json_encode();
+}
 
 }
 ?>

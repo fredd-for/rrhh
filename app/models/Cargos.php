@@ -1,5 +1,5 @@
 <?php
-
+use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 class Cargos extends \Phalcon\Mvc\Model
 {
 
@@ -43,7 +43,7 @@ class Cargos extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $estado;
+    public $cargo_estado_id;
 
     /**
      *
@@ -75,12 +75,7 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $fecha_mod;
 
-    /**
-     *
-     * @var integer
-     */
-    public $gestion;
-
+    
     /**
      * Initialize method for model.
      */
@@ -101,14 +96,21 @@ class Cargos extends \Phalcon\Mvc\Model
             'codigo' => 'codigo', 
             'cargo' => 'cargo', 
             'nivelsalarial_id' => 'nivelsalarial_id', 
-            'estado' => 'estado', 
+            'cargo_estado_id' => 'cargo_estado_id', 
             'baja_logica' => 'baja_logica', 
             'user_reg_id' => 'user_reg_id', 
             'fecha_reg' => 'fecha_reg', 
             'user_mod_id' => 'user_mod_id', 
-            'fecha_mod' => 'fecha_mod',
-            'gestion' => 'gestion'
+            'fecha_mod' => 'fecha_mod'
         );
+    }
+
+    private $_db;
+
+    public function lista(){
+        $sql = "SELECT c.id,o.unidad_administrativa,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado FROM cargos c, organigramas o, ejecutoras e, nivelsalariales n, cargosestados ca  WHERE c.baja_logica=1 AND c.organigrama_id=o.id AND c.ejecutora_id=e.id AND c.nivelsalarial_id = n.id AND c.cargo_estado_id=ca.id";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
 }
