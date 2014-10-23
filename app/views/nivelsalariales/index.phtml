@@ -4,12 +4,12 @@ $(document).ready(function () {
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id'},
-				{ name: 'resolucion_id'},
-				{ name: 'categoria'},
-				{ name: 'clase'},
-				{ name: 'nivel'},
-				{ name: 'denominacion'},
+				{ name: 'id',type: 'number'},
+				{ name: 'resolucion_id',type: 'string'},
+				{ name: 'categoria',type: 'string'},
+				{ name: 'clase',type: 'number'},
+				{ name: 'nivel',type: 'number'},
+				{ name: 'denominacion',type: 'string'},
 				{ name: 'sueldo'}
 				
 			],
@@ -21,7 +21,7 @@ $(document).ready(function () {
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
 		{
-		width: 950,
+		width: '100%',
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
@@ -30,14 +30,14 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 50},
-			{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: 300 },
-			{ text: 'Categoria', datafield: 'categoria', width: 100 },
-			{ text: 'Clase', datafield: 'clase', width: 50 },
-			{ text: 'Nivel', datafield: 'nivel', width: 50 },
-			{ text: 'Denominacion', datafield: 'denominacion', width: 100 },
-			{ text: 'Sueldo', datafield: 'sueldo', width: 100 },
-			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
+			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+			{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: '25%' },
+			{ text: 'Categoria', datafield: 'categoria', filtertype: 'input',width: '25%' },
+			{ text: 'Clase', datafield: 'clase', filtertype: 'number',width: '5%' },
+			{ text: 'Nivel', datafield: 'nivel', filtertype: 'number',width: '5%' },
+			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '20%' },
+			{ text: 'Sueldo', datafield: 'sueldo', filtertype: 'number',width: '5%' },
+			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
@@ -66,7 +66,7 @@ $(document).ready(function () {
                      $("#popupWindow").jqxWindow('open');
                  }
             },
-            { text: 'Eliminar', datafield: 'Eliminar',width:100, sortable:false, columntype: 'button', cellsrenderer: function () {
+            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', filterable:false,cellsrenderer: function () {
                      return "Eliminar";
                   }, buttonclick: function (row) {
                      editrow = row;

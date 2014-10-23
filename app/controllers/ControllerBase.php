@@ -79,8 +79,9 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxgrid.pager.js')
                     ->addJs('/js/jqwidgets/jqxnumberinput.js')
                     ->addJs('/js/jqwidgets/jqxwindow.js')
+                    ->addJs('/js/jqwidgets/jqxcombobox.js')
+                    ->addJs('/js/jqwidgets/jqxexpander.js')
                     ->addJs('/js/jqwidgets/globalization/globalize.js')
-
             ;
             //menu
             $this->menu($this->_user->nivel);

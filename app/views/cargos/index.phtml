@@ -4,24 +4,25 @@ $(document).ready(function () {
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id'},
-				{ name: 'unidad_administrativa'},
-				{ name: 'unidad_ejecutora'},
-				{ name: 'codigo'},
-				{ name: 'cargo'},
-				{ name: 'denominacion'},
+				{ name: 'id',type: 'number'},
+				{ name: 'unidad_administrativa',type: 'string'},
+				//{ name: 'unidad_ejecutora',type: 'string'},
+				{ name: 'codigo',type: 'string'},
+				{ name: 'cargo',type: 'string'},
+				{ name: 'denominacion',type: 'string'},
 				{ name: 'sueldo'},
-				{ name: 'estado'}
+				{ name: 'estado', type: 'string'}
 			],
 			url: '../../cargos/list',
 			cache: false
 		};
+
 		var dataAdapter = new $.jqx.dataAdapter(source);
 		cargar();	
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
 		{
-		width: 950,
+		width: '100%',
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
@@ -30,15 +31,15 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 50},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: 350 },
-			{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', width: 150 },
-			{ text: 'Codigo', datafield: 'codigo', width: 100 },
-			{ text: 'Cargo', datafield: 'cargo', width: 100 },
-			{ text: 'Denominacion', datafield: 'denominacion', width: 100 },
-			{ text: 'Salarial', datafield: 'sueldo', width: 100 },
-			{ text: 'Estado', datafield: 'estado', width: 100 },
-			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
+			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
+			//{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', filtertype: 'input',width: '20%' },
+			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '15%' },
+			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '20%' },
+			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '20%' },
+			{ text: 'Salarial', datafield: 'sueldo', filtertype: 'number',width: '5%' },
+			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '5%' },
+			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
@@ -51,7 +52,7 @@ $(document).ready(function () {
                      $("#titulo").text("Editar");
                      $("#id").val(dataRecord.id);
                      $("#organigrama_id").val(dataRecord.organigrama_id);
-                     $("#ejecutora_id").val(dataRecord.ejecutora_id);
+                     //$("#ejecutora_id").val(dataRecord.ejecutora_id);
                      $("#codigo").val(dataRecord.codigo);
                      $("#cargo").val(dataRecord.cargo);
                      $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
@@ -61,7 +62,7 @@ $(document).ready(function () {
                      $("#popupWindow").jqxWindow('open');
                  }
             },
-            { text: 'Eliminar', datafield: 'Eliminar',width:100, sortable:false, columntype: 'button', cellsrenderer: function () {
+            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Eliminar";
                   }, buttonclick: function (row) {
                      editrow = row;
@@ -102,7 +103,7 @@ $(document).ready(function () {
                     	url:'../../cargos/save/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),ejecutora_id:$("#ejecutora_id").val(),codigo:$("#codigo").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:$("#cargo_estado_id").val()},
+						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),fin_partida_id:$("#fin_partida_id").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:$("#cargo_estado_id").val()},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
@@ -126,6 +127,12 @@ $(document).ready(function () {
                     $("#popupWindow_delete").jqxWindow('hide');
                 }
             });
+
+            $("#nivelsalarial_id").change(function(){
+           	var element = $(this).find('option:selected'); 
+        	var myTag = element.attr("sueldo"); 
+            $('#sueldotxt').text(myTag);
+        });
 
 	});
 </script>
@@ -165,23 +172,44 @@ $(document).ready(function () {
 							</tr>
 							<tr>
 								<td align="right">Organigrama:</td>
-								<td align="left"><?php echo $organigrama ?></td>
-							</tr>
-							<tr>
-								<td align="right">Unidad Ejecutora:</td>
-								<td align="left"><?php echo $ejecutora ?></td>
-							</tr>
-							<tr>
-								<td align="right">Codigo:</td>
-								<td align="left"><input id="codigo" name="codigo" type="text" /></td>
-							</tr>
-							<tr>
-								<td align="right">Cargo:</td>
-								<td align="left"><input id="cargo" name="cargo" type="text" /></td>
+								<td align="left"><?php  echo $organigrama ?></td>
 							</tr>
 							<tr>
 								<td align="right">Nivel Salarial:</td>
-								<td align="left"><?php echo $nivelsalarial ?></td>
+								<td align="left">
+									<select class="form-control" id="nivelsalarial_id" name="nivelsalarial_id">
+										<?php foreach ($nivelsalarial as $v) { ?>
+												<option value="<?php echo $v->id ?>" sueldo="<?php echo $v->sueldo ?>"><?php echo $v->denominacion ?></option>	
+										<?php } ?>
+										
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">Salario Mensual:</td>
+								<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
+							</tr>
+							<tr>
+								<td align="right">Fuente de Financiamiento:</td>
+								<td align="left"><?php echo $finpartida ?></td>
+							</tr>
+							<tr>
+								<td align="right">Cargo:</td>
+								<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
+							</tr>
+							<tr>
+								<td align="right">Tipo Cargo:</td>
+								<td align="left">
+									<div data-toggle="buttons">
+									<?php foreach ($cargoestado as $v) { ?>
+										<label class="btn btn-primary btn-xs">
+                    						<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>" /> <?php echo $v->estado; ?>
+                						</label>
+										
+									<?php } ?>
+                
+            						</div>
+            					</td>
 							</tr>
 							<tr>
 								<td align="right"></td>

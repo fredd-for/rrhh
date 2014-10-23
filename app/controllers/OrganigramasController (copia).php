@@ -36,12 +36,15 @@ class OrganigramasController extends ControllerBase
 			$resul->unidad_administrativa = $this->request->getPost('unidad_administrativa');
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
-			$resul->fecha_ini = $_POST['fecha_ini'];
+			$resul->fecha_ini = $this->request->getPost('fecha_ini');
 			$resul->codigo = 0;
 			$resul->estado = 1;
 			$resul->baja_logica = 1;
 			$resul->user_reg_id = 1;
 			$resul->fecha_reg = date("Y-m-d H:i:s");
+			$resul->user_mod_id = 1;
+			$resul->fecha_mod = date("Y-m-d H:i:s");
+
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
