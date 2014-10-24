@@ -221,14 +221,26 @@ class OrganigramasController extends ControllerBase
 		echo json_encode($msm);
 	}
 
-	public function deleteAction(){
+	public function deleteAction($id)
+	{
+		$resul = Organigramas::findFirstById($id);
+		$resul->baja_logica = 0;
+		if ($resul->save()) {
+				$this->flashSession->success("Exito: Elimino correctamente el registro...");
+			}else{
+				$this->flashSession->error("Error: no se elimino ningun registro...");
+		}
+		$this->response->redirect('/organigramas');
+	}
+
+	/*public function deleteAction(){
 		$resul = Organigramas::findFirstById($_POST['id']);
 		$resul->baja_logica = 0;
 		$resul->save();
 		$this->view->disable();
 		echo json_encode();
 	}
-
+*/
 	
 }
 ?>

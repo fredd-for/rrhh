@@ -5,7 +5,7 @@ $(document).ready(function () {
 			datatype: "json",
 			datafields: [
 				{ name: 'id',type: 'number'},
-				{ name: 'resolucion_id',type: 'string'},
+				//{ name: 'resolucion_id',type: 'string'},
 				{ name: 'categoria',type: 'string'},
 				{ name: 'clase',type: 'number'},
 				{ name: 'nivel',type: 'number'},
@@ -31,12 +31,12 @@ $(document).ready(function () {
 		filterable: true,
 		columns: [
 			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
-			{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: '25%' },
+			//{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: '25%' },
 			{ text: 'Categoria', datafield: 'categoria', filtertype: 'input',width: '25%' },
 			{ text: 'Clase', datafield: 'clase', filtertype: 'number',width: '5%' },
 			{ text: 'Nivel', datafield: 'nivel', filtertype: 'number',width: '5%' },
-			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '20%' },
-			{ text: 'Sueldo', datafield: 'sueldo', filtertype: 'number',width: '5%' },
+			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '40%' },
+			{ text: 'Sueldo', datafield: 'sueldo', filtertype: 'number',width: '10%' },
 			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
@@ -175,29 +175,29 @@ $(document).ready(function () {
 								<td align="right">id:</td>
 								<td align="left"><input id="id" name="id" type="hidden" /></td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td align="right">Resolución:</td>
-								<td align="left"><?php echo $resolucion ?></td>
-							</tr>
+								<td align="left"><?php // echo $resolucion ?></td>
+							</tr> -->
 							<tr>
 								<td align="right">Categoria:</td>
-								<td align="left"><input id="categoria" name="categoria" type="text" /></td>
+								<td align="left"><input id="categoria" name="categoria" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right">Clase:</td>
-								<td align="left"><input id="clase" name="clase" type="text" /></td>
+								<td align="left"><input id="clase" name="clase" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right">Nivel:</td>
-								<td align="left"><input id="nivel" name="nivel" type="text" /></td>
+								<td align="left"><input id="nivel" name="nivel" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right">Denominación:</td>
-								<td align="left"><input id="denominacion" name="denominacion" type="text" /></td>
+								<td align="left"><input id="denominacion" name="denominacion" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right">Sueldo:</td>
-								<td align="left"><input id="sueldo" name="sueldo" type="text" /></td>
+								<td align="left"><input id="sueldo" name="sueldo" type="text" class="form-control"/></td>
 							</tr>
 							
 							<tr>

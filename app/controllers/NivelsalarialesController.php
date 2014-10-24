@@ -35,7 +35,7 @@ class NivelsalarialesController extends ControllerBase
 		foreach ($resul as $v) {
 			$customers[] = array(
 				'id' => $v->id,
-				'resolucion_id' => $v->tipo_resolucion,
+				//'resolucion_id' => $v->tipo_resolucion,
 				'categoria' => $v->categoria,
 				'clase' => $v->clase,
 				'nivel' => $v->nivel,
@@ -55,7 +55,7 @@ class NivelsalarialesController extends ControllerBase
 			
 			if ($_POST['id']>0) {
 				$resul = Nivelsalariales::findFirstById($_POST['id']);
-				$resul->resolucion_id = $_POST['resolucion_id'];
+				//$resul->resolucion_id = $_POST['resolucion_id'];
 				$resul->categoria = $_POST['categoria'];
 				$resul->clase = $_POST['clase'];
 				$resul->nivel = $_POST['nivel'];
@@ -70,7 +70,7 @@ class NivelsalarialesController extends ControllerBase
 			}
 			else{
 				$resul = new Nivelsalariales();
-				$resul->resolucion_id = $_POST['resolucion_id'];
+				$resul->resolucion_id = 1; //$_POST['resolucion_id'];
 				$resul->gestion =date("Y");
 				$resul->categoria = $_POST['categoria'];
 				$resul->clase = $_POST['clase'];

@@ -1,19 +1,54 @@
 <script type="text/javascript">
 $(document).ready(function () {
+/*var source =
+		{
+			datatype: "json",
+			datafields: [
+			{ name: 'id'},
+			{ name: 'unidad_administrativa'},
+			{ name: 'sigla'},
+			],
+			url: '/cargos/listorganigrama',
+			async: false
+		};
+		var dataAdapter = new $.jqx.dataAdapter(source);
+			
+		$("#combobox").jqxComboBox(
+		{
+			source: dataAdapter,
+			
+			width: 450,
+			height: 25,
+			selectedIndex: 0,
+			displayMember: 'unidad_administrativa',
+			valueMember: 'id'
+		});       
+
+		$("#combobox").change(function () {
+			var expedido = $("#combobox").jqxComboBox('getSelectedItem');
+			alert(expedido.value);	
+		});
+$("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
+*/		
+		
 		var source =
 		{
 			datatype: "json",
 			datafields: [
 				{ name: 'id',type: 'number'},
 				{ name: 'unidad_administrativa',type: 'string'},
-				//{ name: 'unidad_ejecutora',type: 'string'},
+				{ name: 'organigrama_id',type: 'string'},
+				{ name: 'nivelsalarial_id',type: 'string'},
+				{ name: 'denominacion',type: 'string'},
 				{ name: 'codigo',type: 'string'},
 				{ name: 'cargo',type: 'string'},
-				{ name: 'denominacion',type: 'string'},
 				{ name: 'sueldo'},
-				{ name: 'estado', type: 'string'}
+				{ name: 'fin_partida_id'},
+				{ name: 'estado', type: 'string'},
+				{ name: 'cargo_estado_id'},
+				{ name: 'condicion', type: 'string'}
 			],
-			url: '../../cargos/list',
+			url: '/cargos/list',
 			cache: false
 		};
 
@@ -31,14 +66,15 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
 			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 			//{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', filtertype: 'input',width: '20%' },
+			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
 			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '15%' },
 			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '20%' },
-			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '20%' },
-			{ text: 'Salarial', datafield: 'sueldo', filtertype: 'number',width: '5%' },
-			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '5%' },
+			{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
+			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
+			{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
 			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
@@ -52,11 +88,16 @@ $(document).ready(function () {
                      $("#titulo").text("Editar");
                      $("#id").val(dataRecord.id);
                      $("#organigrama_id").val(dataRecord.organigrama_id);
-                     //$("#ejecutora_id").val(dataRecord.ejecutora_id);
+                     $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
                      $("#codigo").val(dataRecord.codigo);
                      $("#cargo").val(dataRecord.cargo);
-                     $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
-                     $("#cargo_estado_id").val(dataRecord.cargo_estado_id);
+                     //$("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
+                     //$("#cargo_estado_id").val(dataRecord.cargo_estado_id);
+                     $("#sueldotxt").text(dataRecord.sueldo);
+                     //$("[type=radio][name=cargo_estado_id][value=" + dataRecord.cargo_estado_id + "]").attr("checked", "checked");
+                     $('input[name=cargo_estado_id][value="' + dataRecord.cargo_estado_id + '"]').prop('checked', true);
+                     $("#fin_partida_id").val(dataRecord.fin_partida_id);
+                     $("#fin_partida_id").attr('disabled', 'disabled');
 
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
@@ -89,22 +130,27 @@ $(document).ready(function () {
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#id").val("");
-            	//$("#organigrama_id").val("");
-            	//$("#ejecutora_id").val("");
+            	$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
             	$("#codigo").val("");
+            	$("#organigrama_id").val(0);
+            	$("#nivelsalarial_id").val(0);
             	$("#cargo").val("");
-            	//$("#nivelsalarial_id").val("");
+            	$("#sueldotxt").text("");
+            	$('#fin_partida_id').val(0);
+            	$('#fin_partida_id').removeAttr('disabled');
             	$("#cargo_estado_id").val("");
             	$("#popupWindow").jqxWindow('open');
             });
 
             $("#Save").click(function () {
+            	var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
+  				//alert(cargo_estado_id); 
             	var v=$.ajax({
                     	url:'../../cargos/save/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),fin_partida_id:$("#fin_partida_id").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:$("#cargo_estado_id").val()},
-						success: function(data) { cargar(); //alert(data); 
+						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),fin_partida_id:$("#fin_partida_id").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:cargo_estado_id,fin_partida_id:$("#fin_partida_id").val()},
+						success: function(data) { cargar(); //alert(data.msm); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
 					});
@@ -178,6 +224,7 @@ $(document).ready(function () {
 								<td align="right">Nivel Salarial:</td>
 								<td align="left">
 									<select class="form-control" id="nivelsalarial_id" name="nivelsalarial_id">
+										<option value="0" sueldo="">(Seleccionar)</option>
 										<?php foreach ($nivelsalarial as $v) { ?>
 												<option value="<?php echo $v->id ?>" sueldo="<?php echo $v->sueldo ?>"><?php echo $v->denominacion ?></option>	
 										<?php } ?>
@@ -197,14 +244,17 @@ $(document).ready(function () {
 								<td align="right">Cargo:</td>
 								<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
 							</tr>
+							<!-- <div class="form-control"><div name="list" id="combobox"></div></div> -->
 							<tr>
 								<td align="right">Tipo Cargo:</td>
 								<td align="left">
-									<div data-toggle="buttons">
+									<!-- <div data-toggle="buttons">-->
+									<div class="form-control">
 									<?php foreach ($cargoestado as $v) { ?>
-										<label class="btn btn-primary btn-xs">
-                    						<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>" /> <?php echo $v->estado; ?>
-                						</label>
+										<!-- <label class="btn btn-primary btn-xs"> -->
+										
+                    						<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>"/> <?php echo $v->estado; ?>
+                						
 										
 									<?php } ?>
                 

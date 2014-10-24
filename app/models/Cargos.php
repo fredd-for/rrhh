@@ -123,7 +123,7 @@ class Cargos extends \Phalcon\Mvc\Model
     private $_db;
 
     public function lista(){
-        $sql = "SELECT c.id,o.unidad_administrativa,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado,c.estado,c.fin_partida_id, f.denominacion as fuentefinanciamiento
+        $sql = "SELECT c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado,CASE WHEN c.estado=0  THEN 'ACEFALO'  WHEN c.estado=1  THEN 'ADJUDICADO'  ELSE 'OTRO'  END as estado1,c.fin_partida_id, f.denominacion as fuentefinanciamiento,c.cargo_estado_id
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN ejecutoras e ON c.ejecutora_id=e.id
