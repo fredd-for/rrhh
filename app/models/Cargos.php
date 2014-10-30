@@ -135,4 +135,15 @@ WHERE c.baja_logica=1 ";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+
+    public function listapac(){
+        $sql = "SELECT  p.*, c.cargo,o.unidad_administrativa
+FROM pacs p
+INNER JOIN cargos c ON p.cargo_id=c.id
+INNER JOIN organigramas o ON c.organigrama_id=o.id
+WHERE p.baja_logica=1 ";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
 }

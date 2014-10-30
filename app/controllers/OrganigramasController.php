@@ -42,6 +42,7 @@ class OrganigramasController extends ControllerBase
 			$resul->baja_logica = 1;
 			$resul->user_reg_id = 1;
 			$resul->fecha_reg = date("Y-m-d H:i:s");
+			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
@@ -92,6 +93,7 @@ class OrganigramasController extends ControllerBase
 		 	$resul->fecha_ini = $this->request->getPost('fecha_ini');
 			$resul->user_mod_id = 1;
 			$resul->fecha_mod = date("Y-m-d H:i:s");
+			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
@@ -135,9 +137,9 @@ class OrganigramasController extends ControllerBase
 	public function listar($id, $oficina, $sigla) {
 		$h=  organigramas::count("padre_id='$id'");        
 		$this->lista.='<li id="org" style="display:none">
-		<a href="/organigramas/add/'.$id.'"><i class="fa fa-plus-circle fa-lg"></i></a>
-		<a href="/organigramas/edit/'.$id.'"><i class="fa fa-pencil fa-lg"></i></a>
-		<a href="/organigramas/delete/'.$id.'"><i class="fa fa-minus-circle fa-lg"></i></a>
+		<a href="/organigramas/add/'.$id.'" title="adicionar"><i class="fa fa-plus-circle fa-lg"></i></a>
+		<a href="/organigramas/edit/'.$id.'" title="editar"><i class="fa fa-pencil fa-lg"></i></a>
+		<a href="/organigramas/delete/'.$id.'" title="eliminar"><i class="fa fa-minus-circle fa-lg"></i></a>
 		<br>'.$oficina;
 		if ($h > 0) {
             //echo '<ul>';

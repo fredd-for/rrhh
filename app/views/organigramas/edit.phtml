@@ -32,6 +32,13 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-lg-2 control-label">Area</label>
+				<div class="col-lg-10">
+					<input type="radio" name="area_sustantiva" value="1" <?php if ($organigrama->area_sustantiva==1) {	echo "checked"; } ?>  /> Sustantiva o Misional
+					<input type="radio" name="area_sustantiva" value="0" <?php if ($organigrama->area_sustantiva==0) {	echo "checked"; } ?>/> No Sustantiva
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-lg-2 control-label">Fecha Inicio</label>
 				<div class="col-lg-10">
 					<input type="text" id="fecha_ini" name="fecha_ini" value="<?php echo $organigrama->fecha_ini ?>" class="form-control" placeholder="click para ingresar fecha">

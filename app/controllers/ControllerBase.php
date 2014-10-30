@@ -39,9 +39,16 @@ class ControllerBase extends Controller {
                     ->addCss('/js/datatables/dataTables.bootstrap.css')
                     ->addCss('/js/jqwidgets/styles/jqx.base.css')
 
+                    ->addCss('/js/jqwidgets/styles/jqx.blackberry.css')
+                    ->addCss('/js/jqwidgets/styles/jqx.windowsphone.css')
+                    ->addCss('/js/jqwidgets/styles/jqx.blackberry.css')
+                    ->addCss('/js/jqwidgets/styles/jqx.mobile.css')
+                    ->addCss('/js/jqwidgets/styles/jqx.android.css')
                     
             ;
             $this->assets
+                    ->addJs('/js/jqwidgets/scripts/jquery-1.11.1.min.js')
+                    //->addJs('/js/bootstrap.min.js')
                     ->addJs('/js/wizard/jquery-latest.js')
                     ->addJs('/js/wizard/jquery.bootstrap.wizard.min.js')
                     ->addJs('/js/wizard/prettify.js')
@@ -53,8 +60,9 @@ class ControllerBase extends Controller {
                     ->addJs('/js/app.plugin.js')
                     //  ->addJs('/js/jquery-ui-1.9.0.custom.min.js')
                     ->addJs('/js/bootstrap.min.js')
-                    //JS ingresado por Freddy                    
-                    ->addJs('/js/jqwidgets/scripts/jquery-1.11.1.min.js')
+                    //JS ingresado por Freddy   
+                    
+                    ->addJs('/js/jqwidgets/simulator.js')
                     ->addJs('/js/jqwidgets/jqxcore.js')
                     ->addJs('/js/jqwidgets/jqxdata.js')
                     ->addJs('/js/jqwidgets/jqxbuttons.js')
@@ -72,16 +80,27 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxgrid.js')
                     ->addJs('/js/jqwidgets/jqxgrid.filter.js')
                     ->addJs('/js/jqwidgets/jqxgrid.sort.js')
+                    ->addJs('/js/jqwidgets/jqxtabs.js')
                     ->addJs('/js/jqwidgets/jqxgrid.selection.js')
                     ->addJs('/js/jqwidgets/jqxcalendar.js')
                     ->addJs('/js/jqwidgets/jqxdatetimeinput.js')
                     ->addJs('/js/jqwidgets/jqxcheckbox.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.grouping.js')
                     ->addJs('/js/jqwidgets/jqxgrid.pager.js')
                     ->addJs('/js/jqwidgets/jqxnumberinput.js')
                     ->addJs('/js/jqwidgets/jqxwindow.js')
+                    ->addJs('/js/jqwidgets/globalization/globalize.js')
                     ->addJs('/js/jqwidgets/jqxcombobox.js')
                     ->addJs('/js/jqwidgets/jqxexpander.js')
                     ->addJs('/js/jqwidgets/globalization/globalize.js')
+                    ->addJs('/js/jqwidgets/jqxvalidator.js')
+                    ->addJs('/js/jqwidgets/jqxmaskedinput.js')
+                    ->addJs('/js/jqwidgets/jqxchart.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.columnsresize.js')
+                    ->addJs('/js/jqwidgets/jqxsplitter.js')
+                    ->addJs('/js/jqwidgets/jqxtree.js')
+                    ->addJs('/js/jqwidgets/jqxdata.export.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.export.js')
             ;
             //menu
             $this->menu($this->_user->nivel);

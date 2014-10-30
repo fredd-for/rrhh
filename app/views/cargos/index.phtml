@@ -1,6 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
-/*var source =
+/*Combo box organigramas*/
+var source =
 		{
 			datatype: "json",
 			datafields: [
@@ -13,23 +14,64 @@ $(document).ready(function () {
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
 			
-		$("#combobox").jqxComboBox(
+		$("#organigrama_id").jqxComboBox(
 		{
 			source: dataAdapter,
-			
 			width: 450,
 			height: 25,
-			selectedIndex: 0,
+			promptText: '(Seleccionar)',
 			displayMember: 'unidad_administrativa',
 			valueMember: 'id'
-		});       
+		}); 
 
-		$("#combobox").change(function () {
-			var expedido = $("#combobox").jqxComboBox('getSelectedItem');
-			alert(expedido.value);	
-		});
-$("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
-*/		
+/*Combo box nivle salarial*/
+var source =
+		{
+			datatype: "json",
+			datafields: [
+			{ name: 'id'},
+			{ name: 'denominacion'},
+			{ name: 'sueldo'},
+			],
+			url: '/cargos/listnivelsalarial',
+			async: false
+		};
+		var dataAdapter = new $.jqx.dataAdapter(source);
+			
+		$("#nivelsalarial_id").jqxComboBox(
+		{
+			source: dataAdapter,
+			width: 450,
+			height: 25,
+			promptText: '(Seleccionar)',
+			displayMember: 'denominacion',
+			valueMember: 'id'
+			
+		});       		
+
+$('#nivelsalarial_id').bind('select', function (event) { 
+	/*var args = event.args;
+    var item = $('#nivelsalarial_id').jqxComboBox('getItem', args.index);
+    alert($('#nivelsalarial_id').jqxComboBox('val'))
+    */
+    //alert(dataAdapter.sueldo);
+    var v=$.ajax({
+                    	url:'../../cargos/getSueldo/',
+                    	type:'POST',
+                    	datatype: 'json',
+						data:{id:$('#nivelsalarial_id').jqxComboBox('val')},
+						success: function(data) { $("#sueldotxt").text(data);
+												}, //mostramos el error
+						error: function() { alert('Se ha producido un error Inesperado'); }
+					});
+});
+
+/**Ponemos un valor por defaul**/
+/*var item = $("#organigrama_id").jqxComboBox("getItemByValue", 7);
+$("#organigrama_id").jqxComboBox("selectItem", item);
+*/
+
+		
 		
 		var source =
 		{
@@ -70,8 +112,8 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 			//{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', filtertype: 'input',width: '20%' },
 			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '15%' },
-			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '20%' },
+			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
+			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
 			{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
 			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
 			{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
@@ -96,8 +138,8 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
                      $("#sueldotxt").text(dataRecord.sueldo);
                      //$("[type=radio][name=cargo_estado_id][value=" + dataRecord.cargo_estado_id + "]").attr("checked", "checked");
                      $('input[name=cargo_estado_id][value="' + dataRecord.cargo_estado_id + '"]').prop('checked', true);
-                     $("#fin_partida_id").val(dataRecord.fin_partida_id);
-                     $("#fin_partida_id").attr('disabled', 'disabled');
+                     //$("#fin_partida_id").val(dataRecord.fin_partida_id);
+                     //$("#fin_partida_id").attr('disabled', 'disabled');
 
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
@@ -119,6 +161,55 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 		});
 
 		}
+
+
+
+/*segundo grid*/
+/*var source =
+		{
+			datatype: "json",
+			datafields: [
+				{ name: 'id2',type: 'number'},
+				{ name: 'unidad_administrativa2',type: 'string'},
+				{ name: 'cargo2',type: 'string'},
+				{ name: 'gestion2',type: 'string'},
+				{ name: 'fecha_ini2',type: 'string'},
+				{ name: 'fecha_fin2',type: 'string'},
+			],
+			url: '/cargos/listpac',
+			cache: false
+		};
+
+		var dataAdapter = new $.jqx.dataAdapter(source);
+		cargar2();	
+		function cargar2(){
+			$("#jqxgrid2").jqxGrid(
+		{
+		width: '100%',
+		source: dataAdapter,
+		sortable: true,
+		altRows: true,
+		pageable: true,
+		pagerMode: 'advanced',
+		showfilterrow: true,
+		filterable: true,
+		columns: [
+			{ text: 'Nro', datafield: 'id2',filtertype: 'number', width: '3%'},
+			{ text: 'Organigrama', datafield: 'unidad_administrativa2', filtertype: 'input',width: '30%' },
+			{ text: 'Cargo', datafield: 'cargo2', filtertype: 'input',width: '30%' },
+			{ text: 'Gestion', datafield: 'gestion2', filtertype: 'number',width: '5%' },
+			{ text: 'Fecha Inicio', datafield: 'fecha_ini2', filtertype: 'input',width: '10%' },
+			{ text: 'Fecha Finalizacion', datafield: 'fecha_fin2', filtertype: 'input',width: '10%' },
+		]
+		});
+
+		}
+		*/
+/*******end segungo grid*********/
+
+
+
+
 		// initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
                 width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
@@ -132,12 +223,12 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
             	$("#id").val("");
             	$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
             	$("#codigo").val("");
-            	$("#organigrama_id").val(0);
-            	$("#nivelsalarial_id").val(0);
+            	$("#organigrama_id").val("");
+            	$("#nivelsalarial_id").val("");
             	$("#cargo").val("");
             	$("#sueldotxt").text("");
-            	$('#fin_partida_id').val(0);
-            	$('#fin_partida_id').removeAttr('disabled');
+            	//$('#fin_partida_id').val(0);
+            	//$('#fin_partida_id').removeAttr('disabled');
             	$("#cargo_estado_id").val("");
             	$("#popupWindow").jqxWindow('open');
             });
@@ -149,7 +240,7 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
                     	url:'../../cargos/save/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val(),organigrama_id:$("#organigrama_id").val(),fin_partida_id:$("#fin_partida_id").val(),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").val(),cargo_estado_id:cargo_estado_id,fin_partida_id:$("#fin_partida_id").val()},
+						data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
 						success: function(data) { cargar(); //alert(data.msm); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
@@ -185,7 +276,7 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1>Cargos</h1>		
+		<h3>Cargos</h3>		
 	</div>
 </div>
 
@@ -203,7 +294,6 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 				<div class="table-responsive">
 					<div id="jqxgrid"></div>
 				</div>
-
 				<div style="margin-top: 30px;">
             		<div id="cellbegineditevent"></div>
             		<div style="margin-top: 10px;" id="cellendeditevent"></div>
@@ -218,18 +308,15 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 							</tr>
 							<tr>
 								<td align="right">Organigrama:</td>
-								<td align="left"><?php  echo $organigrama ?></td>
+								<td align="left" ><?php // echo $organigrama ?>
+									<div name="list" id="organigrama_id" ></div>
+								</td>
 							</tr>
 							<tr>
 								<td align="right">Nivel Salarial:</td>
 								<td align="left">
-									<select class="form-control" id="nivelsalarial_id" name="nivelsalarial_id">
-										<option value="0" sueldo="">(Seleccionar)</option>
-										<?php foreach ($nivelsalarial as $v) { ?>
-												<option value="<?php echo $v->id ?>" sueldo="<?php echo $v->sueldo ?>"><?php echo $v->denominacion ?></option>	
-										<?php } ?>
-										
-									</select>
+									<div name="list2" id="nivelsalarial_id" ></div>
+									
 								</td>
 							</tr>
 							<tr>
@@ -237,14 +324,13 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 								<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
 							</tr>
 							<tr>
-								<td align="right">Fuente de Financiamiento:</td>
-								<td align="left"><?php echo $finpartida ?></td>
+								<td align="right">Codigo:</td>
+								<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right">Cargo:</td>
 								<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
 							</tr>
-							<!-- <div class="form-control"><div name="list" id="combobox"></div></div> -->
 							<tr>
 								<td align="right">Tipo Cargo:</td>
 								<td align="left">
@@ -294,5 +380,22 @@ $("#estado_civil").jqxComboBox('selectItem',$("#ve_civil").val());
 		</div>
 		
 	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h3>Plan Anual de Contrataciones</h3>	
+	</div>
+
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="table-responsive">
+					<div id="jqxgrid2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 

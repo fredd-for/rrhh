@@ -120,6 +120,12 @@ class Organigramas extends \Phalcon\Mvc\Model
     public $fecha_mod;
 
     /**
+     *
+     * @var integer
+     */
+    public $area_sustantiva;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -150,7 +156,8 @@ class Organigramas extends \Phalcon\Mvc\Model
             'user_reg_id' => 'user_reg_id',
             'fecha_reg' => 'fecha_reg',
             'user_mod_id' => 'user_mod_id',
-            'fecha_mod' => 'fecha_mod'
+            'fecha_mod' => 'fecha_mod',
+            'area_sustantiva' => 'area_sustantiva'
         );
     }
 

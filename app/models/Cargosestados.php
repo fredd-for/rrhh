@@ -28,6 +28,12 @@ class Cargosestados extends \Phalcon\Mvc\Model
     public $baja_logica;
 
     /**
+     *
+     * @var integer
+     */
+    public $partida;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -44,7 +50,8 @@ class Cargosestados extends \Phalcon\Mvc\Model
             'id' => 'id', 
             'estado' => 'estado', 
             'descripcion' => 'descripcion', 
-            'baja_logica' => 'baja_logica'
+            'baja_logica' => 'baja_logica',
+            'partida' => 'partida'
         );
     }
 
