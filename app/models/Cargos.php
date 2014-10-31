@@ -106,16 +106,17 @@ class Cargos extends \Phalcon\Mvc\Model
             'organigrama_id' => 'organigrama_id', 
             'ejecutora_id' => 'ejecutora_id', 
             'codigo' => 'codigo', 
-            'cargo' => 'cargo', 
+            'cargo' => 'cargo',
+            'fin_partida_id' => 'fin_partida_id',
             'nivelsalarial_id' => 'nivelsalarial_id', 
             'cargo_estado_id' => 'cargo_estado_id', 
-            'baja_logica' => 'baja_logica', 
+            'categoria_id' => 'categoria_id',
+            'baja_logica' => 'baja_logica',
             'user_reg_id' => 'user_reg_id', 
             'fecha_reg' => 'fecha_reg', 
             'user_mod_id' => 'user_mod_id', 
             'fecha_mod' => 'fecha_mod',
-            'estado' => 'estado',
-            'fin_partida_id' => 'fin_partida_id'
+            'estado' => 'estado'
             
         );
     }
@@ -131,17 +132,6 @@ INNER JOIN nivelsalariales n ON c.nivelsalarial_id = n.id
 INNER JOIN cargosestados ca ON c.cargo_estado_id=ca.id
 INNER JOIN finpartidas f ON c.fin_partida_id=f.id
 WHERE c.baja_logica=1 ";
-        $this->_db = new Cargos();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }
-
-
-    public function listapac(){
-        $sql = "SELECT  p.*, c.cargo,o.unidad_administrativa
-FROM pacs p
-INNER JOIN cargos c ON p.cargo_id=c.id
-INNER JOIN organigramas o ON c.organigrama_id=o.id
-WHERE p.baja_logica=1 ";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

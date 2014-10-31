@@ -4,9 +4,9 @@ $(document).ready(function () {
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id',type: 'number'},
-				{ name: 'tipo_resolucion',type: 'string'},
-				{ name: 'numero_res',type: 'number'},
+				{ name: 'id'},
+				{ name: 'tipo_resolucion'},
+				{ name: 'numero_res'},
 				{ name: 'fecha_emi'},
 				{ name: 'fecha_apr'}
 			],
@@ -18,7 +18,7 @@ $(document).ready(function () {
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
 		{
-		width: '100%',
+		width: 950,
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
@@ -27,12 +27,12 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
-			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: '45%' },
-			{ text: 'Nro Resolucion', datafield: 'numero_res',filtertype: 'input', width: '10%' },
-			{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range',width: '15%' },
-			{ text: 'Fecha Aprobacion', datafield: 'fecha_apr',filtertype: 'range', width: '15%' },
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
+			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 50},
+			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: 350 },
+			{ text: 'Nro Resolucion', datafield: 'numero_res', width: 150 },
+			{ text: 'Fecha Emision', datafield: 'fecha_emi', width: 100 },
+			{ text: 'Fecha Aprobacion', datafield: 'fecha_apr', width: 100 },
+			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
@@ -63,7 +63,7 @@ $(document).ready(function () {
                      $("#popupWindow").jqxWindow('open');
                  }
             },
-            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
+            { text: 'Eliminar', datafield: 'Eliminar',width:100, sortable:false, columntype: 'button', cellsrenderer: function () {
                      return "Eliminar";
                   }, buttonclick: function (row) {
                      editrow = row;
@@ -176,11 +176,11 @@ $(document).ready(function () {
 							</tr>
 							<tr>
 								<td align="right">Tipo Resolución:</td>
-								<td align="left"><input id="tipo_resolucion" name="tipo_resolucion" type="text" class="form-control"/></td>
+								<td align="left"><input id="tipo_resolucion" name="tipo_resolucion" type="text" /></td>
 							</tr>
 							<tr>
 								<td align="right">Numero Resolución:</td>
-								<td align="left"><input id="numero_res" name="numero_res" type="text" class="form-control"/></td>
+								<td align="left"><input id="numero_res" name="numero_res" type="text" /></td>
 							</tr>
 							<tr>
 								<td align="right">Fecha Emisión:</td>
