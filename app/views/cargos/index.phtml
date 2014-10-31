@@ -1,7 +1,7 @@
 <script type="text/javascript">
-$(document).ready(function () {
-/*Combo box organigramas*/
-var source =
+	$(document).ready(function () {
+		/*Combo box organigramas*/
+		var source =
 		{
 			datatype: "json",
 			datafields: [
@@ -13,7 +13,7 @@ var source =
 			async: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
-			
+
 		$("#organigrama_id").jqxComboBox(
 		{
 			source: dataAdapter,
@@ -24,8 +24,8 @@ var source =
 			valueMember: 'id'
 		}); 
 
-/*Combo box nivle salarial*/
-var source =
+		/*Combo box nivel salarial*/
+		var source =
 		{
 			datatype: "json",
 			datafields: [
@@ -37,7 +37,7 @@ var source =
 			async: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
-			
+
 		$("#nivelsalarial_id").jqxComboBox(
 		{
 			source: dataAdapter,
@@ -49,34 +49,26 @@ var source =
 			
 		});       		
 
-$('#nivelsalarial_id').bind('select', function (event) { 
-	/*var args = event.args;
-    var item = $('#nivelsalarial_id').jqxComboBox('getItem', args.index);
-    alert($('#nivelsalarial_id').jqxComboBox('val'))
-    */
-    //alert(dataAdapter.sueldo);
-    var v=$.ajax({
-                    	url:'../../cargos/getSueldo/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$('#nivelsalarial_id').jqxComboBox('val')},
-						success: function(data) { $("#sueldotxt").text(data);
+		$('#nivelsalarial_id').bind('select', function (event) { 
+			var v=$.ajax({
+				url:'/cargos/getSueldo/',
+				type:'POST',
+				datatype: 'json',
+				data:{id:$('#nivelsalarial_id').jqxComboBox('val')},
+				success: function(data) { $("#sueldotxt").text(data);
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-});
-
-/**Ponemos un valor por defaul**/
-/*var item = $("#organigrama_id").jqxComboBox("getItemByValue", 7);
-$("#organigrama_id").jqxComboBox("selectItem", item);
-*/
-
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+		});
 		
 		
-		var source =
-		{
-			datatype: "json",
-			datafields: [
+		cargar();	
+
+		function cargar(){
+			var source =
+			{
+				datatype: "json",
+				datafields: [
 				{ name: 'id',type: 'number'},
 				{ name: 'unidad_administrativa',type: 'string'},
 				{ name: 'organigrama_id',type: 'string'},
@@ -89,37 +81,33 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 				{ name: 'estado', type: 'string'},
 				{ name: 'cargo_estado_id'},
 				{ name: 'condicion', type: 'string'}
-			],
-			url: '/cargos/list',
-			cache: false
-		};
+				],
+				url: '/cargos/list',
+				cache: false
+			};
 
-		var dataAdapter = new $.jqx.dataAdapter(source);
-		cargar();	
-		function cargar(){
-			$("#jqxgrid").jqxGrid(
-		{
-		width: '100%',
-		source: dataAdapter,
-		sortable: true,
-		altRows: true,
-		pageable: true,
-		pagerMode: 'advanced',
-		showfilterrow: true,
-		filterable: true,
-		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
-			//{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', filtertype: 'input',width: '20%' },
-			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
-			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-			{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
-			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
-			{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-                     return "Editar";
-                  }, buttonclick: function (row) {
+			var dataAdapter = new $.jqx.dataAdapter(source);
+			$("#jqxgrid").jqxGrid({
+				width: '100%',
+				source: dataAdapter,
+				sortable: true,
+				altRows: true,
+				pageable: true,
+				pagerMode: 'advanced',
+				showfilterrow: true,
+				filterable: true,
+				columns: [
+				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
+				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
+				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
+				{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
+				{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
+				{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
+				{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
+				{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
+				{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
+					return "Editar";
+				}, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
                      editrow = row;
                      var offset = $("#jqxgrid").offset();
@@ -144,47 +132,54 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
                  }
-            },
-            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-                     return "Eliminar";
-                  }, buttonclick: function (row) {
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+             },
+             { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
+             	return "Eliminar";
+             }, buttonclick: function (row) {
+             	editrow = row;
+             	var offset = $("#jqxgrid").offset();
+             	$("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
 
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#id").val(dataRecord.id);
-                     $("#popupWindow_delete").jqxWindow('open');
-                 }
-            }
-		]
-		});
+             	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+             	$("#id").val(dataRecord.id);
+             	$("#popupWindow_delete").jqxWindow('open');
+             }
+         }
+         ]
+     });
 
-		}
-
-
+}
+$("#jqxgrid").bind('rowselect', function (event) {
+					var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+					//alert(dataRecord.cargo);
+					$("#cargo_id_pac").val(dataRecord.id);
+					$("#organigrama_pac").text(dataRecord.unidad_administrativa);
+					$("#item_pac").text(dataRecord.codigo);
+					$("#cargo_pac").text(dataRecord.cargo);
+					$("#sueldo_pac").text(dataRecord.sueldo);
+				});
 
 /*segundo grid*/
-/*var source =
-		{
-			datatype: "json",
-			datafields: [
-				{ name: 'id2',type: 'number'},
-				{ name: 'unidad_administrativa2',type: 'string'},
-				{ name: 'cargo2',type: 'string'},
-				{ name: 'gestion2',type: 'string'},
-				{ name: 'fecha_ini2',type: 'string'},
-				{ name: 'fecha_fin2',type: 'string'},
-			],
-			url: '/cargos/listpac',
-			cache: false
-		};
 
-		var dataAdapter = new $.jqx.dataAdapter(source);
-		cargar2();	
-		function cargar2(){
-			$("#jqxgrid2").jqxGrid(
-		{
+cargar2();	
+function cargar2(){
+	var source =
+	{
+		datatype: "json",
+		datafields: [
+		{ name: 'id',type: 'number'},
+		{ name: 'unidad_administrativa',type: 'string'},
+		{ name: 'cargo',type: 'string'},
+		{ name: 'gestion',type: 'string'},
+		{ name: 'fecha_ini',type: 'string'},
+		{ name: 'fecha_fin',type: 'string'}
+		],
+		url: '/cargos/listpac',
+		cache: false
+	};
+
+	var dataAdapter = new $.jqx.dataAdapter(source);
+	$("#jqxgrid2").jqxGrid({
 		width: '100%',
 		source: dataAdapter,
 		sortable: true,
@@ -194,29 +189,29 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id2',filtertype: 'number', width: '3%'},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa2', filtertype: 'input',width: '30%' },
-			{ text: 'Cargo', datafield: 'cargo2', filtertype: 'input',width: '30%' },
-			{ text: 'Gestion', datafield: 'gestion2', filtertype: 'number',width: '5%' },
-			{ text: 'Fecha Inicio', datafield: 'fecha_ini2', filtertype: 'input',width: '10%' },
-			{ text: 'Fecha Finalizacion', datafield: 'fecha_fin2', filtertype: 'input',width: '10%' },
+		{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
+		{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
+		{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
+		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
+		{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'input',width: '10%' },
+		{ text: 'Fecha Finalizacion', datafield: 'fecha_fin', filtertype: 'input',width: '10%' },
 		]
+	});
+
+}
+
+/*******end segungo grid*********/
+		// initialize the popup window and buttons.
+		$("#popupWindow").jqxWindow({
+			width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+		});
+		$("#popupWindow_delete").jqxWindow({
+			width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		});
 
-		}
-		*/
-/*******end segungo grid*********/
-
-
-
-
-		// initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            $("#popupWindow_delete").jqxWindow({
-                width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
+		$("#popupWindow_pac").jqxWindow({
+			width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+		});
             // update the edited row when the user clicks the 'Save' button.
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
@@ -233,45 +228,73 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
             	$("#popupWindow").jqxWindow('open');
             });
 
+            $("#add_pac").click(function(){
+            	if($("#cargo_id_pac").val()!=""){
+            		$("#popupWindow_pac").jqxWindow('open');
+            	}else{
+            		alert("MENSAJE: Seleccione un registro ...");
+            	}
+            	
+            });
+
             $("#Save").click(function () {
             	var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
   				//alert(cargo_estado_id); 
-            	var v=$.ajax({
-                    	url:'../../cargos/save/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
+  				var v=$.ajax({
+  					url:'/cargos/save/',
+  					type:'POST',
+  					datatype: 'json',
+  					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
 						success: function(data) { cargar(); //alert(data.msm); 
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-                    $("#popupWindow").jqxWindow('hide');
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+  				$("#popupWindow").jqxWindow('hide');
                // }
-            });
+           });
+
+            $("#guardar_pac").click(function () {
+            	var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
+            	var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
+            	var v=$.ajax({
+  					url:'/cargos/save_pac/',
+  					type:'POST',
+  					datatype: 'json',
+  					data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
+						success: function(data) { cargar2(); alert(data.msm); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+  				$("#popupWindow_pac").jqxWindow('hide');
+               // }
+           });
 
             $("#Eliminar").click(function () {
             	if (editrow >= 0) {
-                    var v=$.ajax({
-                    	url:'../../cargos/delete/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val()},
+            		var v=$.ajax({
+            			url:'/cargos/delete/',
+            			type:'POST',
+            			datatype: 'json',
+            			data:{id:$("#id").val()},
 						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
 					//$('#jqxgrid').jqxGrid();
-                    $("#popupWindow_delete").jqxWindow('hide');
-                }
-            });
+					$("#popupWindow_delete").jqxWindow('hide');
+				}
+			});
 
             $("#nivelsalarial_id").change(function(){
-           	var element = $(this).find('option:selected'); 
-        	var myTag = element.attr("sueldo"); 
-            $('#sueldotxt').text(myTag);
-        });
+            	var element = $(this).find('option:selected'); 
+            	var myTag = element.attr("sueldo"); 
+            	$('#sueldotxt').text(myTag);
+            });
 
-	});
+            $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+            $("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+
+        });
 </script>
 
 <div class="row">
@@ -283,103 +306,152 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-body">
-				<?php //echo $this->flashSession->output() ?>
-				<div style="margin-left: 5px;">
-					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />
-					</div>
+			
+			<?php //echo $this->flashSession->output() ?>
+			<div style="margin-left: 5px;float:left">
+				<div>
+					<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
 				</div>
-				<br>
-				<div class="table-responsive">
-					<div id="jqxgrid"></div>
+			</div> 
+			<div style="margin-left: 5px; ">
+				<div>
+					<input id="add_pac" type="button" value=" Asignar PAC" />
 				</div>
-				<div style="margin-top: 30px;">
-            		<div id="cellbegineditevent"></div>
-            		<div style="margin-top: 10px;" id="cellendeditevent"></div>
-       			</div>
-				<div id="popupWindow">
-					<div id="titulo">Editar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="right">id:</td>
-								<td align="left"><input id="id" name="id" type="hidden" /></td>
-							</tr>
-							<tr>
-								<td align="right">Organigrama:</td>
-								<td align="left" ><?php // echo $organigrama ?>
-									<div name="list" id="organigrama_id" ></div>
-								</td>
-							</tr>
-							<tr>
-								<td align="right">Nivel Salarial:</td>
-								<td align="left">
-									<div name="list2" id="nivelsalarial_id" ></div>
-									
-								</td>
-							</tr>
-							<tr>
-								<td align="right">Salario Mensual:</td>
-								<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
-							</tr>
-							<tr>
-								<td align="right">Codigo:</td>
-								<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
-							</tr>
-							<tr>
-								<td align="right">Cargo:</td>
-								<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
-							</tr>
-							<tr>
-								<td align="right">Tipo Cargo:</td>
-								<td align="left">
-									<!-- <div data-toggle="buttons">-->
-									<div class="form-control">
+			</div>
+			<br>
+			<div class="table-responsive">
+				<div id="jqxgrid"></div>
+			</div>
+			<div style="margin-top: 30px;">
+				<div id="cellbegineditevent"></div>
+				<div style="margin-top: 10px;" id="cellendeditevent"></div>
+			</div>
+			<div id="popupWindow">
+				<div id="titulo">Editar</div>
+				<div style="overflow: hidden;">
+					<table>
+						<tr>
+							<td align="right">id:</td>
+							<td align="left"><input id="id" name="id" type="hidden" /></td>
+						</tr>
+						<tr>
+							<td align="right">Organigrama:</td>
+							<td align="left" ><?php // echo $organigrama ?>
+								<div name="list" id="organigrama_id" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">Nivel Salarial:</td>
+							<td align="left">
+								<div name="list2" id="nivelsalarial_id" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">Salario Mensual:</td>
+							<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
+						</tr>
+						<tr>
+							<td align="right">Codigo:</td>
+							<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
+						</tr>
+						<tr>
+							<td align="right">Cargo:</td>
+							<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
+						</tr>
+						<tr>
+							<td align="right">Tipo Cargo:</td>
+							<td align="left">
+								<!-- <div data-toggle="buttons">-->
+								<div class="form-control">
 									<?php foreach ($cargoestado as $v) { ?>
-										<!-- <label class="btn btn-primary btn-xs"> -->
-										
-                    						<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>"/> <?php echo $v->estado; ?>
-                						
-										
+									<!-- <label class="btn btn-primary btn-xs"> -->
+
+									<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>"/> <?php echo $v->estado; ?>
+
+
 									<?php } ?>
-                
-            						</div>
-            					</td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
+
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td style="padding-top: 10px;" align="right">
 								<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
 								<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</div>
+							</td>
+						</tr>
+					</table>
 				</div>
+			</div>
 
-				<div id="popupWindow_delete">
-					<div>Eliminar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="left">Esta seguro de Eliminar el registro</td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
+			<div id="popupWindow_delete">
+				<div>Eliminar</div>
+				<div style="overflow: hidden;">
+					<table>
+						<tr>
+							<td align="left">Esta seguro de Eliminar el registro</td>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td style="padding-top: 10px;" align="right">
 								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
 								<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</div>
+							</td>
+						</tr>
+					</table>
 				</div>
-
 			</div>
+
+			<div id="popupWindow_pac">
+				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES</div>
+				<div style="overflow: hidden;">
+					<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
+					<table>
+						<tr>
+							<td align="right">Organigrama:</td>
+							<td align="left" ><div id="organigrama_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right">Item:</td>
+							<td align="left"><div id="item_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right">Cargo:</td>
+							<td align="left"><div id="cargo_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right">Salario Mensual:</td>
+							<td align="left"><div id="sueldo_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right">Gestión:</td>
+							<td align="left"><input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" /></td>
+						</tr>
+						<tr>
+							<td align="right">Fecha Inicio:</td>
+							<td align="left"><div id="fecha_ini_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right">Fecha Finalización:</td>
+							<td align="left"><div id="fecha_fin_pac"></div></td>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td style="padding-top: 10px;" align="right">
+								<input style="margin-right: 5px;" type="button" id="guardar_pac" value="Guardar" />
+								<input id="Cancel" type="button" value="Cancel" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
 		</div>
-		
 	</div>
+
+	
 </div>
 
 <div class="row">
@@ -389,11 +461,11 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="table-responsive">
-					<div id="jqxgrid2"></div>
-				</div>
+			
+			<div class="table-responsive">
+				<div id="jqxgrid2"></div>
 			</div>
+			
 		</div>
 	</div>
 

@@ -175,6 +175,35 @@ public function saveAction()
 		echo json_encode();
 	}
 
+public function save_pacAction()
+{
+	if (isset($_POST['cargo_id_pac'])) {
+		$date = new DateTime($_POST['fecha_ini']);
+			$fecha_ini = $date->format('Y-m-d');
+			$date = new DateTime($_POST['fecha_fin']);
+			$fecha_fin = $date->format('Y-m-d');
+
+		if ($_POST['cargo_id_pac']>0) {
+				$resul = new Pacs();
+				$resul->cargo_id = $_POST['cargo_id_pac'];
+				$resul->gestion = $_POST['gestion'];
+				$resul->fecha_ini = $fecha_ini;
+				$resul->fecha_fin = $fecha_fin; //generar
+				$resul->unidad_sol_id = 1;
+				$resul->usuario_sol_id = 1;
+				$resul->estado = 1;
+				$resul->baja_logica = 1;
+				if ($resul->save()) {
+					$msm = 'Exito: Se guardo correctamente';
+				}else{
+					$msm = 'Error: No se guardo el registro';
+				}
+			}	
+		}
+		$this->view->disable();
+		echo json_encode($msm);
+	}	
+
 public function deleteAction(){
 	$resul = Cargos::findFirstById($_POST['id']);
 	$resul->baja_logica = 0;

@@ -130,7 +130,7 @@ INNER JOIN ejecutoras e ON c.ejecutora_id=e.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id = n.id 
 INNER JOIN cargosestados ca ON c.cargo_estado_id=ca.id
 INNER JOIN finpartidas f ON c.fin_partida_id=f.id
-WHERE c.baja_logica=1 ";
+WHERE c.baja_logica=1 order by c.id ";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
