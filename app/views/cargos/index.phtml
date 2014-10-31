@@ -24,7 +24,7 @@ var source =
 			valueMember: 'id'
 		}); 
 
-/*Combo box nivle salarial*/
+/*Combo box nivel salarial*/
 var source =
 		{
 			datatype: "json",
@@ -50,11 +50,6 @@ var source =
 		});       		
 
 $('#nivelsalarial_id').bind('select', function (event) { 
-	/*var args = event.args;
-    var item = $('#nivelsalarial_id').jqxComboBox('getItem', args.index);
-    alert($('#nivelsalarial_id').jqxComboBox('val'))
-    */
-    //alert(dataAdapter.sueldo);
     var v=$.ajax({
                     	url:'../../cargos/getSueldo/',
                     	type:'POST',
@@ -65,14 +60,11 @@ $('#nivelsalarial_id').bind('select', function (event) {
 						error: function() { alert('Se ha producido un error Inesperado'); }
 					});
 });
-
-/**Ponemos un valor por defaul**/
-/*var item = $("#organigrama_id").jqxComboBox("getItemByValue", 7);
-$("#organigrama_id").jqxComboBox("selectItem", item);
-*/
-
 		
 		
+		cargar();	
+
+		function cargar(){
 		var source =
 		{
 			datatype: "json",
@@ -95,10 +87,7 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(source);
-		cargar();	
-		function cargar(){
-			$("#jqxgrid").jqxGrid(
-		{
+		$("#jqxgrid").jqxGrid({
 		width: '100%',
 		source: dataAdapter,
 		sortable: true,
@@ -110,7 +99,6 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 		columns: [
 			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
 			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
-			//{ text: 'Unidad Ejecutora', datafield: 'unidad_ejecutora', filtertype: 'input',width: '20%' },
 			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
 			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
 			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
@@ -165,26 +153,26 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 
 
 /*segundo grid*/
-/*var source =
+
+		cargar2();	
+		function cargar2(){
+		var source =
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id2',type: 'number'},
-				{ name: 'unidad_administrativa2',type: 'string'},
-				{ name: 'cargo2',type: 'string'},
-				{ name: 'gestion2',type: 'string'},
-				{ name: 'fecha_ini2',type: 'string'},
-				{ name: 'fecha_fin2',type: 'string'},
+				{ name: 'id',type: 'number'},
+				{ name: 'unidad_administrativa',type: 'string'},
+				{ name: 'cargo',type: 'string'},
+				{ name: 'gestion',type: 'string'},
+				{ name: 'fecha_ini',type: 'string'},
+				{ name: 'fecha_fin',type: 'string'}
 			],
 			url: '/cargos/listpac',
 			cache: false
 		};
 
 		var dataAdapter = new $.jqx.dataAdapter(source);
-		cargar2();	
-		function cargar2(){
-			$("#jqxgrid2").jqxGrid(
-		{
+			$("#jqxgrid2").jqxGrid({
 		width: '100%',
 		source: dataAdapter,
 		sortable: true,
@@ -194,22 +182,18 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id2',filtertype: 'number', width: '3%'},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa2', filtertype: 'input',width: '30%' },
-			{ text: 'Cargo', datafield: 'cargo2', filtertype: 'input',width: '30%' },
-			{ text: 'Gestion', datafield: 'gestion2', filtertype: 'number',width: '5%' },
-			{ text: 'Fecha Inicio', datafield: 'fecha_ini2', filtertype: 'input',width: '10%' },
-			{ text: 'Fecha Finalizacion', datafield: 'fecha_fin2', filtertype: 'input',width: '10%' },
+			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
+			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
+			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
+			{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
+			{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'input',width: '10%' },
+			{ text: 'Fecha Finalizacion', datafield: 'fecha_fin', filtertype: 'input',width: '10%' },
 		]
 		});
 
 		}
-		*/
+		
 /*******end segungo grid*********/
-
-
-
-
 		// initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
                 width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
@@ -283,11 +267,16 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-body">
+			
 				<?php //echo $this->flashSession->output() ?>
-				<div style="margin-left: 5px;">
+				<div style="margin-left: 5px;float:left">
 					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />
+						<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
+					</div>
+				</div> 
+				<div style="margin-left: 5px; ">
+					<div>
+						<input id="add" type="button" value=" Asignar PAC" />
 					</div>
 				</div>
 				<br>
@@ -379,7 +368,7 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 			</div>
 		</div>
 		
-	</div>
+	
 </div>
 
 <div class="row">
@@ -389,11 +378,11 @@ $("#organigrama_id").jqxComboBox("selectItem", item);
 
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-body">
+			
 				<div class="table-responsive">
 					<div id="jqxgrid2"></div>
 				</div>
-			</div>
+			
 		</div>
 	</div>
 
