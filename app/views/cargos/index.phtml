@@ -144,7 +144,7 @@
              	$("#id").val(dataRecord.id);
              	$("#popupWindow_delete").jqxWindow('open');
              }
-         }
+         	}
          ]
      });
 
@@ -195,6 +195,18 @@ function cargar2(){
 		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
 		{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'input',width: '10%' },
 		{ text: 'Fecha Finalizacion', datafield: 'fecha_fin', filtertype: 'input',width: '10%' },
+		{ text: '', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
+             	return "Eliminar";
+             }, buttonclick: function (row) {
+             	editrow = row;
+             	var offset = $("#jqxgrid2").offset();
+             	$("#popupWindow_delete_pac").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+
+             	var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', editrow);
+             	$("#id").val(dataRecord.id);
+             	$("#popupWindow_delete_pac").jqxWindow('open');
+             }
+        }
 		]
 	});
 
@@ -261,7 +273,7 @@ function cargar2(){
   					type:'POST',
   					datatype: 'json',
   					data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
-						success: function(data) { cargar2(); alert(data.msm); 
+						success: function(data) { cargar2(); alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
