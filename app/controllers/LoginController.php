@@ -4,6 +4,7 @@ class LoginController extends \Phalcon\Mvc\Controller {
 
     //login  
     public function indexAction() {
+
         $auth = $this->session->get('auth');
         if ($auth) {
             $this->response->redirect('/');

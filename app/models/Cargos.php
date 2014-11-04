@@ -106,16 +106,17 @@ class Cargos extends \Phalcon\Mvc\Model
             'organigrama_id' => 'organigrama_id', 
             'ejecutora_id' => 'ejecutora_id', 
             'codigo' => 'codigo', 
-            'cargo' => 'cargo', 
+            'cargo' => 'cargo',
+            'fin_partida_id' => 'fin_partida_id',
             'nivelsalarial_id' => 'nivelsalarial_id', 
             'cargo_estado_id' => 'cargo_estado_id', 
-            'baja_logica' => 'baja_logica', 
+            'categoria_id' => 'categoria_id',
+            'baja_logica' => 'baja_logica',
             'user_reg_id' => 'user_reg_id', 
             'fecha_reg' => 'fecha_reg', 
             'user_mod_id' => 'user_mod_id', 
             'fecha_mod' => 'fecha_mod',
-            'estado' => 'estado',
-            'fin_partida_id' => 'fin_partida_id'
+            'estado' => 'estado'
             
         );
     }
@@ -135,6 +136,7 @@ WHERE c.baja_logica=1 order by c.id ";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+<<<<<<< HEAD
 
     public function listapac(){
         $sql = "SELECT  p.*, c.cargo,o.unidad_administrativa
@@ -146,4 +148,6 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+=======
+>>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 }

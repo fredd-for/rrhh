@@ -14,7 +14,7 @@ class SeguimientosController extends ControllerBase
 		//$resul = Seguimientos::find(array('activo=:activo1:','bind'=>array('activo1'=>'true'),'order' => 'id ASC'));
 		$model = new Seguimientos();
         $resul = $model->lista();
-		$this->view->setVar('seguimiento', $resul);	
+		$this->view->setVar('seguimiento', $resul);
 	}
 
 	public function addAction()
