@@ -70,6 +70,15 @@ $(document).ready(function () {
                         $("#popupWindow").jqxWindow('open');*/
                     }
                     },
+                    { text: 'Imprimir', datafield: 'Imprimir',width:100, sortable:false, filterable: false, columntype: 'button', cellsrenderer: function () {
+                        return "Imprimir";
+                    }, buttonclick: function (row) {
+                        editrow = row;
+                        var rows = $('#jqxgrid').jqxGrid('getdisplayrows');
+                        var n_rows = rows.length;
+                        window.open("/personal/imprimir/"+n_rows+"/"+rows, "_blank");
+                    }
+                    },
                     { text: 'Eliminar', datafield: 'Eliminar',width:100, sortable:false, filterable: false, columntype: 'button', cellsrenderer: function () {
                         return "Eliminar";
                     }, buttonclick: function (row) {
