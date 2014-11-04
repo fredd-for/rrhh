@@ -31,10 +31,10 @@
 
 /* The node */
 .jOrgChart .node {
-  background-color 		: #35363B;
+  background-color 		: #11203A;
   display               : inline-block;
-  width                 : 96px;
-  height                : 60px;
+  width                 : 110px;
+  height                : 80px;
   z-index 				: 10;
   margin               : 0 2px;
 }

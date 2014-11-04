@@ -195,7 +195,6 @@ function definirGrillaParaListaRelaborales(){
                 pagerMode: 'advanced',
                 showfilterrow: true,
                 filterable: true,
-
                 columns: [
                     {
                         text: 'Nro.', sortable: false, filterable: false, editable: false,
@@ -256,8 +255,8 @@ function definirGrillaParaListaRelaborales(){
                     },
                     { text: 'Ubicaci&oacute;n', filtertype: 'checkedlist', datafield: 'ubicacion', width: 150,cellsalign:'center',align:'center', hidden:true},
                     { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', width: 150,align:'center', hidden:true},
-                    { text: 'Estado', filtertype: 'checkedlist', datafield: 'estado_descripcion', width: 100,align:'center', hidden:true},
-                    { hidden: true,text: 'Nombres y Apellidos', columntype: 'textbox', filtertype: 'input', datafield: 'nombres', width: 215,align:'center' , hidden:false},
+                    { text: 'Estado', filtertype: 'checkedlist', datafield: 'estado_descripcion', width: 100,align:'center', hidden:false,cellclassname: cellclass},
+                    { text: 'Nombres y Apellidos', columntype: 'textbox', filtertype: 'input', datafield: 'nombres', width: 215,align:'center' , hidden:false},
                     { text: 'CI', columntype: 'textbox', filtertype: 'input', datafield: 'ci', width: 100 ,cellsalign: 'center',align:'center', hidden:false},
                     { text: 'Exp', filtertype: 'checkedlist', datafield: 'expd', width: 40,cellsalign: 'center',align:'center', hidden:false},
                     { text: 'N/C', columntype: 'textbox', filtertype: 'input', datafield: 'num_complemento', width: 40,cellsalign: 'center',align:'center', hidden: true},
@@ -268,7 +267,7 @@ function definirGrillaParaListaRelaborales(){
                     { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', width: 220,align:'center', hidden:true},
                     { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', width: 215 ,align:'center', hidden:false},
                     { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', width: 220,cellsalign: 'right',align:'center', hidden:false},
-                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
+                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center', hidden:true},
                     { text: 'Fecha Incor.', datafield: 'fecha_incor', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
                     { text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
                     { text: 'Fecha Baja', datafield: 'fecha_baja', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
@@ -307,7 +306,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#divItems").hide();
                             $("#divFechasFin").hide();
                             $("#divNumContratos").hide();
-                            $("#divMsjeError").hide();
+                            $(".msjs-alert").hide();
                             $("#divProcesos").hide();
                             $("#helpErrorUbicaciones").html("");
                             $("#helpErrorProcesos").html("");
@@ -334,14 +333,14 @@ function definirGrillaParaListaRelaborales(){
                             $("#hdnIdCondicionEditableSeleccionada").val(dataRecord.id_condicion);
                             $("#hdnIdUbicacionEditar").val(dataRecord.id_ubicacion);
                             $("#hdnIdProcesoEditar").val(dataRecord.id_proceso);
-                            $("#hdnFechaIniEditar").val(dataRecord.fecha_ini);
-                            $("#hdnFechaIncorEditar").val(dataRecord.fecha_incor);
+                            $("#FechaIniEditar").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+                            $("#FechaIncorEditar").jqxDateTimeInput({ value:dataRecord.fecha_incor,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
                             $("#hdnFechaFinEditar").val(dataRecord.fecha_fin);
                             $("#txtNumContratoEditar").val(dataRecord.num_contrato);
                             $("#divItemsEditar").hide();
                             $("#divFechasFinEditar").hide();
                             $("#divNumContratosEditar").hide();
-                            $("#divMsjeError").hide();
+                            $(".msjs-alert").hide();
                             $("#helpErrorUbicacionesEditar").html("");
                             $("#helpErrorProcesosEditar").html("");
                             $("#helpErrorCategoriasEditar").html("");
@@ -349,11 +348,11 @@ function definirGrillaParaListaRelaborales(){
                             $("#divProcesosEditar").removeClass("has-error");
                             $("#divCategoriasEditar").removeClass("has-error");
                             $("#tr_cargo_seleccionado_editar").html("");
-                            $("#txtObservacionEditar").text(dataRecord.observacion);
+                            if(dataRecord.observacion!=null)$("#txtObservacionEditar").text(dataRecord.observacion);
+                            else $("#txtObservacionEditar").text('');
                             cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
                             cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
                             agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
-                            habilitarCamposParaEditarRegistroDeRelacionLaboral(dataRecord.id_oganigrama,dataRecord.id_fin_partida);
                             if(dataRecord.id_condicion==3){
                                 $("#txtNumContratoEditar").focus();
                             }
@@ -378,7 +377,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#txtFechaIniBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_ini,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
                             $("#txtFechaIncorBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_incor,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
                             $("#txtFechaFinBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_fin,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-                            $("#divFechasBaja").hide();
+                            $(".msjs-alert").hide();
                             $("#divFechasRenBaja").hide();
                             $("#divFechasAceptaRenBaja").hide();
                             $("#divFechasAgraServBaja").hide();
@@ -396,6 +395,7 @@ function definirGrillaParaListaRelaborales(){
                         }
                         break;
                     case 4://Vista
+                        $(".msjs-alert").hide();
                         if (dataRecord.tiene_contrato_vigente >= 0) {
                             $('#jqxTabs').jqxTabs('enableAt', 0);
                             $('#jqxTabs').jqxTabs('disableAt', 1);
@@ -414,7 +414,7 @@ function definirGrillaParaListaRelaborales(){
                                 position: 'top'});
                             // Focus jqxTabs.
                             $('#tabFichaPersonal').jqxTabs('focus');
-                            $("#tdNombres").html("<b>Nombres y Apellidos: </b>"+dataRecord.nombres);
+                            $("#ddNombres").html(dataRecord.nombres);
                             cargarPersonasContactos(dataRecord.id_persona);
                             $("#hdnIdRelaboralVista").val(id_relaboral);
                             cargarHistorialRelaboral();
@@ -428,7 +428,7 @@ function definirGrillaParaListaRelaborales(){
         var listSource = [
             { label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: false },
             { label: 'Condici&oacute;n', value: 'condicion', checked: false },
-            { label: 'Estado', value: 'estado_descripcion', checked: false },
+            { label: 'Estado', value: 'estado_descripcion', checked: true },
             { label: 'Nombres y Apellidos', value: 'nombres', checked: true },
             { label: 'CI', value: 'ci', checked: true},
             { label: 'Exp', value: 'expd', checked: true},
@@ -458,34 +458,7 @@ function definirGrillaParaListaRelaborales(){
             }
             $("#jqxgrid").jqxGrid('endupdate');
         });
-        /*var item = $("#jqxlistbox").jqxListBox('getItemByValue', "condicion");
-        alert("-->"+item.checked);*/
-        /**
-         * Función para conocer si esta columna debe ocultarse o no mediante la lista definida.
-         * @param value valor booleano para la ocultación de columnas: True: Ocultar, False: No ocultar
-         * @returns {boolean}
-         */
-        function getHiddenForColumnByValue(value){
-            var item = $("#jqxlistbox").jqxListBox('getItemByValue', 'ubicacion');
-            if(item.checked)return false;
-            else return true;
-        }
     }
-}
-function cargaPermisos(listSource){
-    $.each( listSource, function( key, val ) {
-       // alert(val.label+"--"+val.value+"->"+val.checked);
-        $("#jqxgrid").jqxGrid('beginupdate');
-        $("#jqxgrid").jqxGrid('showcolumn', val.value);
-        if(val.checked==true){
-            $("#jqxgrid").jqxGrid('showcolumn', val.value);
-        }
-        else{
-            $("#jqxgrid").jqxGrid('hidecolumn', val.value);
-        }
-        $("#jqxgrid").jqxGrid('endupdate');
-    });
-
 }
 /*
  * Función para controlar la ejecución del evento esc con el teclado.
@@ -510,4 +483,16 @@ function procesaTextoAFecha(date,sep){
     var parts = date.split(sep);
     var date = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
     return date.getTime();
+}
+var cellclass = function (row, columnfield, value) {
+    if (value == 'ACTIVO') {
+        return 'verde';
+    }
+    else if (value == 'EN PROCESO') {
+        return 'amarillo';
+    }
+    else if(value == 'PASIVO'){
+        return 'rojo';
+    }
+    else return ''
 }

@@ -24,13 +24,8 @@
 			valueMember: 'id'
 		}); 
 
-<<<<<<< HEAD
 		/*Combo box nivel salarial*/
 		var source =
-=======
-/*Combo box nivel salarial*/
-var source =
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 		{
 			datatype: "json",
 			datafields: [
@@ -54,7 +49,6 @@ var source =
 			
 		});       		
 
-<<<<<<< HEAD
 		$('#nivelsalarial_id').bind('select', function (event) { 
 			var v=$.ajax({
 				url:'/cargos/getSueldo/',
@@ -66,35 +60,15 @@ var source =
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
 		});
-=======
-$('#nivelsalarial_id').bind('select', function (event) { 
-    var v=$.ajax({
-                    	url:'../../cargos/getSueldo/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$('#nivelsalarial_id').jqxComboBox('val')},
-						success: function(data) { $("#sueldotxt").text(data);
-												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-});
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 		
 		
 		cargar();	
 
 		function cargar(){
-<<<<<<< HEAD
 			var source =
 			{
 				datatype: "json",
 				datafields: [
-=======
-		var source =
-		{
-			datatype: "json",
-			datafields: [
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 				{ name: 'id',type: 'number'},
 				{ name: 'unidad_administrativa',type: 'string'},
 				{ name: 'organigrama_id',type: 'string'},
@@ -112,7 +86,6 @@ $('#nivelsalarial_id').bind('select', function (event) {
 				cache: false
 			};
 
-<<<<<<< HEAD
 			var dataAdapter = new $.jqx.dataAdapter(source);
 			$("#jqxgrid").jqxGrid({
 				width: '100%',
@@ -135,30 +108,6 @@ $('#nivelsalarial_id').bind('select', function (event) {
 				{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
 					return "Editar";
 				}, buttonclick: function (row) {
-=======
-		var dataAdapter = new $.jqx.dataAdapter(source);
-		$("#jqxgrid").jqxGrid({
-		width: '100%',
-		source: dataAdapter,
-		sortable: true,
-		altRows: true,
-		pageable: true,
-		pagerMode: 'advanced',
-		showfilterrow: true,
-		filterable: true,
-		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
-			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-			{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
-			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-			{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
-			{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
-			{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-                     return "Editar";
-                  }, buttonclick: function (row) {
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
                      // open the popup window when the user clicks a button.
                      editrow = row;
                      var offset = $("#jqxgrid").offset();
@@ -195,7 +144,7 @@ $('#nivelsalarial_id').bind('select', function (event) {
              	$("#id").val(dataRecord.id);
              	$("#popupWindow_delete").jqxWindow('open');
              }
-         	}
+         }
          ]
      });
 
@@ -211,7 +160,6 @@ $("#jqxgrid").bind('rowselect', function (event) {
 				});
 
 /*segundo grid*/
-<<<<<<< HEAD
 
 cargar2();	
 function cargar2(){
@@ -232,28 +180,6 @@ function cargar2(){
 
 	var dataAdapter = new $.jqx.dataAdapter(source);
 	$("#jqxgrid2").jqxGrid({
-=======
-
-		cargar2();	
-		function cargar2(){
-		var source =
-		{
-			datatype: "json",
-			datafields: [
-				{ name: 'id',type: 'number'},
-				{ name: 'unidad_administrativa',type: 'string'},
-				{ name: 'cargo',type: 'string'},
-				{ name: 'gestion',type: 'string'},
-				{ name: 'fecha_ini',type: 'string'},
-				{ name: 'fecha_fin',type: 'string'}
-			],
-			url: '/cargos/listpac',
-			cache: false
-		};
-
-		var dataAdapter = new $.jqx.dataAdapter(source);
-			$("#jqxgrid2").jqxGrid({
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 		width: '100%',
 		source: dataAdapter,
 		sortable: true,
@@ -263,43 +189,17 @@ function cargar2(){
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-<<<<<<< HEAD
 		{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
 		{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
 		{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
 		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
 		{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'input',width: '10%' },
 		{ text: 'Fecha Finalizacion', datafield: 'fecha_fin', filtertype: 'input',width: '10%' },
-		{ text: '', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-             	return "Eliminar";
-             }, buttonclick: function (row) {
-             	editrow = row;
-             	var offset = $("#jqxgrid2").offset();
-             	$("#popupWindow_delete_pac").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
-             	var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', editrow);
-             	$("#id").val(dataRecord.id);
-             	$("#popupWindow_delete_pac").jqxWindow('open');
-             }
-        }
 		]
 	});
 
 }
 
-=======
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
-			{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
-			{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-			{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
-			{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'input',width: '10%' },
-			{ text: 'Fecha Finalizacion', datafield: 'fecha_fin', filtertype: 'input',width: '10%' },
-		]
-		});
-
-		}
-		
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 /*******end segungo grid*********/
 		// initialize the popup window and buttons.
 		$("#popupWindow").jqxWindow({
@@ -361,7 +261,7 @@ function cargar2(){
   					type:'POST',
   					datatype: 'json',
   					data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
-						success: function(data) { cargar2(); alert(data); 
+						success: function(data) { cargar2(); alert(data.msm); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
@@ -407,23 +307,10 @@ function cargar2(){
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			
-<<<<<<< HEAD
 			<?php //echo $this->flashSession->output() ?>
 			<div style="margin-left: 5px;float:left">
 				<div>
 					<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
-=======
-				<?php //echo $this->flashSession->output() ?>
-				<div style="margin-left: 5px;float:left">
-					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
-					</div>
-				</div> 
-				<div style="margin-left: 5px; ">
-					<div>
-						<input id="add" type="button" value=" Asignar PAC" />
-					</div>
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 				</div>
 			</div> 
 			<div style="margin-left: 5px; ">
@@ -562,12 +449,8 @@ function cargar2(){
 
 
 		</div>
-<<<<<<< HEAD
 	</div>
 
-=======
-		
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 	
 </div>
 
@@ -579,15 +462,9 @@ function cargar2(){
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			
-<<<<<<< HEAD
 			<div class="table-responsive">
 				<div id="jqxgrid2"></div>
 			</div>
-=======
-				<div class="table-responsive">
-					<div id="jqxgrid2"></div>
-				</div>
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 			
 		</div>
 	</div>

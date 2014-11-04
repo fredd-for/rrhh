@@ -4,9 +4,9 @@ $(document).ready(function () {
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id'},
-				{ name: 'orden'},
-				{ name: 'nivel_estructural'}
+				{ name: 'id',type: 'number'},
+				{ name: 'orden',type: 'number'},
+				{ name: 'nivel_estructural',type: 'string'}
 			],
 			url: '../../nivelestructurales/list',
 			cache: false
@@ -16,7 +16,7 @@ $(document).ready(function () {
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
 		{
-		width: 950,
+		width: '100%',
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
@@ -25,10 +25,10 @@ $(document).ready(function () {
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'input', width: 100},
-			{ text: 'Orden', datafield: 'orden', filtertype: 'input',width: 50 },
-			{ text: 'Nivel Estructural', datafield: 'nivel_estructural', width: 300 },
-			{ text: 'Editar', datafield: 'Editar', width: 100,sortable:false, columntype: 'button', cellsrenderer: function () {
+			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+			{ text: 'Orden', datafield: 'orden', filtertype: 'number',width: '15%' },
+			{ text: 'Nivel Estructural', datafield: 'nivel_estructural',filtertype: 'input', width: '70%' },
+			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
@@ -47,7 +47,7 @@ $(document).ready(function () {
                      $("#popupWindow").jqxWindow('open');
                  }
             },
-            { text: 'Eliminar', datafield: 'Eliminar',width:100, sortable:false, columntype: 'button', cellsrenderer: function () {
+            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', filterable:false,cellsrenderer: function () {
                      return "Eliminar";
                   }, buttonclick: function (row) {
                      editrow = row;
@@ -85,7 +85,7 @@ $(document).ready(function () {
                     	type:'POST',
                     	datatype: 'json',
 						data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
-						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
 					});
@@ -108,12 +108,13 @@ $(document).ready(function () {
                     $("#popupWindow_delete").jqxWindow('hide');
                 }
             });
+
 	});
 </script>
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1>Nivel Estructural</h1>		
+		<h1>Niveles Estructurales</h1>		
 	</div>
 </div>
 
@@ -146,11 +147,11 @@ $(document).ready(function () {
 							</tr>
 							<tr>
 								<td align="right">Orden:</td>
-								<td align="left"><input id="orden" name="orden" type="text" /></td>
+								<td align="left"><input id="orden" name="orden" type="text" class="form-control" /></td>
 							</tr>
 							<tr>
 								<td align="right">Nivel Estructural:</td>
-								<td align="left"><input id="nivel_estructural" name="nivel_estructural" type="text" /></td>
+								<td align="left"><input id="nivel_estructural" name="nivel_estructural" type="text" class="form-control"/></td>
 							</tr>
 							<tr>
 								<td align="right"></td>

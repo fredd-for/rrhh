@@ -1,32 +1,3 @@
-body, html, div, p, span, a, h1, h2, h3, h4, h5{
-	margin 				: 0;
-	padding 			: 0;
-}
-
-body, html{	
-	width 				: 100%;
-}
-
-body{
-	background 			: url('../images/bkgd.png') repeat top left;
-	color 				: white;
-	font-family 		: tahoma;
-	font-weight 		: lighter;
-	padding-top 		: 40px;
-}
-
-	body p{
-		font-size 		: 14px;
-	}
-	
-		body p a{
-			font-size	: 16px;
-		}
-
-h1 {
-	color 				: #E05E00;	
-	font-style 			: italic;
-}
 
 a{
 	color 				: #E05E00;	
@@ -77,16 +48,16 @@ a:hover{
 
 /* Custom node styling */
 .jOrgChart .node {
-	font-size 			: 14px;
-	background-color 	: #35363B;
+	font-size 			: 10px;
+	background-color 	: #11203A;
 	border-radius 		: 8px;
-	border 				: 5px solid white;
-	color 				: #F38630;
+	border 				: 2px solid #0CF4FC;
+	color 				: #F2F2F2;
 	-moz-border-radius 	: 8px;
 }
 	.node p{
 		font-family 	: tahoma;
-		font-size 		: 10px;
-		line-height 	: 11px;
+		font-size 		: 15px;
+		line-height 	: 15px;
 		padding 		: 2px;
 	}

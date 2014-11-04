@@ -154,12 +154,12 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
         $this->_db = new Seguimientos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
-
     /**
      * Función para la obtención del listado de procesos disponibles de acuerdo a la condición referida en el parámetro enviado.
      * @param $id_condicion Identificador de la condición de relación laboral.
      * @param $sw Variable que identifica que debe considerarse procesos para consultoría por producto.
-     * @return Resultset Conjunto de registros relacionados a los procesos de contrataciones.
+     * @author JLM
+     * @return Resultset Conjunto de registros relacionados a los procesos de contrataciones.     *
      */
     public function listaProcesosPorCondicion($id_condicion,$sw=0) {
 

@@ -166,13 +166,6 @@ function cargaCategoriasParaEditar(idCategoriaPredeterminada){
 
     $("#categoriaEditar").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una categoria", source: categoria, height: 22, width: '100%' });
 }
-/**
- * Función para la definición de las fechas para el registro de la relación laboral.
- */
-function defineFechasEditar(){
-    $("#FechaIniEditar").jqxDateTimeInput({ value:$("#hdnFechaIniEditar").val(),enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-    $("#FechaIncorEditar").jqxDateTimeInput({ value:$("#hdnFechaIncorEditar").val(),enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-}
 
 /**
  * Función para agregar un cargo registrado a la grilla correspondiente para determinar donde trabajará la persona.
@@ -228,19 +221,6 @@ function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartid
         $("#divCategoriasEditar").removeClass("has-error");
         //deshabilitarCamposParaEditarRegistroDeRelacionLaboral(id_organigrama,id_finpartida);
     });
-}
-/**
- * Función para la habilitación de los campos correspondientes en el formulario de registro de una nueva relación laboral.
- * @param idOrganigrama Identificador del organigrama.
- * @param idFinPartida Identificador del financiamiento por partida.
- */
-function habilitarCamposParaEditarRegistroDeRelacionLaboral(idOrganigrama,idFinPartida){
-    /*cargarAreasAdministrativasEditar(idOrganigrama,0);
-     cargarDepartamentosEditar(0);*/
-    //cargarUbicacionesEditar(1);
-    //cargarProcesosEditar(idFinPartida,0);
-    //cargaCategoriasEditar(1);
-    defineFechasEditar();
 }
 /**
  * Función para deshabilitar los campos correspondientes en el formulario de registro de una nueva relación laboral.

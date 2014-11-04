@@ -29,6 +29,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
+        $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $ubicaciones = $this->tag->select(
             array(
@@ -42,19 +43,6 @@ class RelaboralesController extends ControllerBase
             )
         );
         $this->view->setVar('ubicaciones', $ubicaciones);
-
-        $procesos = $this->tag->select(
-            array(
-                'lstProcesos',
-                Procesoscontrataciones::find(array('baja_logica=1', 'order' => 'id ASC')),
-                'using' => array('id', "codigo_proceso"),
-                'useEmpty' => true,
-                'emptyText' => 'Seleccionar..',
-                'emptyValue' => '',
-                'class' => 'form-control new-relab',
-            )
-        );
-        $this->view->setVar('procesos', $procesos);
 
         $categorias = $this->tag->select(
             array(
@@ -83,6 +71,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
+        $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
@@ -117,6 +106,43 @@ class RelaboralesController extends ControllerBase
                 $edit = '<input type="button" id="btn_edit_' . $v->id_relaboral . '" value="Editar" class="btn_edit">';
                 $down = '<input type="button" id="btn_del_' . $v->id_relaboral . '" value="Baja" class="btn_del">';
                 $view = '<input type="button" id="btn_view_' . $v->id_relaboral . '" value="Ver" class="btn_view">';
+                #region Control de valores para fechas para evitar error al momento de mostrar en grilla
+                $fechaIni="";
+                if($v->fecha_ini!=""){
+                    $fechaIni = $v->fecha_ini;
+                    $fechaIni = date("d-m-Y", strtotime($fechaIni));
+                }
+                $fechaIncor="";
+                if($v->fecha_incor!=""){
+                    $fechaIncor = $v->fecha_incor;
+                    $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
+                }
+                $fechaFin="";
+                if($v->fecha_fin!=""){
+                    $fechaFin = $v->fecha_fin;
+                    $fechaFin = date("d-m-Y", strtotime($fechaFin));
+                }
+                $fechaBaja="";
+                if($v->fecha_baja!=""){
+                    $fechaBaja = $v->fecha_baja;
+                    $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
+                }
+                $fechaRen="";
+                if($v->fecha_ren!=""){
+                    $fechaRen = $v->fecha_ren;
+                    $fechaRen = date("d-m-Y", strtotime($fechaRen));
+                }
+                $fechaAceptaRen="";
+                if($v->fecha_baja!=""){
+                    $fechaAceptaRen = $v->fecha_acepta_ren;
+                    $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
+                }
+                $fechaAgraServ="";
+                if($v->fecha_baja!=""){
+                    $fechaAgraServ = $v->fecha_agra_serv;
+                    $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
+                }
+                #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
                 $relaboral[] = array(
                     'chk' => $chk,
                     'nuevo' => $new,
@@ -151,13 +177,13 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ini' => $v->fecha_ini,
-                    'fecha_incor' => $v->fecha_incor,
-                    'fecha_fin' => $v->fecha_fin,
-                    'fecha_baja' => $v->fecha_baja,
-                    'fecha_ren' => $v->fecha_ren,
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren,
-                    'fecha_agra_serv' => $v->fecha_agra_serv,
+                    'fecha_ini' => $fechaIni,
+                    'fecha_incor' => $fechaIncor,
+                    'fecha_fin' => $fechaFin,
+                    'fecha_baja' => $fechaBaja,
+                    'fecha_ren' => $fechaRen,
+                    'fecha_acepta_ren' => $fechaAceptaRen,
+                    'fecha_agra_serv' => $fechaAgraServ,
                     'motivo_baja' => $v->motivo_baja,
                     'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                     'descripcion_baja' => $v->descripcion_baja,
@@ -360,6 +386,8 @@ class RelaboralesController extends ControllerBase
      */
     public function saveAction()
     {
+        $user_reg_id=1;
+        $user_mod_id=1;
         $msj = Array();
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");
@@ -419,11 +447,15 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->observacion = ($observacion=="")?null:$observacion;
                     $objRelaboral->estado = 1;
                     $objRelaboral->baja_logica = 1;
-                    $objRelaboral->user_mod_id = 1;
+                    $objRelaboral->user_mod_id = $user_mod_id;
                     $objRelaboral->fecha_mod = $hoy;
                     $objRelaboral->agrupador = 0;
                     $ok = $objRelaboral->save();
                     if ($ok) {
+                        /**
+                         * Modificar el estado del cargo a adjudicado
+                         */
+                        $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
                         #region Registro de la ubicación de trabajo
                         //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
                         if ($id_ubicacion > 0) {
@@ -541,14 +573,17 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->fecha_incor = $fecha_incor;
                         $objRelaboral->fecha_fin = $fecha_fin;
                         $objRelaboral->observacion = ($observacion=="")?null:$observacion;
-                        //$objRelaboral->estado = 2;
                         $objRelaboral->estado = 2;
                         $objRelaboral->baja_logica = 1;
-                        $objRelaboral->user_reg_id = 1;
+                        $objRelaboral->user_reg_id = $user_reg_id;
                         $objRelaboral->fecha_reg = $hoy;
                         $objRelaboral->agrupador = 0;
                         $ok = $objRelaboral->save();
                         if ($ok) {
+                            /**
+                             * Se modifica el estado del cargo para que se considere como adjudicado.
+                             */
+                            $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
                             #region Registro de la ubicación de trabajo
                             //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
                             if ($objRelaboral->id > 0 && $id_ubicacion > 0) {
@@ -565,6 +600,7 @@ class RelaboralesController extends ControllerBase
 
 
                                     }*/
+
                                     $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
                                 } else {
                                     $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
@@ -685,6 +721,10 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->user_mod_id=1;
                         $objRelaboral->fecha_mod = $hoy;
                         if ($objRelaboral->save()) {
+                            /**
+                             * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
+                             */
+                            $this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
                             $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro realizado de modo satisfactorio.');
                         } else {
                             foreach ($objRelaboral->getMessages() as $message) {
@@ -780,5 +820,38 @@ class RelaboralesController extends ControllerBase
             echo $e->getTraceAsString();
         }
         echo json_encode($personas);
+    }
+    /**
+     * Función para cambiar el estado de un cargo a adjudicado.
+     * @param $id Identificador del cargo al cual se realiza
+     * @param $id_usuario Identificador del usuario que realiza la solicitud de modificación de estado.
+     * @return bool True: Se realizó correctamente la modificación; False: No se pudo realizar la modificación solicitada.
+     */
+    function adjudicarCargo($id,$id_usuario){
+        if($id>0&&$id_usuario>0){
+            $obj = Cargos::findFirstById($id);
+            $obj->estado=1;
+            $obj->user_mod_id=$id_usuario;
+            $obj->fecha_mod = date("Y-m-d H:i:s");
+            if($obj->save())return true;
+            else return false;
+        }else return false;
+    }
+
+    /**
+     * Función para cambiar el estado de un cargo a desadjudicado.
+     * @param $id Identificador del cargo al cual se modifica su estado.
+     * @param $id_usuario Identificador del usuario que realiza la solicitud de modificación de estado.
+     * @return bool True: Se realizó correctamente la modificación; False: No se pudo realizar la modificación solicitada.
+     */
+    function desadjudicarCargo($id,$id_usuario){
+        if($id>0&&$id_usuario>0){
+            $obj = Cargos::findFirstById($id);
+            $obj->estado=0;
+            $obj->user_mod_id=$id_usuario;
+            $obj->fecha_mod = date("Y-m-d H:i:s");
+            if($obj->save())return true;
+            else return false;
+        }else return false;
     }
 } 

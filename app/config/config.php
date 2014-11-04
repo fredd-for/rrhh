@@ -16,5 +16,8 @@ return new \Phalcon\Config(array(
         'libraryDir'     => __DIR__ . '/../../app/library/',
         'cacheDir'       => __DIR__ . '/../../app/cache/',
         'baseUri'        => '   ',
+        // Cargar librería fpdf
+        'fpdf'        => __DIR__ . '/../../app/libs/fpdf/',
+        'baseUri'        => '',
     )
 ));

@@ -72,7 +72,7 @@ class PersonalController extends ControllerBase{
             'num_complemento' => $resul->num_complemento,
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
-            'fecha_nac' => $resul->fecha_nac,
+            'fecha_nac' => date("d-m-Y",strtotime($resul->fecha_nac)),
             'e_civil' => $resul->e_civil,
             'grupo_sanguineo'=> $resul->grupo_sanguineo,
             'genero' => $resul->genero,
@@ -106,7 +106,7 @@ class PersonalController extends ControllerBase{
                 'p_apellido' => $v->p_apellido,
                 's_apellido' => $v->s_apellido,
                 'ci' => $v->ci,
-                'fecha_nac' => date("Y-m-d",strtotime($v->fecha_nac)),
+                'fecha_nac' => date("d-m-Y",strtotime($v->fecha_nac)),
                 'lugar_nac' => $v->lugar_nac,
                 'genero' => $v->genero,
                 'e_civil' => $v->e_civil,
@@ -119,9 +119,8 @@ class PersonalController extends ControllerBase{
         $resul->baja_logica = 0;
         $resul->save();
         $this->view->disable();
-        echo json_encode("d");
+        echo json_encode();
     }
-
     public function saveAction()
     {
         if (isset($_POST['id'])) {

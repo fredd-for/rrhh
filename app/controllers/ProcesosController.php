@@ -14,7 +14,8 @@ class ProcesosController extends ControllerBase
 		$resul = Procesos::find(array('activo=:activo1:','bind'=>array('activo1'=>'true'),'order' => 'id ASC'));
 		$this->view->setVar('proceso', $resul);	
 	}
-    public function addAction()
+
+	public function addAction()
 	{
 		if ($this->request->isPost()) {
 			$resul = new Procesos();

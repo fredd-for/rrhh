@@ -19,6 +19,9 @@ function cargarMotivosBajas(idMotivoBajaPredeterminada,idCondicion){
             var res = jQuery.parseJSON(data);
             if(res.length>0){
                 $('#lstMotivosBajas').html("");
+                /**
+                 * Los cuatro valores incluidos en cada opción son binarios: 1: Se aplica, 0: No se aplica
+                 */
                 $('#lstMotivosBajas').append("<option value='0_0_0_0'>Seleccionar..</option>");
                 $.each( res, function( key, val ) {
                     switch (idCondicion){
@@ -29,13 +32,13 @@ function cargarMotivosBajas(idMotivoBajaPredeterminada,idCondicion){
                             }
                             break;
                         case 2:
-                            if(val.permanente==2){
+                            if(val.eventual==1){
                                 if(idMotivoBajaPredeterminada==val.id){$selected='selected';}else{ $selected='';}
                                 $('#lstMotivosBajas').append("<option value='"+val.id+"_"+val.fecha_ren+"_"+val.fecha_acepta_ren+"_"+val.fecha_agra_serv+"'  optFechaRen='"+val.fecha_ren+"' optFechaAceptaRen='"+val.fecha_acepta_ren+"' optFechaAgraServ='"+val.fecha_ren+"' "+$selected+">"+val.motivo_baja+"</option>");
                             }
                             break;
                         case 3:
-                            if(val.permanente==3){
+                            if(val.consultor==1){
                                 if(idMotivoBajaPredeterminada==val.id){$selected='selected';}else{ $selected='';}
                                 $('#lstMotivosBajas').append("<option value='"+val.id+"_"+val.fecha_ren+"_"+val.fecha_acepta_ren+"_"+val.fecha_agra_serv+"' optFechaRen='"+val.fecha_ren+"' optFechaAceptaRen='"+val.fecha_acepta_ren+"' optFechaAgraServ='"+val.fecha_ren+"' "+$selected+">"+val.motivo_baja+"</option>");
                             }
@@ -245,14 +248,14 @@ function guardarRegistroBaja(){
     var fechaRen="";
     var fechaAceptaRen="";
     var fechaAgraServ="";
-    if($("#lstMotivosBajas").val()!=""){
-        valMotivoBaja = $("#lstMotivosBajas").val();
-        var res = valMotivoBaja.split("_");
-        idMotivoBaja = res[0];
-        swFechaRen = res[1];
-        swFechaAceptaRen = res[2];
-        swFechaAgraServ = res[3];
-    }
+        if($("#lstMotivosBajas").val()!=""){
+            valMotivoBaja = $("#lstMotivosBajas").val();
+            var res = valMotivoBaja.split("_");
+            idMotivoBaja = res[0];
+            swFechaRen = res[1];
+            swFechaAceptaRen = res[2];
+            swFechaAgraServ = res[3];
+        }
     /**
      * Si la fecha de renuncia esta catalogada como de requerimiento obligatorio
      */
@@ -306,9 +309,7 @@ function guardarRegistroBaja(){
                     $('#jqxTabs').jqxTabs('disableAt', 2);
                     $('#jqxTabs').jqxTabs('disableAt', 3);
                     deshabilitarCamposParaBajaRegistroDeRelacionLaboral();
-                    $('#jqxgrid').jqxGrid('refreshdata');
-                    $('#jqxgrid').jqxGrid('refresh');
-                    $('#jqxgrid').jqxGrid('refreshfilterrow');
+                    $("#jqxgrid").jqxGrid("updatebounddata");
                     window.location.replace("");
                 } else if(res.result==0){
                     /**
