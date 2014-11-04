@@ -11,6 +11,7 @@ class CargosController extends ControllerBase
 
 	public function indexAction()
 	{
+		/*$this->tag->setDefault("organigrama_id", 3);
 		$organigrama = $this->tag->select(
 			array(
 				'organigrama_id',
@@ -22,34 +23,38 @@ class CargosController extends ControllerBase
 				'class' => 'form-control'
 				)
 			);
+		
 		$this->view->setVar('organigrama',$organigrama);
 
-/*		$ejecutora = $this->tag->select(
+		$finpartida = $this->tag->select(
 			array(
-				'ejecutora_id',
-				Ejecutoras::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "unidad_ejecutora"),
-				'useEmpty' => false,
+				'fin_partida_id',
+				Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
+				'using' => array('id', "denominacion"),
+				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '0',
 				'class' => 'form-control'
 				)
 			);
-$this->view->setVar('ejecutora',$ejecutora);*/
-
-$nivelsalarial = $this->tag->select(
-	array(
-		'nivelsalarial_id',
-		Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
-		'using' => array('id', "denominacion"),
-		'useEmpty' => tue,
-		'emptyText' => '(Selecionar)',
-		'emptyValue' => '0',
-		'class' => 'form-control'
-		)
-	);
+		$this->view->setVar('finpartida',$finpartida);
+*/
+		/*$nivelsalarial = $this->tag->select(
+			array(
+				'nivelsalarial_id',
+				Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
+				'using' => array('id', "denominacion"),
+				'useEmpty' => tue,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '0',
+				'class' => 'form-control'
+				)
+);
+$nivelsalarial = Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
 $this->view->setVar('nivelsalarial',$nivelsalarial);
-
+*/
+$cargoestado=Cargosestados::find(array('baja_logica=1','order' => 'id ASC'));
+$this->view->setVar('cargoestado',$cargoestado);
 
 }
 
@@ -63,15 +68,56 @@ public function listAction()
 		$customers[] = array(
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
-				//'unidad_ejecutora' => $v->unidad_ejecutora,
+			'organigrama_id' => $v->organigrama_id,
+			'nivelsalarial_id' => $v->nivelsalarial_id,
 			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
 			'denominacion' => $v->denominacion,
 			'sueldo' => $v->sueldo,
-			'estado' => $v->estado
+			'sueldo' => $v->sueldo,
+			'estado' => $v->estado1,
+			'cargo_estado_id' => $v->cargo_estado_id,
+			'condicion' => $v->estado,
+			'fin_partida_id' => $v->fin_partida_id
 			);
 	}
 	echo json_encode($customers);
+}
+
+public function listorganigramaAction()
+{
+		$resul=Organigramas::find(array('baja_logica=1','order' => 'id ASC'));
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'unidad_administrativa' => $v->unidad_administrativa,
+				'sigla' => $v->sigla
+				);
+		}
+		$this->view->disable();
+	echo json_encode($customers);
+}
+
+public function listnivelsalarialAction()
+{
+		$resul=Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'denominacion' => $v->denominacion,
+				'sueldo' => $v->sueldo
+				);
+		}
+		$this->view->disable();
+	echo json_encode($customers);
+}
+
+public function getSueldoAction()
+{
+		$resul=Nivelsalariales::findFirstById($_POST['id']);
+		
+		$this->view->disable();
+	echo json_encode(floatval($resul->sueldo));
 }
 
 public function saveAction()
@@ -81,43 +127,54 @@ public function saveAction()
 		if ($_POST['id']>0) {
 			$resul = Cargos::findFirstById($_POST['id']);
 			$resul->organigrama_id = $_POST['organigrama_id'];
-				//$resul->ejecutora_id = 1;
 			$resul->codigo = $_POST['codigo'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
-				//$resul->cargo_estado_id = 1;  //default acefalia
+			$resul->cargo_estado_id = $_POST['cargo_estado_id'];
+			$resul->fin_partida_id=$_POST['cargo_estado_id'];
 			$resul->user_mod_id = $user->id;
 			$resul->fecha_mod = date("Y-m-d");
 			$resul->save();
 		}
 		else{
-				//$this->_registerSession($user);
+			/*	//$this->_registerSession($user);
+			$finpartida=Finpartidas::findFirstById($_POST['fin_partida_id']);
+			if ($finpartida != false)
+			{
 
-			$resul = new Cargos();
-			$resul->organigrama_id = $_POST['organigrama_id'];
-			$resul->ejecutora_id = 1;
-			$resul->codigo = $_POST['codigo'];
-			$resul->cargo = $_POST['cargo'];
-			$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
-			$resul->cargo_estado_id = 1;
-			$resul->baja_logica = 1;
-			$resul->user_reg_id = 1;
-			$resul->fecha_reg = date("Y-m-d");
-			$resul->save();
-				/*if ($resul->save()) {
-					$msm = array('msm' => 'Exito: Se guardo correctamente' );
-				}else{
-					$msm = array('msm' => 'Error: No se guardo el registro' );
-				}*/
-				
-				
+				$finpartida->contador=$finpartida->contador+1;            
+				$finpartida->save();
+				$codigo = $finpartida->codigo.'.'.substr('0000'.$finpartida->contador,-5);
+			}
+			else{
+					$msm = array('msm' => 'Error: Generacion de codigo' );	
+				}
+				*/
+				$resul = new Cargos();
+				$resul->organigrama_id = $_POST['organigrama_id'];
+				$resul->ejecutora_id = 1;
+					$resul->codigo = $_POST['codigo']; //generar
+					$resul->cargo = $_POST['cargo'];
+					$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
+					$resul->cargo_estado_id = $_POST['cargo_estado_id'];
+					$resul->estado = 0;
+					$resul->baja_logica = 1;
+					$resul->user_reg_id = 1;
+					$resul->fecha_reg = date("Y-m-d");
+					$resul->fin_partida_id=$_POST['cargo_estado_id'];//$_POST['fin_partida_id'];
+					$resul->poa_id=1;
+				//$resul->save();
+					if ($resul->save()) {
+						$msm = array('msm' => 'Exito: Se guardo correctamente' );
+					}else{
+						$msm = array('msm' => 'Error: No se guardo el registro' );
+					}
 			}	
 		}
 		$this->view->disable();
 		echo json_encode();
 	}
 
-<<<<<<< HEAD
 public function save_pacAction()
 {
 	if (isset($_POST['cargo_id_pac'])) {
@@ -136,6 +193,7 @@ public function save_pacAction()
 				$resul->usuario_sol_id = 1;
 				//$resul->fecha_apr=date('Y-m-d');
 				//$resul->usuario_apr_id=1;
+				
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
 				if ($resul->save()) {
@@ -173,16 +231,12 @@ public function listpacAction()
 			'fecha_ini' => $v->fecha_ini,
 			'fecha_fin' => $v->fecha_fin
 			);
-=======
-	public function deleteAction(){
-		$resul = Cargos::findFirstById($_POST['id']);
-		$resul->baja_logica = 0;
-		$resul->save();
-		$this->view->disable();
-		echo json_encode();
->>>>>>> 48dd1b907aba39908576049bccde40250bbcc78b
 	}
+	echo json_encode($customers);
+}
 
-	
+
+
+
 }
 ?>
