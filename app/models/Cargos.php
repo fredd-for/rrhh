@@ -137,11 +137,11 @@ WHERE c.baja_logica=1 order by c.id ";
 
 
     public function listapac(){
-        $sql = "SELECT  p.*, c.cargo,o.unidad_administrativa
-FROM pacs p
+        $sql = "SELECT  p.*, c.cargo,o.unidad_administrativa 
+        FROM pacs p
 INNER JOIN cargos c ON p.cargo_id=c.id
 INNER JOIN organigramas o ON c.organigrama_id=o.id
-WHERE p.baja_logica=1 ";
+WHERE p.baja_logica=1 order by p.fecha_ini asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

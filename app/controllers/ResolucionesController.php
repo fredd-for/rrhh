@@ -22,8 +22,8 @@ class ResolucionesController extends ControllerBase
 				'id' => $v->id,
 				'tipo_resolucion' => $v->tipo_resolucion,
 				'numero_res' => $v->numero_res,
-				'fecha_emi' => date("Y-m-d",strtotime($v->fecha_emi)),
-				'fecha_apr' => date("Y-m-d",strtotime($v->fecha_apr)),
+				'fecha_emi' => $v->fecha_emi,
+				'fecha_apr' => $v->fecha_apr,
 				);
 		}
 		echo json_encode($customers);
@@ -59,7 +59,7 @@ class ResolucionesController extends ControllerBase
 				//$resul->instituciones_otras = "otra";
 				$resul->gestion_res = date("Y");
 				$resul->fecha_emi = $fecha_emi;
-				$resul->fecha_apr = $fecha_emi;
+				$resul->fecha_apr = $fecha_apr;
 				//$resul->fecha_fin = $fecha_emi;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;

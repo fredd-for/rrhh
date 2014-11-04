@@ -7,10 +7,10 @@ $(document).ready(function () {
 				{ name: 'id',type: 'number'},
 				{ name: 'tipo_resolucion',type: 'string'},
 				{ name: 'numero_res',type: 'number'},
-				{ name: 'fecha_emi'},
-				{ name: 'fecha_apr'}
+				{ name: 'fecha_emi',type:'date'},
+				{ name: 'fecha_apr',type:'date'}
 			],
-			url: '../../resoluciones/list',
+			url: '/resoluciones/list',
 			cache: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
@@ -30,8 +30,8 @@ $(document).ready(function () {
 			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
 			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: '45%' },
 			{ text: 'Nro Resolucion', datafield: 'numero_res',filtertype: 'input', width: '10%' },
-			{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range',width: '15%' },
-			{ text: 'Fecha Aprobacion', datafield: 'fecha_apr',filtertype: 'range', width: '15%' },
+			{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+			{ text: 'Fecha Aprobación', datafield: 'fecha_apr', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
 			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
                      return "Editar";
                   }, buttonclick: function (row) {
@@ -46,21 +46,11 @@ $(document).ready(function () {
                      $("#id").val(dataRecord.id);
                      $("#tipo_resolucion").val(dataRecord.tipo_resolucion);
                      $("#numero_res").val(dataRecord.numero_res);
-                     
-                    var fecha=dataRecord.fecha_emi;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_emi").jqxDateTimeInput('setDate', fecha);
-
-					var fecha=dataRecord.fecha_apr;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_apr").jqxDateTimeInput('setDate', fecha);
-
-                     // show the popup window.
+					
+					$("#fecha_emi").jqxDateTimeInput({ value:dataRecord.fecha_emi,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });	
+					$("#fecha_apr").jqxDateTimeInput({ value:dataRecord.fecha_apr,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });	
                      $("#popupWindow").jqxWindow('open');
+                     
                  }
             },
             { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
@@ -93,13 +83,13 @@ $(document).ready(function () {
             	$("#tipo_resolucion").val("");
             	$("#numero_res").val("");
             	$("#popupWindow").jqxWindow('open');
-            	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-            	fecha= new Date();
+            	/*fecha= new Date();
   				fecha.setDate(fecha.getDate());
 				$("#fecha_emi").jqxDateTimeInput('setDate', fecha);
 				fecha= new Date();
   				fecha.setDate(fecha.getDate());
 				$("#fecha_apr").jqxDateTimeInput('setDate', fecha);
+				*/
             });
 
             $("#Save").click(function () {
@@ -136,8 +126,8 @@ $(document).ready(function () {
 
             // create a jqxDateTimeInput.
             //var f='2014-01-01'; 
-               	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-                $("#fecha_apr").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+               	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+                $("#fecha_apr").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
 	});
 </script>
 
@@ -193,8 +183,8 @@ $(document).ready(function () {
 							<tr>
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
+								<input id="Cancel" type="button" value="Cancelar" />
 								</td>
 							</tr>
 						</table>

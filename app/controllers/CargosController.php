@@ -179,9 +179,9 @@ public function save_pacAction()
 {
 	if (isset($_POST['cargo_id_pac'])) {
 		$date = new DateTime($_POST['fecha_ini']);
-			$fecha_ini = $date->format('Y-m-d');
-			$date = new DateTime($_POST['fecha_fin']);
-			$fecha_fin = $date->format('Y-m-d');
+		$fecha_ini = $date->format('Y-m-d');
+		$date = new DateTime($_POST['fecha_fin']);
+		$fecha_fin = $date->format('Y-m-d');
 
 		if ($_POST['cargo_id_pac']>0) {
 				$resul = new Pacs();
@@ -191,6 +191,9 @@ public function save_pacAction()
 				$resul->fecha_fin = $fecha_fin; //generar
 				$resul->unidad_sol_id = 1;
 				$resul->usuario_sol_id = 1;
+				//$resul->fecha_apr=date('Y-m-d');
+				//$resul->usuario_apr_id=1;
+
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
 				if ($resul->save()) {
@@ -198,11 +201,11 @@ public function save_pacAction()
 				}else{
 					$msm = 'Error: No se guardo el registro';
 				}
-			}	
-		}
+		}	
+	}
 		$this->view->disable();
 		echo json_encode($msm);
-	}	
+}	
 
 public function deleteAction(){
 	$resul = Cargos::findFirstById($_POST['id']);
@@ -225,14 +228,20 @@ public function listpacAction()
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'cargo' => $v->cargo,
 			'gestion' => $v->gestion,
-			'fecha_ini' => $v->fecha_ini,
-			'fecha_fin' => $v->fecha_fin
+			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
+			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
 			);
 	}
 	echo json_encode($customers);
 }
 
-
+public function delete_pacAction(){
+	$resul = Pacs::findFirstById($_POST['id']);
+	$resul->baja_logica = 0;
+	$resul->save();
+	$this->view->disable();
+	echo json_encode();
+}
 
 
 }

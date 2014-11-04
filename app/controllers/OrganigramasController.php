@@ -36,7 +36,7 @@ class OrganigramasController extends ControllerBase
 			$resul->unidad_administrativa = $this->request->getPost('unidad_administrativa');
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
-			$resul->fecha_ini = $_POST['fecha_ini'];
+			$resul->fecha_ini = date("Y-m-d",strtotime($_POST['fecha_ini']));
 			$resul->codigo = 0;
 			$resul->estado = 1;
 			$resul->baja_logica = 1;
@@ -90,7 +90,7 @@ class OrganigramasController extends ControllerBase
 			$resul->unidad_administrativa = $this->request->getPost('unidad_administrativa');
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
-		 	$resul->fecha_ini = $this->request->getPost('fecha_ini');
+		 	$resul->fecha_ini = date("Y-m-d",strtotime($this->request->getPost('fecha_ini')));
 			$resul->user_mod_id = 1;
 			$resul->fecha_mod = date("Y-m-d H:i:s");
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
