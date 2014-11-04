@@ -1,5 +1,33 @@
 </head>
 <body>
+<style>
+    .verde {
+        color: black\9;
+        background-color: #b6ff00\9;
+    }
+    .amarillo {
+        color: black\9;
+        background-color: yellow\9;
+    }
+    .rojo {
+        color: black\9;
+        background-color: #e83636\9;
+    }
+
+    .verde:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: #b6ff00;
+    }
+    .amarillo:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: yellow;
+    }
+    .rojo:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: #e83636;
+    }
+
+</style>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Relaci&oacute;n Laboral</b></h2>
 
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
@@ -566,93 +594,44 @@
     <div class="form-horizontal col-sm-6">
         <!-- Description List Horizontal Title -->
         <!--<div class="block-title">
-            <h2><strong>Horizontal</strong> Description List</h2>
+            <h2><strong>Nombres y Apellidos</strong> Description List</h2>
         </div>-->
         <!-- END Description List Horizontal Title -->
 
         <!-- Description List Horizontal Content -->
-        <!--<dl class="dl-horizontal">
-            <dt>Description lists</dt>
-            <dd>A description list is perfect for defining terms.</dd>
-            <dt>Euismod</dt>
-            <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-            <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-            <dt>Malesuada porta</dt>
-            <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-        </dl>-->
+        <br>
+        <div id="divDatosPersonales">
+        <dl class="dl-horizontal" style="margin: 5px 0px 5px 5px;float: left; ">
+            <dt>Nombres y Apellidos:</dt><dd id="ddNombres"></dd>
+            <dt id="dtTipoDeDocumento"></dt><dd id="ddNumeroDeDocumento"></dd>
+            <dt>Nacionalidad:</dt><dd id="ddNacionalidad"></dd>
+            <dt>Lugar de Nacimiento:</dt><dd id="ddLugarDeNacimiento"></dd>
+            <dt>Fecha de Nacimiento:</dt><dd id="ddFechaDeNacimiento"></dd>
+        </dl>
+        </div>
+        <div><a href="#" id="aFotoPerfil"><img src="/images/perfil-profesional.jpg"
+                                                                         height="200" style="margin: 5px 0px 5px 5px;float: right; "></a></div>
         <!-- END Description List Horizontal Content -->
-        <table id="tblFichaPerfil" style="width: 100%">
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <td id="tdNombres"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdTipoDeDocumento"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdNacionalidad"></td>
-                        <tr>
-                            <td id="tdLugarDeNacimiento"></td>
-                        <tr>
-                            <td id="tdFechaDeNacimiento"></td>
-                        <tr>
-                            <td id="tdEdad"></td>
-                        <tr>
-                            <td id="tdEstadoCivil"></td>
-                        <tr>
-                            <td id="tdGrupoSanguineo"></td>
-                        <tr>
-                            <td id="tdSexo"></td>
-                        </tr>
-                    </table>
-                </td>
-                <td rowspan="4">&nbsp;&nbsp;</td>
-                <td rowspan="4">
-                    <div style="margin-top: 10px;"><a href="#" id="aFotoPerfil"><img src="/images/perfil-profesional.jpg"
-                                                                                     height="200"></a></div>
-                </td>
-            </tr>
-        </table>
+
         <br>
     </div>
     <div class="form-horizontal col-sm-6">
-        <table id="tblFichaPerfilContacto">
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <td id="tdDireccion"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdTelefonoFijo"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdTelefonoInst"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdCelularPer"></td>
-                        <tr>
-                            <td id="tdCelularInst"></td>
-                        <tr>
-                            <td id="tdFax"></td>
-                        <tr>
-                            <td id="tdInternoInst"></td>
-                        <tr>
-                            <td id="tdEmailPer"></td>
-                        <tr>
-                            <td id="tdEmailInst"></td>
-                        </tr>
-                    </table>
-                </td>
-                <td rowspan="9">&nbsp;&nbsp;</td>
-                <td rowspan="9">
-                    <div style="margin-top: 10px;"><a href="#" id="aFotoPerfilContacto"><img
-                                src="/images/perfil-profesional.jpg" height="200"></a></div>
-                </td>
-            </tr>
-        </table>
+        <div id="divDatosDeContacto">
+        <dl class="dl-horizontal">
+            <dt>Direcci&oacute;n:</dt><dd id="ddDireccion"></dd>
+            <dt>Tel&eacute;fono Fijo:</dt><dd id="ddTelefonoFijo"></dd>
+            <dt>Tel&eacute;fono Institucional:</dt><dd id="ddTelefonoInst"></dd>
+            <dt>Celular Personal:</dt><dd id="ddCelularPer"></dd>
+            <dt>Celular Corporativo:</dt><dd id="ddCelularInst"></dd>
+            <dt>Fax:</dt><dd id="ddTelefonoFax"></dd>
+            <dt>N&uacute;mero Interno:</dt><dd id="ddInternoInst"></dd>
+            <dt>E-Mail Personal:</dt><dd id="ddEmailPer"></dd>
+            <dt>E-Mail Institucional:</dt><dd id="ddEmailInst"></dd>
+
+        </dl>
+            <div><a href="#" id="aFotoPerfilContacto"><img
+                                src="/images/perfil-profesional.jpg" height="200" style="margin: 5px 0px 5px 5px;float: rightt; "></a></div>
+        </div>
         <br>
     </div>
 </div>

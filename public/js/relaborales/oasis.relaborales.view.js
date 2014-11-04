@@ -17,7 +17,8 @@ function cargarPersonasContactos(idPersona){
             var res = jQuery.parseJSON(data);
             if(res.length>0){
                 $.each( res, function( key, val ) {
-                        $("#dtTipoDeDocumento").html(val.tipo_documento);
+                        $("#dtTipoDeDocumento").html(val.tipo_documento+":");
+                        $("#ddNumeroDeDocumento").html("");
                         $("#ddNumeroDeDocumento").append(val.ci+" "+val.expd);
                         if(val.num_complemento!=""&&val.num_complemento!=null)
                         $("#ddNumeroDeDocumento").append(" "+val.num_complemento);
@@ -25,14 +26,14 @@ function cargarPersonasContactos(idPersona){
                         $("#ddLugarDeNacimiento").html(val.lugar_nac);
                         $("#ddFechaDeNacimiento").html(val.fecha_nac);
                         $("#ddDireccion").html(val.direccion_dom);
-                        $("#ddTelefonoFijo").html("<b>Tel&eacute;fono Domicilio: </b>"+val.telefono_fijo);
-                        $("#ddTelefonoInst").html("<b>Tel&eacute;fono Institucional: </b>"+val.telefono_inst);
-                        $("#ddCelularPer").html("<b>Celular Personal: </b>"+val.celular_per);
-                        $("#ddCelularInst").html("<b>Celular Institucional: </b>"+val.celular_inst);
-                        $("#ddTelefonoFax").html("<b>Tel&eacute;fono Fax: </b>"+val.telefono_fax);
-                        $("#ddInternoInst").html("<b>N&uacute;merp Interno: </b>"+val.interno_inst);
-                        $("#ddEmailPer").html("<b>E-Mail Personal: </b>"+val.e_mail_per);
-                        $("#ddEmailInst").html("<b>E-Mail Institucional: </b>"+val.e_mail_inst);
+                        $("#ddTelefonoFijo").html(val.telefono_fijo);
+                        $("#ddTelefonoInst").html(val.telefono_inst);
+                        $("#ddCelularPer").html(val.celular_per);
+                        $("#ddCelularInst").html(val.celular_inst);
+                        $("#ddTelefonoFax").html(val.telefono_fax);
+                        $("#ddInternoInst").html(val.interno_inst);
+                        $("#ddEmailPer").html(val.e_mail_per);
+                        $("#ddEmailInst").html(val.e_mail_inst);
                 });
             }
         }, //mostramos el error
