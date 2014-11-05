@@ -404,13 +404,54 @@ class PersonalController extends ControllerBase{
 	echo json_encode($msm);
         //echo $msm;
     }
-    public function imprimirAction($n_rows, $rows){
+    public function imprimirAction($n_rows, $rows, $columns){
+        $rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT)); 
+        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        //echo $rows." - ".$columns;
         $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        for ($i=0;$i<$n_rows;$i++){
-            $pdf->Cell(40,10, utf8_decode($rows[$i].),0,1);
+        //$rows = (string)$rows;
+        $rows = json_decode($rows,true);
+        $columns = json_decode($columns,true);
+        $pdf->AddPage('L','Letter');
+        //$pdf->SetFont('Arial','B',16);
+        $keys = array_keys($rows[0]);
+        $n_col = count($keys);//echo$keys[1];
+        $pdf->SetFillColor(255,0,0);
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(128,0,0);
+        $pdf->SetLineWidth(.3);
+        $pdf->SetFont('Arial','B',6);
+        $pdf->Cell(10,7,'Nro.',1,0,'C',true);
+        for ($j=0;$j<$n_col-1;$j++){
+            if ($keys[$j] != 'dataindex'){
+                if ($columns[$keys[$j]]['hidden'] == FALSE){
+                    $pdf->Cell(24,7,$columns[$keys[$j]]['text'],1,0,'C',true);
+                }
+            }
         }
+        $pdf->Ln();
+        $pdf->SetFillColor(224,235,255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        $fill = false;
+        $ancho = 0;
+        for ($i=0;$i<$n_rows;$i++){
+            $pdf->Cell(10,6,$i,'LR',0,'L',$fill);
+            $ancho = 10;
+            for ($j=0;$j<$n_col-1;$j++){
+                if ($keys[$j] != 'dataindex'){
+                    if ($columns[$keys[$j]]['hidden'] == FALSE){
+                        $pdf->Cell(24,6,  utf8_decode($rows[$i][$keys[$j]]),'LR',0,'L',$fill);
+                        $ancho = $ancho + 24;
+                    }
+                }
+            //$pdf->Cell(40,10, ($keys[$j]),0,1);
+            }
+            $fill = !$fill;
+            $pdf->Ln();
+            //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
+        }
+        $pdf->Cell($ancho,0,'','T');
         $pdf->Output();
         $this->view->disable();
     }
