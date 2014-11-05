@@ -1,16 +1,40 @@
-function cargarHistorialRelaboral(){
-    var source = [
-        "2012",
-        "2013",
-        "2014"
-    ];
+/*
+ *   Oasis - Sistema de Gestión para Recursos Humanos
+ *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
+ *   Versión:  1.0.0
+ *   Usuario Creador: Lic. Javier Loza
+ *   Fecha Creación:  05-11-2014
+ */
+function cargarHistorialRelaboral(idPersona){
+    var gestiones = [];
+    $('#HistorialSplitter').jqxSplitter('expand');
+    $.ajax({
+        url:'/relaborales/listgestionesporpersona',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        cache:false,
+        data:{id:idPersona},
+        success: function(data) {
+            var res = jQuery.parseJSON(data);
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    gestiones.push(val.gestion);
+                });
+            }
+        }
+    });
     // Create a jqxListBox
-    $("#listboxGestiones").jqxListBox({width: 200, source: source, checkboxes: true, height: '100%'});
-    // Check several items.
-    $("#listboxGestiones").jqxListBox('checkIndex', 0);
-    $("#listboxGestiones").jqxListBox('checkIndex', 1);
-    $("#listboxGestiones").jqxListBox('checkIndex', 2);
-    $("#listboxGestiones").jqxListBox('checkIndex', 5);
+    $("#listboxGestiones").jqxListBox({width: 200, source: gestiones, checkboxes: true, height: '100%'});
+    // Se checkean todos los items por defecto, pues se mostrará el total del historial por defecto.
+    if(gestiones.length>0){
+        $.each( gestiones, function( key, val ) {
+            $("#listboxGestiones").jqxListBox('checkIndex', key);
+        });
+    }
+    if(gestiones.length==1){
+        $('#HistorialSplitter').jqxSplitter('collapse');
+    }
     $("#listboxGestiones").on('checkChange', function (event) {
         var args = event.args;
         if (args.checked) {

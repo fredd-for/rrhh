@@ -892,4 +892,29 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($msj);
     }
+
+    /*
+     *  Función para la obtención de las gestiones en las cuales
+     */
+    function listgestionesporpersonaAction(){
+        $gestiones = Array();
+        $this->view->disable();
+        try{
+            if (isset($_POST["id"])&&$_POST["id"] > 0) {
+                $obj = new Relaborales();
+                $arr = $obj->getCol($_POST["id"]);
+                foreach($arr as $clave => $valor)
+                {
+                    $gestiones[] = $valor;
+                }
+            }
+        }catch (\Exception $e) {
+            echo get_class($e), ": ", $e->getMessage(), "\n";
+            echo " File=", $e->getFile(), "\n";
+            echo " Line=", $e->getLine(), "\n";
+            echo $e->getTraceAsString();
+            //$msj = array('result' => -1, 'ruta'=>$ruta, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+        }
+        echo json_encode($gestiones);
+  }
 } 
