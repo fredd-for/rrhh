@@ -3,9 +3,9 @@
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'     => 'Postgresql',
-        'host'        => 'localhost',//192.168.10.158
-        'username'    => 'oasisuser',//postgres
-        'password'    => 'oasispass',//miteleferico123
+        'host'        => '192.168.10.158',//localhost
+        'username'    => 'postgres',////oasisuser
+        'password'    => 'miteleferico123',//oasispass
         'dbname'      => 'bd_rrhh',
     ),
     'application' => array(

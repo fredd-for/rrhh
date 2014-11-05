@@ -310,7 +310,6 @@ function guardarRegistroBaja(){
                     $('#jqxTabs').jqxTabs('disableAt', 3);
                     deshabilitarCamposParaBajaRegistroDeRelacionLaboral();
                     $("#jqxgrid").jqxGrid("updatebounddata");
-                    window.location.replace("");
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.

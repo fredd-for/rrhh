@@ -95,9 +95,6 @@ $().ready(function () {
     $("#popupWindowCargo").jqxWindow({
         width: '100%',height:300, resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelar"), modalOpacity: 0.01
     });
-    $("#popupWindowDown").jqxWindow({
-    width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelar"), modalOpacity: 0.01
-    });
     $('#btnDesfiltrartodo').click(function () {
         $("#jqxgrid").jqxGrid('clearfilters');
     });
@@ -422,7 +419,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#ddNombres").html(dataRecord.nombres);
                             cargarPersonasContactos(dataRecord.id_persona);
                             $("#hdnIdRelaboralVista").val(id_relaboral);
-                            cargarHistorialRelaboral();
+                            cargarHistorialRelaboral(dataRecord.id_persona);
                         }
                         var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                         $("#imgFotoPerfilContacto").attr("src",rutaImagen);
@@ -509,8 +506,7 @@ function obtenerRutaFoto(numDocumento,numComplemento){
             async:false,
             cache:false,
             data:{ci:numDocumento,num_complemento:numComplemento },
-            success: function(data) {  //alert(data);
-
+            success: function(data) {
                 var res = jQuery.parseJSON(data);
                 if(res.result==1){
                     resultado = res.ruta;
