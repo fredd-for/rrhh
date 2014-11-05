@@ -854,4 +854,42 @@ class RelaboralesController extends ControllerBase
             else return false;
         }else return false;
     }
+
+    /*
+     * Función para la obtención de la fotografía de la persona.
+     * @param $ci Número de carnet de identidad
+     * @param $num_complemento Número complemento
+     */
+    function obtenerrutafotoAction(){
+        $this->view->disable();
+        $msj = Array();
+        $ruta = "";
+        $nombreImagenArchivo = "";
+        $rutaImagenesCredenciales = "/images/personal/";
+        $extencionImagenesCredenciales = ".jpg";
+        $num_complemento = "";
+        if(isset($_POST["num_complemento"])){
+            $num_complemento = $_POST["num_complemento"];
+        }
+        try{
+            if(isset($_POST["ci"])){
+                $nombreImagenArchivo = $rutaImagenesCredenciales.trim($_POST["ci"]);
+                if($num_complemento!="")$nombreImagenArchivo .= $nombreImagenArchivo.trim($num_complemento);
+                $ruta = $nombreImagenArchivo.$extencionImagenesCredenciales;
+                /**
+                 * Se verifica la existencia del archivo
+                 */
+                if(file_exists ( getcwd().$ruta ))
+                $msj = array('result' => 1, 'ruta'=>$ruta,'msj' => 'Resultado exitoso.');
+                else $msj = array('result' => 0, 'ruta'=>'/images/perfil-profesional.jpg','msj' => 'No se encontr&oacute; la fotograf&iacute;a.');
+            }else $msj = array('result' => 0, 'ruta'=>'','msj' => 'No se envi&oacute; n&uacute;mero de documento.');
+        }catch (\Exception $e) {
+            echo get_class($e), ": ", $e->getMessage(), "\n";
+            echo " File=", $e->getFile(), "\n";
+            echo " Line=", $e->getLine(), "\n";
+            echo $e->getTraceAsString();
+            $msj = array('result' => -1, 'ruta'=>$ruta, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+        }
+        echo json_encode($msj);
+    }
 } 

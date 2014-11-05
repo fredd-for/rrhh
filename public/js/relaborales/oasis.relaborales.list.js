@@ -314,6 +314,8 @@ function definirGrillaParaListaRelaborales(){
                             $("#divUbicaciones").removeClass("has-error");
                             $("#divProcesos").removeClass("has-error");
                             $("#divCategorias").removeClass("has-error");
+                            var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                            $("#imgFotoPerfilNuevo").attr("src",rutaImagen);
                         }
                         break;
                     case 2: //Modificación
@@ -356,6 +358,8 @@ function definirGrillaParaListaRelaborales(){
                             if(dataRecord.id_condicion==3){
                                 $("#txtNumContratoEditar").focus();
                             }
+                            var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                            $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                         }
                         break;
                     case 3: //Baja
@@ -391,7 +395,8 @@ function definirGrillaParaListaRelaborales(){
                             agregarCargoSeleccionadoEnGrillaParaBaja(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             cargarMotivosBajas(0,dataRecord.id_condicion);
                             //habilitarCamposParaBajaRegistroDeRelacionLaboral(dataRecord.id_organigrama,dataRecord.id_fin_partida,dataRecord.id_condicion);
-
+                            var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                            $("#imgFotoPerfilBaja").attr("src",rutaImagen);
                         }
                         break;
                     case 4://Vista
@@ -419,6 +424,9 @@ function definirGrillaParaListaRelaborales(){
                             $("#hdnIdRelaboralVista").val(id_relaboral);
                             cargarHistorialRelaboral();
                         }
+                        var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                        $("#imgFotoPerfilContacto").attr("src",rutaImagen);
+                        $("#imgFotoPerfil").attr("src",rutaImagen);
                         break;
                 }
 
@@ -484,6 +492,38 @@ function procesaTextoAFecha(date,sep){
     var date = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
     return date.getTime();
 }
+/**
+ *
+ * Función para la obtención de la ruta en la cual reside la fotografía correspondiente de la persona.
+ * @param numDocumento Número de documento, comunmente el número de CI.
+ * @param numComplemento Número de complemento.
+ * @returns {string} Ruta de ubicación de la fotografía a mostrarse.
+ */
+function obtenerRutaFoto(numDocumento,numComplemento){
+    var resultado = "/images/perfil-profesional.jpg";
+    if(numDocumento!=""){
+        $.ajax({
+            url:'/relaborales/obtenerrutafoto/',
+            type:"POST",
+            datatype: 'json',
+            async:false,
+            cache:false,
+            data:{ci:numDocumento,num_complemento:numComplemento },
+            success: function(data) {  //alert(data);
+
+                var res = jQuery.parseJSON(data);
+                if(res.result==1){
+                    resultado = res.ruta;
+                }
+            }, //mostramos el error
+            error: function() { alert('Se ha producido un error Inesperado'); }
+        });
+    }
+    return resultado;
+}
+/*
+    Función anónima para la aplicación de clases a celdas en particular dentro la grilla.
+ */
 var cellclass = function (row, columnfield, value) {
     if (value == 'ACTIVO') {
         return 'verde';

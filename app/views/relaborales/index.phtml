@@ -26,6 +26,13 @@
         color: black;
         background-color: #e83636;
     }
+    img { vertical-align: middle; }
+    .img-perfil {
+        width: 150px;
+        height: 180px;
+        margin: 0 auto 10 0;
+        text-align: center
+    }
 
 </style>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Relaci&oacute;n Laboral</b></h2>
@@ -102,8 +109,8 @@
         <div class="widget">
             <div class="widget-simple themed-background-dark">
                 <a href="/usuario/profile">
-                    <img src="/assets/img/placeholders/avatars/avatar3.jpg" alt="avatar"
-                         class="widget-image img-circle img-rounded pull-right">
+                    <img id="imgFotoPerfilNuevo" alt="Avatar"
+                         class="img-rounded pull-right img-perfil">
                 </a>
                 <h4 class="widget-content">
                     <a href="#">
@@ -271,8 +278,8 @@
         <div class="widget">
             <div class="widget-simple themed-background-dark">
                 <a href="/usuario/profile">
-                    <img src="/assets/img/placeholders/avatars/avatar3.jpg" alt="avatar"
-                         class="widget-image img-circle img-rounded pull-right">
+                    <img id="imgFotoPerfilEditar" alt="avatar"
+                         class="img-rounded pull-right img-perfil">
                 </a>
                 <h4 class="widget-content">
                     <a href="#">
@@ -435,8 +442,8 @@
         <div class="widget">
             <div class="widget-simple themed-background-dark">
                 <a href="/usuario/profile">
-                    <img src="/assets/img/placeholders/avatars/avatar3.jpg" alt="avatar"
-                         class="widget-image img-circle img-rounded pull-right">
+                    <img id="imgFotoPerfilBaja" alt="avatar"
+                         class="img-rounded pull-right img-perfil">
                 </a>
                 <h4 class="widget-content">
                     <a href="#">
@@ -591,46 +598,56 @@
         <li>Datos Personales</li>
         <li>Datos de Contacto</li>
     </ul>
-    <div class="form-horizontal col-sm-6">
-        <!-- Description List Horizontal Title -->
-        <!--<div class="block-title">
-            <h2><strong>Nombres y Apellidos</strong> Description List</h2>
-        </div>-->
-        <!-- END Description List Horizontal Title -->
-
-        <!-- Description List Horizontal Content -->
+    <div class="form-horizontal col-sm-12">
         <br>
-        <div id="divDatosPersonales">
-        <dl class="dl-horizontal" style="margin: 5px 0px 5px 5px;float: left; ">
-            <dt>Nombres y Apellidos:</dt><dd id="ddNombres"></dd>
-            <dt id="dtTipoDeDocumento"></dt><dd id="ddNumeroDeDocumento"></dd>
-            <dt>Nacionalidad:</dt><dd id="ddNacionalidad"></dd>
-            <dt>Lugar de Nacimiento:</dt><dd id="ddLugarDeNacimiento"></dd>
-            <dt>Fecha de Nacimiento:</dt><dd id="ddFechaDeNacimiento"></dd>
-        </dl>
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="block">
+                    <br>
+                    <br>
+                    <dl class="dl-horizontal">
+                        <dt id="dtNombres">Nombres y Apellidos:</dt><dd id="ddNombres"></dd>
+                        <dt id="dtTipoDeDocumento"></dt><dd id="ddNumeroDeDocumento"></dd>
+                        <dt id="dtNacionalidad">Nacionalidad:</dt><dd id="ddNacionalidad"></dd>
+                        <dt id="dtLugarDeNacimiento">Lugar de Nacimiento:</dt><dd id="ddLugarDeNacimiento"></dd>
+                        <dt id="dtFechaDeNacimiento">Fecha de Nacimiento:</dt><dd id="ddFechaDeNacimiento"></dd>
+                    </dl>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="block" align="center">
+                    <a href="#" id="aFotoPerfil">
+                        <img id="imgFotoPerfil" class="img-rounded pull-right img-perfil">
+                    </a></div>
+            </div>
         </div>
-        <div><a href="#" id="aFotoPerfil"><img src="/images/perfil-profesional.jpg"
-                                                                         height="200" style="margin: 5px 0px 5px 5px;float: right; "></a></div>
-        <!-- END Description List Horizontal Content -->
-
         <br>
     </div>
-    <div class="form-horizontal col-sm-6">
-        <div id="divDatosDeContacto">
-        <dl class="dl-horizontal">
-            <dt>Direcci&oacute;n:</dt><dd id="ddDireccion"></dd>
-            <dt>Tel&eacute;fono Fijo:</dt><dd id="ddTelefonoFijo"></dd>
-            <dt>Tel&eacute;fono Institucional:</dt><dd id="ddTelefonoInst"></dd>
-            <dt>Celular Personal:</dt><dd id="ddCelularPer"></dd>
-            <dt>Celular Corporativo:</dt><dd id="ddCelularInst"></dd>
-            <dt>Fax:</dt><dd id="ddTelefonoFax"></dd>
-            <dt>N&uacute;mero Interno:</dt><dd id="ddInternoInst"></dd>
-            <dt>E-Mail Personal:</dt><dd id="ddEmailPer"></dd>
-            <dt>E-Mail Institucional:</dt><dd id="ddEmailInst"></dd>
-
-        </dl>
-            <div><a href="#" id="aFotoPerfilContacto"><img
-                                src="/images/perfil-profesional.jpg" height="200" style="margin: 5px 0px 5px 5px;float: rightt; "></a></div>
+    <div class="form-horizontal col-sm-12">
+        <br>
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="block">
+                    <dl class="dl-horizontal">
+                        <dt id="dtDireccion">Direcci&oacute;n:</dt><dd id="ddDireccion"></dd>
+                        <dt id="dtTelefonoFijo">Tel&eacute;fono Fijo:</dt><dd id="ddTelefonoFijo"></dd>
+                        <dt id="dtTelefonoInst">Tel&eacute;fono Inst.:</dt><dd id="ddTelefonoInst"></dd>
+                        <dt id="dtCelularPer">Celular Personal:</dt><dd id="ddCelularPer"></dd>
+                        <dt id="dtCelularInst">Celular Corporativo:</dt><dd id="ddCelularInst"></dd>
+                        <dt id="dtTelefonoFax">Fax:</dt><dd id="ddTelefonoFax"></dd>
+                        <dt id="dtInternoInst">N&uacute;mero Interno:</dt><dd id="ddInternoInst"></dd>
+                        <dt id="dtEmailPer">E-Mail Personal:</dt><dd id="ddEmailPer"></dd>
+                        <dt id="dtEmailInst">E-Mail Institucional:</dt><dd id="ddEmailInst"></dd>
+                    </dl>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="block" align="center"><a href="#" id="aFotoPerfilContacto"><img id="imgFotoPerfilContacto" class="img-rounded pull-right img-perfil"></a></div>
+            </div>
         </div>
         <br>
     </div>

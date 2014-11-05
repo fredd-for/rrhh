@@ -79,12 +79,6 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
  * @param idUbicacionPredeterminada Identificador de la ubicación de la oficina o Parada de Línea en la cual trabajará el empleado.
  */
 function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
-    var ubicacion = [
-        { value: 1, label: "OFICINA CENTRAL" },
-        { value: 2, label: "LÍNEA ROJA" },
-        { value: 3, label: "LÍNEA AMARILLA" },
-        { value: 4, label: "LÍNEA VERDE" },
-    ];
     var lstUbicaciones=$.ajax({
         url:'../../relaborales/listubicaciones',
         type:'POST',
@@ -97,7 +91,6 @@ function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
             });
         }
     });
-    //$("#ubicacionEditar").jqxComboBox({ selectedIndex:0,autoComplete:true,enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una ubicacion", source: ubicacion, height: 22, width: '100%' });
 }
 /**
  * Función para cargar el combo de areas administrativas en función de los datos enviados como parámetros.
