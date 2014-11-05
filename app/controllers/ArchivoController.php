@@ -7,12 +7,7 @@ class ArchivoController extends ControllerBase{
     }
     
     public function gestionAction() {
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10, utf8_decode('¡Hola, Mundo!'));
-        $pdf->Output();
-        $this->view->disable();
+        
       
       
     }
