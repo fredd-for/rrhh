@@ -166,9 +166,9 @@
 			});
 
             $("#Save").click(function () {
-            	//var fecha_ini = $('#fecha_ini').jqxDateTimeInput('getDate');
+            	if ($('#testForm').jqxValidator('validate')){
             	var v=$.ajax({
-            		url:'../../nivelsalariales/save/',
+            		url:'/nivelsalariales/save/',
             		type:'POST',
             		datatype: 'json',
             		data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val()},
@@ -177,7 +177,7 @@
 												error: function() { alert('Se ha producido un error Inesperado'); }
 				});
             	$("#popupWindow").jqxWindow('hide');
-               // }
+               }
            });
 
             $("#Eliminar").click(function () {
@@ -210,6 +210,16 @@
             	$("#popupWindow_perfil").jqxWindow('hide');
                
            });
+		
+			$('#testForm').jqxValidator({
+                rules: [
+                       { input: '#categoria', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#denominacion', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#clase', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
+                       { input: '#nivel', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
+                       { input: '#sueldo', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
+                       ]
+            });
     });
 </script>
 
@@ -241,6 +251,7 @@
 				<div id="popupWindow">
 					<div id="titulo">Editar</div>
 					<div style="overflow: hidden;">
+						<form id="testForm">
 						<table>
 							<tr>
 								<td align="right">id:</td>
@@ -279,6 +290,7 @@
 								</td>
 							</tr>
 						</table>
+						</form>
 					</div>
 				</div>
 

@@ -80,7 +80,8 @@ $(document).ready(function () {
             });
 
             $("#Save").click(function () {
-            	var v=$.ajax({
+            	if ($('#testForm').jqxValidator('validate')){
+            		var v=$.ajax({
                     	url:'../../nivelestructurales/save/',
                     	type:'POST',
                     	datatype: 'json',
@@ -88,8 +89,10 @@ $(document).ready(function () {
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-                    $("#popupWindow").jqxWindow('hide');
+						});
+                		$("#popupWindow").jqxWindow('hide');
+            	}
+            	       	
                // }
             });
 
@@ -109,6 +112,14 @@ $(document).ready(function () {
                 }
             });
 
+            $('#testForm').jqxValidator({
+                rules: [
+                       { input: '#orden', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#nivel_estructural', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       ]
+            });
+
+            
 	});
 </script>
 
@@ -138,8 +149,10 @@ $(document).ready(function () {
             		<div style="margin-top: 10px;" id="cellendeditevent"></div>
        			</div>
 				<div id="popupWindow">
+					
 					<div id="titulo">Editar</div>
 					<div style="overflow: hidden;">
+					<form id="testForm">
 						<table>
 							<tr>
 								<td align="right">id:</td>
@@ -156,12 +169,14 @@ $(document).ready(function () {
 							<tr>
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
+								<input id="Cancel" type="button" value="Cancelar" />
 								</td>
 							</tr>
 						</table>
+						</form>
 					</div>
+					
 				</div>
 
 				<div id="popupWindow_delete">
@@ -175,7 +190,7 @@ $(document).ready(function () {
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
 								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input id="Cancel" type="button" value="Cancelar" />
 								</td>
 							</tr>
 						</table>

@@ -12,7 +12,7 @@ $(document).ready(function () {
 				{ name: 'fecha_recep'},
 				{ name: 'fecha_concl'}
 			],
-			url: '../../procesoscontrataciones/list',
+			url: '/procesoscontrataciones/list',
 			cache: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
@@ -96,7 +96,7 @@ $(document).ready(function () {
                 width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
             // update the edited row when the user clicks the 'Save' button.
-            $("#add").click(function(){
+/*            $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#id").val("");
             	$("#normativamod_id").val("");
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 				$("#popupWindow").jqxWindow('open');
             });
-
+	
             $("#Save").click(function () {
             	var fecha_publ = $('#fecha_publ').jqxDateTimeInput('getDate');
             	var fecha_recep = $('#fecha_recep').jqxDateTimeInput('getDate');
@@ -128,11 +128,18 @@ $(document).ready(function () {
                     $("#popupWindow").jqxWindow('hide');
                // }
             });
+*/			
+
+	
+			$("#add").click(function(){
+    			location.href="/procesoscontrataciones/add/";
+            });
+	
 
             $("#Eliminar").click(function () {
             	if (editrow >= 0) {
                     var v=$.ajax({
-                    	url:'../../procesoscontrataciones/delete/',
+                    	url:'/procesoscontrataciones/delete/',
                     	type:'POST',
                     	datatype: 'json',
 						data:{id:$("#id").val()},

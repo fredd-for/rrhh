@@ -416,9 +416,9 @@ class PersonalController extends ControllerBase{
         //$pdf->SetFont('Arial','B',16);
         $keys = array_keys($rows[0]);
         $n_col = count($keys);//echo$keys[1];
-        $pdf->SetFillColor(255,0,0);
+        $pdf->SetFillColor(0,153,153);
         $pdf->SetTextColor(255);
-        $pdf->SetDrawColor(128,0,0);
+        $pdf->SetDrawColor(0,120,120);
         $pdf->SetLineWidth(.3);
         $pdf->SetFont('Arial','B',6);
         $pdf->Cell(10,7,'Nro.',1,0,'C',true);
