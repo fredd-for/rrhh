@@ -663,232 +663,50 @@
     <br>
         <div>
             <div class="block-options pull-right">
-                <a data-original-title="Settings" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
+                <a data-original-title="Imprimir" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
+                   data-toggle="tooltip" title=""><i class="fa fa-print"></i></a>
+                <a data-original-title="Configuraci&oacute;n" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
                    data-toggle="tooltip" title=""><i class="fa fa-cog"></i></a>
             </div>
-            <h2><i class="fa fa-ticket"></i> Historial <strong>Relaci&oacute;n de Trabajo</strong></h2>
+            <h2><i class="fa fa-bars"></i> Historial <strong>Relaci&oacute;n Laboral</strong></h2>
         </div
     <!-- Draggable Blocks Row -->
     <div class="row draggable-blocks">
         <div class="col-xs-12 column">
-            <!-- Timeline Style Title -->
-            <!--<div class="block-title">
-                <div class="block-options pull-right">
-                    <a data-original-title="Settings" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title=""><i class="fa fa-cog"></i></a>
-                </div>
-                <h2><strong>Timeline</strong> Style</h2>
-            </div>-->
-            <!-- END Timeline Style Title -->
-
             <!-- Timeline Style Content -->
-            <!-- You can remove the class .block-content-full if you want the block to have its regular padding -->
             <div class="timeline block-content-full">
-                <!--<h3 class="timeline-header">Web Conference <small><strong>June 14, 2014</strong></small></h3>-->
-                <!-- You can remove the class .timeline-hover if you don't want each event to be highlighted on mouse hover -->
-                <ul class="timeline-list timeline-hover">
-                    <li class="active">
-
-                        <div class="timeline-icon"><i class="fa fa-thumbs-o-up"></i></div>
-                        <div class="timeline-time">1er. <strong></strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Breakfast</strong></p>
-                            <p class="push-bit">An awesome breakfast will wait for you at the lobby!</p>
-                            <div class="row push">
-                                <div class="col-sm-6 col-md-4">
-                                    <a href="img/placeholders/photos/photo6.jpg" data-toggle="lightbox-image">
-                                        <img src="img/placeholders/photos/photo6.jpg" alt="image">
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <a href="img/placeholders/photos/photo7.jpg" data-toggle="lightbox-image">
-                                        <img src="img/placeholders/photos/photo7.jpg" alt="image">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="fa fa-file-text"></i></div>
-                        <div class="timeline-time">9:15 <strong>am</strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Web Design Session</strong></p>
-                            A1 Conference Room
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="fa fa-coffee"></i></div>
-                        <div class="timeline-time">10:30 <strong>am</strong></div>
-                        <div class="timeline-content">
-                            <strong>Coffee Break</strong>
-                        </div>
-                    </li>
+                <ul class="timeline-list timeline-hover" id="HistorialTimeLine">
                     <li class="active">
                         <div class="timeline-icon"><i class="fa fa-file-text"></i></div>
-                        <div class="timeline-time">11:00 <strong>pm</strong></div>
+                        <div class="timeline-time">2014<strong></strong></div>
                         <div class="timeline-content">
-                            <p class="push-bit"><strong>Web Development Session</strong></p>
-                            B6 Conference Room
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="fa fa-cutlery"></i></div>
-                        <div class="timeline-time">1:30 <strong>pm</strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Lunch</strong></p>
-                            <p class="push-bit">Awesome food prepared by our awesome chefs!</p>
-                            <div class="row push">
-                                <div class="col-sm-6 col-md-4">
-                                    <a href="img/placeholders/photos/photo23.jpg" data-toggle="lightbox-image">
-                                        <img src="img/placeholders/photos/photo23.jpg" alt="image">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="gi gi-beach_umbrella"></i></div>
-                        <div class="timeline-time">3:00 <strong>pm</strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Break</strong></p>
-                            Relax time after lunch
-                        </div>
-                    </li>
-                    <li class="active">
-                        <div class="timeline-icon"><i class="fa fa-file-text"></i></div>
-                        <div class="timeline-time">5:00 <strong>pm</strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Web Standards Session</strong></p>
-                            C1 Conference Room
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="gi gi-drink"></i></div>
-                        <div class="timeline-time">10:00 <strong>pm</strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>Happy Hour</strong></p>
-                            <p class="push-bit">Free drinks at <a href="javascript:void(0)">Cafe-Bar</a>!</p>
-                            <div style="height: 200px; position: relative; background-color: rgb(229, 227, 223); overflow: hidden;" id="gmap-timeline" class="gmap"><div class="gm-style" style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0; cursor: url(&quot;http://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;), default;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; position: absolute; left: 56px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 56px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -200px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -200px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 312px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 312px; top: 52px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: -1;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 56px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 56px; top: 52px;"><canvas width="256" height="256" style="-moz-user-select: none; position: absolute; left: 0px; top: 0px; height: 256px; width: 256px;" draggable="false"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -200px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -200px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 312px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 312px; top: 52px;"></div></div></div></div><div style="position: absolute; z-index: 0; left: 0px; top: 0px;"><div style="overflow: hidden; width: 398px; height: 200px;"><img src="http://maps.googleapis.com/maps/api/js/StaticMapService.GetMapImage?1m2&amp;1i7717320&amp;2i5033676&amp;2e1&amp;3u15&amp;4m2&amp;1u398&amp;2u200&amp;5m6&amp;1e0&amp;5ses-ES&amp;6sus&amp;10b1&amp;11b1&amp;12b1&amp;token=5904" style="width: 398px; height: 200px;"></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; position: absolute; left: 56px; top: -204px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt0.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30146!3i19662!2m3!1e0!2sm!3i279154266!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 56px; top: 52px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt0.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30146!3i19663!2m3!1e0!2sm!3i279154266!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 312px; top: 52px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30147!3i19663!2m3!1e0!2sm!3i279154266!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -200px; top: -204px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30145!3i19662!2m3!1e0!2sm!3i279143502!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -200px; top: 52px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30145!3i19663!2m3!1e0!2sm!3i279143502!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 312px; top: -204px; opacity: 1; transition: opacity 200ms ease-out 0s;"><img draggable="false" src="http://mt1.googleapis.com/vt?pb=!1m4!1m3!1i15!2i30147!3i19662!2m3!1e0!2sm!3i279154266!3m9!2ses-ES!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0!20m1!1b1" style="width: 256px; height: 256px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 2; width: 100%; height: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 3; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 107; width: 100%;"></div></div><div style="width: 1px; height: 1px; z-index: 1000; position: absolute; left: 241px; top: 103px;"></div></div><div style="margin-left: 5px; margin-right: 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;"><a title="Haz clic aquí para visualizar esta zona en Google Maps" href="http://maps.google.com/maps?ll=-33.863,151.2&amp;z=15&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=apiv3" target="_blank" style="position: static; overflow: visible; float: none; display: inline;"><div style="width: 62px; height: 26px; cursor: pointer;"><img draggable="false" src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png" style="position: absolute; left: 0px; top: 0px; width: 62px; height: 26px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div></a></div><div style="z-index: 1000001; position: absolute; right: 228px; bottom: 0px; width: 81px;" class="gmnoprint"><div class="gm-style-cc" style="-moz-user-select: none;" draggable="false"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto,Arial,sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer;">Datos de mapa</a><span style="display: none;">Datos de mapas ©2014 Google</span></div></div></div><div style="background-color: white; padding: 15px 21px; border: 1px solid rgb(171, 171, 171); font-family: Roboto,Arial,sans-serif; color: rgb(34, 34, 34); box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); z-index: 10000002; display: none; width: 256px; height: 148px; position: absolute; left: 49px; top: 10px;"><div style="padding: 0px 0px 10px; font-size: 16px;">Datos de mapa</div><div style="font-size: 13px;">Datos de mapas ©2014 Google</div><div style="width: 13px; height: 13px; overflow: hidden; position: absolute; opacity: 0.7; right: 12px; top: 12px; z-index: 10000; cursor: pointer;"><img draggable="false" src="http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -moz-user-select: none; border: 0px none; padding: 0px; margin: 0px;"></div></div><div style="position: absolute; right: 0px; bottom: 0px;" class="gmnoscreen"><div style="font-family: Roboto,Arial,sans-serif; font-size: 11px; color: rgb(68, 68, 68); direction: ltr; text-align: right; background-color: rgb(245, 245, 245);">Datos de mapas ©2014 Google</div></div><div draggable="false" style="z-index: 1000001; position: absolute; -moz-user-select: none; right: 141px; bottom: 0px;" class="gmnoprint gm-style-cc"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto,Arial,sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a target="_blank" href="http://www.google.com/intl/es-ES_US/help/terms_maps.html" style="text-decoration: none; cursor: pointer; color: rgb(68, 68, 68);">Términos de uso</a></div></div><div class="gm-style-cc" style="-moz-user-select: none; position: absolute; right: 0px; bottom: 0px;" draggable="false"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto,Arial,sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a href="http://maps.google.com/maps?ll=-33.863,151.2&amp;z=15&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=apiv3&amp;skstate=action:mps_dialog$apiref:1&amp;output=classic" style="font-family: Roboto,Arial,sans-serif; font-size: 10px; color: rgb(68, 68, 68); text-decoration: none; position: relative;" title="Informar a Google acerca de errores en las imágenes o en el mapa de carreteras" target="_new">Informar de un error de Maps</a></div></div></div></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-icon"><i class="fa fa-globe"></i></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong>End of first day</strong></p>
-                            <p class="push-bit">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus.</p>
-                            <p>Nam commodo turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum, varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum quis nisi. Quisque egestas nisl id lectus facilisis scelerisque!</p>
+                            <p class="push-bit"><strong>PROFESIONAL EN DESARROLLO DE SISTEMAS</strong></p>
+                            <dl class="dl-horizontal">
+                                <dt id="dtProceso">Proceso:</dt><dd id="ddProceso">MT-CPE-001-/2014</dd>
+                                <dt id="dtGerencia">Gerencia:</dt><dd id="ddGerencia">GERENCIA DE PLANIFICACI&Oacute;N Y DESARROLLO INSTITUCIONAL</dd>
+                                <dt id="dtDepartamento">Departamento:</dt><dd id="ddDepartamento">DEPARTAMENTO DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N</dd>
+                                <dt id="dtFinPartida">Financiamiento (Partida):</dt><dd id="ddFinPartida">EVENTUAL (12100)</dd>
+                                <dt id="dtItem">&Iacute;tem:</dt><dd id="ddItem">10</dd>
+                                <dt id="dtNivelSalarial">Nivel Salarial:</dt><dd id="ddNivelSalarial">PROFESIONAL IV - TECNICO I</dd>
+                                <!--<dt id="dtCargo">Cargo:</dt><dd id="ddCargo">ssssssss</dd>-->
+                                <dt id="dtHaber">Haber:</dt><dd id="ddHaber">7920</dd>
+                                <dt id="dtFechaIni">Fecha Inicio:</dt><dd id="ddFechaIni">07-10-2014</dd>
+                                <dt id="dtFechaIncor">Fecha Incor:</dt><dd id="ddFechaIncor">07-10-2014</dd>
+                                <dt id="dtFechaFin">Fecha Fin:</dt><dd id="ddFechaFin">31-12-2014</dd>
+                                <dt id="dtContratoEstado">Estado:</dt><dd id="ddContratoEstado">ACTIVO</dd>
+                                <!--<dt id="dtFechaBaja">Fecha Baja:</dt><dd id="ddFechaIni"></dd>-->
+                                <!--<dt id="dtMotivoBaja">Motivo Baja:</dt><dd id="ddMotivoBaja"></dd>-->
+                                <dt id="dtObservacion">Observaciones:</dt><dd id="ddObservacion"></dd>
+                            </dl>
                         </div>
                     </li>
                 </ul>
             </div>
             <!-- END Timeline Style Content -->
-
-
         </div>
 
     </div>
     <!-- END Draggable Blocks Row -->
-
-
-
-
-
-        <!--             Historial-->
-        <!-- Menu Title -->
-        <!--<div>
-            <div class="block-options pull-right">
-                <a data-original-title="Settings" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
-                   data-toggle="tooltip" title=""><i class="fa fa-cog"></i></a>
-            </div>
-            <h2><i class="fa fa-ticket"></i> Historial <strong>Relaci&oacute;n de Trabajo</strong></h2>
-        </div>
-        <div  class="jqx-widget">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active">
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">Valor</span>
-                        <i class="fa fa-ticket fa-fw"></i> <strong>Dato</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">MT-CPE-001-2014</span>
-                        <i class="fa fa-cogs"></i> <strong>Proceso</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">G. PLANIFICACI&Oacute;N Y DESARROLLO EMPRESARIAL</span>
-                        <i class="fa fa-cogs"></i> <strong>Gerencia</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">DEPARTAMENTO DE SISTEMAS</span>
-                        <i class="fa fa-cogs"></i> <strong>Departamento</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">1</span>
-                        <i class="fa fa-cogs"></i> <strong>&Iacute;tem</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">PROFESIONAL V - TECNICO I</span>
-                        <i class="fa fa-cogs"></i> <strong>Nivel Salarial</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">PROFESIONAL EN DESARROLLO DE SISTEMAS</span>
-                        <i class="fa fa-cogs"></i> <strong>Cargo</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">ADMINISTRATIVO</span>
-                        <i class="fa fa-cogs"></i> <strong>Categor&iacute;a</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">7980</span>
-                        <i class="fa fa-cogs"></i> <strong>Haber</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">14-10-2014</span>
-                        <i class="fa fa-cogs"></i> <strong>Fecha Inicio</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">14-10-2014</span>
-                        <i class="fa fa-cogs"></i> <strong>Fecha Incorp.</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">31-12-2014</span>
-                        <i class="fa fa-cogs"></i> <strong>Fecha Fin</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right">ACTIVO</span>
-                        <i class="fa fa-cogs"></i> <strong>Estado</strong>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span class="badge pull-right"></span>
-                        <i class="fa fa-cogs"></i> <strong>Observaciones</strong>
-                    </a>
-                </li>
-            </ul>
-        </div>-->
     </div>
 </div>
 <br>
