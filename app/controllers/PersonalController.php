@@ -404,5 +404,15 @@ class PersonalController extends ControllerBase{
 	echo json_encode($msm);
         //echo $msm;
     }
+    public function imprimirAction($n_rows, $rows){
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        for ($i=0;$i<$n_rows;$i++){
+            $pdf->Cell(40,10, utf8_decode($rows[$i].),0,1);
+        }
+        $pdf->Output();
+        $this->view->disable();
+    }
 }
 
