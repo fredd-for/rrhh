@@ -279,4 +279,14 @@ class Relaborales  extends \Phalcon\Mvc\Model {
         $this->_db = new Relaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para obtener el listado de gestiones para una determinada persona
+     * @return array
+     */
+    public function getCol($id_persona){
+        $sql = "select distinct gestion from f_listado_gestiones(".$id_persona.")";
+        $this->_db = new Gestiones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }
