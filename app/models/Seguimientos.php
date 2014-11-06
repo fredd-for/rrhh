@@ -1,5 +1,4 @@
 <?php
-use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 
 class Seguimientos extends \Phalcon\Mvc\Model
 {
@@ -10,53 +9,119 @@ class Seguimientos extends \Phalcon\Mvc\Model
      */
     public $id;
 
-    public $fk_usuario;
+    /**
+     *
+     * @var integer
+     */
+    public $pac_id;
 
+    /**
+     *
+     * @var integer
+     */
+    public $proceso_contratacion_id;
+
+    /**
+     *
+     * @var string
+     */
     public $codigo_proceso;
 
-    public $fk_unidad_organizacional;
-
-    public $fk_cargo;
-
+    /**
+     *
+     * @var string
+     */
     public $codigo_cargo;
 
+    /**
+     *
+     * @var string
+     */
     public $nro_solicitud;
 
-    public $f_solicitud;
+    /**
+     *
+     * @var string
+     */
+    public $fecha_sol;
 
-    public $cert_presuestaria;
+    /**
+     *
+     * @var string
+     */
+    public $cert_presupuestaria;
 
-    public $f_cert_presuestaria;
+    /**
+     *
+     * @var string
+     */
+    public $fecha_cert_pre;
 
+    /**
+     *
+     * @var integer
+     */
     public $vacante;
 
+    /**
+     *
+     * @var double
+     */
     public $haber_basico;
 
-    public $f_aprobacion_mae;
+    /**
+     *
+     * @var string
+     */
+    public $fecha_apr_mae;
 
+    /**
+     *
+     * @var string
+     */
     public $tipo_contratacion;
 
-    public $fk_componente;
+    /**
+     *
+     * @var string
+     */
+    public $fecha_apr;
 
-    public $fk_fuentefinanciamiento;
+    /**
+     *
+     * @var integer
+     */
+    public $seguimiento_estado_id;
 
-    public $fk_partida;
+    /**
+     *
+     * @var integer
+     */
+    public $user_reg_id;
 
-    public $f_publicacion;
+    /**
+     *
+     * @var string
+     */
+    public $fecha_reg_id;
 
-    public $f_recepcion;
+    /**
+     *
+     * @var integer
+     */
+    public $baja_logica;
 
-    public $f_conclusion;
+    /**
+     *
+     * @var string
+     */
+    public $cargo;
 
-    public $f_aprobacion;
-
-    public $fk_proceso;
-
-    public $ubicacion_puesto;
-
-    public $oficinas_id;
-
-    public $activo;
+    /**
+     *
+     * @var double
+     */
+    public $sueldo;
 
     /**
      * Initialize method for model.
@@ -73,42 +138,26 @@ class Seguimientos extends \Phalcon\Mvc\Model
     {
         return array(
             'id' => 'id', 
-            'fk_usuario' => 'fk_usuario', 
+            'pac_id' => 'pac_id', 
+            'proceso_contratacion_id' => 'proceso_contratacion_id', 
             'codigo_proceso' => 'codigo_proceso', 
-            'fk_unidad_organizacional' => 'fk_unidad_organizacional', 
-            'fk_cargo' => 'fk_cargo', 
             'codigo_cargo' => 'codigo_cargo', 
             'nro_solicitud' => 'nro_solicitud', 
-            'f_solicitud' => 'f_solicitud', 
+            'fecha_sol' => 'fecha_sol', 
             'cert_presupuestaria' => 'cert_presupuestaria', 
-            'f_cert_presupuestaria' => 'f_cert_presupuestaria', 
+            'fecha_cert_pre' => 'fecha_cert_pre', 
             'vacante' => 'vacante', 
             'haber_basico' => 'haber_basico', 
-            'f_aprobacion_mae' => 'f_aprobacion_mae', 
+            'fecha_apr_mae' => 'fecha_apr_mae', 
             'tipo_contratacion' => 'tipo_contratacion', 
-            'fk_componente' => 'fk_componente', 
-            'fk_fuentefinanciamiento' => 'fk_fuentefinanciamiento', 
-            'fk_partida' => 'fk_partida', 
-            'f_publicacion' => 'f_publicacion', 
-            'f_recepcion' => 'f_recepcion', 
-            'f_conclusion' => 'f_conclusion', 
-            'f_aprobacion' => 'f_aprobacion', 
-            'fk_proceso' => 'fk_proceso', 
-            'ubicacion_puesto' => 'ubicacion_puesto', 
-            'oficinas_id' => 'oficinas_id', 
-            'fk_usuariosolicitud' => 'fk_usuariosolicitud',
-            'activo' => 'activo'
+            'fecha_apr' => 'fecha_apr', 
+            'seguimiento_estado_id' => 'seguimiento_estado_id', 
+            'user_reg_id' => 'user_reg_id', 
+            'fecha_reg_id' => 'fecha_reg_id', 
+            'baja_logica' => 'baja_logica', 
+            'cargo' => 'cargo', 
+            'sueldo' => 'sueldo'
         );
     }
-
-     private $_db;
-
-    
-    public function lista() {
-        $sql = "SELECT s.id,o.oficina,u.nombre,s.codigo_proceso,s.codigo_cargo,s.nro_solicitud,s.f_solicitud,c.cargo FROM seguimientos s, oficinatmp o, cargotmp c , usuarios u WHERE s.activo=TRUE AND s.fk_unidad_organizacional=o.id AND s.fk_cargo=c.id AND s.fk_usuariosolicitud=u.id order by s.id asc";
-        $this->_db = new Seguimientos();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }
-
 
 }

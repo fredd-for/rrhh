@@ -42,19 +42,16 @@ function cargar2(){
 		pagerMode: 'advanced',
 		showfilterrow: true,
 		filterable: true,
-		/*ready:function(){
+		ready:function(){
 		$(".chkOne").click(function(){
-        //alert(this.checked);
-        //alert(this.id);
+			//alert(this.checked);
         if (this.checked == true) {
-            //$("#" + this.id).addClass("chkcontratos");
-            alert($("#" + this.id).val());
+            $("#" + this.id).addClass("chkcontratos");
         } else {
-            //$("#" + this.id).removeClass("chkcontratos");
-            alert($("#" + this.id).val());
+            $("#" + this.id).removeClass("chkcontratos");
         }
     		});
-}, */
+		}, 
 columns: [
 {text: '', datafield: 'nuevo', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
 cellsrenderer: function (rowline) {
@@ -93,17 +90,68 @@ $("#normativamod_id, #codigo_convocatoria").change(function(){
         		//$('#setMyTag').val(myTag); 
         	}); 
 
-$("#guardar").click(function(){
-	$(".chkOne").each(function () {
-		if (this.checked == true) {
-			alert(this.id);
-		} 
-	});
+$("#guardar").click(function() {
+	var pac_ids = obtenerPac_ids();
+	$("#pac_ids").val(pac_ids);
+	
+
+	$('#testForm').on('submit', function() {
+         return $('#testForm').jqxValidator('validate');
+     });
+	
 });
 
-$("#fecha_publ").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-$("#fecha_recep").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-$("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+function obtenerPac_ids(){
+	var sum = 0;
+    var listaContratos = "";
+    var separador = ",";
+    try {
+        $(".chkcontratos").each(function () {
+            listaContratos += this.id + separador;
+            sum++;
+        });
+        listaContratos += separador;
+        listaContratos = listaContratos.replace(separador + separador, "");
+        if (sum == 0) listaContratos = "";
+    } catch (e) {
+
+    }
+     return listaContratos;
+}
+
+$("#fecha_publ_aux").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+$("#fecha_recep_aux").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+$("#fecha_concl_aux").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+
+$('#fecha_publ_aux').on('change', function (event) 
+{  
+    var jsDate = event.args.date; 
+    $("#fecha_publ").val(convertDate(jsDate));
+}); 
+$('#fecha_recep_aux').on('change', function (event) 
+{  
+    var jsDate = event.args.date; 
+    $("#fecha_recep").val(convertDate(jsDate));
+}); 
+$('#fecha_concl_aux').on('change', function (event) 
+{  
+    var jsDate = event.args.date; 
+    $("#fecha_concl").val(convertDate(jsDate));
+}); 
+
+function convertDate(inputFormat) {
+  function pad(s) { return (s < 10) ? '0' + s : s; }
+  var d = new Date(inputFormat);
+  return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('-');
+}
+
+$('#testForm').jqxValidator({
+                rules: [
+                       { input: '#codigo_convocatoria', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
+                       ]
+            });
+
+
 });
 </script>
 <div id="page-wrapper">
@@ -122,8 +170,9 @@ $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:
 				<div class="panel-body">
 
 
-					<form method="post" action="" class="form-horizontal">
-
+					<form method="post" action="" class="form-horizontal" id="testForm">
+					<input type="hidden" name="id_pc" id="id_pc">
+					<input type="hidden" name="pac_ids" id="pac_ids">
 						<div class="row">
 							<div class="col-lg-6">
 
@@ -141,7 +190,7 @@ $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Codigo Convocatoria</label>
 									<div class="col-lg-4">
-										<input type="number" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control">
+										<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control">
 									</div>
 									<div class="col-lg-4">
 										<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly" class="form-control">
@@ -150,7 +199,7 @@ $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Observación</label>
 									<div class="col-lg-8">
-										<textarea class="form-control"></textarea>
+										<textarea name="observacion" id="observacion" class="form-control"></textarea>
 									</div>
 								</div>
 
@@ -161,19 +210,22 @@ $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Publicacion</label>
 									<div class="col-lg-8">
-										<div id='fecha_publ'></div>
+										<input type="text" id="fecha_publ" name="fecha_publ" value="<?php echo date("d-m-Y") ?>">
+										<div id='fecha_publ_aux'></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Recepción</label>
 									<div class="col-lg-8">
-										<div id='fecha_recep'></div>
+										<input type="text" id="fecha_recep" name="fecha_recep" value="<?php echo date("d-m-Y") ?>">
+										<div id='fecha_recep_aux'></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Conclusión</label>
 									<div class="col-lg-8">
-										<div id='fecha_concl' ></div>
+									<input type="text" id="fecha_concl" name="fecha_concl" value="<?php echo date("d-m-Y") ?>">
+										<div id='fecha_concl_aux' ></div>
 									</div>
 								</div>
 								
@@ -183,7 +235,7 @@ $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:
 						<div class="row">
 							<div class="form-group">
 								<div class="col-lg-12" align="center">
-									<button type="submit" class="btn btn-primary">Guardar</button>
+									<button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
 									<a href="../" class="btn btn-primary">Cancelar</a>
 								</div>
 							</div>

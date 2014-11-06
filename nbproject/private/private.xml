@@ -6,7 +6,9 @@
             <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
             <file>file:/var/www/html/rrhh/app/controllers/CargosController.php</file>
             <file>file:/var/www/html/rrhh/app/models/Cargos.php</file>
+            <file>file:/var/www/html/rrhh/app/controllers/ProcesoscontratacionesController.php</file>
             <file>file:/var/www/html/rrhh/app/models/Organigramas.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
         </group>
     </open-files>
 </project-private>

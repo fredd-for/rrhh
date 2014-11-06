@@ -215,9 +215,13 @@
                 rules: [
                        { input: '#categoria', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
                        { input: '#denominacion', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       { input: '#clase', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
-                       { input: '#nivel', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
-                       { input: '#sueldo', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required number' },
+                       { input: '#clase', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#clase', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'number' },
+                       { input: '#nivel', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#nivel', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'number' },
+                       { input: '#sueldo', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'required' },     
+                       { input: '#sueldo', message: 'Campo requerido numero!', action: 'keyup, blur', rule: 'number' }     
+
                        ]
             });
     });
@@ -285,8 +289,8 @@
 							<tr>
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
-									<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-									<input id="Cancel" type="button" value="Cancel" />
+									<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
+									<input id="Cancel" type="button" value="Cancelar" />
 								</td>
 							</tr>
 						</table>
@@ -305,7 +309,7 @@
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
 									<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-									<input id="Cancel" type="button" value="Cancel" />
+									<input id="Cancel" type="button" value="Cancelar" />
 								</td>
 							</tr>
 						</table>

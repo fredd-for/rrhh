@@ -100,7 +100,7 @@
 				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
 				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-				{ text: 'Codigo', datafield: 'codigo', filtertype: 'input',width: '5%' },
+				{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
 				{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
 				{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
 				{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
@@ -237,9 +237,7 @@ function cargar2(){
             	$("#nivelsalarial_id").val("");
             	$("#cargo").val("");
             	$("#sueldotxt").text("");
-            	//$('#fin_partida_id').val(0);
-            	//$('#fin_partida_id').removeAttr('disabled');
-            	$("#cargo_estado_id").val("");
+            	$('input[name=cargo_estado_id][value="1"]').prop('checked', true);
             	$("#popupWindow").jqxWindow('open');
             });
 
@@ -253,6 +251,7 @@ function cargar2(){
             });
 
             $("#Save").click(function () {
+            	if ($('#testForm').jqxValidator('validate')){
             	var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
   				//alert(cargo_estado_id); 
   				var v=$.ajax({
@@ -265,10 +264,11 @@ function cargar2(){
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
   				$("#popupWindow").jqxWindow('hide');
-               // }
+                }
            });
 
             $("#guardar_pac").click(function () {
+            	if ($('#testForm_pac').jqxValidator('validate')){
             	var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
             	var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
             	var v=$.ajax({
@@ -281,7 +281,7 @@ function cargar2(){
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
   				$("#popupWindow_pac").jqxWindow('hide');
-               // }
+                }
            });
 
             $("#Eliminar").click(function () {
@@ -324,6 +324,31 @@ function cargar2(){
 
             $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
             $("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+            
+            $('#testForm').jqxValidator({
+                rules: [
+                       	{ input: "#organigrama_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
+    						var index = $("#organigrama_id").jqxComboBox('getSelectedIndex');
+    						return index != -1;
+							}
+						},
+                       { input: "#nivelsalarial_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
+    						var index = $("#nivelsalarial_id").jqxComboBox('getSelectedIndex');
+    						return index != -1;
+							}
+						},
+                       { input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
+                       ]
+            });
+
+			$('#testForm_pac').jqxValidator({
+                rules: [
+                       { input: '#gestion_pac', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
+                       ]
+            });
+	
+            
 
         });
 </script>
@@ -360,6 +385,7 @@ function cargar2(){
 			<div id="popupWindow">
 				<div id="titulo">Editar</div>
 				<div style="overflow: hidden;">
+					<form id="testForm">
 					<table>
 						<tr>
 							<td align="right">id:</td>
@@ -382,7 +408,7 @@ function cargar2(){
 							<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
 						</tr>
 						<tr>
-							<td align="right">Codigo:</td>
+							<td align="right">Item:</td>
 							<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
 						</tr>
 						<tr>
@@ -408,11 +434,12 @@ function cargar2(){
 						<tr>
 							<td align="right"></td>
 							<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
+								<input id="Cancel" type="button" value="Cancelar" />
 							</td>
 						</tr>
 					</table>
+					</form>
 				</div>
 			</div>
 
@@ -427,7 +454,7 @@ function cargar2(){
 							<td align="right"></td>
 							<td style="padding-top: 10px;" align="right">
 								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input id="Cancel" type="button" value="Cancelar" />
 							</td>
 						</tr>
 					</table>
@@ -445,7 +472,7 @@ function cargar2(){
 							<td align="right"></td>
 							<td style="padding-top: 10px;" align="right">
 								<input style="margin-right: 5px;" type="button" id="Eliminar_pac" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancel" />
+								<input id="Cancel" type="button" value="Cancelar" />
 							</td>
 						</tr>
 					</table>
@@ -455,6 +482,7 @@ function cargar2(){
 			<div id="popupWindow_pac">
 				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES</div>
 				<div style="overflow: hidden;">
+				<form id="testForm_pac">
 					<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
 					<table>
 						<tr>
@@ -493,6 +521,7 @@ function cargar2(){
 							</td>
 						</tr>
 					</table>
+				</form>
 				</div>
 			</div>
 
