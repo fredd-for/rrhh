@@ -203,7 +203,7 @@ function definirGrillaParaListaRelaborales(){
                             ctrlrow = rowline
                             var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', ctrlrow);
                             var sw = dataRecord.tiene_contrato_vigente;
-                            if(sw==0)
+                            if(sw==0||sw==-1)
                             {
                                 //return "<div style='width: 100%'><a href='#'><img src='/images/add.png' style='margin-left: 25%' title='Nuevo Registro.'/></a></div>";
                                 return "<div style='width: 100%' align='center'><a href='#'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></div>";
@@ -289,7 +289,7 @@ function definirGrillaParaListaRelaborales(){
                         /**
                          * Para el caso cuando la persona no tenga ninguna relación laboral vigente con la entidad se da la opción de registro de nueva relación laboral.
                          */
-                        if (dataRecord.tiene_contrato_vigente == 0) {
+                        if (dataRecord.tiene_contrato_vigente == 0||dataRecord.tiene_contrato_vigente == -1) {
                             $('#btnBuscarCargo').click();
                             $('#jqxTabs').jqxTabs('enableAt', 1);
                             $('#jqxTabs').jqxTabs('disableAt', 2);
@@ -432,7 +432,7 @@ function definirGrillaParaListaRelaborales(){
                              * Para el valor del parámetro sw el valor es 1 porque se desea que se limpie lo que haya y se cargue algo nuevo
                              */
                             cargarHistorialRelacionLaboral(dataRecord.id_persona,0,1);
-                            //$("#divContent_"+dataRecord.id_relaboral).focus();
+                            $("#divContent_"+dataRecord.id_relaboral).focus().select();
                         }
                         break;
                 }

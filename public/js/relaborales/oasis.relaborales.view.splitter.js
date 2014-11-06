@@ -59,7 +59,7 @@ function cargarGestionesHistorialRelaboral(idPersona) {
     }
     var idPersonaHistorial = $("#hdnIdPersonaHistorial").val();
     $("#listboxGestiones").on('checkChange', function (event) {
-        //if($("#hdnSwPrimeraVistaHistorial").val()==1){
+        if($("#hdnSwPrimeraVistaHistorial").val()==1){
                 var cantidadGestiones = 0;
                 var args = event.args;
                 var items = $("#listboxGestiones").jqxListBox('getCheckedItems');
@@ -86,7 +86,7 @@ function cargarGestionesHistorialRelaboral(idPersona) {
                         });
                     }
                 }
-            //}
+            }
             $("#hdnSwPrimeraVistaHistorial").val(1);
     });
 }
@@ -124,8 +124,8 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     }
 
                     historial += "<i class='fa fa-file-text'></i></div>";
-                    historial += "<div class='timeline-time'>" + val.fecha_ini + "<strong></strong></div>";
-                    historial += "<div class='timeline-content' id='divContent_" + val.id_relaboral + "'>";
+                    historial += "<div class='timeline-time'><a href='#' id='divContent_" + val.id_relaboral + "'>" + val.fecha_ini + "</a><strong></strong></div>";
+                    historial += "<div class='timeline-content'>";
                     historial += "<p class='push-bit'><strong id='strCargo_" + val.id_relaboral + "'>" + val.cargo + "</strong></p>";
                     historial += "<dl class='dl-horizontal'>";
                     historial += "<dt id='dtProceso_" + val.id_relaboral + "'>Proceso:</dt><dd id='ddProceso_" + val.id_relaboral + "'>" + val.proceso_codigo + "</dd>";
@@ -133,7 +133,17 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtGerencia_" + val.id_relaboral + "'>Gerencia:</dt><dd id='ddGerencia_" + val.id_relaboral + "'>" + val.gerencia_administrativa + "</dd>";
                     if (val.departamento_administrativo != "")historial += "<dt id='dtDepartamento_" + val.id_relaboral + "'>Departamento:</dt><dd id='ddDepartamento_" + val.id_relaboral + "'>" + val.departamento_administrativo + "</dd>";
                     historial += "<dt id='dtUbicacion_" + val.id_relaboral + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacion_" + val.id_relaboral + "'>" + val.ubicacion + "</dd>";
-                    historial += "<dt id='dtItem_" + val.id_relaboral + "'>&Iacute;tem:</dt><dd id='ddItem_" + val.id_relaboral + "'>" + val.cargo_codigo + "</dd>";
+                    switch (val.condicion){
+                        case 'PERMANENTE':
+                            historial += "<dt id='dtItem_" + val.id_relaboral + "'>&Iacute;tem:</dt><dd id='ddItem_" + val.id_relaboral + "'>" + val.cargo_codigo + "</dd>";
+                            break;
+                        case 'EVENTUAL':
+                        case 'CONSULTOR':
+                            var numContrato = '&nbsp;';
+                            if(val.num_contrato!=null)numContrato = val.num_contrato;
+                            historial += "<dt id='dtNumContrato_" + val.id_relaboral + "'>Nro. de Contrato:</dt><dd id='ddNumContrato_" + val.id_relaboral + "'>" + numContrato + "</dd>";
+                            break;
+                    }
                     historial += "<dt id='dtNivelSalarial_" + val.id_relaboral + "'>Nivel Salarial:</dt><dd id='ddNivelSalarial_" + val.id_relaboral + "'>" + val.nivelsalarial + "</dd>";
                     /*historial +="<dt id='dtCargo_"+val.id_relaboral+"'>Cargo:</dt><dd id='ddCargo_'>ssssssss</dd>";*/
                     historial += "<dt id='dtHaber_" + val.id_relaboral + "'>Haber:</dt><dd id='ddHaber_" + val.id_relaboral + "'>" + val.sueldo + "</dd>";
