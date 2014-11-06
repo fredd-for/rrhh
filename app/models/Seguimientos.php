@@ -153,7 +153,7 @@ class Seguimientos extends \Phalcon\Mvc\Model
             'fecha_apr' => 'fecha_apr', 
             'seguimiento_estado_id' => 'seguimiento_estado_id', 
             'user_reg_id' => 'user_reg_id', 
-            'fecha_reg_id' => 'fecha_reg_id', 
+            'fecha_reg' => 'fecha_reg', 
             'baja_logica' => 'baja_logica', 
             'cargo' => 'cargo', 
             'sueldo' => 'sueldo'
