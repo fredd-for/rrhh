@@ -253,6 +253,17 @@ class Frelaborales extends \Phalcon\Mvc\Model {
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+    /**
+     * Función para la obtención de la totalidad de los registros de relaciones laborales para un persona en particular.
+     * @return Resultset
+     */
+    public function getAllByPerson($idPersona,$gestion=0)
+    {
+        $sql = "SELECT * from f_relaborales() WHERE id_persona=".$idPersona;
+        if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
+        $this->_db = new Frelaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 
     /**
      * Función para la obtención de la totalidad de los registros de relaciones laborales,

@@ -11,8 +11,8 @@ class ProcesoscontratacionesController extends ControllerBase
 
 	public function indexAction()
 	{
-		$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
-		$this->view->setVar('normativamod',$resul);
+		//$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
+		//$this->view->setVar('normativamod',$resul);
 	}
 
 	public function listAction()
@@ -33,6 +33,12 @@ class ProcesoscontratacionesController extends ControllerBase
 				);
 		}
 		echo json_encode($customers);
+	}
+
+	public function addAction()
+	{
+		$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
+		$this->view->setVar('normativamod',$resul);
 	}
 
 	public function saveAction()
@@ -95,6 +101,29 @@ class ProcesoscontratacionesController extends ControllerBase
 		$resul->save();
 		$this->view->disable();
 		echo json_encode();
+	}
+
+	public function listpacAction()
+	{
+	$estado = array('Rechazado','Espera','Proceso','Aprobado','Adjudicado');
+	$model = new Cargos();
+	$resul = $model->listapac();
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers[] = array(
+			'nro' => $v->nro,
+			'id' => $v->id,
+			'unidad_administrativa' => $v->unidad_administrativa,
+			'codigo' => $v->codigo,
+			'cargo' => $v->cargo,
+			'sueldo' => $v->sueldo,
+			'gestion' => $v->gestion,
+			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
+			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin)),
+			'estado' => $estado[$v->estado]
+			);
+	}
+	echo json_encode($customers);
 	}
 
 }

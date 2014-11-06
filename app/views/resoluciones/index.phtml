@@ -93,6 +93,7 @@ $(document).ready(function () {
             });
 
             $("#Save").click(function () {
+            	if ($('#testForm').jqxValidator('validate')){
             	var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
             	var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
             	var v=$.ajax({
@@ -105,7 +106,7 @@ $(document).ready(function () {
 						error: function() { alert('Se ha producido un error Inesperado'); }
 					});
                     $("#popupWindow").jqxWindow('hide');
-               // }
+               }
             });
 
             $("#Eliminar").click(function () {
@@ -122,6 +123,13 @@ $(document).ready(function () {
 					//$('#jqxgrid').jqxGrid();
                     $("#popupWindow_delete").jqxWindow('hide');
                 }
+            });
+
+            $('#testForm').jqxValidator({
+                rules: [
+                       { input: '#tipo_resolucion', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#numero_res', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       ]
             });
 
             // create a jqxDateTimeInput.
@@ -159,6 +167,7 @@ $(document).ready(function () {
 				<div id="popupWindow">
 					<div id="titulo">Editar</div>
 					<div style="overflow: hidden;">
+						<form id="testForm">
 						<table>
 							<tr>
 								<td align="right">id:</td>
@@ -188,6 +197,7 @@ $(document).ready(function () {
 								</td>
 							</tr>
 						</table>
+						</form>
 					</div>
 				</div>
 

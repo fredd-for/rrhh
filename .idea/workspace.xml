@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/Gestiones.php" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.localizacion.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.down.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.edit.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.list.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.new.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.tab.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.view.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.view.splitter.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Relaborales.php" afterPath="$PROJECT_DIR$/app/models/Relaborales.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.down.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.down.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -46,8 +35,8 @@
       <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1923075" vertical-offset="11560" max-vertical-offset="15657">
-              <caret line="691" column="66" selection-start-line="691" selection-start-column="66" selection-end-line="691" selection-end-column="66" />
+            <state vertical-scroll-proportion="-19.423077" vertical-offset="11378" max-vertical-offset="12563">
+              <caret line="699" column="33" selection-start-line="683" selection-start-column="28" selection-end-line="699" selection-end-column="33" />
               <folding>
                 <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
@@ -65,97 +54,53 @@
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#canvas#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.8461537" vertical-offset="11101" max-vertical-offset="14314">
+              <caret line="665" column="18" selection-start-line="656" selection-start-column="12" selection-end-line="665" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.23529412" vertical-offset="1678" max-vertical-offset="18581">
+              <caret line="106" column="61" selection-start-line="106" selection-start-column="61" selection-end-line="106" selection-end-column="61" />
+              <folding>
+                <element signature="e#7#215#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Frelaborales.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.576923" vertical-offset="4113" max-vertical-offset="4743">
+              <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
+              <folding>
+                <marker date="1415232557278" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
+                <marker date="1415232557278" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
+                <marker date="1415232557278" expanded="true" signature="9860:9907" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1450512" vertical-offset="0" max-vertical-offset="586">
-              <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+            <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="493">
+              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -164,8 +109,8 @@
       <file leaf-file-name="oasis.relaborales.view.splitter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
-              <caret line="9" column="50" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
+            <state vertical-scroll-proportion="-15.32" vertical-offset="1368" max-vertical-offset="2006">
+              <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -176,8 +121,8 @@
       <file leaf-file-name="oasis.relaborales.view.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="2057">
-              <caret line="26" column="61" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="2057">
+              <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -188,14 +133,14 @@
       <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.64" vertical-offset="1458" max-vertical-offset="9163">
-              <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
+            <state vertical-scroll-proportion="-23.28" vertical-offset="6609" max-vertical-offset="9231">
+              <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1415221648894" expanded="false" signature="8680:8691" placeholder="..." />
-                <marker date="1415221648894" expanded="false" signature="9619:9630" placeholder="..." />
-                <marker date="1415221648894" expanded="false" signature="10570:10581" placeholder="..." />
-                <marker date="1415221648894" expanded="false" signature="11534:11545" placeholder="..." />
+                <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
+                <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
+                <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
+                <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -216,14 +161,15 @@
       <list>
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
-        <option value="$PROJECT_DIR$/app/config/config.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.down.js" />
-        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/models/Gestiones.php" />
         <option value="$PROJECT_DIR$/app/models/Relaborales.php" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
+        <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
+        <option value="$PROJECT_DIR$/app/config/config.php" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
+        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
       </list>
     </option>
   </component>
@@ -419,6 +365,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -536,86 +500,6 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
@@ -667,10 +551,10 @@
           <caret line="417" column="13" selection-start-line="417" selection-start-column="13" selection-end-line="417" selection-end-column="13" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415221648894" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="11534:11545" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -690,7 +574,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="7833" max-vertical-offset="8789">
           <caret line="454" column="37" selection-start-line="454" selection-start-column="37" selection-end-line="454" selection-end-column="37" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,86 +600,6 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
@@ -839,10 +643,10 @@
           <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415221648894" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="11534:11545" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -862,7 +666,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="7833" max-vertical-offset="8789">
           <caret line="454" column="37" selection-start-line="454" selection-start-column="37" selection-end-line="454" selection-end-column="37" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -917,16 +721,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61290324" vertical-offset="15045" max-vertical-offset="15725">
-          <caret line="904" column="33" selection-start-line="904" selection-start-column="33" selection-end-line="904" selection-end-column="33" />
-          <folding>
-            <element signature="e#7#215#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Relaborales.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.692029" vertical-offset="4412" max-vertical-offset="4964">
@@ -954,7 +748,7 @@
         <state vertical-scroll-proportion="0.3205575" vertical-offset="7245" max-vertical-offset="8789">
           <caret line="437" column="13" selection-start-line="437" selection-start-column="11" selection-end-line="437" selection-end-column="13" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -967,44 +761,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1292" max-vertical-offset="2057">
-          <caret line="26" column="61" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
-          <caret line="9" column="50" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.64" vertical-offset="1458" max-vertical-offset="9163">
-          <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
+        <state vertical-scroll-proportion="-23.28" vertical-offset="6609" max-vertical-offset="9231">
+          <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415221648894" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415221648894" expanded="false" signature="11534:11545" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537" vertical-offset="11101" max-vertical-offset="14314">
+          <caret line="665" column="18" selection-start-line="656" selection-start-column="12" selection-end-line="665" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="2057">
+          <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.576923" vertical-offset="4113" max-vertical-offset="4743">
+          <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
+          <folding>
+            <marker date="1415232557278" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415232557278" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415232557278" expanded="true" signature="9860:9907" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="493">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075" vertical-offset="11560" max-vertical-offset="15657">
-          <caret line="691" column="66" selection-start-line="691" selection-start-column="66" selection-end-line="691" selection-end-column="66" />
+        <state vertical-scroll-proportion="-19.423077" vertical-offset="11378" max-vertical-offset="12563">
+          <caret line="699" column="33" selection-start-line="683" selection-start-column="28" selection-end-line="699" selection-end-column="33" />
           <folding>
             <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
@@ -1022,96 +834,28 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#5;n#div#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#2;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#a#0;n#div#1;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#2;n#div#3;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#5;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#div#6;n#div#0;n#div#0;n#div#2;n#li#7;n#ul#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1450512" vertical-offset="0" max-vertical-offset="586">
-          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-          <folding />
+        <state vertical-scroll-proportion="-15.32" vertical-offset="1368" max-vertical-offset="2006">
+          <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23529412" vertical-offset="1678" max-vertical-offset="18581">
+          <caret line="106" column="61" selection-start-line="106" selection-start-column="61" selection-end-line="106" selection-end-column="61" />
+          <folding>
+            <element signature="e#7#215#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

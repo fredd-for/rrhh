@@ -419,7 +419,11 @@ function definirGrillaParaListaRelaborales(){
                             $("#ddNombres").html(dataRecord.nombres);
                             cargarPersonasContactos(dataRecord.id_persona);
                             $("#hdnIdRelaboralVista").val(id_relaboral);
-                            cargarHistorialRelaboral(dataRecord.id_persona);
+                            cargarGestionesHistorialRelaboral(dataRecord.id_persona);
+                            /**
+                             * Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo
+                             */
+                            cargarHistorialRelacionLaboral(dataRecord.id_persona,0);
                         }
                         var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                         $("#imgFotoPerfilContacto").attr("src",rutaImagen);
