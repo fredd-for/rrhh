@@ -534,7 +534,7 @@ class PersonalController extends ControllerBase{
             //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
         }
         $pdf->Cell($ancho,0,'','T');
-        $pdf->Output();
+        $pdf->Output('reporte_personal.pdf','I');
         $this->view->disable();
     }
 }
