@@ -65,21 +65,47 @@ function cargarGestionesHistorialRelaboral(idPersona){
  */
 function cargarHistorialRelacionLaboral(idPersona,gestion){
     var gestiones = [];
-    //$('#HistorialTimeLine').html("");
+    $('#HistorialTimeLine').html("");
+    var historial = "";
     $.ajax({
         url:'/relaborales/listhistorial',
         type:'POST',
         datatype: 'json',
         async:false,
         cache:false,
-        data:{id:idPersona},
+        data:{id:idPersona,gestion:gestion},
         success: function(data) {
-            /*var res = jQuery.parseJSON(data);
+            var res = jQuery.parseJSON(data);
             if(res.length>0){
+
                 $.each( res, function( key, val ) {
-                    //gestiones.push(val.gestion);
+                   if(val.estado==1) {
+                       historial += "<li class='active'>";
+                   }else historial += "<li>";
+                    historial += "<div class='timeline-icon'><i class='fa fa-file-text'></i></div>";
+                    historial += "<div class='timeline-time'>"+val.fecha_ini+"<strong></strong></div>";
+                    historial += "<div class='timeline-content'>";
+                    historial += "<p class='push-bit'><strong id='strCargo_"+val.id_relaboral+"'>"+val.cargo+"</strong></p>";
+                    historial += "<dl class='dl-horizontal'>";
+                    historial +="<dt id='dtProceso_"+val.id_relaboral+"'>Proceso:</dt><dd id='ddProceso_"+val.id_relaboral+"'>"+val.proceso_codigo+"</dd>";
+                    historial +="<dt id='dtGerencia_"+val.id_relaboral+"'>Gerencia:</dt><dd id='ddGerencia_"+val.id_relaboral+"'>"+val.gerencia_administrativa+"</dd>";
+                    if(val.departamento_administrativo!="")historial +="<dt id='dtDepartamento_"+val.id_relaboral+"'>Departamento:</dt><dd id='ddDepartamento_"+val.id_relaboral+"'>"+val.departamento_administrativo+"</dd>";
+                    historial +="<dt id='dtFinPartida_"+val.id_relaboral+"'>Financiamiento:</dt><dd id='ddFinPartida_"+val.id_relaboral+"'>"+val.condicion+" (Partida "+val.partida+")</dd>";
+                    historial +="<dt id='dtItem_"+val.id_relaboral+"'>&Iacute;tem:</dt><dd id='ddItem_"+val.id_relaboral+"'>"+val.cargo_codigo+"</dd>";
+                    historial +="<dt id='dtNivelSalarial_"+val.id_relaboral+"'>Nivel Salarial:</dt><dd id='ddNivelSalarial_"+val.id_relaboral+"'>"+val.nivelsalarial+"</dd>";
+                    /*historial +="<dt id='dtCargo_"+val.id_relaboral+"'>Cargo:</dt><dd id='ddCargo_'>ssssssss</dd>";*/
+                    historial +="<dt id='dtHaber_"+val.id_relaboral+"'>Haber:</dt><dd id='ddHaber_"+val.id_relaboral+"'>"+val.sueldo+"</dd>";
+                    historial +="<dt id='dtFechaIni_"+val.id_relaboral+"'>Fecha Inicio:</dt><dd id='ddFechaIni_"+val.id_relaboral+"'>"+val.fecha_ini+"</dd>";
+                    historial +="<dt id='dtFechaIncor_"+val.id_relaboral+"'>Fecha Incor:</dt><dd id='ddFechaIncor_"+val.id_relaboral+"'>"+val.fecha_incor+"</dd>";
+                    historial +="<dt id='dtFechaFin_"+val.id_relaboral+"'>Fecha Fin:</dt><dd id='ddFechaFin_"+val.id_relaboral+"'>"+val.fecha_fin+"</dd>";
+                    historial +="<dt id='dtContratoEstado_"+val.id_relaboral+"'>Estado:</dt><dd id='ddContratoEstado_"+val.id_relaboral+"'>"+val.estado_descripcion+"</dd>";
+                    /*historial +="<dt id='dtFechaBaja_"+val.id_relaboral+"'>Fecha Baja:</dt><dd id='ddFechaIni_'></dd>";
+                    historial +="<dt id='dtMotivoBaja_"+val.id_relaboral+"'>Motivo Baja:</dt><dd id='ddMotivoBaja_'></dd>";*/
+                    historial +="<dt id='dtObservacion_"+val.id_relaboral+"'>Observaciones:</dt><dd id='ddObservacion_"+val.id_relaboral+"'>"+val.observacion+"</dd>";
+                    historial +="</dl>";
                 });
-            }*/
+                $('#HistorialTimeLine').append(historial);
+            }
         }
     });
 

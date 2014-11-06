@@ -242,7 +242,7 @@ class RelaboralesController extends ControllerBase
                     'fuente' => $v->fuente,
                     'organismo_codigo' => $v->organismo_codigo,
                     'organismo' => $v->organismo,
-                    'observacion' => $v->observacion,
+                    'observacion' => ($v->observacion!=null)?$v->observacion:"",
                     'estado' => $v->estado,
                     'estado_descripcion' => $v->estado_descripcion,
                     'estado_abreviacion' => $v->estado_abreviacion,
@@ -917,4 +917,172 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($gestiones);
   }
+    /**
+     * Función para la carga del primer listado sobre la página de gestión de relaciones laborales.
+     * Se inhabilita la vista para el uso de jqwidgets,
+     */
+    public function listhistorialAction()
+    {
+       if(isset($_POST["id"])&&$_POST["id"]>0){
+           $gestion = 0;
+           if(isset($_POST["gestion"])&&$_POST["gestion"]>0){
+               $gestion = $_POST["gestion"];
+           }
+           $this->view->disable();
+           $obj = new Frelaborales();
+           $resul = $obj->getAllByPerson($_POST["id"],$gestion);
+           //comprobamos si hay filas
+           if ($resul->count() > 0) {
+               foreach ($resul as $v) {
+                   $fechaIni="";
+                   if($v->fecha_ini!=""){
+                       $fechaIni = $v->fecha_ini;
+                       $fechaIni = date("d-m-Y", strtotime($fechaIni));
+                   }
+                   $fechaIncor="";
+                   if($v->fecha_incor!=""){
+                       $fechaIncor = $v->fecha_incor;
+                       $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
+                   }
+                   $fechaFin="";
+                   if($v->fecha_fin!=""){
+                       $fechaFin = $v->fecha_fin;
+                       $fechaFin = date("d-m-Y", strtotime($fechaFin));
+                   }
+                   $fechaBaja="";
+                   if($v->fecha_baja!=""){
+                       $fechaBaja = $v->fecha_baja;
+                       $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
+                   }
+                   $fechaRen="";
+                   if($v->fecha_ren!=""){
+                       $fechaRen = $v->fecha_ren;
+                       $fechaRen = date("d-m-Y", strtotime($fechaRen));
+                   }
+                   $fechaAceptaRen="";
+                   if($v->fecha_baja!=""){
+                       $fechaAceptaRen = $v->fecha_acepta_ren;
+                       $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
+                   }
+                   $fechaAgraServ="";
+                   if($v->fecha_baja!=""){
+                       $fechaAgraServ = $v->fecha_agra_serv;
+                       $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
+                   }
+                   #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
+                   $relaboral[] = array(
+                       'id_relaboral' => $v->id_relaboral,
+                       'id_persona' => $v->id_persona,
+                       'p_nombre' => $v->p_nombre,
+                       's_nombre' => $v->s_nombre,
+                       't_nombre' => $v->t_nombre,
+                       'p_apellido' => $v->p_apellido,
+                       's_apellido' => $v->s_apellido,
+                       'c_apellido' => $v->c_apellido,
+                       'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
+                       'ci' => $v->ci,
+                       'expd' => $v->expd,
+                       'num_complemento' => $v->num_complemento,
+                       'fecha_nac' => $v->fecha_nac,
+                       'edad' => $v->edad,
+                       'lugar_nac' => $v->lugar_nac,
+                       'genero' => $v->genero,
+                       'e_civil' => $v->e_civil,
+                       'item' => $v->item,
+                       'carrera_amd' => $v->carrera_amd,
+                       'num_contrato' => $v->num_contrato,
+                       'contrato_numerador_estado' => $v->contrato_numerador_estado,
+                       'id_solelabcontrato' => $v->id_solelabcontrato,
+                       'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
+                       'solelabcontrato_numero' => $v->solelabcontrato_numero,
+                       'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
+                       'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
+                       'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
+                       'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                       'fecha_ini' => $fechaIni,
+                       'fecha_incor' => $fechaIncor,
+                       'fecha_fin' => $fechaFin,
+                       'fecha_baja' => $fechaBaja,
+                       'fecha_ren' => $fechaRen,
+                       'fecha_acepta_ren' => $fechaAceptaRen,
+                       'fecha_agra_serv' => $fechaAgraServ,
+                       'motivo_baja' => $v->motivo_baja,
+                       'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
+                       'descripcion_baja' => $v->descripcion_baja,
+                       'descripcion_anu' => $v->descripcion_anu,
+                       'id_cargo' => $v->id_cargo,
+                       'cargo_codigo' => $v->cargo_codigo,
+                       'cargo' => $v->cargo,
+                       'id_nivelessalarial' => $v->id_nivelessalarial,
+                       'nivelsalarial' => $v->nivelsalarial,
+                       'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
+                       'numero_escala' => $v->numero_escala,
+                       'gestion_escala' => $v->gestion_escala,
+                       'sueldo' => $v->sueldo,
+                       'id_proceso' => $v->id_proceso,
+                       'proceso_codigo' => $v->proceso_codigo,
+                       'id_convocatoria' => $v->id_convocatoria,
+                       'convocatoria_codigo' => $v->convocatoria_codigo,
+                       'convocatoria_tipo' => $v->convocatoria_tipo,
+                       'id_fin_partida' => $v->id_fin_partida,
+                       'fin_partida' => $v->fin_partida,
+                       'id_condicion' => $v->id_condicion,
+                       'condicion' => $v->condicion,
+                       'categoria_relaboral' => $v->categoria_relaboral,
+                       'id_da' => $v->id_da,
+                       'direccion_administrativa' => $v->direccion_administrativa,
+                       'organigrama_regional_id' => $v->organigrama_regional_id,
+                       'organigrama_regional' => $v->organigrama_regional,
+                       'id_regional' => $v->id_regional,
+                       'regional' => $v->regional,
+                       'regional_codigo' => $v->regional_codigo,
+                       'id_departamento' => $v->id_departamento,
+                       'departamento' => $v->departamento,
+                       'id_provincia' => $v->id_provincia,
+                       'provincia' => $v->provincia,
+                       'id_localidad' => $v->id_localidad,
+                       'localidad' => $v->localidad,
+                       'residencia' => $v->residencia,
+                       'unidad_ejecutora' => $v->unidad_ejecutora,
+                       'cod_ue' => $v->cod_ue,
+                       'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
+                       'gerencia_administrativa' => $v->gerencia_administrativa,
+                       'id_departamento_administrativo' => $v->id_departamento_administrativo,
+                       'departamento_administrativo' => $v->departamento_administrativo,
+                       'id_organigrama' => $v->id_organigrama,
+                       'unidad_administrativa' => $v->unidad_administrativa,
+                       'organigrama_sigla' => $v->organigrama_sigla,
+                       'organigrama_codigo' => $v->organigrama_codigo,
+                       'id_area' => $v->id_area,
+                       'area' => $v->area,
+                       'id_ubicacion' => $v->id_ubicacion,
+                       'ubicacion' => $v->ubicacion,
+                       'unidades_superiores' => $v->unidades_superiores,
+                       'unidades_dependientes' => $v->unidades_dependientes,
+                       'partida' => $v->partida,
+                       'fuente_codigo' => $v->fuente_codigo,
+                       'fuente' => $v->fuente,
+                       'organismo_codigo' => $v->organismo_codigo,
+                       'organismo' => $v->organismo,
+                       'observacion' => ($v->observacion!=null)?$v->observacion:"",
+                       'estado' => $v->estado,
+                       'estado_descripcion' => $v->estado_descripcion,
+                       'estado_abreviacion' => $v->estado_abreviacion,
+                       'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
+                       'id_eventual' => $v->id_eventual,
+                       'id_consultor' => $v->id_consultor,
+                       'user_reg_id' => $v->user_reg_id,
+                       'fecha_reg' => $v->fecha_reg,
+                       'user_mod_id' => $v->user_mod_id,
+                       'fecha_mod' => $v->fecha_mod,
+                       'persona_user_reg_id' => $v->persona_user_reg_id,
+                       'persona_fecha_reg' => $v->persona_fecha_reg,
+                       'persona_user_mod_id' => $v->persona_user_mod_id,
+                       'persona_fecha_mod' => $v->persona_fecha_mod
+                   );
+               }
+           }
+       }
+        echo json_encode($relaboral);
+    }
 } 
