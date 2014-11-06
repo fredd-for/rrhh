@@ -13,6 +13,10 @@
         color: black\9;
         background-color: #e83636\9;
     }
+    .celeste {
+        color: black\9;
+        background-color: #a8e0ee\9;
+    }
 
     .verde:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
         color: black;
@@ -26,10 +30,14 @@
         color: black;
         background-color: #e83636;
     }
+    .celeste:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: #a8e0ee;
+    }
     img { vertical-align: middle; }
     .img-perfil {
-        width: 150px;
-        height: 180px;
+        width: 100px;
+        height: 130px;
         margin: 0 auto 10 0;
         text-align: center
     }
@@ -596,15 +604,14 @@
 <div id="tabFichaPersonal">
     <ul style="margin-left: 30px;">
         <li>Datos Personales</li>
-        <li>Datos de Contacto</li>
+        <li>Contacto Personal</li>
+        <li>Contacto Institucional</li>
     </ul>
     <div class="form-horizontal col-sm-12">
         <br>
         <div class="row">
-            <div class="col-xs-9">
+            <div class="col-xs-11">
                 <div class="block">
-                    <br>
-                    <br>
                     <dl class="dl-horizontal">
                         <dt id="dtNombres">Nombres y Apellidos:</dt><dd id="ddNombres"></dd>
                         <dt id="dtTipoDeDocumento"></dt><dd id="ddNumeroDeDocumento"></dd>
@@ -612,48 +619,61 @@
                         <dt id="dtLugarDeNacimiento">Lugar de Nacimiento:</dt><dd id="ddLugarDeNacimiento"></dd>
                         <dt id="dtFechaDeNacimiento">Fecha de Nacimiento:</dt><dd id="ddFechaDeNacimiento"></dd>
                     </dl>
-                    <br>
-                    <br>
                 </div>
             </div>
-            <div class="col-xs-3">
-                <div class="block" align="center">
+            <div class="col-xs-1">
+                <!--<div class="block" align="center">-->
                     <a href="#" id="aFotoPerfil">
                         <img id="imgFotoPerfil" class="img-rounded pull-right img-perfil">
-                    </a></div>
+                    </a>
+                <!--</div>/-->
             </div>
         </div>
-        <br>
     </div>
     <div class="form-horizontal col-sm-12">
         <br>
         <div class="row">
-            <div class="col-xs-9">
+            <div class="col-xs-11">
                 <div class="block">
                     <dl class="dl-horizontal">
                         <dt id="dtDireccion">Direcci&oacute;n:</dt><dd id="ddDireccion"></dd>
                         <dt id="dtTelefonoFijo">Tel&eacute;fono Fijo:</dt><dd id="ddTelefonoFijo"></dd>
-                        <dt id="dtTelefonoInst">Tel&eacute;fono Inst.:</dt><dd id="ddTelefonoInst"></dd>
                         <dt id="dtCelularPer">Celular Personal:</dt><dd id="ddCelularPer"></dd>
+                        <dt id="dtEmailPer">E-Mail Personal:</dt><dd id="ddEmailPer"></dd>
+                        <dt id="dtAuxiliar1">&nbsp;</dt><dd id="ddAuxiliar1">&nbsp;</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <!--<div class="block" align="center">-->
+                    <a href="#" id="aFotoPerfilContactoPer"><img id="imgFotoPerfilContactoPer" class="img-rounded pull-right img-perfil"></a>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal col-sm-12">
+        <br>
+        <div class="row">
+            <div class="col-xs-11">
+                <div class="block">
+                    <dl class="dl-horizontal">
+                        <dt id="dtTelefonoInst">Tel&eacute;fono Inst.:</dt><dd id="ddTelefonoInst"></dd>
                         <dt id="dtCelularInst">Celular Corporativo:</dt><dd id="ddCelularInst"></dd>
                         <dt id="dtTelefonoFax">Fax:</dt><dd id="ddTelefonoFax"></dd>
                         <dt id="dtInternoInst">N&uacute;mero Interno:</dt><dd id="ddInternoInst"></dd>
-                        <dt id="dtEmailPer">E-Mail Personal:</dt><dd id="ddEmailPer"></dd>
                         <dt id="dtEmailInst">E-Mail Institucional:</dt><dd id="ddEmailInst"></dd>
                     </dl>
-                    <br>
-                    <br>
                 </div>
             </div>
-            <div class="col-xs-3">
-                <div class="block" align="center"><a href="#" id="aFotoPerfilContacto"><img id="imgFotoPerfilContacto" class="img-rounded pull-right img-perfil"></a></div>
+            <div class="col-xs-1">
+                <!--<div class="block" align="center">-->
+                <a href="#" id="aFotoPerfilContactoInst"><img id="imgFotoPerfilContactoInst" class="img-rounded pull-right img-perfil"></a>
+                <!--</div>-->
             </div>
         </div>
-        <br>
     </div>
 </div>
 <br>
-
 <div id="HistorialSplitter">
     <div class="splitter-panel">
         Gestiones
@@ -665,8 +685,8 @@
             <div class="block-options pull-right">
                 <a data-original-title="Imprimir" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
                    data-toggle="tooltip" title=""><i class="fa fa-print"></i></a>
-                <a data-original-title="Configuraci&oacute;n" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
-                   data-toggle="tooltip" title=""><i class="fa fa-cog"></i></a>
+                <!--<a data-original-title="Configuraci&oacute;n" href="javascript:void(0)" class="btn btn-alt btn-sm btn-default"
+                   data-toggle="tooltip" title=""><i class="fa fa-cog"></i></a>-->
             </div>
             <h2><i class="fa fa-bars"></i> Historial <strong>Relaci&oacute;n Laboral</strong></h2>
         </div
@@ -676,49 +696,16 @@
             <!-- Timeline Style Content -->
             <div class="timeline block-content-full">
                 <ul class="timeline-list timeline-hover" id="HistorialTimeLine">
-                    <li class="active">
-                        <div class="timeline-icon"><i class="fa fa-file-text"></i></div>
-                        <div class="timeline-time">2014<strong></strong></div>
-                        <div class="timeline-content">
-                            <p class="push-bit"><strong id="strCargo">PROFESIONAL EN DESARROLLO DE SISTEMAS</strong></p>
-                            <dl class="dl-horizontal">
-                                <dt id="dtProceso">Proceso:</dt><dd id="ddProceso">MT-CPE-001-/2014</dd>
-                                <dt id="dtGerencia">Gerencia:</dt><dd id="ddGerencia">GERENCIA DE PLANIFICACI&Oacute;N Y DESARROLLO INSTITUCIONAL</dd>
-                                <dt id="dtDepartamento">Departamento:</dt><dd id="ddDepartamento">DEPARTAMENTO DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N</dd>
-                                <dt id="dtFinPartida">Financiamiento (Partida):</dt><dd id="ddFinPartida">EVENTUAL (12100)</dd>
-                                <dt id="dtItem">&Iacute;tem:</dt><dd id="ddItem">10</dd>
-                                <dt id="dtNivelSalarial">Nivel Salarial:</dt><dd id="ddNivelSalarial">PROFESIONAL IV - TECNICO I</dd>
-                                <!--<dt id="dtCargo">Cargo:</dt><dd id="ddCargo">ssssssss</dd>-->
-                                <dt id="dtHaber">Haber:</dt><dd id="ddHaber">7920</dd>
-                                <dt id="dtFechaIni">Fecha Inicio:</dt><dd id="ddFechaIni">07-10-2014</dd>
-                                <dt id="dtFechaIncor">Fecha Incor:</dt><dd id="ddFechaIncor">07-10-2014</dd>
-                                <dt id="dtFechaFin">Fecha Fin:</dt><dd id="ddFechaFin">31-12-2014</dd>
-                                <dt id="dtContratoEstado">Estado:</dt><dd id="ddContratoEstado">ACTIVO</dd>
-                                <!--<dt id="dtFechaBaja">Fecha Baja:</dt><dd id="ddFechaIni"></dd>-->
-                                <!--<dt id="dtMotivoBaja">Motivo Baja:</dt><dd id="ddMotivoBaja"></dd>-->
-                                <dt id="dtObservacion">Observaciones:</dt><dd id="ddObservacion"></dd>
-                            </dl>
-                        </div>
-                    </li>
                 </ul>
             </div>
             <!-- END Timeline Style Content -->
+            <input type="hidden" id="hdnIdPersonaHistorial" value="0">
+            <input type="hidden" id="hdnSwPrimeraVistaHistorial" value="0">
         </div>
 
     </div>
     <!-- END Draggable Blocks Row -->
     </div>
-</div>
-<br>
-<div class="col-sm-9 col-sm-offset-3">
-    <button class="btn btn-sm btn-primary" type="button" id="btnGuardarImprimir">
-        <i class="gi gi-print"></i>
-        Imprimir
-    </button>
-    <button class="btn btn-sm btn-warning" type="button" id="btnCancelarVista">
-        <i class="fa fa-repeat"></i>
-        Cancelar
-    </button>
 </div>
 </form>
 </div>

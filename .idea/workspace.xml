@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4751225.jpg" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\personal.rar" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\personal\4751225e.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,46 +39,20 @@
       <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.423077" vertical-offset="11378" max-vertical-offset="12563">
-              <caret line="699" column="33" selection-start-line="683" selection-start-column="28" selection-end-line="699" selection-end-column="33" />
+            <state vertical-scroll-proportion="-5.0384617" vertical-offset="10120" max-vertical-offset="12342">
+              <caret line="603" column="25" selection-start-line="603" selection-start-column="9" selection-end-line="603" selection-end-column="25" />
               <folding>
-                <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537" vertical-offset="11101" max-vertical-offset="14314">
-              <caret line="665" column="18" selection-start-line="656" selection-start-column="12" selection-end-line="665" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23529412" vertical-offset="1678" max-vertical-offset="18581">
-              <caret line="106" column="61" selection-start-line="106" selection-start-column="61" selection-end-line="106" selection-end-column="61" />
+            <state vertical-scroll-proportion="-8.307693" vertical-offset="15628" max-vertical-offset="18581">
+              <caret line="932" column="36" selection-start-line="932" selection-start-column="36" selection-end-line="932" selection-end-column="36" />
               <folding>
                 <element signature="e#7#215#0#PHP" expanded="true" />
               </folding>
@@ -85,23 +63,13 @@
       <file leaf-file-name="Frelaborales.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.576923" vertical-offset="4113" max-vertical-offset="4743">
-              <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
+            <state vertical-scroll-proportion="-17.961538" vertical-offset="4106" max-vertical-offset="4760">
+              <caret line="275" column="61" selection-start-line="275" selection-start-column="30" selection-end-line="275" selection-end-column="61" />
               <folding>
-                <marker date="1415232557278" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415232557278" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415232557278" expanded="true" signature="9860:9907" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
+                <marker date="1415286931932" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
+                <marker date="1415286931932" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
+                <marker date="1415286931932" expanded="true" signature="9902:9949" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/config.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="493">
-              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -109,8 +77,8 @@
       <file leaf-file-name="oasis.relaborales.view.splitter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.32" vertical-offset="1368" max-vertical-offset="2006">
-              <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
+            <state vertical-scroll-proportion="-6.8" vertical-offset="867" max-vertical-offset="2924">
+              <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -121,8 +89,8 @@
       <file leaf-file-name="oasis.relaborales.view.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="2057">
-              <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+            <state vertical-scroll-proportion="-9.84" vertical-offset="808" max-vertical-offset="2057">
+              <caret line="62" column="34" selection-start-line="62" selection-start-column="34" selection-end-line="62" selection-end-column="34" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -130,17 +98,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.28" vertical-offset="6609" max-vertical-offset="9231">
-              <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
+            <state vertical-scroll-proportion="-4.857143" vertical-offset="7140" max-vertical-offset="9333">
+              <caret line="256" column="103" selection-start-line="256" selection-start-column="103" selection-end-line="256" selection-end-column="103" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
-                <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
-                <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
-                <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
+                <marker date="1415308945343" expanded="false" signature="8680:8691" placeholder="..." />
+                <marker date="1415308945343" expanded="false" signature="9619:9630" placeholder="..." />
+                <marker date="1415308945343" expanded="false" signature="10570:10581" placeholder="..." />
+                <marker date="1415308945343" expanded="false" signature="11534:11545" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -159,17 +127,18 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.down.js" />
         <option value="$PROJECT_DIR$/app/models/Gestiones.php" />
         <option value="$PROJECT_DIR$/app/models/Relaborales.php" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-        <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml" />
+        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
+        <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
-        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
       </list>
     </option>
   </component>
@@ -410,10 +379,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <pass-parent-env-vars>false</pass-parent-env-vars>
+      <envs />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -447,13 +421,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -481,26 +455,92 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="11378" max-vertical-offset="12563">
+          <caret line="699" column="33" selection-start-line="683" selection-start-column="28" selection-end-line="699" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="11101" max-vertical-offset="14314">
+          <caret line="665" column="18" selection-start-line="656" selection-start-column="12" selection-end-line="665" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="18581">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#7#215#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4113" max-vertical-offset="4743">
+          <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
+          <folding>
+            <marker date="1415286931932" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415286931932" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415286931932" expanded="true" signature="9902:9949" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="493">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1368" max-vertical-offset="2006">
+          <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="2057">
+          <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6609" max-vertical-offset="9231">
+          <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1415308945343" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="11534:11545" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14552">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -527,11 +567,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3519" max-vertical-offset="4794">
           <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding>
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -551,10 +587,10 @@
           <caret line="417" column="13" selection-start-line="417" selection-start-column="13" selection-end-line="417" selection-end-column="13" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -563,9 +599,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8109" max-vertical-offset="8687">
           <caret line="492" column="23" selection-start-line="492" selection-start-column="23" selection-end-line="492" selection-end-column="23" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -584,23 +617,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14552">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -619,11 +636,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3519" max-vertical-offset="4794">
           <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding>
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -643,10 +656,10 @@
           <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -655,9 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8109" max-vertical-offset="8687">
           <caret line="503" column="5" selection-start-line="443" selection-start-column="4" selection-end-line="503" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -675,9 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1513" max-vertical-offset="8687">
           <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -685,7 +692,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="591">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -693,7 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="591">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -701,7 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.9402174" vertical-offset="1071" max-vertical-offset="7038">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -709,7 +713,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2320819" vertical-offset="51" max-vertical-offset="1258">
           <caret line="13" column="31" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -717,7 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31911263" vertical-offset="0" max-vertical-offset="586">
           <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -725,11 +727,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.692029" vertical-offset="4412" max-vertical-offset="4964">
           <caret line="287" column="65" selection-start-line="287" selection-start-column="65" selection-end-line="287" selection-end-column="65" />
-          <folding>
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-            <marker date="1415216545818" expanded="true" signature="-1:-1" placeholder="select gesti..f_listado_gestiones..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -737,9 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33273056" vertical-offset="5154" max-vertical-offset="5814">
           <caret line="314" column="102" selection-start-line="314" selection-start-column="100" selection-end-line="314" selection-end-column="102" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -757,104 +752,87 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.057921637" vertical-offset="0" max-vertical-offset="587">
           <caret line="2" column="59" selection-start-line="2" selection-start-column="57" selection-end-line="2" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.28" vertical-offset="6609" max-vertical-offset="9231">
-          <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1415230092860" expanded="false" signature="8680:8691" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="9619:9630" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="10570:10581" placeholder="..." />
-            <marker date="1415230092860" expanded="false" signature="11534:11545" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537" vertical-offset="11101" max-vertical-offset="14314">
-          <caret line="665" column="18" selection-start-line="656" selection-start-column="12" selection-end-line="665" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1058" max-vertical-offset="2057">
-          <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.576923" vertical-offset="4113" max-vertical-offset="4743">
-          <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
-          <folding>
-            <marker date="1415232557278" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415232557278" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415232557278" expanded="true" signature="9860:9907" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="493">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.27079645" vertical-offset="0" max-vertical-offset="565">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+    <entry file="file://$PROJECT_DIR$/../rrhhjavier04112014/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.423077" vertical-offset="11378" max-vertical-offset="12563">
-          <caret line="699" column="33" selection-start-line="683" selection-start-column="28" selection-end-line="699" selection-end-column="33" />
-          <folding>
-            <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#5;n#body#0;n#!!top" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.7626527" vertical-offset="10681" max-vertical-offset="12580">
+          <caret line="654" column="4" selection-start-line="654" selection-start-column="4" selection-end-line="654" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
+    <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.32" vertical-offset="1368" max-vertical-offset="2006">
-          <caret line="103" column="20" selection-start-line="103" selection-start-column="20" selection-end-line="103" selection-end-column="20" />
+        <state vertical-scroll-proportion="-17.961538" vertical-offset="4106" max-vertical-offset="4760">
+          <caret line="275" column="61" selection-start-line="275" selection-start-column="30" selection-end-line="275" selection-end-column="61" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1415286931932" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415286931932" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
+            <marker date="1415286931932" expanded="true" signature="9902:9949" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23529412" vertical-offset="1678" max-vertical-offset="18581">
-          <caret line="106" column="61" selection-start-line="106" selection-start-column="61" selection-end-line="106" selection-end-column="61" />
+        <state vertical-scroll-proportion="-8.307693" vertical-offset="15628" max-vertical-offset="18581">
+          <caret line="932" column="36" selection-start-line="932" selection-start-column="36" selection-end-line="932" selection-end-column="36" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.84" vertical-offset="808" max-vertical-offset="2057">
+          <caret line="62" column="34" selection-start-line="62" selection-start-column="34" selection-end-line="62" selection-end-column="34" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.8" vertical-offset="867" max-vertical-offset="2924">
+          <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.0384617" vertical-offset="10120" max-vertical-offset="12342">
+          <caret line="603" column="25" selection-start-line="603" selection-start-column="9" selection-end-line="603" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.857143" vertical-offset="7140" max-vertical-offset="9333">
+          <caret line="256" column="103" selection-start-line="256" selection-start-column="103" selection-end-line="256" selection-end-column="103" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1415308945343" expanded="false" signature="8680:8691" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="9619:9630" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="10570:10581" placeholder="..." />
+            <marker date="1415308945343" expanded="false" signature="11534:11545" placeholder="..." />
           </folding>
         </state>
       </provider>

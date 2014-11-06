@@ -254,7 +254,7 @@ function definirGrillaParaListaRelaborales(){
                     { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', width: 150,align:'center', hidden:true},
                     { text: 'Estado', filtertype: 'checkedlist', datafield: 'estado_descripcion', width: 100,align:'center', hidden:false,cellclassname: cellclass},
                     { text: 'Nombres y Apellidos', columntype: 'textbox', filtertype: 'input', datafield: 'nombres', width: 215,align:'center' , hidden:false},
-                    { text: 'CI', columntype: 'textbox', filtertype: 'input', datafield: 'ci', width: 100 ,cellsalign: 'center',align:'center', hidden:false},
+                    { text: 'CI', columntype: 'textbox', filtertype: 'input', datafield: 'ci', width: 90 ,cellsalign: 'center',align:'center', hidden:false},
                     { text: 'Exp', filtertype: 'checkedlist', datafield: 'expd', width: 40,cellsalign: 'center',align:'center', hidden:false},
                     { text: 'N/C', columntype: 'textbox', filtertype: 'input', datafield: 'num_complemento', width: 40,cellsalign: 'center',align:'center', hidden: true},
                     { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', width: 220,align:'center', hidden:false},
@@ -263,11 +263,11 @@ function definirGrillaParaListaRelaborales(){
                     { text: 'Proceso', filtertype: 'checkedlist', datafield: 'proceso_codigo', width: 220,cellsalign: 'center',align:'center', hidden:true},
                     { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', width: 220,align:'center', hidden:true},
                     { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', width: 215 ,align:'center', hidden:false},
-                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', width: 220,cellsalign: 'right',align:'center', hidden:false},
-                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center', hidden:true},
-                    { text: 'Fecha Incor.', datafield: 'fecha_incor', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
-                    { text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
-                    { text: 'Fecha Baja', datafield: 'fecha_baja', filtertype: 'range', width: 210, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
+                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', width: 100,cellsalign: 'right',align:'center', hidden:false},
+                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center', hidden:false},
+                    { text: 'Fecha Incor.', datafield: 'fecha_incor', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:false},
+                    { text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
+                    { text: 'Fecha Baja', datafield: 'fecha_baja', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
                     { text: 'Motivo Baja', datafield: 'motivo_baja', width: 100 , hidden:true},
                     { text: 'Observacion', datafield: 'observacion', width: 100 , hidden:true},
                 ]
@@ -398,6 +398,7 @@ function definirGrillaParaListaRelaborales(){
                         break;
                     case 4://Vista
                         $(".msjs-alert").hide();
+                        $("#hdnIdPersonaHistorial").val(dataRecord.id_persona);
                         if (dataRecord.tiene_contrato_vigente >= 0) {
                             $('#jqxTabs').jqxTabs('enableAt', 0);
                             $('#jqxTabs').jqxTabs('disableAt', 1);
@@ -415,19 +416,24 @@ function definirGrillaParaListaRelaborales(){
                                 height: '100%',
                                 position: 'top'});
                             // Focus jqxTabs.
-                            $('#tabFichaPersonal').jqxTabs('focus');
+                            //$('#tabFichaPersonal').jqxTabs('focus');
+                            $('#tabFichaPersonal').jqxTabs({ selectedItem: 0 });
                             $("#ddNombres").html(dataRecord.nombres);
+                            var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                            $("#imgFotoPerfilContactoPer").attr("src",rutaImagen);
+                            $("#imgFotoPerfilContactoInst").attr("src",rutaImagen);
+                            $("#imgFotoPerfil").attr("src",rutaImagen);
                             cargarPersonasContactos(dataRecord.id_persona);
                             $("#hdnIdRelaboralVista").val(id_relaboral);
+                            $("#hdnSwPrimeraVistaHistorial").val(0);
                             cargarGestionesHistorialRelaboral(dataRecord.id_persona);
                             /**
-                             * Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo
+                             * Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo.
+                             * Para el valor del parámetro sw el valor es 1 porque se desea que se limpie lo que haya y se cargue algo nuevo
                              */
-                            cargarHistorialRelacionLaboral(dataRecord.id_persona,0);
+                            cargarHistorialRelacionLaboral(dataRecord.id_persona,0,1);
+                            //$("#divContent_"+dataRecord.id_relaboral).focus();
                         }
-                        var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
-                        $("#imgFotoPerfilContacto").attr("src",rutaImagen);
-                        $("#imgFotoPerfil").attr("src",rutaImagen);
                         break;
                 }
 
@@ -449,8 +455,8 @@ function definirGrillaParaListaRelaborales(){
             { label: 'Nivel Salarial', value: 'nivelsalarial', checked: false },
             { label: 'Cargo', value: 'cargo', checked: true },
             { label: 'Haber', value: 'sueldo', checked: true },
-            { label: 'Fecha Inicio', value: 'fecha_ini', checked: false },
-            { label: 'Fecha Incor.', value: 'fecha_incor', checked: false },
+            { label: 'Fecha Inicio', value: 'fecha_ini', checked: true },
+            { label: 'Fecha Incor.', value: 'fecha_incor', checked: true },
             { label: 'Fecha Fin', value: 'fecha_fin', checked: false },
             { label: 'Fecha Baja', value: 'fecha_baja', checked: false },
             { label: 'Motivo Baja', value: 'motivo_baja', checked: false },

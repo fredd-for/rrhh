@@ -58,7 +58,7 @@ function cargarPersonasContactos(idPersona){
                             $("#ddTelefonoFijo").html("");
                         }
                         if(verificarVisibilidad("dtTelefonoInst")){
-                            $("#dtTelefonoInst").html(val.telefono_inst+"&nbsp;");
+                            $("#ddTelefonoInst").html(val.telefono_inst+"&nbsp;");
                         }else{
                             $("#dtTelefonoInst").html("");
                             $("#ddTelefonoInst").html("");

@@ -922,7 +922,7 @@ class RelaboralesController extends ControllerBase
      * Se inhabilita la vista para el uso de jqwidgets,
      */
     public function listhistorialAction()
-    {
+    {   $relaboral = Array();
        if(isset($_POST["id"])&&$_POST["id"]>0){
            $gestion = 0;
            if(isset($_POST["gestion"])&&$_POST["gestion"]>0){
