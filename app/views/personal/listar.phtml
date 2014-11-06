@@ -238,15 +238,15 @@ $(document).ready(function () {
                 }
                 var n_rows = rows.length;
                 var json_filter = JSON.stringify(filtros);
-                var json_rows = JSON.stringify(rows);
+                //var json_rows = JSON.stringify(rows);
                 var json_columns = JSON.stringify(columna);
-                json_rows = btoa(utf8_encode(json_rows));
+                //json_rows = btoa(utf8_encode(json_rows));
                 json_columns = btoa(utf8_encode(json_columns));
                 json_filter = btoa(utf8_encode(json_filter));
-                json_rows = json_rows.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+                //json_rows = json_rows.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
                 json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
                 json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-                window.open("/personal/imprimir/"+n_rows+"/"+json_rows+"/"+json_columns+"/"+json_filter, "_blank");
+                window.open("/personal/imprimir/"+n_rows+"/"+json_columns+"/"+json_filter, "_blank");
             });
             $("#add").click(function(){
                 //$("#page-content").load('../../personal/registro');

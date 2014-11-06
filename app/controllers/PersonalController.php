@@ -406,7 +406,7 @@ class PersonalController extends ControllerBase{
 	echo json_encode($msm);
         //echo $msm;
     }
-    public function imprimirAction($n_rows, $rows, $columns, $filtros){
+    public function imprimirAction($n_rows, $columns, $filtros){
         //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT)); 
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
