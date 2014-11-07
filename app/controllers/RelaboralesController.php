@@ -451,7 +451,7 @@ class RelaboralesController extends ControllerBase
                      * Con este valor eventualmente para presentación
                      * --->
                      */
-                    $objRelaboral->estado = 2;
+                    $objRelaboral->estado = 1;
                     /*
                      * <---
                      */
