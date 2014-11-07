@@ -451,7 +451,7 @@ class RelaboralesController extends ControllerBase
                      * Con este valor eventualmente para presentación
                      * --->
                      */
-                    $objRelaboral->estado = 1;
+                    $objRelaboral->estado = 2;
                     /*
                      * <---
                      */
@@ -470,8 +470,11 @@ class RelaboralesController extends ControllerBase
                             /*
                              * Verificando la existencia del registro de relación laboral.                             *
                              */
-                            $objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            //$objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            $objRA = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id,'order' => 'id ASC'));
                             if($objRA->id>0){
+                                $objRA->estado= 1;
+                                $objRA->baja_logica= 1;
                                 $objRA->organigrama_id= $id_area;
                                 $objRA->user_mod_id= $user_reg_id;
                                 $objRA->fecha_mod= $hoy;
@@ -493,7 +496,7 @@ class RelaboralesController extends ControllerBase
                             /*
                              * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
                              */
-                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id,'order' => 'id ASC'));
                             if($objRelArea->id>0){
                                 $objRelArea->estado=0;
                                 $objRelArea->baja_logica= 0;
