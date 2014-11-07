@@ -38,15 +38,24 @@
                 { value: "PARAGUAYA", label: "Paraguaya(o)" },
                 { value: "PERUANA", label: "Peruana(o)" }
             ];
-            var formato = [
-                { value: "img", label: "Imagen" },
-                { value: "pdf", label: "PDF" }
+            var ciudades = [
+                { value: "LA PAZ", label: "La Paz" },
+                { value: "COCHABAMBA", label: "Cochabamba" },
+                { value: "SUCRE", label: "Sucre" },
+                { value: "ORURO", label: "Oruro" },
+                { value: "POTOSI", label: "Potosí" },
+                { value: "SANTA CRUZ", label: "Santa Cruz" },
+                { value: "CERCADO TARIJA", label: "Cercado Tarija" },
+                { value: "TRINIDAD", label: "Trinidad" },
+                { value: "COBIJA", label: "Cobija" },
+                { value: "MONTERO", label: "Montero" },
+                { value: "OPLOCA", label: "Oploca" },
+                { value: "GUATEMALA", label: "Ciudad de Guatemala" }
             ];
             // create Countries ComboBox.
-            //$("#nacionalidad").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una nacionalidad", source: nacionalidad, height: 22, width: '100%' });
+            $("#nacionalidad").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una nacionalidad", source: nacionalidad, height: 22, width: '100%' });
             // create ciudades ComboBox.
-            $("#formato_archivo_digital").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
-                promptText: "Seleccione el formato.", source: formato, height: 22, width: '100%' });
+            $("#l_nacimiento").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una ciudad", source: ciudades, height: 22, width: '100%' });
             var expedido = [
                 { value: 'LP', label: "LP"},
                 { value: 'OR', label: "OR"},
@@ -61,19 +70,14 @@
             ];
             // create expedido ComboBox
             //$("#expedido").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0, autoDropDownHeight: true, promptText: "Tipo Documento:", source: expedido, width: '100%', height: 22 });
-            var tipo_dato_campo_aux = [
-                { value: "numeric", label: "Numérico" },
-                { value: "string", label: "Texto" },
-                { value: "date", label: "Fecha" },
-                { value: "boolean", label: "Lógico" }
+            var estado_civil = [
+                { value: "SOLTER@", label: "Soltera(o)" },
+                { value: "CASAD@", label: "Casada(o)" },
+                { value: "DIVORCIAD@", label: "Divorciada(o)" },
+                { value: "VIUD@", label: "Viuda(o)" }
             ];
             // create estado_civil ComboBox.
-            $("#tipo_dato_campo_aux_a").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
-                promptText: "Seleccione una opción", source: tipo_dato_campo_aux, height: 22, width: '100%' });
-            $("#tipo_dato_campo_aux_b").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
-                promptText: "Seleccione una opción", source: tipo_dato_campo_aux, height: 22, width: '100%' });
-            $("#tipo_dato_campo_aux_c").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
-                promptText: "Seleccione una opción", source: tipo_dato_campo_aux, height: 22, width: '100%' });
+            $("#estado_civil").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: estado_civil, height: 22, width: '100%' });
             var grupo_sanguineo = [
                 { value: "NN", label: "Sin Datos"},
                 { value: "ORH+", label: "ORH+"},
@@ -86,17 +90,17 @@
                 { value: "AB-", label: "AB-"},
             ];
             // create grupo_sanguineo ComboBox.
-            //$("#grupo_sanguineo").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0,autoDropDownHeight: true, promptText: "Seleccione una opción", source: grupo_sanguineo, height: 22, width: '100%' });
+            $("#grupo_sanguineo").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0,autoDropDownHeight: true, promptText: "Seleccione una opción", source: grupo_sanguineo, height: 22, width: '100%' });
             var sexo = [
                 {value: "F", label: "femenino"},
                 {value: "M", label: "masculino"}
             ];
             // create grupo_sanguineo ComboBox.
-            //$("#sexo").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: sexo, height: 22, width: '100%' });
+            $("#sexo").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: sexo, height: 22, width: '100%' });
             // create Accept Terms Checkbox.
             //$("#acceptTerms").jqxCheckBox({ width: '100%' });
             // create the Birth Date Calendar.
-            //$("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'yyyy-MM-dd' });
+            $("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'yyyy-MM-dd' });
             // create the Cart Type ComboBox.
             //var tipoDocs = [{ value: "CI", label: "Carnet de Identidad" }, { value: "RUN", label: "RUN" }, { value: "PASAPORTE", label: "Pasaporte" }, { value: "C_EXT", label: "Carnet de Extranjero" }];
             var tipoPresentacion =
@@ -167,7 +171,7 @@
                 };
             var da_tipofechaemidoc = new $.jqx.dataAdapter(tipofechaemidoc);    
             $("#tipofechaemidoc_id").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
-                promptText: "Tipo de Fcha a ingresar", source: da_tipofechaemidoc, width: '100%', height: 22,
+                promptText: "Tipo de FEcha a ingresar", source: da_tipofechaemidoc, width: '100%', height: 22,
                 displayMember: "valor_1", valueMember: "id",});
             var grupoarchivos =
                 {
@@ -223,130 +227,70 @@
             });
             // Validate form.
             $("#sendButton").click(function () {
-                /*var validationResult = function (isValid) {
+                var validationResult = function (isValid) {
                     if (isValid) {
                         $("#form").submit();
                     }
-                }*/
-                //$('#form').jqxValidator('validate', validationResult);
-                if(!$("#tipo_documento").val()){
-                    alert('Debe ingresar el Tipo de Documento.');
+                }
+                $('#form').jqxValidator('validate', validationResult);
+                if(!$("#p_nombre").val()){
+                    alert('Debe ingresar el primer nombre.');
                     return false;
                 }
-                if(!$("#codigo").val()){
-                    alert('Debe ingresar el Código.');
+                if(!$("#p_apellido").val()){
+                    alert('Debe ingresar el primer apellido.');
                     return false;
                 }
-                var cond_contrato = [
-                    {0: 0},
-                    {1: 0},
-                    {2: 0},
-                    {3: 0},
-                ]
-                selection = $('#tipo_contrato').jqxButtonGroup('getSelection');//alert(selection.length);
-                if (selection.length > 0 ){
-                    j = 0;
-                    for (var i = 0; i < 4; i++){
-                        if (selection[j] == i){
-                            cond_contrato[i] = 1;
-                            j++;
-                        } else {
-                            cond_contrato[i] = 0;
-                        }//alert (cond_contrato[i]);
-                    }
-                } else {
-                    alert('Debe seleccionar al menos una condicón de documento.');
+                if(!$("#ci").val()){
+                    alert('Debe ingresar el documento de identidad.');
                     return false;
                 }
-                var tipopresdoc_id = $("#tipopresdoc_id").jqxComboBox('getSelectedItem');
-                if (tipopresdoc_id == null){
-                    alert ('Debe seleccionar el Tipo de Presentación.');
+                var tipo_doc = $("#tipoDoc").jqxComboBox('getSelectedItem');
+                var expedido = $("#expedido").jqxComboBox('getSelectedItem');
+                var nacionalidad = $("#nacionalidad").jqxComboBox('getSelectedItem');
+                if (nacionalidad == null){
+                    alert ('Debe seleccionar una nacionalidad.');
                     return false;
                 }
-                var periodopresdoc_id = $("#periodopresdoc_id").jqxComboBox('getSelectedItem');
-                if (periodopresdoc_id == null){
-                    alert ('Debe seleccionar el periodo de presentación.');
+                var l_nacimiento = $("#l_nacimiento").jqxComboBox('getSelectedItem');
+                if (l_nacimiento == null){
+                    alert ('Debe seleccionar un lugar de nacimiento.');
                     return false;
                 }
-                var tipoperssoldoc_id = $("#tipoperssoldoc_id").jqxComboBox('getSelectedItem');
-                if (tipoperssoldoc_id == null){
-                    alert ('Debe seleccionar la persistencia de solicitud.');
+                var fecha_nac = $('#f_nacimiento').jqxDateTimeInput('getDate');
+                var e_civil = $('#estado_civil').jqxComboBox('getSelectedItem');
+                if (e_civil == null){
+                    alert ('Debe seleccionar un estado civil.');
                     return false;
                 }
-                var tipoemisordoc_id = $("#tipoemisordoc_id").jqxComboBox('getSelectedItem');
-                if (tipoemisordoc_id == null){
-                    alert ('Debe seleccionar el tipo de emisor.');
+                var grupo_sanguineo = $('#grupo_sanguineo').jqxComboBox('getSelectedItem');
+                var genero = $('#sexo').jqxComboBox('getSelectedItem');//alert(expedido);
+            	if (genero == null){
+                    alert ('Debe seleccionar sexo de la persona.');
                     return false;
                 }
-                var tipofechaemidoc_id = $("#tipofechaemidoc_id").jqxComboBox('getSelectedItem');
-                if (tipofechaemidoc_id == null){
-                    alert ('Debe seleccionar el tipo de fecha de emisión.');
-                    return false;
-                }
-                var grupoarchivos_id = $("#grupoarchivos_id").jqxComboBox('getSelectedItem');
-                if (grupoarchivos_id == null){
-                    alert ('Debe seleccionar el grupo de archivos.');
-                    return false;
-                }
-                var tipo_dato_campo_aux_a = $("#tipo_dato_campo_aux_a").jqxComboBox('getSelectedItem');
-                var tipo_dato_campo_aux_b = $("#tipo_dato_campo_aux_b").jqxComboBox('getSelectedItem');
-                var tipo_dato_campo_aux_c = $("#tipo_dato_campo_aux_c").jqxComboBox('getSelectedItem');
-                if(($("#campo_aux_a").val() && tipo_dato_campo_aux_a==null) || (!$("#campo_aux_a").val() && tipo_dato_campo_aux_a!=null)){
-                    alert('Debe ingresar ambos valores para el campo auxiliar A.');
-                    return false;
-                }
-                if(($("#campo_aux_b").val() && tipo_dato_campo_aux_b==null) || (!$("#campo_aux_b").val() && tipo_dato_campo_aux_b!=null)){
-                    alert('Debe ingresar ambos valores para el campo auxiliar B.');
-                    return false;
-                } else if (($("#campo_aux_b").val() && tipo_dato_campo_aux_b!=null)){
-                    if (!$("#campo_aux_a").val() && tipo_dato_campo_aux_a==null){
-                        alert('Debe ingresar los valores del campo auxiliar A primero.');
-                        return false;
-                    }
-                }
-                if(($("#campo_aux_c").val() && tipo_dato_campo_aux_c==null) || (!$("#campo_aux_c").val() && tipo_dato_campo_aux_c!=null)){
-                    alert('Debe ingresar ambos valores para el campo auxiliar C.');
-                    return false;
-                } else if (($("#campo_aux_c").val() && tipo_dato_campo_aux_c!=null)){ 
-                    if (!$("#campo_aux_b").val() && tipo_dato_campo_aux_b==null){
-                        alert('Debe ingresar los valores del campo auxiliar B primero.');
-                        return false;
-                    } else if (!$("#campo_aux_a").val() && tipo_dato_campo_aux_a==null){
-                        alert('Debe ingresar los valores del campo auxiliar A primero.');
-                        return false;
-                    }
-                }
-                if(tipo_dato_campo_aux_a==null){
-                    var tipo_dato_campo_aux_a=[{value:null}];
-                }
-                if(tipo_dato_campo_aux_b==null){
-                    var tipo_dato_campo_aux_b=[{value:null}];
-                }
-                if(tipo_dato_campo_aux_c==null){
-                    var tipo_dato_campo_aux_c=[{value:null}];
-                }
-                var formato_archivo_digital = $("#formato_archivo_digital").jqxComboBox('getSelectedItem');
-                if(formato_archivo_digital==null){
-                    var formato_archivo_digital=[{value:null}];
-                }
-                //var formato_archivo_digital = $("#formato_archivo_digital").jqxComboBox('getSelectedItem');//alert(formato_archivo_digital.value);
                 //var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
-                
+                var selection = $('#tipo_contrato').jqxButtonGroup('getSelection');
+                /*if (selection.length > 0 ){
+                    for (var i = 0; i <selection.length; i++){
+                        switch
+                    }
+                }*/
             	var v=$.ajax({
-                    	url:'../../archivo/save',
+                    	url:'../../personal/save',
                     	type:'POST',
                     	datatype: 'json',
-			data:{id:$("#id").val(),tipo_documento:$("#tipo_documento").val(),codigo:$("#codigo").val(),consultor:cond_contrato[0]
-                              ,eventual:cond_contrato[1], permanente:cond_contrato[2], carrera:cond_contrato[3]
-                              ,tipopresdoc_id:tipopresdoc_id.value,num_complemento:$("#num_complemento").val()
-                              ,nacionalidad:nacionalidad.value,periodopresdoc_id:periodopresdoc_id.value,tipoperssoldoc_id:tipoperssoldoc_id.value
-                              ,tipoemisordoc_id:tipoemisordoc_id.value,tipofechaemidoc_id:tipofechaemidoc_id.value,grupoarchivos_id:grupoarchivos_id.value
-                              ,ruta_carpeta:$("#ruta_carpeta").val(),formato_archivo_digital:formato_archivo_digital.value
-                              ,resolucion_archivo_digital:$("#resolucion_archivo_digital").val(),altura_archivo_digital:$("#altura_archivo_digital").val()
-                              ,anchura_archivo_digital:$("#anchura_archivo_digital").val(),campo_aux_a:$("#campo_aux_a").val()
-                              ,tipo_dato_campo_aux_a:tipo_dato_campo_aux_a.value,campo_aux_b:$("#campo_aux_b").val()
-                              ,tipo_dato_campo_aux_b:tipo_dato_campo_aux_b.value,campo_aux_c:$("#campo_aux_c").val(),tipo_dato_campo_aux_c:tipo_dato_campo_aux_c.value
-                              ,observacion:$("#observacion").val(),estado:"0",baja_logica:"1",user_reg_id:"1"},
+			data:{id:$("#id").val(),p_nombre:$("#p_nombre").val(),s_nombre:$("#s_nombre").val(),t_nombre:$("#t_nombre").val()
+                              ,p_apellido:$("#p_apellido").val(),s_apellido:$("#s_apellido").val(),c_apellido:$("#c_apellido").val()
+                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,num_complemento:$("#num_complemento").val()
+                              ,nacionalidad:nacionalidad.value,lugar_nac:l_nacimiento.value,fecha_nac:fecha_nac,e_civil:e_civil.value
+                              ,grupo_sanguineo:grupo_sanguineo.value,sexo:genero.value
+                              ,id_personas_contacto:$("#id_personas_contactos").val(),direccion_dom:$("#direccion").val()
+                              ,telefono_fijo:$("#telefono").val(),celular_per:$("#celular").val(),e_mail_per:$("#email_p").val()
+                              ,telefono_inst:$("#tel_inst").val(),telefono_fax:$("#fax").val(),interno_inst:$('#n_interno').val()
+                              ,celular_inst:$("#cel_inst").val(),e_mail_inst:$("#email_inst").val(),nit:$("#nit").val()
+                              ,num_func_sigma:$("#n_sigma").val(),num_lib_ser_militar:$("#libreta_militar").val(),num_reg_profesional:$("registro_prof").val()
+                              ,observacion:$("#observaciones").val(),estado:"0",baja_logica:"0",user_reg_id:"1"},
 			success: function(data) { alert (data);
                             var res = jQuery.parseJSON(data);
                             alert(res.msm); 
@@ -485,24 +429,14 @@
                 $.jqx.resize();
                 $(this).parent().addClass('active');
             })
-            $("#tipo_contrato").jqxButtonGroup({ mode: 'checkbox', theme: 'energyblue' });
+            $("#tipo_contrato").jqxButtonGroup({ mode: 'checkbox' });
             //$('#tipo_contrato').jqxButtonGroup('setSelection', 0);
             //$('#tipo_contrato').jqxButtonGroup('setSelection', 3);
             
             //alert (selection.length);
             $("#tipo_contrato").on('buttonclick', function (event) {
                 var clickedButton = event.args.button;
-                //$("#eventsLog").text("Clicked: " + clickedButton[0].id);
-                if (clickedButton[0].id == 'todas'){
-                    var selection = $('#tipo_contrato').jqxButtonGroup('getSelection');
-                    $("#tipo_contrato").jqxButtonGroup('setSelection', 0);
-                    $("#tipo_contrato").jqxButtonGroup('setSelection', 1);
-                    $("#tipo_contrato").jqxButtonGroup('setSelection', 2);
-                    $("#tipo_contrato").jqxButtonGroup('setSelection', 3);
-                    /*for (i in selection){
-                        $("#tipo_contrato").jqxButtonGroup('setSelection', i);
-                    }*/
-                }
+                $("#eventsLog").text("Clicked: " + clickedButton[0].id);
             });
         });
     </script>
@@ -549,6 +483,13 @@
                             <button class="btn btn-default btn-lg" id="todas">Todas</button>
                         </div>
                         
+                    </div>
+                    
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="eventsLog">Tipo de Presentaci&oacute;n *:</label>
+                        <div class="col-sm-3">
+                            <div id="eventsLog" style="margin-top: 10px;"></div>
+                        </div>
                     </div>
                     
                     
@@ -606,80 +547,50 @@
         </div>
         <div id="parametrizacion" class="box" style="width: 100%; height: 100%; overflow: hidden; border: none;">
            <!--<form class="navbar-form" id="form">-->
-                
+                <div class="form-horizontal">
+                    <h2>Detalles de Gen&eacute;ricos:</h2>
+                </div>
                 <div class="form-horizontal col-sm-6">
-                    <div class="form-horizontal">
-                        <h2>Detalles de Gen&eacute;ricos:</h2>
-                    </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="ruta_carpeta">Nombre Carpeta :</label>
+                        <label class="col-sm-3 control-label" for="nacionalidad">Nacionalidad *:</label>
                         <div class="col-sm-6">
-                            <input placeholder="Nombre de la Carpeta almacenadora" id="ruta_carpeta" name="ruta_carpeta" value="" />
+                            <div style="margin-top: 5px;" id="nacionalidad" on></div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="formato_archivo_digital">Formato :</label>
+                        <label class="col-sm-3 control-label" for="l_nacimiento">Lugar de Nacimiento *:</label>
                         <div class="col-sm-6">
-                            <div style="margin-top: 5px;" id="formato_archivo_digital" on></div>
+                            <div style="margin-top: 5px;" id="l_nacimiento" on></div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="resolucion_archivo_digital">Resoluci&oacute;n :</label>
+                        <label class="col-sm-3 control-label" for="f_nacimiento">Fecha de nacimiento *:</label>
                         <div class="col-sm-6">
-                            <input placeholder="Resoluci&oacute;n del archivo" id="resolucion_archivo_digital" name="resolucion_archivo_digital" value="" />
+                            <div style="margin-top: 5px;" id="f_nacimiento" name="f_nacimiento"></div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="altura_archivo_digital">Alto :   </label>
+                        <label class="col-sm-3 control-label" for="estado_civil">Estado Civil *:   </label>
                         <div class="col-sm-6">
-                            <input placeholder="Alto del archivo" id="altura_archivo_digital" name="altura_archivo_digital" value="" />
+                            <div style="margin-top: 5px;" id="estado_civil" ></div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="anchura_archivo_digital">Ancho :</label>
+                        <label class="col-sm-3 control-label" for="grupo_sanguineo">Grupo Sangu&iacute;neo :</label>
                         <div class="col-sm-6">
-                            <input placeholder="Ancho del archivo" id="anchura_archivo_digital" name="anchura_archivo_digital" value="" />
+                            <div style="margin-top: 5px;" id="grupo_sanguineo"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="sexo">Sexo *:</label>
+                        <div class="col-sm-6">
+                            <div style="margin-top: 5px;" id="sexo"></div>
                         </div>
                     </div>
                 </div>
                 <div class="form-horizontal col-sm-6">
                     <div class="form-horizontal">
                         <h2>Detalles de Presentaci&oacute;n:</h2>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="row">
-                            <label class="col-sm-3 control-label" for="campo_aux_a">Campo Auxiliar A :</label>
-                            <div class="col-sm-3">
-                                <input placeholder="Nombre del campo" id="campo_aux_a" name="campo_aux_a" value="" />
-                            </div>
-                            <div class="col-sm-3">
-                                <div style="margin-top: 5px;" id="tipo_dato_campo_aux_a"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-3 control-label" for="campo_aux_b">Campo Auxiliar B :</label>
-                            <div class="col-sm-3">
-                                <input placeholder="Nombre del campo" id="campo_aux_b" name="campo_aux_b" value="" />
-                            </div>
-                            <div class="col-sm-3">
-                                <div style="margin-top: 5px;" id="tipo_dato_campo_aux_b"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-3 control-label" for="campo_aux_c">Campo Auxiliar C :</label>
-                            <div class="col-sm-3">
-                                <input placeholder="Nombre del campo" id="campo_aux_c" name="campo_aux_c" value="" />
-                            </div>
-                            <div class="col-sm-3">
-                                <div style="margin-top: 5px;" id="tipo_dato_campo_aux_c"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-3 control-label" for="observacion">Observaciones :</label>
-                            <div class="col-sm-3">
-                                <input placeholder="Observaciones" id="observacion" name="observacion" value="" />
-                            </div>
-                        </div>
                     </div>
                 </div>
             <!--</form>-->
