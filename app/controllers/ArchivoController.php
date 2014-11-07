@@ -13,6 +13,14 @@ class ArchivoController extends ControllerBase{
     }
     public function nuevoAction() {
       //echo 'hola';
+        //$this->view->setVar('datos_personal', $datos_personal);
+    }
+    public function nuevoparametroAction($parametro) {
+      //echo 'hola';
+        $this->view->setVar('parametro', $parametro);
+    }
+    public function parametrosAction(){
+        
     }
     public function editarAction($id_personas){
         $resul = new personas();
@@ -55,6 +63,24 @@ class ArchivoController extends ControllerBase{
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
+    public function editarparametroAction($id_parametro){
+        $resul = new parametros();
+        $resul = parametros::findFirstById($id_parametro);
+        $datos_parametro = array(
+            'id' => $resul->id,
+            'parametro' => $resul->parametro,
+            'nivel' => $resul->nivel,
+            'valor_1' => $resul->valor_1,
+            'valor_2' => $resul->valor_2,
+            'valor_3' => $resul->valor_3,
+            'valor_4' => $resul->valor_4,
+            'valor_5' => $resul->valor_5,
+            'descripcion' => $resul->descripcion,
+            'observacion' => $resul->observacion,
+            'estado' => $resul->estado,
+        );
+        $this->view->setVar('datos_parametro', $datos_parametro);
+    }
     public function visualizarAction($id_personas){
         $resul = new personas();
         $resul = personas::findFirstById($id_personas);
@@ -96,22 +122,25 @@ class ArchivoController extends ControllerBase{
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
-    public function listAction()
+    public function listAction($parametro)
     {
-        $resul = personas::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
+        $resul = parametros::find(array("baja_logica = 1 AND parametro = '".$parametro."'" ,'order' => 'id ASC'));
         $this->view->disable();
         foreach ($resul as $v) {
             $customers[] = array(
                 'id' => $v->id,
-                'p_nombre' => $v->p_nombre,
-                's_nombre' => $v->s_nombre,
-                'p_apellido' => $v->p_apellido,
-                's_apellido' => $v->s_apellido,
-                'ci' => $v->ci,
-                'fecha_nac' => date("Y-m-d",strtotime($v->fecha_nac)),
-                'lugar_nac' => $v->lugar_nac,
-                'genero' => $v->genero,
-                'e_civil' => $v->e_civil,
+                'parametro' => $v->parametro,
+                'nivel' => $v->nivel,
+                'valor_1' => $v->valor_1,
+                'valor_2' => $v->valor_2,
+                'valor_3' => $v->valor_3,
+                'valor_4' => $v->valor_4,
+                'valor_5' => $v->valor_5,
+                'descripcion' => $v->descripcion,
+                'observacion' => $v->observacion,
+                'estado' => $v->estado,
+                'baja_logica' => $v->baja_logica,
+                'agrupador' => $v->agrupador,
             );
         }
         echo json_encode($customers);
@@ -121,6 +150,13 @@ class ArchivoController extends ControllerBase{
         $resul->baja_logica = 0;
         $resul->save();
         $this->view->disable();
+        echo json_encode();
+    }
+    public function deleteparametroAction(){
+        $resul = parametros::findFirstById($_POST['id']);
+        $resul->baja_logica = 0;
+        $resul->save();
+        $this->view->disable();echo $_POST['id'];
         echo json_encode();
     }
     public function saveAction()
@@ -396,6 +432,123 @@ class ArchivoController extends ControllerBase{
             echo " Line=", $e->getLine(), "\n";
             echo $e->getTraceAsString();
         }
+            }	
+        } else {
+          $msm = array('msm' => 'Error: no define Id' );
+        }
+
+        //$msm = array('msm' => 'Error: No..' );
+	$this->view->disable();
+	echo json_encode($msm);
+        //echo $msm;
+    }
+    public function saveparametroAction()
+    {
+        if (isset($_POST['id'])) {
+            if ($_POST['id']>0) {
+                $resul = new parametros();
+                $resul = parametros::findFirstById($_POST['id']);
+                if ($_POST['parametro'] == ''){
+                    $resul->parametro = NULL;
+                } else {
+                    $resul->parametro = $_POST['parametro'];
+                }
+                if ($_POST['nivel'] == ''){
+                    $resul->nivel = NULL;
+                } else {
+                    $resul->nivel = $_POST['nivel'];
+                }
+                $resul->valor_1 = $_POST['valor_1'];
+                if ($_POST['valor_2'] == ''){
+                    $resul->valor_2 = NULL;
+                } else {
+                    $resul->valor_2 = $_POST['valor_2'];
+                }
+                if ($_POST['valor_3'] == ''){
+                    $resul->valor_3 = NULL;
+                } else {
+                    $resul->valor_3 = $_POST['valor_3'];
+                }
+                if (isset($_POST['valor_4'])){
+                  $resul->valor_4 = $_POST['valor_4'];
+                } else {
+                  $resul->valor_4 = NULL;
+                }
+                if (isset($_POST['valor_5'])){
+                  $resul->valor_5 = $_POST['valor_5'];
+                } else {
+                  $resul->valor_5 = NULL;
+                }
+                if ($_POST['descripcion']==''){
+                    $resul->descripcion = NULL;
+                } else {
+                    $resul->descripcion = $_POST['descripcion'];
+                }
+                if (isset($_POST['observacion'])){
+                  $resul->observacion = $_POST['observacion'];
+                } else {
+                  $resul->observacion = NULL;
+                }
+                $resul->save();
+                if ($resul->save()) {
+                    $msm = array('msm' => 'Exito: Se guardo correctamente' );
+                } else {
+                    $msm = array('msm' => 'Error: No se guardo el registro' );
+                }
+            } else {
+                try{
+                $resul = new parametros();//echo "param: ".$_POST['parametro'];
+                $resul->parametro = $_POST['parametro'];
+                if ($_POST['nivel'] == ''){
+                    $resul->nivel = NULL;
+                } else {
+                    $resul->nivel = $_POST['nivel'];
+                }
+                $resul->valor_1 = $_POST['valor_1'];
+                if ($_POST['valor_2'] == ''){
+                    $resul->valor_2 = NULL;
+                } else {
+                    $resul->valor_2 = $_POST['valor_2'];
+                }
+                if ($_POST['valor_3'] == ''){
+                    $resul->valor_3 = NULL;
+                } else {
+                    $resul->valor_3 = $_POST['valor_3'];
+                }
+                if (isset($_POST['valor_4'])){
+                  $resul->valor_4 = $_POST['valor_4'];
+                } else {
+                  $resul->valor_4 = NULL;
+                }
+                if (isset($_POST['valor_5'])){
+                  $resul->valor_5 = $_POST['valor_5'];
+                } else {
+                  $resul->valor_5 = NULL;
+                }
+                if ($_POST['descripcion']==''){
+                    $resul->descripcion = NULL;
+                } else {
+                    $resul->descripcion = $_POST['descripcion'];
+                }
+                if (isset($_POST['observacion'])){
+                  $resul->observacion = $_POST['observacion'];
+                } else {
+                  $resul->observacion = NULL;
+                }
+                $resul->agrupador = '0';
+                $resul->estado = 0;
+                $resul->baja_logica = 1;
+                if ($resul->save()) {
+                    $msm = array('msm' => 'Exito: Se guardo correctamente' );
+                } else {
+                    $msm = array('msm' => 'Error: No se guardo el registro' );
+                }
+                }catch (\Exception $e){
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                }
             }	
         } else {
           $msm = array('msm' => 'Error: no define Id' );
