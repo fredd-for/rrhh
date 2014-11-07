@@ -421,8 +421,10 @@ class RelaboralesController extends ControllerBase
             /**
              * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
              */
-            if ($id_condicion == 3) {
+            if ($id_condicion == 2||$id_condicion == 3) {
                 $fecha_fin = $date3->format('Y-m-d');
+            }else{
+                $fecha_fin = $objRelaboral->fecha_fin;
             }
             if ($id_persona > 0 && $id_cargo > 0) {
                 try {
@@ -445,6 +447,9 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->fecha_incor = $fecha_incor;
                     $objRelaboral->fecha_fin = $fecha_fin;
                     $objRelaboral->observacion = ($observacion=="")?null:$observacion;
+                    /**
+                     * Con este valor eventualmente para presentación
+                     */
                     $objRelaboral->estado = 1;
                     $objRelaboral->baja_logica = 1;
                     $objRelaboral->user_mod_id = $user_mod_id;
@@ -547,7 +552,7 @@ class RelaboralesController extends ControllerBase
                 /**
                  * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
                  */
-                if ($id_condicion == 3) {
+                if ($id_condicion == 2||$id_condicion == 3) {
                     $fecha_fin = $date3->format('Y-m-d');
                 }
                 if ($id_persona > 0 && $id_cargo > 0) {

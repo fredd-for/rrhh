@@ -79,10 +79,13 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
  * @param idUbicacionPredeterminada Identificador de la ubicación de la oficina o Parada de Línea en la cual trabajará el empleado.
  */
 function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
-    var lstUbicaciones=$.ajax({
+    $('#lstUbicacionesEditar').html("");
+    $.ajax({
         url:'../../relaborales/listubicaciones',
         type:'POST',
         datatype: 'json',
+        cache:false,
+        async:false,
         success: function(data) {
             var res = jQuery.parseJSON(data);
             $.each( res, function( key, valo ) {
@@ -186,11 +189,11 @@ function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartid
     $("#divProcesosEditar").show();
     id_condicion = parseInt(id_condicion);
     cargarProcesosParaEditar(id_condicion,0);
-    if(id_condicion==3){
+    if(id_condicion==2||id_condicion==3){
         $("#divNumContratosEditar").show();
-        $("#txtNumContratoEditar").focus();
         $("#divFechasFinEditar").show();
-        $("#FechaFinEditar").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+        $("#FechaFinEditar").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
+        $("#txtNumContratoEditar").focus();
     }else{
         $("#lstUbicacionesEditar").focus();
     }
@@ -258,7 +261,7 @@ function validaFormularioPorEditarRegistro(){
     /**
      * Sólo para el caso de condición consultor será necesario registrar la fecha de finalización
      */
-    if(id_condicion==3){
+    if(id_condicion==2||id_condicion==3){
         var fechaFin = $("#FechaFinEditar").jqxDateTimeInput('getText');
     }
     var idCargo = $("#hdnIdCargoSeleccionadoEditar").val();
@@ -305,7 +308,7 @@ function validaFormularioPorEditarRegistro(){
         $("#helpErrorFechasIncorEditar").html(msje);
         if(enfoque==null)enfoque =$("#FechaIniEditar");
     }
-    if(id_condicion==3){
+    if(id_condicion==2||id_condicion==3){
         if(fechaFin==""||fechaFin==null){
             ok=false;
             msje = "Debe introducir la fecha de finalizaci&oacute;n del contrato.";
@@ -314,7 +317,7 @@ function validaFormularioPorEditarRegistro(){
             $("#helpErrorFechasFinEditar").html(msje);
             if(enfoque==null)enfoque =$("#FechaFinEditar");
         }
-        if(fechaIni>fechaFin){
+        if(procesaTextoAFecha(fechaFin,sep)<procesaTextoAFecha(fechaIni,sep)){
             ok=false;
             msje = "La fecha de inicio no puede ser superior a la fecha de finalizaci&oacute;n.";
             $("#divFechasIniEditar").show();
@@ -325,11 +328,22 @@ function validaFormularioPorEditarRegistro(){
             $("#helpErrorFechasFinEditar").html(msje);
             if(enfoque==null)enfoque =$("#FechaFinEditar");
         }
+        if(procesaTextoAFecha(fechaFin,sep)<procesaTextoAFecha(fechaIncor,sep)){
+            ok=false;
+            msje = "La fecha de incorporaci&oacute;n no puede ser superior a la fecha de finalizaci&oacute;n.";
+            $("#divFechasIncorEditar").show();
+            $("#divFechasIncorEditar").addClass("has-error");
+            $("#helpErrorFechasIncorEditar").html(msje);
+            $("#divFechasFinEditar").show();
+            $("#divFechasFinEditar").addClass("has-error");
+            $("#helpErrorFechasFinEditar").html(msje);
+            if(enfoque==null)enfoque =$("#FechaFinEditar");
+        }
     }
     /**
-     * Se procede al control del número de contrato sólo para personal consultor de linea.
+     * Se procede al control del número de contrato para personal eventual y consultor de línea.
      */
-    if(id_condicion==3){
+    if(id_condicion==2||id_condicion==3){
         if($("#txtNumContratoEditar").val()==null||$("#txtNumContratoEditar").val()==""){
             ok=false;
             msje = "Debe introducir en n&uacute;mero de contrato necesariamente.";
@@ -438,7 +452,7 @@ function guardarRegistroEditado(){
     var numContrato=  '';
     //Si la condición de la relación laboral es consultoría se requiere que se llene el campo del número de contrato.
     var fechaFin=null;
-    if(idCondicion==3){
+    if(idCondicion==2||idCondicion==3){
         numContrato =  $("#txtNumContratoEditar").val();
         var fechaFin = $('#FechaFinEditar').jqxDateTimeInput('getText');
     }

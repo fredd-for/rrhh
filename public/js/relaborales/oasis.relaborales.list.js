@@ -332,29 +332,38 @@ function definirGrillaParaListaRelaborales(){
                             $("#hdnIdCondicionEditableSeleccionada").val(dataRecord.id_condicion);
                             $("#hdnIdUbicacionEditar").val(dataRecord.id_ubicacion);
                             $("#hdnIdProcesoEditar").val(dataRecord.id_proceso);
-                            $("#FechaIniEditar").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-                            $("#FechaIncorEditar").jqxDateTimeInput({ value:dataRecord.fecha_incor,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+                            $("#FechaIniEditar").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                            $("#FechaIncorEditar").jqxDateTimeInput({ value:dataRecord.fecha_incor,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                            switch (dataRecord.condicion){
+                                case 'PERMANENTE':$("#divFechasFinEditar").hide();break;
+                                case 'EVENTUAL':
+                                case 'CONSULTOR':
+                                    $("#FechaFinEditar").jqxDateTimeInput({ value:dataRecord.fecha_fin,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                                    break;
+                            }
                             $("#hdnFechaFinEditar").val(dataRecord.fecha_fin);
                             $("#txtNumContratoEditar").val(dataRecord.num_contrato);
                             $("#divItemsEditar").hide();
-                            $("#divFechasFinEditar").hide();
                             $("#divNumContratosEditar").hide();
                             $(".msjs-alert").hide();
                             $("#helpErrorUbicacionesEditar").html("");
                             $("#helpErrorProcesosEditar").html("");
                             $("#helpErrorCategoriasEditar").html("");
+                            $("#helpErrorFechasIniEditar").html("");
+                            $("#helpErrorFechasIncorEditar").html("");
+                            $("#helpErrorFechasFinEditar").html("");
                             $("#divUbicacionesEditar").removeClass("has-error");
                             $("#divProcesosEditar").removeClass("has-error");
                             $("#divCategoriasEditar").removeClass("has-error");
+                            $("#divFechasIniEditar").removeClass("has-error");
+                            $("#divFechasIncorEditar").removeClass("has-error");
+                            $("#divFechasFinEditar").removeClass("has-error");
                             $("#tr_cargo_seleccionado_editar").html("");
                             if(dataRecord.observacion!=null)$("#txtObservacionEditar").text(dataRecord.observacion);
                             else $("#txtObservacionEditar").text('');
                             cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
                             cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
                             agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
-                            if(dataRecord.id_condicion==3){
-                                $("#txtNumContratoEditar").focus();
-                            }
                             var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                             $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                         }
