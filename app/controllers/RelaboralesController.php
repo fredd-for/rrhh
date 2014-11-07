@@ -449,8 +449,12 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->observacion = ($observacion=="")?null:$observacion;
                     /**
                      * Con este valor eventualmente para presentación
+                     * --->
                      */
                     $objRelaboral->estado = 1;
+                    /*
+                     * <---
+                     */
                     $objRelaboral->baja_logica = 1;
                     $objRelaboral->user_mod_id = $user_mod_id;
                     $objRelaboral->fecha_mod = $hoy;
@@ -461,6 +465,44 @@ class RelaboralesController extends ControllerBase
                          * Modificar el estado del cargo a adjudicado
                          */
                         $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                        #region Registro del área de trabajo
+                        if($id_area>0){
+                            /*
+                             * Verificando la existencia del registro de relación laboral.                             *
+                             */
+                            $objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            if($objRA->id>0){
+                                $objRA->organigrama_id= $id_area;
+                                $objRA->user_mod_id= $user_reg_id;
+                                $objRA->fecha_mod= $hoy;
+                                $objRA->save();
+                            }else{
+                                $objRelArea = new Relaboralesareas();
+                                $objRelArea->id= null;
+                                $objRelArea->relaboral_id= $objRelaboral->id;
+                                $objRelArea->organigrama_id= $id_area;
+                                $objRelArea->observacion= null;
+                                $objRelArea->estado= 1;
+                                $objRelArea->baja_logica= 1;
+                                $objRelArea->agrupador= 0;
+                                $objRelArea->user_reg_id= $user_reg_id;
+                                $objRelArea->fecha_reg= $hoy;
+                                $objRelArea->save();
+                            }
+                        }else{
+                            /*
+                             * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
+                             */
+                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            if($objRelArea->id>0){
+                                $objRelArea->estado=0;
+                                $objRelArea->baja_logica= 0;
+                                $objRelArea->user_mod_id= $user_reg_id;
+                                $objRelArea->fecha_mod= $hoy;
+                                $objRelArea->save();
+                            }
+                        }
+                        #endregion Registro del área de trabajo
                         #region Registro de la ubicación de trabajo
                         //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
                         if ($id_ubicacion > 0) {
@@ -589,6 +631,21 @@ class RelaboralesController extends ControllerBase
                              * Se modifica el estado del cargo para que se considere como adjudicado.
                              */
                             $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                            #region Registro del área de trabajo
+                            if($id_area>0){
+                                $objRelArea = new Relaboralesareas();
+                                $objRelArea->id= null;
+                                $objRelArea->relaboral_id= $objRelaboral->id;
+                                $objRelArea->organigrama_id= $id_area;
+                                $objRelArea->observacion= null;
+                                $objRelArea->estado= 1;
+                                $objRelArea->baja_logica= 1;
+                                $objRelArea->agrupador= 0;
+                                $objRelArea->user_reg_id= $user_reg_id;
+                                $objRelArea->fecha_reg= $hoy;
+                                $objRelArea->save();
+                            }
+                            #endregion Registro del área de trabajo
                             #region Registro de la ubicación de trabajo
                             //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
                             if ($objRelaboral->id > 0 && $id_ubicacion > 0) {
@@ -1090,4 +1147,45 @@ class RelaboralesController extends ControllerBase
        }
         echo json_encode($relaboral);
     }
+
+    /**
+     * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
+     * En caso de que dicho valor sea nulo o cero se devolverán todas las areas disponibles en el organigrama.
+     */
+    public function listareasAction(){
+        $organigramas = Array();
+        $this->view->disable();
+        if(isset($_POST["id_padre"])&&$_POST["id_padre"]>=0){
+            $obj = new Organigramas();
+            $resul = $obj->getAreas($_POST["id_padre"]);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $organigramas[] = array(
+                        'id_area' => $v->id_area,
+                        'padre_id' => $v->padre_id,
+                        'gestion' => $v->gestion,
+                        'da_id' => $v->da_id,
+                        'regional_id' => $v->regional_id,
+                        'unidad_administrativa' => $v->unidad_administrativa,
+                        'nivel_estructural_id' => $v->nivel_estructural_id,
+                        'sigla' => $v->sigla,
+                        'fecha_ini' => $v->fecha_ini,
+                        'fecha_fin' => $v->fecha_fin,
+                        'codigo' => $v->codigo,
+                        'observacion' => $v->observacion,
+                        'estado' => $v->estado,
+                        'baja_logica' => $v->baja_logica,
+                        'user_reg_id' => $v->user_reg_id,
+                        'fecha_reg' => $v->fecha_reg,
+                        'user_mod_id' => $v->user_mod_id,
+                        'fecha_mod' => $v->fecha_mod,
+                        'area_sustantiva' => $v->area_sustantiva
+                    );
+                }
+            }
+        }
+        echo json_encode($organigramas);
+    }
+
 } 

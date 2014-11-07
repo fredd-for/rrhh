@@ -19,6 +19,7 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
             /*{ name: 'finpartida', type: 'string' },*/
             { name: 'id_condicion', type: 'string' },
             { name: 'condicion', type: 'string' },
+            { name: 'id_organigrama', type: 'integer' },
             { name: 'id_cargo', type: 'string' },
             { name: 'gerencia_administrativa', type: 'string' },
             { name: 'departamento_administrativo', type: 'string' },
@@ -86,23 +87,7 @@ function cargarUbicaciones(idUbicacionPredeterminada){
     ];
     $("#ubicacion").jqxComboBox({ selectedIndex:0,autoComplete:true,enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una ubicacion", source: ubicacion, height: 22, width: '100%' });
 }
-/**
- * Función para cargar el combo de areas administrativas en función de los datos enviados como parámetros.
- * @param idPadre Identificador de la unidad administrativa de la cual se desea buscar el area dependiente.
- * @param idAreaPredeterminada Identificador del area Predeterminada inicialmente.
- */
-function cargarAreasAdministrativas(idPadre,idAreaPredeterminada){
-    var area = [
-        { value: "AR", label: "Argentina(0)" },
-        { value: "BO", label: "Boliviana(o)" },
-        { value: "BR", label: "Brazileña(o)" },
-        { value: "CL", label: "Chilena(o)" },
-        { value: "EC", label: "Ecuatoriana(o)" },
-        { value: "PY", label: "Paraguaya(o)" },
-        { value: "PE", label: "Peruana(o)" }
-    ];
-    $("#area").jqxComboBox({ autoComplete:true,enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione un area", source: area, height: 22, width: '100%' });
-}
+
 /**
  * Función para cargar los departamentos en el combo especificado.
  * @param idDepartamentoPrefijado Identificador del departamento prefijado por defecto.
@@ -121,6 +106,39 @@ function cargarDepartamentos(idDepartamentoPrefijado){
     ];
 
     $("#departamento").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione un departamento o ciudad", source: departamento, height: 22, width: '100%' });
+}
+/**
+ * Función para cargar el combo de áreas en caso de existir para el organigrama correspondiente al cargo.
+ * @param idPadre Identificador del organigrama padre del cual se desea conocer las áreas disponibles.
+ */
+function cargarAreasAdministrativas(idPadre,idAreaPredeterminada){
+    $('#divAreas').hide();
+    $('#lstAreas').html("");
+    var ok=false;
+    var selected = "";
+    if(idPadre>0){
+        $.ajax({
+            url:'/relaborales/listareas',
+            type:'POST',
+            datatype: 'json',
+            async:false,
+            data:{id_padre:idPadre
+            },
+            success: function(data) {
+                var res = jQuery.parseJSON(data);
+                if(res.length>0){
+                    $('#divAreas').show();
+                    $('#lstAreas').append("<option value='0'>Seleccionar..</option>");
+                    $.each( res, function( key, val ) {
+                        ok=true;
+                        if(idAreaPredeterminada==val.id_area)selected="selected";else selected="";
+                        $('#lstAreas').append("<option value="+val.id_area+" "+selected+">"+val.unidad_administrativa+"</option>");
+                    });
+                }
+            }
+        });
+    }
+    return ok;
 }
 /**
  * Función para cargar el combo de procesos de acuerdo al financiamiento seleccionado de acuerdo al cargo.
@@ -184,8 +202,8 @@ function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finparti
     $("#hdnIdOrganigramaSeleccionado").val(id_organigrama);
     $("#hdnIdCondicionNuevaSeleccionada").val(id_condicion);
     $("#divProcesos").show();
+    var okArea = cargarAreasAdministrativas(id_organigrama,0);
     cargarProcesos(id_condicion);
-    //alert(id_condicion);
     $("#popupWindowCargo").jqxWindow('close');
     id_condicion = parseInt(id_condicion);
     /**
@@ -193,11 +211,13 @@ function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finparti
      */
     if(id_condicion==2||id_condicion==3){
         $("#divNumContratos").show();
-        $("#txtNumContrato").focus();
+        if(!okArea)$("#txtNumContrato").focus();
+        else $("#lstAreas").focus();
         $("#divFechasFin").show();
         $("#FechaFin").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
     }else{
-        $("#lstUbicaciones").focus();
+        if(!okArea)$("#lstUbicaciones").focus();
+        else $("#lstAreas").focus();
     }
     $(".btnDescartarCargoSeleccionado").click(function(){
         $("#tr_cargo_seleccionado").html("");
@@ -439,6 +459,12 @@ function guardarNuevoRegistro(){
     var ok=true;
     var item=0;
     var idArea = 0;
+    /*
+        Si se ha definido la opción de registro de áreas
+     */
+    if($("#lstAreas").val()!=null){
+        idArea =$("#lstAreas").val();
+    }
     var idRegional = 1;
     var idPersona = $("#hdnIdPersonaSeleccionada").val();
     var idCargo = $("#hdnIdCargoNuevoSeleccionado").val();

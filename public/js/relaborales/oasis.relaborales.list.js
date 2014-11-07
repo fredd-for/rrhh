@@ -156,6 +156,7 @@ function definirGrillaParaListaRelaborales(){
             { name: 'id_organigrama', type: 'integer' },
             { name: 'gerencia_administrativa', type: 'string' },
             { name: 'departamento_administrativo', type: 'string' },
+            { name: 'id_area', type: 'integer' },
             { name: 'area', type: 'string' },
             { name: 'id_ubicacion', type: 'integer' },
             { name: 'num_contrato', type: 'string' },
@@ -300,6 +301,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#NombreParaNuevoRegistro").html(dataRecord.nombres);
                             $("#CorreoPersonal").html("");
                             $("#hdnIdCondicionNuevaSeleccionada").val(0)
+                            $("#divAreas").hide();
                             $("#divItems").hide();
                             $("#divFechasFin").hide();
                             $("#divNumContratos").hide();
@@ -355,6 +357,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#divUbicacionesEditar").removeClass("has-error");
                             $("#divProcesosEditar").removeClass("has-error");
                             $("#divCategoriasEditar").removeClass("has-error");
+                            $("#divAreas").hide();
                             $("#divFechasIniEditar").removeClass("has-error");
                             $("#divFechasIncorEditar").removeClass("has-error");
                             $("#divFechasFinEditar").removeClass("has-error");
@@ -363,7 +366,7 @@ function definirGrillaParaListaRelaborales(){
                             else $("#txtObservacionEditar").text('');
                             cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
                             cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
-                            agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
+                            agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                             $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                         }

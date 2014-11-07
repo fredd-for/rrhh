@@ -181,6 +181,13 @@
         <br>
         <!--form-horizontal-->
         <div class="block full col-sm-12" id="detallesDependencia">
+            <div class="row div-new-relab" id="divAreas">
+                <label class="col-sm-3 control-label" for="lstAreas">&Aacute;rea :</label>
+                <div class="col-sm-6">
+                    <select id="lstAreas"></select>
+                    <span class="help-block" id="helpErrorAreas"></span>
+                </div>
+            </div>
             <!--<div class="row div-new-relab" id="divItems">
                 <label class="col-sm-3 control-label" for="txtItem">&Iacute;tem *:</label>
             <div class="col-sm-6">
@@ -221,10 +228,8 @@
             </div>-->
             <div class="row div-new-relab" id="divProcesos">
                 <label class="col-sm-3 control-label" for="lstProcesos">Proceso *:</label>
-
                 <div class="col-sm-6">
-                    <?php /*echo $procesos */ ?>
-                    <select id="lstProcesos"></select>
+                     <select id="lstProcesos"></select>
                     <span class="help-block" id="helpErrorProcesos"></span>
                 </div>
             </div>
@@ -354,6 +359,13 @@
         <br>
 
         <div class="form-horizontal col-sm-12" id="detallesDependenciaEditable">
+            <div class="row div-edit-relab" id="divAreasEditar">
+                <label class="col-sm-3 control-label" for="lstAreasEditar">&Aacute;rea :</label>
+                <div class="col-sm-6">
+                    <select id="lstAreasEditar"></select>
+                    <span class="help-block" id="helpErrorAreasEditar"></span>
+                </div>
+            </div>
             <div class="row div-edit-relab" id="divNumContratosEditar">
                 <label class="col-sm-3 control-label" for="txtNumContratoEditar">N&uacute;mero de Contrato *:</label>
 

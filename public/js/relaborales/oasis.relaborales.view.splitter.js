@@ -132,6 +132,7 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtFinPartida_" + val.id_relaboral + "'>Financiamiento:</dt><dd id='ddFinPartida_" + val.id_relaboral + "'>" + val.condicion + " (Partida " + val.partida + ")</dd>";
                     historial += "<dt id='dtGerencia_" + val.id_relaboral + "'>Gerencia:</dt><dd id='ddGerencia_" + val.id_relaboral + "'>" + val.gerencia_administrativa + "</dd>";
                     if (val.departamento_administrativo != "")historial += "<dt id='dtDepartamento_" + val.id_relaboral + "'>Departamento:</dt><dd id='ddDepartamento_" + val.id_relaboral + "'>" + val.departamento_administrativo + "</dd>";
+                    if(val.id_area>0)historial += "<dt id='dtArea_" + val.id_relaboral + "'>&Aacute;rea:</dt><dd id='ddArea_" + val.id_relaboral + "'>" + val.area + "</dd>";
                     historial += "<dt id='dtUbicacion_" + val.id_relaboral + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacion_" + val.id_relaboral + "'>" + val.ubicacion + "</dd>";
                     switch (val.condicion){
                         case 'PERMANENTE':

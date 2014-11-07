@@ -59,7 +59,7 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
                         editrow = row;
                         var offset = $("#divGrillaParaSeleccionarCargo").offset();
                         var dataRecord = $("#divGrillaParaSeleccionarCargo").jqxGrid('getrowdata', editrow);
-                        agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
+                        agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,0,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                     }
                     },
                     { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', width: 100},
@@ -96,23 +96,6 @@ function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
     });
 }
 /**
- * Función para cargar el combo de areas administrativas en función de los datos enviados como parámetros.
- * @param idPadre Identificador de la unidad administrativa de la cual se desea buscar el area dependiente.
- * @param idAreaPredeterminada Identificador del area Predeterminada inicialmente.
- */
-function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
-    var area = [
-        { value: "AR", label: "Argentina(0)" },
-        { value: "BO", label: "Boliviana(o)" },
-        { value: "BR", label: "Brazileña(o)" },
-        { value: "CL", label: "Chilena(o)" },
-        { value: "EC", label: "Ecuatoriana(o)" },
-        { value: "PY", label: "Paraguaya(o)" },
-        { value: "PE", label: "Peruana(o)" }
-    ];
-    $("#areaEditar").jqxComboBox({ autoComplete:true,enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione un area", source: area, height: 22, width: '100%' });
-}
-/**
  * Función para cargar los departamentos en el combo especificado.
  * @param idDepartamentoPrefijado Identificador del departamento prefijado por defecto.
  */
@@ -130,6 +113,40 @@ function cargarDepartamentosParaEditar(idDepartamentoPrefijado){
     ];
 
     $("#departamentoEditar").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione un departamento o ciudad", source: departamento, height: 22, width: '100%' });
+}
+/**
+ * Función para cargar el combo de áreas en caso de existir para el organigrama correspondiente al cargo.
+ * @param idPadre Identificador del organigrama padre del cual se desea conocer las áreas disponibles.
+ * @param idAreaPredeterminada Identificador del área que ya tenía registro.
+ */
+function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
+    $('#divAreasEditar').hide();
+    $('#lstAreasEditar').html("");
+    var ok=false;
+    var selected = "";
+    if(idPadre>0){
+        $.ajax({
+            url:'/relaborales/listareas',
+            type:'POST',
+            datatype: 'json',
+            async:false,
+            data:{id_padre:idPadre
+            },
+            success: function(data) {
+                var res = jQuery.parseJSON(data);
+                if(res.length>0){
+                    $('#divAreasEditar').show();
+                    $('#lstAreasEditar').append("<option value='0'>Seleccionar..</option>");
+                    $.each( res, function( key, val ) {
+                        ok=true;
+                        if(idAreaPredeterminada==val.id_area)selected="selected";else selected="";
+                        $('#lstAreasEditar').append("<option value="+val.id_area+" "+selected+">"+val.unidad_administrativa+"</option>");
+                    });
+                }
+            }
+        });
+    }
+    return ok;
 }
 /**
  * Función para cargar el combo de procesos de acuerdo al financiamiento seleccionado de acuerdo al cargo.
@@ -175,7 +192,7 @@ function cargaCategoriasParaEditar(idCategoriaPredeterminada){
  * @param cargo Nombre del cargo.
  * @param haber Haber mensual para el cargo.
  */
-function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
+function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,id_area,nivelsalarial,cargo,haber){
     $("#tr_cargo_seleccionado_editar").html("");
     var btnDescartar = "<td class='text-center'><a class='btn btn-danger btnDescartarCargoSeleccionadoEditar' title='Descartar cargo seleccionado.' data-toggle='tooltip' data-original-title='Descartar' id='btn_editar_"+id_cargo+"' alt='Descartar cargo para el contrato'>";
     btnDescartar += "<i class='fa fa-times'></i></a></td>";
@@ -187,6 +204,7 @@ function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartid
     $("#hdnIdCondicionEditableSeleccionada").val(id_condicion);
     $("#popupWindowCargo").jqxWindow('close');
     $("#divProcesosEditar").show();
+    var okArea = cargarAreasAdministrativasParaEditar(id_organigrama,id_area);
     id_condicion = parseInt(id_condicion);
     cargarProcesosParaEditar(id_condicion,0);
     if(id_condicion==2||id_condicion==3){
@@ -442,6 +460,12 @@ function guardarRegistroEditado(){
     var id_relaboral = $("#hdnIdRelaboralEditar").val();
     var item=0;
     var idArea = 0;
+    /*
+     Si se ha definido la opción de registro de áreas
+     */
+    if($("#lstAreasEditar").val()!=null){
+        idArea =$("#lstAreasEditar").val();
+    }
     var idRegional = 1;
     var idPersona = $("#hdnIdPersonaSeleccionadaEditar").val();
     var idCargo = $("#hdnIdCargoSeleccionadoEditar").val();
