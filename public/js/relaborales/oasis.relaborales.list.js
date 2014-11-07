@@ -387,9 +387,9 @@ function definirGrillaParaListaRelaborales(){
                             $("#hdnIdRelaboralBaja").val(id_relaboral);
                             $("#NombreParaBajaRegistro").html(dataRecord.nombres);
                             $("#hdnIdCondicionSeleccionadaBaja").val(dataRecord.id_condicion);
-                            $("#txtFechaIniBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_ini,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-                            $("#txtFechaIncorBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_incor,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
-                            $("#txtFechaFinBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_fin,enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+                            $("#txtFechaIniBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_ini,enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
+                            $("#txtFechaIncorBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_incor,enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
+                            $("#txtFechaFinBaja").jqxDateTimeInput({ disabled: true,value:dataRecord.fecha_fin,enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
                             $(".msjs-alert").hide();
                             $("#divFechasRenBaja").hide();
                             $("#divFechasAceptaRenBaja").hide();
