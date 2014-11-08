@@ -269,11 +269,23 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     /**
      * Función para la obtención de la totalidad de los registros de relaciones laborales,
      * adicionando el registro de personas que nunca tuvieron una relación laboral con la empresa.
-     * @return Resultset
+     * @return Resultset Lista de registros laborales con la adición de persona sin un sólo registro laboral.
      */
     public function getAllWithPersons()
     {
         $sql = "SELECT * from f_relaborales_y_personas_nuevas()";
+        $this->_db = new Frelaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /*
+     * Función para la obtención de los registro de relaciones laborales conjuncionadas a las personas que no tienen registro de relación laboral,
+     * considerando que si una persona tiene más de un registro de relación laboral, sólo se muestra un registro, el último.
+     * @return Resultset Lista de registros laborales con la adición de personas sin ún sólo registro laboral.
+     */
+    public function getAllWithPersonsOneRecord()
+    {
+        $sql = "SELECT * from f_relaborales_y_personas_nuevas_un_registro()";
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

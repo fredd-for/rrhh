@@ -76,7 +76,8 @@ class RelaboralesController extends ControllerBase
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersons();
+        //$resul = $obj->getAllWithPersons();
+        $resul = $obj->getAllWithPersonsOneRecord();
         $permisoC = true;
         $permisoR = true;
         $permisoU = true;
@@ -623,7 +624,15 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->fecha_incor = $fecha_incor;
                         $objRelaboral->fecha_fin = $fecha_fin;
                         $objRelaboral->observacion = ($observacion=="")?null:$observacion;
-                        $objRelaboral->estado = 2;
+                        /*
+                         * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
+                         * El registro de relación laboral
+                         * -->
+                         */
+                        $objRelaboral->estado = 1;
+                        /**
+                         * <--
+                         */
                         $objRelaboral->baja_logica = 1;
                         $objRelaboral->user_reg_id = $user_reg_id;
                         $objRelaboral->fecha_reg = $hoy;
