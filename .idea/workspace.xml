@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,10 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36486486" vertical-offset="1477" max-vertical-offset="12580">
+            <state vertical-scroll-proportion="-7.269231" vertical-offset="1477" max-vertical-offset="12580">
               <caret line="98" column="39" selection-start-line="98" selection-start-column="39" selection-end-line="98" selection-end-column="39" />
               <folding />
             </state>
@@ -50,7 +44,6 @@
               <caret line="114" column="36" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1415392285090" expanded="true" signature="12145:12368" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -83,12 +76,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="4350" max-vertical-offset="4964">
               <caret line="287" column="73" selection-start-line="287" selection-start-column="73" selection-end-line="287" selection-end-column="73" />
-              <folding>
-                <marker date="1415461372458" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415461372458" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415461372458" expanded="true" signature="9987:10034" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-                <marker date="1415461372458" expanded="true" signature="10648:10707" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -96,24 +84,24 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="510">
-              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+            <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="510">
+              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="8132" max-vertical-offset="13923">
-              <caret line="502" column="82" selection-start-line="502" selection-start-column="82" selection-end-line="502" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.4353147" vertical-offset="8132" max-vertical-offset="13923">
+              <caret line="493" column="56" selection-start-line="493" selection-start-column="56" selection-end-line="493" selection-end-column="56" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-                <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-                <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-                <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
+                <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+                <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+                <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+                <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -171,12 +159,12 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
         <option value="$PROJECT_DIR$/app/models/Relaboralesareas.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.down.js" />
-        <option value="$PROJECT_DIR$/app/config/config.php" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
+        <option value="$PROJECT_DIR$/app/config/config.php" />
       </list>
     </option>
   </component>
@@ -213,6 +201,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -377,7 +366,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -399,15 +387,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -510,10 +498,10 @@
           <caret line="330" column="84" selection-start-line="330" selection-start-column="84" selection-end-line="330" selection-end-column="84" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -550,12 +538,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4113" max-vertical-offset="4743">
           <caret line="258" column="7" selection-start-line="258" selection-start-column="7" selection-end-line="258" selection-end-column="7" />
-          <folding>
-            <marker date="1415461372458" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415461372458" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415461372458" expanded="true" signature="9987:10034" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-            <marker date="1415461372458" expanded="true" signature="10648:10707" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -587,10 +570,10 @@
           <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -641,10 +624,10 @@
           <caret line="417" column="13" selection-start-line="417" selection-start-column="13" selection-end-line="417" selection-end-column="13" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -705,10 +688,10 @@
           <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -854,16 +837,7 @@
           <caret line="114" column="36" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415392285090" expanded="true" signature="12145:12368" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="510">
-          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -871,12 +845,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4350" max-vertical-offset="4964">
           <caret line="287" column="73" selection-start-line="287" selection-start-column="73" selection-end-line="287" selection-end-column="73" />
-          <folding>
-            <marker date="1415461372458" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415461372458" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415461372458" expanded="true" signature="9987:10034" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-            <marker date="1415461372458" expanded="true" signature="10648:10707" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -898,25 +867,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8132" max-vertical-offset="13923">
-          <caret line="502" column="82" selection-start-line="502" selection-start-column="82" selection-end-line="502" selection-end-column="82" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1415470567440" expanded="true" signature="28169:28180" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="29034:29045" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30086:30097" placeholder="..." />
-            <marker date="1415470567440" expanded="true" signature="30965:30976" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-7.269231" vertical-offset="1477" max-vertical-offset="12580">
+          <caret line="98" column="39" selection-start-line="98" selection-start-column="39" selection-end-line="98" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36486486" vertical-offset="1477" max-vertical-offset="12580">
-          <caret line="98" column="39" selection-start-line="98" selection-start-column="39" selection-end-line="98" selection-end-column="39" />
+        <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="510">
+          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4353147" vertical-offset="8132" max-vertical-offset="13923">
+          <caret line="493" column="56" selection-start-line="493" selection-start-column="56" selection-end-line="493" selection-end-column="56" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1415477283791" expanded="false" signature="28169:28180" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="29034:29045" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30086:30097" placeholder="..." />
+            <marker date="1415477283791" expanded="false" signature="30965:30976" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
