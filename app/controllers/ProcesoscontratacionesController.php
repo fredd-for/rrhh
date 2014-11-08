@@ -11,8 +11,8 @@ class ProcesoscontratacionesController extends ControllerBase
 
 	public function indexAction()
 	{
-		//$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
-		//$this->view->setVar('normativamod',$resul);
+		$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
+		$this->view->setVar('normativamod',$resul);
 	}
 
 	public function listAction()
@@ -34,6 +34,26 @@ class ProcesoscontratacionesController extends ControllerBase
 		}
 		echo json_encode($customers);
 	}
+
+	public function listseguimientoAction()
+	{
+		$resul = Seguimientos::find(array('baja_logica=1','order' => 'id ASC'));
+		/*$model = new Procesoscontrataciones();
+		$resul= $model->listaseguimiento();
+		*/
+		$this->view->disable();
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'proceso_contratacion_id' => $v->proceso_contratacion_id,
+				'codigo_cargo' => $v->codigo_cargo,
+				'cargo' => $v->cargo,
+				'sueldo' => $v->sueldo,
+				);
+		}
+		echo json_encode($customers);
+	}
+
 
 	public function addAction()
 	{	$auth = $this->session->get('auth');
