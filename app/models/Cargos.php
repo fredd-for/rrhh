@@ -87,6 +87,7 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $fin_partida_id;
 
+    public $depende_id;
     
     /**
      * Initialize method for model.
@@ -115,8 +116,9 @@ class Cargos extends \Phalcon\Mvc\Model
             'user_mod_id' => 'user_mod_id', 
             'fecha_mod' => 'fecha_mod',
             'estado' => 'estado',
-            'fin_partida_id' => 'fin_partida_id'
-            
+            'fin_partida_id' => 'fin_partida_id',
+            'depende_id' => 'depende_id'
+
         );
     }
 
