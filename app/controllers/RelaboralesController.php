@@ -1252,7 +1252,7 @@ class RelaboralesController extends ControllerBase
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         //echo $rows." - ".$columns;
-        $pdf = new FPDF();
+        $pdf = new fpdf();
         //$rows = (string)$rows;
 
         //echo $filtros;
