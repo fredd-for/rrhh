@@ -270,7 +270,7 @@ class OrganigramasController extends ControllerBase
 		$datos_usuario="";
 		$nombre="";
 		if($estado==0){
-			$datos_usuario = ' <img src="/images/personal/imagen_acefalo.jpg" title="ACEFALO" height="50" width="50">';
+			$datos_usuario = ' <img src="/images/personal/imagen_acefalo.jpg" title="ACEFALO" height="50" width="50"><br>ACEFALO';
 		}else{
 			$ci_activo='1';
 			$cargo_ci=new Cargos();
@@ -280,7 +280,6 @@ class OrganigramasController extends ControllerBase
 				$nombre = $v->p_nombre.', '.$v->p_apellido.' '.$v->s_apellido;
 			}
 			$ruta="./images/personal/".$ci_activo.".jpg";
-
 			if (file_exists($ruta)) {
 				$datos_usuario = ' <img src="/images/personal/'.$ci_activo.'.jpg" height="50" width="50">';	
 			} else {
