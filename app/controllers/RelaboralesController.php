@@ -24,10 +24,12 @@ class RelaboralesController extends ControllerBase
         $this->assets->addCss('/css/oasis.tabla.incrementable.css');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.print.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
         $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
         $this->assets->addCss('/assets/css/oasis.principal.css');
@@ -64,19 +66,21 @@ class RelaboralesController extends ControllerBase
      */
     public function listAction()
     {
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
+        /*$this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
         $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
         $this->assets->addCss('/assets/css/oasis.principal.css');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
+        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');*/
         $this->view->disable();
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersons();
+        //$resul = $obj->getAllWithPersons();
+        $resul = $obj->getAllWithPersonsOneRecord();
         $permisoC = true;
         $permisoR = true;
         $permisoU = true;
@@ -99,19 +103,19 @@ class RelaboralesController extends ControllerBase
                 //Se evalua el permiso de edición de registro
                 if ($permisoU) {
                     if ($v->estado == 2) {
-                        $new = '<input type="button" id="btn_new_' . $v->id_relaboral . '" value=Nuevo class=btn_new>';
+                        $edit = '<input type="button" id="btn_edit_' . $v->id_relaboral . '" value=Editar class=btn_edit>';
                     }
                 }
                 //Se evalua
-                $edit = '<input type="button" id="btn_edit_' . $v->id_relaboral . '" value="Editar" class="btn_edit">';
+                $aprobar = '<input type="button" id="btn_appr_' . $v->id_relaboral . '" value="Aprobar" class="btn_approve">';
                 $down = '<input type="button" id="btn_del_' . $v->id_relaboral . '" value="Baja" class="btn_del">';
                 $view = '<input type="button" id="btn_view_' . $v->id_relaboral . '" value="Ver" class="btn_view">';
                 #region Control de valores para fechas para evitar error al momento de mostrar en grilla
-                $fechaIni="";
+                /*$fechaIni="";
                 if($v->fecha_ini!=""){
                     $fechaIni = $v->fecha_ini;
                     $fechaIni = date("d-m-Y", strtotime($fechaIni));
-                }
+                }*/
                 $fechaIncor="";
                 if($v->fecha_incor!=""){
                     $fechaIncor = $v->fecha_incor;
@@ -146,6 +150,7 @@ class RelaboralesController extends ControllerBase
                 $relaboral[] = array(
                     'chk' => $chk,
                     'nuevo' => $new,
+                    'aprobar' => $aprobar,
                     'editar' => $edit,
                     'eliminar' => $down,
                     'ver' => $view,
@@ -177,7 +182,7 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ini' => $fechaIni,
+                    'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
                     'fecha_incor' => $fechaIncor,
                     'fecha_fin' => $fechaFin,
                     'fecha_baja' => $fechaBaja,
@@ -623,7 +628,15 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->fecha_incor = $fecha_incor;
                         $objRelaboral->fecha_fin = $fecha_fin;
                         $objRelaboral->observacion = ($observacion=="")?null:$observacion;
-                        $objRelaboral->estado = 2;
+                        /*
+                         * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
+                         * El registro de relación laboral
+                         * -->
+                         */
+                        $objRelaboral->estado = 1;
+                        /**
+                         * <--
+                         */
                         $objRelaboral->baja_logica = 1;
                         $objRelaboral->user_reg_id = $user_reg_id;
                         $objRelaboral->fecha_reg = $hoy;
@@ -693,6 +706,47 @@ class RelaboralesController extends ControllerBase
             } else {
                 $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
             }
+        }
+        echo json_encode($msj);
+    }
+
+    /*
+     * Función para la aprobación del registro de relación laboral que se encontraba en estado EN PROCESO.
+     */
+    public function approveAction()
+    {
+        $user_mod_id=1;
+        $msj = Array();
+        $hoy = date("Y-m-d H:i:s");
+        $this->view->disable();
+        if (isset($_POST["id"])&&$_POST["id"] > 0) {
+            /**
+             * Aprobación de registro
+             */
+            $objRelaboral = Relaborales::findFirstById($_POST["id"]);
+            if ($objRelaboral->id > 0 && $objRelaboral->estado == 2) {
+                try {
+                    $objRelaboral->estado = 1;
+                    $objRelaboral->user_mod_id = $user_mod_id;
+                    $objRelaboral->fecha_mod = $hoy;
+                    $ok = $objRelaboral->save();
+                    if ($ok) {
+                        $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de relaci&oacute;n laboral.');
+                    }else{
+                        $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de relaci&oacute;n laboral.');
+                    }
+                } catch (\Exception $e) {
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                }
+            } else {
+                $msj = array('result' => 0, 'msj' => 'Error: El registro de relaci&oacute;n laboral no cumple con el requisito establecido para su aprobaci&oacute;n, debe estar en estado EN PROCESO.');
+            }
+        } else {
+            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se envi&oacute; el identificador del registro de relaci&oacute;n laboral.');
         }
         echo json_encode($msj);
     }
@@ -1189,6 +1243,271 @@ class RelaboralesController extends ControllerBase
             }
         }
         echo json_encode($organigramas);
+    }
+    /*
+     * Función para imprimir el reporte de relación laboral que se tiene en vista en el listado.
+     */
+    public function printAction($n_rows, $columns, $filtros){
+        //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT));
+        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        //echo $rows." - ".$columns;
+        $pdf = new FPDF();
+        //$rows = (string)$rows;
+
+        //echo $filtros;
+        //$rows = json_decode($rows,true);
+        $columns = json_decode($columns,true);
+        $filtros = json_decode($filtros,true);
+        $pdf->AddPage('L','Letter');
+        //$pdf->SetFont('Arial','B',16);
+        $sub_keys = array_keys($columns);//echo $sub_keys[0];
+        //$keys = array_keys($rows[0]);
+        $n_col = count($columns);//echo$keys[1];
+        //echo $n_col;
+        $title = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
+        $pdf->SetFont('Arial','B',12);
+        $w = $pdf->GetStringWidth($title)+6;
+        $pdf->SetX((260-$w)/2);
+        $pdf->SetDrawColor(0,80,80);
+        $pdf->SetFillColor(0,153,153);
+        $pdf->SetTextColor(255);
+        // Ancho del borde (1 mm)
+        $pdf->SetLineWidth(1);
+        // Título
+        $pdf->Cell($w+15,9,$title,1,1,'C',true);
+        $pdf->Ln();
+        $pdf->SetFont('Arial','',10);
+        // Color de fondo
+        $pdf->SetFillColor(255,255,255);
+        $pdf->SetTextColor(0);
+        // Título
+        $pdf->Cell(0,6,"Filtrado por:",0,1,'L',true);
+        $where = '';
+        for($k=0;$k<count($filtros);$k++){
+            for ($j=0;$j<$n_col;$j++){
+                if ($sub_keys[$j] == $filtros[$k]['columna']){
+                    $col_fil = $columns[$sub_keys[$j]]['text'];//echo $col_fil;
+                }
+            }
+            $cond_fil = ' '.$col_fil;
+            if (strlen($where)>0){
+                $where .= ' AND ';
+            }
+            if ($filtros[$k]['tipo'] == 'datefilter'){
+                $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
+                //echo $filtros[$k]['valor'];
+            }
+            switch ($filtros[$k]['condicion']){
+                /*case 'EMPTY':
+                    $cond_fil .= utf8_encode(" que sea vacía ");
+                    $where .= $filtros[$k]['columna'].
+                    break;
+                case 'NOT_EMPTY':
+                    $cond_fil .= utf8_encode(" que no sea vacía ");
+                    break;*/
+                case 'CONTAINS':
+                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna'].' ILIKE "%'.$filtros[$k]['valor'].'%"';
+                    break;
+                case 'GREATER_THAN_OR_EQUAL':
+                    $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna'].' >= "'.$filtros[$k]['valor'].'"';
+                    break;
+                case 'LESS_THAN_OR_EQUAL':
+                    $cond_fil .= utf8_encode(" que sea menor o igual que:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna'].' <= "'.$filtros[$k]['valor'].'"';
+                    break;
+            }//echo $cond_fil;
+            $pdf->Cell(0,6,  utf8_decode($cond_fil),0,1,'L',true);
+        }
+        //echo $where;
+        // Salto de línea
+        $pdf->Ln(4);
+        $pdf->SetFillColor(0,153,153);
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(0,80,80);
+        $pdf->SetLineWidth(.3);
+        $pdf->SetFont('Arial','B',8);
+        $pdf->Cell(10,7,'Nro.',1,0,'C',true);
+        for ($j=0;$j<$n_col;$j++){
+            if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
+                $pdf->Cell(28,7,$columns[$sub_keys[$j]]['text'],1,0,'C',true);
+            }
+        }
+        $pdf->Ln();
+        $pdf->SetFillColor(224,235,255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        $pdf->Image('../public/images/logoMT.jpg',10,8,20,20);
+        $fill = false;
+        $ancho = 0;
+        //$resul = personas::find(array($where,'order' => 'id ASC'));
+        $obj = new Frelaborales();
+        //$resul = $obj->getAllWithPersons();
+        $resul = $obj->getAllWithPersonsOneRecord();
+
+        //$this->view->disable();
+        foreach ($resul as $v) {
+            $fechaIncor="";
+            if($v->fecha_incor!=""){
+                $fechaIncor = $v->fecha_incor;
+                $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
+            }
+            $fechaFin="";
+            if($v->fecha_fin!=""){
+                $fechaFin = $v->fecha_fin;
+                $fechaFin = date("d-m-Y", strtotime($fechaFin));
+            }
+            $fechaBaja="";
+            if($v->fecha_baja!=""){
+                $fechaBaja = $v->fecha_baja;
+                $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
+            }
+            $fechaRen="";
+            if($v->fecha_ren!=""){
+                $fechaRen = $v->fecha_ren;
+                $fechaRen = date("d-m-Y", strtotime($fechaRen));
+            }
+            $fechaAceptaRen="";
+            if($v->fecha_baja!=""){
+                $fechaAceptaRen = $v->fecha_acepta_ren;
+                $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
+            }
+            $fechaAgraServ="";
+            if($v->fecha_baja!=""){
+                $fechaAgraServ = $v->fecha_agra_serv;
+                $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
+            }
+            $relaboral[] = array(
+                'id_relaboral' => $v->id_relaboral,
+                'id_persona' => $v->id_persona,
+                'p_nombre' => $v->p_nombre,
+                's_nombre' => $v->s_nombre,
+                't_nombre' => $v->t_nombre,
+                'p_apellido' => $v->p_apellido,
+                's_apellido' => $v->s_apellido,
+                'c_apellido' => $v->c_apellido,
+                'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
+                'ci' => $v->ci,
+                'expd' => $v->expd,
+                'num_complemento' => $v->num_complemento,
+                'fecha_nac' => $v->fecha_nac,
+                'edad' => $v->edad,
+                'lugar_nac' => $v->lugar_nac,
+                'genero' => $v->genero,
+                'e_civil' => $v->e_civil,
+                'item' => $v->item,
+                'carrera_amd' => $v->carrera_amd,
+                'num_contrato' => $v->num_contrato,
+                'contrato_numerador_estado' => $v->contrato_numerador_estado,
+                'id_solelabcontrato' => $v->id_solelabcontrato,
+                'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
+                'solelabcontrato_numero' => $v->solelabcontrato_numero,
+                'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
+                'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
+                'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
+                'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
+                'fecha_incor' => $fechaIncor,
+                'fecha_fin' => $fechaFin,
+                'fecha_baja' => $fechaBaja,
+                'fecha_ren' => $fechaRen,
+                'fecha_acepta_ren' => $fechaAceptaRen,
+                'fecha_agra_serv' => $fechaAgraServ,
+                'motivo_baja' => $v->motivo_baja,
+                'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
+                'descripcion_baja' => $v->descripcion_baja,
+                'descripcion_anu' => $v->descripcion_anu,
+                'id_cargo' => $v->id_cargo,
+                'cargo_codigo' => $v->cargo_codigo,
+                'cargo' => $v->cargo,
+                'id_nivelessalarial' => $v->id_nivelessalarial,
+                'nivelsalarial' => $v->nivelsalarial,
+                'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
+                'numero_escala' => $v->numero_escala,
+                'gestion_escala' => $v->gestion_escala,
+                'sueldo' => $v->sueldo,
+                'id_proceso' => $v->id_proceso,
+                'proceso_codigo' => $v->proceso_codigo,
+                'id_convocatoria' => $v->id_convocatoria,
+                'convocatoria_codigo' => $v->convocatoria_codigo,
+                'convocatoria_tipo' => $v->convocatoria_tipo,
+                'id_fin_partida' => $v->id_fin_partida,
+                'fin_partida' => $v->fin_partida,
+                'id_condicion' => $v->id_condicion,
+                'condicion' => $v->condicion,
+                'categoria_relaboral' => $v->categoria_relaboral,
+                'id_da' => $v->id_da,
+                'direccion_administrativa' => $v->direccion_administrativa,
+                'organigrama_regional_id' => $v->organigrama_regional_id,
+                'organigrama_regional' => $v->organigrama_regional,
+                'id_regional' => $v->id_regional,
+                'regional' => $v->regional,
+                'regional_codigo' => $v->regional_codigo,
+                'id_departamento' => $v->id_departamento,
+                'departamento' => $v->departamento,
+                'id_provincia' => $v->id_provincia,
+                'provincia' => $v->provincia,
+                'id_localidad' => $v->id_localidad,
+                'localidad' => $v->localidad,
+                'residencia' => $v->residencia,
+                'unidad_ejecutora' => $v->unidad_ejecutora,
+                'cod_ue' => $v->cod_ue,
+                'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
+                'gerencia_administrativa' => $v->gerencia_administrativa,
+                'id_departamento_administrativo' => $v->id_departamento_administrativo,
+                'departamento_administrativo' => $v->departamento_administrativo,
+                'id_organigrama' => $v->id_organigrama,
+                'unidad_administrativa' => $v->unidad_administrativa,
+                'organigrama_sigla' => $v->organigrama_sigla,
+                'organigrama_codigo' => $v->organigrama_codigo,
+                'id_area' => $v->id_area,
+                'area' => $v->area,
+                'id_ubicacion' => $v->id_ubicacion,
+                'ubicacion' => $v->ubicacion,
+                'unidades_superiores' => $v->unidades_superiores,
+                'unidades_dependientes' => $v->unidades_dependientes,
+                'partida' => $v->partida,
+                'fuente_codigo' => $v->fuente_codigo,
+                'fuente' => $v->fuente,
+                'organismo_codigo' => $v->organismo_codigo,
+                'organismo' => $v->organismo,
+                'observacion' => ($v->observacion!=null)?$v->observacion:"",
+                'estado' => $v->estado,
+                'estado_descripcion' => $v->estado_descripcion,
+                'estado_abreviacion' => $v->estado_abreviacion,
+                'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
+                'id_eventual' => $v->id_eventual,
+                'id_consultor' => $v->id_consultor,
+                'user_reg_id' => $v->user_reg_id,
+                'fecha_reg' => $v->fecha_reg,
+                'user_mod_id' => $v->user_mod_id,
+                'fecha_mod' => $v->fecha_mod,
+                'persona_user_reg_id' => $v->persona_user_reg_id,
+                'persona_fecha_reg' => $v->persona_fecha_reg,
+                'persona_user_mod_id' => $v->persona_user_mod_id,
+                'persona_fecha_mod' => $v->persona_fecha_mod
+            );
+        } //echo $personal[0]['id'];
+        for ($i=0;$i<$n_rows;$i++){
+            $pdf->Cell(10,6,$i,'LR',0,'L',$fill);
+            $ancho = 10;
+            for ($j=0;$j<$n_col;$j++){
+                if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
+                    $pdf->Cell(28,6,  utf8_decode($relaboral[$i][$sub_keys[$j]]),'LR',0,'L',$fill);
+                    $ancho = $ancho + 28;
+                }
+            }
+            //$pdf->Cell(40,10, ($keys[$j]),0,1);
+
+            $fill = !$fill;
+            $pdf->Ln();
+            //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
+        }
+        $pdf->Cell($ancho,0,'','T');
+        $pdf->Output('reporte_relaboral.pdf','I');
+        $this->view->disable();
     }
 
 } 

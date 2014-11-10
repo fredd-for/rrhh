@@ -59,7 +59,7 @@ function cargarGestionesHistorialRelaboral(idPersona) {
     }
     var idPersonaHistorial = $("#hdnIdPersonaHistorial").val();
     $("#listboxGestiones").on('checkChange', function (event) {
-        if($("#hdnSwPrimeraVistaHistorial").val()==1){
+        //if($("#hdnSwPrimeraVistaHistorial").val()==1){
                 var cantidadGestiones = 0;
                 var args = event.args;
                 var items = $("#listboxGestiones").jqxListBox('getCheckedItems');
@@ -86,7 +86,7 @@ function cargarGestionesHistorialRelaboral(idPersona) {
                         });
                     }
                 }
-            }
+            //}
             $("#hdnSwPrimeraVistaHistorial").val(1);
     });
 }

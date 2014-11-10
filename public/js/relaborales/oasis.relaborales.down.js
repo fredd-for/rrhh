@@ -58,7 +58,7 @@ function cargarMotivosBajas(idMotivoBajaPredeterminada,idCondicion){
  */
 function defineFechasBajas(fecha_ren,fecha_acepta_ren,fecha_agra_Serv){
     $("#divFechasBaja").show();
-    $("#txtFechaBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+    $("#txtFechaBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
     objFocus = $("#txtFechaBaja");
     /**
      * Segmento para la especificación donde se enfocará el mouse.
@@ -66,19 +66,19 @@ function defineFechasBajas(fecha_ren,fecha_acepta_ren,fecha_agra_Serv){
      */
     if(fecha_agra_Serv==1){
         $("#divFechasAgraServBaja").show();
-        $("#txtFechaAgraServBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+        $("#txtFechaAgraServBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
         objFocus = $("#txtFechaAgraServBaja");
     }else $("#divFechasAgraServBaja").hide();
 
     if(fecha_acepta_ren==1){
         $("#divFechasAceptaRenBaja").show();
-        $("#txtFechaAceptaRenBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+        $("#txtFechaAceptaRenBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
         objFocus = $("#txtFechaAceptaRenBaja");
     }else $("#divFechasAceptaRenBaja").hide();
 
     if(fecha_ren==1){
         $("#divFechasRenBaja").show();
-        $("#txtFechaRenBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+        $("#txtFechaRenBaja").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
         objFocus = $("#txtFechaRenBaja");
     }else $("#divFechasRenBaja").hide();
 

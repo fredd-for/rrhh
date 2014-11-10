@@ -87,6 +87,12 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $fin_partida_id;
 
+    /**
+     *
+     * @var integer
+     */
+    public $depende_id;
+
     
     /**
      * Initialize method for model.
@@ -115,7 +121,8 @@ class Cargos extends \Phalcon\Mvc\Model
             'user_mod_id' => 'user_mod_id', 
             'fecha_mod' => 'fecha_mod',
             'estado' => 'estado',
-            'fin_partida_id' => 'fin_partida_id'
+            'fin_partida_id' => 'fin_partida_id',
+            'depende_id' => 'depende_id'
             
         );
     }
@@ -143,6 +150,13 @@ INNER JOIN cargos c ON p.cargo_id=c.id
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id
 WHERE p.baja_logica=1 order by p.fecha_ini asc";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function getCI($cargo_id='')
+    {
+        $sql = "select ci from relaborales r,personas p where r.cargo_id='$cargo_id' and r.estado = 1 and r.baja_logica=1 and r.persona_id = p.id";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
