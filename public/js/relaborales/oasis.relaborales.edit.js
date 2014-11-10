@@ -81,7 +81,7 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
 function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
     $('#lstUbicacionesEditar').html("");
     $.ajax({
-        url:'../../relaborales/listubicaciones',
+        url:'/relaborales/listubicaciones',
         type:'POST',
         datatype: 'json',
         cache:false,
@@ -123,7 +123,20 @@ function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
     $('#divAreasEditar').hide();
     $('#lstAreasEditar').html("");
     var ok=false;
-    var selected = "";
+    var selected = "";$.ajax({
+        url:'/relaborales/listubicaciones',
+        type:'POST',
+        datatype: 'json',
+        cache:false,
+        async:false,
+        success: function(data) {
+            var res = jQuery.parseJSON(data);
+            $.each( res, function( key, valo ) {
+                if(idUbicacionPredeterminada==valo.id){$selected='selected';}else{ $selected='';}
+                $('#lstUbicacionesEditar').append("<option value="+valo.id+" "+$selected+">"+valo.ubicacion+"</option>");
+            });
+        }
+    });
     if(idPadre>0){
         $.ajax({
             url:'/relaborales/listareas',
@@ -485,7 +498,7 @@ function guardarRegistroEditado(){
     var observacion = $("#txtObservacionEditar").val();
     if(id_relaboral>0&&idPersona>0&&idCargo>0){
         var ok=$.ajax({
-            url:'../../relaborales/save/',
+            url:'/relaborales/save/',
             type:'POST',
             datatype: 'json',
             async:false,
