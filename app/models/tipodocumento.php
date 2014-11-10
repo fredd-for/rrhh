@@ -200,6 +200,19 @@ class tipodocumento extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $grupoarchivos_id;
+    
+    /**
+     *
+     * @var string
+     */
+    public $sexo;
+    
+    /**
+     * 
+     *  @var integer
+     */
+    public $tipo_proceso_contratacion;
+
 
     /**
      * Initialize method for model.
@@ -247,7 +260,9 @@ class tipodocumento extends \Phalcon\Mvc\Model
             'fecha_reg' => 'fecha_reg',
             'user_mod_id' => 'user_mod_id',
             'fecha_mod' => 'fecha_mod',
-            'grupoarchivos_id' => 'grupoarchivos_id'
+            'grupoarchivos_id' => 'grupoarchivos_id',
+            'sexo' => 'sexo',
+            'tipo_proceso_contratacion' => 'tipo_proceso_contratacion'
             
         );
     }

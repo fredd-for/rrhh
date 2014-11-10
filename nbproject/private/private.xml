@@ -12,6 +12,7 @@
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/PersonalController.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/listar.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/nuevoparametro.phtml</file>
+            <file>file:/D:/xampp/htdocs/rrhh/app/models/tipodocumento.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/config/loader.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/editar.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ControllerBase.php</file>
