@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.approve.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.localizacion.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.down.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.edit.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.list.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.new.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.tab.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.view.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\relaborales\relaborales\oasis.relaborales.view.splitter.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\personal\4751225.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\personal\4751225e.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\personal\8301341.jpg" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/4986493.jpg" afterPath="$PROJECT_DIR$/public/images/personal/4986493.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.24329159" vertical-offset="0" max-vertical-offset="559">
-              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+              <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -963,7 +953,7 @@
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24329159" vertical-offset="0" max-vertical-offset="559">
-          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
           <folding />
         </state>
       </provider>
