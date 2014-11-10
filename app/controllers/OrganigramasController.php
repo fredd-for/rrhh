@@ -267,28 +267,28 @@ class OrganigramasController extends ControllerBase
 
 	public function listarPersonal($id, $cargo, $codigo,$estado) {
 		$h=  Cargos::count("depende_id='$id'");
-		$imagen="";
+		$datos_usuario="";
+		$nombre="";
 		if($estado==0){
-			$imagen = ' <img src="/images/personal/imagen_acefalo.jpg" alt="ACEFALO" height="50" width="50">';
+			$datos_usuario = ' <img src="/images/personal/imagen_acefalo.jpg" title="ACEFALO" height="50" width="50">';
 		}else{
 			$ci_activo='1';
 			$cargo_ci=new Cargos();
 			$ci=$cargo_ci->getCI($id);
 			foreach ($ci as $v) {
 				$ci_activo = $v->ci;
+				$nombre = $v->p_nombre.', '.$v->p_apellido.' '.$v->s_apellido;
 			}
 			$ruta="./images/personal/".$ci_activo.".jpg";
 
 			if (file_exists($ruta)) {
-				$imagen = ' <img src="/images/personal/'.$ci_activo.'.jpg" height="50" width="50">';	
+				$datos_usuario = ' <img src="/images/personal/'.$ci_activo.'.jpg" height="50" width="50">';	
 			} else {
-				$imagen = ' <img src="/images/personal/imagen_comodin.png" height="50" width="50">';	
+				$datos_usuario = ' <img src="/images/personal/imagen_comodin.png" title="Adjudicado" height="50" width="50">';	
 			}
-
-			
-			
+			$datos_usuario.="<br>".$nombre;
 		}        
-		$this->lista.='<li id="org" style="display:none"><span>'.$codigo.'</span><br>'.$cargo.'<br>'.$imagen;
+		$this->lista.='<li id="org" style="display:none"><span>'.$codigo.'</span><br>'.$cargo.'<br>'.$datos_usuario;
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';

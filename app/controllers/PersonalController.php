@@ -411,7 +411,7 @@ class PersonalController extends ControllerBase{
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         //echo $rows." - ".$columns;
-        $pdf = new FPDF();
+        $pdf = new fpdf();
         //$rows = (string)$rows;
         
         //echo $filtros;
@@ -534,7 +534,8 @@ class PersonalController extends ControllerBase{
             //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
         }
         $pdf->Cell($ancho,0,'','T');
-        $pdf->Output('reporte_personal.pdf','I');
+        //$pdf->Output('reporte_personal.pdf','I');
+        $pdf->Output();
         $this->view->disable();
     }
 }
