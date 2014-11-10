@@ -12,17 +12,17 @@ class OrganigramasController extends ControllerBase
 	public function indexAction()
 	{
 		$organigrama=  Organigramas::findFirst("padre_id = '0'");
-            $this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla);
-            $this->lista.='</ul>';
-            $config = array();
+		$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla);
+		$this->lista.='</ul>';
+		$config = array();
 
 		$this->assets
-                    ->addCss('/js/jorgchart/jquery.jOrgChart.css')
-                    ->addCss('/js/jorgchart/custom.css')
-            ;
-        $this->assets->addJs('/js/jorgchart/jquery.jOrgChart.js');
+		->addCss('/js/jorgchart/jquery.jOrgChart.css')
+		->addCss('/js/jorgchart/custom.css')
+		;
+		$this->assets->addJs('/js/jorgchart/jquery.jOrgChart.js');
 
-        $this->view->setVar('lista', $this->lista);
+		$this->view->setVar('lista', $this->lista);
 	}
 
 	public function addAction($id='')
@@ -90,7 +90,7 @@ class OrganigramasController extends ControllerBase
 			$resul->unidad_administrativa = $this->request->getPost('unidad_administrativa');
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
-		 	$resul->fecha_ini = date("Y-m-d",strtotime($this->request->getPost('fecha_ini')));
+			$resul->fecha_ini = date("Y-m-d",strtotime($this->request->getPost('fecha_ini')));
 			$resul->user_mod_id = 1;
 			$resul->fecha_mod = date("Y-m-d H:i:s");
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
@@ -140,7 +140,8 @@ class OrganigramasController extends ControllerBase
 		<a href="/organigramas/add/'.$id.'" title="adicionar"><i class="fa fa-plus-circle fa-lg"></i></a>
 		<a href="/organigramas/edit/'.$id.'" title="editar"><i class="fa fa-pencil fa-lg"></i></a>
 		<a href="/organigramas/delete/'.$id.'" title="eliminar"><i class="fa fa-minus-circle fa-lg"></i></a>
-		<br>'.$oficina;
+		<br>
+		<a href="/organigramas/personal/'.$id.'" title="eliminar" style="color:#f2f2f2">'.$oficina.'</a>';
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';
@@ -228,9 +229,9 @@ class OrganigramasController extends ControllerBase
 		$resul = Organigramas::findFirstById($id);
 		$resul->baja_logica = 0;
 		if ($resul->save()) {
-				$this->flashSession->success("Exito: Elimino correctamente el registro...");
-			}else{
-				$this->flashSession->error("Error: no se elimino ningun registro...");
+			$this->flashSession->success("Exito: Elimino correctamente el registro...");
+		}else{
+			$this->flashSession->error("Error: no se elimino ningun registro...");
 		}
 		$this->response->redirect('/organigramas');
 	}
@@ -243,6 +244,68 @@ class OrganigramasController extends ControllerBase
 		echo json_encode();
 	}
 */
+
+
+	public function personalAction($organigrama_id)
+	{
+		$cargo=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and depende_id='0'" ));
+              if($cargo!=false){
+		$this->listarPersonal($cargo->id,$cargo->cargo, $cargo->codigo,$cargo->estado);
+		$this->lista.='</ul>';
+		$config = array();
+              }  else {
+                  $this->lista.='<h3>No existe cargos dentro la oficina..</h3>';
+              }
+		$this->assets
+		->addCss('/js/jorgchart/jquery.jOrgChartPersonal.css')
+		->addCss('/js/jorgchart/customPersonal.css')
+		;
+		$this->assets->addJs('/js/jorgchart/jquery.jOrgChart.js');
+
+		$this->view->setVar('lista', $this->lista);
+	}
+
+	public function listarPersonal($id, $cargo, $codigo,$estado) {
+		$h=  Cargos::count("depende_id='$id'");
+		$imagen="";
+		if($estado==0){
+			$imagen = ' <img src="/images/personal/imagen_acefalo.jpg" alt="ACEFALO" height="50" width="50">';
+		}else{
+			$ci_activo='1';
+			$cargo_ci=new Cargos();
+			$ci=$cargo_ci->getCI($id);
+			foreach ($ci as $v) {
+				$ci_activo = $v->ci;
+			}
+			$ruta="./images/personal/".$ci_activo.".jpg";
+
+			if (file_exists($ruta)) {
+				$imagen = ' <img src="/images/personal/'.$ci_activo.'.jpg" height="50" width="50">';	
+			} else {
+				$imagen = ' <img src="/images/personal/imagen_comodin.png" height="50" width="50">';	
+			}
+
+			
+			
+		}        
+		$this->lista.='<li id="org" style="display:none"><span>'.$codigo.'</span><br>'.$cargo.'<br>'.$imagen;
+		if ($h > 0) {
+            //echo '<ul>';
+			$this->lista.='<ul>';
+			$hijos=  Cargos::find(array("depende_id='$id' and baja_logica=1"));
+            //$hijos = ORM::factory('oficinas')->where('padre', '=', $id)->find_all();
+			foreach ($hijos as $hijo) {
+				$cargo = $hijo->cargo;
+				$this->listarPersonal($hijo->id, $cargo, $hijo->codigo,$hijo->estado);
+			}
+			$this->lista.='</ul>';
+            // echo '</ul>';
+		} else {
+			$this->lista.='</li>';
+            //   echo '</li>';
+		}
+	}
+
 	
 }
 ?>

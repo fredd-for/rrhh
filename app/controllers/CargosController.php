@@ -127,6 +127,12 @@ public function saveAction()
 		if ($_POST['id']>0) {
 			$resul = Cargos::findFirstById($_POST['id']);
 			$resul->organigrama_id = $_POST['organigrama_id'];
+			if ($_POST['depende_id']!="") {
+				$resul->depende_id = $_POST['depende_id'];
+			}else{
+				$resul->depende_id = 0;
+			}
+		
 			$resul->codigo = $_POST['codigo'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
@@ -152,6 +158,12 @@ public function saveAction()
 				*/
 				$resul = new Cargos();
 				$resul->organigrama_id = $_POST['organigrama_id'];
+				if ($_POST['depende_id']!="") {
+				$resul->depende_id = $_POST['depende_id'];
+			}else{
+				$resul->depende_id = 0;
+			}
+		
 				$resul->ejecutora_id = 1;
 					$resul->codigo = $_POST['codigo']; //generar
 					$resul->cargo = $_POST['cargo'];
@@ -230,6 +242,22 @@ public function listpacAction()
 			'gestion' => $v->gestion,
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
+			);
+	}
+	echo json_encode($customers);
+}
+public function listdependeAction()
+{
+		$resul = Cargos::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
+	//$model = new Cargos();
+	//$resul = $model->lista();
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers[] = array(
+			'id' => $v->id,
+			'organigrama' => $v->organigrama_id,
+			'codigo' => $v->codigo,
+			'cargo' => $v->cargo
 			);
 	}
 	echo json_encode($customers);
