@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		/*Combo box organigramas*/
-		var source =
+		var sourceOrg =
 		{
 			datatype: "json",
 			datafields: [
@@ -12,17 +12,62 @@
 			url: '/cargos/listorganigrama',
 			async: false
 		};
-		var dataAdapter = new $.jqx.dataAdapter(source);
+		var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
 
 		$("#organigrama_id").jqxComboBox(
 		{
-			source: dataAdapter,
+			source: dataAdapterOrg,
 			width: 450,
 			height: 25,
 			promptText: '(Seleccionar)',
 			displayMember: 'unidad_administrativa',
 			valueMember: 'id'
 		}); 
+
+		/*Combo box depende de*/
+		var sourceDep =
+		{
+			datatype: "json",
+			datafields: [
+			{ name: 'id'},
+			{ name: 'organigrama'},
+			{ name: 'codigo'},
+			{ name: 'cargo'},
+			],
+			url: '/cargos/listdepende',
+			async: false
+		};
+		var dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
+
+		$("#depende_id").jqxComboBox(
+		{
+			//source: dataAdapterDep,
+			width: 450,
+			height: 25,
+			disabled: true,
+			promptText: '(Seleccionar)',
+			displayMember: 'cargo',
+			valueMember: 'id',
+			autoDropDownHeight: true
+		}); 
+
+		/*Filtro segun organigrama a cargos*/
+
+		$("#organigrama_id").bind('select', function(event)
+		{
+			if (event.args)
+			{
+				$("#depende_id").jqxComboBox({ disabled: false, selectedIndex: -1});		
+				var value = event.args.item.value;
+				//alert(value)
+				sourceDep.data = {organigrama: value};
+				dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
+				$("#depende_id").jqxComboBox({source: dataAdapterDep});
+			}
+		}); 
+
+
+
 
 		/*Combo box nivel salarial*/
 		var source =
@@ -118,6 +163,7 @@
                      $("#titulo").text("Editar");
                      $("#id").val(dataRecord.id);
                      $("#organigrama_id").val(dataRecord.organigrama_id);
+                     $("#depende_id").val(dataRecord.depende_id);
                      $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
                      $("#codigo").val(dataRecord.codigo);
                      $("#cargo").val(dataRecord.cargo);
@@ -258,7 +304,7 @@ function cargar2(){
   					url:'/cargos/save/',
   					type:'POST',
   					datatype: 'json',
-  					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
+  					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
 						success: function(data) { cargar(); //alert(data.msm); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
@@ -332,6 +378,7 @@ function cargar2(){
     						return index != -1;
 							}
 						},
+						
                        { input: "#nivelsalarial_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
     						var index = $("#nivelsalarial_id").jqxComboBox('getSelectedIndex');
     						return index != -1;
@@ -395,6 +442,12 @@ function cargar2(){
 							<td align="right">Organigrama:</td>
 							<td align="left" ><?php // echo $organigrama ?>
 								<div name="list" id="organigrama_id" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">Depende de:</td>
+							<td align="left" >
+								<div name="list_depende_id" id="depende_id" ></div>
 							</td>
 						</tr>
 						<tr>

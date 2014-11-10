@@ -47,20 +47,14 @@
             // create ciudades ComboBox.
             $("#formato_archivo_digital").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, 
                 promptText: "Seleccione el formato.", source: formato, height: 22, width: '100%' });
-            var expedido = [
-                { value: 'LP', label: "LP"},
-                { value: 'OR', label: "OR"},
-                { value: 'PT', label: "PT"},
-                { value: 'CB', label: "CB"},
-                { value: 'CH', label: "CH"},
-                { value: 'TJ', label: "TJ"},
-                { value: 'SC', label: "SC"},
-                { value: 'BN', label: "BN"},
-                { value: 'PD', label: "PD"},
-                { value: 'NN', label: "Sin Dato"}
+            var modalidad = [
+                { value: 1, label: "Invitación directa"},
+                { value: 2, label: "Convocatoria Pública"},
+                { value: 3, label: "Contartación menor o ANPE"},
+                { value: 4, label: "Todas"}
             ];
             // create expedido ComboBox
-            //$("#expedido").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0, autoDropDownHeight: true, promptText: "Tipo Documento:", source: expedido, width: '100%', height: 22 });
+            $("#tipo_proceso_contratacion").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Tipo de Proceso de Contratación:", source: modalidad, width: '100%', height: 22 });
             var tipo_dato_campo_aux = [
                 { value: "numeric", label: "Numérico" },
                 { value: "string", label: "Texto" },
@@ -89,10 +83,11 @@
             //$("#grupo_sanguineo").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0,autoDropDownHeight: true, promptText: "Seleccione una opción", source: grupo_sanguineo, height: 22, width: '100%' });
             var sexo = [
                 {value: "F", label: "femenino"},
-                {value: "M", label: "masculino"}
+                {value: "M", label: "masculino"},
+                {value: "I", label: "independiente al sexo"}
             ];
             // create grupo_sanguineo ComboBox.
-            //$("#sexo").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: sexo, height: 22, width: '100%' });
+            $("#sexo").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 2, autoDropDownHeight: true, promptText: "Seleccione una opción", source: sexo, height: 22, width: '100%' });
             // create Accept Terms Checkbox.
             //$("#acceptTerms").jqxCheckBox({ width: '100%' });
             // create the Birth Date Calendar.
@@ -258,6 +253,11 @@
                     alert('Debe seleccionar al menos una condicón de documento.');
                     return false;
                 }
+                var sexo = $("#sexo").jqxComboBox('getSelectedItem');
+                if (sexo == null){
+                    alert ('Debe seleccionar la solicitud por Sexo.');
+                    return false;
+                }
                 var tipopresdoc_id = $("#tipopresdoc_id").jqxComboBox('getSelectedItem');
                 if (tipopresdoc_id == null){
                     alert ('Debe seleccionar el Tipo de Presentación.');
@@ -288,6 +288,7 @@
                     alert ('Debe seleccionar el grupo de archivos.');
                     return false;
                 }
+                var tipo_proceso_contratacion = $("#tipo_proceso_contratacion").jqxComboBox('getSelectedItem');
                 var tipo_dato_campo_aux_a = $("#tipo_dato_campo_aux_a").jqxComboBox('getSelectedItem');
                 var tipo_dato_campo_aux_b = $("#tipo_dato_campo_aux_b").jqxComboBox('getSelectedItem');
                 var tipo_dato_campo_aux_c = $("#tipo_dato_campo_aux_c").jqxComboBox('getSelectedItem');
@@ -316,6 +317,9 @@
                         return false;
                     }
                 }
+                if(tipo_proceso_contratacion==null){
+                    var tipo_proceso_contratacion=[{value:null}];
+                }
                 if(tipo_dato_campo_aux_a==null){
                     var tipo_dato_campo_aux_a=[{value:null}];
                 }
@@ -338,10 +342,10 @@
                     	datatype: 'json',
 			data:{id:$("#id").val(),tipo_documento:$("#tipo_documento").val(),codigo:$("#codigo").val(),consultor:cond_contrato[0]
                               ,eventual:cond_contrato[1], permanente:cond_contrato[2], carrera:cond_contrato[3]
-                              ,tipopresdoc_id:tipopresdoc_id.value,num_complemento:$("#num_complemento").val()
-                              ,nacionalidad:nacionalidad.value,periodopresdoc_id:periodopresdoc_id.value,tipoperssoldoc_id:tipoperssoldoc_id.value
+                              ,sexo:sexo.value,tipo_proceso_contratacion:tipo_proceso_contratacion.value
+                              ,tipopresdoc_id:tipopresdoc_id.value,periodopresdoc_id:periodopresdoc_id.value,tipoperssoldoc_id:tipoperssoldoc_id.value
                               ,tipoemisordoc_id:tipoemisordoc_id.value,tipofechaemidoc_id:tipofechaemidoc_id.value,grupoarchivos_id:grupoarchivos_id.value
-                              ,ruta_carpeta:$("#ruta_carpeta").val(),formato_archivo_digital:formato_archivo_digital.value
+                              ,nombre_carpeta:$("#nombre_carpeta").val(),formato_archivo_digital:formato_archivo_digital.value
                               ,resolucion_archivo_digital:$("#resolucion_archivo_digital").val(),altura_archivo_digital:$("#altura_archivo_digital").val()
                               ,anchura_archivo_digital:$("#anchura_archivo_digital").val(),campo_aux_a:$("#campo_aux_a").val()
                               ,tipo_dato_campo_aux_a:tipo_dato_campo_aux_a.value,campo_aux_b:$("#campo_aux_b").val()
@@ -548,7 +552,18 @@
                             <button class="btn btn-default btn-lg" id="carrera">Carrera</button>
                             <button class="btn btn-default btn-lg" id="todas">Todas</button>
                         </div>
-                        
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="sexo">Solicitud por sexo *:</label>
+                        <div class="col-sm-6">
+                            <div style="margin-top: 5px;" id="sexo"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="tipo_proceso_contratacion">Tipo de contratci&oacute;n *:</label>
+                        <div class="col-sm-6">
+                            <div style="margin-top: 5px;" id="tipo_proceso_contratacion"></div>
+                        </div>
                     </div>
                     
                     
@@ -612,9 +627,9 @@
                         <h2>Detalles de Gen&eacute;ricos:</h2>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="ruta_carpeta">Nombre Carpeta :</label>
+                        <label class="col-sm-3 control-label" for="nombre_carpeta">Nombre Carpeta :</label>
                         <div class="col-sm-6">
-                            <input placeholder="Nombre de la Carpeta almacenadora" id="ruta_carpeta" name="ruta_carpeta" value="" />
+                            <input placeholder="Nombre de la Carpeta almacenadora" id="nombre_carpeta" name="nombre_carpeta" value="" />
                         </div>
                     </div>
                     <div class="row">

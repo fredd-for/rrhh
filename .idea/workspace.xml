@@ -2,9 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4751225.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/8301341.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4021525.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bd_rrhh.2014.11.09.backup" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/imagen_acefalo.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/imagen_acefalo.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/imagen_comodin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/imagen_comodin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bd_rrhh.cargos.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jorgchart/custom (copia).css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jorgchart/customPersonal.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jorgchart/jquery.jOrgChartPersonal.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/organigramas/personal.phtml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/personal/registro_1.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bd_rrhh.2014.11.07.backup" afterPath="$PROJECT_DIR$/bd_rrhh.2014.11.07.backup" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/ArchivoController.php" afterPath="$PROJECT_DIR$/app/controllers/ArchivoController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Cargos.php" afterPath="$PROJECT_DIR$/app/models/Cargos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/CargosController.php" afterPath="$PROJECT_DIR$/app/controllers/CargosController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Organigramas.php" afterPath="$PROJECT_DIR$/app/models/Organigramas.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/OrganigramasController.php" afterPath="$PROJECT_DIR$/app/controllers/OrganigramasController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/personal/editar.phtml" afterPath="$PROJECT_DIR$/app/views/personal/editar.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cargos/index.phtml" afterPath="$PROJECT_DIR$/app/views/cargos/index.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/archivo/nuevo.phtml" afterPath="$PROJECT_DIR$/app/views/archivo/nuevo.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.properties" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.xml" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/personal/registro.phtml" afterPath="$PROJECT_DIR$/app/views/personal/registro.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/tipodocumento.php" afterPath="$PROJECT_DIR$/app/models/tipodocumento.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rrhh.iws" />
@@ -62,24 +85,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693" vertical-offset="1751" max-vertical-offset="2686">
+            <state vertical-scroll-proportion="2.7246377" vertical-offset="502" max-vertical-offset="2686">
               <caret line="118" column="49" selection-start-line="118" selection-start-column="49" selection-end-line="118" selection-end-column="49" />
               <folding>
-                <marker date="1415623024396" expanded="true" signature="2044:2675" placeholder="SELECT c.id,..cargos..." />
-                <marker date="1415623024396" expanded="true" signature="2864:3191" placeholder="SELECT ROW_N..." />
+                <marker date="1415623709164" expanded="true" signature="2029:2658" placeholder="SELECT c.id,..cargos..." />
+                <marker date="1415623709164" expanded="true" signature="2847:3173" placeholder="SELECT ROW_N..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18053098" vertical-offset="0" max-vertical-offset="565">
-              <caret line="6" column="36" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="36" />
+            <state vertical-scroll-proportion="-6.0384617" vertical-offset="47" max-vertical-offset="612">
+              <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -1108,17 +1131,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693" vertical-offset="1751" max-vertical-offset="2686">
-          <caret line="118" column="49" selection-start-line="118" selection-start-column="49" selection-end-line="118" selection-end-column="49" />
-          <folding>
-            <marker date="1415623024396" expanded="true" signature="2044:2675" placeholder="SELECT c.id,..cargos..." />
-            <marker date="1415623024396" expanded="true" signature="2864:3191" placeholder="SELECT ROW_N..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-23.764706" vertical-offset="6608" max-vertical-offset="25806">
@@ -1131,9 +1143,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18053098" vertical-offset="0" max-vertical-offset="565">
-          <caret line="6" column="36" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="36" />
+        <state vertical-scroll-proportion="-6.0384617" vertical-offset="47" max-vertical-offset="612">
+          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.7246377" vertical-offset="502" max-vertical-offset="2686">
+          <caret line="118" column="49" selection-start-line="118" selection-start-column="49" selection-end-line="118" selection-end-column="49" />
+          <folding>
+            <marker date="1415623709164" expanded="true" signature="2029:2658" placeholder="SELECT c.id,..cargos..." />
+            <marker date="1415623709164" expanded="true" signature="2847:3173" placeholder="SELECT ROW_N..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -144,12 +144,12 @@
             });
             // Validate form.
             $("#sendButton").click(function () {
-                var validationResult = function (isValid) {
+                /*var validationResult = function (isValid) {
                     if (isValid) {
                         $("#form").submit();
                     }
                 }
-                $('#form').jqxValidator('validate', validationResult);
+                $('#form').jqxValidator('validate', validationResult);*/
                 if(!$("#p_nombre").val()){
                     alert('Debe ingresar el primer nombre.');
                     return false;
@@ -202,10 +202,10 @@
                               ,celular_inst:$("#cel_inst").val(),e_mail_inst:$("#email_inst").val(),nit:$("#nit").val()
                               ,num_func_sigma:$("#n_sigma").val(),num_lib_ser_militar:$("#libreta_militar").val(),num_reg_profesional:$("registro_prof").val()
                               ,observacion:$("#observaciones").val(),estado:"0",baja_logica:"0",user_reg_id:"1"},
-			success: function(data) { alert (data);
+			success: function(data) { //alert (data);
                             var res = jQuery.parseJSON(data);
                             alert(res.msm); 
-                            document.location.href = '../../login';
+                            document.location.href = '/login';
 			}, //mostramos el error
 			error: function() { 
                             alert('Se ha producido un error Inesperado');

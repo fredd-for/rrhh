@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ResolucionesController.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ArchivoController.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/public/js/relaborales/oasis.relaborales.list.js</file>
@@ -12,6 +13,7 @@
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/PersonalController.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/listar.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/nuevoparametro.phtml</file>
+            <file>file:/D:/xampp/htdocs/rrhh/app/models/tipodocumento.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/config/loader.php</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/editar.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ControllerBase.php</file>
@@ -22,6 +24,12 @@
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/visualizar.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/nuevo.phtml</file>
             <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/registro.phtml</file>
+=======
+            <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
+            <file>file:/var/www/html/rrhh/app/controllers/OrganigramasController.php</file>
+            <file>file:/var/www/html/rrhh/app/config/services.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
+>>>>>>> 63fc526374bc373974cd9e5c9feecc3d55801a6d
         </group>
     </open-files>
 </project-private>
