@@ -10,7 +10,8 @@
 			{ name: 'sigla'},
 			],
 			url: '/cargos/listorganigrama',
-			async: false
+			cache: false,
+            async: false
 		};
 		var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
 
@@ -29,12 +30,13 @@
 		{
 			datatype: "json",
 			datafields: [
-			{ name: 'id'},
 			{ name: 'organigrama'},
+			{ name: 'id'},
 			{ name: 'codigo'},
 			{ name: 'cargo'},
 			],
 			url: '/cargos/listdepende',
+			cache: false,
 			async: false
 		};
 		var dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
@@ -44,7 +46,7 @@
 			//source: dataAdapterDep,
 			width: 450,
 			height: 25,
-			disabled: true,
+			disabled: false ,
 			promptText: '(Seleccionar)',
 			displayMember: 'cargo',
 			valueMember: 'id',
@@ -52,15 +54,14 @@
 		}); 
 
 		/*Filtro segun organigrama a cargos*/
-
+		
 		$("#organigrama_id").bind('select', function(event)
 		{
 			if (event.args)
 			{
 				$("#depende_id").jqxComboBox({ disabled: false, selectedIndex: -1});		
 				var value = event.args.item.value;
-				//alert(value)
-				sourceDep.data = {organigrama: value};
+				sourceDep.data = {organigrama_id: value};
 				dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
 				$("#depende_id").jqxComboBox({source: dataAdapterDep});
 			}
@@ -114,6 +115,7 @@
 			{
 				datatype: "json",
 				datafields: [
+				{ name: 'nro',type: 'number'},
 				{ name: 'id',type: 'number'},
 				{ name: 'unidad_administrativa',type: 'string'},
 				{ name: 'organigrama_id',type: 'string'},
@@ -144,7 +146,7 @@
 				autorowheight: true,
                 autoheight: true,
 				columns: [
-				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
+				{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
 				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
 				{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
@@ -215,6 +217,7 @@ function cargar2(){
 	{
 		datatype: "json",
 		datafields: [
+		{ name: 'nro',type: 'number'},
 		{ name: 'id',type: 'number'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'cargo',type: 'string'},
@@ -237,7 +240,7 @@ function cargar2(){
 		showfilterrow: true,
 		filterable: true,
 		columns: [
-		{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '3%'},
+		{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
 		{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
 		{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
 		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
