@@ -79,6 +79,9 @@ $().ready(function () {
         $("#popupWindowCargo").jqxWindow('open');
         definirGrillaParaSeleccionarCargoAcefaloParaEditar(0,'');
     });
+    $("#btnExportarPDF").click(function(){
+        exportarPDF();
+    });
     $("#lstMotivosBajas").change(function (){
         var res = this.value.split("_");
         $("#hdnFechaRenBaja").val(res[0]);
@@ -139,7 +142,6 @@ function definirGrillaParaListaRelaborales(){
             { name: 'id_relaboral', type: 'integer' },
             { name: 'id_persona', type: 'integer' },
             { name: 'tiene_contrato_vigente', type: 'integer' },
-            { name: 'id_persona', type: 'integer' },
             { name: 'id_fin_partida', type: 'integer' },
             { name: 'finpartida', type: 'string' },
             { name: 'ubicacion', type: 'string' },
@@ -171,7 +173,7 @@ function definirGrillaParaListaRelaborales(){
             { name: 'fecha_baja', type: 'date' },
             { name: 'motivo_baja', type: 'string' },
             { name: 'observacion', type: 'string' },
-        ],
+        ],/*
         addrow: function (rowid, rowdata, position, commit) {
             // synchronize with the server - send insert command
             // call commit with parameter true if the synchronization with the server is successful
@@ -179,8 +181,8 @@ function definirGrillaParaListaRelaborales(){
             // you can pass additional argument to the commit callback which represents the new ID if it is generated from a DB.
             commit(true);
         },
-        deleterow: function (rowid, commit) {
-            // synchronize with the server - send delete command
+        approverow: function (rowid, commit) {
+            // synchronize with the server - send approve command
             // call commit with parameter true if the synchronization with the server is successful
             //and with parameter false if the synchronization failed.
             commit(true);
@@ -191,12 +193,18 @@ function definirGrillaParaListaRelaborales(){
             // and with parameter false if the synchronization failed.
             commit(true);
         },
+        deleterow: function (rowid, commit) {
+            // synchronize with the server - send delete command
+            // call commit with parameter true if the synchronization with the server is successful
+            //and with parameter false if the synchronization failed.
+            commit(true);
+        },
         viewrow: function (rowid, newdata, commit) {
             // synchronize with the server - send update command
             // call commit with parameter true if the synchronization with the server is successful
             // and with parameter false if the synchronization failed.
             commit(true);
-        },
+        },*/
         url: '/relaborales/list',
         cache: false
     };
@@ -224,13 +232,14 @@ function definirGrillaParaListaRelaborales(){
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
+                    container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
-                    container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-search fa-2x text-info' title='Vista Historial.'/></i></button>");
-
+                    container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-nameplate_alt fa-2x text-info' title='Vista Historial.'/></i></button>");
                     $("#addrowbutton").jqxButton();
-                    $("#deleterowbutton").jqxButton();
+                    $("#approverowbutton").jqxButton();
                     $("#updaterowbutton").jqxButton();
+                    $("#deleterowbutton").jqxButton();
                     $("#viewrowbutton").jqxButton();
                     // Registrar nueva relación laboral.
                     $("#addrowbutton").on('click', function () {
@@ -274,6 +283,25 @@ function definirGrillaParaListaRelaborales(){
                             alert("Debe seleccionar un registro necesariamente.")
                         }
                     });
+                    //Aprobar registro.
+                    $("#approverowbutton").on('click', function () {
+                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                /*
+                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
+                                 */
+                                if (dataRecord.estado == 2) {
+                                    if(confirm("¿Esta seguro de aprobar este registro?")){
+                                        aprobarRegistroRelabolar(dataRecord.id_relaboral);
+                                    }
+                                }else alert("Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro");
+                            }
+                        }else{
+                            alert("Debe seleccionar un registro necesariamente.")
+                        }
+                    });
                     // Modificar registro.
                     $("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
@@ -282,9 +310,9 @@ function definirGrillaParaListaRelaborales(){
                             if(dataRecord!=undefined) {
                             var id_relaboral = dataRecord.id_relaboral;
                             /**
-                             * Para el caso cuando la persona tenga un registro de relación laboral en estado de proceso.
+                             * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO o ACTIVO.
                              */
-                            if (dataRecord.estado == 2) {
+                            if (dataRecord.estado >= 1) {
                                 $('#jqxTabs').jqxTabs('enableAt', 0);
                                 $('#jqxTabs').jqxTabs('disableAt', 1);
                                 $('#jqxTabs').jqxTabs('enableAt', 2);
@@ -327,13 +355,13 @@ function definirGrillaParaListaRelaborales(){
                                 $("#tr_cargo_seleccionado_editar").html("");
                                 if(dataRecord.observacion!=null)$("#txtObservacionEditar").text(dataRecord.observacion);
                                 else $("#txtObservacionEditar").text('');
+                                var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                                $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                                 cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
                                 cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
                                 agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
-                                var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
-                                $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                             }else {
-                                alert("Debe seleccionar un registro con estado EN PROCESO para posibilitar la modificaci&oacute;n del registro");
+                                alert("Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro");
                             }
                             }
                         }else {
@@ -465,6 +493,18 @@ function definirGrillaParaListaRelaborales(){
                             else return "";
                         }, hidden:true //Se oculta esta columna con el boton nuevo dejándolo disponible en caso de requerirse
                     },
+                    {text: '', datafield: 'aprobar', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
+                        cellsrenderer: function (rowline) {
+                            ctrlrow = rowline
+                            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', ctrlrow);
+                            var estado = dataRecord.estado;
+                            if(dataRecord.estado==2)
+                            {
+                                return "<div style='width: 100%' align='center'><a href='#'><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></a></div>";
+                            }
+                            else return "";
+                        }, hidden:true //Se oculta esta columna con el boton aprobar dejándolo disponible en caso de requerirse
+                    },
                     {text: '', datafield: 'editar', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
                         cellsrenderer: function (rowline) {
                             ctrlrow = rowline
@@ -538,7 +578,7 @@ function definirGrillaParaListaRelaborales(){
                 $("#tr_cargo_seleccionado_editar").html("");
                 switch (columnindex) {
                     case 1: //Nuevo
-                        /**
+                        /*
                          * Para el caso cuando la persona no tenga ninguna relación laboral vigente con la entidad se da la opción de registro de nueva relación laboral.
                          */
                         if (dataRecord.tiene_contrato_vigente == 0||dataRecord.tiene_contrato_vigente == -1) {
@@ -568,7 +608,18 @@ function definirGrillaParaListaRelaborales(){
                             $("#imgFotoPerfilNuevo").attr("src",rutaImagen);
                         }
                         break;
-                    case 2: //Modificación
+                    case 2:
+                        //Aprobación
+                        /**
+                         * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
+                         */
+                        if (dataRecord.estado == 2) {
+                            if(confirm("¿Esta seguro de aprobar este registro?")){
+                                aprobarRegistroRelabolar(dataRecord.id_relaboral);
+                            }
+                        }else alert("Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro");
+                        break;
+                    case 3: //Modificación
                         /**
                          * Para el caso cuando la persona tenga un registro de relación laboral en estado de proceso.
                          */
@@ -622,7 +673,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                         }
                         break;
-                    case 3: //Baja
+                    case 4: //Baja
                         /*
                          *  Para dar de baja un registro, este debe estar inicialmente en estado ACTIVO
                          */
@@ -662,7 +713,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#imgFotoPerfilBaja").attr("src",rutaImagen);
                         }
                         break;
-                    case 4://Vista
+                    case 5://Vista
                         /*
                          *  La vista del historial se habilita para personas que tengan al menos un registro de relación sin importar su estado, ACTIVO, EN PROCESO o PASIVO.
                          *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
@@ -706,9 +757,7 @@ function definirGrillaParaListaRelaborales(){
                         }
                         break;
                 }
-
             }else return true;
-
         });
         var listSource = [
             { label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: false },

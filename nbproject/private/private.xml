@@ -5,6 +5,8 @@
         <group>
             <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
             <file>file:/var/www/html/rrhh/app/controllers/OrganigramasController.php</file>
+            <file>file:/var/www/html/rrhh/app/config/services.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
         </group>
     </open-files>
 </project-private>
