@@ -23,6 +23,7 @@ class ProcesoscontratacionesController extends ControllerBase
 		$this->view->disable();
 		foreach ($resul as $v) {
 			$customers[] = array(
+				'nro' => $v->nro,
 				'id' => $v->id,
 				'denominacion' => $v->denominacion,
 				'codigo_convocatoria' => $v->codigo_convocatoria,
@@ -37,18 +38,21 @@ class ProcesoscontratacionesController extends ControllerBase
 
 	public function listseguimientoAction()
 	{
-		$resul = Seguimientos::find(array('baja_logica=1','order' => 'id ASC'));
-		/*$model = new Procesoscontrataciones();
-		$resul= $model->listaseguimiento();
-		*/
+		//$resul = Seguimientos::find(array('baja_logica=1','order' => 'id ASC'));
+		$pc = new Procesoscontrataciones();
+		$resul= $pc->listseguimiento();
+		
 		$this->view->disable();
 		foreach ($resul as $v) {
 			$customers[] = array(
+				'nro' => $v->nro,
 				'id' => $v->id,
+				'pac_id' => $v->pac_id,
 				'proceso_contratacion_id' => $v->proceso_contratacion_id,
 				'codigo_cargo' => $v->codigo_cargo,
 				'cargo' => $v->cargo,
 				'sueldo' => $v->sueldo,
+				'estado' => $v->estado
 				);
 		}
 		echo json_encode($customers);
@@ -160,9 +164,13 @@ class ProcesoscontratacionesController extends ControllerBase
 	public function deleteAction(){
 		$resul = Procesoscontrataciones::findFirstById($_POST['id']);
 		$resul->baja_logica = 0;
-		$resul->save();
+		if ($resul->save()) {
+					$msm = 'Exito: Se elimino correctamente';
+				}else{
+					$msm = 'Error: No se elimino el registro';
+				}
 		$this->view->disable();
-		echo json_encode();
+		echo json_encode($msm);
 	}
 
 	public function listpacAction()

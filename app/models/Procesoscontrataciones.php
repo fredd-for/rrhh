@@ -150,9 +150,17 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
 
     private $_db;
     public function lista() {
-        $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion FROM procesoscontrataciones p, normativasmod n WHERE p.normativamod_id=n.id ORDER BY p.id ASC";
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY p.id asc) AS nro,p.*, n.normativa,n.modalidad,n.denominacion 
+        FROM procesoscontrataciones p, normativasmod n WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.id ASC";
         $this->_db = new Seguimientos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function listseguimiento()
+    {
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY s.id asc) AS nro,s.*,se.estado FROM seguimientos s, seguimientosestados se WHERE s.baja_logica=1 AND s.seguimiento_estado_id=se.id ORDER BY s.id ASC";
+        $this->_db = new Seguimientos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }
     /**
      * Función para la obtención del listado de procesos disponibles de acuerdo a la condición referida en el parámetro enviado.
