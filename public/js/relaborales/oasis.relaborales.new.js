@@ -35,7 +35,7 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
     function cargarRegistrosDeCargos(){
         $("#divGrillaParaSeleccionarCargo").jqxGrid(
             {
-                theme:'oasis',
+                //theme:'oasis',
                 width: '100%',
                 height:250,
                 source: dataAdapterCargo,

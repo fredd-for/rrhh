@@ -3,10 +3,9 @@
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'     => 'Postgresql',
-//<<<<<<< HEAD
-        'host'        => '192.168.10.158',//localhost
-        'username'    => 'postgres',//
-        'password'    => 'miteleferico123',//
+        'host'        => '192.168.10.158',
+        'username'    => 'postgres',
+        'password'    => 'miteleferico123',
         'dbname'      => 'bd_rrhh',
     ),
     'application' => array(

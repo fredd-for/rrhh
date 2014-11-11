@@ -232,12 +232,12 @@ function definirGrillaParaListaRelaborales(){
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
+                    //container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
                     container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-nameplate_alt fa-2x text-info' title='Vista Historial.'/></i></button>");
                     $("#addrowbutton").jqxButton();
-                    $("#approverowbutton").jqxButton();
+                    //$("#approverowbutton").jqxButton();
                     $("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();
                     $("#viewrowbutton").jqxButton();
@@ -284,14 +284,14 @@ function definirGrillaParaListaRelaborales(){
                         }
                     });
                     //Aprobar registro.
-                    $("#approverowbutton").on('click', function () {
+                    /*$("#approverowbutton").on('click', function () {
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                /*
+                                *//*
                                  * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
-                                 */
+                                 *//*
                                 if (dataRecord.estado == 2) {
                                     if(confirm("¿Esta seguro de aprobar este registro?")){
                                         aprobarRegistroRelabolar(dataRecord.id_relaboral);
@@ -301,7 +301,7 @@ function definirGrillaParaListaRelaborales(){
                         }else{
                             alert("Debe seleccionar un registro necesariamente.")
                         }
-                    });
+                    });*/
                     // Modificar registro.
                     $("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
@@ -476,10 +476,14 @@ function definirGrillaParaListaRelaborales(){
                     });
                 },
                 columns: [
-                    {
+                    /*{
                         text: 'Nro.', sortable: false, filterable: false, editable: false,
                         groupable: false, draggable: false, resizable: false,
-                        datafield: '', columntype: 'number', width: 50,cellsalign:'center',align:'center'
+                        columntype: 'number', width: 50,cellsalign:'center',align:'center'
+                    },*/
+                    {   text: 'Nro.',  /*datafield: 'RowIndex',*/sortable: false, filterable: false, editable: false,
+                        groupable: false, draggable: false, resizable: false,
+                        columntype: 'number', width: 50,cellsalign:'center',align:'center',cellsrenderer: rownumberrenderer
                     },
                     {text: '', datafield: 'nuevo', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
                         cellsrenderer: function (rowline) {
@@ -793,6 +797,10 @@ function definirGrillaParaListaRelaborales(){
             $("#jqxgrid").jqxGrid('endupdate');
         });
     }
+}
+var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+    var nro = row + 1;
+    return "<div align='center'>"+nro+"</div>";
 }
 /*
  * Función para controlar la ejecución del evento esc con el teclado.
