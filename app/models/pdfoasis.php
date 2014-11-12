@@ -17,32 +17,28 @@ class pdfoasis extends fpdf{
     var $Condicion;			//Opción para conocer que tipo de condición tiene un determinado formulario
     var $angle;
 
+    /**
+     * Función para establecer la cabecera del reporte.
+     */
     function Header()
     {
-        // Logo
         $this->Image('../public/images/logoMT.jpg',10,8,20,20);
-        // Arial bold 12
         $this->SetFont('Arial','B',10);
         $w = $this->GetStringWidth($this->title_rpt)+6;
         $this->SetX((190-$w)/2);
-        //$this->SetDrawColor(0,80,80);
         $this->SetDrawColor(247,249,251);
-        //$this->SetFillColor(0,153,153);
-        //$this->SetFillColor(28,141,247);
         $this->SetFillColor(247,249,251);
         $this->SetTextColor(28,141,247);
-        // Ancho del borde (1 mm)
-        //$this->SetLineWidth(0);
-        // Título
         $this->Cell($w+15,9,$this->title_rpt,1,1,'C',true);
         $this->Ln();
         $this->SetFont('Arial','',10);
-        // Color de fondo
         $this->SetFillColor(255,255,255);
         $this->SetTextColor(0);
-        // Título
-        //$this->Cell(0,6,"Filtrado por:",0,1,'L',true);
     }
+
+    /**
+     * Función para definir el color de las celdas en la cabecera de la tabla.
+     */
     function DefineColorHeaderTable(){
         $this->SetFont('Arial', 'B', 8);
         $this->SetDrawColor(28,141,247);
@@ -50,42 +46,33 @@ class pdfoasis extends fpdf{
         $this->SetTextColor(53,182,74);//Letras verdes
         $this->SetLineWidth(.3);
     }
+    /**
+     * Función para definir el color de las celdas en el cuerpo de la tabla.
+     */
     function DefineColorBodyTable(){
         $this->SetFont('Arial', '', 7);
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(255,255,255);//Fondo blanco
         $this->SetTextColor(0,0,0);//Letras negras
     }
-// Pie de página
+
+    /*
+     *  Función para definir el pie del reporte
+     */
     function Footer()
     {
-        //Posici�n: a 1,5 cm del final
+        //Posición: a 1,5 cm del final
         $this->SetY(-15);
-
-        //Arial italic 8
         $this->SetTextColor(0);
         $this->SetFont('Arial','I',8);
-        //N�mero de p�gina
         $this->Cell(0,10,' Pagina '.$this->PageNo().' de {nb}'.$this->AliasNbPages(),0,0,'C');
         $this->SetY(-15);
         $this->SetX(-50);
-        //Arial italic 8
         $this->SetTextColor(0);
-        $this->SetFont('Arial','I',8);
-        //N�mero de p�gina
-        //$this->Cell(0,10,"Reporte al ".date("d-m-Y h:i:s"),0,0,'C');
-        /*if($this->FechaHoraReporte!="")$this->Cell(0,10,"Reporte al ".$this->FechaHoraReporte,0,0,'C');
-        if($this->FechaHoraCreacion!=""){
-            $this->SetY(-15);
-            $this->SetX(-55);
-            $this->Cell(0,1,"Creado el ".$this->FechaHoraCreacion,0,0,'C');
-        }*/
-        //if($this->ShowLeftFooter==true)$this->DatesLeftFooter();
-        //elseif($this->ShowNumeralLeftFooter==true)$this->NumeralLeftFooter();
         $this->DatesFooter();
     }
     /**
-     * Funci�n para desplegar en el pie del documento la fecha de despliegue.
+     * Función para desplegar en el pie del documento la fecha de despliegue.
      */
     function DatesFooter()
     {	$this->SetY(-15);
@@ -93,8 +80,9 @@ class pdfoasis extends fpdf{
         //Arial italic 8
         $this->SetTextColor(0);
         $this->SetFont('Arial','I',8);
-        //N�mero de p�gina
-        if($this->FechaHoraReporte!="")$this->Cell(0,10,"Reporte al ".$this->FechaHoraReporte,0,0,'C');
+        //Numero de página
+        if($this->FechaHoraReporte!="")
+            $this->Cell(0,10,"Reporte al ".$this->FechaHoraReporte,0,0,'C');
         if($this->FechaHoraCreacion!=""){
             $this->SetY(-15);
             $this->SetX(-50);
@@ -102,17 +90,6 @@ class pdfoasis extends fpdf{
         }
         //$this->Cell(0,10,"Reporte al ".date("d-m-Y h:i:s"),0,0,'C');
     }
-    /*function Footer()
-    {
-        // Posición: a 1,5 cm del final
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        // Número de página
-        $this->Cell(0,10,'Pagina '.$this->PageNo(),0,0,'C');
-    }*/
-
-
     function SetWidths($w)
     {
         //Set the array of column widths
@@ -284,6 +261,98 @@ class pdfoasis extends fpdf{
     {
         $this->cabeceraHorizontal($cabeceraHorizontal);
         $this->datosHorizontal($datosHorizontal);
+    }
+
+    /**
+     * Función para definir las columnas a mostrarse.
+     * @param $widthAlignAll
+     * @param $columns
+     * @return array
+     */
+    function DefineCols($widthAlignAll,$columns){
+        $arrRes = Array();
+        $arrRes[]="nro_row";
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    $arrRes[]=$key;
+                }
+            }
+        }
+        return $arrRes;
+    }
+
+    /*
+     * Función para la definición de los contenidos de la cabecera.
+     * @param $widthAlignAll
+     * @param $columns
+     * @return array
+     */
+    function DefineTitleCols($widthAlignAll,$columns){
+        $arrRes = Array();
+        $arrRes[]="Nro.";
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    $arrRes[]=$widthAlignAll[$key]['title'];
+                }
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para definir el contenido de la fila a mostrarse.
+     * @param int $numRow
+     * @param $rowRelaboral
+     * @param $colSelecteds
+     * @return array
+     */
+    function DefineRows($numRow=0,$rowRelaboral,$colSelecteds){
+        $arrRes = Array();
+        $arrRes[]=$numRow;
+        foreach($colSelecteds as $val){
+            if (array_key_exists($val, $rowRelaboral)) {
+                $arrRes[] = $rowRelaboral[$val];
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para la generación del array con los anchos de columna definido, en consideración a las columnas mostradas.
+     * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
+     * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
+     * @return array Array con el listado de anchos por columna a desplegarse.
+     */
+    function DefineWidths($widthAlignAll,$columns){
+        $arrRes = Array();
+        $arrRes[]=8;
+        foreach($columns as $key => $val){
+           if(isset($widthAlignAll[$key])){
+               if(!isset($val['hidden'])||$val['hidden']!=true){
+                 $arrRes[]=$widthAlignAll[$key]['width'];
+               }
+           }
+        }
+        return $arrRes;
+    }
+
+    /*
+     * Función para la generación del array con las alineaciones de columna en el cuerpo de la tabla.
+     * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
+     * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
+     * @return array Array con el listado de alineaciones a desplegarse.
+     */
+    function DefineAligns($widthAlignAll,$columns){
+        $arrRes = Array();
+        $arrRes[]='C';
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    $arrRes[]=$widthAlignAll[$key]['align'];
+                }
+            }
+        }
+        return $arrRes;
     }
     #endregion nuevas funciones
 

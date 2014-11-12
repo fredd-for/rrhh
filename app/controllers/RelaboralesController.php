@@ -100,6 +100,7 @@ class RelaboralesController extends ControllerBase
                 $view = '<input type="button" id="btn_view_' . $v->id_relaboral . '" value="Ver" class="btn_view">';
                 $relaboral[] = array(
                     'chk' => $chk,
+                    'nro_row' => 0,
                     'nuevo' => $new,
                     'aprobar' => $aprobar,
                     'editar' => $edit,
@@ -1165,7 +1166,7 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($organigramas);
     }
-    public function printsAction(){
+    public function printbasicAction(){
         $pdf = new pdfoasis();
 
         $pdf->AddPage();
@@ -1187,7 +1188,7 @@ class RelaboralesController extends ControllerBase
         $pdf->Output(); //Salida al navegador
     }
     /**
-     * Función para la obtención del reporte en formato PDF.
+     * Función para la obtención del reporte de relaciones laborales en formato PDF.
      * @param $n_rows Cantidad de lineas
      * @param $columns Array con las columnas mostradas en el reporte
      * @param $filtros Array con los filtros aplicados sobre las columnas.
@@ -1201,6 +1202,40 @@ class RelaboralesController extends ControllerBase
         $filtros = json_decode($filtros,true);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
+        /**
+         * Especificando la configuración de las columnas
+         */
+        $widthAlignAll = array(
+            'nro_row' => array('title'=>'Nro.','width'=>8,'align'=>'C'),
+            'ubicacion' => array('title'=>'Ubicacion','width'=>15,'align'=>'C'),
+            'condicion' => array('title'=>'Condicion','width'=>15,'align'=>'C'),
+            'estado_descripcion'=> array('title'=>'Estado','width'=>15,'align'=>'C'),
+            'nombres'=> array('title'=>'Nombres','width'=>30,'align'=>'L'),
+            'ci'=> array('title'=>'CI','width'=>15,'align'=>'C'),
+            'expd'=> array('title'=>'Exp.','width'=>15,'align'=>'C'),
+            'num_complemento'=> array('title'=>'N/C','width'=>15,'align'=>'C'),
+            'gerencia_administrativa'=> array('title'=>'Gerencia','width'=>30,'align'=>'L'),
+            'departamento_administrativo'=> array('title'=>'Departamento','width'=>30,'align'=>'L'),
+            'area'=> array('title'=>'Area','width'=>20,'align'=>'L'),
+            'proceso_codigo'=> array('title'=>'Proceso','width'=>15,'align'=>'C'),
+            'nivelsalarial'=> array('title'=>'Nivel','width'=>15,'align'=>'C'),
+            'cargo'=> array('title'=>'Cargo','width'=>30,'align'=>'L'),
+            'sueldo'=> array('title'=>'Haber','width'=>10,'align'=>'R'),
+            'fecha_ini'=> array('title'=>'Fecha Ini','width'=>15,'align'=>'C'),
+            'fecha_incor'=> array('title'=>'Fecha Incor','width'=>15,'align'=>'C'),
+            'fecha_fin'=> array('title'=>'Fecha Fin','width'=>15,'align'=>'C'),
+            'fecha_baja'=> array('title'=>'Fecha Baja','width'=>15,'align'=>'C'),
+            'motivo_baja'=> array('title'=>'Motivo Baja','width'=>15,'align'=>'L'),
+            'observacion'=> array('title'=>'Observacion','width'=>15,'align'=>'L')
+        );
+        $widthsSelecteds = $pdf->DefineWidths($widthAlignAll,$columns);
+        $alignSelecteds = $pdf->DefineAligns($widthAlignAll,$columns);
+        $colSelecteds = $pdf->DefineCols($widthAlignAll,$columns);
+        $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll,$columns);
+        //echo ">>>>".count($colSelecteds);
+        /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+        print_r($colTitleSelecteds);
+        echo "<p>-------------------------------------------------------------------------------------------------------------</p>";*/
         $where = '';
         for($k=0;$k<count($filtros);$k++){
             for ($j=0;$j<$n_col;$j++){
@@ -1210,23 +1245,56 @@ class RelaboralesController extends ControllerBase
             }
             $cond_fil = ' '.$col_fil;
             if (strlen($where)>0){
-                $where .= ' AND ';
+                switch ($filtros[$k]['condicion']){
+                    case 'EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'NOT_EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'CONTAINS':
+                        $where .= ' AND ';
+                        break;
+                    case 'EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'GREATER_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'LESS_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                }
+
+
             }
             if ($filtros[$k]['tipo'] == 'datefilter'){
                 $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
-                //echo $filtros[$k]['valor'];
             }
+            /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+            print_r($filtros);
+            echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+*/
+
             switch ($filtros[$k]['condicion']){
-                /*case 'EMPTY':
+                case 'EMPTY':
                     $cond_fil .= utf8_encode(" que sea vacía ");
-                    $where .= $filtros[$k]['columna'].
+                    $where .= "(".$filtros[$k]['columna']." IS NULL OR ".$filtros[$k]['columna']." ILIKE '')";
                     break;
                 case 'NOT_EMPTY':
                     $cond_fil .= utf8_encode(" que no sea vacía ");
-                    break;*/
+                    $where .= "(".$filtros[$k]['columna']." IS NOT NULL OR ".$filtros[$k]['columna']." NOT ILIKE '')";
+                    break;
                 case 'CONTAINS':
                     $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' ILIKE "%'.$filtros[$k]['valor'].'%"';
+                    if($filtros[$k]['columna']=="nombres"){
+                        $where .= "(p_nombre ILIKE '%".$filtros[$k]['valor']."%' OR s_nombre ILIKE '%".$filtros[$k]['valor']."%' OR t_nombre ILIKE '%".$filtros[$k]['valor']."%' OR p_apellido ILIKE '%".$filtros[$k]['valor']."%' OR s_apellido ILIKE '%".$filtros[$k]['valor']."%' OR c_apellido ILIKE '%".$filtros[$k]['valor']."%')";
+                    }else {
+                        $where .= $filtros[$k]['columna']." ILIKE '%".$filtros[$k]['valor']."%'";
+                    }break;
+                case 'EQUAL':
+                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
                     break;
                 case 'GREATER_THAN_OR_EQUAL':
                     $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
@@ -1239,10 +1307,10 @@ class RelaboralesController extends ControllerBase
             }
 
         }
-        //$fill = false;
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersonsOneRecord();
-
+        $resul = $obj->getAllWithPersonsOneRecord($where);
+        //echo "<p>:::".$where;
+        $relaboral = array();
         foreach ($resul as $v) {
             $relaboral[] = array(
                 'id_relaboral' => $v->id_relaboral,
@@ -1292,7 +1360,8 @@ class RelaboralesController extends ControllerBase
                 'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
                 'numero_escala' => $v->numero_escala,
                 'gestion_escala' => $v->gestion_escala,
-                'sueldo' => $v->sueldo,
+                //'sueldo' => $v->sueldo,
+                'sueldo' => str_replace(".00", "", $v->sueldo),
                 'id_proceso' => $v->id_proceso,
                 'proceso_codigo' => $v->proceso_codigo,
                 'id_convocatoria' => $v->id_convocatoria,
@@ -1356,327 +1425,52 @@ class RelaboralesController extends ControllerBase
             );
         }
         $pdf->Open("L");
-        $pdf->AddPage();
+        if(count($colSelecteds)>11)$pdf->AddPage("L");
+        else $pdf->AddPage();
         #region Espacio para la definición de valores para la cabecera de la tabla
-        $pdf->SetWidths(array(8,15, 30, 13, 8,30,30,15,15,15));
+        $pdf->SetWidths($widthsSelecteds);
         //Color de las lineas de las celdas
         $pdf->DefineColorHeaderTable();
+        $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
+        /**
+         * Posición de la primera linea del reporte
+         */
         $pdf->SetY(30);
-        $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C'));
-        $pdf->RowTitle(array("Nro","Estado", "Nombres y Apellidos", "CI", "Exp","Gerencia","Cargo","Haber","Fecha Inicio","Fecha Incor."));
+        $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
+        $pdf->RowTitle($colTitleSelecteds);
         $j=0;
+        $auxArray = array();
+        if(count($relaboral)>0)
         foreach($relaboral as $i=>$val){
             $nb=0;$h=0;
             /**
              * Calculamos la última altura de registro impreso
              */
             if($j>0){
-                $data = array($j,
-                    utf8_decode($relaboral[$j-1][$sub_keys[0]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[1]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[2]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[3]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[4]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[5]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[6]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[7]]),
-                    utf8_decode($relaboral[$j-1][$sub_keys[8]])
-                );
+                /**
+                 * Calculamos la altura que se alcanzo por la última columna impresa para ver si al imprimir lo nuevo sobre ella es necesario cambiar de página
+                 */
+                $data = $auxArray;
                 for($i=0;$i<count($data);$i++)
                     $nb=max($nb, $pdf->NbLines($pdf->widths[$i], $data[$i]));
                 $h=5*$nb;
             }
+            /*
+             *  Verificar el uso de la cabecera
+             */
             if($pdf->GetY()+$h>=$pdf->PageBreakTrigger){
                 $pdf->DefineColorHeaderTable();
-                $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C'));
-                $pdf->Row(array("Nro","Estado", "Nombres y Apellidos", "CI", "Exp","Gerencia","Cargo","Haber","Fecha Inicio","Fecha Incor."));
+                $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
+                $pdf->Row($colTitleSelecteds);
             }
                 $pdf->DefineColorBodyTable();
-                $pdf->SetAligns(array('C','C','L','C','C','L','L','C','C','C','C','C','C'));
-
-                $pdf->Row(array($j+1,utf8_decode($relaboral[$j][$sub_keys[0]]),
-                        utf8_decode($relaboral[$j][$sub_keys[1]]),
-                        utf8_decode($relaboral[$j][$sub_keys[2]]),
-                        utf8_decode($relaboral[$j][$sub_keys[3]]),
-                        utf8_decode($relaboral[$j][$sub_keys[4]]),
-                        utf8_decode($relaboral[$j][$sub_keys[5]]),
-                        utf8_decode($relaboral[$j][$sub_keys[6]]),
-                        utf8_decode($relaboral[$j][$sub_keys[7]]),
-                        utf8_decode($relaboral[$j][$sub_keys[8]])
-                    )
-                );
+                $pdf->SetAligns($alignSelecteds);
+                $rowData = $pdf->DefineRows($j+1,$relaboral[$j],$colSelecteds);
+                $pdf->Row($rowData);
+                $auxArray = $rowData;
             $j++;
         }
         $pdf->ShowLeftFooter=true;
         $pdf->Output('reporte_relaboral.pdf','I');
     }
-    /*
-     * FunciÃ³n para imprimir el reporte de relaciÃ³n laboral que se tiene en vista en el listado.
-     */
-    public function printActiosn($n_rows, $columns, $filtros){
-        //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT));
-        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
-        $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
-        //echo $rows." - ".$columns;
-        $pdf = new FPDF();
-        //$rows = (string)$rows;
-
-        //echo $filtros;
-        //$rows = json_decode($rows,true);
-        $columns = json_decode($columns,true);
-        $filtros = json_decode($filtros,true);
-        $pdf->AddPage('L','Letter');
-        //$pdf->SetFont('Arial','B',16);
-        $sub_keys = array_keys($columns);//echo $sub_keys[0];
-        //$keys = array_keys($rows[0]);
-        $n_col = count($columns);//echo$keys[1];
-        //echo $n_col;
-        $title = utf8_decode('Reporte Relacion Laboral "Mi telefÃ©rico"');
-        $pdf->SetFont('Arial','B',12);
-        $w = $pdf->GetStringWidth($title)+6;
-        $pdf->SetX((260-$w)/2);
-        $pdf->SetDrawColor(0,80,80);
-        $pdf->SetFillColor(0,153,153);
-        $pdf->SetTextColor(255);
-        // Ancho del borde (1 mm)
-        $pdf->SetLineWidth(1);
-        // TÃ­tulo
-        $pdf->Cell($w+15,9,$title,1,1,'C',true);
-        $pdf->Ln();
-        $pdf->SetFont('Arial','',10);
-        // Color de fondo
-        $pdf->SetFillColor(255,255,255);
-        $pdf->SetTextColor(0);
-        // TÃ­tulo
-        //$pdf->Cell(0,6,"Filtrado por:",0,1,'L',true);
-        $where = '';
-        for($k=0;$k<count($filtros);$k++){
-            for ($j=0;$j<$n_col;$j++){
-                if ($sub_keys[$j] == $filtros[$k]['columna']){
-                    $col_fil = $columns[$sub_keys[$j]]['text'];//echo $col_fil;
-                }
-            }
-            $cond_fil = ' '.$col_fil;
-            if (strlen($where)>0){
-                $where .= ' AND ';
-            }
-            if ($filtros[$k]['tipo'] == 'datefilter'){
-                $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
-                //echo $filtros[$k]['valor'];
-            }
-            switch ($filtros[$k]['condicion']){
-                /*case 'EMPTY':
-                    $cond_fil .= utf8_encode(" que sea vacÃ­a ");
-                    $where .= $filtros[$k]['columna'].
-                    break;
-                case 'NOT_EMPTY':
-                    $cond_fil .= utf8_encode(" que no sea vacÃ­a ");
-                    break;*/
-                case 'CONTAINS':
-                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' ILIKE "%'.$filtros[$k]['valor'].'%"';
-                    break;
-                case 'GREATER_THAN_OR_EQUAL':
-                    $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' >= "'.$filtros[$k]['valor'].'"';
-                    break;
-                case 'LESS_THAN_OR_EQUAL':
-                    $cond_fil .= utf8_encode(" que sea menor o igual que:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' <= "'.$filtros[$k]['valor'].'"';
-                    break;
-            }//echo $cond_fil;
-            $pdf->Cell(0,6,  utf8_decode($cond_fil),0,1,'L',true);
-        }
-        //echo $where;
-        // Salto de lÃ­nea
-        $pdf->Ln(4);
-        $pdf->SetFillColor(0,153,153);
-        $pdf->SetTextColor(255);
-        $pdf->SetDrawColor(0,80,80);
-        $pdf->SetLineWidth(.3);
-        $pdf->SetFont('Arial','B',8);
-        $pdf->Cell(10,7,'Nro.',1,0,'C',true);
-        for ($j=0;$j<$n_col;$j++){
-            if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
-                $pdf->Cell(28,7,$columns[$sub_keys[$j]]['text'],1,0,'C',true);
-            }
-        }
-        $pdf->Ln();
-        $pdf->SetFillColor(224,235,255);
-        $pdf->SetTextColor(0);
-        $pdf->SetFont('');
-        $pdf->Image('../public/images/logoMT.jpg',10,8,20,20);
-
-
-
-        $fill = false;
-        $ancho = 0;
-        //$resul = personas::find(array($where,'order' => 'id ASC'));
-        $obj = new Frelaborales();
-        //$resul = $obj->getAllWithPersons();
-        $resul = $obj->getAllWithPersonsOneRecord();
-
-        //$this->view->disable();
-        foreach ($resul as $v) {
-            $fechaIncor="";
-            if($v->fecha_incor!=""){
-                $fechaIncor = $v->fecha_incor;
-                $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
-            }
-            $fechaFin="";
-            if($v->fecha_fin!=""){
-                $fechaFin = $v->fecha_fin;
-                $fechaFin = date("d-m-Y", strtotime($fechaFin));
-            }
-            $fechaBaja="";
-            if($v->fecha_baja!=""){
-                $fechaBaja = $v->fecha_baja;
-                $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
-            }
-            $fechaRen="";
-            if($v->fecha_ren!=""){
-                $fechaRen = $v->fecha_ren;
-                $fechaRen = date("d-m-Y", strtotime($fechaRen));
-            }
-            $fechaAceptaRen="";
-            if($v->fecha_baja!=""){
-                $fechaAceptaRen = $v->fecha_acepta_ren;
-                $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
-            }
-            $fechaAgraServ="";
-            if($v->fecha_baja!=""){
-                $fechaAgraServ = $v->fecha_agra_serv;
-                $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
-            }
-            $relaboral[] = array(
-                'id_relaboral' => $v->id_relaboral,
-                'id_persona' => $v->id_persona,
-                'p_nombre' => $v->p_nombre,
-                's_nombre' => $v->s_nombre,
-                't_nombre' => $v->t_nombre,
-                'p_apellido' => $v->p_apellido,
-                's_apellido' => $v->s_apellido,
-                'c_apellido' => $v->c_apellido,
-                'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
-                'ci' => $v->ci,
-                'expd' => $v->expd,
-                'num_complemento' => $v->num_complemento,
-                'fecha_nac' => $v->fecha_nac,
-                'edad' => $v->edad,
-                'lugar_nac' => $v->lugar_nac,
-                'genero' => $v->genero,
-                'e_civil' => $v->e_civil,
-                'item' => $v->item,
-                'carrera_amd' => $v->carrera_amd,
-                'num_contrato' => $v->num_contrato,
-                'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                'id_solelabcontrato' => $v->id_solelabcontrato,
-                'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                'fecha_incor' => $fechaIncor,
-                'fecha_fin' => $fechaFin,
-                'fecha_baja' => $fechaBaja,
-                'fecha_ren' => $fechaRen,
-                'fecha_acepta_ren' => $fechaAceptaRen,
-                'fecha_agra_serv' => $fechaAgraServ,
-                'motivo_baja' => $v->motivo_baja,
-                'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                'descripcion_baja' => $v->descripcion_baja,
-                'descripcion_anu' => $v->descripcion_anu,
-                'id_cargo' => $v->id_cargo,
-                'cargo_codigo' => $v->cargo_codigo,
-                'cargo' => $v->cargo,
-                'id_nivelessalarial' => $v->id_nivelessalarial,
-                'nivelsalarial' => $v->nivelsalarial,
-                'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                'numero_escala' => $v->numero_escala,
-                'gestion_escala' => $v->gestion_escala,
-                'sueldo' => $v->sueldo,
-                'id_proceso' => $v->id_proceso,
-                'proceso_codigo' => $v->proceso_codigo,
-                'id_convocatoria' => $v->id_convocatoria,
-                'convocatoria_codigo' => $v->convocatoria_codigo,
-                'convocatoria_tipo' => $v->convocatoria_tipo,
-                'id_fin_partida' => $v->id_fin_partida,
-                'fin_partida' => $v->fin_partida,
-                'id_condicion' => $v->id_condicion,
-                'condicion' => $v->condicion,
-                'categoria_relaboral' => $v->categoria_relaboral,
-                'id_da' => $v->id_da,
-                'direccion_administrativa' => $v->direccion_administrativa,
-                'organigrama_regional_id' => $v->organigrama_regional_id,
-                'organigrama_regional' => $v->organigrama_regional,
-                'id_regional' => $v->id_regional,
-                'regional' => $v->regional,
-                'regional_codigo' => $v->regional_codigo,
-                'id_departamento' => $v->id_departamento,
-                'departamento' => $v->departamento,
-                'id_provincia' => $v->id_provincia,
-                'provincia' => $v->provincia,
-                'id_localidad' => $v->id_localidad,
-                'localidad' => $v->localidad,
-                'residencia' => $v->residencia,
-                'unidad_ejecutora' => $v->unidad_ejecutora,
-                'cod_ue' => $v->cod_ue,
-                'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
-                'gerencia_administrativa' => $v->gerencia_administrativa,
-                'id_departamento_administrativo' => $v->id_departamento_administrativo,
-                'departamento_administrativo' => $v->departamento_administrativo,
-                'id_organigrama' => $v->id_organigrama,
-                'unidad_administrativa' => $v->unidad_administrativa,
-                'organigrama_sigla' => $v->organigrama_sigla,
-                'organigrama_codigo' => $v->organigrama_codigo,
-                'id_area' => $v->id_area,
-                'area' => $v->area,
-                'id_ubicacion' => $v->id_ubicacion,
-                'ubicacion' => $v->ubicacion,
-                'unidades_superiores' => $v->unidades_superiores,
-                'unidades_dependientes' => $v->unidades_dependientes,
-                'partida' => $v->partida,
-                'fuente_codigo' => $v->fuente_codigo,
-                'fuente' => $v->fuente,
-                'organismo_codigo' => $v->organismo_codigo,
-                'organismo' => $v->organismo,
-                'observacion' => ($v->observacion!=null)?$v->observacion:"",
-                'estado' => $v->estado,
-                'estado_descripcion' => $v->estado_descripcion,
-                'estado_abreviacion' => $v->estado_abreviacion,
-                'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                'id_eventual' => $v->id_eventual,
-                'id_consultor' => $v->id_consultor,
-                'user_reg_id' => $v->user_reg_id,
-                'fecha_reg' => $v->fecha_reg,
-                'user_mod_id' => $v->user_mod_id,
-                'fecha_mod' => $v->fecha_mod,
-                'persona_user_reg_id' => $v->persona_user_reg_id,
-                'persona_fecha_reg' => $v->persona_fecha_reg,
-                'persona_user_mod_id' => $v->persona_user_mod_id,
-                'persona_fecha_mod' => $v->persona_fecha_mod
-            );
-        } //echo $personal[0]['id'];
-        for ($i=0;$i<$n_rows;$i++){
-            $pdf->Cell(10,6,$i,'LR',0,'L',$fill);
-            $ancho = 10;
-            for ($j=0;$j<$n_col;$j++){
-                if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
-                    $pdf->Cell(28,6,  utf8_decode($relaboral[$i][$sub_keys[$j]]),'LR',0,'L',$fill);
-                    $ancho = $ancho + 28;
-                }
-            }
-            //$pdf->Cell(40,10, ($keys[$j]),0,1);
-
-            $fill = !$fill;
-            $pdf->Ln();
-            //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
-        }
-        $pdf->Cell($ancho,0,'','T');
-        $pdf->Output('reporte_relaboral.pdf','I');
-        $this->view->disable();
-    }
-
 }
