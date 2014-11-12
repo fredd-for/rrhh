@@ -182,13 +182,21 @@ class personas extends \Phalcon\Mvc\Model
      * @var string
      */
     public $fecha_mod;
-
+    
     /**
      *
      * @var string
      */
+    
     public $tipo_doc;
-
+    
+    /**
+     *
+     * @var string
+     */
+    
+    public $foto;
+    
     /**
      * Initialize method for model.
      */
@@ -234,7 +242,8 @@ class personas extends \Phalcon\Mvc\Model
             'fecha_reg' => 'fecha_reg',
             'user_mod_id' => 'user_mod_id',
             'fecha_mod' => 'fecha_mod',
-            'tipo_doc' => 'tipo_doc'
+            'tipo_doc' => 'tipo_doc',
+            'foto' => 'foto'
         );
     }
 
