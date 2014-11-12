@@ -598,7 +598,7 @@ class RelaboralesController extends ControllerBase
                             /**
                              * Se modifica el estado del cargo para que se considere como adjudicado.
                              */
-                            $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                            $this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
                             #region Registro del área de trabajo
                             if($id_area>0){
                                 $objRelArea = new Relaboralesareas();
@@ -1132,7 +1132,7 @@ class RelaboralesController extends ControllerBase
      * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
      * En caso de que dicho valor sea nulo o cero se devolverán todas las areas disponibles en el organigrama.
      */
-    public function listareawsAction(){
+    public function listareasAction(){
         $organigramas = Array();
         $this->view->disable();
         if(isset($_POST["id_padre"])&&$_POST["id_padre"]>=0){
