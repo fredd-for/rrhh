@@ -412,12 +412,12 @@ class PersonalController extends ControllerBase{
         //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT)); 
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
-<<<<<<< HEAD
+
         //echo $filtros." - ".$columns;
         //$pdf = new fpdf();
-=======
+
         //echo $rows." - ".$columns;
->>>>>>> 42db72e6ac93905f60d9a0c57c8435320bf943d7
+
         $pdf = new fpdf();
         //$rows = (string)$rows;
         
