@@ -484,7 +484,7 @@ function guardarNuevoRegistro(){
     var observacion = $("#txtObservacion").val();
     if(idPersona>0&&idCargo>0){
         var ok=$.ajax({
-            url:'../../relaborales/save/',
+            url:'/relaborales/save/',
             type:"POST",
             datatype: 'json',
             async:false,

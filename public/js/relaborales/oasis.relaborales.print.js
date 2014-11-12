@@ -19,12 +19,12 @@ function exportarPDF(){
     gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
     cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
-    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
     departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
     area = $('#jqxgrid').jqxGrid('getcolumn','area');
     proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
     nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
+    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
+    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
     fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
     fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
     motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
