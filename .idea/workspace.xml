@@ -2,78 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2281706.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2367001.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2546207.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2717444.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2717605.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/2887459.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3065653.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3361474.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/3374040.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3415012.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3418879.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3430476.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/34622881.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3471817.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3508273.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3715326.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/3800404.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4034350.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4053539.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4284294.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4289147.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4316503.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4753878.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4788945.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4836295.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4902483.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4929869.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/4966803.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/498840.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/5487096.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/5958727.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6088762.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6094508.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6191519.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6744697.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6798883.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/personal/6961850.JPG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bd_rrhh.2014.11.10.backup" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/ProcesoscontratacionesController (copia).php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/add.phtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/index.phtml" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\bd_rrhh.cargos.sql" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\images\ejemplo.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/2714088.jpg" afterPath="$PROJECT_DIR$/public/images/personal/2714088.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/3335855.JPG" afterPath="$PROJECT_DIR$/public/images/personal/3335855.JPG" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/3374040.jpg" afterPath="$PROJECT_DIR$/public/images/personal/3374040.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/4094239.JPG" afterPath="$PROJECT_DIR$/public/images/personal/4094239.JPG" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/4278045.JPG" afterPath="$PROJECT_DIR$/public/images/personal/4278045.JPG" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/4751225.jpg" afterPath="$PROJECT_DIR$/public/images/personal/4751225.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/5963270.JPG" afterPath="$PROJECT_DIR$/public/images/personal/5963270.JPG" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/5986169.JPG" afterPath="$PROJECT_DIR$/public/images/personal/5986169.JPG" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/8301341.jpg" afterPath="$PROJECT_DIR$/public/images/personal/8301341.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/personal/9878383.jpg" afterPath="$PROJECT_DIR$/public/images/personal/9878383.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bd_rrhh.2014.11.09.backup" afterPath="$PROJECT_DIR$/bd_rrhh.2014.11.09.backup" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/logoMT.jpg" afterPath="$PROJECT_DIR$/public/images/logoMT.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Cargos.php" afterPath="$PROJECT_DIR$/app/models/Cargos.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/CargosController.php" afterPath="$PROJECT_DIR$/app/controllers/CargosController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/OrganigramasController.php" afterPath="$PROJECT_DIR$/app/controllers/OrganigramasController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/PersonalController.php" afterPath="$PROJECT_DIR$/app/controllers/PersonalController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Procesoscontrataciones.php" afterPath="$PROJECT_DIR$/app/models/Procesoscontrataciones.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/ProcesoscontratacionesController.php" afterPath="$PROJECT_DIR$/app/controllers/ProcesoscontratacionesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cargos/index.phtml" afterPath="$PROJECT_DIR$/app/views/cargos/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml" afterPath="$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.approve.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.approve.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/organigramas/personal.phtml" afterPath="$PROJECT_DIR$/app/views/organigramas/personal.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/personas.php" afterPath="$PROJECT_DIR$/app/models/personas.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.properties" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.xml" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/personal/registro_1.phtml" afterPath="$PROJECT_DIR$/app/views/personal/registro_1.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/pdfoasis.php" afterPath="$PROJECT_DIR$/app/models/pdfoasis.php" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,8 +34,8 @@
       <file leaf-file-name="oasis.relaborales.print.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="3468">
-              <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1908" max-vertical-offset="3366">
+              <caret line="123" column="36" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -110,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.3333335" vertical-offset="20876" max-vertical-offset="28679">
-              <caret line="1250" column="43" selection-start-line="1250" selection-start-column="43" selection-end-line="1250" selection-end-column="43" />
+            <state vertical-scroll-proportion="-2.6032608" vertical-offset="23996" max-vertical-offset="24548">
+              <caret line="1327" column="46" selection-start-line="1327" selection-start-column="46" selection-end-line="1327" selection-end-column="46" />
               <folding>
                 <element signature="e#7#215#0#PHP" expanded="true" />
               </folding>
@@ -122,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pdfoasis.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pdfoasis.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3148148" vertical-offset="0" max-vertical-offset="5032">
-              <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+            <state vertical-scroll-proportion="5.4117646" vertical-offset="5257" max-vertical-offset="6205">
+              <caret line="293" column="8" selection-start-line="293" selection-start-column="8" selection-end-line="293" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -155,8 +88,8 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="595">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="493">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -165,9 +98,13 @@
       <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2890">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="85" max-vertical-offset="2890">
               <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1415738157063" expanded="true" signature="2100:2371" placeholder="SELECT ROW_N..." />
+                <marker date="1415738157063" expanded="true" signature="2967:3294" placeholder="SELECT ROW_N..." />
+                <marker date="1415738157063" expanded="true" signature="3495:3663" placeholder="select p.ci,..relaborales..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -185,14 +122,14 @@
       <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="13153" max-vertical-offset="14790">
-              <caret line="801" column="14" selection-start-line="801" selection-start-column="14" selection-end-line="801" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="10348" max-vertical-offset="14807">
+              <caret line="484" column="39" selection-start-line="484" selection-start-column="39" selection-end-line="484" selection-end-column="39" />
               <folding>
-                <marker date="1415720223981" expanded="true" signature="30377:30388" placeholder="..." />
-                <marker date="1415720223981" expanded="true" signature="31254:31265" placeholder="..." />
-                <marker date="1415720223981" expanded="true" signature="32126:32137" placeholder="..." />
-                <marker date="1415720223981" expanded="true" signature="33178:33189" placeholder="..." />
-                <marker date="1415720223981" expanded="true" signature="34057:34068" placeholder="..." />
+                <marker date="1415743647261" expanded="true" signature="30426:30437" placeholder="..." />
+                <marker date="1415743647261" expanded="true" signature="31303:31314" placeholder="..." />
+                <marker date="1415743647261" expanded="true" signature="32175:32186" placeholder="..." />
+                <marker date="1415743647261" expanded="true" signature="33227:33238" placeholder="..." />
+                <marker date="1415743647261" expanded="true" signature="34106:34117" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -224,11 +161,11 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.approve.js" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
+        <option value="$PROJECT_DIR$/app/config/config.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
         <option value="$PROJECT_DIR$/app/models/pdfoasis.php" />
         <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-        <option value="$PROJECT_DIR$/app/config/config.php" />
       </list>
     </option>
   </component>
@@ -591,11 +528,11 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="6609" max-vertical-offset="9231">
           <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
           <folding>
-            <marker date="1415720223981" expanded="true" signature="30377:30388" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="31254:31265" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="32126:32137" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="33178:33189" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="34057:34068" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="30426:30437" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="31303:31314" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="32175:32186" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="33227:33238" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="34106:34117" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -645,11 +582,11 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="7089" max-vertical-offset="9163">
           <caret line="417" column="13" selection-start-line="417" selection-start-column="13" selection-end-line="417" selection-end-column="13" />
           <folding>
-            <marker date="1415720223981" expanded="true" signature="30377:30388" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="31254:31265" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="32126:32137" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="33178:33189" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="34057:34068" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="30426:30437" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="31303:31314" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="32175:32186" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="33227:33238" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="34106:34117" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -706,11 +643,11 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="8299" max-vertical-offset="9163">
           <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
           <folding>
-            <marker date="1415720223981" expanded="true" signature="30377:30388" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="31254:31265" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="32126:32137" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="33178:33189" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="34057:34068" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="30426:30437" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="31303:31314" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="32175:32186" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="33227:33238" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="34106:34117" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -888,14 +825,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2890">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/Print_SolicitudNV.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.85389" vertical-offset="1555" max-vertical-offset="2958">
@@ -917,27 +846,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js">
+    <entry file="file://$USER_HOME$/Downloads/PDF_MC_Table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="3468">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-138.66667" vertical-offset="0" max-vertical-offset="19176">
+          <caret line="416" column="30" selection-start-line="416" selection-start-column="14" selection-end-line="416" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="13153" max-vertical-offset="14790">
-          <caret line="801" column="14" selection-start-line="801" selection-start-column="14" selection-end-line="801" selection-end-column="14" />
-          <folding>
-            <marker date="1415720223981" expanded="true" signature="30377:30388" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="31254:31265" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="32126:32137" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="33178:33189" placeholder="..." />
-            <marker date="1415720223981" expanded="true" signature="34057:34068" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="493">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -949,37 +870,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/PDF_MC_Table.php">
+    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-138.66667" vertical-offset="0" max-vertical-offset="19176">
-          <caret line="416" column="30" selection-start-line="416" selection-start-column="14" selection-end-line="416" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2890">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <marker date="1415738157063" expanded="true" signature="2100:2371" placeholder="SELECT ROW_N..." />
+            <marker date="1415738157063" expanded="true" signature="2967:3294" placeholder="SELECT ROW_N..." />
+            <marker date="1415738157063" expanded="true" signature="3495:3663" placeholder="select p.ci,..relaborales..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10348" max-vertical-offset="14807">
+          <caret line="484" column="39" selection-start-line="484" selection-start-column="39" selection-end-line="484" selection-end-column="39" />
+          <folding>
+            <marker date="1415743647261" expanded="true" signature="30426:30437" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="31303:31314" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="32175:32186" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="33227:33238" placeholder="..." />
+            <marker date="1415743647261" expanded="true" signature="34106:34117" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1908" max-vertical-offset="3366">
+          <caret line="123" column="36" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.4117646" vertical-offset="5257" max-vertical-offset="6205">
+          <caret line="293" column="8" selection-start-line="293" selection-start-column="8" selection-end-line="293" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3333335" vertical-offset="20876" max-vertical-offset="28679">
-          <caret line="1250" column="43" selection-start-line="1250" selection-start-column="43" selection-end-line="1250" selection-end-column="43" />
+        <state vertical-scroll-proportion="-2.6032608" vertical-offset="23996" max-vertical-offset="24548">
+          <caret line="1327" column="46" selection-start-line="1327" selection-start-column="46" selection-end-line="1327" selection-end-column="46" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="595">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3148148" vertical-offset="0" max-vertical-offset="5032">
-          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>

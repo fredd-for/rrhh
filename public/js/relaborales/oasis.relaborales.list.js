@@ -134,6 +134,7 @@ function definirGrillaParaListaRelaborales(){
     {
         datatype: "json",
         datafields: [
+            { name: 'nro_row', type: 'integer' },
             { name: 'fecha_nac', type: 'string' },
             { name: 'edad', type: 'integer' },
             { name: 'lugar_nac', type: 'integer' },
@@ -481,7 +482,7 @@ function definirGrillaParaListaRelaborales(){
                         groupable: false, draggable: false, resizable: false,
                         columntype: 'number', width: 50,cellsalign:'center',align:'center'
                     },*/
-                    {   text: 'Nro.',  /*datafield: 'RowIndex',*/sortable: false, filterable: false, editable: false,
+                    {   text: 'Nro.',  /*datafield: 'nro_row',*/sortable: false, filterable: false, editable: false,
                         groupable: false, draggable: false, resizable: false,
                         columntype: 'number', width: 50,cellsalign:'center',align:'center',cellsrenderer: rownumberrenderer
                     },
