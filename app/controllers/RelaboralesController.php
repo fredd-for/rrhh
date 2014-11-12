@@ -1245,22 +1245,56 @@ class RelaboralesController extends ControllerBase
             }
             $cond_fil = ' '.$col_fil;
             if (strlen($where)>0){
-                $where .= ' AND ';
+                switch ($filtros[$k]['condicion']){
+                    case 'EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'NOT_EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'CONTAINS':
+                        $where .= ' AND ';
+                        break;
+                    case 'EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'GREATER_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'LESS_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                }
+
+
             }
             if ($filtros[$k]['tipo'] == 'datefilter'){
                 $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
             }
+            /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+            print_r($filtros);
+            echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+*/
+
             switch ($filtros[$k]['condicion']){
-                /*case 'EMPTY':
+                case 'EMPTY':
                     $cond_fil .= utf8_encode(" que sea vacía ");
-                    $where .= $filtros[$k]['columna'].
+                    $where .= "(".$filtros[$k]['columna']." IS NULL OR ".$filtros[$k]['columna']." ILIKE '')";
                     break;
                 case 'NOT_EMPTY':
                     $cond_fil .= utf8_encode(" que no sea vacía ");
-                    break;*/
+                    $where .= "(".$filtros[$k]['columna']." IS NOT NULL OR ".$filtros[$k]['columna']." NOT ILIKE '')";
+                    break;
                 case 'CONTAINS':
                     $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' ILIKE "%'.$filtros[$k]['valor'].'%"';
+                    if($filtros[$k]['columna']=="nombres"){
+                        $where .= "(p_nombre ILIKE '%".$filtros[$k]['valor']."%' OR s_nombre ILIKE '%".$filtros[$k]['valor']."%' OR t_nombre ILIKE '%".$filtros[$k]['valor']."%' OR p_apellido ILIKE '%".$filtros[$k]['valor']."%' OR s_apellido ILIKE '%".$filtros[$k]['valor']."%' OR c_apellido ILIKE '%".$filtros[$k]['valor']."%')";
+                    }else {
+                        $where .= $filtros[$k]['columna']." ILIKE '%".$filtros[$k]['valor']."%'";
+                    }break;
+                case 'EQUAL':
+                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
                     break;
                 case 'GREATER_THAN_OR_EQUAL':
                     $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
@@ -1274,7 +1308,9 @@ class RelaboralesController extends ControllerBase
 
         }
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersonsOneRecord();
+        $resul = $obj->getAllWithPersonsOneRecord($where);
+        //echo "<p>:::".$where;
+        $relaboral = array();
         foreach ($resul as $v) {
             $relaboral[] = array(
                 'id_relaboral' => $v->id_relaboral,
@@ -1404,6 +1440,7 @@ class RelaboralesController extends ControllerBase
         $pdf->RowTitle($colTitleSelecteds);
         $j=0;
         $auxArray = array();
+        if(count($relaboral)>0)
         foreach($relaboral as $i=>$val){
             $nb=0;$h=0;
             /**
