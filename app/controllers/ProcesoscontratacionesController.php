@@ -49,7 +49,7 @@ class ProcesoscontratacionesController extends ControllerBase
 				'id' => $v->id,
 				'pac_id' => $v->pac_id,
 				'proceso_contratacion_id' => $v->proceso_contratacion_id,
-				'codigo_cargo' => $v->codigo_cargo,
+				'codigo' => $v->codigo,
 				'cargo' => $v->cargo,
 				'sueldo' => $v->sueldo,
 				'estado' => $v->estado
@@ -191,6 +191,28 @@ class ProcesoscontratacionesController extends ControllerBase
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin)),
 			'estado' => $estado[$v->estado]
+			);
+	}
+	echo json_encode($customers);
+	}
+
+	public function getSeguimientoAction()
+	{
+	$model = new Procesoscontrataciones();
+	$resul = $model->getSeguimiento($_POST['id']);
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers = array(
+			'id_seguimiento' => $v->id,
+			'pac_id' => $v->pac_id,
+			'proceso_contratacion_id' => $v->proceso_contratacion_id,
+			'codigo_convocatoria' => $v->codigo_convocatoria,
+			'fecha_sol' => $v->fecha_sol,
+			'cert_presupuestaria' => $v->cert_presupuestaria,
+			'fecha_cert_pre' => $v->fecha_cert_pre,
+			'fecha_apr_mae' => $v->fecha_apr_mae,
+			'seguimiento_estado_id' => $v->seguimiento_estado_id,
+			'denominacion' => $v->denominacion
 			);
 	}
 	echo json_encode($customers);

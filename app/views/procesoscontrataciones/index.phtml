@@ -1,38 +1,40 @@
 <script type="text/javascript">
 
-$(document).ready(function () {
+    $(document).ready(function () {
             // prepare the data
-        var source =
-		{
-			datatype: "json",
-			datafields: [
-				{ name: 'nro',type: 'number'},
-                { name: 'id',type: 'number'},
-				{ name: 'denominacion',type: 'string'},
-				{ name: 'codigo_convocatoria',type: 'string'},
-				{ name: 'normativamod_id',type: 'number'},
-				{ name: 'fecha_publ'},
-				{ name: 'fecha_recep'},
-				{ name: 'fecha_concl'}
-			],
-            id:'id',
-			url: '/procesoscontrataciones/list',
-			cache: false,
-            async: false
-		};
-		var dataAdapter = new $.jqx.dataAdapter(source);
-
-        var sourceSeg1 =
+//cargar();            
+//function cargar(){
+    var source =
             {
-                datafields: [
-                    { name: 'nro', type: 'number' },
-                    { name: 'id', type: 'number' },
-                    { name: 'proceso_contratacion_id', type: 'number' },
-                    { name: 'codigo_cargo', type: 'string' },
-                    { name: 'cargo', type: 'string' },
-                    { name: 'sueldo', type: 'number' },
-                    { name: 'estado', type: 'number' }
-                ],
+                 datatype: "json",
+                 datafields: [
+                 { name: 'nro',type: 'number'},
+                 { name: 'id',type: 'number'},
+                 { name: 'denominacion',type: 'string'},
+                 { name: 'codigo_convocatoria',type: 'string'},
+                 { name: 'normativamod_id',type: 'number'},
+                 { name: 'fecha_publ'},
+                 { name: 'fecha_recep'},
+                 { name: 'fecha_concl'}
+                 ],
+                 id:'id',
+                 url: '/procesoscontrataciones/list',
+                 cache: false,
+                 async: false
+            };
+         var dataAdapter = new $.jqx.dataAdapter(source);
+
+         var sourceSeg1 =
+         {
+            datafields: [
+            { name: 'nro', type: 'number' },
+            { name: 'id', type: 'number' },
+            { name: 'proceso_contratacion_id', type: 'number' },
+            { name: 'codigo', type: 'string' },
+            { name: 'cargo', type: 'string' },
+            { name: 'sueldo', type: 'number' },
+            { name: 'estado', type: 'number' }
+            ],
                 //root: "Orders",
                 //record: "Order",
                 datatype: "json",
@@ -66,11 +68,11 @@ $(document).ready(function () {
                     { name: 'nro', type: 'number' },
                     { name: 'id', type: 'number' },
                     { name: 'proceso_contratacion_id', type: 'number' },
-                    { name: 'codigo_cargo', type: 'number' },
+                    { name: 'codigo', type: 'string' },
                     { name: 'cargo', type: 'string' },
                     { name: 'sueldo', type: 'number' },
                     { name: 'estado', type: 'number' }
-                ],
+                    ],
                     id: 'proceso_contratacion_id',
                     localdata: ordersbyid
                 }
@@ -78,14 +80,37 @@ $(document).ready(function () {
 
                 if (grid != null) {
                     grid.jqxGrid({
-                        source: nestedGridAdapter, width: 780, height: 200,
+                        source: nestedGridAdapter, 
+                        width: '90%', 
+                        height: 150,
                         columns: [
-                          { text: 'Nro', datafield: 'nro', width: 200 },
-                          { text: 'Codigo Cargo', datafield: 'codigo_cargo', width: 150 },
-                          { text: 'Cargo', datafield: 'cargo', width: 150 },
-                          { text: 'Sueldo', datafield: 'sueldo', width: 200 },
-                          { text: 'Estado', datafield: 'estado', width: 200 }
-                       ]
+                        //{ text: 'Nro', datafield: 'id', width: '5%' },
+                        { text: 'Item / Codigo Cargo', datafield: 'codigo', width: '10%'},
+                        { text: 'Cargo', datafield: 'cargo', width: '40%' },
+                        { text: 'Sueldo', datafield: 'sueldo', width: '10%' },
+                        { text: 'Estado', datafield: 'estado', width: '10%' },
+                        { text: 'Seguimiento', datafield: 'Seguimiento',width:'10%', sortable:false, columntype: 'button', cellsrenderer: function () {
+                            return "Seguimiento";
+                            }, buttonclick: function (row) {
+                                editrow = row;
+                                var dataRecord = grid.jqxGrid('getrowdata', editrow);
+                               //alert (dataRecord.id);
+                                var v=$.ajax({
+                                    url:'/procesoscontrataciones/getSeguimiento/',
+                                    type:'POST',
+                                    datatype: 'json',
+                                    data:{id:dataRecord.id},
+                                    success: function(data) { datos = JSON.parse(data);//alert(datos.id_seguimiento); 
+                                        $("#codigo_convocatoria_s").text(datos.codigo_convocatoria);
+                                        $("#cargo_s").text(dataRecord.cargo);
+                                        $("#item_s").text(dataRecord.codigo);
+                                        $("#denominacion_s").text(datos.denominacion);
+                                    }, //mostramos el error
+                                    error: function() { alert('Se ha producido un error Inesperado'); }
+                                });
+                            }
+                        }
+                        ]
                     });
                 }
             }
@@ -95,32 +120,32 @@ $(document).ready(function () {
             }
 
 
-		$("#jqxgrid").jqxGrid({
-		width: '100%',
-		source: source,
-        rowdetails: true,
-        rowsheight: 35,
-        initrowdetails: initrowdetails,
-        rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
-        ready: function () {
-           $("#jqxgrid").jqxGrid('showrowdetails', 0);
-        },
-		sortable: true,
-		altRows: true,
-		pageable: true,
-		pagerMode: 'advanced',
-		showfilterrow: true,
-		filterable: true,
-		columns: [
-			{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '5%'},
-			{ text: 'Denominaión', datafield: 'denominacion', filtertype: 'input',width: '25%' },
-			{ text: 'Codigo Convocatoria', datafield: 'codigo_convocatoria',filtertype: 'input', width: '15%' },
-			{ text: 'Fecha Publicación', datafield: 'fecha_publ', filtertype: 'range',width: '15%' },
-			{ text: 'Fecha Recepeción', datafield: 'fecha_recep',filtertype: 'range', width: '15%' },
-			{ text: 'Fecha Conclusión', datafield: 'fecha_concl',filtertype: 'range', width: '15%' },
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
-                     return "Editar";
-                  }, buttonclick: function (row) {
+    $("#jqxgrid").jqxGrid({
+              width: '100%',
+              source: source,
+              rowdetails: true,
+              rowsheight: 35,
+              initrowdetails: initrowdetails,
+              rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+              ready: function () {
+                 $("#jqxgrid").jqxGrid('showrowdetails', 0);
+             },
+             sortable: true,
+             altRows: true,
+             pageable: true,
+             pagerMode: 'advanced',
+             showfilterrow: true,
+             filterable: true,
+             columns: [
+             { text: 'Nro', datafield: 'nro',filtertype: 'number', width: '5%'},
+             { text: 'Denominaión', datafield: 'denominacion', filtertype: 'input',width: '25%' },
+             { text: 'Codigo Convocatoria', datafield: 'codigo_convocatoria',filtertype: 'input', width: '15%' },
+             { text: 'Fecha Publicación', datafield: 'fecha_publ', filtertype: 'range',width: '15%' },
+             { text: 'Fecha Recepeción', datafield: 'fecha_recep',filtertype: 'range', width: '15%' },
+             { text: 'Fecha Conclusión', datafield: 'fecha_concl',filtertype: 'range', width: '15%' },
+             { text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
+               return "Editar";
+           }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
                      editrow = row;
                      var offset = $("#jqxgrid").offset();
@@ -133,51 +158,60 @@ $(document).ready(function () {
                      $("#normativamod_id").val(dataRecord.normativamod_id);
                      $("#codigo_convocatoria2").val(dataRecord.codigo_convocatoria);
                      
-                    var fecha=dataRecord.fecha_publ;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_publ").jqxDateTimeInput('setDate', fecha);
+                     var fecha=dataRecord.fecha_publ;
+                     fecha=fecha.replace("-", "/").replace("-", "/");     
+                     fecha= new Date(fecha);
+                     fecha.setDate(fecha.getDate());
+                     $("#fecha_publ").jqxDateTimeInput('setDate', fecha);
 
-					var fecha=dataRecord.fecha_recep;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_recep").jqxDateTimeInput('setDate', fecha);
+                     var fecha=dataRecord.fecha_recep;
+                     fecha=fecha.replace("-", "/").replace("-", "/");     
+                     fecha= new Date(fecha);
+                     fecha.setDate(fecha.getDate());
+                     $("#fecha_recep").jqxDateTimeInput('setDate', fecha);
 
-					var fecha=dataRecord.fecha_concl;
-					fecha=fecha.replace("-", "/").replace("-", "/");	  
-  					fecha= new Date(fecha);
-  					fecha.setDate(fecha.getDate());
-					$("#fecha_concl").jqxDateTimeInput('setDate', fecha);
+                     var fecha=dataRecord.fecha_concl;
+                     fecha=fecha.replace("-", "/").replace("-", "/");     
+                     fecha= new Date(fecha);
+                     fecha.setDate(fecha.getDate());
+                     $("#fecha_concl").jqxDateTimeInput('setDate', fecha);
 
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
                  }
-            },
-            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
-                     return "Eliminar";
-                  }, buttonclick: function (row) {
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+             },
+             { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
+               return "Eliminar";
+                }, buttonclick: function (row) {
+               editrow = row;
+               var offset = $("#jqxgrid").offset();
+               $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
 
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#id").val(dataRecord.id);
-                     $("#popupWindow_delete").jqxWindow('open');
-                 }
+               var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+               $("#id").val(dataRecord.id);
+               $("#popupWindow_delete").jqxWindow('open');
+                }
             }
-		]
-		});
+       ]
+   });
+//}
+/*
+$('#jqxgrid').on('rowdoubleclick', function (event) {
+     // event.args.rowindex is a bound index.
+    alert(event.args.rowindex);
+     var dataRecordx = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+                    alert(dataRecordx.id);
+ });   
+*/
 
 /********************Funciones de la primera grilla************************/
 // initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            $("#popupWindow_delete").jqxWindow({
-                width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
+$("#popupWindow").jqxWindow({
+    width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+});
+$("#popupWindow_delete").jqxWindow({
+    width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+});
             // update the edited row when the user clicks the 'Save' button.
 /*            $("#add").click(function(){
             	$("#titulo").text("Adicionar");
@@ -195,155 +229,273 @@ $(document).ready(function () {
 				$("#popupWindow").jqxWindow('open');
             });
 */	
-            $("#Save").click(function () {
-            	var fecha_publ = $('#fecha_publ').jqxDateTimeInput('getDate');
-            	var fecha_recep = $('#fecha_recep').jqxDateTimeInput('getDate');
-            	var fecha_concl = $('#fecha_concl').jqxDateTimeInput('getDate');
-            	var v=$.ajax({
-                    	url:'../../procesoscontrataciones/save/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val(),normativamod_id:$("#normativamod_id").val(),codigo_convocatoria:$("#codigo_convocatoria2").val(),fecha_publ:fecha_publ,fecha_recep:fecha_recep,fecha_concl:fecha_concl},
+$("#Save").click(function () {
+   var fecha_publ = $('#fecha_publ').jqxDateTimeInput('getDate');
+   var fecha_recep = $('#fecha_recep').jqxDateTimeInput('getDate');
+   var fecha_concl = $('#fecha_concl').jqxDateTimeInput('getDate');
+   var v=$.ajax({
+       url:'../../procesoscontrataciones/save/',
+       type:'POST',
+       datatype: 'json',
+       data:{id:$("#id").val(),normativamod_id:$("#normativamod_id").val(),codigo_convocatoria:$("#codigo_convocatoria2").val(),fecha_publ:fecha_publ,fecha_recep:fecha_recep,fecha_concl:fecha_concl},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-                    $("#popupWindow").jqxWindow('hide');
+                                              error: function() { alert('Se ha producido un error Inesperado'); }
+                                          });
+   $("#popupWindow").jqxWindow('hide');
                // }
-            });
-			
+           });
 
-	
-			$("#add").click(function(){
-    			location.href="/procesoscontrataciones/add/";
-            });
-	
+$("#add").click(function(){
+ location.href="/procesoscontrataciones/add/";
+});
 
-            $("#Eliminar").click(function () {
+$("#Eliminar").click(function () {
                 //alert($("#id").val());
-            	if (editrow >= 0) {
+                if (editrow >= 0) {
                     var v=$.ajax({
                     	url:'/procesoscontrataciones/delete/',
                     	type:'POST',
                     	datatype: 'json',
-						data:{id:$("#id").val()},
-						success: function(data) { cargar(); alert(data); 
+                      data:{id:$("#id").val()},
+                    success: function(data) { location.href="/procesoscontrataciones/";//cargar(); //alert(data); 
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
+                    error: function() { alert('Se ha producido un error Inesperado'); }
+                                          });
 					//$('#jqxgrid').jqxGrid();
                     $("#popupWindow_delete").jqxWindow('hide');
                 }
             });
 
-            $("#normativamod_id, #codigo_convocatoria").change(function(){ 
-        		var element = $("#normativamod_id").find('option:selected'); 
-		        var modalidad = element.attr("modalidad"); 
-		        var codigo_convocatoria = $("#codigo_convocatoria").val();
-		        var fecha = new Date();
-				var anio = fecha.getFullYear();
-		        $("#codigo_convocatoria2").val(modalidad+"-"+codigo_convocatoria+"/"+anio);
+$("#normativamod_id, #codigo_convocatoria").change(function(){ 
+  var element = $("#normativamod_id").find('option:selected'); 
+  var modalidad = element.attr("modalidad"); 
+  var codigo_convocatoria = $("#codigo_convocatoria").val();
+  var fecha = new Date();
+  var anio = fecha.getFullYear();
+  $("#codigo_convocatoria2").val(modalidad+"-"+codigo_convocatoria+"/"+anio);
         		//$('#setMyTag').val(myTag); 
-    		}); 
+          }); 
 
-            $("#fecha_publ").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-            $("#fecha_recep").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-            $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+$("#fecha_publ").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+$("#fecha_recep").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+$("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
 /************************************************/
 
-        });
+});
 </script>
 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			
-				<?php echo $this->flashSession->output() ?>
-				<div class="col-lg-12">
-						<h3>Procesos de Contratación</h3>		
-				</div>
-				<div style="margin-left: 5px;">
-					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />
-					</div>
-				</div>
-				<br>
-				<div class="table-responsive">
-        			<div id="jqxgrid"></div>
-        			
-				</div>
-			
-				<div id="popupWindow">
-					<div id="titulo">Editar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="right">id:</td>
-								<td align="left"><input id="id" name="id" type="hidden" /></td>
-							</tr>
-							<tr>
-								<td align="right">Normativa:</td>
-								<td align="left">
-									<select name="normativamod_id" id="normativamod_id">
-										<option value="">(Seleccionar)</option>
-										<?php foreach ($normativamod as $v) { ?>
-										<option value="<?php echo $v->id ?>" modalidad="<?php echo $v->modalidad ?>"><?php echo $v->denominacion ?></option>
-										<?php } ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td align="right">Codigo:</td>
-								<td align="left">
-									<input type="number" name="codigo_convocatoria" id="codigo_convocatoria" >
-									<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly">
-									
-								</td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Publicación:</td>
-								<td align="left"><div id='fecha_publ'></div></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Recepción:</td>
-								<td align="left"><div id='fecha_recep'></div></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Conclusión:</td>
-								<td align="left"><div id='fecha_concl'></div></td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-								<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
+            <?php echo $this->flashSession->output() ?>
+            <div class="col-lg-12">
+              <h3>Procesos de Contratación</h3>		
+          </div>
+          <div style="margin-left: 5px;">
+           <div>
+              <input id="add" type="button" value=" (+) Adicionar" />
+          </div>
+      </div>
+      <br>
+      <div class="table-responsive">
+         <div id="jqxgrid"></div>
 
-				<div id="popupWindow_delete">
-					<div>Eliminar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="left">Esta seguro de Eliminar el registro</td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
+     </div>
 
+     <div id="popupWindow">
+       <div id="titulo">Editar</div>
+       <div style="overflow: hidden;">
+          <table>
+             <tr>
+                <td align="right">id:</td>
+                <td align="left"><input id="id" name="id" type="hidden" /></td>
+            </tr>
+            <tr>
+                <td align="right">Normativa:</td>
+                <td align="left">
+                   <select name="normativamod_id" id="normativamod_id">
+                      <option value="">(Seleccionar)</option>
+                      <?php foreach ($normativamod as $v) { ?>
+                      <option value="<?php echo $v->id ?>" modalidad="<?php echo $v->modalidad ?>"><?php echo $v->denominacion ?></option>
+                      <?php } ?>
+                  </select>
+              </td>
+          </tr>
+          <tr>
+            <td align="right">Codigo:</td>
+            <td align="left">
+               <input type="number" name="codigo_convocatoria" id="codigo_convocatoria" >
+               <input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly">
 
-		</div>
-		
-	</div>
+           </td>
+       </tr>
+       <tr>
+        <td align="right">Fecha Publicación:</td>
+        <td align="left"><div id='fecha_publ'></div></td>
+    </tr>
+    <tr>
+        <td align="right">Fecha Recepción:</td>
+        <td align="left"><div id='fecha_recep'></div></td>
+    </tr>
+    <tr>
+        <td align="right">Fecha Conclusión:</td>
+        <td align="left"><div id='fecha_concl'></div></td>
+    </tr>
+    <tr>
+        <td align="right"></td>
+        <td style="padding-top: 10px;" align="right">
+            <input style="margin-right: 5px;" type="button" id="Save" value="Save" />
+            <input id="Cancel" type="button" value="Cancel" />
+        </td>
+    </tr>
+</table>
 </div>
-        			
+</div>
+
+<div id="popupWindow_delete">
+   <div>Eliminar</div>
+   <div style="overflow: hidden;">
+      <table>
+         <tr>
+            <td align="left">Esta seguro de Eliminar el registro</td>
+        </tr>
+        <tr>
+            <td align="right"></td>
+            <td style="padding-top: 10px;" align="right">
+                <input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
+                <input id="Cancel" type="button" value="Cancel" />
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+
+<!-- proceso de contratacion -->
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    SEGUIMIENTO HITOS
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form-horizontal" id="testForm">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Codigo Convocatoria</label>
+                                    <div class="col-lg-3" id="codigo_convocatoria_s"></div>
+                                    <label class="col-lg-3 control-label">Item / Codigo Cargo</label>
+                                    <div class="col-lg-3" id="item_s"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Cargo</label>
+                                    <div class="col-lg-3" id="cargo_s"></div>
+                                    <label class="col-lg-3 control-label">Tipo Contratación</label>
+                                    <div class="col-lg-3" id="denominacion_s"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Unidad Solicitante</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Responsable Solicitud</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Fecha Solicitud</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Certificación Presuspuestaria</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Fecha Cert. Presupuestaria</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Fechar Aprobacion MAE</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Estado</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                        
+                    </form>
+                </div>    
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    COMISION DE CALIFICACION
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <ul>
+                            <li>Luis Freddy Velasco </li>
+                            <li>Ivan Chacolla </li>
+                        </ul>
+                    </div>
+                </div>    
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    CRITERIOS CALIFICACION
+                </div>
+                <div class="panel-body">
+                    
+                                <div class="form-group">
+                                    <div class="col-lg-9">
+                                        Profesional titulo en provision nacional
+                                    </div>
+                                </div>
+                        
+                    
+                </div>    
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    PERSONAS APROBADAS
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <ul>
+                            <li>Luis Freddy Velasco </li>
+                            <li>Ivan Chacolla </li>
+                        </ul>
+                    </div>
+                </div>    
+            </div>
+
+        </div>
+
+        
+
+
+
+    </div>
+</div>
+
+
+
