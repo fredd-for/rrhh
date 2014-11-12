@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,8 +34,6 @@
               <caret line="116" column="36" selection-start-line="116" selection-start-column="36" selection-end-line="116" selection-end-column="36" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1415748384289" expanded="true" signature="379:7801" placeholder="{...}" />
-                <marker date="1415748384289" expanded="true" signature="4802:6588" placeholder="/*...*/" />
               </folding>
             </state>
           </provider>
@@ -46,8 +42,8 @@
       <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37728938" vertical-offset="24512" max-vertical-offset="25177">
-              <caret line="1454" column="46" selection-start-line="1454" selection-start-column="46" selection-end-line="1454" selection-end-column="46" />
+            <state vertical-scroll-proportion="-4.0227704" vertical-offset="24186" max-vertical-offset="25211">
+              <caret line="1298" column="91" selection-start-line="1298" selection-start-column="91" selection-end-line="1298" selection-end-column="91" />
               <folding>
                 <element signature="e#7#215#0#PHP" expanded="true" />
               </folding>
@@ -58,14 +54,9 @@
       <file leaf-file-name="Frelaborales.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.307693" vertical-offset="4422" max-vertical-offset="4998">
-              <caret line="288" column="10" selection-start-line="288" selection-start-column="10" selection-end-line="288" selection-end-column="10" />
-              <folding>
-                <marker date="1415779887577" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415779887577" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-                <marker date="1415779887577" expanded="true" signature="9987:10034" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-                <marker date="1415779887577" expanded="true" signature="10657:10716" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas_un_registro..." />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="4828" max-vertical-offset="4998">
+              <caret line="290" column="10" selection-start-line="290" selection-start-column="10" selection-end-line="290" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,9 +66,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="6103" max-vertical-offset="6205">
               <caret line="359" column="1" selection-start-line="359" selection-start-column="1" selection-end-line="359" selection-end-column="1" />
-              <folding>
-                <marker date="1415753206459" expanded="true" signature="34:11716" placeholder="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -95,7 +84,7 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="493">
+            <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="493">
               <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
               <folding />
             </state>
@@ -127,53 +116,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="8211" max-vertical-offset="14807">
               <caret line="489" column="39" selection-start-line="489" selection-start-column="39" selection-end-line="489" selection-end-column="39" />
-              <folding>
-                <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-                <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-                <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-                <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-                <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-                <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-                <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-                <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-                <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-                <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-                <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-                <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-                <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -207,8 +150,8 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
         <option value="$PROJECT_DIR$/app/models/pdfoasis.php" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
-        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
       </list>
     </option>
   </component>
@@ -471,15 +414,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -513,13 +456,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -565,53 +508,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8126" max-vertical-offset="14654">
           <caret line="484" column="39" selection-start-line="484" selection-start-column="39" selection-end-line="484" selection-end-column="39" />
-          <folding>
-            <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-            <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-            <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -640,53 +537,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6609" max-vertical-offset="9231">
           <caret line="423" column="138" selection-start-line="423" selection-start-column="138" selection-end-line="423" selection-end-column="138" />
-          <folding>
-            <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-            <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-            <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -733,53 +584,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7089" max-vertical-offset="9163">
           <caret line="417" column="13" selection-start-line="417" selection-start-column="13" selection-end-line="417" selection-end-column="13" />
-          <folding>
-            <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-            <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-            <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -833,53 +638,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8299" max-vertical-offset="9163">
           <caret line="495" column="68" selection-start-line="495" selection-start-column="68" selection-end-line="495" selection-end-column="68" />
-          <folding>
-            <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-            <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-            <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1066,53 +825,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8211" max-vertical-offset="14807">
           <caret line="489" column="39" selection-start-line="489" selection-start-column="39" selection-end-line="489" selection-end-column="39" />
-          <folding>
-            <marker date="1415745447261" expanded="true" signature="4906:53753" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="4889:8870" placeholder="{&quot;datatype&quot;: &quot;json&quot;...}" />
-            <marker date="1415745447261" expanded="true" signature="9020:53709" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="9603:29373" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15468:20987" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15610:20782" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="15766:20762" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="16091:20622" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20627:20736" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="20787:20898" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21182:25291" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21299:25099" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21455:25079" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="21528:21680" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="21780:24943" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="22170:22254" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="24948:25057" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25104:25202" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25484:29286" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25603:29220" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25829:29240" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="25964:26190" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="26455:29096" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="26830:26957" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="27152:27422" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="28568:28801" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="29100:29204" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29225:29266" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="29459:37536" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="29545:29890" placeholder="{&quot;text&quot;: 'Nro.'...}" />
-            <marker date="1415745447261" expanded="true" signature="37608:51743" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="37996:51668" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="41191:45398" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="45583:45719" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="45811:48635" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="46153:46229" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de bajas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="48952:49154" placeholder="/*...*/" />
-            <marker date="1415745447261" expanded="true" signature="49395:51562" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="49722:49833" placeholder="/** Trasladamos el item seleccionado al que corresponde, el de vistas. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="50004:50242" placeholder="{&quot;theme&quot;: 'oasis'...}" />
-            <marker date="1415745447261" expanded="true" signature="51284:51488" placeholder="/** Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo. ...*/" />
-            <marker date="1415745447261" expanded="true" signature="51836:53294" placeholder="[...]" />
-            <marker date="1415745447261" expanded="true" signature="53454:53690" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53463:53525" placeholder="{...}" />
-            <marker date="1415745447261" expanded="true" signature="53577:53591" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1122,8 +835,6 @@
           <caret line="116" column="36" selection-start-line="116" selection-start-column="36" selection-end-line="116" selection-end-column="36" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1415748384289" expanded="true" signature="379:7801" placeholder="{...}" />
-            <marker date="1415748384289" expanded="true" signature="4802:6588" placeholder="/*...*/" />
           </folding>
         </state>
       </provider>
@@ -1132,28 +843,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6103" max-vertical-offset="6205">
           <caret line="359" column="1" selection-start-line="359" selection-start-column="1" selection-end-line="359" selection-end-column="1" />
-          <folding>
-            <marker date="1415753206459" expanded="true" signature="34:11716" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.307693" vertical-offset="4422" max-vertical-offset="4998">
-          <caret line="288" column="10" selection-start-line="288" selection-start-column="10" selection-end-line="288" selection-end-column="10" />
-          <folding>
-            <marker date="1415779887577" expanded="true" signature="8867:8896" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415779887577" expanded="true" signature="9282:9329" placeholder="SELECT * fro..f_relaborales..." />
-            <marker date="1415779887577" expanded="true" signature="9987:10034" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas..." />
-            <marker date="1415779887577" expanded="true" signature="10657:10716" placeholder="SELECT * fro..f_relaborales_y_personas_nuevas_un_registro..." />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="4828" max-vertical-offset="4998">
+          <caret line="290" column="10" selection-start-line="290" selection-start-column="10" selection-end-line="290" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="493">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="493">
           <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
           <folding />
         </state>
@@ -1161,8 +865,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37728938" vertical-offset="24512" max-vertical-offset="25177">
-          <caret line="1454" column="46" selection-start-line="1454" selection-start-column="46" selection-end-line="1454" selection-end-column="46" />
+        <state vertical-scroll-proportion="-4.0227704" vertical-offset="24186" max-vertical-offset="25211">
+          <caret line="1298" column="91" selection-start-line="1298" selection-start-column="91" selection-end-line="1298" selection-end-column="91" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
           </folding>

@@ -683,6 +683,7 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->fecha_mod = $hoy;
                     $ok = $objRelaboral->save();
                     if ($ok) {
+                        $this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
                         $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de relaci&oacute;n laboral.');
                     }else{
                         $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de relaci&oacute;n laboral.');
@@ -796,7 +797,7 @@ class RelaboralesController extends ControllerBase
                              * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
                              */
                             $this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
-                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro realizado de modo satisfactorio.');
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
                         } else {
                             foreach ($objRelaboral->getMessages() as $message) {
                                 echo $message, "\n";
@@ -1237,6 +1238,7 @@ class RelaboralesController extends ControllerBase
         print_r($colTitleSelecteds);
         echo "<p>-------------------------------------------------------------------------------------------------------------</p>";*/
         $where = '';
+        $whereEqual = '';
         for($k=0;$k<count($filtros);$k++){
             for ($j=0;$j<$n_col;$j++){
                 if ($sub_keys[$j] == $filtros[$k]['columna']){
