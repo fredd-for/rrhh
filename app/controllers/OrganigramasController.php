@@ -60,7 +60,7 @@ class OrganigramasController extends ControllerBase
 				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
 				'using' => array('id', "unidad_administrativa"),
 				'useEmpty' => true,
-				'emptyText' => 'Mi Teleferico',
+				'emptyText' => 'Seleccionar',
 				'emptyValue' => '0',
 				'class' => 'form-control'
 				)
@@ -141,7 +141,7 @@ class OrganigramasController extends ControllerBase
 		<a href="/organigramas/edit/'.$id.'" title="editar"><i class="fa fa-pencil fa-lg"></i></a>
 		<a href="/organigramas/delete/'.$id.'" title="eliminar"><i class="fa fa-minus-circle fa-lg"></i></a>
 		<br>
-		<a href="/organigramas/personal/'.$id.'" title="eliminar" style="color:#f2f2f2">'.$oficina.'</a>';
+		<a href="/organigramas/personal/'.$id.'" title="Ver Personigrama" style="color:#f2f2f2">'.$oficina.'</a>';
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';

@@ -13,6 +13,21 @@ class ProcesoscontratacionesController extends ControllerBase
 	{
 		$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
 		$this->view->setVar('normativamod',$resul);
+
+		$resul = Organigramas::findFirstById($id);
+		//$this->tag->setDefault("padre_id", $id);
+		$organigrama_id = $this->tag->select(
+			array(
+				'organigrama_id',
+				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
+				'using' => array('id', "unidad_administrativa"),
+				'useEmpty' => true,
+				'emptyText' => 'Seleccionar',
+				'emptyValue' => '0',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('organigrama_id',$organigrama_id);
 	}
 
 	public function listAction()

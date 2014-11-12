@@ -50,7 +50,7 @@
 			promptText: '(Seleccionar)',
 			displayMember: 'cargo',
 			valueMember: 'id',
-			//autoDropDownHeight: true
+			autoDropDownHeight: true
 		}); 
 
 		/*Filtro segun organigrama a cargos*/
@@ -390,7 +390,26 @@ function cargar2(){
 							}
 						},
                        { input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       /*{ input: "#codigo", message: "Item ", action: 'blur', rule: function () {
+                       		if ($("#codigo").val()=='') {
+                       			return false;
+                       		}else{
+                       			return true;
+                       			}
+                       		
+                       		var v=$.ajax({
+			            			url:'/cargos/itemDuplicado/',
+			            			type:'POST',
+			            			datatype: 'json',
+			            			data:{id:$("#codigo").val()},
+									success: function(data) { ; //alert('Guardado Correctamente'); 
+															}, //mostramos el error
+															error: function() { alert('Se ha producido un error Inesperado'); }
+									});
+                       		}
+						},*/
                        { input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
+                       
                        ]
             });
 
@@ -399,8 +418,6 @@ function cargar2(){
                        { input: '#gestion_pac', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
                        ]
             });
-	
-            
 
         });
 </script>
