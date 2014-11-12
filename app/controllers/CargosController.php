@@ -66,6 +66,7 @@ public function listAction()
 	$this->view->disable();
 	foreach ($resul as $v) {
 		$customers[] = array(
+			'nro' => $v->nro,
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
@@ -236,10 +237,12 @@ public function listpacAction()
 	$this->view->disable();
 	foreach ($resul as $v) {
 		$customers[] = array(
+			'nro' => $v->nro,
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'cargo' => $v->cargo,
 			'gestion' => $v->gestion,
+			'estado' => $v->estado,
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
 			);
@@ -248,18 +251,19 @@ public function listpacAction()
 }
 public function listdependeAction()
 {
-		$resul = Cargos::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
-	//$model = new Cargos();
-	//$resul = $model->lista();
-	$this->view->disable();
-	foreach ($resul as $v) {
-		$customers[] = array(
-			'id' => $v->id,
-			'organigrama' => $v->organigrama_id,
-			'codigo' => $v->codigo,
-			'cargo' => $v->cargo
-			);
-	}
+    if (isset($_GET['organigrama_id'])){
+	    $resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$_GET['organigrama_id'],'order' => 'id ASC'));
+		$this->view->disable();
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'organigrama' => $v->organigrama_id,
+				'codigo' => $v->codigo,
+				'cargo' => $v->cargo
+				);
+		}
+    }
+        
 	echo json_encode($customers);
 }
 

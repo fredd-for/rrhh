@@ -23,6 +23,7 @@ class ProcesoscontratacionesController extends ControllerBase
 		$this->view->disable();
 		foreach ($resul as $v) {
 			$customers[] = array(
+				'nro' => $v->nro,
 				'id' => $v->id,
 				'denominacion' => $v->denominacion,
 				'codigo_convocatoria' => $v->codigo_convocatoria,
@@ -37,18 +38,21 @@ class ProcesoscontratacionesController extends ControllerBase
 
 	public function listseguimientoAction()
 	{
-		$resul = Seguimientos::find(array('baja_logica=1','order' => 'id ASC'));
-		/*$model = new Procesoscontrataciones();
-		$resul= $model->listaseguimiento();
-		*/
+		//$resul = Seguimientos::find(array('baja_logica=1','order' => 'id ASC'));
+		$pc = new Procesoscontrataciones();
+		$resul= $pc->listseguimiento();
+		
 		$this->view->disable();
 		foreach ($resul as $v) {
 			$customers[] = array(
+				'nro' => $v->nro,
 				'id' => $v->id,
+				'pac_id' => $v->pac_id,
 				'proceso_contratacion_id' => $v->proceso_contratacion_id,
-				'codigo_cargo' => $v->codigo_cargo,
+				'codigo' => $v->codigo,
 				'cargo' => $v->cargo,
 				'sueldo' => $v->sueldo,
+				'estado' => $v->estado
 				);
 		}
 		echo json_encode($customers);
@@ -160,9 +164,13 @@ class ProcesoscontratacionesController extends ControllerBase
 	public function deleteAction(){
 		$resul = Procesoscontrataciones::findFirstById($_POST['id']);
 		$resul->baja_logica = 0;
-		$resul->save();
+		if ($resul->save()) {
+					$msm = 'Exito: Se elimino correctamente';
+				}else{
+					$msm = 'Error: No se elimino el registro';
+				}
 		$this->view->disable();
-		echo json_encode();
+		echo json_encode($msm);
 	}
 
 	public function listpacAction()
@@ -183,6 +191,28 @@ class ProcesoscontratacionesController extends ControllerBase
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin)),
 			'estado' => $estado[$v->estado]
+			);
+	}
+	echo json_encode($customers);
+	}
+
+	public function getSeguimientoAction()
+	{
+	$model = new Procesoscontrataciones();
+	$resul = $model->getSeguimiento($_POST['id']);
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers = array(
+			'id_seguimiento' => $v->id,
+			'pac_id' => $v->pac_id,
+			'proceso_contratacion_id' => $v->proceso_contratacion_id,
+			'codigo_convocatoria' => $v->codigo_convocatoria,
+			'fecha_sol' => $v->fecha_sol,
+			'cert_presupuestaria' => $v->cert_presupuestaria,
+			'fecha_cert_pre' => $v->fecha_cert_pre,
+			'fecha_apr_mae' => $v->fecha_apr_mae,
+			'seguimiento_estado_id' => $v->seguimiento_estado_id,
+			'denominacion' => $v->denominacion
 			);
 	}
 	echo json_encode($customers);

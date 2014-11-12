@@ -150,9 +150,34 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
 
     private $_db;
     public function lista() {
-        $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion FROM procesoscontrataciones p, normativasmod n WHERE p.normativamod_id=n.id ORDER BY p.id ASC";
-        $this->_db = new Seguimientos();
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY p.id asc) AS nro,p.*, n.normativa,n.modalidad,n.denominacion 
+        FROM procesoscontrataciones p, normativasmod n WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.id ASC";
+        $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function listseguimiento()
+    {
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY s.id asc) AS nro,s.id,s.pac_id,s.proceso_contratacion_id,se.estado, c.codigo,c.cargo,n.sueldo
+FROM seguimientos s 
+INNER JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
+INNER JOIN pacs p ON s.pac_id=p.id
+INNER JOIN cargos c ON p.cargo_id=c.id
+INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id 
+WHERE s.baja_logica=1 ORDER BY s.id ASC";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
+
+    public function getSeguimiento($id)
+    {
+        $sql = "SELECT s.*,p.codigo_convocatoria,n.denominacion FROM seguimientos s
+INNER JOIN procesoscontrataciones p ON s.proceso_contratacion_id=p.id
+INNER JOIN normativasmod n ON p.normativamod_id=n.id
+WHERE s.id='$id'";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }
     /**
      * Función para la obtención del listado de procesos disponibles de acuerdo a la condición referida en el parámetro enviado.

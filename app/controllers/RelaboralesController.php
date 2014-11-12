@@ -66,20 +66,8 @@ class RelaboralesController extends ControllerBase
      */
     public function listAction()
     {
-        /*$this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
-        $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
-        $this->assets->addCss('/assets/css/oasis.principal.css');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');*/
         $this->view->disable();
         $obj = new Frelaborales();
-        //$resul = $obj->getAllWithPersons();
         $resul = $obj->getAllWithPersonsOneRecord();
         $permisoC = true;
         $permisoR = true;
@@ -110,45 +98,9 @@ class RelaboralesController extends ControllerBase
                 $aprobar = '<input type="button" id="btn_appr_' . $v->id_relaboral . '" value="Aprobar" class="btn_approve">';
                 $down = '<input type="button" id="btn_del_' . $v->id_relaboral . '" value="Baja" class="btn_del">';
                 $view = '<input type="button" id="btn_view_' . $v->id_relaboral . '" value="Ver" class="btn_view">';
-                #region Control de valores para fechas para evitar error al momento de mostrar en grilla
-                /*$fechaIni="";
-                if($v->fecha_ini!=""){
-                    $fechaIni = $v->fecha_ini;
-                    $fechaIni = date("d-m-Y", strtotime($fechaIni));
-                }*/
-                $fechaIncor="";
-                if($v->fecha_incor!=""){
-                    $fechaIncor = $v->fecha_incor;
-                    $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
-                }
-                $fechaFin="";
-                if($v->fecha_fin!=""){
-                    $fechaFin = $v->fecha_fin;
-                    $fechaFin = date("d-m-Y", strtotime($fechaFin));
-                }
-                $fechaBaja="";
-                if($v->fecha_baja!=""){
-                    $fechaBaja = $v->fecha_baja;
-                    $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
-                }
-                $fechaRen="";
-                if($v->fecha_ren!=""){
-                    $fechaRen = $v->fecha_ren;
-                    $fechaRen = date("d-m-Y", strtotime($fechaRen));
-                }
-                $fechaAceptaRen="";
-                if($v->fecha_baja!=""){
-                    $fechaAceptaRen = $v->fecha_acepta_ren;
-                    $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
-                }
-                $fechaAgraServ="";
-                if($v->fecha_baja!=""){
-                    $fechaAgraServ = $v->fecha_agra_serv;
-                    $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
-                }
-                #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
                 $relaboral[] = array(
                     'chk' => $chk,
+                    'nro_row' => 0,
                     'nuevo' => $new,
                     'aprobar' => $aprobar,
                     'editar' => $edit,
@@ -183,12 +135,12 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
                     'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                    'fecha_incor' => $fechaIncor,
-                    'fecha_fin' => $fechaFin,
-                    'fecha_baja' => $fechaBaja,
-                    'fecha_ren' => $fechaRen,
-                    'fecha_acepta_ren' => $fechaAceptaRen,
-                    'fecha_agra_serv' => $fechaAgraServ,
+                    'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
+                    'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
+                    'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
+                    'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
+                    'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
+                    'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
                     'motivo_baja' => $v->motivo_baja,
                     'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                     'descripcion_baja' => $v->descripcion_baja,
@@ -646,7 +598,7 @@ class RelaboralesController extends ControllerBase
                             /**
                              * Se modifica el estado del cargo para que se considere como adjudicado.
                              */
-                            $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                            $this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
                             #region Registro del área de trabajo
                             if($id_area>0){
                                 $objRelArea = new Relaboralesareas();
@@ -731,6 +683,7 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->fecha_mod = $hoy;
                     $ok = $objRelaboral->save();
                     if ($ok) {
+                        $this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
                         $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de relaci&oacute;n laboral.');
                     }else{
                         $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de relaci&oacute;n laboral.');
@@ -844,7 +797,7 @@ class RelaboralesController extends ControllerBase
                              * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
                              */
                             $this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
-                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro realizado de modo satisfactorio.');
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
                         } else {
                             foreach ($objRelaboral->getMessages() as $message) {
                                 echo $message, "\n";
@@ -984,7 +937,10 @@ class RelaboralesController extends ControllerBase
         $msj = Array();
         $ruta = "";
         $nombreImagenArchivo = "";
+        //$rutaImagenesCredenciales = "images/personal/";
         $rutaImagenesCredenciales = "/images/personal/";
+        //$rutaImagenesCredenciales = "C:/xampp/htdocs/rrhh/public/images/personal/";
+
         $extencionImagenesCredenciales = ".jpg";
         $num_complemento = "";
         if(isset($_POST["num_complemento"])){
@@ -992,15 +948,18 @@ class RelaboralesController extends ControllerBase
         }
         try{
             if(isset($_POST["ci"])){
+                $ruta="";
                 $nombreImagenArchivo = $rutaImagenesCredenciales.trim($_POST["ci"]);
-                if($num_complemento!="")$nombreImagenArchivo .= $nombreImagenArchivo.trim($num_complemento);
+                //if($num_complemento!="")$nombreImagenArchivo .= $nombreImagenArchivo.trim($num_complemento);
                 $ruta = $nombreImagenArchivo.$extencionImagenesCredenciales;
                 /**
                  * Se verifica la existencia del archivo
                  */
+                //echo $ruta;
                 if(file_exists ( getcwd().$ruta ))
+                //if(file_exists ($ruta))
                 $msj = array('result' => 1, 'ruta'=>$ruta,'msj' => 'Resultado exitoso.');
-                else $msj = array('result' => 0, 'ruta'=>'/images/perfil-profesional.jpg','msj' => 'No se encontr&oacute; la fotograf&iacute;a.');
+                else $msj = array('result' => 0, 'ruta'=>'/images/perfil-profesional.jpg','msj' => 'No se encontr&oacute; la fotograf&iacute;a. '.$ruta);
             }else $msj = array('result' => 0, 'ruta'=>'','msj' => 'No se envi&oacute; n&uacute;mero de documento.');
         }catch (\Exception $e) {
             echo get_class($e), ": ", $e->getMessage(), "\n";
@@ -1011,7 +970,6 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($msj);
     }
-
     /*
      *  Función para la obtención de las gestiones en las cuales
      */
@@ -1053,41 +1011,6 @@ class RelaboralesController extends ControllerBase
            //comprobamos si hay filas
            if ($resul->count() > 0) {
                foreach ($resul as $v) {
-                   $fechaIni="";
-                   if($v->fecha_ini!=""){
-                       $fechaIni = $v->fecha_ini;
-                       $fechaIni = date("d-m-Y", strtotime($fechaIni));
-                   }
-                   $fechaIncor="";
-                   if($v->fecha_incor!=""){
-                       $fechaIncor = $v->fecha_incor;
-                       $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
-                   }
-                   $fechaFin="";
-                   if($v->fecha_fin!=""){
-                       $fechaFin = $v->fecha_fin;
-                       $fechaFin = date("d-m-Y", strtotime($fechaFin));
-                   }
-                   $fechaBaja="";
-                   if($v->fecha_baja!=""){
-                       $fechaBaja = $v->fecha_baja;
-                       $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
-                   }
-                   $fechaRen="";
-                   if($v->fecha_ren!=""){
-                       $fechaRen = $v->fecha_ren;
-                       $fechaRen = date("d-m-Y", strtotime($fechaRen));
-                   }
-                   $fechaAceptaRen="";
-                   if($v->fecha_baja!=""){
-                       $fechaAceptaRen = $v->fecha_acepta_ren;
-                       $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
-                   }
-                   $fechaAgraServ="";
-                   if($v->fecha_baja!=""){
-                       $fechaAgraServ = $v->fecha_agra_serv;
-                       $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
-                   }
                    #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
                    $relaboral[] = array(
                        'id_relaboral' => $v->id_relaboral,
@@ -1118,13 +1041,13 @@ class RelaboralesController extends ControllerBase
                        'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                        'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                        'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                       'fecha_ini' => $fechaIni,
-                       'fecha_incor' => $fechaIncor,
-                       'fecha_fin' => $fechaFin,
-                       'fecha_baja' => $fechaBaja,
-                       'fecha_ren' => $fechaRen,
-                       'fecha_acepta_ren' => $fechaAceptaRen,
-                       'fecha_agra_serv' => $fechaAgraServ,
+                       'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
+                       'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
+                       'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
+                       'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
+                       'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
+                       'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
+                       'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
                        'motivo_baja' => $v->motivo_baja,
                        'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                        'descripcion_baja' => $v->descripcion_baja,
@@ -1244,46 +1167,78 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($organigramas);
     }
-    /*
-     * Función para imprimir el reporte de relación laboral que se tiene en vista en el listado.
+    public function printbasicAction(){
+        $pdf = new pdfoasis();
+
+        $pdf->AddPage();
+
+        $miCabecera = array('Nro','Nombre', 'Apellido', 'Matrícula');
+
+        $misDatos = array(
+            array('nombre' => 'Hugo', 'apellido' => 'Martínez', 'matricula' => '20420423'),
+            array('nombre' => 'Araceli', 'apellido' => 'Morales', 'matricula' =>  '204909'),
+            array('nombre' => 'Georgina', 'apellido' => 'Galindo', 'matricula' =>  '2043442'),
+            array('nombre' => 'Luis', 'apellido' => 'Dolores', 'matricula' => '20411122'),
+            array('nombre' => 'Mario', 'apellido' => 'Linares', 'matricula' => '2049990'),
+            array('nombre' => 'Viridiana', 'apellido' => 'Badillo', 'matricula' => '20418855'),
+            array('nombre' => 'Yadira', 'apellido' => 'García', 'matricula' => '20443335')
+        );
+
+        $pdf->tablaHorizontal($miCabecera, $misDatos);
+
+        $pdf->Output(); //Salida al navegador
+    }
+    /**
+     * Función para la obtención del reporte de relaciones laborales en formato PDF.
+     * @param $n_rows Cantidad de lineas
+     * @param $columns Array con las columnas mostradas en el reporte
+     * @param $filtros Array con los filtros aplicados sobre las columnas.
      */
     public function printAction($n_rows, $columns, $filtros){
-        //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT));
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
-        //echo $rows." - ".$columns;
-        $pdf = new FPDF();
-        //$rows = (string)$rows;
-
-        //echo $filtros;
-        //$rows = json_decode($rows,true);
+        $pdf = new pdfoasis();
+        $pdf->title_rpt= utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
         $columns = json_decode($columns,true);
         $filtros = json_decode($filtros,true);
-        $pdf->AddPage('L','Letter');
-        //$pdf->SetFont('Arial','B',16);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
-        //$keys = array_keys($rows[0]);
         $n_col = count($columns);//echo$keys[1];
-        //echo $n_col;
-        $title = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
-        $pdf->SetFont('Arial','B',12);
-        $w = $pdf->GetStringWidth($title)+6;
-        $pdf->SetX((260-$w)/2);
-        $pdf->SetDrawColor(0,80,80);
-        $pdf->SetFillColor(0,153,153);
-        $pdf->SetTextColor(255);
-        // Ancho del borde (1 mm)
-        $pdf->SetLineWidth(1);
-        // Título
-        $pdf->Cell($w+15,9,$title,1,1,'C',true);
-        $pdf->Ln();
-        $pdf->SetFont('Arial','',10);
-        // Color de fondo
-        $pdf->SetFillColor(255,255,255);
-        $pdf->SetTextColor(0);
-        // Título
-        $pdf->Cell(0,6,"Filtrado por:",0,1,'L',true);
+        /**
+         * Especificando la configuración de las columnas
+         */
+        $widthAlignAll = array(
+            'nro_row' => array('title'=>'Nro.','width'=>8,'align'=>'C'),
+            'ubicacion' => array('title'=>'Ubicacion','width'=>15,'align'=>'C'),
+            'condicion' => array('title'=>'Condicion','width'=>15,'align'=>'C'),
+            'estado_descripcion'=> array('title'=>'Estado','width'=>15,'align'=>'C'),
+            'nombres'=> array('title'=>'Nombres','width'=>30,'align'=>'L'),
+            'ci'=> array('title'=>'CI','width'=>15,'align'=>'C'),
+            'expd'=> array('title'=>'Exp.','width'=>15,'align'=>'C'),
+            'num_complemento'=> array('title'=>'N/C','width'=>15,'align'=>'C'),
+            'gerencia_administrativa'=> array('title'=>'Gerencia','width'=>30,'align'=>'L'),
+            'departamento_administrativo'=> array('title'=>'Departamento','width'=>30,'align'=>'L'),
+            'area'=> array('title'=>'Area','width'=>20,'align'=>'L'),
+            'proceso_codigo'=> array('title'=>'Proceso','width'=>15,'align'=>'C'),
+            'nivelsalarial'=> array('title'=>'Nivel','width'=>15,'align'=>'C'),
+            'cargo'=> array('title'=>'Cargo','width'=>30,'align'=>'L'),
+            'sueldo'=> array('title'=>'Haber','width'=>10,'align'=>'R'),
+            'fecha_ini'=> array('title'=>'Fecha Ini','width'=>15,'align'=>'C'),
+            'fecha_incor'=> array('title'=>'Fecha Incor','width'=>15,'align'=>'C'),
+            'fecha_fin'=> array('title'=>'Fecha Fin','width'=>15,'align'=>'C'),
+            'fecha_baja'=> array('title'=>'Fecha Baja','width'=>15,'align'=>'C'),
+            'motivo_baja'=> array('title'=>'Motivo Baja','width'=>15,'align'=>'L'),
+            'observacion'=> array('title'=>'Observacion','width'=>15,'align'=>'L')
+        );
+        $widthsSelecteds = $pdf->DefineWidths($widthAlignAll,$columns);
+        $alignSelecteds = $pdf->DefineAligns($widthAlignAll,$columns);
+        $colSelecteds = $pdf->DefineCols($widthAlignAll,$columns);
+        $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll,$columns);
+        //echo ">>>>".count($colSelecteds);
+        /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+        print_r($colTitleSelecteds);
+        echo "<p>-------------------------------------------------------------------------------------------------------------</p>";*/
         $where = '';
+        $whereEqual = '';
         for($k=0;$k<count($filtros);$k++){
             for ($j=0;$j<$n_col;$j++){
                 if ($sub_keys[$j] == $filtros[$k]['columna']){
@@ -1292,23 +1247,56 @@ class RelaboralesController extends ControllerBase
             }
             $cond_fil = ' '.$col_fil;
             if (strlen($where)>0){
-                $where .= ' AND ';
+                switch ($filtros[$k]['condicion']){
+                    case 'EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'NOT_EMPTY':
+                        $where .= ' AND ';
+                        break;
+                    case 'CONTAINS':
+                        $where .= ' AND ';
+                        break;
+                    case 'EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'GREATER_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                    case 'LESS_THAN_OR_EQUAL':
+                        $where .= ' AND ';
+                        break;
+                }
+
+
             }
             if ($filtros[$k]['tipo'] == 'datefilter'){
                 $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
-                //echo $filtros[$k]['valor'];
             }
+            /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+            print_r($filtros);
+            echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
+*/
+
             switch ($filtros[$k]['condicion']){
-                /*case 'EMPTY':
+                case 'EMPTY':
                     $cond_fil .= utf8_encode(" que sea vacía ");
-                    $where .= $filtros[$k]['columna'].
+                    $where .= "(".$filtros[$k]['columna']." IS NULL OR ".$filtros[$k]['columna']." ILIKE '')";
                     break;
                 case 'NOT_EMPTY':
                     $cond_fil .= utf8_encode(" que no sea vacía ");
-                    break;*/
+                    $where .= "(".$filtros[$k]['columna']." IS NOT NULL OR ".$filtros[$k]['columna']." NOT ILIKE '')";
+                    break;
                 case 'CONTAINS':
                     $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' ILIKE "%'.$filtros[$k]['valor'].'%"';
+                    if($filtros[$k]['columna']=="nombres"){
+                        $where .= "(p_nombre ILIKE '%".$filtros[$k]['valor']."%' OR s_nombre ILIKE '%".$filtros[$k]['valor']."%' OR t_nombre ILIKE '%".$filtros[$k]['valor']."%' OR p_apellido ILIKE '%".$filtros[$k]['valor']."%' OR s_apellido ILIKE '%".$filtros[$k]['valor']."%' OR c_apellido ILIKE '%".$filtros[$k]['valor']."%')";
+                    }else {
+                        $where .= $filtros[$k]['columna']." ILIKE '%".$filtros[$k]['valor']."%'";
+                    }break;
+                case 'EQUAL':
+                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
+                    $where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
                     break;
                 case 'GREATER_THAN_OR_EQUAL':
                     $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
@@ -1318,67 +1306,14 @@ class RelaboralesController extends ControllerBase
                     $cond_fil .= utf8_encode(" que sea menor o igual que:  ".$filtros[$k]['valor']);
                     $where .= $filtros[$k]['columna'].' <= "'.$filtros[$k]['valor'].'"';
                     break;
-            }//echo $cond_fil;
-            $pdf->Cell(0,6,  utf8_decode($cond_fil),0,1,'L',true);
-        }
-        //echo $where;
-        // Salto de línea
-        $pdf->Ln(4);
-        $pdf->SetFillColor(0,153,153);
-        $pdf->SetTextColor(255);
-        $pdf->SetDrawColor(0,80,80);
-        $pdf->SetLineWidth(.3);
-        $pdf->SetFont('Arial','B',8);
-        $pdf->Cell(10,7,'Nro.',1,0,'C',true);
-        for ($j=0;$j<$n_col;$j++){
-            if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
-                $pdf->Cell(28,7,$columns[$sub_keys[$j]]['text'],1,0,'C',true);
             }
-        }
-        $pdf->Ln();
-        $pdf->SetFillColor(224,235,255);
-        $pdf->SetTextColor(0);
-        $pdf->SetFont('');
-        $pdf->Image('../public/images/logoMT.jpg',10,8,20,20);
-        $fill = false;
-        $ancho = 0;
-        //$resul = personas::find(array($where,'order' => 'id ASC'));
-        $obj = new Frelaborales();
-        //$resul = $obj->getAllWithPersons();
-        $resul = $obj->getAllWithPersonsOneRecord();
 
-        //$this->view->disable();
+        }
+        $obj = new Frelaborales();
+        $resul = $obj->getAllWithPersonsOneRecord($where);
+        //echo "<p>:::".$where;
+        $relaboral = array();
         foreach ($resul as $v) {
-            $fechaIncor="";
-            if($v->fecha_incor!=""){
-                $fechaIncor = $v->fecha_incor;
-                $fechaIncor = date("d-m-Y", strtotime($fechaIncor));
-            }
-            $fechaFin="";
-            if($v->fecha_fin!=""){
-                $fechaFin = $v->fecha_fin;
-                $fechaFin = date("d-m-Y", strtotime($fechaFin));
-            }
-            $fechaBaja="";
-            if($v->fecha_baja!=""){
-                $fechaBaja = $v->fecha_baja;
-                $fechaBaja = date("d-m-Y", strtotime($fechaBaja));
-            }
-            $fechaRen="";
-            if($v->fecha_ren!=""){
-                $fechaRen = $v->fecha_ren;
-                $fechaRen = date("d-m-Y", strtotime($fechaRen));
-            }
-            $fechaAceptaRen="";
-            if($v->fecha_baja!=""){
-                $fechaAceptaRen = $v->fecha_acepta_ren;
-                $fechaAceptaRen = date("d-m-Y", strtotime($fechaAceptaRen));
-            }
-            $fechaAgraServ="";
-            if($v->fecha_baja!=""){
-                $fechaAgraServ = $v->fecha_agra_serv;
-                $fechaAgraServ = date("d-m-Y", strtotime($fechaAgraServ));
-            }
             $relaboral[] = array(
                 'id_relaboral' => $v->id_relaboral,
                 'id_persona' => $v->id_persona,
@@ -1409,12 +1344,12 @@ class RelaboralesController extends ControllerBase
                 'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                 'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
                 'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                'fecha_incor' => $fechaIncor,
-                'fecha_fin' => $fechaFin,
-                'fecha_baja' => $fechaBaja,
-                'fecha_ren' => $fechaRen,
-                'fecha_acepta_ren' => $fechaAceptaRen,
-                'fecha_agra_serv' => $fechaAgraServ,
+                'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
+                'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
+                'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
+                'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
+                'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
+                'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
                 'motivo_baja' => $v->motivo_baja,
                 'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                 'descripcion_baja' => $v->descripcion_baja,
@@ -1427,7 +1362,8 @@ class RelaboralesController extends ControllerBase
                 'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
                 'numero_escala' => $v->numero_escala,
                 'gestion_escala' => $v->gestion_escala,
-                'sueldo' => $v->sueldo,
+                //'sueldo' => $v->sueldo,
+                'sueldo' => str_replace(".00", "", $v->sueldo),
                 'id_proceso' => $v->id_proceso,
                 'proceso_codigo' => $v->proceso_codigo,
                 'id_convocatoria' => $v->id_convocatoria,
@@ -1489,25 +1425,54 @@ class RelaboralesController extends ControllerBase
                 'persona_user_mod_id' => $v->persona_user_mod_id,
                 'persona_fecha_mod' => $v->persona_fecha_mod
             );
-        } //echo $personal[0]['id'];
-        for ($i=0;$i<$n_rows;$i++){
-            $pdf->Cell(10,6,$i,'LR',0,'L',$fill);
-            $ancho = 10;
-            for ($j=0;$j<$n_col;$j++){
-                if ($columns[$sub_keys[$j]]['hidden'] == FALSE){
-                    $pdf->Cell(28,6,  utf8_decode($relaboral[$i][$sub_keys[$j]]),'LR',0,'L',$fill);
-                    $ancho = $ancho + 28;
-                }
-            }
-            //$pdf->Cell(40,10, ($keys[$j]),0,1);
-
-            $fill = !$fill;
-            $pdf->Ln();
-            //$pdf->Cell(40,10, ($rows[$i]['id']),0,1);
         }
-        $pdf->Cell($ancho,0,'','T');
+        $pdf->Open("L");
+        if(count($colSelecteds)>11)$pdf->AddPage("L");
+        else $pdf->AddPage();
+        #region Espacio para la definición de valores para la cabecera de la tabla
+        $pdf->SetWidths($widthsSelecteds);
+        //Color de las lineas de las celdas
+        $pdf->DefineColorHeaderTable();
+        $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
+        /**
+         * Posición de la primera linea del reporte
+         */
+        $pdf->SetY(30);
+        $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
+        $pdf->RowTitle($colTitleSelecteds);
+        $j=0;
+        $auxArray = array();
+        if(count($relaboral)>0)
+        foreach($relaboral as $i=>$val){
+            $nb=0;$h=0;
+            /**
+             * Calculamos la última altura de registro impreso
+             */
+            if($j>0){
+                /**
+                 * Calculamos la altura que se alcanzo por la última columna impresa para ver si al imprimir lo nuevo sobre ella es necesario cambiar de página
+                 */
+                $data = $auxArray;
+                for($i=0;$i<count($data);$i++)
+                    $nb=max($nb, $pdf->NbLines($pdf->widths[$i], $data[$i]));
+                $h=5*$nb;
+            }
+            /*
+             *  Verificar el uso de la cabecera
+             */
+            if($pdf->GetY()+$h>=$pdf->PageBreakTrigger){
+                $pdf->DefineColorHeaderTable();
+                $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
+                $pdf->Row($colTitleSelecteds);
+            }
+                $pdf->DefineColorBodyTable();
+                $pdf->SetAligns($alignSelecteds);
+                $rowData = $pdf->DefineRows($j+1,$relaboral[$j],$colSelecteds);
+                $pdf->Row($rowData);
+                $auxArray = $rowData;
+            $j++;
+        }
+        $pdf->ShowLeftFooter=true;
         $pdf->Output('reporte_relaboral.pdf','I');
-        $this->view->disable();
     }
-
-} 
+}
