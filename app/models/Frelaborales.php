@@ -283,11 +283,11 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      * considerando que si una persona tiene más de un registro de relación laboral, sólo se muestra un registro, el último.
      * @return Resultset Lista de registros laborales con la adición de personas sin ún sólo registro laboral.
      */
-    public function getAllWithPersonsOneRecord($where='')
+    public function getAllWithPersonsOneRecord($where='',$group='')
     {
         $sql = "SELECT * from f_relaborales_y_personas_nuevas_un_registro()";
-        if($where!='')$sql .= " WHERE ".$where;
-        //echo "<p>Consulta: ".$sql."<p></p>";
+        if($where!='')$sql .= $where;
+        if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

@@ -134,13 +134,13 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                    'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
-                    'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
-                    'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
-                    'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
-                    'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
+                    'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                    'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
+                    'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                    'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
+                    'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
+                    'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
+                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
                     'motivo_baja' => $v->motivo_baja,
                     'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                     'descripcion_baja' => $v->descripcion_baja,
@@ -199,7 +199,7 @@ class RelaboralesController extends ControllerBase
                     'fuente' => $v->fuente,
                     'organismo_codigo' => $v->organismo_codigo,
                     'organismo' => $v->organismo,
-                    'observacion' => ($v->observacion!=null)?$v->observacion:"",
+                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
                     'estado' => $v->estado,
                     'estado_descripcion' => $v->estado_descripcion,
                     'estado_abreviacion' => $v->estado_abreviacion,
@@ -314,7 +314,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
-        $resul = Motivosbajas::find(array('estado=1','order' => 'id ASC'));
+        $resul = Motivosbajas::find(array('estado=1', 'order' => 'id ASC'));
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $motivosbajas[] = array(
@@ -331,6 +331,7 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($motivosbajas);
     }
+
     /**
      * Función para el almacenamiento y actualización de un registro de relación laboral.
      * return array(EstadoResultado,Mensaje)
@@ -343,14 +344,14 @@ class RelaboralesController extends ControllerBase
      */
     public function saveAction()
     {
-        $user_reg_id=1;
-        $user_mod_id=1;
+        $user_reg_id = 1;
+        $user_mod_id = 1;
         $msj = Array();
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");
         $fecha_fin = "31/12/" . $gestion_actual;
         $this->view->disable();
-        if (isset($_POST["id"])&&$_POST["id"] > 0) {
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
             /**
              * Edición de registro
              */
@@ -378,9 +379,9 @@ class RelaboralesController extends ControllerBase
             /**
              * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
              */
-            if ($id_condicion == 2||$id_condicion == 3) {
+            if ($id_condicion == 2 || $id_condicion == 3) {
                 $fecha_fin = $date3->format('Y-m-d');
-            }else{
+            } else {
                 $fecha_fin = $objRelaboral->fecha_fin;
             }
             if ($id_persona > 0 && $id_cargo > 0) {
@@ -403,7 +404,7 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->fecha_ini = $fecha_ini;
                     $objRelaboral->fecha_incor = $fecha_incor;
                     $objRelaboral->fecha_fin = $fecha_fin;
-                    $objRelaboral->observacion = ($observacion=="")?null:$observacion;
+                    $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
                     /**
                      * Con este valor eventualmente para presentación
                      * --->
@@ -421,44 +422,44 @@ class RelaboralesController extends ControllerBase
                         /**
                          * Modificar el estado del cargo a adjudicado
                          */
-                        $this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                        //$this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
                         #region Registro del área de trabajo
-                        if($id_area>0){
+                        if ($id_area > 0) {
                             /*
                              * Verificando la existencia del registro de relación laboral.                             *
                              */
                             //$objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
-                            $objRA = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id,'order' => 'id ASC'));
-                            if($objRA->id>0){
-                                $objRA->estado= 1;
-                                $objRA->baja_logica= 1;
-                                $objRA->organigrama_id= $id_area;
-                                $objRA->user_mod_id= $user_reg_id;
-                                $objRA->fecha_mod= $hoy;
+                            $objRA = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                            if ($objRA->id > 0) {
+                                $objRA->estado = 1;
+                                $objRA->baja_logica = 1;
+                                $objRA->organigrama_id = $id_area;
+                                $objRA->user_mod_id = $user_reg_id;
+                                $objRA->fecha_mod = $hoy;
                                 $objRA->save();
-                            }else{
+                            } else {
                                 $objRelArea = new Relaboralesareas();
-                                $objRelArea->id= null;
-                                $objRelArea->relaboral_id= $objRelaboral->id;
-                                $objRelArea->organigrama_id= $id_area;
-                                $objRelArea->observacion= null;
-                                $objRelArea->estado= 1;
-                                $objRelArea->baja_logica= 1;
-                                $objRelArea->agrupador= 0;
-                                $objRelArea->user_reg_id= $user_reg_id;
-                                $objRelArea->fecha_reg= $hoy;
+                                $objRelArea->id = null;
+                                $objRelArea->relaboral_id = $objRelaboral->id;
+                                $objRelArea->organigrama_id = $id_area;
+                                $objRelArea->observacion = null;
+                                $objRelArea->estado = 1;
+                                $objRelArea->baja_logica = 1;
+                                $objRelArea->agrupador = 0;
+                                $objRelArea->user_reg_id = $user_reg_id;
+                                $objRelArea->fecha_reg = $hoy;
                                 $objRelArea->save();
                             }
-                        }else{
+                        } else {
                             /*
                              * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
                              */
-                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id,'order' => 'id ASC'));
-                            if($objRelArea->id>0){
-                                $objRelArea->estado=0;
-                                $objRelArea->baja_logica= 0;
-                                $objRelArea->user_mod_id= $user_reg_id;
-                                $objRelArea->fecha_mod= $hoy;
+                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                            if ($objRelArea->id > 0) {
+                                $objRelArea->estado = 0;
+                                $objRelArea->baja_logica = 0;
+                                $objRelArea->user_mod_id = $user_reg_id;
+                                $objRelArea->fecha_mod = $hoy;
                                 $objRelArea->save();
                             }
                         }
@@ -467,8 +468,8 @@ class RelaboralesController extends ControllerBase
                         //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
                         if ($id_ubicacion > 0) {
                             //$ru = new Relaboralesubicaciones();
-                            $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/,'bind'=>array('relaboral_id1'=>$objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/),'order' => 'id ASC'));
-                            if($ru->id>0){
+                            $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/, 'bind' => array('relaboral_id1' => $objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/), 'order' => 'id ASC'));
+                            if ($ru->id > 0) {
                                 /**
                                  * Si existia el registro de ubicación
                                  */
@@ -487,7 +488,7 @@ class RelaboralesController extends ControllerBase
                                 } else {
                                     $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
                                 }
-                            }else{
+                            } else {
                                 /**
                                  * Si no se tenía registro de ubicación
                                  */
@@ -554,7 +555,7 @@ class RelaboralesController extends ControllerBase
                 /**
                  * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
                  */
-                if ($id_condicion == 2||$id_condicion == 3) {
+                if ($id_condicion == 2 || $id_condicion == 3) {
                     $fecha_fin = $date3->format('Y-m-d');
                 }
                 if ($id_persona > 0 && $id_cargo > 0) {
@@ -579,7 +580,7 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->fecha_ini = $fecha_ini;
                         $objRelaboral->fecha_incor = $fecha_incor;
                         $objRelaboral->fecha_fin = $fecha_fin;
-                        $objRelaboral->observacion = ($observacion=="")?null:$observacion;
+                        $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
                         /*
                          * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
                          * El registro de relación laboral
@@ -598,19 +599,19 @@ class RelaboralesController extends ControllerBase
                             /**
                              * Se modifica el estado del cargo para que se considere como adjudicado.
                              */
-                            $this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
+                            //$this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
                             #region Registro del área de trabajo
-                            if($id_area>0){
+                            if ($id_area > 0) {
                                 $objRelArea = new Relaboralesareas();
-                                $objRelArea->id= null;
-                                $objRelArea->relaboral_id= $objRelaboral->id;
-                                $objRelArea->organigrama_id= $id_area;
-                                $objRelArea->observacion= null;
-                                $objRelArea->estado= 1;
-                                $objRelArea->baja_logica= 1;
-                                $objRelArea->agrupador= 0;
-                                $objRelArea->user_reg_id= $user_reg_id;
-                                $objRelArea->fecha_reg= $hoy;
+                                $objRelArea->id = null;
+                                $objRelArea->relaboral_id = $objRelaboral->id;
+                                $objRelArea->organigrama_id = $id_area;
+                                $objRelArea->observacion = null;
+                                $objRelArea->estado = 1;
+                                $objRelArea->baja_logica = 1;
+                                $objRelArea->agrupador = 0;
+                                $objRelArea->user_reg_id = $user_reg_id;
+                                $objRelArea->fecha_reg = $hoy;
                                 $objRelArea->save();
                             }
                             #endregion Registro del área de trabajo
@@ -667,11 +668,11 @@ class RelaboralesController extends ControllerBase
      */
     public function approveAction()
     {
-        $user_mod_id=1;
+        $user_mod_id = 1;
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
-        if (isset($_POST["id"])&&$_POST["id"] > 0) {
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
             /**
              * Aprobación de registro
              */
@@ -683,9 +684,9 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->fecha_mod = $hoy;
                     $ok = $objRelaboral->save();
                     if ($ok) {
-                        $this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
+                        //$this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
                         $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de relaci&oacute;n laboral.');
-                    }else{
+                    } else {
                         $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de relaci&oacute;n laboral.');
                     }
                 } catch (\Exception $e) {
@@ -715,106 +716,107 @@ class RelaboralesController extends ControllerBase
      *  -3: Usuario no Autorizado
      */
     public function downAction()
-    {   $ok=true;
+    {
+        $ok = true;
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
-        try{
-            if (isset($_POST["id"])&&$_POST["id"] > 0) {
-            /**
-             * Baja de registro
-             */
-            $objRelaboral = Relaborales::findFirstById($_POST["id"]);
-            $id_motivo_baja = (isset($_POST['id_motivobaja']))?$_POST['id_motivobaja']:0;
-            $fecha_baja = (isset($_POST['fecha_baja']))?$_POST['fecha_baja']:'31-12-2014';
-            $fecha_acepta_ren = (isset($_POST['fecha_acepta_ren']))?$_POST['fecha_acepta_ren']:null;
-            $fecha_agra_serv = (isset($_POST['fecha_agra_serv']))?$_POST['fecha_agra_serv']:"";
-
-            if($id_motivo_baja>0&&$fecha_baja!=""&&$fecha_baja!=null){
+        try {
+            if (isset($_POST["id"]) && $_POST["id"] > 0) {
                 /**
-                 * Control de fechas necesarias por el tipo de motivo de baja.
+                 * Baja de registro
                  */
-                $motivobaja=Motivosbajas::findFirstById($id_motivo_baja);
-                if($motivobaja->id>0){
-                    /**
-                     * Se cargan los datos elementales.
-                     */
-                    $objRelaboral->motivobaja_id=$id_motivo_baja;
-                    $objRelaboral->fecha_baja=$fecha_baja;
+                $objRelaboral = Relaborales::findFirstById($_POST["id"]);
+                $id_motivo_baja = (isset($_POST['id_motivobaja'])) ? $_POST['id_motivobaja'] : 0;
+                $fecha_baja = (isset($_POST['fecha_baja'])) ? $_POST['fecha_baja'] : '31-12-2014';
+                $fecha_acepta_ren = (isset($_POST['fecha_acepta_ren'])) ? $_POST['fecha_acepta_ren'] : null;
+                $fecha_agra_serv = (isset($_POST['fecha_agra_serv'])) ? $_POST['fecha_agra_serv'] : "";
 
+                if ($id_motivo_baja > 0 && $fecha_baja != "" && $fecha_baja != null) {
                     /**
-                     * Si la fecha de renuncia es requerida
+                     * Control de fechas necesarias por el tipo de motivo de baja.
                      */
-                    if($motivobaja->fecha_ren>0){
-                        if(isset($_POST['fecha_ren'])){
-                            $fecha_ren = $_POST['fecha_ren'];
-                            $objRelaboral->fecha_ren=$fecha_ren;
-                        }elseif($motivobaja->fecha_ren==1){
-                            $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de renuncia si desea usar el tipo de baja seleccionado.');
-                            $ok=false;
-                        }
-                    }
-                    /**
-                     * Si la fecha de aceptación de renuncia es requerida
-                     */
-                    if($motivobaja->fecha_acepta_ren>0){
-                        if(isset($_POST['fecha_acepta_ren'])){
-                            $fecha_acepta_ren = $_POST['fecha_acepta_ren'];
-                            $objRelaboral->fecha_acepta_ren=$fecha_acepta_ren;
-                        }elseif($motivobaja->fecha_acepta_ren==1){
-                            $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de aceptaci&oacute;n de la renuncia si desea usar el tipo de baja seleccionado.');
-                            $ok=false;
-                        }
-                    }
-                    /**
-                     * Si la fecha de agradecimiento es requerida
-                     */
-                    if($motivobaja->fecha_agra_serv>0){
-                        if(isset($_POST['fecha_agra_serv'])){
-                            $fecha_agra_serv = $_POST['fecha_agra_serv'];
-                            $objRelaboral->fecha_agra_serv=$fecha_agra_serv;
-                        }elseif($motivobaja->fecha_agra_serv==1){
-                            $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de agradecimiento de servicios si desea usar el tipo de baja seleccionado.');
-                            $ok=false;
-                        }
-                    }
-                    /**
-                     * Si el motivo de renuncia es no incorporación, la fecha de incorporación se establece en nulo.
-                     */
-                    if($motivobaja->motivo_baja=="NO SE INCORPORA"){
-                        $objRelaboral->fecha_incor=null;
-                        $objRelaboral->fecha_baja=$objRelaboral->fecha_ini;
-                    }
-                    /**
-                     * Se verifica que todos los datos requeridos para una baja esten registrados
-                     */
-                    if($ok){
-                        $objRelaboral->estado=0;
-                        $objRelaboral->user_mod_id=1;
-                        $objRelaboral->fecha_mod = $hoy;
-                        if ($objRelaboral->save()) {
-                            /**
-                             * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
-                             */
-                            $this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
-                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
-                        } else {
-                            foreach ($objRelaboral->getMessages() as $message) {
-                                echo $message, "\n";
+                    $motivobaja = Motivosbajas::findFirstById($id_motivo_baja);
+                    if ($motivobaja->id > 0) {
+                        /**
+                         * Se cargan los datos elementales.
+                         */
+                        $objRelaboral->motivobaja_id = $id_motivo_baja;
+                        $objRelaboral->fecha_baja = $fecha_baja;
+
+                        /**
+                         * Si la fecha de renuncia es requerida
+                         */
+                        if ($motivobaja->fecha_ren > 0) {
+                            if (isset($_POST['fecha_ren'])) {
+                                $fecha_ren = $_POST['fecha_ren'];
+                                $objRelaboral->fecha_ren = $fecha_ren;
+                            } elseif ($motivobaja->fecha_ren == 1) {
+                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de renuncia si desea usar el tipo de baja seleccionado.');
+                                $ok = false;
                             }
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
                         }
-                    }
-                } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
-                }else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
-            }else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral debido a que no se especific&oacute; el registro de relaci&oacute;n laboral.');
-        }catch (\Exception $e) {
-                    echo get_class($e), ": ", $e->getMessage(), "\n";
-                    echo " File=", $e->getFile(), "\n";
-                    echo " Line=", $e->getLine(), "\n";
-                    echo $e->getTraceAsString();
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
-                }
+                        /**
+                         * Si la fecha de aceptación de renuncia es requerida
+                         */
+                        if ($motivobaja->fecha_acepta_ren > 0) {
+                            if (isset($_POST['fecha_acepta_ren'])) {
+                                $fecha_acepta_ren = $_POST['fecha_acepta_ren'];
+                                $objRelaboral->fecha_acepta_ren = $fecha_acepta_ren;
+                            } elseif ($motivobaja->fecha_acepta_ren == 1) {
+                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de aceptaci&oacute;n de la renuncia si desea usar el tipo de baja seleccionado.');
+                                $ok = false;
+                            }
+                        }
+                        /**
+                         * Si la fecha de agradecimiento es requerida
+                         */
+                        if ($motivobaja->fecha_agra_serv > 0) {
+                            if (isset($_POST['fecha_agra_serv'])) {
+                                $fecha_agra_serv = $_POST['fecha_agra_serv'];
+                                $objRelaboral->fecha_agra_serv = $fecha_agra_serv;
+                            } elseif ($motivobaja->fecha_agra_serv == 1) {
+                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de agradecimiento de servicios si desea usar el tipo de baja seleccionado.');
+                                $ok = false;
+                            }
+                        }
+                        /**
+                         * Si el motivo de renuncia es no incorporación, la fecha de incorporación se establece en nulo.
+                         */
+                        if ($motivobaja->motivo_baja == "NO SE INCORPORA") {
+                            $objRelaboral->fecha_incor = null;
+                            $objRelaboral->fecha_baja = $objRelaboral->fecha_ini;
+                        }
+                        /**
+                         * Se verifica que todos los datos requeridos para una baja esten registrados
+                         */
+                        if ($ok) {
+                            $objRelaboral->estado = 0;
+                            $objRelaboral->user_mod_id = 1;
+                            $objRelaboral->fecha_mod = $hoy;
+                            if ($objRelaboral->save()) {
+                                /**
+                                 * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
+                                 */
+                                //$this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
+                            } else {
+                                foreach ($objRelaboral->getMessages() as $message) {
+                                    echo $message, "\n";
+                                }
+                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                            }
+                        }
+                    } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
+                } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
+            } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral debido a que no se especific&oacute; el registro de relaci&oacute;n laboral.');
+        } catch (\Exception $e) {
+            echo get_class($e), ": ", $e->getMessage(), "\n";
+            echo " File=", $e->getFile(), "\n";
+            echo " Line=", $e->getLine(), "\n";
+            echo $e->getTraceAsString();
+            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+        }
         echo json_encode($msj);
     }
 
@@ -822,70 +824,71 @@ class RelaboralesController extends ControllerBase
      * Función para la obtención de los datos referentes a una persona en especifico.
      */
     public function personascontactoAction()
-    {   $personas = Array();
+    {
+        $personas = Array();
         $this->view->disable();
-        try{
-            if (isset($_POST["id"])&&$_POST["id"] > 0) {
+        try {
+            if (isset($_POST["id"]) && $_POST["id"] > 0) {
                 $id_persona = $_POST["id"];
                 $obj = new Fpersonas();
                 $objPersona = $obj->getOne($id_persona);
                 //findFirst("id = 1");
                 if ($objPersona->count() > 0) {
                     foreach ($objPersona as $v) {
-                        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                        $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
                         $date = new DateTime($v->fecha_nac);
-                        $fecha_nac = $date->format('d')."-".$meses[$date->format('m')-1]."-".$date->format('Y');
+                        $fecha_nac = $date->format('d') . "-" . $meses[$date->format('m') - 1] . "-" . $date->format('Y');
                         $personas[] = array(
-                            'id_persona' =>$v->id_persona,
-                            'postulante_id'=>$v->postulante_id,
-                            'p_nombre'=>$v->p_nombre,
-                            's_nombre'=>$v->s_nombre,
-                            't_nombre'=>$v->t_nombre,
-                            'p_apellido'=>$v->p_apellido,
-                            's_apellido'=>$v->s_apellido,
-                            'c_apellido'=>$v->c_apellido,
-                            'tipo_documento'=>$v->tipo_documento,
-                            'ci'=>$v->ci,
-                            'expd'=>$v->expd,
-                            'num_complemento'=>$v->num_complemento,
-                            'fecha_nac'=>$fecha_nac,
-                            'edad'=>$v->edad,
-                            'lugar_nac'=>$v->lugar_nac,
-                            'genero'=>$v->genero,
-                            'e_civil'=>$v->e_civil,
-                            'codigo'=>$v->codigo,
-                            'nacionalidad'=>$v->nacionalidad,
-                            'nit'=>$v->nit,
-                            'num_func_sigma'=>$v->num_func_sigma,
-                            'grupo_sanguineo'=>$v->grupo_sanguineo,
-                            'num_lib_ser_militar'=>$v->num_lib_ser_militar,
-                            'num_reg_profesional'=>$v->num_reg_profesional,
-                            'observacion'=>$v->observacion,
-                            'estado'=>$v->estado,
-                            'baja_logica'=>$v->baja_logica,
-                            'agrupador'=>$v->agrupador,
-                            'user_reg_id'=>$v->user_reg_id,
-                            'fecha_reg'=>$v->fecha_reg,
-                            'user_mod_id'=>$v->user_mod_id,
-                            'fecha_mod'=>$v->fecha_mod,
-                            'direccion_dom'=>($v->direccion_dom!=null)?$v->direccion_dom:'',
-                            'telefono_fijo'=>($v->telefono_fijo!=null)?$v->telefono_fijo:'',
-                            'telefono_inst'=>($v->telefono_inst!=null)?$v->telefono_inst:'',
-                            'telefono_fax'=>($v->telefono_fax!=null)?$v->telefono_fax:'',
-                            'interno_inst'=>($v->interno_inst!=null)?$v->interno_inst:'',
-                            'celular_per'=>($v->celular_per!=null)?$v->celular_per:'',
-                            'celular_inst'=>($v->celular_inst!=null)?$v->celular_inst:'',
-                            'num_credencial'=>($v->num_credencial!=null)?$v->num_credencial:'',
-                            'ac_no'=>($v->ac_no!=null)?$v->ac_no:'',
-                            'e_mail_per'=>($v->e_mail_per!=null)?$v->e_mail_per:'',
-                            'e_mail_inst'=>($v->e_mail_inst!=null)?$v->e_mail_inst:'',
-                            'contacto_observacion'=>($v->contacto_observacion!=null)?$v->contacto_observacion:'',
-                            'contacto_estado'=>($v->contacto_estado!=null)?$v->contacto_estado:''
+                            'id_persona' => $v->id_persona,
+                            'postulante_id' => $v->postulante_id,
+                            'p_nombre' => $v->p_nombre,
+                            's_nombre' => $v->s_nombre,
+                            't_nombre' => $v->t_nombre,
+                            'p_apellido' => $v->p_apellido,
+                            's_apellido' => $v->s_apellido,
+                            'c_apellido' => $v->c_apellido,
+                            'tipo_documento' => $v->tipo_documento,
+                            'ci' => $v->ci,
+                            'expd' => $v->expd,
+                            'num_complemento' => $v->num_complemento,
+                            'fecha_nac' => $fecha_nac,
+                            'edad' => $v->edad,
+                            'lugar_nac' => $v->lugar_nac,
+                            'genero' => $v->genero,
+                            'e_civil' => $v->e_civil,
+                            'codigo' => $v->codigo,
+                            'nacionalidad' => $v->nacionalidad,
+                            'nit' => $v->nit,
+                            'num_func_sigma' => $v->num_func_sigma,
+                            'grupo_sanguineo' => $v->grupo_sanguineo,
+                            'num_lib_ser_militar' => $v->num_lib_ser_militar,
+                            'num_reg_profesional' => $v->num_reg_profesional,
+                            'observacion' => $v->observacion,
+                            'estado' => $v->estado,
+                            'baja_logica' => $v->baja_logica,
+                            'agrupador' => $v->agrupador,
+                            'user_reg_id' => $v->user_reg_id,
+                            'fecha_reg' => $v->fecha_reg,
+                            'user_mod_id' => $v->user_mod_id,
+                            'fecha_mod' => $v->fecha_mod,
+                            'direccion_dom' => ($v->direccion_dom != null) ? $v->direccion_dom : '',
+                            'telefono_fijo' => ($v->telefono_fijo != null) ? $v->telefono_fijo : '',
+                            'telefono_inst' => ($v->telefono_inst != null) ? $v->telefono_inst : '',
+                            'telefono_fax' => ($v->telefono_fax != null) ? $v->telefono_fax : '',
+                            'interno_inst' => ($v->interno_inst != null) ? $v->interno_inst : '',
+                            'celular_per' => ($v->celular_per != null) ? $v->celular_per : '',
+                            'celular_inst' => ($v->celular_inst != null) ? $v->celular_inst : '',
+                            'num_credencial' => ($v->num_credencial != null) ? $v->num_credencial : '',
+                            'ac_no' => ($v->ac_no != null) ? $v->ac_no : '',
+                            'e_mail_per' => ($v->e_mail_per != null) ? $v->e_mail_per : '',
+                            'e_mail_inst' => ($v->e_mail_inst != null) ? $v->e_mail_inst : '',
+                            'contacto_observacion' => ($v->contacto_observacion != null) ? $v->contacto_observacion : '',
+                            'contacto_estado' => ($v->contacto_estado != null) ? $v->contacto_estado : ''
                         );
                     }
                 }
             }
-            }catch (\Exception $e) {
+        } catch (\Exception $e) {
             echo get_class($e), ": ", $e->getMessage(), "\n";
             echo " File=", $e->getFile(), "\n";
             echo " Line=", $e->getLine(), "\n";
@@ -893,99 +896,62 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($personas);
     }
-    /**
-     * Función para cambiar el estado de un cargo a adjudicado.
-     * @param $id Identificador del cargo al cual se realiza
-     * @param $id_usuario Identificador del usuario que realiza la solicitud de modificación de estado.
-     * @return bool True: Se realizó correctamente la modificación; False: No se pudo realizar la modificación solicitada.
-     */
-    function adjudicarCargo($id,$id_usuario){
-        if($id>0&&$id_usuario>0){
-            $obj = Cargos::findFirstById($id);
-            $obj->estado=1;
-            $obj->user_mod_id=$id_usuario;
-            $obj->fecha_mod = date("Y-m-d H:i:s");
-            if($obj->save())return true;
-            else return false;
-        }else return false;
-    }
-
-    /**
-     * Función para cambiar el estado de un cargo a desadjudicado.
-     * @param $id Identificador del cargo al cual se modifica su estado.
-     * @param $id_usuario Identificador del usuario que realiza la solicitud de modificación de estado.
-     * @return bool True: Se realizó correctamente la modificación; False: No se pudo realizar la modificación solicitada.
-     */
-    function desadjudicarCargo($id,$id_usuario){
-        if($id>0&&$id_usuario>0){
-            $obj = Cargos::findFirstById($id);
-            $obj->estado=0;
-            $obj->user_mod_id=$id_usuario;
-            $obj->fecha_mod = date("Y-m-d H:i:s");
-            if($obj->save())return true;
-            else return false;
-        }else return false;
-    }
 
     /*
      * Función para la obtención de la fotografía de la persona.
      * @param $ci Número de carnet de identidad
      * @param $num_complemento Número complemento
      */
-    function obtenerrutafotoAction(){
+    function obtenerrutafotoAction()
+    {
         $this->view->disable();
         $msj = Array();
         $ruta = "";
-        $nombreImagenArchivo = "";
-        //$rutaImagenesCredenciales = "images/personal/";
         $rutaImagenesCredenciales = "/images/personal/";
-        //$rutaImagenesCredenciales = "C:/xampp/htdocs/rrhh/public/images/personal/";
-
         $extencionImagenesCredenciales = ".jpg";
         $num_complemento = "";
-        if(isset($_POST["num_complemento"])){
+        if (isset($_POST["num_complemento"])) {
             $num_complemento = $_POST["num_complemento"];
         }
-        try{
-            if(isset($_POST["ci"])){
-                $ruta="";
-                $nombreImagenArchivo = $rutaImagenesCredenciales.trim($_POST["ci"]);
-                //if($num_complemento!="")$nombreImagenArchivo .= $nombreImagenArchivo.trim($num_complemento);
-                $ruta = $nombreImagenArchivo.$extencionImagenesCredenciales;
+        try {
+            if (isset($_POST["ci"])) {
+                $ruta = "";
+                $nombreImagenArchivo = $rutaImagenesCredenciales . trim($_POST["ci"]);
+                if ($num_complemento != "") $nombreImagenArchivo .= $nombreImagenArchivo . trim($num_complemento);
+                $ruta = $nombreImagenArchivo . $extencionImagenesCredenciales;
                 /**
                  * Se verifica la existencia del archivo
                  */
-                //echo $ruta;
-                if(file_exists ( getcwd().$ruta ))
-                //if(file_exists ($ruta))
-                $msj = array('result' => 1, 'ruta'=>$ruta,'msj' => 'Resultado exitoso.');
-                else $msj = array('result' => 0, 'ruta'=>'/images/perfil-profesional.jpg','msj' => 'No se encontr&oacute; la fotograf&iacute;a. '.$ruta);
-            }else $msj = array('result' => 0, 'ruta'=>'','msj' => 'No se envi&oacute; n&uacute;mero de documento.');
-        }catch (\Exception $e) {
+                if (file_exists(getcwd() . $ruta))
+                    $msj = array('result' => 1, 'ruta' => $ruta, 'msj' => 'Resultado exitoso.');
+                else $msj = array('result' => 0, 'ruta' => '/images/perfil-profesional.jpg', 'msj' => 'No se encontr&oacute; la fotograf&iacute;a. ' . $ruta);
+            } else $msj = array('result' => 0, 'ruta' => '', 'msj' => 'No se envi&oacute; n&uacute;mero de documento.');
+        } catch (\Exception $e) {
             echo get_class($e), ": ", $e->getMessage(), "\n";
             echo " File=", $e->getFile(), "\n";
             echo " Line=", $e->getLine(), "\n";
             echo $e->getTraceAsString();
-            $msj = array('result' => -1, 'ruta'=>$ruta, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+            $msj = array('result' => -1, 'ruta' => $ruta, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
         }
         echo json_encode($msj);
     }
+
     /*
      *  Función para la obtención de las gestiones en las cuales
      */
-    function listgestionesporpersonaAction(){
+    function listgestionesporpersonaAction()
+    {
         $gestiones = Array();
         $this->view->disable();
-        try{
-            if (isset($_POST["id"])&&$_POST["id"] > 0) {
+        try {
+            if (isset($_POST["id"]) && $_POST["id"] > 0) {
                 $obj = new Relaborales();
                 $arr = $obj->getCol($_POST["id"]);
-                foreach($arr as $clave => $valor)
-                {
+                foreach ($arr as $clave => $valor) {
                     $gestiones[] = $valor;
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             echo get_class($e), ": ", $e->getMessage(), "\n";
             echo " File=", $e->getFile(), "\n";
             echo " Line=", $e->getLine(), "\n";
@@ -993,138 +959,140 @@ class RelaboralesController extends ControllerBase
             //$msj = array('result' => -1, 'ruta'=>$ruta, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
         }
         echo json_encode($gestiones);
-  }
+    }
+
     /**
      * Función para la carga del primer listado sobre la página de gestión de relaciones laborales.
      * Se inhabilita la vista para el uso de jqwidgets,
      */
     public function listhistorialAction()
-    {   $relaboral = Array();
-       if(isset($_POST["id"])&&$_POST["id"]>0){
-           $gestion = 0;
-           if(isset($_POST["gestion"])&&$_POST["gestion"]>0){
-               $gestion = $_POST["gestion"];
-           }
-           $this->view->disable();
-           $obj = new Frelaborales();
-           $resul = $obj->getAllByPerson($_POST["id"],$gestion);
-           //comprobamos si hay filas
-           if ($resul->count() > 0) {
-               foreach ($resul as $v) {
-                   #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
-                   $relaboral[] = array(
-                       'id_relaboral' => $v->id_relaboral,
-                       'id_persona' => $v->id_persona,
-                       'p_nombre' => $v->p_nombre,
-                       's_nombre' => $v->s_nombre,
-                       't_nombre' => $v->t_nombre,
-                       'p_apellido' => $v->p_apellido,
-                       's_apellido' => $v->s_apellido,
-                       'c_apellido' => $v->c_apellido,
-                       'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
-                       'ci' => $v->ci,
-                       'expd' => $v->expd,
-                       'num_complemento' => $v->num_complemento,
-                       'fecha_nac' => $v->fecha_nac,
-                       'edad' => $v->edad,
-                       'lugar_nac' => $v->lugar_nac,
-                       'genero' => $v->genero,
-                       'e_civil' => $v->e_civil,
-                       'item' => $v->item,
-                       'carrera_amd' => $v->carrera_amd,
-                       'num_contrato' => $v->num_contrato,
-                       'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                       'id_solelabcontrato' => $v->id_solelabcontrato,
-                       'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                       'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                       'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                       'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                       'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                       'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                       'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                       'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
-                       'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
-                       'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
-                       'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
-                       'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
-                       'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
-                       'motivo_baja' => $v->motivo_baja,
-                       'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                       'descripcion_baja' => $v->descripcion_baja,
-                       'descripcion_anu' => $v->descripcion_anu,
-                       'id_cargo' => $v->id_cargo,
-                       'cargo_codigo' => $v->cargo_codigo,
-                       'cargo' => $v->cargo,
-                       'id_nivelessalarial' => $v->id_nivelessalarial,
-                       'nivelsalarial' => $v->nivelsalarial,
-                       'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                       'numero_escala' => $v->numero_escala,
-                       'gestion_escala' => $v->gestion_escala,
-                       'sueldo' => $v->sueldo,
-                       'id_proceso' => $v->id_proceso,
-                       'proceso_codigo' => $v->proceso_codigo,
-                       'id_convocatoria' => $v->id_convocatoria,
-                       'convocatoria_codigo' => $v->convocatoria_codigo,
-                       'convocatoria_tipo' => $v->convocatoria_tipo,
-                       'id_fin_partida' => $v->id_fin_partida,
-                       'fin_partida' => $v->fin_partida,
-                       'id_condicion' => $v->id_condicion,
-                       'condicion' => $v->condicion,
-                       'categoria_relaboral' => $v->categoria_relaboral,
-                       'id_da' => $v->id_da,
-                       'direccion_administrativa' => $v->direccion_administrativa,
-                       'organigrama_regional_id' => $v->organigrama_regional_id,
-                       'organigrama_regional' => $v->organigrama_regional,
-                       'id_regional' => $v->id_regional,
-                       'regional' => $v->regional,
-                       'regional_codigo' => $v->regional_codigo,
-                       'id_departamento' => $v->id_departamento,
-                       'departamento' => $v->departamento,
-                       'id_provincia' => $v->id_provincia,
-                       'provincia' => $v->provincia,
-                       'id_localidad' => $v->id_localidad,
-                       'localidad' => $v->localidad,
-                       'residencia' => $v->residencia,
-                       'unidad_ejecutora' => $v->unidad_ejecutora,
-                       'cod_ue' => $v->cod_ue,
-                       'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
-                       'gerencia_administrativa' => $v->gerencia_administrativa,
-                       'id_departamento_administrativo' => $v->id_departamento_administrativo,
-                       'departamento_administrativo' => $v->departamento_administrativo,
-                       'id_organigrama' => $v->id_organigrama,
-                       'unidad_administrativa' => $v->unidad_administrativa,
-                       'organigrama_sigla' => $v->organigrama_sigla,
-                       'organigrama_codigo' => $v->organigrama_codigo,
-                       'id_area' => $v->id_area,
-                       'area' => $v->area,
-                       'id_ubicacion' => $v->id_ubicacion,
-                       'ubicacion' => $v->ubicacion,
-                       'unidades_superiores' => $v->unidades_superiores,
-                       'unidades_dependientes' => $v->unidades_dependientes,
-                       'partida' => $v->partida,
-                       'fuente_codigo' => $v->fuente_codigo,
-                       'fuente' => $v->fuente,
-                       'organismo_codigo' => $v->organismo_codigo,
-                       'organismo' => $v->organismo,
-                       'observacion' => ($v->observacion!=null)?$v->observacion:"",
-                       'estado' => $v->estado,
-                       'estado_descripcion' => $v->estado_descripcion,
-                       'estado_abreviacion' => $v->estado_abreviacion,
-                       'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                       'id_eventual' => $v->id_eventual,
-                       'id_consultor' => $v->id_consultor,
-                       'user_reg_id' => $v->user_reg_id,
-                       'fecha_reg' => $v->fecha_reg,
-                       'user_mod_id' => $v->user_mod_id,
-                       'fecha_mod' => $v->fecha_mod,
-                       'persona_user_reg_id' => $v->persona_user_reg_id,
-                       'persona_fecha_reg' => $v->persona_fecha_reg,
-                       'persona_user_mod_id' => $v->persona_user_mod_id,
-                       'persona_fecha_mod' => $v->persona_fecha_mod
-                   );
-               }
-           }
-       }
+    {
+        $relaboral = Array();
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
+            $gestion = 0;
+            if (isset($_POST["gestion"]) && $_POST["gestion"] > 0) {
+                $gestion = $_POST["gestion"];
+            }
+            $this->view->disable();
+            $obj = new Frelaborales();
+            $resul = $obj->getAllByPerson($_POST["id"], $gestion);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
+                    $relaboral[] = array(
+                        'id_relaboral' => $v->id_relaboral,
+                        'id_persona' => $v->id_persona,
+                        'p_nombre' => $v->p_nombre,
+                        's_nombre' => $v->s_nombre,
+                        't_nombre' => $v->t_nombre,
+                        'p_apellido' => $v->p_apellido,
+                        's_apellido' => $v->s_apellido,
+                        'c_apellido' => $v->c_apellido,
+                        'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
+                        'ci' => $v->ci,
+                        'expd' => $v->expd,
+                        'num_complemento' => $v->num_complemento,
+                        'fecha_nac' => $v->fecha_nac,
+                        'edad' => $v->edad,
+                        'lugar_nac' => $v->lugar_nac,
+                        'genero' => $v->genero,
+                        'e_civil' => $v->e_civil,
+                        'item' => $v->item,
+                        'carrera_amd' => $v->carrera_amd,
+                        'num_contrato' => $v->num_contrato,
+                        'contrato_numerador_estado' => $v->contrato_numerador_estado,
+                        'id_solelabcontrato' => $v->id_solelabcontrato,
+                        'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
+                        'solelabcontrato_numero' => $v->solelabcontrato_numero,
+                        'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
+                        'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
+                        'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
+                        'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                        'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                        'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
+                        'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                        'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
+                        'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
+                        'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
+                        'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
+                        'motivo_baja' => $v->motivo_baja,
+                        'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
+                        'descripcion_baja' => $v->descripcion_baja,
+                        'descripcion_anu' => $v->descripcion_anu,
+                        'id_cargo' => $v->id_cargo,
+                        'cargo_codigo' => $v->cargo_codigo,
+                        'cargo' => $v->cargo,
+                        'id_nivelessalarial' => $v->id_nivelessalarial,
+                        'nivelsalarial' => $v->nivelsalarial,
+                        'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
+                        'numero_escala' => $v->numero_escala,
+                        'gestion_escala' => $v->gestion_escala,
+                        'sueldo' => $v->sueldo,
+                        'id_proceso' => $v->id_proceso,
+                        'proceso_codigo' => $v->proceso_codigo,
+                        'id_convocatoria' => $v->id_convocatoria,
+                        'convocatoria_codigo' => $v->convocatoria_codigo,
+                        'convocatoria_tipo' => $v->convocatoria_tipo,
+                        'id_fin_partida' => $v->id_fin_partida,
+                        'fin_partida' => $v->fin_partida,
+                        'id_condicion' => $v->id_condicion,
+                        'condicion' => $v->condicion,
+                        'categoria_relaboral' => $v->categoria_relaboral,
+                        'id_da' => $v->id_da,
+                        'direccion_administrativa' => $v->direccion_administrativa,
+                        'organigrama_regional_id' => $v->organigrama_regional_id,
+                        'organigrama_regional' => $v->organigrama_regional,
+                        'id_regional' => $v->id_regional,
+                        'regional' => $v->regional,
+                        'regional_codigo' => $v->regional_codigo,
+                        'id_departamento' => $v->id_departamento,
+                        'departamento' => $v->departamento,
+                        'id_provincia' => $v->id_provincia,
+                        'provincia' => $v->provincia,
+                        'id_localidad' => $v->id_localidad,
+                        'localidad' => $v->localidad,
+                        'residencia' => $v->residencia,
+                        'unidad_ejecutora' => $v->unidad_ejecutora,
+                        'cod_ue' => $v->cod_ue,
+                        'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
+                        'gerencia_administrativa' => $v->gerencia_administrativa,
+                        'id_departamento_administrativo' => $v->id_departamento_administrativo,
+                        'departamento_administrativo' => $v->departamento_administrativo,
+                        'id_organigrama' => $v->id_organigrama,
+                        'unidad_administrativa' => $v->unidad_administrativa,
+                        'organigrama_sigla' => $v->organigrama_sigla,
+                        'organigrama_codigo' => $v->organigrama_codigo,
+                        'id_area' => $v->id_area,
+                        'area' => $v->area,
+                        'id_ubicacion' => $v->id_ubicacion,
+                        'ubicacion' => $v->ubicacion,
+                        'unidades_superiores' => $v->unidades_superiores,
+                        'unidades_dependientes' => $v->unidades_dependientes,
+                        'partida' => $v->partida,
+                        'fuente_codigo' => $v->fuente_codigo,
+                        'fuente' => $v->fuente,
+                        'organismo_codigo' => $v->organismo_codigo,
+                        'organismo' => $v->organismo,
+                        'observacion' => ($v->observacion != null) ? $v->observacion : "",
+                        'estado' => $v->estado,
+                        'estado_descripcion' => $v->estado_descripcion,
+                        'estado_abreviacion' => $v->estado_abreviacion,
+                        'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
+                        'id_eventual' => $v->id_eventual,
+                        'id_consultor' => $v->id_consultor,
+                        'user_reg_id' => $v->user_reg_id,
+                        'fecha_reg' => $v->fecha_reg,
+                        'user_mod_id' => $v->user_mod_id,
+                        'fecha_mod' => $v->fecha_mod,
+                        'persona_user_reg_id' => $v->persona_user_reg_id,
+                        'persona_fecha_reg' => $v->persona_fecha_reg,
+                        'persona_user_mod_id' => $v->persona_user_mod_id,
+                        'persona_fecha_mod' => $v->persona_fecha_mod
+                    );
+                }
+            }
+        }
         echo json_encode($relaboral);
     }
 
@@ -1132,10 +1100,11 @@ class RelaboralesController extends ControllerBase
      * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
      * En caso de que dicho valor sea nulo o cero se devolverán todas las areas disponibles en el organigrama.
      */
-    public function listareasAction(){
+    public function listareasAction()
+    {
         $organigramas = Array();
         $this->view->disable();
-        if(isset($_POST["id_padre"])&&$_POST["id_padre"]>=0){
+        if (isset($_POST["id_padre"]) && $_POST["id_padre"] >= 0) {
             $obj = new Organigramas();
             $resul = $obj->getAreas($_POST["id_padre"]);
             //comprobamos si hay filas
@@ -1167,17 +1136,19 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($organigramas);
     }
-    public function printbasicAction(){
+
+    public function printbasicAction()
+    {
         $pdf = new pdfoasis();
 
         $pdf->AddPage();
 
-        $miCabecera = array('Nro','Nombre', 'Apellido', 'Matrícula');
+        $miCabecera = array('Nro', 'Nombre', 'Apellido', 'Matrícula');
 
         $misDatos = array(
             array('nombre' => 'Hugo', 'apellido' => 'Martínez', 'matricula' => '20420423'),
-            array('nombre' => 'Araceli', 'apellido' => 'Morales', 'matricula' =>  '204909'),
-            array('nombre' => 'Georgina', 'apellido' => 'Galindo', 'matricula' =>  '2043442'),
+            array('nombre' => 'Araceli', 'apellido' => 'Morales', 'matricula' => '204909'),
+            array('nombre' => 'Georgina', 'apellido' => 'Galindo', 'matricula' => '2043442'),
             array('nombre' => 'Luis', 'apellido' => 'Dolores', 'matricula' => '20411122'),
             array('nombre' => 'Mario', 'apellido' => 'Linares', 'matricula' => '2049990'),
             array('nombre' => 'Viridiana', 'apellido' => 'Badillo', 'matricula' => '20418855'),
@@ -1188,130 +1159,265 @@ class RelaboralesController extends ControllerBase
 
         $pdf->Output(); //Salida al navegador
     }
+
     /**
      * Función para la obtención del reporte de relaciones laborales en formato PDF.
      * @param $n_rows Cantidad de lineas
      * @param $columns Array con las columnas mostradas en el reporte
      * @param $filtros Array con los filtros aplicados sobre las columnas.
+     * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      */
-    public function printAction($n_rows, $columns, $filtros){
-        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+    public function printAction($n_rows, $columns, $filtros,$groups)
+    {   $debug=0;
+	    $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
         $pdf = new pdfoasis();
-        $pdf->title_rpt= utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
-        $columns = json_decode($columns,true);
-        $filtros = json_decode($filtros,true);
+        $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
+        $columns = json_decode($columns, true);
+        $filtros = json_decode($filtros, true);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
+    	if($debug==1){
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>".$groups;
+        }
         /**
          * Especificando la configuración de las columnas
          */
         $widthAlignAll = array(
-            'nro_row' => array('title'=>'Nro.','width'=>8,'align'=>'C'),
-            'ubicacion' => array('title'=>'Ubicacion','width'=>15,'align'=>'C'),
-            'condicion' => array('title'=>'Condicion','width'=>15,'align'=>'C'),
-            'estado_descripcion'=> array('title'=>'Estado','width'=>15,'align'=>'C'),
-            'nombres'=> array('title'=>'Nombres','width'=>30,'align'=>'L'),
-            'ci'=> array('title'=>'CI','width'=>15,'align'=>'C'),
-            'expd'=> array('title'=>'Exp.','width'=>15,'align'=>'C'),
-            'num_complemento'=> array('title'=>'N/C','width'=>15,'align'=>'C'),
-            'gerencia_administrativa'=> array('title'=>'Gerencia','width'=>30,'align'=>'L'),
-            'departamento_administrativo'=> array('title'=>'Departamento','width'=>30,'align'=>'L'),
-            'area'=> array('title'=>'Area','width'=>20,'align'=>'L'),
-            'proceso_codigo'=> array('title'=>'Proceso','width'=>15,'align'=>'C'),
-            'nivelsalarial'=> array('title'=>'Nivel','width'=>15,'align'=>'C'),
-            'cargo'=> array('title'=>'Cargo','width'=>30,'align'=>'L'),
-            'sueldo'=> array('title'=>'Haber','width'=>10,'align'=>'R'),
-            'fecha_ini'=> array('title'=>'Fecha Ini','width'=>15,'align'=>'C'),
-            'fecha_incor'=> array('title'=>'Fecha Incor','width'=>15,'align'=>'C'),
-            'fecha_fin'=> array('title'=>'Fecha Fin','width'=>15,'align'=>'C'),
-            'fecha_baja'=> array('title'=>'Fecha Baja','width'=>15,'align'=>'C'),
-            'motivo_baja'=> array('title'=>'Motivo Baja','width'=>15,'align'=>'L'),
-            'observacion'=> array('title'=>'Observacion','width'=>15,'align'=>'L')
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'align' => 'C', 'type' => 'int4'),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'condicion' => array('title' => 'Condicion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'expd' => array('title' => 'Exp.', 'width' => 15, 'align' => 'C', 'type' => 'bpchar'),
+            'num_complemento' => array('title' => 'N/C', 'width' => 15, 'align' => 'C', 'type' => 'bpchar'),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'proceso_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'nivelsalarial' => array('title' => 'Nivel', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric'),
+            'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'fecha_incor' => array('title' => 'Fecha Incor', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'fecha_baja' => array('title' => 'Fecha Baja', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'motivo_baja' => array('title' => 'Motivo Baja', 'width' => 15, 'align' => 'L', 'type' => 'varchar'),
+            'observacion' => array('title' => 'Observacion', 'width' => 15, 'align' => 'L', 'type' => 'varchar')
         );
-        $widthsSelecteds = $pdf->DefineWidths($widthAlignAll,$columns);
-        $alignSelecteds = $pdf->DefineAligns($widthAlignAll,$columns);
-        $colSelecteds = $pdf->DefineCols($widthAlignAll,$columns);
-        $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll,$columns);
-        //echo ">>>>".count($colSelecteds);
-        /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
-        print_r($colTitleSelecteds);
-        echo "<p>-------------------------------------------------------------------------------------------------------------</p>";*/
+        $widthsSelecteds = $pdf->DefineWidths($widthAlignAll, $columns);
+        $alignSelecteds = $pdf->DefineAligns($widthAlignAll, $columns);
+        $colSelecteds = $pdf->DefineCols($widthAlignAll, $columns);
+        $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll, $columns);
         $where = '';
-        $whereEqual = '';
-        for($k=0;$k<count($filtros);$k++){
-            for ($j=0;$j<$n_col;$j++){
-                if ($sub_keys[$j] == $filtros[$k]['columna']){
-                    $col_fil = $columns[$sub_keys[$j]]['text'];//echo $col_fil;
+        $yaConsiderados = array();
+        for ($k = 0; $k < count($filtros); $k++) {
+            $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+            $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+
+            for ($j = 0; $j < $n_col; $j++) {
+                if ($sub_keys[$j] == $filtros[$k]['columna']) {
+                    $col_fil = $columns[$sub_keys[$j]]['text'];
                 }
             }
-            $cond_fil = ' '.$col_fil;
-            if (strlen($where)>0){
-                switch ($filtros[$k]['condicion']){
+            if ($filtros[$k]['tipo'] == 'datefilter') {
+                $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
+            }
+            $cond_fil = ' ' . $col_fil;
+            if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+
+                if (strlen($where) > 0) {
+                    switch ($filtros[$k]['condicion']) {
+                        case 'EMPTY':
+                            $where .= ' AND ';
+                            break;
+                        case 'NOT_EMPTY':
+                            $where .= ' AND ';
+                            break;
+                        case 'CONTAINS':
+                            $where .= ' AND ';
+                            break;
+                        case 'EQUAL':
+                            $where .= ' AND ';
+                            break;
+                        case 'GREATER_THAN_OR_EQUAL':
+                            $where .= ' AND ';
+                            break;
+                        case 'LESS_THAN_OR_EQUAL':
+                            $where .= ' AND ';
+                            break;
+                    }
+
+
+                }
+
+
+            }            
+            if ($cant > 1) {
+                if($debug==1){
+                    echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                    print_r($yaConsiderados);
+                    echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                }
+                if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+                    switch ($filtros[$k]['condicion']) {
+                        case 'EMPTY':
+                            $cond_fil .= utf8_encode(" que sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                            break;
+                        case 'NOT_EMPTY':
+                            $cond_fil .= utf8_encode(" que no sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                            break;
+                        case 'CONTAINS':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if ($filtros[$k]['columna'] == "nombres") {
+                                $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                            } else {
+                                $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                            }
+                            break;
+                        case 'EQUAL':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            $ini = 0;
+                            foreach ($arr_val as $col) {
+                                if($debug==1){
+
+                                    echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                    echo $filtros[$k]['columna']."-->".$col;
+                                    echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                }
+                                if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
+                                    //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                    if($ini==0){
+                                        $where.=" (";
+                                    }
+                                    switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
+                                        case 'int4':
+                                        case 'numeric':
+                                        case 'date':
+                                            //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                            $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
+                                            break;
+                                        case 'varchar':
+                                        case 'bpchar':
+                                            //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                            $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                            break;
+                                    }
+                                    $ini++;
+                                    if($ini==count($arr_val)){
+                                        $where.=") ";
+                                    }else $where .= " OR ";
+                                }
+                            }
+                            break;
+                        case 'GREATER_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                            $ini = 0;
+                            foreach ($arr_val as $col) {
+                                //$fecha = date("Y-m-d", $col);
+                                $fecha = $col;
+                                if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
+                                    //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                    if($ini==0){
+                                        $where.=" (";
+                                    }
+                                    switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
+                                        case 'int4':
+                                        case 'numeric':$where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";break;
+                                        case 'date':
+                                            //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                            if($ini==0){
+                                                $where .= $filtros[$k]['columna']. " BETWEEN " ;
+                                            }else {
+                                                $where .= " AND " ;
+                                            }
+                                            $where.="'".$fecha."'";
+
+                                            break;
+                                        case 'varchar':
+                                        case 'bpchar':
+                                            //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                            $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                            break;
+                                    }
+                                    $ini++;
+                                    if($ini==count($arr_val)){
+                                        $where.=") ";
+                                    }//else $where .= " OR ";
+                                }
+                            }
+                            break;
+                        case 'LESS_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                    }
+                    $yaConsiderados[]=$filtros[$k]['columna'];
+                }
+            } else {
+                switch ($filtros[$k]['condicion']) {
                     case 'EMPTY':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que sea vacía ");
+                        $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
                         break;
                     case 'NOT_EMPTY':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que no sea vacía ");
+                        $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
                         break;
                     case 'CONTAINS':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                        if ($filtros[$k]['columna'] == "nombres") {
+                            $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                        } else {
+                            $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                        }
                         break;
                     case 'EQUAL':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                        if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
+                            //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                            switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
+                                case 'int4':
+                                case 'numeric':
+                                case 'date':
+                                    //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                    $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
+                                    break;
+                                case 'varchar':
+                                case 'bpchar':
+                                    //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                    $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
+                                    break;
+                            }
+                        }
                         break;
                     case 'GREATER_THAN_OR_EQUAL':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                        $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
                         break;
                     case 'LESS_THAN_OR_EQUAL':
-                        $where .= ' AND ';
+                        $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                        $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
                         break;
                 }
-
-
-            }
-            if ($filtros[$k]['tipo'] == 'datefilter'){
-                $filtros[$k]['valor'] = date("Y-m-d",strtotime($filtros[$k]['valor']));
-            }
-            /*echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
-            print_r($filtros);
-            echo "<p>-------------------------------------------------------------------------------------------------------------</p>";
-*/
-
-            switch ($filtros[$k]['condicion']){
-                case 'EMPTY':
-                    $cond_fil .= utf8_encode(" que sea vacía ");
-                    $where .= "(".$filtros[$k]['columna']." IS NULL OR ".$filtros[$k]['columna']." ILIKE '')";
-                    break;
-                case 'NOT_EMPTY':
-                    $cond_fil .= utf8_encode(" que no sea vacía ");
-                    $where .= "(".$filtros[$k]['columna']." IS NOT NULL OR ".$filtros[$k]['columna']." NOT ILIKE '')";
-                    break;
-                case 'CONTAINS':
-                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    if($filtros[$k]['columna']=="nombres"){
-                        $where .= "(p_nombre ILIKE '%".$filtros[$k]['valor']."%' OR s_nombre ILIKE '%".$filtros[$k]['valor']."%' OR t_nombre ILIKE '%".$filtros[$k]['valor']."%' OR p_apellido ILIKE '%".$filtros[$k]['valor']."%' OR s_apellido ILIKE '%".$filtros[$k]['valor']."%' OR c_apellido ILIKE '%".$filtros[$k]['valor']."%')";
-                    }else {
-                        $where .= $filtros[$k]['columna']." ILIKE '%".$filtros[$k]['valor']."%'";
-                    }break;
-                case 'EQUAL':
-                    $cond_fil .= utf8_encode(" que contenga el valor:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                    break;
-                case 'GREATER_THAN_OR_EQUAL':
-                    $cond_fil .= utf8_encode(" que sea mayor o igual que:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' >= "'.$filtros[$k]['valor'].'"';
-                    break;
-                case 'LESS_THAN_OR_EQUAL':
-                    $cond_fil .= utf8_encode(" que sea menor o igual que:  ".$filtros[$k]['valor']);
-                    $where .= $filtros[$k]['columna'].' <= "'.$filtros[$k]['valor'].'"';
-                    break;
             }
 
         }
+        if($debug==1)echo "<p>CONSULTA------------------------->".$where."<p>";
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersonsOneRecord($where);
-        //echo "<p>:::".$where;
+        if($where!="")$where=" WHERE ".$where;
+        if($groups!="")$groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
+        $resul = $obj->getAllWithPersonsOneRecord($where,$groups);
+
         $relaboral = array();
         foreach ($resul as $v) {
             $relaboral[] = array(
@@ -1343,13 +1449,13 @@ class RelaboralesController extends ControllerBase
                 'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                 'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                 'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                'fecha_ini' => $v->fecha_ini!=""?date("d-m-Y", strtotime($v->fecha_ini)):"",
-                'fecha_incor' => $v->fecha_incor!=""?date("d-m-Y", strtotime($v->fecha_incor)):"",
-                'fecha_fin' => $v->fecha_fin!=""?date("d-m-Y", strtotime($v->fecha_fin)):"",
-                'fecha_baja' => $v->fecha_baja!=""?date("d-m-Y", strtotime($v->fecha_baja)):"",
-                'fecha_ren' => $v->fecha_ren!=""?date("d-m-Y", strtotime($v->fecha_ren)):"",
-                'fecha_acepta_ren' => $v->fecha_acepta_ren!=""?date("d-m-Y", strtotime($v->fecha_acepta_ren)):"",
-                'fecha_agra_serv' => $v->fecha_agra_serv!=""?date("d-m-Y", strtotime($v->fecha_agra_Serv)):"",
+                'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
+                'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
+                'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
+                'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
+                'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
                 'motivo_baja' => $v->motivo_baja,
                 'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                 'descripcion_baja' => $v->descripcion_baja,
@@ -1409,7 +1515,7 @@ class RelaboralesController extends ControllerBase
                 'fuente' => $v->fuente,
                 'organismo_codigo' => $v->organismo_codigo,
                 'organismo' => $v->organismo,
-                'observacion' => ($v->observacion!=null)?$v->observacion:"",
+                'observacion' => ($v->observacion != null) ? $v->observacion : "",
                 'estado' => $v->estado,
                 'estado_descripcion' => $v->estado_descripcion,
                 'estado_abreviacion' => $v->estado_abreviacion,
@@ -1427,7 +1533,7 @@ class RelaboralesController extends ControllerBase
             );
         }
         $pdf->Open("L");
-        if(count($colSelecteds)>11)$pdf->AddPage("L");
+        if (count($colSelecteds) > 11) $pdf->AddPage("L");
         else $pdf->AddPage();
         #region Espacio para la definición de valores para la cabecera de la tabla
         $pdf->SetWidths($widthsSelecteds);
@@ -1438,41 +1544,81 @@ class RelaboralesController extends ControllerBase
          * Posición de la primera linea del reporte
          */
         $pdf->SetY(30);
-        $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
+        $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C'));
         $pdf->RowTitle($colTitleSelecteds);
-        $j=0;
+        $j = 0;
         $auxArray = array();
-        if(count($relaboral)>0)
-        foreach($relaboral as $i=>$val){
-            $nb=0;$h=0;
-            /**
-             * Calculamos la última altura de registro impreso
-             */
-            if($j>0){
+        if (count($relaboral) > 0)
+            foreach ($relaboral as $i => $val) {
+                $nb = 0;
+                $h = 0;
                 /**
-                 * Calculamos la altura que se alcanzo por la última columna impresa para ver si al imprimir lo nuevo sobre ella es necesario cambiar de página
+                 * Calculamos la última altura de registro impreso
                  */
-                $data = $auxArray;
-                for($i=0;$i<count($data);$i++)
-                    $nb=max($nb, $pdf->NbLines($pdf->widths[$i], $data[$i]));
-                $h=5*$nb;
-            }
-            /*
-             *  Verificar el uso de la cabecera
-             */
-            if($pdf->GetY()+$h>=$pdf->PageBreakTrigger){
-                $pdf->DefineColorHeaderTable();
-                $pdf->SetAligns(array('C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C','C'));
-                $pdf->Row($colTitleSelecteds);
-            }
+                if ($j > 0) {
+                    /**
+                     * Calculamos la altura que se alcanzo por la última columna impresa para ver si al imprimir lo nuevo sobre ella es necesario cambiar de página
+                     */
+                    $data = $auxArray;
+                    for ($i = 0; $i < count($data); $i++)
+                        $nb = max($nb, $pdf->NbLines($pdf->widths[$i], $data[$i]));
+                    $h = 5 * $nb;
+                }
+                /*
+                 *  Verificar el uso de la cabecera
+                 */
+                if ($pdf->GetY() + $h >= $pdf->PageBreakTrigger) {
+                    $pdf->DefineColorHeaderTable();
+                    $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C'));
+                    $pdf->Row($colTitleSelecteds);
+                }
                 $pdf->DefineColorBodyTable();
                 $pdf->SetAligns($alignSelecteds);
-                $rowData = $pdf->DefineRows($j+1,$relaboral[$j],$colSelecteds);
+                $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
                 $pdf->Row($rowData);
                 $auxArray = $rowData;
-            $j++;
+                $j++;
+            }
+        $pdf->ShowLeftFooter = true;
+        if($debug==0)$pdf->Output('reporte_relaboral.pdf','I');
+    }
+
+    /*
+     * Función para obtener la cantidad de veces que se considera una misma columna en el filtrado.
+     * @param $columna
+     * @param $array
+     * @return int
+     */
+    function obtieneCantidadVecesConsideracionPorColumnaEnFiltros($columna, $array)
+    {
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $cont++;
+                }
+            }
         }
-        $pdf->ShowLeftFooter=true;
-        $pdf->Output('reporte_relaboral.pdf','I');
+        return $cont;
+    }
+
+    /**
+     * Función para la obtención de los valores considerados en el filtro enviado.
+     * @param $columna Nombre de la columna
+     * @param $array Array con los registro de busquedas.
+     * @return array Array con los valores considerados en el filtrado enviado.
+     */
+    function obtieneValoresConsideradosPorColumnaEnFiltros($columna, $array)
+    {
+        $arr_col = array();
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $arr_col[] = $val["valor"];
+                }
+            }
+        }
+        return $arr_col;
     }
 }

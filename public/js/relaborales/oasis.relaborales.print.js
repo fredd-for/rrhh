@@ -8,6 +8,7 @@
 function exportarPDF(){
     columna = new Object();
     filtros = new Object();
+    agrupados = new Object();
     //nro_row = $('#jqxgrid').jqxGrid('getcolumn','nro_row');
     ubicacion = $('#jqxgrid').jqxGrid('getcolumn','ubicacion');
     condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
@@ -19,12 +20,12 @@ function exportarPDF(){
     gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
     cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
-    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
     departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
     area = $('#jqxgrid').jqxGrid('getcolumn','area');
     proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
     nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
+    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
+    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
     fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
     fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
     motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
@@ -92,10 +93,9 @@ function exportarPDF(){
     columna[id_proceso.datafield] = {text: id_proceso.text, hidden: id_proceso.hidden};
     columna[id_cargo.datafield] = {text: id_cargo.text, hidden: id_cargo.hidden};
     columna[cargo_codigo.datafield] = {text: cargo_codigo.text, hidden: cargo_codigo.hidden};
-
-
-
     */
+
+    var groups = $('#jqxgrid').jqxGrid('groups');
     var rows = $('#jqxgrid').jqxGrid('getrows');
     var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
     var counter = 0;
@@ -113,15 +113,14 @@ function exportarPDF(){
     }
     var n_rows = rows.length;
     var json_filter = JSON.stringify(filtros);
-    //var json_rows = JSON.stringify(rows);
     var json_columns = JSON.stringify(columna);
-    //json_rows = btoa(utf8_encode(json_rows));
     json_columns = btoa(utf8_encode(json_columns));
     json_filter = btoa(utf8_encode(json_filter));
-    //json_rows = json_rows.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    var json_groups =  btoa(utf8_encode(groups));
     json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter, "_blank");
+    json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups, "_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

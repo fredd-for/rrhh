@@ -198,6 +198,7 @@ class PersonalController extends ControllerBase{
                 $resul->user_mod_id = 1;
                 $resul->fecha_mod = $hoy;
                 $resul->tipo_doc = $_POST['tipo_doc'];
+                $resul->foto = $_POST['ci'].'.jpg';
                 $resul->save();
                 if ($resul->save()) {
                     $res = new personascontactos();
@@ -329,6 +330,7 @@ class PersonalController extends ControllerBase{
                 $resul->fecha_reg = $hoy;
                 $resul->tipo_doc = $_POST['tipo_doc'];
                 $resul->agrupador = 0;
+                $resul->foto = $_POST['ci'].'.jpg';
                 //echo $_POST['tipo_doc'];
                 //$resul->save();
                 if ($resul->save()) {
@@ -410,7 +412,12 @@ class PersonalController extends ControllerBase{
         //$rows = base64_decode(str_pad(strtr($rows, '-_', '+/'), strlen($rows) % 4, '=', STR_PAD_RIGHT)); 
         $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+
+        //echo $filtros." - ".$columns;
+        //$pdf = new fpdf();
+
         //echo $rows." - ".$columns;
+
         $pdf = new fpdf();
         //$rows = (string)$rows;
         

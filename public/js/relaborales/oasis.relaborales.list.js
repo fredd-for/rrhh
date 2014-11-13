@@ -561,7 +561,7 @@ function definirGrillaParaListaRelaborales(){
                     { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', width: 220,align:'center', hidden:true},
                     { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', width: 215 ,align:'center', hidden:false},
                     { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', width: 100,cellsalign: 'right',align:'center', hidden:false},
-                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center', hidden:false},
+                    { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 200, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center', hidden:false},
                     { text: 'Fecha Incor.', datafield: 'fecha_incor', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:false},
                     { text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},
                     { text: 'Fecha Baja', datafield: 'fecha_baja', filtertype: 'range', width: 100, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center', hidden:true},

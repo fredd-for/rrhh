@@ -22,46 +22,40 @@ class ArchivoController extends ControllerBase{
     public function parametrosAction(){
         
     }
-    public function editarAction($id_personas){
-        $resul = new personas();
-        $resul = personas::findFirstById($id_personas);
-        $res = new personascontactos();
-        $res = personascontactos::findFirst(array('persona_id='.$id_personas.' AND baja_logica = 1','order' => 'id ASC'));
-        $datos_personal = array(
+    public function editarAction($id_tipo_doc){
+        $resul = new tipodocumento();
+        $resul = tipodocumento::findFirstById($id_tipo_doc);
+        $datos_tipo_doc = array(
             'id' => $resul->id,
-            'p_nombre' => $resul->p_nombre,
-            's_nombre' => $resul->s_nombre,
-            't_nombre' => $resul->t_nombre,
-            'p_apellido' => $resul->p_apellido,
-            's_apellido' => $resul->s_apellido,
-            'c_apellido' => $resul->c_apellido,
-            'tipo_doc' => $resul->tipo_doc,
-            'ci' => $resul->ci,
-            'expd' => $resul->expd,
-            'num_complemento' => $resul->num_complemento,
-            'nacionalidad' => $resul->nacionalidad,
-            'lugar_nac' => $resul->lugar_nac,
-            'fecha_nac' => $resul->fecha_nac,
-            'e_civil' => $resul->e_civil,
-            'grupo_sanguineo'=> $resul->grupo_sanguineo,
-            'genero' => $resul->genero,
-            'nit' => $resul->nit,
-            'num_func_sigma' => $resul->num_func_sigma,
-            'num_lib_ser_militar' => $resul->num_lib_ser_militar,
-            'num_reg_profesional' => $resul->num_reg_profesional,
+            'tipo_documento' => $resul->tipo_documento,
+            'codigo' => $resul->codigo,
+            'consultor' => $resul->consultor,
+            'eventual' => $resul->eventual,
+            'permanente' => $resul->permanente,
+            'carrera' => $resul->carrera,
+            'tipopresdoc_id' => $resul->tipopresdoc_id,
+            'periodopresdoc_id' => $resul->periodopresdoc_id,
+            'tipoemisordoc_id' => $resul->tipoemisordoc_id,
+            'tipofechaemidoc_id' => $resul->tipofechaemidoc_id,
+            'tipoperssoldoc_id' => $resul->tipoperssoldoc_id,
+            'grupoarchivos_id' => $resul->grupoarchivos_id,
+            'ruta_carpeta' => $resul->ruta_carpeta,
+            'nombre_carpeta' => $resul->nombre_carpeta,
+            'formato_archivo_digital' => $resul->formato_archivo_digital,
+            'resolucion_archivo_digital' => $resul->resolucion_archivo_digital,
+            'altura_archivo_digital' => $resul->altura_archivo_digital,
+            'anchura_archivo_digital' => $resul->anchura_archivo_digital,
+            'campo_aux_a' => $resul->campo_aux_a,
+            'tipo_dato_campo_aux_a' => $resul->tipo_dato_campo_aux_a,
+            'campo_aux_b' => $resul->campo_aux_b,
+            'tipo_dato_campo_aux_b' => $resul->tipo_dato_campo_aux_b,
+            'campo_aux_c' => $resul->campo_aux_c,
+            'tipo_dato_campo_aux_c' => $resul->tipo_dato_campo_aux_c,
             'observacion' => $resul->observacion,
-            'id_personas_contactos' => $res->id,
-            'direccion_dom' => $res->direccion_dom,
-            'telefono_fijo' => $res->telefono_fijo,
-            'telefono_inst' => $res->telefono_inst,
-            'telefono_fax' => $res->telefono_fax,
-            'celular_per' => $res->celular_per,
-            'celular_inst' => $res->celular_inst,
-            'e_mail_per' => $res->e_mail_per,
-            'e_mail_inst' => $res->e_mail_inst,
-            'interno_inst' => $res->interno_inst
+            'sexo' => $resul->sexo,
+            'tipo_proceso_contratacion' => $resul->tipo_proceso_contratacion
         );
-        $this->view->setVar('datos_personal', $datos_personal);
+        $this->view->setVar('datos_tipo_doc', $datos_tipo_doc);
     }
     public function editarparametroAction($id_parametro){
         $resul = new parametros();
@@ -145,8 +139,40 @@ class ArchivoController extends ControllerBase{
         }
         echo json_encode($customers);
     }
+    public function listdocAction($seleccion)
+    {
+        $resul = new tipodocumento();
+        $resul = tipodocumento::find(array("baja_logica = 1 AND ".$seleccion." = 1 ",'order' => 'id ASC'));
+        $this->view->disable();
+        foreach ($resul as $v) {
+            $res_1 = parametros::findFirstById($v->tipopresdoc_id);
+            $res_2 = parametros::findFirstById($v->periodopresdoc_id);
+            $res_3 = parametros::findFirstById($v->tipoemisordoc_id);
+            $res_4 = parametros::findFirstById($v->tipofechaemidoc_id);
+            $res_5 = parametros::findFirstById($v->tipoperssoldoc_id);
+            $res_6 = parametros::findFirstById($v->grupoarchivos_id);
+            $docs[] = array(
+                'id' => $v->id,
+                'tipo_documento' => $v->tipo_documento,
+                'codigo' => $v->codigo,
+                'tipopresdoc_id' => $res_1->id,
+                'tipopresdoc' => $res_1->valor_1,
+                'periodopresdoc_id' => $res_2->id,
+                'periodopresdoc' => $res_2->valor_1,
+                'tipoemisordoc_id' => $res_3->id,
+                'tipoemisordoc' => $res_3->valor_1,
+                'tipofechaemidoc_id' => $res_4->id,
+                'tipofechaemidoc' => $res_4->valor_1,
+                'tipoperssoldoc_id' => $res_5->id,
+                'tipoperssoldoc' => $res_5->valor_1,
+                'grupoarchivos_id' => $res_6->id,
+                'grupoarchivos' => $res_6->valor_1,
+            );
+        }
+        echo json_encode($docs);
+    }
     public function deleteAction(){
-        $resul = personas::findFirstById($_POST['id']);
+        $resul = tipodocumento::findFirstById($_POST['id']);
         $resul->baja_logica = 0;
         $resul->save();
         $this->view->disable();
@@ -174,8 +200,9 @@ class ArchivoController extends ControllerBase{
             /*$date = new DateTime($_POST['fecha_nac']);
             $fecha_nac = $date->format('Y-m-d');//echo $fecha_nac." | ".$hoy;*/
             if ($_POST['id']>0) {
-                $resul = new tipodocumento();
+                //$resul = new tipodocumento();
                 $resul = tipodocumento::findFirstById($_POST['id']);
+                $resul->id = $_POST['id'];
                 $resul->tipo_documento = $_POST['tipo_documento'];
                 $resul->codigo = $_POST['codigo'];
                 $resul->consultor = $_POST['consultor'];
@@ -211,14 +238,14 @@ class ArchivoController extends ControllerBase{
                     $resul->resolucion_archivo_digital = $_POST['resolucion_archivo_digital'];
                 }
                 if ($_POST['altura_archivo_digital'] == ''){
-                  $resul->altura_archivo_digital = $_POST['altura_archivo_digital'];
-                } else {
                   $resul->altura_archivo_digital = NULL;
+                } else {
+                  $resul->altura_archivo_digital = $_POST['altura_archivo_digital'];
                 }
                 if ($_POST['anchura_archivo_digital'] == ''){
-                  $resul->anchura_archivo_digital = $_POST['anchura_archivo_digital'];
-                } else {
                   $resul->anchura_archivo_digital = NULL;
+                } else {
+                  $resul->anchura_archivo_digital = $_POST['anchura_archivo_digital'];
                 }
                 if (isset($_POST['campo_aux_a'])){
                   $resul->campo_aux_a = $_POST['campo_aux_a'];
