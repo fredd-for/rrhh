@@ -3,6 +3,7 @@ class pdfoasis extends fpdf{
     public $title_rpt = "Reporte";
     public $style_header_table = "";
     public $style_footer_table = "";
+    var $debug;
     var $widths;
     var $aligns;
     var $FechaHoraReporte;	 //Fecha y hora del reporte
@@ -16,13 +17,16 @@ class pdfoasis extends fpdf{
     var $ShowNumeralLeftFooter;	//Opción para mostrar el pie de página izquierdo (Numeral).
     var $Condicion;			//Opción para conocer que tipo de condición tiene un determinado formulario
     var $angle;
+    var $widthAlignAll;
+    var $widthsSelecteds;
+    var $colTitleSelecteds;
+    var $alignSelecteds;
 
     /**
      * Función para establecer la cabecera del reporte.
      */
     function Header()
-    {
-        $this->Image('../public/images/logoMT.jpg',10,8,20,20);
+    {   $this->Image('../public/images/logoMT.jpg',10,8,20,20);
         $this->SetFont('Arial','B',10);
         $w = $this->GetStringWidth($this->title_rpt)+6;
         $this->SetX((190-$w)/2);
@@ -34,16 +38,23 @@ class pdfoasis extends fpdf{
         $this->SetFont('Arial','',10);
         $this->SetFillColor(255,255,255);
         $this->SetTextColor(0);
+        /**
+         * Añadido
+         */
+        $this->SetY(30);
+        $this->SetWidths($this->widthsSelecteds);
+        $this->DefineColorHeaderTable();
+        $this->SetAligns($this->alignTitleSelecteds);
+        $this->RowTitle($this->colTitleSelecteds);
     }
-
     /**
      * Función para definir el color de las celdas en la cabecera de la tabla.
      */
     function DefineColorHeaderTable(){
         $this->SetFont('Arial', 'B', 8);
-        $this->SetDrawColor(28,141,247);
+        $this->SetDrawColor(0);
         $this->SetFillColor(2,157,116);//Fondo verde de celda
-        $this->SetTextColor(53,182,74);//Letras verdes
+        $this->SetTextColor(255,255,255);//Letras verdes
         $this->SetLineWidth(.3);
     }
     /**
@@ -159,7 +170,7 @@ class pdfoasis extends fpdf{
             //Draw the border
             $this->Rect($x, $y, $w, $h);
             //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a);
+            $this->MultiCell($w, 5, $data[$i], 0, $a,true);
             //Put the position to the right of the cell
             $this->SetXY($x+$w, $y);
         }
@@ -297,6 +308,19 @@ class pdfoasis extends fpdf{
                     $arrRes[]=$widthAlignAll[$key]['title'];
                 }
             }
+        }
+        return $arrRes;
+    }
+
+    /**
+     * Función para la definición de las alignaciones de las cabeceras de la tabla.
+     * @param $numCols
+     * @return array
+     */
+    function DefineTitleAligns($numCols){
+        $arrRes = Array();
+        for($i=0;$i<=$numCols;$i++){
+            $arrRes[]="C";
         }
         return $arrRes;
     }

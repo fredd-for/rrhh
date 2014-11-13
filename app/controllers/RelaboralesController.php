@@ -1168,17 +1168,17 @@ class RelaboralesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      */
     public function printAction($n_rows, $columns, $filtros,$groups)
-    {   $debug=0;
-	    $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
         $pdf = new pdfoasis();
+        $pdf->debug=0;
         $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
         $columns = json_decode($columns, true);
         $filtros = json_decode($filtros, true);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
-    	if($debug==1){
+    	if($pdf->debug==1){
                 echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
             print_r($columns);
                 echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
@@ -1190,13 +1190,13 @@ class RelaboralesController extends ControllerBase
          * Especificando la configuración de las columnas
          */
         $widthAlignAll = array(
-            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'align' => 'C', 'type' => 'int4'),
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
             'ubicacion' => array('title' => 'Ubicacion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'condicion' => array('title' => 'Condicion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'expd' => array('title' => 'Exp.', 'width' => 15, 'align' => 'C', 'type' => 'bpchar'),
+            'ci' => array('title' => 'CI', 'width' => 12, 'align' => 'C', 'type' => 'varchar'),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
             'num_complemento' => array('title' => 'N/C', 'width' => 15, 'align' => 'C', 'type' => 'bpchar'),
             'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
@@ -1206,7 +1206,7 @@ class RelaboralesController extends ControllerBase
             'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric'),
             'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 15, 'align' => 'C', 'type' => 'date'),
-            'fecha_incor' => array('title' => 'Fecha Incor', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'fecha_incor' => array('title' => 'Fecha Inc', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 15, 'align' => 'C', 'type' => 'date'),
             'fecha_baja' => array('title' => 'Fecha Baja', 'width' => 15, 'align' => 'C', 'type' => 'date'),
             'motivo_baja' => array('title' => 'Motivo Baja', 'width' => 15, 'align' => 'L', 'type' => 'varchar'),
@@ -1216,6 +1216,12 @@ class RelaboralesController extends ControllerBase
         $alignSelecteds = $pdf->DefineAligns($widthAlignAll, $columns);
         $colSelecteds = $pdf->DefineCols($widthAlignAll, $columns);
         $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll, $columns);
+        $alignTitleSelecteds = $pdf->DefineTitleAligns(count($widthAlignAll));
+        $pdf->widthAlignAll = $widthAlignAll;
+        $pdf->colTitleSelecteds = $colTitleSelecteds;
+        $pdf->widthsSelecteds = $widthsSelecteds;
+        $pdf->alignSelecteds = $alignSelecteds;
+        $pdf->alignTitleSelecteds = $alignTitleSelecteds;
         $where = '';
         $yaConsiderados = array();
         for ($k = 0; $k < count($filtros); $k++) {
@@ -1261,7 +1267,7 @@ class RelaboralesController extends ControllerBase
 
             }            
             if ($cant > 1) {
-                if($debug==1){
+                if($pdf->debug==1){
                     echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
                     print_r($yaConsiderados);
                     echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
@@ -1288,7 +1294,7 @@ class RelaboralesController extends ControllerBase
                             $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
                             $ini = 0;
                             foreach ($arr_val as $col) {
-                                if($debug==1){
+                                if($pdf->debug==1){
 
                                     echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
                                     echo $filtros[$k]['columna']."-->".$col;
@@ -1352,7 +1358,7 @@ class RelaboralesController extends ControllerBase
                                     $ini++;
                                     if($ini==count($arr_val)){
                                         $where.=") ";
-                                    }//else $where .= " OR ";
+                                    }
                                 }
                             }
                             break;
@@ -1412,7 +1418,7 @@ class RelaboralesController extends ControllerBase
             }
 
         }
-        if($debug==1)echo "<p>CONSULTA------------------------->".$where."<p>";
+        if($pdf->debug==1)echo "<p>CONSULTA------------------------->".$where."<p>";
         $obj = new Frelaborales();
         if($where!="")$where=" WHERE ".$where;
         if($groups!="")$groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
@@ -1533,54 +1539,21 @@ class RelaboralesController extends ControllerBase
             );
         }
         $pdf->Open("L");
-        if (count($colSelecteds) > 11) $pdf->AddPage("L");
+        if (count($colSelecteds) > 11) $pdf->AddPage('L');
         else $pdf->AddPage();
         #region Espacio para la definición de valores para la cabecera de la tabla
-        $pdf->SetWidths($widthsSelecteds);
-        //Color de las lineas de las celdas
-        $pdf->DefineColorHeaderTable();
         $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
-        /**
-         * Posición de la primera linea del reporte
-         */
-        $pdf->SetY(30);
-        $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C'));
-        $pdf->RowTitle($colTitleSelecteds);
         $j = 0;
-        $auxArray = array();
         if (count($relaboral) > 0)
             foreach ($relaboral as $i => $val) {
-                $nb = 0;
-                $h = 0;
-                /**
-                 * Calculamos la última altura de registro impreso
-                 */
-                if ($j > 0) {
-                    /**
-                     * Calculamos la altura que se alcanzo por la última columna impresa para ver si al imprimir lo nuevo sobre ella es necesario cambiar de página
-                     */
-                    $data = $auxArray;
-                    for ($i = 0; $i < count($data); $i++)
-                        $nb = max($nb, $pdf->NbLines($pdf->widths[$i], $data[$i]));
-                    $h = 5 * $nb;
-                }
-                /*
-                 *  Verificar el uso de la cabecera
-                 */
-                if ($pdf->GetY() + $h >= $pdf->PageBreakTrigger) {
-                    $pdf->DefineColorHeaderTable();
-                    $pdf->SetAligns(array('C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C'));
-                    $pdf->Row($colTitleSelecteds);
-                }
                 $pdf->DefineColorBodyTable();
                 $pdf->SetAligns($alignSelecteds);
                 $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
                 $pdf->Row($rowData);
-                $auxArray = $rowData;
                 $j++;
             }
         $pdf->ShowLeftFooter = true;
-        if($debug==0)$pdf->Output('reporte_relaboral.pdf','I');
+        if($pdf->debug==0)$pdf->Output('reporte_relaboral.pdf','I');
     }
 
     /*
