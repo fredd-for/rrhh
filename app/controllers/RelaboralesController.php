@@ -1165,17 +1165,27 @@ class RelaboralesController extends ControllerBase
      * @param $n_rows Cantidad de lineas
      * @param $columns Array con las columnas mostradas en el reporte
      * @param $filtros Array con los filtros aplicados sobre las columnas.
+     * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      */
-    public function printAction($n_rows, $columns, $filtros)
+    public function printAction($n_rows, $columns, $filtros,$groups)
     {   $debug=0;
-        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+	    $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
         $pdf = new pdfoasis();
         $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
         $columns = json_decode($columns, true);
         $filtros = json_decode($filtros, true);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
+    	if($debug==1){
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>".$groups;
+        }
         /**
          * Especificando la configuración de las columnas
          */
@@ -1249,12 +1259,7 @@ class RelaboralesController extends ControllerBase
                 }
 
 
-            }
-            if($debug==1){
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
-                print_r($filtros);
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
-            }
+            }            
             if ($cant > 1) {
                 if($debug==1){
                     echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
@@ -1407,9 +1412,11 @@ class RelaboralesController extends ControllerBase
             }
 
         }
-        if($debug==1)echo "<p>------------------------->".$where."<p>";
+        if($debug==1)echo "<p>CONSULTA------------------------->".$where."<p>";
         $obj = new Frelaborales();
-        $resul = $obj->getAllWithPersonsOneRecord($where);
+        if($where!="")$where=" WHERE ".$where;
+        if($groups!="")$groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
+        $resul = $obj->getAllWithPersonsOneRecord($where,$groups);
 
         $relaboral = array();
         foreach ($resul as $v) {
