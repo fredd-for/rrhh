@@ -124,6 +124,12 @@ class Seguimientos extends \Phalcon\Mvc\Model
     public $sueldo;
 
     /**
+     *
+     * @var double
+     */
+    public $usuario_sol;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -156,7 +162,9 @@ class Seguimientos extends \Phalcon\Mvc\Model
             'fecha_reg' => 'fecha_reg', 
             'baja_logica' => 'baja_logica', 
             'cargo' => 'cargo', 
-            'sueldo' => 'sueldo'
+            'sueldo' => 'sueldo',
+            'organigrama_id' => 'organigrama_id',
+            'usuario_sol' => 'usuario_sol'
         );
     }
 

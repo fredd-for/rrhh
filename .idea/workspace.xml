@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\app\config\config.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Relaborales.php" afterPath="$PROJECT_DIR$/app/models/Relaborales.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.new.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.new.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/pdfoasis.php" afterPath="$PROJECT_DIR$/app/models/pdfoasis.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/Adjudicatarios.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/Seguimientosestados.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Procesoscontrataciones.php" afterPath="$PROJECT_DIR$/app/models/Procesoscontrataciones.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/ProcesoscontratacionesController.php" afterPath="$PROJECT_DIR$/app/controllers/ProcesoscontratacionesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Seguimientos.php" afterPath="$PROJECT_DIR$/app/models/Seguimientos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/organigramas/add.phtml" afterPath="$PROJECT_DIR$/app/views/organigramas/add.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml" afterPath="$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/sortable/jquery.sortable.js" afterPath="$PROJECT_DIR$/public/js/sortable/jquery.sortable.js" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,13 +66,13 @@
       <file leaf-file-name="Procesoscontrataciones.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/Procesoscontrataciones.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-50.5" vertical-offset="1883" max-vertical-offset="3570">
-              <caret line="188" column="20" selection-start-line="188" selection-start-column="20" selection-end-line="188" selection-end-column="20" />
+            <state vertical-scroll-proportion="-50.5" vertical-offset="1900" max-vertical-offset="3587">
+              <caret line="189" column="20" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="20" />
               <folding>
-                <marker date="1415794918673" expanded="true" signature="2477:2694" placeholder="SELECT ROW_N..." />
-                <marker date="1415794918673" expanded="true" signature="2909:3295" placeholder="SELECT ROW_N..." />
-                <marker date="1415794918673" expanded="true" signature="3516:3723" placeholder="SELECT s.*,p..seguimientos..." />
-                <marker date="1415794918673" expanded="true" signature="4415:4457" placeholder="SELECT pc.* ..procesoscontrataciones..." />
+                <marker date="1415991141888" expanded="true" signature="2477:2694" placeholder="SELECT ROW_N..." />
+                <marker date="1415991141888" expanded="true" signature="3077:3372" placeholder="SELECT ROW_N..." />
+                <marker date="1415991141888" expanded="true" signature="3593:3800" placeholder="SELECT s.*,p..seguimientos..." />
+                <marker date="1415991141888" expanded="true" signature="4492:4534" placeholder="SELECT pc.* ..procesoscontrataciones..." />
               </folding>
             </state>
           </provider>
@@ -143,21 +141,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.5882354" vertical-offset="905" max-vertical-offset="12784">
+            <state vertical-scroll-proportion="0.33888888" vertical-offset="905" max-vertical-offset="12784">
               <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/config/config.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21061946" vertical-offset="0" max-vertical-offset="565">
-              <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -509,13 +497,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="493">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1368" max-vertical-offset="2006">
@@ -549,13 +530,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14552">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="493">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -852,14 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5882354" vertical-offset="905" max-vertical-offset="12784">
-          <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="9571">
@@ -885,13 +851,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Procesoscontrataciones.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-50.5" vertical-offset="1883" max-vertical-offset="3570">
-          <caret line="188" column="20" selection-start-line="188" selection-start-column="20" selection-end-line="188" selection-end-column="20" />
+        <state vertical-scroll-proportion="-50.5" vertical-offset="1900" max-vertical-offset="3587">
+          <caret line="189" column="20" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="20" />
           <folding>
-            <marker date="1415794918673" expanded="true" signature="2477:2694" placeholder="SELECT ROW_N..." />
-            <marker date="1415794918673" expanded="true" signature="2909:3295" placeholder="SELECT ROW_N..." />
-            <marker date="1415794918673" expanded="true" signature="3516:3723" placeholder="SELECT s.*,p..seguimientos..." />
-            <marker date="1415794918673" expanded="true" signature="4415:4457" placeholder="SELECT pc.* ..procesoscontrataciones..." />
+            <marker date="1415991141888" expanded="true" signature="2477:2694" placeholder="SELECT ROW_N..." />
+            <marker date="1415991141888" expanded="true" signature="3077:3372" placeholder="SELECT ROW_N..." />
+            <marker date="1415991141888" expanded="true" signature="3593:3800" placeholder="SELECT s.*,p..seguimientos..." />
+            <marker date="1415991141888" expanded="true" signature="4492:4534" placeholder="SELECT pc.* ..procesoscontrataciones..." />
           </folding>
         </state>
       </provider>
@@ -931,10 +897,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21061946" vertical-offset="0" max-vertical-offset="565">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.33888888" vertical-offset="905" max-vertical-offset="12784">
+          <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
           <folding />
         </state>
       </provider>
