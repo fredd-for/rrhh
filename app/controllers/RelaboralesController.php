@@ -1214,9 +1214,16 @@ class RelaboralesController extends ControllerBase
             if ($ancho > 215.9) {
                 if ($ancho > 270) {
                     $pdf = new pdfoasis('L','mm','Legal');
-                }else $pdf = new pdfoasis('L','mm','Letter');
+                    $pdf->pageWidth=355;
+                }else {
+                    $pdf = new pdfoasis('L','mm','Letter');
+                    $pdf->pageWidth=280;
+                }
             }
-            else $pdf = new pdfoasis('P','mm','Letter');
+            else {
+                $pdf = new pdfoasis('P','mm','Letter');
+                $pdf->pageWidth=215.9;
+            }
             #region Proceso de generación del documento PDF
             $pdf->debug=0;
             $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');

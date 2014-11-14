@@ -1,11 +1,14 @@
 <?php
 class pdfoasis extends fpdf{
     public $title_rpt = "Reporte";
+    public $header_title_estado_rpt = "Estado Plurinacional de Bolivia";
+    public $header_title_empresa_rpt = "Empresa Estatal de Transporte por Cable 'Mi Teleferico'";
     public $style_header_table = "";
     public $style_footer_table = "";
     var $debug;              //Valor de seguimiento 1: Hacer debug; 0: No hacer debug
     var $widths;             //Array de anchuras
     var $aligns;             //Array de alineaciones
+    var $pageWidth;          //Ancho de la hoja (Sea si esta vertical u horizontal)
     var $FechaHoraReporte;	 //Fecha y hora del reporte
     var $FechaHoraCreacion;	 //Fecha y hora de creación
     var $IdUsrPrint;	 	 //Identificador del usuario impresor
@@ -22,19 +25,37 @@ class pdfoasis extends fpdf{
     var $colTitleSelecteds;     //Titulos de las columnas seleccionadas
     var $alignSelecteds;        //Alineaciones de la columnas seleccionadas
 
+
     /**
      * Función para establecer la cabecera del reporte.
      */
     function Header()
-    {   $this->Image('../public/images/logoMT.jpg',10,8,20,20);
+    {   $this->Image('../public/images/escudo.jpg',10,6,20,0);
+        $x_segunda_imagen = $this->pageWidth-25;
+        $this->Image('../public/images/logoMT.jpg',$x_segunda_imagen,6,15,0);
         $this->SetFont('Arial','B',10);
-        $w = $this->GetStringWidth($this->title_rpt)+6;
-        $this->SetX((190-$w)/2);
+        $west = $this->GetStringWidth($this->header_title_estado_rpt)+6;
+        $wemp = $this->GetStringWidth($this->header_title_empresa_rpt)+6;
+        $this->SetX(($this->pageWidth-$west)/2);
         $this->SetDrawColor(247,249,251);
         $this->SetFillColor(247,249,251);
         $this->SetTextColor(28,141,247);
-        $this->Cell($w+15,9,$this->title_rpt,1,1,'C',true);
+        $this->SetFont('Arial','',15);
+        $this->Cell($west+15,5,$this->header_title_estado_rpt,1,1,'C',true);
+        $this->SetX(($this->pageWidth-$wemp)/2);
+        $this->SetFont('Arial','',10);
+        $this->Cell($wemp+15,5,$this->header_title_empresa_rpt,1,1,'C',true);
+
+        /**
+         * Espacio para definir la línea en el encabezado
+         */
+        $this->SetFillColor(52,152,219);
+        $this->SetLineWidth(1);
+        $this->SetX(($this->pageWidth-$wemp)/2);
+        $this->Cell($wemp+15,2,"",1,1,'C',1);
+
         $this->Ln();
+
         $this->SetFont('Arial','',10);
         $this->SetFillColor(255,255,255);
         $this->SetTextColor(0);
