@@ -53,8 +53,8 @@ class pdfoasis extends fpdf{
     function DefineColorHeaderTable(){
         $this->SetFont('Arial', 'B', 8);
         $this->SetDrawColor(0);
-        $this->SetFillColor(2,157,116);//Fondo verde de celda
-        $this->SetTextColor(255,255,255);//Letras verdes
+        $this->SetFillColor(52,152,219);//Fondo verde de celeste
+        $this->SetTextColor(255,255,255);//Letras blancas
         $this->SetLineWidth(.3);
     }
     /**

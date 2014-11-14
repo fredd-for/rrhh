@@ -1178,18 +1178,7 @@ class RelaboralesController extends ControllerBase
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
         $sorteds = json_decode($sorteds, true);
-    	/*if($pdf->debug==1){
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
-            print_r($columns);
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
-            print_r($filtros);
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
-                echo "<p>".$groups;
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
-                print_r($sorteds);
-                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
-        }*/
-        /**
+    	/**
          * Especificando la configuración de las columnas
          */
         $generalConfigForAllColumns = array(
@@ -1241,6 +1230,17 @@ class RelaboralesController extends ControllerBase
             $pdf->widthsSelecteds = $widthsSelecteds;
             $pdf->alignSelecteds = $alignSelecteds;
             $pdf->alignTitleSelecteds = $alignTitleSelecteds;
+            if($pdf->debug==1){
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>".$groups;
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($sorteds);
+                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
+            }
             $where = '';
             $yaConsiderados = array();
             for ($k = 0; $k < count($filtros); $k++) {

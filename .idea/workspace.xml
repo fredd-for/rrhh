@@ -4,7 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/app/models/pdfoasis.php" line="339" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="" />
+    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/pdfoasis.php" afterPath="$PROJECT_DIR$/app/models/pdfoasis.php" />
+    </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -31,8 +34,8 @@
       <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5" vertical-offset="9147" max-vertical-offset="29665">
-              <caret line="562" column="48" selection-start-line="562" selection-start-column="48" selection-end-line="562" selection-end-column="48" />
+            <state vertical-scroll-proportion="94.666664" vertical-offset="27404" max-vertical-offset="29665">
+              <caret line="1328" column="54" selection-start-line="1328" selection-start-column="54" selection-end-line="1328" selection-end-column="54" />
               <folding>
                 <element signature="e#7#215#0#PHP" expanded="true" />
               </folding>
@@ -121,11 +124,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pdfoasis.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pdfoasis.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.3076923" vertical-offset="6340" max-vertical-offset="7514">
-              <caret line="378" column="4" selection-start-line="378" selection-start-column="4" selection-end-line="378" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.63893807" vertical-offset="591" max-vertical-offset="7514">
+              <caret line="56" column="57" selection-start-line="56" selection-start-column="57" selection-end-line="56" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -141,11 +144,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6920354" vertical-offset="0" max-vertical-offset="565">
-              <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+            <state vertical-scroll-proportion="-15.038462" vertical-offset="0" max-vertical-offset="544">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -174,15 +177,15 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.approve.js" />
         <option value="$PROJECT_DIR$/app/libs/fpdf/fpdf.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.new.js" />
-        <option value="$PROJECT_DIR$/app/models/pdfoasis.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
-        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/models/Relaborales.php" />
         <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
+        <option value="$PROJECT_DIR$/app/models/pdfoasis.php" />
       </list>
     </option>
   </component>
@@ -810,14 +813,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.3076923" vertical-offset="6340" max-vertical-offset="7514">
-          <caret line="378" column="4" selection-start-line="378" selection-start-column="4" selection-end-line="378" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.32" vertical-offset="751" max-vertical-offset="3009">
@@ -876,16 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5" vertical-offset="9147" max-vertical-offset="29665">
-          <caret line="562" column="48" selection-start-line="562" selection-start-column="48" selection-end-line="562" selection-end-column="48" />
-          <folding>
-            <element signature="e#7#215#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Relaborales.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.307692" vertical-offset="3587" max-vertical-offset="4964">
@@ -907,8 +892,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6920354" vertical-offset="0" max-vertical-offset="565">
-          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        <state vertical-scroll-proportion="-15.038462" vertical-offset="0" max-vertical-offset="544">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="94.666664" vertical-offset="27404" max-vertical-offset="29665">
+          <caret line="1328" column="54" selection-start-line="1328" selection-start-column="54" selection-end-line="1328" selection-end-column="54" />
+          <folding>
+            <element signature="e#7#215#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.63893807" vertical-offset="591" max-vertical-offset="7514">
+          <caret line="56" column="57" selection-start-line="56" selection-start-column="57" selection-end-line="56" selection-end-column="57" />
           <folding />
         </state>
       </provider>
