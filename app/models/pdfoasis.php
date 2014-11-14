@@ -3,9 +3,9 @@ class pdfoasis extends fpdf{
     public $title_rpt = "Reporte";
     public $style_header_table = "";
     public $style_footer_table = "";
-    var $debug;
-    var $widths;
-    var $aligns;
+    var $debug;              //Valor de seguimiento 1: Hacer debug; 0: No hacer debug
+    var $widths;             //Array de anchuras
+    var $aligns;             //Array de alineaciones
     var $FechaHoraReporte;	 //Fecha y hora del reporte
     var $FechaHoraCreacion;	 //Fecha y hora de creación
     var $IdUsrPrint;	 	 //Identificador del usuario impresor
@@ -16,11 +16,11 @@ class pdfoasis extends fpdf{
     var $ShowLeftFooter;	 //Opción para mostrar el pie de página izquierdo.
     var $ShowNumeralLeftFooter;	//Opción para mostrar el pie de página izquierdo (Numeral).
     var $Condicion;			//Opción para conocer que tipo de condición tiene un determinado formulario
-    var $angle;
-    var $widthAlignAll;
-    var $widthsSelecteds;
-    var $colTitleSelecteds;
-    var $alignSelecteds;
+    var $angle;             //Angulo
+    var $generalConfigForAllColumns;    //Array multidimencional con todas las configuraciones necesarias para el despliegue de valores
+    var $widthsSelecteds;       //Anchuras seleccionadas
+    var $colTitleSelecteds;     //Titulos de las columnas seleccionadas
+    var $alignSelecteds;        //Alineaciones de la columnas seleccionadas
 
     /**
      * Función para establecer la cabecera del reporte.
@@ -144,6 +144,28 @@ class pdfoasis extends fpdf{
         }
         //Go to the next line
         $this->Ln($h);
+        return $w;
+    }
+    function Agrupador($data)
+    {   if(count($data)>0){
+            $ancho = 0;
+            foreach($this->widthsSelecteds as $w){
+                $ancho  =$ancho+   $w;
+            }
+            $nb=0;
+            for($i=0;$i<count($data);$i++)
+                $nb=max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+            $h=5*$nb;
+            //Issue a page break first if needed
+            $this->CheckPageBreak($h);
+            for($i=0;$i<count($data);$i++)
+            {
+                $this->Cell($ancho,5,$data[$i],1,1,'L',true);
+            }
+        }
+
+        //Go to the next line
+        //$this->Ln($h);
     }
     /**
      * Función para definir la fila de títulos de la tabla
@@ -280,12 +302,13 @@ class pdfoasis extends fpdf{
      * @param $columns
      * @return array
      */
-    function DefineCols($widthAlignAll,$columns){
+    function DefineCols($widthAlignAll,$columns,$exclude=array()){
         $arrRes = Array();
         $arrRes[]="nro_row";
         foreach($columns as $key => $val){
             if(isset($widthAlignAll[$key])){
                 if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
                     $arrRes[]=$key;
                 }
             }
@@ -299,16 +322,28 @@ class pdfoasis extends fpdf{
      * @param $columns
      * @return array
      */
-    function DefineTitleCols($widthAlignAll,$columns){
+    function DefineTitleCols($widthAlignAll,$columns,$exclude=array()){
         $arrRes = Array();
         $arrRes[]="Nro.";
         foreach($columns as $key => $val){
             if(isset($widthAlignAll[$key])){
                 if(!isset($val['hidden'])||$val['hidden']!=true){
-                    $arrRes[]=$widthAlignAll[$key]['title'];
+                    if(!in_array($key,$exclude)||count($exclude)==0){
+                        $arrRes[]=$widthAlignAll[$key]['title'];
+                    }
                 }
             }
         }
+        return $arrRes;
+    }
+    function DefineTitleColsByGroups($widthAlignAll,$dondeCambio,$queCambio){
+        $arrRes = Array();
+        foreach($dondeCambio as $val){
+            if(isset($widthAlignAll[$val]['title'])){
+                $arrRes[]=$queCambio[$val];
+            }
+        }
+
         return $arrRes;
     }
 
@@ -341,42 +376,60 @@ class pdfoasis extends fpdf{
         }
         return $arrRes;
     }
-    /**
-     * Función para la generación del array con los anchos de columna definido, en consideración a las columnas mostradas.
-     * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
-     * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
-     * @return array Array con el listado de anchos por columna a desplegarse.
-     */
-    function DefineWidths($widthAlignAll,$columns){
-        $arrRes = Array();
-        $arrRes[]=8;
-        foreach($columns as $key => $val){
-           if(isset($widthAlignAll[$key])){
-               if(!isset($val['hidden'])||$val['hidden']!=true){
-                 $arrRes[]=$widthAlignAll[$key]['width'];
-               }
-           }
-        }
-        return $arrRes;
-    }
-
     /*
      * Función para la generación del array con las alineaciones de columna en el cuerpo de la tabla.
      * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
      * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
      * @return array Array con el listado de alineaciones a desplegarse.
      */
-    function DefineAligns($widthAlignAll,$columns){
+    function DefineAligns($widthAlignAll,$columns,$exclude=array()){
         $arrRes = Array();
         $arrRes[]='C';
         foreach($columns as $key => $val){
             if(isset($widthAlignAll[$key])){
                 if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
                     $arrRes[]=$widthAlignAll[$key]['align'];
                 }
             }
         }
         return $arrRes;
+    }
+
+    /**
+     * Función para establecer los valores por defecto (Vacios) para los grupos seleccionados.
+     * @param $groups
+     * @return array
+     */
+    function DefineDefaultValuesForGroups($groups){
+        $arrRes = Array();
+        if($groups!=""){
+            $gr = explode(",",$groups);
+            if(count($gr)>0){
+                foreach($gr as $val){
+                    $arrRes[$val]=array("valor"=>"");
+                }
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para la obtención del listado de columnas a mostrarse descontando los que se han solicitado en agrupador.
+     * @param $colTitleSelecteds
+     * @param $agrupadores
+     * @return array
+     */
+    function defineListadoSinColumnasEnAgrupador($colTitleSelecteds,$agrupadores){
+        $arrRes = Array();
+        if(count($colTitleSelecteds)>0&&count($agrupadores)>0) {
+            foreach($colTitleSelecteds as $val){
+                if(!in_array($val,$agrupadores)){
+                    $arrRes[]=$val;
+                }
+            }
+        }else $arrRes =$colTitleSelecteds;
+
+    return $arrRes;
     }
     #endregion nuevas funciones
 

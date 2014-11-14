@@ -79,6 +79,7 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
  * @param idUbicacionPredeterminada Identificador de la ubicación de la oficina o Parada de Línea en la cual trabajará el empleado.
  */
 function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
+    if(idUbicacionPredeterminada=='')idUbicacionPredeterminada=0;
     $('#lstUbicacionesEditar').html("");
     $.ajax({
         url:'/relaborales/listubicaciones',
@@ -88,9 +89,9 @@ function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
         async:false,
         success: function(data) {
             var res = jQuery.parseJSON(data);
-            $.each( res, function( key, valo ) {
-                if(idUbicacionPredeterminada==valo.id){$selected='selected';}else{ $selected='';}
-                $('#lstUbicacionesEditar').append("<option value="+valo.id+" "+$selected+">"+valo.ubicacion+"</option>");
+            $.each( res, function( key, val ) {
+                if(idUbicacionPredeterminada==val.id){$selected='selected';}else{ $selected='';}
+                $('#lstUbicacionesEditar').append("<option value="+val.id+" "+$selected+">"+val.ubicacion+"</option>");
             });
         }
     });
@@ -509,7 +510,7 @@ function guardarRegistroEditado(){
                 id_area:idArea,
                 id_ubicacion:idUbicacion,
                 id_regional:idRegional,
-                id_proceso:idProceso,
+                id_procesocontratacion:idProceso,
                 fecha_inicio:fechaIni,
                 fecha_incor:fechaIncor,
                 fecha_fin:fechaFin,

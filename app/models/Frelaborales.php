@@ -13,6 +13,7 @@ use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 class Frelaborales extends \Phalcon\Mvc\Model {
     public $id_relaboral;
     public $id_persona;
+    public $nombres;
     public $p_nombre;
     public $s_nombre;
     public $t_nombre;
@@ -58,7 +59,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $numero_escala;
     public $gestion_escala;
     public $sueldo;
-    public $id_proceso;
+    public $id_procesocontratacion;
     public $proceso_codigo;
     public $id_convocatoria;
     public $convocatoria_codigo;
@@ -135,6 +136,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
         return array(
             'id_relaboral'=>'id_relaboral',
             'id_persona'=>'id_persona',
+            'nombres'=>'nombres',
             'p_nombre'=>'p_nombre',
             's_nombre'=>'s_nombre',
             't_nombre'=>'t_nombre',
@@ -180,7 +182,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             'numero_escala'=>'numero_escala',
             'gestion_escala'=>'gestion_escala',
             'sueldo'=>'sueldo',
-            'id_proceso'=>'id_proceso',
+            'id_procesocontratacion'=>'id_procesocontratacion',
             'proceso_codigo'=>'proceso_codigo',
             'id_convocatoria'=>'id_convocatoria',
             'convocatoria_codigo'=>'convocatoria_codigo',

@@ -59,7 +59,7 @@ class Relaborales  extends \Phalcon\Mvc\Model {
      * Identificador del proceso mediante el cual se registra el contrato.
      * @var integer
      */
-    public $proceso_id;
+    public $procesocontratacion_id;
     /**
      * Identificador del cargo referido al contrato registrado.
      * @var integer
@@ -238,7 +238,7 @@ class Relaborales  extends \Phalcon\Mvc\Model {
             'regional_id' => 'regional_id',
             'organigrama_id' => 'organigrama_id',
             'ejecutora_id' => 'ejecutora_id',
-            'proceso_id' => 'proceso_id',
+            'procesocontratacion_id' => 'procesocontratacion_id',
             'cargo_id' => 'cargo_id',
             'certificacionitem_id' =>'certificacionitem_id',
             'finpartida_id' =>'finpartida_id',
