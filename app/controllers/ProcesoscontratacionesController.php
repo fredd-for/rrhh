@@ -310,15 +310,80 @@ class ProcesoscontratacionesController extends ControllerBase
 
 	public function listAdjudicadoAction()
 	{
-			$html="";
+			$html='';
 			if ($_POST['id_seguimiento']>0) {
 				$resul=Adjudicatarios::find(array('baja_logica=1 and seguimiento_id='.$_POST['id_seguimiento'],'order'=>'id ASC'));
 				foreach ($resul as $v) {
-					$html.= "<li>".$v->nombre." - ".$v->ci."</li>"; 	
+					$nombre = $v->nombre.' - '.$v->ci;
+					$html.= '<li class="list-group-item "><button class="btn btn-warning btn-circle badge delete_adjudicado" type="button" adjudicado="'.$v->id.'" nombre="'.$nombre.'" ><i class="fa fa-times"></i></button>'.$nombre.'</li>'; 	
+					//$html.= '<li class="freddy">'.$v->nombre.' - '.$v->ci.' - '.$v->id.'</li>'; 	
 				}	
 			}
 	$this->view->disable();
-	echo json_encode($html);
+	echo $html;
+	}
+
+	public function deleteAdjudicadoAction()
+	{
+		$resul = Adjudicatarios::findFirstById($_POST['id']);
+		$resul->baja_logica = 0;
+		if ($resul->save()) {
+					$msm = 'Exito: Se elimino correctamente';
+				}else{
+					$msm = 'Error: No se elimino el registro';
+				}
+		$this->view->disable();
+		echo json_encode($msm);
+	}
+
+	public function saveComisionAction()
+	{
+		if (isset($_POST['id_seguimiento'])) {
+
+			if ($_POST['id_seguimiento']>0) {
+				$resul = new Comisioncalificaciones();
+				//$resul->nombre = $_POST['nombre'];
+				$resul->seguimiento_id = $_POST['id_seguimiento'];
+				$resul->nombre = "Freddy Velasco";
+				$resul->cargo = "Profesional en desarrollo";
+				$resul->baja_logica = "1";
+				if ($resul->save()) {
+					$msm = 'Exito: Se guardo correctamente';
+				}else{
+					$msm = 'Error: No se guardo el registro';
+				}
+			}
+		}
+	$this->view->disable();
+	echo json_encode($msm);
+	}
+
+	public function listComisionAction()
+	{
+			$html='';
+			if ($_POST['id_seguimiento']>0) {
+				$resul=Comisioncalificaciones::find(array('baja_logica=1 and seguimiento_id='.$_POST['id_seguimiento'],'order'=>'id ASC'));
+				foreach ($resul as $v) {
+					$nombre = $v->cargo.' - '.$v->nombre;
+					$html.= '<li class="list-group-item "><button class="btn btn-warning btn-circle badge delete_comision" type="button" comision="'.$v->id.'" nombre="'.$nombre.'" ><i class="fa fa-times"></i></button>'.$nombre.'</li>'; 	
+					//$html.= '<li class="freddy">'.$v->nombre.' - '.$v->ci.' - '.$v->id.'</li>'; 	
+				}	
+			}
+	$this->view->disable();
+	echo $html;
+	}
+
+	public function deleteComisionAction()
+	{
+		$resul = Comisioncalificaciones::findFirstById($_POST['id']);
+		$resul->baja_logica = 0;
+		if ($resul->save()) {
+					$msm = 'Exito: Se elimino correctamente';
+				}else{
+					$msm = 'Error: No se elimino el registro';
+				}
+		$this->view->disable();
+		echo json_encode($msm);
 	}
 
 }
