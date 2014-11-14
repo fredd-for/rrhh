@@ -1226,7 +1226,8 @@ class RelaboralesController extends ControllerBase
             }
             #region Proceso de generación del documento PDF
             $pdf->debug=0;
-            $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
+            $pdf->title_rpt = utf8_decode('Reporte Relación Laboral');
+            $pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
             $alignSelecteds = $pdf->DefineAligns($generalConfigForAllColumns, $columns,$agruparPor);
             $colSelecteds = $pdf->DefineCols($generalConfigForAllColumns, $columns,$agruparPor);
             $colTitleSelecteds = $pdf->DefineTitleCols($generalConfigForAllColumns, $columns,$agruparPor);
@@ -1614,16 +1615,9 @@ class RelaboralesController extends ControllerBase
                 );
             }
             //$pdf->Open("L");
-
             /**
              * Si el ancho supera el establecido para una hoja tamaño carta, se la pone en posición horizontal
              */
-            /*if ($ancho > 215.9) {
-                if ($ancho > 274) {
-                    $pdf->AddPage('L','Legal');
-                }else $pdf->AddPage('L');
-            }
-            else $pdf->AddPage();*/
             $pdf->AddPage();
             if($pdf->debug==1){
                 echo "<p>El ancho es:: ".$ancho;

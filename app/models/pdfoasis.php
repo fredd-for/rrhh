@@ -1,10 +1,10 @@
 <?php
 class pdfoasis extends fpdf{
-    public $title_rpt = "Reporte";
-    public $header_title_estado_rpt = "Estado Plurinacional de Bolivia";
-    public $header_title_empresa_rpt = "Empresa Estatal de Transporte por Cable 'Mi Teleferico'";
-    public $style_header_table = "";
-    public $style_footer_table = "";
+    public $title_rpt = '';
+    public $header_title_estado_rpt = 'Estado Plurinacional de Bolivia';
+    public $header_title_empresa_rpt = 'Empresa Estatal de Transporte por Cable "Mi Teleferico"';
+    public $style_header_table = '';
+    public $style_footer_table = '';
     var $debug;              //Valor de seguimiento 1: Hacer debug; 0: No hacer debug
     var $widths;             //Array de anchuras
     var $aligns;             //Array de alineaciones
@@ -41,11 +41,10 @@ class pdfoasis extends fpdf{
         $this->SetFillColor(247,249,251);
         $this->SetTextColor(79,129,189);
         $this->SetFont('Arial','',13);
-        $this->Cell($west+15,5,$this->header_title_estado_rpt,1,1,'C',true);
+        $this->Cell($west+15,5,$this->header_title_estado_rpt,1,1,'C');
         $this->SetX(($this->pageWidth-$wemp)/2);
         $this->SetFont('Arial','',9);
-        $this->Cell($wemp+15,5,$this->header_title_empresa_rpt,1,1,'C',true);
-
+        $this->Cell($wemp+15,5,$this->header_title_empresa_rpt,1,1,'C');
         /**
          * Espacio para definir la línea en el encabezado
          */
@@ -53,6 +52,12 @@ class pdfoasis extends fpdf{
         $this->SetLineWidth(1);
         $this->SetX(($this->pageWidth-$wemp)/2);
         $this->Cell($wemp+15,2,"",1,1,'C',1);
+
+        if($this->title_rpt!=""){
+            $w = $this->GetStringWidth($this->title_rpt)+6;
+            $this->SetX(($this->pageWidth-$w)/2);
+            $this->Cell($w+15,5,$this->title_rpt,1,1,'C');
+        }
 
         $this->Ln();
 
@@ -159,7 +164,7 @@ class pdfoasis extends fpdf{
             //Draw the border
             $this->Rect($x, $y, $w, $h);
             //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a);
+            $this->MultiCell($w, 5, utf8_decode($data[$i]), 0, $a);
             //Put the position to the right of the cell
             $this->SetXY($x+$w, $y);
         }
@@ -213,7 +218,7 @@ class pdfoasis extends fpdf{
             //Draw the border
             $this->Rect($x, $y, $w, $h);
             //Print the text
-            $this->MultiCell($w, 5, $data[$i], 0, $a,true);
+            $this->MultiCell($w, 5, utf8_decode($data[$i]), 0, $a,true);
             //Put the position to the right of the cell
             $this->SetXY($x+$w, $y);
         }
