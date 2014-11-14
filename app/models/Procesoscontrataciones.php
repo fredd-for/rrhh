@@ -158,12 +158,13 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
 
     public function listseguimiento()
     {
-        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY s.id asc) AS nro,s.id,s.pac_id,s.proceso_contratacion_id,se.estado, c.codigo,c.cargo,n.sueldo
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY s.id asc) AS nro,s.id,s.pac_id,s.proceso_contratacion_id,se.estado, c.codigo,c.cargo,n.sueldo,o.unidad_administrativa
 FROM seguimientos s 
 INNER JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
 INNER JOIN pacs p ON s.pac_id=p.id
 INNER JOIN cargos c ON p.cargo_id=c.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id 
+INNER JOIN organigramas o ON c.organigrama_id = o.id
 WHERE s.baja_logica=1 ORDER BY s.id ASC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
