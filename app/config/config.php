@@ -20,10 +20,5 @@ return new \Phalcon\Config(array(
         'fpdf'        => __DIR__ . '/../../app/libs/fpdf/',
         //'t_pdf'        => __DIR__ . '/../../app/libs/fpdf/',
         'baseUri'        => '',
-<<<<<<< HEAD
-    
     )
-=======
-         )
->>>>>>> cd7a18f06fd2d66d8b65c403b49f9e4bc06c7b48
 ));
