@@ -39,17 +39,17 @@ class pdfoasis extends fpdf{
         $this->SetX(($this->pageWidth-$west)/2);
         $this->SetDrawColor(247,249,251);
         $this->SetFillColor(247,249,251);
-        $this->SetTextColor(28,141,247);
-        $this->SetFont('Arial','',15);
+        $this->SetTextColor(79,129,189);
+        $this->SetFont('Arial','',13);
         $this->Cell($west+15,5,$this->header_title_estado_rpt,1,1,'C',true);
         $this->SetX(($this->pageWidth-$wemp)/2);
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',9);
         $this->Cell($wemp+15,5,$this->header_title_empresa_rpt,1,1,'C',true);
 
         /**
          * Espacio para definir la línea en el encabezado
          */
-        $this->SetFillColor(52,152,219);
+        $this->SetFillColor(79,129,189);
         $this->SetLineWidth(1);
         $this->SetX(($this->pageWidth-$wemp)/2);
         $this->Cell($wemp+15,2,"",1,1,'C',1);
