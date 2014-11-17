@@ -267,6 +267,24 @@ public function listdependeAction()
 	echo json_encode($customers);
 }
 
+public function listPersonalAction()
+{
+    if (isset($_GET['organigrama_id'])){
+	    $model = new Cargos();
+	    $resul = $model->getPersonalOrganigrama($_GET['organigrama_id']);
+		$this->view->disable();
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'nombre' => $v->nombre,
+				'cargo' => $v->cargo
+				);
+		}
+    }
+        
+	echo json_encode($customers);
+}
+
 public function delete_pacAction(){
 	$resul = Pacs::findFirstById($_POST['id']);
 	$resul->baja_logica = 0;

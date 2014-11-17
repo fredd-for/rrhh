@@ -180,6 +180,15 @@ WHERE s.id='$id'";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }
+
+    public function getPerfilCargo($id)
+    {
+        $sql = "SELECT o.area_sustantiva,ca.* 
+FROM seguimientos s, pacs p, cargos c, organigramas o, nivelsalariales n, cargosperfiles ca
+WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id AND c.nivelsalarial_id=n.id AND ca.nivelsalarial_id = n.id AND ca.baja_logica=1";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
+    }
     /**
      * Función para la obtención del listado de procesos disponibles de acuerdo a la condición referida en el parámetro enviado.
      * @param $id_condicion Identificador de la condición de relación laboral.

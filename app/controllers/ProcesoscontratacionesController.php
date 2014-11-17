@@ -344,8 +344,8 @@ class ProcesoscontratacionesController extends ControllerBase
 				$resul = new Comisioncalificaciones();
 				//$resul->nombre = $_POST['nombre'];
 				$resul->seguimiento_id = $_POST['id_seguimiento'];
-				$resul->nombre = "Freddy Velasco";
-				$resul->cargo = "Profesional en desarrollo";
+				$resul->nombre = $_POST['nombre'];
+				$resul->cargo = $_POST['cargo'];
 				$resul->baja_logica = "1";
 				if ($resul->save()) {
 					$msm = 'Exito: Se guardo correctamente';
@@ -384,6 +384,22 @@ class ProcesoscontratacionesController extends ControllerBase
 				}
 		$this->view->disable();
 		echo json_encode($msm);
+	}
+
+
+	public function getPerfilCargoAction()
+	{
+	$model = new Procesoscontrataciones();
+	$resul = $model->getPerfilCargo($_POST['id']);
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers = array(
+			'id_seguimiento' => $v->id,
+			'area_sustantiva' => $v->area_sustantiva,
+			'formacion_academica' => $v->formacion_academica
+			);
+	}
+	echo json_encode($customers);
 	}
 
 }

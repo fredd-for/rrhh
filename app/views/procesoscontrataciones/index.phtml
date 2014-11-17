@@ -1,8 +1,85 @@
 <script type="text/javascript">
 
   $(document).ready(function () {
-            // prepare the data
-//cargar();            
+    /*Combo box organigramas*/
+    var sourceOrg =
+    {
+      datatype: "json",
+      datafields: [
+      { name: 'id'},
+      { name: 'unidad_administrativa'},
+      { name: 'sigla'},
+      ],
+      url: '/cargos/listorganigrama',
+      cache: false,
+            async: false
+    };
+    var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
+
+    $("#organigrama_sel").jqxComboBox(
+    {
+      source: dataAdapterOrg,
+      width: 450,
+      height: 25,
+      promptText: '(Seleccionar)',
+      displayMember: 'unidad_administrativa',
+      valueMember: 'id'
+    }); 
+
+    /*Combo box depende de*/
+    var sourceDep =
+    {
+      datatype: "json",
+      datafields: [
+      { name: 'organigrama'},
+      { name: 'id'},
+      { name: 'nombre'},
+      { name: 'cargo'},
+      ],
+      url: '/cargos/listPersonal',
+      cache: false,
+      async: false
+    };
+    var dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
+
+    $("#depende_id").jqxComboBox(
+    {
+      //source: dataAdapterDep,
+      width: 450,
+      height: 25,
+      disabled: false ,
+      promptText: '(Seleccionar)',
+      displayMember: 'nombre',
+      valueMember: 'cargo',
+      autoDropDownHeight: true
+    }); 
+
+    /*Filtro segun organigrama a cargos*/
+    
+    $("#organigrama_sel").bind('select', function(event)
+    {
+      if (event.args)
+      {
+        $("#depende_id").jqxComboBox({ disabled: false, selectedIndex: -1});    
+        var value = event.args.item.value;
+        sourceDep.data = {organigrama_id: value};
+        dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
+        $("#depende_id").jqxComboBox({source: dataAdapterDep});
+      }
+    }); 
+
+    $("#depende_id").bind('select', function(event)
+    {
+      if (event.args)
+      {
+        var value = event.args.item.value;
+        $("#comision_nombre").val(event.args.item.value);
+        $("#comision_cargo").val(event.args.item.label);
+
+      }
+    }); 
+
+                       
 //function cargar(){
   var source =
   {
@@ -141,6 +218,7 @@
 
                               lista_adjudicados(dataRecord.id);
                               lista_comision(dataRecord.id);
+                              lista_criterios(dataRecord.id);
 
                              }
                            }
@@ -314,7 +392,7 @@ $("#fecha_apr_mae").jqxDateTimeInput({width: '160px', height: '25px',formatStrin
 /*************Scrip para seguimiengo***********************************/
 $("#guardar_hito").click(function(){
   if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION de seleccionar el boton seguimiento, para cargar datos.")
+    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
   }else{
     var id_seguimiento = $("#id_seguimiento").val();
     var organigrama_id = $("#organigrama_id").val();
@@ -338,6 +416,8 @@ $("#guardar_hito").click(function(){
       });
   }
 });
+
+/**********Lista de adjudicados***************/
 
 function lista_adjudicados(id_seg){
   //alert(id_seg);
@@ -370,7 +450,7 @@ function lista_adjudicados(id_seg){
 
 $("#add_adjudicado").click(function(){
   if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION de seleccionar el boton seguimiento, para cargar datos.")
+    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
   }else{
     var offset = $("#add_adjudicado").offset();
     $("#popupWindow_adjudicado").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
@@ -408,6 +488,7 @@ $("#EliminarAdjudicado").click(function(){
           $("#popupWindow_deleteAdjudicado").jqxWindow('hide');
   }
 });
+/*************************************************/
 
 /***********Comision de calificacion****************/
 function lista_comision(id_seg){
@@ -440,7 +521,7 @@ function lista_comision(id_seg){
 
 $("#add_comision").click(function(){
   if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION de seleccionar el boton seguimiento, para cargar datos.")
+    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
   }else{
     var offset = $("#add_comision").offset();
     $("#popupWindow_comision").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
@@ -453,7 +534,7 @@ $("#Save_comision").click(function () {
    url:'/procesoscontrataciones/saveComision/',
    type:'POST',
    datatype: 'json',
-   data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#nombre").val(),ci:$("#ci").val()},
+   data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#comision_nombre").val(),cargo:$("#comision_cargo").val()},
             success: function(data) { alert(data); 
                         }, //mostramos el error
                         error: function() { alert('Se ha producido un error Inesperado'); }
@@ -480,6 +561,26 @@ $("#EliminarComision").click(function(){
 });
 
 /***************************************/
+
+/***********Criterios de calificacion****************/
+/*function lista_comision(id_seg){
+  //alert(id_seg);
+  var v=$.ajax({
+      url:'/procesoscontrataciones/getPerfilCargo/',
+      type:'POST',
+      datatype: 'json',
+      data:{id_seguimiento:id_seg},
+      success: function(data) { 
+      datos = JSON.parse(data);//alert(datos.id_seguimiento); 
+      $("#formacion_academica_text").val(datos.formacion_academica);
+      
+                      }, //mostramos el error
+      error: function() { alert('Se ha producido un error Inesperado'); 
+                      }
+
+      });
+}
+*/
 
 });
 </script>
@@ -665,14 +766,38 @@ $("#EliminarComision").click(function(){
           CRITERIOS CALIFICACION
         </div>
         <div class="panel-body">
-
           <div class="form-group">
-            <div class="col-lg-9">
-              Profesional titulo en provision nacional
+            <div class="col-lg-3"><b>Formacion Academica</b></div>
+            <div class="col-lg-8" id="formacion_academica_text">
+             Título en Provisión Nacional a nivel Licenciatura en el área. (Curso de postgrado y/o Maestría deseable). 
             </div>
+            <div class="col-lg-1"><input type="checkbox" name="formacion_academica" id="formacion_academica"></div>
           </div>
-
-
+          <div class="form-group">
+            <div class="col-lg-4"><b>Experiencia General</b></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-4"><b>Experiencia General</b></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-4"><b>Experiencia General</b></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
+            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-3"><b>Observación</b></div>
+            <div class="col-lg-9"><input type="text" class="form-control"></div>
+          </div>
         </div>    
       </div>
 
@@ -749,11 +874,19 @@ $("#EliminarComision").click(function(){
   <div id="titulo">ADICIONAR COMISION DE CALIFICACION</div>
   <div style="overflow: hidden;">
   <form id="testForm_comision">
+   <input type="hidden" name="comision_nombre" id="comision_nombre">
+   <input type="hidden" name="comision_cargo" id="comision_cargo">
       <table>
         <tr>
-          <td align="right">Nombre Completo</td>
-          <td align="left"></td>
+          <td align="right">Organigrama</td>
+          <td align="left"><div name="list" id="organigrama_sel" ></div></td>
         </tr>
+        <tr>
+              <td align="right">Depende de:</td>
+              <td align="left" >
+                <div name="list_depende_id" id="depende_id" ></div>
+              </td>
+            </tr>
         <tr>
           <td align="right"></td>
           <td style="padding-top: 10px;" align="right">

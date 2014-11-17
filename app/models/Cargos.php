@@ -161,4 +161,14 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    public function getPersonalOrganigrama($organigrama_id='')
+    {
+        $sql = "SELECT r.id,CONCAT(p.p_apellido,' ',p.s_apellido,' ',p.p_nombre,' ',p.s_nombre) as nombre,c.cargo
+        FROM relaborales r, personas p, cargos c 
+        WHERE r.estado = 1 AND r.baja_logica=1 AND r.organigrama_id = '$organigrama_id' AND r.persona_id=p.id AND r.cargo_id=c.id
+        ORDER BY p.p_apellido ASC";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
 }
