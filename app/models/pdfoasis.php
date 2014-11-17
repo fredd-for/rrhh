@@ -9,6 +9,7 @@ class pdfoasis extends fpdf{
     var $widths;             //Array de anchuras
     var $aligns;             //Array de alineaciones
     var $pageWidth;          //Ancho de la hoja (Sea si esta vertical u horizontal)
+    var $tableWidth;         //Ancho de la tabla
     var $FechaHoraReporte;	 //Fecha y hora del reporte
     var $FechaHoraCreacion;	 //Fecha y hora de creación
     var $IdUsrPrint;	 	 //Identificador del usuario impresor
@@ -68,10 +69,13 @@ class pdfoasis extends fpdf{
          * Añadido
          */
         $this->SetY(30);
+        if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
         $this->SetWidths($this->widthsSelecteds);
         $this->DefineColorHeaderTable();
         $this->SetAligns($this->alignTitleSelecteds);
         $this->RowTitle($this->colTitleSelecteds);
+        if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
+
     }
     /**
      * Función para definir el color de las celdas en la cabecera de la tabla.
@@ -185,7 +189,7 @@ class pdfoasis extends fpdf{
             //Issue a page break first if needed
             $this->CheckPageBreak($h);
             for($i=0;$i<count($data);$i++)
-            {
+            {   if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
                 $this->Cell($ancho,5,$data[$i],1,1,'L',true);
             }
         }
@@ -208,6 +212,7 @@ class pdfoasis extends fpdf{
         //Issue a page break first if needed
         $this->CheckPageBreak($h);
         //Draw the cells of the row
+        if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
         for($i=0;$i<count($data);$i++)
         {
             $w=$this->widths[$i];

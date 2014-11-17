@@ -247,6 +247,9 @@ function definirGrillaParaListaRelaborales(){
                 showfilterrow: true,
                 filterable: true,
                 showtoolbar: true,
+                ready: function(){
+                    $("#jqxgrid").jqxGrid('localizestrings', localizationobj);
+                },
                 rendertoolbar: function (toolbar) {
                     var me = this;
                     var container = $("<div></div>");

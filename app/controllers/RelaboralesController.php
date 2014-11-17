@@ -1224,6 +1224,7 @@ class RelaboralesController extends ControllerBase
                 $pdf = new pdfoasis('P','mm','Letter');
                 $pdf->pageWidth=215.9;
             }
+            $pdf->tableWidth = $ancho;
             #region Proceso de generación del documento PDF
             $pdf->debug=0;
             $pdf->title_rpt = utf8_decode('Reporte Relación Laboral');
@@ -1472,11 +1473,8 @@ class RelaboralesController extends ControllerBase
                         if($orden['asc']=='')$groups.=" ASC";else$groups.=" DESC";
                         $coma=",";
                     }
-                    //$groups = " ORDER BY ".$groups;
                 }
-
-
-                if($groups!="")
+          if($groups!="")
                     $groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
                 if($pdf->debug==1)echo "<p>La consulta es: ".$groups."<p>";
             }else{
@@ -1618,6 +1616,7 @@ class RelaboralesController extends ControllerBase
             /**
              * Si el ancho supera el establecido para una hoja tamaño carta, se la pone en posición horizontal
              */
+
             $pdf->AddPage();
             if($pdf->debug==1){
                 echo "<p>El ancho es:: ".$ancho;
@@ -1635,6 +1634,7 @@ class RelaboralesController extends ControllerBase
 
             if (count($relaboral) > 0)
                 foreach ($relaboral as $i => $val) {
+                    if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                     if(count($agrupadores)>0){
                         if($pdf->debug==1){
                             echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
@@ -1659,23 +1659,28 @@ class RelaboralesController extends ControllerBase
                             $pdf->Ln();
                             $pdf->DefineColorHeaderTable();
                             $pdf->SetAligns($alignTitleSelecteds);
+                            //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                             $agr=$pdf->DefineTitleColsByGroups($generalConfigForAllColumns,$dondeCambio,$queCambio);
                             $pdf->Agrupador($agr);
                             $pdf->RowTitle($colTitleSelecteds);
                         }
                         $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
+                        if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                         $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
                         $pdf->Row($rowData);
 
                     }else{
+                        //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                         $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
                         $rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
                         $pdf->Row($rowData);
                     }
+                    //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                     $j++;
                 }
+
             $pdf->ShowLeftFooter = true;
             if($pdf->debug==0)$pdf->Output('reporte_relaboral.pdf','I');
             #endregion Proceso de generación del documento PDF
