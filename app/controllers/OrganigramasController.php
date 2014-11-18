@@ -248,14 +248,19 @@ class OrganigramasController extends ControllerBase
 
 	public function personalAction($organigrama_id)
 	{
-		$cargo=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and depende_id='0'" ));
-              if($cargo!=false){
-		$this->listarPersonal($cargo->id,$cargo->cargo, $cargo->codigo,$cargo->estado);
-		$this->lista.='</ul>';
-		$config = array();
-              }  else {
-                  $this->lista.='<h3>No existe cargos dentro la oficina..</h3>';
-              }
+		//$model=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and depende_id='0' and baja_logica='1'" ));
+		$model=  new Cargos();
+		$cargo = $model->listPersonal($organigrama_id,0);
+		$cont = count($cargo);
+		if ($cont>0) {
+			foreach ($cargo as $v) {
+			$this->listarPersonal($v->id,$v->cargo, $v->codigo,$v->estado1);
+			$this->lista.='</ul>';
+			$config = array();
+			}
+		}else{
+			$this->lista.='<h3>No existe cargos dentro la oficina..</h3>';
+		}
 		$this->assets
 		->addCss('/js/jorgchart/jquery.jOrgChartPersonal.css')
 		->addCss('/js/jorgchart/customPersonal.css')
@@ -269,9 +274,7 @@ class OrganigramasController extends ControllerBase
 		$h=  Cargos::count("depende_id='$id'");
 		$datos_usuario="";
 		$nombre="";
-		if($estado==0){
-			$datos_usuario = ' <img src="/images/personal/imagen_acefalo.jpg" title="ACEFALO" height="50" width="50"><br>ACEFALO';
-		}else{
+		if($estado>0){
 			$ci_activo='1';
 			$cargo_ci=new Cargos();
 			$ci=$cargo_ci->getCI($id);
@@ -286,16 +289,20 @@ class OrganigramasController extends ControllerBase
 				$datos_usuario = ' <img src="/images/personal/imagen_comodin.png" title="Adjudicado" height="50" width="50">';	
 			}
 			$datos_usuario.="<br>".$nombre;
+
+		}else{
+			$datos_usuario = ' <img src="/images/personal/imagen_acefalo.jpg" title="ACEFALO" height="50" width="50"><br>ACEFALO';
 		}        
 		$this->lista.='<li id="org" style="display:none"><span>'.$codigo.'</span><br>'.$cargo.'<br>'.$datos_usuario;
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';
-			$hijos=  Cargos::find(array("depende_id='$id' and baja_logica=1"));
-            //$hijos = ORM::factory('oficinas')->where('padre', '=', $id)->find_all();
+			//$hijos=  Cargos::find(array("depende_id='$id' and baja_logica=1"));
+            $model=  new Cargos();
+            $hijos = $model->listPersonal(0,$id);
 			foreach ($hijos as $hijo) {
 				$cargo = $hijo->cargo;
-				$this->listarPersonal($hijo->id, $cargo, $hijo->codigo,$hijo->estado);
+				$this->listarPersonal($hijo->id, $cargo, $hijo->codigo,$hijo->estado1);
 			}
 			$this->lista.='</ul>';
             // echo '</ul>';

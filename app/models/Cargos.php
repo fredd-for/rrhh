@@ -130,13 +130,16 @@ class Cargos extends \Phalcon\Mvc\Model
     private $_db;
 
     public function lista(){
-        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY c.id asc) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado,CASE WHEN c.estado=0  THEN 'ACEFALO'  WHEN c.estado=1  THEN 'ADJUDICADO'  ELSE 'OTRO'  END as estado1,c.fin_partida_id, f.denominacion as fuentefinanciamiento,c.cargo_estado_id
+        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY c.id asc) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,c.depende_id,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado,
+c.fin_partida_id, f.denominacion as fuentefinanciamiento,c.cargo_estado_id, 
+CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN ejecutoras e ON c.ejecutora_id=e.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id = n.id 
 INNER JOIN cargosestados ca ON c.cargo_estado_id=ca.id
 INNER JOIN finpartidas f ON c.fin_partida_id=f.id
+LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
 WHERE c.baja_logica=1 order by c.id asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
@@ -156,7 +159,8 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
 
     public function getCI($cargo_id='')
     {
-        $sql = "select p.ci,p.p_nombre,p.p_apellido,p.s_apellido from relaborales r,personas p where r.cargo_id='$cargo_id' and r.estado = 1 and r.baja_logica=1 and r.persona_id = p.id";
+        $sql = "select p.ci,p.p_nombre,p.p_apellido,p.s_apellido from relaborales r,personas p 
+        where r.cargo_id='$cargo_id' and r.estado > 0 and r.baja_logica=1 and r.persona_id = p.id";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -169,6 +173,21 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
         ORDER BY p.p_apellido ASC";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
+    public function listPersonal($organigrama_id='',$depende_id=0)
+    {
+        $where="";
+        if ($organigrama_id>0) {
+            $where = " AND c.organigrama_id='$organigrama_id'";
+        }
+            
+        $sql = "SELECT c.*, r.estado as estado1
+                FROM cargos c
+                LEFT JOIN relaborales r ON c.id = r.cargo_id AND r.baja_logica = 1
+                WHERE c.baja_logica = 1 AND c.depende_id = '$depende_id' ".$where;
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));      
     }
 
 }

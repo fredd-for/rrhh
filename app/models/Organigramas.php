@@ -75,7 +75,7 @@ class Organigramas extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $codigo;
+    public $orden;
 
     /**
      *
@@ -155,7 +155,7 @@ class Organigramas extends \Phalcon\Mvc\Model
             'sigla' => 'sigla',
             'fecha_ini' => 'fecha_ini',
             'fecha_fin' => 'fecha_fin',
-            'codigo' => 'codigo',
+            'orden' => 'orden',
             'observacion' => 'observacion',
             'estado' => 'estado',
             'baja_logica' => 'baja_logica',

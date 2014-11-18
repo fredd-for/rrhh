@@ -390,14 +390,33 @@ class ProcesoscontratacionesController extends ControllerBase
 	public function getPerfilCargoAction()
 	{
 	$model = new Procesoscontrataciones();
-	$resul = $model->getPerfilCargo($_POST['id']);
+	$resul = $model->getPerfilCargo($_POST['id_seguimiento']);
 	$this->view->disable();
 	foreach ($resul as $v) {
-		$customers = array(
+		if ($v->area_sustantiva==1) {
+			$customers = array(
 			'id_seguimiento' => $v->id,
-			'area_sustantiva' => $v->area_sustantiva,
-			'formacion_academica' => $v->formacion_academica
+			'formacion_academica' => $v->formacion_academica,
+			'exp_general_lic' => $v->exp_general_lic,
+			'exp_general_tec' => $v->exp_general_tec,
+			'exp_profesional_lic' => $v->exp_profesional_lic,
+			'exp_profesional_tec' => $v->exp_profesional_tec,
+			'exp_relacionado_lic' => $v->exp_relacionado_lic,
+			'exp_relacionado_tec' => $v->exp_relacionado_tec
+
 			);
+		}else{
+			$customers = array(
+			'id_seguimiento' => $v->id,
+			'formacion_academica' => $v->formacion_academica0,
+			'exp_general_lic' => $v->exp_general_lic0,
+			'exp_general_tec' => $v->exp_general_tec0,
+			'exp_profesional_lic' => $v->exp_profesional_lic0,
+			'exp_profesional_tec' => $v->exp_profesional_tec0,
+			'exp_relacionado_lic' => $v->exp_relacionado_lic0,
+			'exp_relacionado_tec' => $v->exp_relacionado_tec0
+			);	
+		}
 	}
 	echo json_encode($customers);
 	}
