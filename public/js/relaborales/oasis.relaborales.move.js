@@ -84,9 +84,9 @@ function cargarGrillaMovilidad(idRelaboral){
                 filterable: true,
                 showtoolbar: true,
                 autorowheight: true,
-                ready: function(){
-                    $("#jqxgridmovilidad").jqxGrid('localizestrings', localizationobj);
-                },
+                /*ready: function(){
+                    //$("#jqxgridmovilidad").jqxGrid('localizestrings', localizationobj);
+                },*/
                 rendertoolbar: function (toolbar) {
                     var me = this;
                     var container = $("<div></div>");

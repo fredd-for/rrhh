@@ -1028,6 +1028,11 @@ function OperaEvento(evento) {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
+        /**
+         * Saltamos a la pantalla principal en caso de presionarse ESC
+         */
+        $('#jqxTabs').jqxTabs({ selectedItem: 0 });
         $("#popupWindowCargo").jqxWindow('close');
     }
 }
