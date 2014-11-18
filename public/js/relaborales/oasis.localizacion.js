@@ -1,5 +1,4 @@
 var localizationobj = {};
-Localizationobj.groupsheaderstring = "Arrastre una columna y suelte aquí para agrupar por esa columna.";
 localizationobj.pagergotopagestring = "Ir A:";
 localizationobj.pagershowrowsstring = "Mostrar fila:";
 localizationobj.pagerrangestring = " de ";

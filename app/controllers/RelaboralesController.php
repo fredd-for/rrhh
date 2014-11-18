@@ -28,6 +28,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.print.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
@@ -1095,7 +1096,54 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($relaboral);
     }
+    /**
+     * Función para la carga del historial de movilidad funcionaria.
+     */
+    public function listhistorialmovilidadAction()
+    {   $this->view->disable();
+        $relaboralmovilidad = Array();
+        if (isset($_GET["id"]) && $_GET["id"] > 0) {
 
+            $obj = new Frelaboralesmovilidad();
+            $resul = $obj->getAllByOne($_GET["id"]);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
+                    $memorandum = $v->memorandum_correlativo."/".$v->memorandum_gestion;
+                    $memorandum .= ($v->fecha_mem != "" )? " de ".date("d-m-Y", strtotime($v->fecha_mem)) : "";
+                    $relaboralmovilidad[] = array(
+                        'id_relaboral'=>$v->id_relaboral,
+                        'id_relaboralmovilidad'=>$v->id_relaboralmovilidad,
+                        'id_gerencia_administrativa'=>$v->id_gerencia_administrativa,
+                        'gerencia_administrativa'=>$v->gerencia_administrativa,
+                        'id_departamento_administrativo'=>$v->id_departamento_administrativo,
+                        'departamento_administrativo'=>$v->departamento_administrativo,
+                        'id_organigrama'=>$v->id_organigrama,
+                        'unidad_administrativa'=>$v->unidad_administrativa,
+                        'organigrama_sigla'=>$v->organigrama_sigla,
+                        'organigrama_codigo'=>$v->organigrama_codigo,
+                        'id_area'=>$v->id_area,
+                        'area'=>$v->area,
+                        'id_ubicacion'=>$v->id_ubicacion,
+                        'ubicacion'=>$v->ubicacion,
+                        'numero'=>$v->numero,
+                        'cargo'=>$v->cargo,
+                        'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                        'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                        'tipo_memorandum' => $v->tipo_memorandum,
+                        'memorandum_correlativo'=>$v->memorandum_correlativo,
+                        'memorandum_gestion'=>$v->memorandum_gestion,
+                        'fecha_mem'=>$v->fecha_mem != "" ? date("d-m-Y", strtotime($v->fecha_mem)) : "",
+                        'memorandum'=>$memorandum,
+                        'observacion'=>$v->observacion!=null?$v->observacion:'',
+                        'estado'=>$v->estado
+                    );
+                }
+            }
+        }
+        echo json_encode($relaboralmovilidad);
+    }
     /**
      * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
      * En caso de que dicho valor sea nulo o cero se devolverán todas las areas disponibles en el organigrama.

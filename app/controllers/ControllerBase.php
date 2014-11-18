@@ -101,6 +101,8 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxtree.js')
                     ->addJs('/js/jqwidgets/jqxdata.export.js')
                     ->addJs('/js/jqwidgets/jqxgrid.export.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.edit.js')
+                    ->addJs('/js/jqwidgets/jqxnotification.js')
                     ->addJs('/js/jqwidgets/jqxbuttongroup.js')
             ;
             //menu

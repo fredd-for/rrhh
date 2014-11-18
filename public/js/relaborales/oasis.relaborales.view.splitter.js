@@ -123,7 +123,7 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                         historial += "<div class='timeline-icon themed-background-fire themed-border-fire'>";
                     }
 
-                    historial += "<i class='fa fa-file-text'></i></div>";
+                    historial += "<i class='fa fa-file-text' title='Registro de Relaci&oacute;n Laboral'></i></div>";
                     historial += "<div class='timeline-time'><a href='#' id='divContent_" + val.id_relaboral + "'>" + val.fecha_ini + "</a><strong></strong></div>";
                     historial += "<div class='timeline-content'>";
                     historial += "<p class='push-bit'><strong id='strCargo_" + val.id_relaboral + "'>" + val.cargo + "</strong></p>";
@@ -164,14 +164,60 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtContratoEstado_" + val.id_relaboral + "'>Estado:</dt>";
                     historial += "<dd id='ddContratoEstado_" + val.id_relaboral + "'>";
                     historial += "<strong>" + val.estado_descripcion + "</strong></dd>";
-                    /*historial +="<dt id='dtFechaBaja_"+val.id_relaboral+"'>Fecha Baja:</dt><dd id='ddFechaIni_'></dd>";
-                     historial +="<dt id='dtMotivoBaja_"+val.id_relaboral+"'>Motivo Baja:</dt><dd id='ddMotivoBaja_'></dd>";*/
                     historial += "<dt id='dtObservacion_" + val.id_relaboral + "'>Observaciones:</dt><dd id='ddObservacion_" + val.id_relaboral + "'>" + val.observacion + "</dd>";
                     historial += "</dl>";
+                    historial += cargarHistorialRelacionLaboralMovilidad(val.id_relaboral);
                 });
                 $('#HistorialTimeLine').append(historial);
             }
         }
     });
+}
+/**
+ * Función para cargar el historial de movilidad funcionaria por registro de relación laboral.
+ * @param idRelaboral Identificador del registro de relación laboral.
+ */
+function cargarHistorialRelacionLaboralMovilidad(idRelaboral) {
+    var historial = "";
+    $.ajax({
+        url: '/relaborales/listhistorialmovilidad',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id: idRelaboral},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
 
+                $.each(res, function (key, val) {
+                    if (val.estado == 1) {
+                        historial += "<li class='active'>";
+                        historial += "<div class='timeline-icon'>";
+                    }else{
+                        historial += "<li class='active'>";
+                        historial += "<div class='timeline-icon themed-background-fire themed-border-fire'>";
+                    }
+
+                    historial += "<i class='fa fa-tag' title='Memor&aacute;ndum'></i></div>";
+                    historial += "<div class='timeline-time'><a href='#' id='divContentMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_ini + "</a><strong></strong></div>";
+                    historial += "<div class='timeline-content'>";
+                    historial += "<p class='push-bit'>"+val.tipo_memorandum+": <strong id='strCargoMovilidad_" + val.id_relaboralmovilidad + "'>" + val.cargo + "</strong></p>";
+
+                    historial += "<dl class='dl-horizontal'>";
+                    historial += "<dt id='dtGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>Gerencia:</dt><dd id='ddGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>" + val.gerencia_administrativa + "</dd>";
+                    if (val.departamento_administrativo != "")historial += "<dt id='dtDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>Departamento:</dt><dd id='ddDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>" + val.departamento_administrativo + "</dd>";
+                    if(val.id_area>0)historial += "<dt id='dtAreaMovilidad_" + val.id_relaboralmovilidad + "'>&Aacute;rea:</dt><dd id='ddAreaMovilidad_" + val.id_relaboralmovilidad + "'>" + val.area + "</dd>";
+                    historial += "<dt id='dtUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>" + val.ubicacion + "</dd>";
+                    historial += "<dt id='dtFechaIniMovilidad_" + val.id_relaboralmovilidad + "'>Fecha Inicio:</dt><dd id='ddFechaIniMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_ini + "</dd>";
+                    if(val.fecha_fin!='')historial += "<dt id='dtFechaFinMovilidad_" + val.id_relaboralmovilidad + "'>Fecha Fin:</dt><dd id='ddFechaFinMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_fin + "</dd>";
+                    historial += "<dt id='dtMemorandumMovilidad_" + val.id_relaboralmovilidad + "'>Memor&aacute;ndum:</dt><dd id='ddMemorandumMovilidad_" + val.id_relaboralmovilidad +"'>"+ val.memorandum_correlativo +"/" + val.memorandum_gestion + " de " + val.fecha_mem+"</dd>";
+                    historial += "<dt id='dtObservacionMovilidad_" + val.id_relaboralmovilidad + "'>Observaciones:</dt><dd id='ddObservacionMovilidad_" + val.id_relaboralmovilidad + "'>" + val.observacion + "</dd>";
+                    historial += "</dl>";
+                });
+
+            }
+        }
+    });
+    return historial;
 }
