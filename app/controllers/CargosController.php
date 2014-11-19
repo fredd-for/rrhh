@@ -75,7 +75,7 @@ public function listAction()
 			'cargo' => $v->cargo,
 			'denominacion' => $v->denominacion,
 			'sueldo' => $v->sueldo,
-			'sueldo' => $v->sueldo,
+			'depende_id' => $v->depende_id,
 			'estado' => $v->estado1,
 			'cargo_estado_id' => $v->cargo_estado_id,
 			'condicion' => $v->estado,
@@ -259,6 +259,24 @@ public function listdependeAction()
 				'id' => $v->id,
 				'organigrama' => $v->organigrama_id,
 				'codigo' => $v->codigo,
+				'cargo' => $v->cargo
+				);
+		}
+    }
+        
+	echo json_encode($customers);
+}
+
+public function listPersonalAction()
+{
+    if (isset($_GET['organigrama_id'])){
+	    $model = new Cargos();
+	    $resul = $model->getPersonalOrganigrama($_GET['organigrama_id']);
+		$this->view->disable();
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'nombre' => $v->nombre,
 				'cargo' => $v->cargo
 				);
 		}

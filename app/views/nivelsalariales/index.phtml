@@ -116,6 +116,8 @@
 				});
 
                 $("#tituloPerfil").text("PERFIL GENERICO DE CARGOS / "+dataRecord.denominacion + " / "+ dataRecord.sueldo +"Bs.");
+                var offset = $("#jqxgrid").offset();
+             	$("#popupWindow_perfil").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
                 $("#popupWindow_perfil").jqxWindow('open');
                      
                  }
@@ -318,7 +320,133 @@
 
 				<div id="popupWindow_perfil">
 					<div id="tituloPerfil">PERFIL GENERICO DE CARGO</div>
-					<div id='jqxDockPanel'>
+					<div id="page-wrapper">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="panel panel-default">
+							<input type="hidden" name="perfil_id" id="perfil_id" value="">
+								<div class="panel-heading">
+									AREA SUSTANTIVA O MISIONAL
+								</div>
+								<div class="panel-body form-horizontal">
+									
+										<div class="form-group">
+								          <div class="col-sm-4" >Formación Academica</div>
+								          <div class="col-sm-8">
+								            <textarea class="form-control" name="formacion_academica" id="formacion_academica"></textarea>
+								          </div>
+								        </div>
+								        <b>EXPERIENCIA GENERAL</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_general_lic" id="exp_general_lic">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_general_tec" id="exp_general_tec">
+										  </div>
+							            </div>
+							            <b>EXPERIENCIA PROFESIONAL</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_profesional_lic" id="exp_profesional_lic">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_profesional_tec" id="exp_profesional_tec">
+										  </div>
+							            </div>
+							            <b>EXPERIENCIA EN CARGOS RELACIONADOS</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_relacionado_lic" id="exp_relacionado_lic">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_relacionado_tec" id="exp_relacionado_tec">
+										  </div>
+							            </div>
+									
+								</div>    
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									AREA NO SUSTANTIVA
+								</div>
+								<div class="panel-body form-horizontal" >
+									
+										<div class="form-group">
+								          <div class="col-sm-4" >Formación Academica</div>
+								          <div class="col-sm-8">
+								            <textarea class="form-control" name="formacion_academica0" id="formacion_academica0"></textarea>
+								          </div>
+								        </div>
+								        <b>EXPERIENCIA GENERAL</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_general_lic0" id="exp_general_lic0">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_general_tec0" id="exp_general_tec0">
+										  </div>
+							            </div>
+							            <b>EXPERIENCIA PROFESIONAL</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_profesional_lic0" id="exp_profesional_lic0">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_profesional_tec0" id="exp_profesional_tec0">
+										  </div>
+							            </div>
+							            <b>EXPERIENCIA EN CARGOS RELACIONADOS</b>
+								        <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Licenciatura</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_relacionado_lic0" id="exp_relacionado_lic0">
+										  </div>
+							            </div>
+							            <div class="form-group">
+							              <div class="col-sm-4" >A Nivel Tecnico</div>
+										  <div class="col-sm-8">
+										        <input type="text" class="form-control" name="exp_relacionado_tec0" id="exp_relacionado_tec0">
+										  </div>
+							            </div>
+									
+								</div>    
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-lg-12" align="center">
+								<input class="btn btn-primary" type="button" id="Guardar" value="Guardar" />
+								<input class="btn btn-primary" id="Cancel" type="button" value="Cancel" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+<!-- 					<div id='jqxDockPanel'>
 						<input type="hidden" name="perfil_id" id="perfil_id" value="">
 						<h4 class="col-lg-12">AREA SUSTANTIVA O MISIONAL</h4>
 						<div dock='left' style='background: #E8E8E8;' class="form-horizontal col-lg-12">
@@ -433,7 +561,7 @@
 							</div>
 						</div>	
 
-					</div>
+					</div> -->
 
 				</div>
 

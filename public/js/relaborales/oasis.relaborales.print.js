@@ -9,7 +9,7 @@ function exportarPDF(){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
-    //nro_row = $('#jqxgrid').jqxGrid('getcolumn','nro_row');
+    ordenados = new Object();
     ubicacion = $('#jqxgrid').jqxGrid('getcolumn','ubicacion');
     condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
     estado_descripcion = $('#jqxgrid').jqxGrid('getcolumn','estado_descripcion');
@@ -30,27 +30,7 @@ function exportarPDF(){
     fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
     motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
     observacion = $('#jqxgrid').jqxGrid('getcolumn','observacion');
-    /*id_relaboral = $('#jqxgrid').jqxGrid('getcolumn','id_relaboral');
-    id_persona = $('#jqxgrid').jqxGrid('getcolumn','id_persona');
-    fecha_nac = $('#jqxgrid').jqxGrid('getcolumn','fecha_nac');
-    edad = $('#jqxgrid').jqxGrid('getcolumn','edad');
-    lugar_nac = $('#jqxgrid').jqxGrid('getcolumn','lugar_nac');
-    genero = $('#jqxgrid').jqxGrid('getcolumn','genero');
-    e_civil = $('#jqxgrid').jqxGrid('getcolumn','e_civil');
-    tiene_contrato_vigente = $('#jqxgrid').jqxGrid('getcolumn','tiene_contrato_vigente');
-    id_fin_partida = $('#jqxgrid').jqxGrid('getcolumn','id_fin_partida');
-    finpartida = $('#jqxgrid').jqxGrid('getcolumn','finpartida');
-     id_area = $('#jqxgrid').jqxGrid('getcolumn','id_area');
-    id_condicion = $('#jqxgrid').jqxGrid('getcolumn','id_condicion');
-    id_organigrama = $('#jqxgrid').jqxGrid('getcolumn','id_organigrama');
-    id_ubicacion = $('#jqxgrid').jqxGrid('getcolumn','id_ubicacion');
-    num_contrato = $('#jqxgrid').jqxGrid('getcolumn','num_contrato');
-    id_proceso = $('#jqxgrid').jqxGrid('getcolumn','id_proceso');
-    id_cargo = $('#jqxgrid').jqxGrid('getcolumn','id_cargo');
-    cargo_codigo = $('#jqxgrid').jqxGrid('getcolumn','cargo_codigo');
 
-    */
-    //columna[nro_row] = {text: 'Nro.', hidden: false};
     columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
     columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
     columna[estado_descripcion.datafield] = {text: estado_descripcion.text, hidden: estado_descripcion.hidden};
@@ -72,30 +52,20 @@ function exportarPDF(){
     columna[motivo_baja.datafield] = {text: motivo_baja.text, hidden: motivo_baja.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
-    /*
-    columna[id_relaboral.datafield] = {text: id_relaboral.text, hidden: id_relaboral.hidden};
-    columna[id_persona.datafield] = {text: id_persona.text, hidden: id_persona.hidden};
-    columna[fecha_nac.datafield] = {text: fecha_nac.text, hidden: fecha_nac.hidden};
-    columna[edad.datafield] = {text: edad.text, hidden: edad.hidden};
-    columna[lugar_nac.datafield] = {text: lugar_nac.text, hidden: lugar_nac.hidden};
-    columna[genero.datafield] = {text: genero.text, hidden: genero.hidden};
-    columna[e_civil.datafield] = {text: e_civil.text, hidden: e_civil.hidden};
-    columna[tiene_contrato_vigente.datafield] = {text: tiene_contrato_vigente.text, hidden: tiene_contrato_vigente.hidden};
-    columna[id_fin_partida.datafield] = {text: id_fin_partida.text, hidden: id_fin_partida.hidden};
-    columna[finpartida.datafield] = {text: finpartida.text, hidden: finpartida.hidden};
-    columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
-    columna[id_condicion.datafield] = {text: id_condicion.text, hidden: id_condicion.hidden};
-    columna[estado.datafield] = {text: estado.text, hidden: estado.hidden};
-    columna[id_organigrama.datafield] = {text: id_organigrama.text, hidden: id_organigrama.hidden};
-    columna[id_area.datafield] = {text: id_area.text, hidden: id_area.hidden};
-    columna[id_ubicacion.datafield] = {text: id_ubicacion.text, hidden: id_ubicacion.hidden};
-    columna[num_contrato.datafield] = {text: num_contrato.text, hidden: num_contrato.hidden};
-    columna[id_proceso.datafield] = {text: id_proceso.text, hidden: id_proceso.hidden};
-    columna[id_cargo.datafield] = {text: id_cargo.text, hidden: id_cargo.hidden};
-    columna[cargo_codigo.datafield] = {text: cargo_codigo.text, hidden: cargo_codigo.hidden};
-    */
-
     var groups = $('#jqxgrid').jqxGrid('groups');
+    if(groups==null||groups=='')groups='null';
+    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
+
+    var sortinformation = $('#jqxgrid').jqxGrid('getsortinformation');
+    if(sortinformation.sortcolumn!=undefined){
+        // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
+        var sortcolumn = sortinformation.sortcolumn;
+        // The sortdirection is an object with two fields: 'ascending' and 'descending'. Ex: { 'ascending': true, 'descending': false }
+        var sortdirection = sortinformation.sortdirection;
+        ordenados[sortcolumn] = {asc: sortdirection.ascending, desc: sortdirection.descending};
+    }else ordenados='';
+
+
     var rows = $('#jqxgrid').jqxGrid('getrows');
     var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
     var counter = 0;
@@ -114,13 +84,17 @@ function exportarPDF(){
     var n_rows = rows.length;
     var json_filter = JSON.stringify(filtros);
     var json_columns = JSON.stringify(columna);
+    var json_sorteds = JSON.stringify(ordenados);
     json_columns = btoa(utf8_encode(json_columns));
     json_filter = btoa(utf8_encode(json_filter));
+    json_sorteds = btoa(utf8_encode(json_sorteds));
     var json_groups =  btoa(utf8_encode(groups));
+
     json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups, "_blank");
+    json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

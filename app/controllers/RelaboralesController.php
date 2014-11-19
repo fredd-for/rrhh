@@ -28,6 +28,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.print.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
@@ -114,7 +115,7 @@ class RelaboralesController extends ControllerBase
                     'p_apellido' => $v->p_apellido,
                     's_apellido' => $v->s_apellido,
                     'c_apellido' => $v->c_apellido,
-                    'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
+                    'nombres' => $v->nombres,
                     'ci' => $v->ci,
                     'expd' => $v->expd,
                     'num_complemento' => $v->num_complemento,
@@ -154,7 +155,7 @@ class RelaboralesController extends ControllerBase
                     'numero_escala' => $v->numero_escala,
                     'gestion_escala' => $v->gestion_escala,
                     'sueldo' => $v->sueldo,
-                    'id_proceso' => $v->id_proceso,
+                    'id_procesocontratacion' => $v->id_procesocontratacion,
                     'proceso_codigo' => $v->proceso_codigo,
                     'id_convocatoria' => $v->id_convocatoria,
                     'convocatoria_codigo' => $v->convocatoria_codigo,
@@ -370,7 +371,7 @@ class RelaboralesController extends ControllerBase
             $id_area = $_POST['id_area'];
             $id_ubicacion = $_POST['id_ubicacion'];
             $id_regional = $_POST['id_regional'];
-            $id_proceso = $_POST['id_proceso'];
+            $id_procesocontratacion = $_POST['id_procesocontratacion'];
             $date1 = new DateTime($_POST['fecha_inicio']);
             $date2 = new DateTime($_POST['fecha_incor']);
             $date3 = new DateTime($_POST['fecha_fin']);
@@ -393,7 +394,7 @@ class RelaboralesController extends ControllerBase
                     $objRelaboral->regional_id = $id_regional;
                     $objRelaboral->organigrama_id = $id_organigrama;
                     $objRelaboral->ejecutora_id = 1;
-                    $objRelaboral->proceso_id = $id_proceso;
+                    $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
                     $objRelaboral->cargo_id = $id_cargo;
                     $objRelaboral->certificacionitem_id = null;
                     $objRelaboral->finpartida_id = $id_finpartida;
@@ -455,7 +456,7 @@ class RelaboralesController extends ControllerBase
                              * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
                              */
                             $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
-                            if ($objRelArea->id > 0) {
+                            if ($objRelArea!=null&&$objRelArea->id > 0) {
                                 $objRelArea->estado = 0;
                                 $objRelArea->baja_logica = 0;
                                 $objRelArea->user_mod_id = $user_reg_id;
@@ -546,7 +547,7 @@ class RelaboralesController extends ControllerBase
                 $id_area = $_POST['id_area'];
                 $id_ubicacion = $_POST['id_ubicacion'];
                 $id_regional = $_POST['id_regional'];
-                $id_proceso = $_POST['id_proceso'];
+                $id_procesocontratacion = $_POST['id_procesocontratacion'];
                 $date1 = new DateTime($_POST['fecha_inicio']);
                 $date2 = new DateTime($_POST['fecha_incor']);
                 $date3 = new DateTime($_POST['fecha_fin']);
@@ -569,7 +570,7 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->regional_id = $id_regional;
                         $objRelaboral->organigrama_id = $id_organigrama;
                         $objRelaboral->ejecutora_id = 1;
-                        $objRelaboral->proceso_id = $id_proceso;
+                        $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
                         $objRelaboral->cargo_id = $id_cargo;
                         $objRelaboral->certificacionitem_id = null;
                         $objRelaboral->finpartida_id = $id_finpartida;
@@ -917,7 +918,7 @@ class RelaboralesController extends ControllerBase
             if (isset($_POST["ci"])) {
                 $ruta = "";
                 $nombreImagenArchivo = $rutaImagenesCredenciales . trim($_POST["ci"]);
-                if ($num_complemento != "") $nombreImagenArchivo .= $nombreImagenArchivo . trim($num_complemento);
+                if ($num_complemento != "") $nombreImagenArchivo = $nombreImagenArchivo . trim($num_complemento);
                 $ruta = $nombreImagenArchivo . $extencionImagenesCredenciales;
                 /**
                  * Se verifica la existencia del archivo
@@ -1029,7 +1030,7 @@ class RelaboralesController extends ControllerBase
                         'numero_escala' => $v->numero_escala,
                         'gestion_escala' => $v->gestion_escala,
                         'sueldo' => $v->sueldo,
-                        'id_proceso' => $v->id_proceso,
+                        'id_procesocontratacion' => $v->id_procesocontratacion,
                         'proceso_codigo' => $v->proceso_codigo,
                         'id_convocatoria' => $v->id_convocatoria,
                         'convocatoria_codigo' => $v->convocatoria_codigo,
@@ -1095,7 +1096,54 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($relaboral);
     }
+    /**
+     * Función para la carga del historial de movilidad funcionaria.
+     */
+    public function listhistorialmovilidadAction()
+    {   $this->view->disable();
+        $relaboralmovilidad = Array();
+        if (isset($_GET["id"]) && $_GET["id"] > 0) {
 
+            $obj = new Frelaboralesmovilidad();
+            $resul = $obj->getAllByOne($_GET["id"]);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
+                    $memorandum = $v->memorandum_correlativo."/".$v->memorandum_gestion;
+                    $memorandum .= ($v->fecha_mem != "" )? " de ".date("d-m-Y", strtotime($v->fecha_mem)) : "";
+                    $relaboralmovilidad[] = array(
+                        'id_relaboral'=>$v->id_relaboral,
+                        'id_relaboralmovilidad'=>$v->id_relaboralmovilidad,
+                        'id_gerencia_administrativa'=>$v->id_gerencia_administrativa,
+                        'gerencia_administrativa'=>$v->gerencia_administrativa,
+                        'id_departamento_administrativo'=>$v->id_departamento_administrativo,
+                        'departamento_administrativo'=>$v->departamento_administrativo,
+                        'id_organigrama'=>$v->id_organigrama,
+                        'unidad_administrativa'=>$v->unidad_administrativa,
+                        'organigrama_sigla'=>$v->organigrama_sigla,
+                        'organigrama_codigo'=>$v->organigrama_codigo,
+                        'id_area'=>$v->id_area,
+                        'area'=>$v->area,
+                        'id_ubicacion'=>$v->id_ubicacion,
+                        'ubicacion'=>$v->ubicacion,
+                        'numero'=>$v->numero,
+                        'cargo'=>$v->cargo,
+                        'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                        'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                        'tipo_memorandum' => $v->tipo_memorandum,
+                        'memorandum_correlativo'=>$v->memorandum_correlativo,
+                        'memorandum_gestion'=>$v->memorandum_gestion,
+                        'fecha_mem'=>$v->fecha_mem != "" ? date("d-m-Y", strtotime($v->fecha_mem)) : "",
+                        'memorandum'=>$memorandum,
+                        'observacion'=>$v->observacion!=null?$v->observacion:'',
+                        'estado'=>$v->estado
+                    );
+                }
+            }
+        }
+        echo json_encode($relaboralmovilidad);
+    }
     /**
      * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
      * En caso de que dicho valor sea nulo o cero se devolverán todas las areas disponibles en el organigrama.
@@ -1167,32 +1215,24 @@ class RelaboralesController extends ControllerBase
      * @param $filtros Array con los filtros aplicados sobre las columnas.
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      */
-    public function printAction($n_rows, $columns, $filtros,$groups)
+    public function printAction($n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
-        $pdf = new pdfoasis();
-        $pdf->debug=0;
-        $pdf->title_rpt = utf8_decode('Reporte Relacion Laboral "Mi teleférico"');
+        if($groups=='null'||$groups==null)$groups="";
+        $sorteds = base64_decode(str_pad(strtr($sorteds, '-_', '+/'), strlen($sorteds) % 4, '=', STR_PAD_RIGHT));
         $columns = json_decode($columns, true);
         $filtros = json_decode($filtros, true);
         $sub_keys = array_keys($columns);//echo $sub_keys[0];
         $n_col = count($columns);//echo$keys[1];
-    	if($pdf->debug==1){
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
-            print_r($columns);
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
-            print_r($filtros);
-                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
-                echo "<p>".$groups;
-        }
-        /**
+        $sorteds = json_decode($sorteds, true);
+    	/**
          * Especificando la configuración de las columnas
          */
-        $widthAlignAll = array(
+        $generalConfigForAllColumns = array(
             'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'ubicacion' => array('title' => 'Ubicacion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'condicion' => array('title' => 'Condicion', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
+            'condicion' => array('title' => 'Condicion', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'ci' => array('title' => 'CI', 'width' => 12, 'align' => 'C', 'type' => 'varchar'),
@@ -1205,74 +1245,203 @@ class RelaboralesController extends ControllerBase
             'nivelsalarial' => array('title' => 'Nivel', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric'),
-            'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 15, 'align' => 'C', 'type' => 'date'),
+            'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_incor' => array('title' => 'Fecha Inc', 'width' => 18, 'align' => 'C', 'type' => 'date'),
-            'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 15, 'align' => 'C', 'type' => 'date'),
-            'fecha_baja' => array('title' => 'Fecha Baja', 'width' => 15, 'align' => 'C', 'type' => 'date'),
-            'motivo_baja' => array('title' => 'Motivo Baja', 'width' => 15, 'align' => 'L', 'type' => 'varchar'),
+            'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'fecha_baja' => array('title' => 'Fecha Baja', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'motivo_baja' => array('title' => 'Motivo Baja', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
             'observacion' => array('title' => 'Observacion', 'width' => 15, 'align' => 'L', 'type' => 'varchar')
         );
-        $widthsSelecteds = $pdf->DefineWidths($widthAlignAll, $columns);
-        $alignSelecteds = $pdf->DefineAligns($widthAlignAll, $columns);
-        $colSelecteds = $pdf->DefineCols($widthAlignAll, $columns);
-        $colTitleSelecteds = $pdf->DefineTitleCols($widthAlignAll, $columns);
-        $alignTitleSelecteds = $pdf->DefineTitleAligns(count($widthAlignAll));
-        $pdf->widthAlignAll = $widthAlignAll;
-        $pdf->colTitleSelecteds = $colTitleSelecteds;
-        $pdf->widthsSelecteds = $widthsSelecteds;
-        $pdf->alignSelecteds = $alignSelecteds;
-        $pdf->alignTitleSelecteds = $alignTitleSelecteds;
-        $where = '';
-        $yaConsiderados = array();
-        for ($k = 0; $k < count($filtros); $k++) {
-            $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
-            $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
-
-            for ($j = 0; $j < $n_col; $j++) {
-                if ($sub_keys[$j] == $filtros[$k]['columna']) {
-                    $col_fil = $columns[$sub_keys[$j]]['text'];
+        $agruparPor = ($groups!="")?explode(",",$groups):array();
+        $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
+        $ancho = 0;
+        if(count($widthsSelecteds)>0){
+            foreach($widthsSelecteds as $w){
+                $ancho  =$ancho+   $w;
+            }
+            if ($ancho > 215.9) {
+                if ($ancho > 270) {
+                    $pdf = new pdfoasis('L','mm','Legal');
+                    $pdf->pageWidth=355;
+                }else {
+                    $pdf = new pdfoasis('L','mm','Letter');
+                    $pdf->pageWidth=280;
                 }
             }
-            if ($filtros[$k]['tipo'] == 'datefilter') {
-                $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
+            else {
+                $pdf = new pdfoasis('P','mm','Letter');
+                $pdf->pageWidth=215.9;
             }
-            $cond_fil = ' ' . $col_fil;
-            if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+            $pdf->tableWidth = $ancho;
+            #region Proceso de generación del documento PDF
+            $pdf->debug=0;
+            $pdf->title_rpt = utf8_decode('Reporte Relación Laboral');
+            $pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+            $alignSelecteds = $pdf->DefineAligns($generalConfigForAllColumns, $columns,$agruparPor);
+            $colSelecteds = $pdf->DefineCols($generalConfigForAllColumns, $columns,$agruparPor);
+            $colTitleSelecteds = $pdf->DefineTitleCols($generalConfigForAllColumns, $columns,$agruparPor);
+            $alignTitleSelecteds = $pdf->DefineTitleAligns(count($colTitleSelecteds));
+            $gruposSeleccionadosActuales=$pdf->DefineDefaultValuesForGroups($groups);
+            $pdf->generalConfigForAllColumns = $generalConfigForAllColumns;
+            $pdf->colTitleSelecteds = $colTitleSelecteds;
+            $pdf->widthsSelecteds = $widthsSelecteds;
+            $pdf->alignSelecteds = $alignSelecteds;
+            $pdf->alignTitleSelecteds = $alignTitleSelecteds;
+            if($pdf->debug==1){
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+            print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>".$groups;
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($sorteds);
+                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
+            }
+            $where = '';
+            $yaConsiderados = array();
+            for ($k = 0; $k < count($filtros); $k++) {
+                $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+                $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
 
-                if (strlen($where) > 0) {
-                    switch ($filtros[$k]['condicion']) {
-                        case 'EMPTY':
-                            $where .= ' AND ';
-                            break;
-                        case 'NOT_EMPTY':
-                            $where .= ' AND ';
-                            break;
-                        case 'CONTAINS':
-                            $where .= ' AND ';
-                            break;
-                        case 'EQUAL':
-                            $where .= ' AND ';
-                            break;
-                        case 'GREATER_THAN_OR_EQUAL':
-                            $where .= ' AND ';
-                            break;
-                        case 'LESS_THAN_OR_EQUAL':
-                            $where .= ' AND ';
-                            break;
+                for ($j = 0; $j < $n_col; $j++) {
+                    if ($sub_keys[$j] == $filtros[$k]['columna']) {
+                        $col_fil = $columns[$sub_keys[$j]]['text'];
                     }
-
-
                 }
-
-
-            }            
-            if ($cant > 1) {
-                if($pdf->debug==1){
-                    echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
-                    print_r($yaConsiderados);
-                    echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                if ($filtros[$k]['tipo'] == 'datefilter') {
+                    $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
                 }
+                $cond_fil = ' ' . $col_fil;
                 if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+
+                    if (strlen($where) > 0) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'NOT_EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'CONTAINS':
+                                $where .= ' AND ';
+                                break;
+                            case 'EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                        }
+                    }
+                }
+                if ($cant > 1) {
+                    if($pdf->debug==1){
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                        print_r($yaConsiderados);
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                    }
+                    if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $cond_fil .= utf8_encode(" que sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                                break;
+                            case 'NOT_EMPTY':
+                                $cond_fil .= utf8_encode(" que no sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                                break;
+                            case 'CONTAINS':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                if ($filtros[$k]['columna'] == "nombres") {
+                                    $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                                } else {
+                                    $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                                }
+                                break;
+                            case 'EQUAL':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    if($pdf->debug==1){
+
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                        echo $filtros[$k]['columna']."-->".$col;
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                    }
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if($ini==0){
+                                            $where.=" (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if($ini==count($arr_val)){
+                                            $where.=") ";
+                                        }else $where .= " OR ";
+                                    }
+                                }
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    //$fecha = date("Y-m-d", $col);
+                                    $fecha = $col;
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if($ini==0){
+                                            $where.=" (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':$where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";break;
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                if($ini==0){
+                                                    $where .= $filtros[$k]['columna']. " BETWEEN " ;
+                                                }else {
+                                                    $where .= " AND " ;
+                                                }
+                                                $where.="'".$fecha."'";
+
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if($ini==count($arr_val)){
+                                            $where.=") ";
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                                $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                                break;
+                        }
+                        $yaConsiderados[]=$filtros[$k]['columna'];
+                    }
+                } else {
                     switch ($filtros[$k]['condicion']) {
                         case 'EMPTY':
                             $cond_fil .= utf8_encode(" que sea vacía ");
@@ -1292,270 +1461,298 @@ class RelaboralesController extends ControllerBase
                             break;
                         case 'EQUAL':
                             $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
-                            $ini = 0;
-                            foreach ($arr_val as $col) {
-                                if($pdf->debug==1){
-
-                                    echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
-                                    echo $filtros[$k]['columna']."-->".$col;
-                                    echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
-                                }
-                                if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
-                                    //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                                    if($ini==0){
-                                        $where.=" (";
-                                    }
-                                    switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
-                                        case 'int4':
-                                        case 'numeric':
-                                        case 'date':
-                                            //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
-                                            $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
-                                            break;
-                                        case 'varchar':
-                                        case 'bpchar':
-                                            //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                                            $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
-                                            break;
-                                    }
-                                    $ini++;
-                                    if($ini==count($arr_val)){
-                                        $where.=") ";
-                                    }else $where .= " OR ";
+                            if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                    case 'int4':
+                                    case 'numeric':
+                                    case 'date':
+                                        //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                    case 'varchar':
+                                    case 'bpchar':
+                                        //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
+                                        break;
                                 }
                             }
                             break;
                         case 'GREATER_THAN_OR_EQUAL':
                             $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
-                            $ini = 0;
-                            foreach ($arr_val as $col) {
-                                //$fecha = date("Y-m-d", $col);
-                                $fecha = $col;
-                                if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
-                                    //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                                    if($ini==0){
-                                        $where.=" (";
-                                    }
-                                    switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
-                                        case 'int4':
-                                        case 'numeric':$where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";break;
-                                        case 'date':
-                                            //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
-                                            if($ini==0){
-                                                $where .= $filtros[$k]['columna']. " BETWEEN " ;
-                                            }else {
-                                                $where .= " AND " ;
-                                            }
-                                            $where.="'".$fecha."'";
-
-                                            break;
-                                        case 'varchar':
-                                        case 'bpchar':
-                                            //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                                            $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
-                                            break;
-                                    }
-                                    $ini++;
-                                    if($ini==count($arr_val)){
-                                        $where.=") ";
-                                    }
-                                }
-                            }
+                            $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
                             break;
                         case 'LESS_THAN_OR_EQUAL':
                             $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
                             $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
                             break;
                     }
-                    $yaConsiderados[]=$filtros[$k]['columna'];
                 }
-            } else {
-                switch ($filtros[$k]['condicion']) {
-                    case 'EMPTY':
-                        $cond_fil .= utf8_encode(" que sea vacía ");
-                        $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
-                        break;
-                    case 'NOT_EMPTY':
-                        $cond_fil .= utf8_encode(" que no sea vacía ");
-                        $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
-                        break;
-                    case 'CONTAINS':
-                        $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
-                        if ($filtros[$k]['columna'] == "nombres") {
-                            $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
-                        } else {
-                            $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+
+            }
+            $obj = new Frelaborales();
+            if($where!="")$where=" WHERE ".$where;
+            $groups_aux = "";
+            if($groups!=""){
+                /**
+                 * Se verifica que no se considere la columna nombres debido a que contenido ya esta ordenado por las
+                 * columnas p_apellido, s_apellido, c_apellido, p_anombre, s_nombre, t_nombre
+                 */
+                if(strrpos($groups, "nombres")){
+                    if(strrpos($groups, ",")){
+                        $arr = explode(",",$groups);
+                        foreach($arr as $val){
+                            if($val!="nombres")
+                                $groups_aux[]=$val;
                         }
-                        break;
-                    case 'EQUAL':
-                        $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
-                        if (isset($widthAlignAll[$filtros[$k]['columna']]['type'])) {
-                            //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                            switch (@$widthAlignAll[$filtros[$k]['columna']]['type']) {
-                                case 'int4':
-                                case 'numeric':
-                                case 'date':
-                                    //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
-                                    $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
-                                    break;
-                                case 'varchar':
-                                case 'bpchar':
-                                    //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
-                                    $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
-                                    break;
+                        $groups = implode(",",$groups_aux);
+                    }else $groups="";
+                }
+                if(is_array($sorteds)&&count($sorteds)>0){
+                    if($groups!="")$groups.=",";
+                    $coma="";
+                    if($pdf->debug==1){
+                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Ordenadossss======================================</p>";
+                    }
+                    foreach($sorteds as $ord=>$orden){
+                        $groups.=$coma.$ord;
+                        if($orden['asc']=='')$groups.=" ASC";else$groups.=" DESC";
+                        $coma=",";
+                    }
+                }
+          if($groups!="")
+                    $groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
+                if($pdf->debug==1)echo "<p>La consulta es: ".$groups."<p>";
+            }else{
+                if(is_array($sorteds)&&count($sorteds)>0){
+                    $coma="";
+                    if($pdf->debug==1){
+                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Ordenadossss======================================</p>";
+                    }
+                    foreach($sorteds as $ord=>$orden){
+                        $groups.=$coma.$ord;
+                        if($orden['asc']=='')$groups.=" ASC";else$groups.=" DESC";
+                        $coma=",";
+                    }
+                    $groups = " ORDER BY ".$groups;
+                }
+
+            }
+            if($pdf->debug==1)echo "<p>WHERE------------------------->".$where."<p>";
+            if($pdf->debug==1)echo "<p>GROUP BY------------------------->".$groups."<p>";
+            $resul = $obj->getAllWithPersonsOneRecord($where,$groups);
+
+            $relaboral = array();
+            foreach ($resul as $v) {
+                $relaboral[] = array(
+                    'id_relaboral' => $v->id_relaboral,
+                    'id_persona' => $v->id_persona,
+                    'p_nombre' => $v->p_nombre,
+                    's_nombre' => $v->s_nombre,
+                    't_nombre' => $v->t_nombre,
+                    'p_apellido' => $v->p_apellido,
+                    's_apellido' => $v->s_apellido,
+                    'c_apellido' => $v->c_apellido,
+                    'nombres' => $v->nombres,
+                    'ci' => $v->ci,
+                    'expd' => $v->expd,
+                    'num_complemento' => $v->num_complemento,
+                    'fecha_nac' => $v->fecha_nac,
+                    'edad' => $v->edad,
+                    'lugar_nac' => $v->lugar_nac,
+                    'genero' => $v->genero,
+                    'e_civil' => $v->e_civil,
+                    'item' => $v->item,
+                    'carrera_amd' => $v->carrera_amd,
+                    'num_contrato' => $v->num_contrato,
+                    'contrato_numerador_estado' => $v->contrato_numerador_estado,
+                    'id_solelabcontrato' => $v->id_solelabcontrato,
+                    'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
+                    'solelabcontrato_numero' => $v->solelabcontrato_numero,
+                    'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
+                    'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
+                    'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
+                    'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                    'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                    'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
+                    'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                    'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
+                    'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
+                    'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
+                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
+                    'motivo_baja' => $v->motivo_baja,
+                    'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
+                    'descripcion_baja' => $v->descripcion_baja,
+                    'descripcion_anu' => $v->descripcion_anu,
+                    'id_cargo' => $v->id_cargo,
+                    'cargo_codigo' => $v->cargo_codigo,
+                    'cargo' => $v->cargo,
+                    'id_nivelessalarial' => $v->id_nivelessalarial,
+                    'nivelsalarial' => $v->nivelsalarial,
+                    'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
+                    'numero_escala' => $v->numero_escala,
+                    'gestion_escala' => $v->gestion_escala,
+                    //'sueldo' => $v->sueldo,
+                    'sueldo' => str_replace(".00", "", $v->sueldo),
+                    'id_procesocontratacion' => $v->id_procesocontratacion,
+                    'proceso_codigo' => $v->proceso_codigo,
+                    'id_convocatoria' => $v->id_convocatoria,
+                    'convocatoria_codigo' => $v->convocatoria_codigo,
+                    'convocatoria_tipo' => $v->convocatoria_tipo,
+                    'id_fin_partida' => $v->id_fin_partida,
+                    'fin_partida' => $v->fin_partida,
+                    'id_condicion' => $v->id_condicion,
+                    'condicion' => $v->condicion,
+                    'categoria_relaboral' => $v->categoria_relaboral,
+                    'id_da' => $v->id_da,
+                    'direccion_administrativa' => $v->direccion_administrativa,
+                    'organigrama_regional_id' => $v->organigrama_regional_id,
+                    'organigrama_regional' => $v->organigrama_regional,
+                    'id_regional' => $v->id_regional,
+                    'regional' => $v->regional,
+                    'regional_codigo' => $v->regional_codigo,
+                    'id_departamento' => $v->id_departamento,
+                    'departamento' => $v->departamento,
+                    'id_provincia' => $v->id_provincia,
+                    'provincia' => $v->provincia,
+                    'id_localidad' => $v->id_localidad,
+                    'localidad' => $v->localidad,
+                    'residencia' => $v->residencia,
+                    'unidad_ejecutora' => $v->unidad_ejecutora,
+                    'cod_ue' => $v->cod_ue,
+                    'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
+                    'gerencia_administrativa' => $v->gerencia_administrativa,
+                    'id_departamento_administrativo' => $v->id_departamento_administrativo,
+                    'departamento_administrativo' => $v->departamento_administrativo,
+                    'id_organigrama' => $v->id_organigrama,
+                    'unidad_administrativa' => $v->unidad_administrativa,
+                    'organigrama_sigla' => $v->organigrama_sigla,
+                    'organigrama_codigo' => $v->organigrama_codigo,
+                    'id_area' => $v->id_area,
+                    'area' => $v->area,
+                    'id_ubicacion' => $v->id_ubicacion,
+                    'ubicacion' => $v->ubicacion,
+                    'unidades_superiores' => $v->unidades_superiores,
+                    'unidades_dependientes' => $v->unidades_dependientes,
+                    'partida' => $v->partida,
+                    'fuente_codigo' => $v->fuente_codigo,
+                    'fuente' => $v->fuente,
+                    'organismo_codigo' => $v->organismo_codigo,
+                    'organismo' => $v->organismo,
+                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
+                    'estado' => $v->estado,
+                    'estado_descripcion' => $v->estado_descripcion,
+                    'estado_abreviacion' => $v->estado_abreviacion,
+                    'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
+                    'id_eventual' => $v->id_eventual,
+                    'id_consultor' => $v->id_consultor,
+                    'user_reg_id' => $v->user_reg_id,
+                    'fecha_reg' => $v->fecha_reg,
+                    'user_mod_id' => $v->user_mod_id,
+                    'fecha_mod' => $v->fecha_mod,
+                    'persona_user_reg_id' => $v->persona_user_reg_id,
+                    'persona_fecha_reg' => $v->persona_fecha_reg,
+                    'persona_user_mod_id' => $v->persona_user_mod_id,
+                    'persona_fecha_mod' => $v->persona_fecha_mod
+                );
+            }
+            //$pdf->Open("L");
+            /**
+             * Si el ancho supera el establecido para una hoja tamaño carta, se la pone en posición horizontal
+             */
+
+            $pdf->AddPage();
+            if($pdf->debug==1){
+                echo "<p>El ancho es:: ".$ancho;
+            }
+            #region Espacio para la definición de valores para la cabecera de la tabla
+            $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
+            $j = 0;
+            $agrupadores = array();
+            //echo "<p>++++++++++>".$groups;
+            if($groups!="")
+                $agrupadores = explode(",", $groups);
+
+            $dondeCambio = array();
+            $queCambio = array();
+
+            if (count($relaboral) > 0)
+                foreach ($relaboral as $i => $val) {
+                    if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                    if(count($agrupadores)>0){
+                        if($pdf->debug==1){
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                            print_r($gruposSeleccionadosActuales);
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                        }
+                        $agregarAgrupador=0;
+                        $aux = array();
+                        $dondeCambio = array();
+                        foreach($gruposSeleccionadosActuales as $key=>$valor){
+                            if($valor!=$val[$key]){
+                                $agregarAgrupador=1;
+                                $aux[$key]=$val[$key];
+                                $dondeCambio[]=$key;
+                                $queCambio[$key]= $val[$key];
+                            }else{
+                                $aux[$key]=$val[$key];
                             }
                         }
-                        break;
-                    case 'GREATER_THAN_OR_EQUAL':
-                        $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
-                        $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
-                        break;
-                    case 'LESS_THAN_OR_EQUAL':
-                        $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
-                        $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
-                        break;
+                        $gruposSeleccionadosActuales = $aux;
+                        if($agregarAgrupador==1){
+                            $pdf->Ln();
+                            $pdf->DefineColorHeaderTable();
+                            $pdf->SetAligns($alignTitleSelecteds);
+                            //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                            $agr=$pdf->DefineTitleColsByGroups($generalConfigForAllColumns,$dondeCambio,$queCambio);
+                            $pdf->Agrupador($agr);
+                            $pdf->RowTitle($colTitleSelecteds);
+                        }
+                        $pdf->DefineColorBodyTable();
+                        $pdf->SetAligns($alignSelecteds);
+                        if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                        $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
+                        $pdf->Row($rowData);
+
+                    }else{
+                        //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                        $pdf->DefineColorBodyTable();
+                        $pdf->SetAligns($alignSelecteds);
+                        $rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
+                        $pdf->Row($rowData);
+                    }
+                    //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                    $j++;
+                }
+
+            $pdf->ShowLeftFooter = true;
+            if($pdf->debug==0)$pdf->Output('reporte_relaboral.pdf','I');
+            #endregion Proceso de generación del documento PDF
+        }
+    }
+    /**
+     * Función para la generación del array con los anchos de columna definido, en consideración a las columnas mostradas.
+     * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
+     * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
+     * @return array Array con el listado de anchos por columna a desplegarse.
+     */
+    function DefineWidths($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        $arrRes[]=8;
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$widthAlignAll[$key]['width'];
                 }
             }
-
         }
-        if($pdf->debug==1)echo "<p>CONSULTA------------------------->".$where."<p>";
-        $obj = new Frelaborales();
-        if($where!="")$where=" WHERE ".$where;
-        if($groups!="")$groups=" ORDER BY ".$groups.",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
-        $resul = $obj->getAllWithPersonsOneRecord($where,$groups);
-
-        $relaboral = array();
-        foreach ($resul as $v) {
-            $relaboral[] = array(
-                'id_relaboral' => $v->id_relaboral,
-                'id_persona' => $v->id_persona,
-                'p_nombre' => $v->p_nombre,
-                's_nombre' => $v->s_nombre,
-                't_nombre' => $v->t_nombre,
-                'p_apellido' => $v->p_apellido,
-                's_apellido' => $v->s_apellido,
-                'c_apellido' => $v->c_apellido,
-                'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
-                'ci' => $v->ci,
-                'expd' => $v->expd,
-                'num_complemento' => $v->num_complemento,
-                'fecha_nac' => $v->fecha_nac,
-                'edad' => $v->edad,
-                'lugar_nac' => $v->lugar_nac,
-                'genero' => $v->genero,
-                'e_civil' => $v->e_civil,
-                'item' => $v->item,
-                'carrera_amd' => $v->carrera_amd,
-                'num_contrato' => $v->num_contrato,
-                'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                'id_solelabcontrato' => $v->id_solelabcontrato,
-                'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
-                'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
-                'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
-                'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
-                'motivo_baja' => $v->motivo_baja,
-                'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                'descripcion_baja' => $v->descripcion_baja,
-                'descripcion_anu' => $v->descripcion_anu,
-                'id_cargo' => $v->id_cargo,
-                'cargo_codigo' => $v->cargo_codigo,
-                'cargo' => $v->cargo,
-                'id_nivelessalarial' => $v->id_nivelessalarial,
-                'nivelsalarial' => $v->nivelsalarial,
-                'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                'numero_escala' => $v->numero_escala,
-                'gestion_escala' => $v->gestion_escala,
-                //'sueldo' => $v->sueldo,
-                'sueldo' => str_replace(".00", "", $v->sueldo),
-                'id_proceso' => $v->id_proceso,
-                'proceso_codigo' => $v->proceso_codigo,
-                'id_convocatoria' => $v->id_convocatoria,
-                'convocatoria_codigo' => $v->convocatoria_codigo,
-                'convocatoria_tipo' => $v->convocatoria_tipo,
-                'id_fin_partida' => $v->id_fin_partida,
-                'fin_partida' => $v->fin_partida,
-                'id_condicion' => $v->id_condicion,
-                'condicion' => $v->condicion,
-                'categoria_relaboral' => $v->categoria_relaboral,
-                'id_da' => $v->id_da,
-                'direccion_administrativa' => $v->direccion_administrativa,
-                'organigrama_regional_id' => $v->organigrama_regional_id,
-                'organigrama_regional' => $v->organigrama_regional,
-                'id_regional' => $v->id_regional,
-                'regional' => $v->regional,
-                'regional_codigo' => $v->regional_codigo,
-                'id_departamento' => $v->id_departamento,
-                'departamento' => $v->departamento,
-                'id_provincia' => $v->id_provincia,
-                'provincia' => $v->provincia,
-                'id_localidad' => $v->id_localidad,
-                'localidad' => $v->localidad,
-                'residencia' => $v->residencia,
-                'unidad_ejecutora' => $v->unidad_ejecutora,
-                'cod_ue' => $v->cod_ue,
-                'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
-                'gerencia_administrativa' => $v->gerencia_administrativa,
-                'id_departamento_administrativo' => $v->id_departamento_administrativo,
-                'departamento_administrativo' => $v->departamento_administrativo,
-                'id_organigrama' => $v->id_organigrama,
-                'unidad_administrativa' => $v->unidad_administrativa,
-                'organigrama_sigla' => $v->organigrama_sigla,
-                'organigrama_codigo' => $v->organigrama_codigo,
-                'id_area' => $v->id_area,
-                'area' => $v->area,
-                'id_ubicacion' => $v->id_ubicacion,
-                'ubicacion' => $v->ubicacion,
-                'unidades_superiores' => $v->unidades_superiores,
-                'unidades_dependientes' => $v->unidades_dependientes,
-                'partida' => $v->partida,
-                'fuente_codigo' => $v->fuente_codigo,
-                'fuente' => $v->fuente,
-                'organismo_codigo' => $v->organismo_codigo,
-                'organismo' => $v->organismo,
-                'observacion' => ($v->observacion != null) ? $v->observacion : "",
-                'estado' => $v->estado,
-                'estado_descripcion' => $v->estado_descripcion,
-                'estado_abreviacion' => $v->estado_abreviacion,
-                'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                'id_eventual' => $v->id_eventual,
-                'id_consultor' => $v->id_consultor,
-                'user_reg_id' => $v->user_reg_id,
-                'fecha_reg' => $v->fecha_reg,
-                'user_mod_id' => $v->user_mod_id,
-                'fecha_mod' => $v->fecha_mod,
-                'persona_user_reg_id' => $v->persona_user_reg_id,
-                'persona_fecha_reg' => $v->persona_fecha_reg,
-                'persona_user_mod_id' => $v->persona_user_mod_id,
-                'persona_fecha_mod' => $v->persona_fecha_mod
-            );
-        }
-        $pdf->Open("L");
-        if (count($colSelecteds) > 11) $pdf->AddPage('L');
-        else $pdf->AddPage();
-        #region Espacio para la definición de valores para la cabecera de la tabla
-        $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
-        $j = 0;
-        if (count($relaboral) > 0)
-            foreach ($relaboral as $i => $val) {
-                $pdf->DefineColorBodyTable();
-                $pdf->SetAligns($alignSelecteds);
-                $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
-                $pdf->Row($rowData);
-                $j++;
-            }
-        $pdf->ShowLeftFooter = true;
-        if($pdf->debug==0)$pdf->Output('reporte_relaboral.pdf','I');
+        return $arrRes;
     }
-
     /*
      * Función para obtener la cantidad de veces que se considera una misma columna en el filtrado.
      * @param $columna

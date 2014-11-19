@@ -15,6 +15,7 @@ $().ready(function () {
     $('#jqxTabs').jqxTabs('disableAt', 2);
     $('#jqxTabs').jqxTabs('disableAt', 3);
     $('#jqxTabs').jqxTabs('disableAt', 4);
+    $('#jqxTabs').jqxTabs('disableAt', 5);
 
     definirGrillaParaListaRelaborales();
     habilitarCamposParaNuevoRegistroDeRelacionLaboral();
@@ -42,6 +43,7 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
         deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
     });
@@ -51,6 +53,7 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
         deshabilitarCamposParaEditarRegistroDeRelacionLaboral();
     });
@@ -60,6 +63,7 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
         deshabilitarCamposParaBajaRegistroDeRelacionLaboral();
     });
@@ -69,6 +73,7 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
     });
     $("#btnBuscarCargo").click(function (){
@@ -80,7 +85,23 @@ $().ready(function () {
         definirGrillaParaSeleccionarCargoAcefaloParaEditar(0,'');
     });
     $("#btnExportarPDF").click(function(){
-        exportarPDF();
+        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function( index, value ) {
+            numColumnas++;
+        });
+        if(numColumnas>0) exportarPDF();
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#jqxlistbox").focus();
+        }
+    });
+    $("#chkAllCols").click(function () {
+        if (this.checked == true) {
+            $("#jqxlistbox").jqxListBox('checkAll');
+        } else {
+            $("#jqxlistbox").jqxListBox('uncheckAll');
+        }
     });
     $("#lstMotivosBajas").change(function (){
         var res = this.value.split("_");
@@ -98,8 +119,25 @@ $().ready(function () {
     $("#popupWindowCargo").jqxWindow({
         width: '100%',height:300, resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelar"), modalOpacity: 0.01
     });
+    // initialize the popup window and buttons.
+    $("#popupWindowNuevaMovilidad").jqxWindow({
+        width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01
+    });
+    $("#popupWindowNuevaMovilidad").on('open', function () {
+        $("#firstName").jqxInput('selectAll');
+    });
+
     $('#btnDesfiltrartodo').click(function () {
-        $("#jqxgrid").jqxGrid('clearfilters');
+       $("#jqxgrid").jqxGrid('clearfilters');
+    });
+    $('#btnDesfiltrarTodoMovilidad').click(function () {
+        $("#jqxgridmovilidad").jqxGrid('clearfilters');
+    });
+    $('#btnDesagrupartodo').click(function () {
+        $('#jqxgrid').jqxGrid('cleargroups');
+    });
+    $('#btnDesagruparTodoMovilidad').click(function () {
+        $('#jqxgridmovilidad').jqxGrid('cleargroups');
     });
     /**
      * Definición de la ventana donde se ve el historial de registros de relación laboral
@@ -122,6 +160,18 @@ $().ready(function () {
         if ($(this).val() != '') {
             $(this).val($(this).val().replace(/[^A-Z,a-z,ñ,Ñ, ]/g, ""));
         }
+    });
+    $("#divMsjeNotificacionError").jqxNotification({
+        width: '100%', position: "bottom-right", opacity: 0.9,
+        autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "error"
+    });
+    $("#divMsjeNotificacionWarning").jqxNotification({
+        width: '100%', position: "bottom-right", opacity: 0.9,
+        autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "warning"
+    });
+    $("#divMsjeNotificacionSuccess").jqxNotification({
+        width: '100%', position: "bottom-right", opacity: 0.9,
+        autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "success"
     });
     $(document).keypress(OperaEvento);
     $(document).keyup(OperaEvento);
@@ -163,7 +213,7 @@ function definirGrillaParaListaRelaborales(){
             { name: 'area', type: 'string' },
             { name: 'id_ubicacion', type: 'integer' },
             { name: 'num_contrato', type: 'string' },
-            { name: 'id_proceso', type: 'integer' },
+            { name: 'id_procesocontratacion', type: 'integer' },
             { name: 'proceso_codigo', type: 'string' },
             { name: 'nivelsalarial', type: 'string' },
             { name: 'cargo', type: 'string' },
@@ -200,6 +250,12 @@ function definirGrillaParaListaRelaborales(){
             //and with parameter false if the synchronization failed.
             commit(true);
         },
+        moverow: function (rowid, commit) {
+         // synchronize with the server - send delete command
+         // call commit with parameter true if the synchronization with the server is successful
+         //and with parameter false if the synchronization failed.
+         commit(true);
+        },
         viewrow: function (rowid, newdata, commit) {
             // synchronize with the server - send update command
             // call commit with parameter true if the synchronization with the server is successful
@@ -228,6 +284,10 @@ function definirGrillaParaListaRelaborales(){
                 showfilterrow: true,
                 filterable: true,
                 showtoolbar: true,
+                autorowheight: true,
+                /*ready: function(){
+                    $("#jqxgrid").jqxGrid('localizestrings', localizationobj);
+                },*/
                 rendertoolbar: function (toolbar) {
                     var me = this;
                     var container = $("<div></div>");
@@ -236,12 +296,17 @@ function definirGrillaParaListaRelaborales(){
                     //container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button id='moverowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-tag fa-2x text-info' title='Movilidad de Personal.'/></i></button>");
                     container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-nameplate_alt fa-2x text-info' title='Vista Historial.'/></i></button>");
+
                     $("#addrowbutton").jqxButton();
                     //$("#approverowbutton").jqxButton();
                     $("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();
+                    $("#moverowbutton").jqxButton();
                     $("#viewrowbutton").jqxButton();
+
+
                     // Registrar nueva relación laboral.
                     $("#addrowbutton").on('click', function () {
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
@@ -256,7 +321,13 @@ function definirGrillaParaListaRelaborales(){
                                     $('#jqxTabs').jqxTabs('enableAt', 1);
                                     $('#jqxTabs').jqxTabs('disableAt', 2);
                                     $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('next');
+                                    $('#jqxTabs').jqxTabs('disableAt', 4);
+                                    $('#jqxTabs').jqxTabs('disableAt', 5);
+                                    /**
+                                     * Trasladamos el item seleccionado al que corresponde, el de nuevo registro.
+                                     */
+                                    $('#jqxTabs').jqxTabs({ selectedItem: 1 });
+
                                     $("#hdnIdRelaboralEditar").val(dataRecord.id_relaboral);
                                     $("#hdnIdPersonaSeleccionada").val(dataRecord.id_persona);
                                     $("#NombreParaNuevoRegistro").html(dataRecord.nombres);
@@ -277,11 +348,17 @@ function definirGrillaParaListaRelaborales(){
                                     var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
                                     $("#imgFotoPerfilNuevo").attr("src", rutaImagen);
                                 } else {
-                                    alert("La persona seleccionada tiene actualmente un registro en estado " + dataRecord.estado_descripcion + " de relaci&oacute;n laboral por lo que no se le puede asignar otro.")
+                                    var msje = "La persona seleccionada tiene actualmente un registro en estado " + dataRecord.estado_descripcion + " de relaci&oacute;n laboral por lo que no se le puede asignar otro.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
                                 }
                             }
                         }else {
-                            alert("Debe seleccionar un registro necesariamente.")
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
                     //Aprobar registro.
@@ -297,10 +374,18 @@ function definirGrillaParaListaRelaborales(){
                                     if(confirm("¿Esta seguro de aprobar este registro?")){
                                         aprobarRegistroRelabolar(dataRecord.id_relaboral);
                                     }
-                                }else alert("Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro");
+                                }else {
+                                     var msje = "Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro";
+                                     $("#divMsjePorError").html("");
+                                     $("#divMsjePorError").append(msje);
+                                     $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
                             }
                         }else{
-                            alert("Debe seleccionar un registro necesariamente.")
+                             var msje = "Debe seleccionar un registro necesariamente.";
+                             $("#divMsjePorError").html("");
+                             $("#divMsjePorError").append(msje);
+                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });*/
                     // Modificar registro.
@@ -319,13 +404,18 @@ function definirGrillaParaListaRelaborales(){
                                 $('#jqxTabs').jqxTabs('enableAt', 2);
                                 $('#jqxTabs').jqxTabs('disableAt', 3);
                                 $('#jqxTabs').jqxTabs('disableAt', 4);
-                                $('#jqxTabs').jqxTabs('next');
+                                $('#jqxTabs').jqxTabs('disableAt', 5);
+                                /**
+                                 * Trasladamos el item seleccionado al que corresponde, el de modificación
+                                 */
+                                $('#jqxTabs').jqxTabs({ selectedItem: 2 });
+
                                 $("#hdnIdRelaboralEditar").val(id_relaboral);
                                 $("#hdnIdPersonaSeleccionadaEditar").val(dataRecord.id_persona);
                                 $("#NombreParaEditarRegistro").html(dataRecord.nombres);
                                 $("#hdnIdCondicionEditableSeleccionada").val(dataRecord.id_condicion);
                                 $("#hdnIdUbicacionEditar").val(dataRecord.id_ubicacion);
-                                $("#hdnIdProcesoEditar").val(dataRecord.id_proceso);
+                                $("#hdnIdProcesoEditar").val(dataRecord.id_procesocontratacion);
                                 $("#FechaIniEditar").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                                 $("#FechaIncorEditar").jqxDateTimeInput({ value:dataRecord.fecha_incor,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                                 switch (dataRecord.condicion){
@@ -358,15 +448,23 @@ function definirGrillaParaListaRelaborales(){
                                 else $("#txtObservacionEditar").text('');
                                 var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                                 $("#imgFotoPerfilEditar").attr("src",rutaImagen);
-                                cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
-                                cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
+                                cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_procesocontratacion);
+                                var idUbicacionPrederminada = 0;
+                                if(dataRecord.id_ubicacion==null||dataRecord.id_ubicacion=='')idUbicacionPrederminada=dataRecord.id_ubicacion;
+                                cargarUbicacionesParaEditar(idUbicacionPrederminada);
                                 agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             }else {
-                                alert("Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro");
+                                var msje = "Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
                             }
                             }
                         }else {
-                            alert("Debe seleccionar un registro necesariamente.")
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
                     // Dar de baja un registro.
@@ -385,6 +483,7 @@ function definirGrillaParaListaRelaborales(){
                                     $('#jqxTabs').jqxTabs('disableAt', 2);
                                     $('#jqxTabs').jqxTabs('enableAt', 3);
                                     $('#jqxTabs').jqxTabs('disableAt', 4);
+                                    $('#jqxTabs').jqxTabs('disableAt', 5);
                                     /**
                                      * Trasladamos el item seleccionado al que corresponde, el de bajas.
                                      */
@@ -414,11 +513,61 @@ function definirGrillaParaListaRelaborales(){
                                     var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                                     $("#imgFotoPerfilBaja").attr("src",rutaImagen);
                                 }else {
-                                    alert("Para dar de baja un registro, este debe estar en estado ACTIVO inicialmente.")
+                                    var msje = "Para dar de baja un registro, este debe estar en estado ACTIVO inicialmente.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
                                 }
                             }
                         }else {
-                            alert("Debe seleccionar un registro necesariamente.")
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                    });
+                    // Movilidad de Personal.
+                    $("#moverowbutton").on('click', function () {
+                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        if(selectedrowindex>=0) {
+                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                var id_relaboral = dataRecord.id_relaboral;
+                                /*
+                                 *  La vista del historial se habilita para personas que tengan al menos un registro de relación sin importar su estado, ACTIVO, EN PROCESO o PASIVO.
+                                 *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
+                                 */
+                                $(".msjs-alert").hide();
+                                $("#hdnIdPersonaHistorialMovimiento").val(dataRecord.id_persona);
+                                $("#NombreParaMoverRegistro").html(dataRecord.nombres);
+                                if (dataRecord.tiene_contrato_vigente >= 0) {
+                                    $('#jqxTabs').jqxTabs('enableAt', 0);
+                                    $('#jqxTabs').jqxTabs('disableAt', 1);
+                                    $('#jqxTabs').jqxTabs('disableAt', 2);
+                                    $('#jqxTabs').jqxTabs('disableAt', 3);
+                                    $('#jqxTabs').jqxTabs('enableAt', 4);
+                                    $('#jqxTabs').jqxTabs('disableAt', 5);
+                                    /**
+                                     * Trasladamos el item seleccionado al que corresponde, el de vistas.
+                                     */
+                                    $('#jqxTabs').jqxTabs({ selectedItem: 4 });
+                                    // Create jqxTabs.
+                                    cargarGrillaMovilidad(dataRecord.id_relaboral);
+
+                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                                    $("#imgFotoPerfilMover").attr("src",rutaImagen);
+
+                                }else{
+                                    var msje = "Para acceder a la asignación de Movilidad Funcionaria, el estado de registro de Relaci&oacute;n Laboral debe tener un estado ACTIVO.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }                                   }
+                        }else {
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
                     // Ver registro.
@@ -439,11 +588,12 @@ function definirGrillaParaListaRelaborales(){
                                     $('#jqxTabs').jqxTabs('disableAt', 1);
                                     $('#jqxTabs').jqxTabs('disableAt', 2);
                                     $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('enableAt', 4);
+                                    $('#jqxTabs').jqxTabs('disableAt', 4);
+                                    $('#jqxTabs').jqxTabs('enableAt', 5);
                                     /**
                                      * Trasladamos el item seleccionado al que corresponde, el de vistas.
                                      */
-                                    $('#jqxTabs').jqxTabs({ selectedItem: 4 });
+                                    $('#jqxTabs').jqxTabs({ selectedItem: 5 });
                                     // Create jqxTabs.
                                     $('#tabFichaPersonal').jqxTabs({
                                         theme: 'oasis',
@@ -469,10 +619,17 @@ function definirGrillaParaListaRelaborales(){
                                     cargarHistorialRelacionLaboral(dataRecord.id_persona,0,1);
                                     $("#divContent_"+dataRecord.id_relaboral).focus().select();
                                 }else{
-                                    alert("Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.")
-                                }                                   }
+                                        var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
+                                        $("#divMsjePorError").html("");
+                                        $("#divMsjePorError").append(msje);
+                                        $("#divMsjeNotificacionError").jqxNotification("open");
+                                    }
+                            }
                         }else {
-                            alert("Debe seleccionar un registro necesariamente.")
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
                 },
@@ -535,6 +692,18 @@ function definirGrillaParaListaRelaborales(){
                             else return "";
                         }, hidden:true //Se oculta esta columna con el boton baja dejándolo disponible en caso de requerirse
                     },
+                    {text: '', datafield: 'mover', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
+                        cellsrenderer: function (rowline) {
+                            ctrlrow = rowline
+                            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', ctrlrow);
+                            var sw = dataRecord.tiene_contrato_vigente;
+                            if(sw>=0)
+                            {
+                                return "<div style='width: 100%' align='center'><a href='#'><i class='fa fa-tag fa-2x text-info' title='Movilidad de Personal.'/></i></div>";
+                            }
+                            else return "";
+                        }, hidden:true //Se oculta esta columna con el boton vista dejándolo disponible en caso de requerirse
+                    },
                     {text: '', datafield: 'ver', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
                         cellsrenderer: function (rowline) {
                             ctrlrow = rowline
@@ -591,6 +760,7 @@ function definirGrillaParaListaRelaborales(){
                             $('#jqxTabs').jqxTabs('enableAt', 1);
                             $('#jqxTabs').jqxTabs('disableAt', 2);
                             $('#jqxTabs').jqxTabs('disableAt', 3);
+                            $('#jqxTabs').jqxTabs('disableAt', 5);
                             $('#jqxTabs').jqxTabs('next');
                             $("#hdnIdRelaboralEditar").val(dataRecord.id_relaboral);
                             $("#hdnIdPersonaSeleccionada").val(dataRecord.id_persona);
@@ -634,13 +804,14 @@ function definirGrillaParaListaRelaborales(){
                             $('#jqxTabs').jqxTabs('enableAt', 2);
                             $('#jqxTabs').jqxTabs('disableAt', 3);
                             $('#jqxTabs').jqxTabs('disableAt', 4);
+                            $('#jqxTabs').jqxTabs('disableAt', 5);
                             $('#jqxTabs').jqxTabs('next');
                             $("#hdnIdRelaboralEditar").val(id_relaboral);
                             $("#hdnIdPersonaSeleccionadaEditar").val(dataRecord.id_persona);
                             $("#NombreParaEditarRegistro").html(dataRecord.nombres);
                             $("#hdnIdCondicionEditableSeleccionada").val(dataRecord.id_condicion);
                             $("#hdnIdUbicacionEditar").val(dataRecord.id_ubicacion);
-                            $("#hdnIdProcesoEditar").val(dataRecord.id_proceso);
+                            $("#hdnIdProcesoEditar").val(dataRecord.id_procesocontratacion);
                             $("#FechaIniEditar").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                             $("#FechaIncorEditar").jqxDateTimeInput({ value:dataRecord.fecha_incor,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                             switch (dataRecord.condicion){
@@ -671,8 +842,10 @@ function definirGrillaParaListaRelaborales(){
                             $("#tr_cargo_seleccionado_editar").html("");
                             if(dataRecord.observacion!=null)$("#txtObservacionEditar").text(dataRecord.observacion);
                             else $("#txtObservacionEditar").text('');
-                            cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_proceso);
-                            cargarUbicacionesParaEditar(dataRecord.id_ubicacion);
+                            cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_procesocontratacion);
+                            var idUbicacionPrederminada = 0;
+                            if(dataRecord.id_ubicacion!=null&&dataRecord.id_ubicacion!='')idUbicacionPrederminada=dataRecord.id_ubicacion;
+                            cargarUbicacionesParaEditar(idUbicacionPrederminada);
                             agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                             $("#imgFotoPerfilEditar").attr("src",rutaImagen);
@@ -688,6 +861,7 @@ function definirGrillaParaListaRelaborales(){
                             $('#jqxTabs').jqxTabs('disableAt', 2);
                             $('#jqxTabs').jqxTabs('enableAt', 3);
                             $('#jqxTabs').jqxTabs('disableAt', 4);
+                            $('#jqxTabs').jqxTabs('disableAt', 5);
                             /**
                              * Trasladamos el item seleccionado al que corresponde, el de bajas.
                              */
@@ -718,7 +892,47 @@ function definirGrillaParaListaRelaborales(){
                             $("#imgFotoPerfilBaja").attr("src",rutaImagen);
                         }
                         break;
-                    case 5://Vista
+                    case 5://Movilidad de Personal
+                        /*
+                         *  La vista de la opción de Movilidad de Personal se habilita para personas que tengan al menos un registro de relación laboral en estado ACTIVO.
+                         *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
+                         */
+                        $(".msjs-alert").hide();
+                        $("#hdnIdPersonaMovilidad").val(dataRecord.id_persona);
+                        if (dataRecord.tiene_contrato_vigente >= 0) {
+                            $('#jqxTabs').jqxTabs('enableAt', 0);
+                            $('#jqxTabs').jqxTabs('disableAt', 1);
+                            $('#jqxTabs').jqxTabs('disableAt', 2);
+                            $('#jqxTabs').jqxTabs('disableAt', 3);
+                            $('#jqxTabs').jqxTabs('enableAt', 4);
+                            $('#jqxTabs').jqxTabs('disableAt', 5);
+                            /**
+                             * Trasladamos el item seleccionado al que corresponde, el de vistas.
+                             */
+                            /*$('#jqxTabs').jqxTabs({ selectedItem: 5 });
+                            // Create jqxTabs.
+                            $('#tabFichaPersonal').jqxTabs({
+                                theme: 'oasis',
+                                width: '100%',
+                                height: '100%',
+                                position: 'top'});
+                            // Focus jqxTabs.
+                            //$('#tabFichaPersonal').jqxTabs('focus');
+                            $('#tabFichaPersonal').jqxTabs({ selectedItem: 0 });
+                            $("#ddNombres").html(dataRecord.nombres);
+                            var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
+                            $("#imgFotoPerfilContactoPer").attr("src",rutaImagen);
+                            $("#imgFotoPerfilContactoInst").attr("src",rutaImagen);
+                            $("#imgFotoPerfil").attr("src",rutaImagen);
+                            cargarPersonasContactos(dataRecord.id_persona);
+                            $("#hdnIdRelaboralVista").val(id_relaboral);
+                            $("#hdnSwPrimeraVistaHistorial").val(0);
+                            cargarGestionesHistorialRelaboral(dataRecord.id_persona);
+                            cargarHistorialRelacionLaboral(dataRecord.id_persona,0,1);
+                            $("#divContent_"+dataRecord.id_relaboral).focus().select();*/
+                        }
+                        break;
+                    case 6://Vista
                         /*
                          *  La vista del historial se habilita para personas que tengan al menos un registro de relación sin importar su estado, ACTIVO, EN PROCESO o PASIVO.
                          *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
@@ -730,7 +944,8 @@ function definirGrillaParaListaRelaborales(){
                             $('#jqxTabs').jqxTabs('disableAt', 1);
                             $('#jqxTabs').jqxTabs('disableAt', 2);
                             $('#jqxTabs').jqxTabs('disableAt', 3);
-                            $('#jqxTabs').jqxTabs('enableAt', 4);
+                            $('#jqxTabs').jqxTabs('disableAt', 4);
+                            $('#jqxTabs').jqxTabs('enableAt', 5);
                             /**
                              * Trasladamos el item seleccionado al que corresponde, el de vistas.
                              */
@@ -813,6 +1028,11 @@ function OperaEvento(evento) {
         $('#jqxTabs').jqxTabs('disableAt', 2);
         $('#jqxTabs').jqxTabs('disableAt', 3);
         $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
+        /**
+         * Saltamos a la pantalla principal en caso de presionarse ESC
+         */
+        $('#jqxTabs').jqxTabs({ selectedItem: 0 });
         $("#popupWindowCargo").jqxWindow('close');
     }
 }

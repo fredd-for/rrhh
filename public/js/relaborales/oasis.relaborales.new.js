@@ -496,7 +496,7 @@ function guardarNuevoRegistro(){
                 id_area:idArea,
                 id_ubicacion:idUbicacion,
                 id_regional:idRegional,
-                id_proceso:idProceso,
+                id_procesocontratacion:idProceso,
                 fecha_inicio:fechaIni,
                 fecha_incor:fechaIncor,
                 fecha_fin:fechaFin,
