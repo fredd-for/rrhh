@@ -12,7 +12,7 @@
       ],
       url: '/cargos/listorganigrama',
       cache: false,
-            async: false
+      async: false
     };
     var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
 
@@ -79,7 +79,7 @@
       }
     }); 
 
-                       
+
 //function cargar(){
   var source =
   {
@@ -216,14 +216,14 @@
                                     error: function() { alert('Se ha producido un error Inesperado'); }
                                   });
 
-                              lista_adjudicados(dataRecord.id);
-                              lista_comision(dataRecord.id);
-                              lista_criterios(dataRecord.id);
+lista_adjudicados(dataRecord.id);
+lista_comision(dataRecord.id);
+lista_criterios(dataRecord.id);
 
-                             }
-                           }
-                           ]
-                         });
+}
+}
+]
+});
 }
 }
 
@@ -410,10 +410,10 @@ $("#guardar_hito").click(function(){
       data:{id:id_seguimiento,organigrama_id:organigrama_id,usuario_sol:usuario_sol,cert_presupuestaria:cert_presupuestaria,seguimiento_estado_id:seguimiento_estado_id,fecha_sol:fecha_sol,fecha_cert_pre:fecha_cert_pre,fecha_apr_mae:fecha_apr_mae},
       success: function(data) { alert(data); 
                       }, //mostramos el error
-      error: function() { alert('Se ha producido un error Inesperado'); 
-                      }
+                      error: function() { alert('Se ha producido un error Inesperado'); 
+                    }
 
-      });
+                  });
   }
 });
 
@@ -422,28 +422,28 @@ $("#guardar_hito").click(function(){
 function lista_adjudicados(id_seg){
   //alert(id_seg);
   var v=$.ajax({
-      url:'/procesoscontrataciones/listAdjudicado/',
-      type:'POST',
-      datatype: 'json',
-      complete:function(){
-        $(".delete_adjudicado").click(function(){
-          var id_adjudicado = $(this).attr("adjudicado");
-          var nombre = $(this).attr("nombre");
-          $("#id_adjudicado").val(id_adjudicado);
-          $("#nombre_delete").text("Esta seguro de eliminar a : "+nombre);
-          var offset = $("#add_adjudicado").offset();
-          $("#popupWindow_deleteAdjudicado").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
-          $("#popupWindow_deleteAdjudicado").jqxWindow('open');
-        });
-      },
-      data:{id_seguimiento:id_seg},
-      success: function(data) { $("#li_adjudicados").html(data);
-      
-                      }, //mostramos el error
-      error: function() { alert('Se ha producido un error Inesperado'); 
-                      }
-
+    url:'/procesoscontrataciones/listAdjudicado/',
+    type:'POST',
+    datatype: 'json',
+    complete:function(){
+      $(".delete_adjudicado").click(function(){
+        var id_adjudicado = $(this).attr("adjudicado");
+        var nombre = $(this).attr("nombre");
+        $("#id_adjudicado").val(id_adjudicado);
+        $("#nombre_delete").text("Esta seguro de eliminar a : "+nombre);
+        var offset = $("#add_adjudicado").offset();
+        $("#popupWindow_deleteAdjudicado").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
+        $("#popupWindow_deleteAdjudicado").jqxWindow('open');
       });
+    },
+    data:{id_seguimiento:id_seg},
+    success: function(data) { $("#li_adjudicados").html(data);
+
+                      }, //mostramos el error
+                      error: function() { alert('Se ha producido un error Inesperado'); 
+                    }
+
+                  });
 }
 
 
@@ -464,7 +464,7 @@ $("#Save_adjudicado").click(function () {
    type:'POST',
    datatype: 'json',
    data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#nombre").val(),ci:$("#ci").val()},
-            success: function(data) { alert(data); 
+   success: function(data) { alert(data); 
                         }, //mostramos el error
                         error: function() { alert('Se ha producido un error Inesperado'); }
                       });
@@ -474,32 +474,32 @@ $("#Save_adjudicado").click(function () {
 
 $("#EliminarAdjudicado").click(function(){
   if ($("#id_adjudicado").val()>0) {
-                  var v=$.ajax({
-                   url:'/procesoscontrataciones/deleteAdjudicado/',
-                   type:'POST',
-                   datatype: 'json',
-                   data:{id:$("#id_adjudicado").val()},
-                    success: function(data) { alert(data);
-                            lista_adjudicados($("#id_seguimiento").val());
+    var v=$.ajax({
+     url:'/procesoscontrataciones/deleteAdjudicado/',
+     type:'POST',
+     datatype: 'json',
+     data:{id:$("#id_adjudicado").val()},
+     success: function(data) { alert(data);
+      lista_adjudicados($("#id_seguimiento").val());
                         }, //mostramos el error
                         error: function() { alert('Se ha producido un error Inesperado'); }
                       });
           //$('#jqxgrid').jqxGrid();
           $("#popupWindow_deleteAdjudicado").jqxWindow('hide');
-  }
-});
+        }
+      });
 /*************************************************/
 
 /***********Comision de calificacion****************/
 function lista_comision(id_seg){
   //alert(id_seg);
   var v=$.ajax({
-      url:'/procesoscontrataciones/listComision/',
-      type:'POST',
-      datatype: 'json',
-      complete:function(){
-        $(".delete_comision").click(function(){
-          var id_comision = $(this).attr("comision");
+    url:'/procesoscontrataciones/listComision/',
+    type:'POST',
+    datatype: 'json',
+    complete:function(){
+      $(".delete_comision").click(function(){
+        var id_comision = $(this).attr("comision");
           //alert(id_comision);
           var nombre = $(this).attr("nombre");
           $("#id_comision").val(id_comision);
@@ -508,15 +508,15 @@ function lista_comision(id_seg){
           $("#popupWindow_deleteComision").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
           $("#popupWindow_deleteComision").jqxWindow('open');
         });
-      },
-      data:{id_seguimiento:id_seg},
-      success: function(data) { $("#li_comision").html(data);
-      
-                      }, //mostramos el error
-      error: function() { alert('Se ha producido un error Inesperado'); 
-                      }
+    },
+    data:{id_seguimiento:id_seg},
+    success: function(data) { $("#li_comision").html(data);
 
-      });
+                      }, //mostramos el error
+                      error: function() { alert('Se ha producido un error Inesperado'); 
+                    }
+
+                  });
 }
 
 $("#add_comision").click(function(){
@@ -535,7 +535,7 @@ $("#Save_comision").click(function () {
    type:'POST',
    datatype: 'json',
    data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#comision_nombre").val(),cargo:$("#comision_cargo").val()},
-            success: function(data) { alert(data); 
+   success: function(data) { alert(data); 
                         }, //mostramos el error
                         error: function() { alert('Se ha producido un error Inesperado'); }
                       });
@@ -545,42 +545,49 @@ $("#Save_comision").click(function () {
 
 $("#EliminarComision").click(function(){
   if ($("#id_comision").val()>0) {
-                  var v=$.ajax({
-                   url:'/procesoscontrataciones/deleteComision/',
-                   type:'POST',
-                   datatype: 'json',
-                   data:{id:$("#id_comision").val()},
-                    success: function(data) { alert(data);
-                            lista_comision($("#id_seguimiento").val());
+    var v=$.ajax({
+     url:'/procesoscontrataciones/deleteComision/',
+     type:'POST',
+     datatype: 'json',
+     data:{id:$("#id_comision").val()},
+     success: function(data) { alert(data);
+      lista_comision($("#id_seguimiento").val());
                         }, //mostramos el error
                         error: function() { alert('Se ha producido un error Inesperado'); }
                       });
           //$('#jqxgrid').jqxGrid();
           $("#popupWindow_deleteComision").jqxWindow('hide');
-  }
-});
+        }
+      });
 
 /***************************************/
 
 /***********Criterios de calificacion****************/
-/*function lista_comision(id_seg){
-  //alert(id_seg);
+function lista_criterios(id_seg){
+
   var v=$.ajax({
-      url:'/procesoscontrataciones/getPerfilCargo/',
-      type:'POST',
-      datatype: 'json',
-      data:{id_seguimiento:id_seg},
-      success: function(data) { 
-      datos = JSON.parse(data);//alert(datos.id_seguimiento); 
-      $("#formacion_academica_text").val(datos.formacion_academica);
+    url:'/procesoscontrataciones/getPerfilCargo/',
+    type:'POST',
+    datatype: 'json',
+    data:{id_seguimiento:id_seg},
+    success: function(data) { 
+      datos = JSON.parse(data);//alert(datos); 
+      $("#formacion_academica_text").text(datos.formacion_academica);
+      $("#exp_general_lic_text").text('A nivel Licenciatura '+' '+datos.exp_general_lic);
+      $("#exp_general_tec_text").text('A nivel tecnico '+' '+datos.exp_general_tec);
+      $("#exp_profesional_lic_text").text('A nivel Licenciatura '+' '+datos.exp_profesional_lic);
+      $("#exp_profesional_tec_text").text('A nivel tecnico '+' '+datos.exp_profesional_tec);
+      $("#exp_relacionado_lic_text").text('A nivel Licenciatura '+' '+datos.exp_relacionado_lic);
+      $("#exp_relacionado_tec_text").text('A nivel tecnico '+' '+datos.exp_relacionado_tec);
       
                       }, //mostramos el error
-      error: function() { alert('Se ha producido un error Inesperado'); 
-                      }
+                      error: function() { alert('Se ha producido un error Inesperado'); 
+                    }
 
-      });
+                  });
 }
-*/
+
+
 
 });
 </script>
@@ -751,7 +758,7 @@ $("#EliminarComision").click(function(){
     <div class="col-lg-6">
       <div class="panel panel-default">
         <div class="panel-heading" >
-            COMISION DE CALIFICACION  <button class="btn btn-xs btn-primary" type="button" id="add_comision"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
+          COMISION DE CALIFICACION  <button class="btn btn-xs btn-primary" type="button" id="add_comision"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
         </div>
         <div class="panel-body">
           <div class="form-group">
@@ -766,44 +773,47 @@ $("#EliminarComision").click(function(){
           CRITERIOS CALIFICACION
         </div>
         <div class="panel-body">
-          <div class="form-group">
-            <div class="col-lg-3"><b>Formacion Academica</b></div>
-            <div class="col-lg-8" id="formacion_academica_text">
-             Título en Provisión Nacional a nivel Licenciatura en el área. (Curso de postgrado y/o Maestría deseable). 
+          <div class="form-group col-lg-12">
+            <div class="col-lg-4"><b>Formacion Academica</b></div>
+            <div class="col-lg-8" id="formacion_academica_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="formacion_academica" id="formacion_academica"></div> -->
+          </div>
+          <div class="form-group col-lg-12">
+            <div class="col-lg-4"><b>Experiencia General</b></div>
+            <div class="col-lg-4" id="exp_general_lic_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_general_lic" id="exp_general_lic"></div> -->
+            <div class="col-lg-4" id="exp_general_tec_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_general_tec" id="exp_general_tec"></div> -->
+          </div>
+          <div class="form-group col-lg-12">
+            <div class="col-lg-4 "><b>Experiencia Profesional</b></div>
+            <div class="col-lg-4" id="exp_profesional_lic_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_profesional_lic" id="exp_profesional_lic"></div> -->
+            <div class="col-lg-4" id="exp_profesional_tec_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_profesional_tec" id="exp_profesional_tec"></div> -->
+          </div>
+          <div class="form-group col-lg-12">
+            <div class="col-lg-4 "><b>Experiencia Relacionado al Cargo</b></div>
+            <div class="col-lg-4" id="exp_relacionado_lic_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_relacionado_lic" id="exp_relacionado_lic"></div> -->
+            <div class="col-lg-4" id="exp_relacionado_tec_text"></div>
+            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_relacionado_tec" id="exp_relacionado_tec"></div> -->
+          </div>
+          <div class="form-group col-lg-12">
+            <div class="col-lg-4"><b>Observación</b></div>
+            <div class="col-lg-8"><input type="text" class="form-control"></div>
+          </div>
+          <div class="form-group col-lg-12">
+            <div class="col-lg-12" align="center">
+              <button type="button" id="guardar_criterio" class="btn btn-primary">Guardar</button>
             </div>
-            <div class="col-lg-1"><input type="checkbox" name="formacion_academica" id="formacion_academica"></div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-4"><b>Experiencia General</b></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-4"><b>Experiencia General</b></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-4"><b>Experiencia General</b></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-            <div class="col-lg-3">A nivel Licenciatura 2 años</div>
-            <div class="col-lg-1"><input type="checkbox" name="vehicle" value="Car"></div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-3"><b>Observación</b></div>
-            <div class="col-lg-9"><input type="text" class="form-control"></div>
           </div>
         </div>    
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading" >
-            PERSONAS APROBADAS  <button class="btn btn-xs btn-primary" type="button" id="add_adjudicado"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
+          PERSONAS APROBADAS  <button class="btn btn-xs btn-primary" type="button" id="add_adjudicado"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
         </div>
         <div class="panel-body">
           <div class="form-group">
@@ -813,7 +823,9 @@ $("#EliminarComision").click(function(){
         </div>    
       </div>
 
-    </div>
+</div>
+
+
 
 
 
@@ -826,7 +838,7 @@ $("#EliminarComision").click(function(){
 <div id="popupWindow_adjudicado">
   <div id="titulo">ADICIONAR PERSONA QUE CUMPLE CON LOS REQUISITOS DEL CARGO</div>
   <div style="overflow: hidden;">
-  <form id="testForm_adjudicatario">
+    <form id="testForm_adjudicatario">
       <table>
         <tr>
           <td align="right">Nombre Completo</td>
@@ -873,30 +885,30 @@ $("#EliminarComision").click(function(){
 <div id="popupWindow_comision">
   <div id="titulo">ADICIONAR COMISION DE CALIFICACION</div>
   <div style="overflow: hidden;">
-  <form id="testForm_comision">
-   <input type="hidden" name="comision_nombre" id="comision_nombre">
-   <input type="hidden" name="comision_cargo" id="comision_cargo">
-      <table>
-        <tr>
-          <td align="right">Organigrama</td>
-          <td align="left"><div name="list" id="organigrama_sel" ></div></td>
-        </tr>
-        <tr>
-              <td align="right">Depende de:</td>
-              <td align="left" >
-                <div name="list_depende_id" id="depende_id" ></div>
-              </td>
-            </tr>
-        <tr>
-          <td align="right"></td>
-          <td style="padding-top: 10px;" align="right">
-            <input style="margin-right: 5px;" type="button" id="Save_comision" value="Guardar" />
-            <input id="Cancel" type="button" value="Cancelar" />
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
+    <form id="testForm_comision">
+     <input type="hidden" name="comision_nombre" id="comision_nombre">
+     <input type="hidden" name="comision_cargo" id="comision_cargo">
+     <table>
+      <tr>
+        <td align="right">Organigrama</td>
+        <td align="left"><div name="list" id="organigrama_sel" ></div></td>
+      </tr>
+      <tr>
+        <td align="right">Depende de:</td>
+        <td align="left" >
+          <div name="list_depende_id" id="depende_id" ></div>
+        </td>
+      </tr>
+      <tr>
+        <td align="right"></td>
+        <td style="padding-top: 10px;" align="right">
+          <input style="margin-right: 5px;" type="button" id="Save_comision" value="Guardar" />
+          <input id="Cancel" type="button" value="Cancelar" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
 </div>
 
 
@@ -905,18 +917,18 @@ $("#EliminarComision").click(function(){
  <div>Eliminar</div>
  <div style="overflow: hidden;">
   <table>
-   <tr>
-    <td align="left" id="nombre_delete_comision"></td>
-  </tr>
-  <tr>
-    <td align="right"></td>
-    <td style="padding-top: 10px;" align="center">
-      <input type="hidden" name="id_comision" id="id_comision">
-      <input style="margin-right: 5px;" type="button" id="EliminarComision" value="Eliminar" />
-      <input id="Cancel" type="button" value="Cancel" />
-    </td>
-  </tr>
-</table>
+    <tr>
+      <td align="left" id="nombre_delete_comision"></td>
+    </tr>
+    <tr>
+      <td align="right"></td>
+      <td style="padding-top: 10px;" align="center">
+        <input type="hidden" name="id_comision" id="id_comision">
+        <input style="margin-right: 5px;" type="button" id="EliminarComision" value="Eliminar" />
+        <input id="Cancel" type="button" value="Cancel" />
+      </td>
+    </tr>
+  </table>
 </div>
 </div>
 

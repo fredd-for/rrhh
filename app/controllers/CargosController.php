@@ -75,7 +75,7 @@ public function listAction()
 			'cargo' => $v->cargo,
 			'denominacion' => $v->denominacion,
 			'sueldo' => $v->sueldo,
-			'sueldo' => $v->sueldo,
+			'depende_id' => $v->depende_id,
 			'estado' => $v->estado1,
 			'cargo_estado_id' => $v->cargo_estado_id,
 			'condicion' => $v->estado,

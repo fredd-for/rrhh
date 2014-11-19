@@ -119,6 +119,7 @@
 				{ name: 'id',type: 'number'},
 				{ name: 'unidad_administrativa',type: 'string'},
 				{ name: 'organigrama_id',type: 'string'},
+				{ name: 'depende_id',type: 'number'},
 				{ name: 'nivelsalarial_id',type: 'string'},
 				{ name: 'denominacion',type: 'string'},
 				{ name: 'codigo',type: 'string'},
@@ -201,8 +202,9 @@
 }
 $("#jqxgrid").bind('rowselect', function (event) {
 					var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
-					//alert(dataRecord.cargo);
+					//alert(dataRecord.estado);
 					$("#cargo_id_pac").val(dataRecord.id);
+					$("#estado_cargo").val(dataRecord.estado);
 					$("#organigrama_pac").text(dataRecord.unidad_administrativa);
 					$("#item_pac").text(dataRecord.codigo);
 					$("#cargo_pac").text(dataRecord.cargo);
@@ -294,7 +296,11 @@ function cargar2(){
 
             $("#add_pac").click(function(){
             	if($("#cargo_id_pac").val()!=""){
-            		$("#popupWindow_pac").jqxWindow('open');
+            		if ($("#estado_cargo").val()=='ADJUDICADO') {
+            			alert("MENSAJE: El cargo ya esta ADJUDICADO.");	
+            		}else{
+            			$("#popupWindow_pac").jqxWindow('open');	
+            		}
             	}else{
             		alert("MENSAJE: Seleccione un registro ...");
             	}
@@ -559,6 +565,7 @@ function cargar2(){
 				<div style="overflow: hidden;">
 				<form id="testForm_pac">
 					<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
+					<input id="estado_cargo" name="estado_cargo" type="hidden" />
 					<table>
 						<tr>
 							<td align="right">Organigrama:</td>

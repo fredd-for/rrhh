@@ -1,4 +1,6 @@
 <?php
+use Phalcon\Mvc\Controller,
+    Phalcon\Mvc\View;
 
 class PersonalController extends ControllerBase{
 
@@ -10,8 +12,53 @@ class PersonalController extends ControllerBase{
       //echo 'hola';
     }
     public function registroAction() {
-      //echo 'hola';
+      $this->assets
+            ->addCss('/js/dropzone/css/dropzone.css')
+            ->addCss('/js/jscrop/css/jquery.Jcrop.css')
+        ;
+        $this->assets
+            ->addJs('/js/dropzone/dropzone.min.js')
+            ->addJs('/js/jscrop/js/jquery.Jcrop.js')
+        ;
     }
+    public function subirfotoAction($ci){
+        if ($ci){
+            $foto_persona = $ci+'.jpg';
+            $this->view->setVar('foto_persona', $foto_persona);
+            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
+        } else {
+            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
+        }
+    }
+    public function cropAction(){
+        //$this->view->disable();
+        $targ_w = $targ_h = 472;
+        $jpeg_quality = 90;
+        $src = 'images/personal/tmp.jpg';
+        if ($src){
+            $img_r = imagecreatefromjpeg($src);
+            $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+            imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],$targ_w,$targ_h,$_POST['w'],$_POST['h']);
+            //header('Content-type: image/jpeg');
+            //imagejpeg($dst_r,null,$jpeg_quality);
+            imagejpeg($dst_r,'images/personal/'.$_POST['ci'].'.jpg',$jpeg_quality);
+            imagedestroy($dst_r);
+            unlink($src);
+        }
+        $this->view->disable();
+    }
+    public function verificarciAction() {
+        $resul = new personas();
+        $resul = personas::findFirst(array('ci="'.$_POST['ci'].'"','order' => 'id ASC'));
+        if ($resul->id){
+            $msm = true;
+        } else {
+            $msm = false;
+        }
+	$this->view->disable();
+        echo json_encode($msm);
+    }
+    
     public function editarAction($id_personas){
         $resul = new personas();
         $resul = personas::findFirstById($id_personas);
@@ -93,6 +140,31 @@ class PersonalController extends ControllerBase{
             'interno_inst' => $res->interno_inst
         );
         $this->view->setVar('datos_personal', $datos_personal);
+    }
+    public function cargarcropAction() {
+        //$this->view->disable();
+        /*$this->assets
+             ->addCss('/js/jscrop/css/jquery.Jcrop.css')
+        ;
+        $this->assets
+             ->addJs('/js/jscrop/js/jquery.Jcrop.js')
+        ;*/
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+    public function subirAction(){
+        //$ds = DIRECTORY_SEPARATOR;
+        //$storeFolder = "/images/personal/";
+        $this->view->disable();
+        if ($this->request->hasFiles() == true) {
+            //Print the real file names and their sizes
+            foreach ($this->request->getUploadedFiles() as $file){
+                echo $file->getName(), " ", $file->getSize(), "\n";
+                $file->moveTo('images/personal/tmp.jpg');
+            }
+        }
+    }
+    public function eliminarAction(){
+        
     }
     public function listAction()
     {
