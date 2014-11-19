@@ -169,7 +169,7 @@ function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
  */
 function cargarProcesosParaEditar(idCondicion,idProcesoPrefijado){
     var lstProcesos=$.ajax({
-        url:'../../relaborales/listprocesos',
+        url:'/relaborales/listprocesos',
         type:'POST',
         datatype: 'json',
         data:{id_condicion:idCondicion

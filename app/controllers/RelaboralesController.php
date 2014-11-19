@@ -188,7 +188,7 @@ class RelaboralesController extends ControllerBase
                     'id_organigrama' => $v->id_organigrama,
                     'unidad_administrativa' => $v->unidad_administrativa,
                     'organigrama_sigla' => $v->organigrama_sigla,
-                    'organigrama_codigo' => $v->organigrama_codigo,
+                    'organigrama_orden' => $v->organigrama_orden,
                     'id_area' => $v->id_area,
                     'area' => $v->area,
                     'id_ubicacion' => $v->id_ubicacion,
@@ -1063,7 +1063,7 @@ class RelaboralesController extends ControllerBase
                         'id_organigrama' => $v->id_organigrama,
                         'unidad_administrativa' => $v->unidad_administrativa,
                         'organigrama_sigla' => $v->organigrama_sigla,
-                        'organigrama_codigo' => $v->organigrama_codigo,
+                        'organigrama_orden' => $v->organigrama_orden,
                         'id_area' => $v->id_area,
                         'area' => $v->area,
                         'id_ubicacion' => $v->id_ubicacion,
@@ -1122,7 +1122,7 @@ class RelaboralesController extends ControllerBase
                         'id_organigrama'=>$v->id_organigrama,
                         'unidad_administrativa'=>$v->unidad_administrativa,
                         'organigrama_sigla'=>$v->organigrama_sigla,
-                        'organigrama_codigo'=>$v->organigrama_codigo,
+                        'organigrama_orden'=>$v->organigrama_orden,
                         'id_area'=>$v->id_area,
                         'area'=>$v->area,
                         'id_ubicacion'=>$v->id_ubicacion,
@@ -1631,7 +1631,7 @@ class RelaboralesController extends ControllerBase
                     'id_organigrama' => $v->id_organigrama,
                     'unidad_administrativa' => $v->unidad_administrativa,
                     'organigrama_sigla' => $v->organigrama_sigla,
-                    'organigrama_codigo' => $v->organigrama_codigo,
+                    'organigrama_orden' => $v->organigrama_orden,
                     'id_area' => $v->id_area,
                     'area' => $v->area,
                     'id_ubicacion' => $v->id_ubicacion,
@@ -1790,5 +1790,77 @@ class RelaboralesController extends ControllerBase
             }
         }
         return $arr_col;
+    }
+    /**
+     * Función para la obtención del listado de tipos de memorándum.
+     */
+    function listtiposmemorandumsAction(){
+        $this->view->disable();
+        $resul = Tipomemorandum::find(array('estado=1', 'order' => 'tipo_memorandum ASC'));
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $tipomemorandum[] = array(
+                    'id' => $v->id,
+                    'tipo_memorandum' => $v->tipo_memorandum,
+                    'cabecera' => $v->cabecera,
+                    'observacion' => $v->observacion,
+                    'estado' => $v->estado,
+                    'agrupador' => $v->agrupador
+                );
+            }
+        }
+        echo json_encode($tipomemorandum);
+    }
+    /**
+     * Función para la obtención del listado de gestiones disponibles para la generación de memorándums.
+     * Se muestra la gestión actual menos la gestión pasada.
+     */
+    function listgestionesmemorandumsAction(){
+        $this->view->disable();
+        $gestionActual = date("Y");
+        $gestionPasada = $gestionActual-1;
+        $gestiones = array();
+        for($ges=$gestionActual;$ges>=$gestionPasada;$ges--){
+            $gestiones[] = array('gestion'=>$ges);
+        }
+        echo json_encode($gestiones);
+    }
+
+    /**
+     * Función para la obtención del listado de gerencias administrativas.
+     */
+    function listgerenciasAction(){
+        $this->view->disable();
+        $org = new Organigramas();
+        $gerencias = $org->getGerencias();
+        //comprobamos si hay filas
+        /*if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $gerencias[] = array(
+                    'id' => $v->id,
+                    'padre_id' => $v->padre_id,
+                    'gestion' => $v->gestion,
+                    'da_id' => $v->da_id,
+                    'regional_id' => $v->regional_id,
+                    'unidad_administrativa' => $v->unidad_administrativa,
+                    'nivel_estructural_id' => $v->nivel_estructural_id,
+                    'sigla' => $v->sigla,
+                    'fecha_ini' => $v->fecha_ini,
+                    'fecha_fin' => $v->fecha_fin,
+                    'orden' => $v->orden,
+                    'observacion' => $v->observacion,
+                    'estado' => $v->estado,
+                    'baja_logica' => $v->baja_logica,
+                    'user_reg_id' => $v->user_reg_id,
+                    'fecha_reg' => $v->fecha_reg,
+                    'user_mod_id' => $v->user_mod_id,
+                    'fecha_mod' => $v->fecha_mod,
+                    'area_sustantiva' => $v->area_sustantiva,
+                    'visible' => $v->visible
+                );
+            }
+        }*/
+        echo json_encode($gerencias);
     }
 }

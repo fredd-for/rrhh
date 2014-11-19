@@ -109,6 +109,17 @@ function cargarGrillaMovilidad(idRelaboral){
                     // Registrar nueva relación laboral.
                     $("#addrowbuttonmove").on('click', function () {
                         $("#popupWindowNuevaMovilidad").jqxWindow('open');
+                        $("#divTitleRegistroMovilidad").html("");
+                        $("#divTitleRegistroMovilidad").append("Nuevo Registro de Movilidad de Personal");
+                        cargarTiposMemorandumsParaMovilidad(0);
+                        cargarGestionesMemorandumsParaMovilidad(0);
+                        $("#lstTipoMemorandum").focus();
+                        $("#lstTipoMemorandum").change(function(){
+                            $("#txtCorrelativoMemorandum").focus();
+                        });
+                        //$("#txtFechaMem").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                        $("#txtFechaMem").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+
                     });
 
                     // Modificar registro.
@@ -396,4 +407,118 @@ function cargarGrillaMovilidad(idRelaboral){
         var args = event.args;
         $("#cellendeditevent").text("Event Type: cellendedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
     });
+}
+/**
+ * Función para cargar el combo de tipos de memorándums.
+ * @param idTipoMemorandumPrederminado Identificador del tipo de memorándum predeterminado.
+ */
+function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
+    var agrupador = 1;
+    var sw = 0;
+    $.ajax({
+        url:'/relaborales/listtiposmemorandums',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        cache:false,
+        success: function(data) {
+            var res = jQuery.parseJSON(data);
+            $('#lstTipoMemorandum').html("");
+            $('#lstTipoMemorandum').append("<option id='0'>Seleccionar...</option>");
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    if(val.agrupador==1){
+                        if(idTipoMemorandumPrederminado==val.id){$selected='selected';}else{ $selected='';}
+                        $('#lstTipoMemorandum').append("<option value="+val.id+" "+$selected+">"+val.tipo_memorandum+"</option>");
+                        sw=1;
+                    }
+                });
+               if(sw==0)$('#lstTipoMemorandum').prop("disabled","disabled");
+            }else $('#lstTipoMemorandum').prop("disabled","disabled");
+        }
+    });
+}
+function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
+    var agrupador = 1;
+    var sw = 0;
+    $.ajax({
+        url:'/relaborales/listtiposmemorandums',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        cache:false,
+        success: function(data) {
+            var res = jQuery.parseJSON(data);
+            $('#lstTipoMemorandum').html("");
+            $('#lstTipoMemorandum').append("<option id='0'>Seleccionar...</option>");
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    if(val.agrupador==1){
+                        if(idTipoMemorandumPrederminado==val.id){$selected='selected';}else{ $selected='';}
+                        $('#lstTipoMemorandum').append("<option value="+val.id+" "+$selected+">"+val.tipo_memorandum+"</option>");
+                        sw=1;
+                    }
+                });
+                if(sw==0)$('#lstTipoMemorandum').prop("disabled","disabled");
+            }else $('#lstTipoMemorandum').prop("disabled","disabled");
+        }
+    });
+}
+/**
+ * Función para cargar el combo de gestiones para memorándums.
+ * @param gestionPredeterminada Gestión predeterminada para
+ */
+function cargarGestionesMemorandumsParaMovilidad(gestionPredeterminada){
+    $.ajax({
+        url:'/relaborales/listgestionesmemorandums',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        cache:false,
+        success: function(data) {
+            var res = jQuery.parseJSON(data);
+            $('#lstGestionMemorandum').html("");
+            $('#lstGestionMemorandum').append("<option id='0'>Seleccionar...</option>");
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    if(gestionPredeterminada==val.gestion){$selected='selected';}else{ $selected='';}
+                    $('#lstGestionMemorandum').append("<option value="+val.gestion+" "+$selected+">"+val.gestion+"</option>");
+                });
+            }else $('#lstGestionMemorandum').prop("disabled","disabled");
+        }
+    });
+}
+function cargarGerencias(){
+
+    var gerenciasSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'CompanyName'},
+            { name: 'CustomerID'}
+        ],
+        url: '/relaborales/listgerencias/'
+    };
+    var gerenciasAdapter = new $.jqx.dataAdapter(gerenciasSource);
+    $("#lstGerenciasAdministrativasMovilidad").jqxComboBox(
+        {
+            source: gerenciasAdapter,
+            width: 300,
+            height: 25,
+            promptText: "Select una gerencia...",
+            displayMember: 'unidad_administrativa',
+            valueMember: 'id'
+        });
+    $("#lstGerenciasAdministrativasMovilidad").bind('select', function(event)
+    {
+        if (event.args)
+        {
+            //$("#orders").jqxComboBox({ disabled: false, selectedIndex: -1});
+            //var value = event.args.item.value;
+            //ordersSource.data = {CustomerID: value};
+            //ordersAdapter = new $.jqx.dataAdapter(ordersSource);
+            //$("#orders").jqxComboBox({source: ordersAdapter});
+        }
+    });
+
 }

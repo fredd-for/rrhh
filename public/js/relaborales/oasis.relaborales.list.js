@@ -121,10 +121,7 @@ $().ready(function () {
     });
     // initialize the popup window and buttons.
     $("#popupWindowNuevaMovilidad").jqxWindow({
-        width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01
-    });
-    $("#popupWindowNuevaMovilidad").on('open', function () {
-        $("#firstName").jqxInput('selectAll');
+        width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelarMovilidad"), modalOpacity: 0.01
     });
 
     $('#btnDesfiltrartodo').click(function () {
@@ -553,7 +550,6 @@ function definirGrillaParaListaRelaborales(){
                                     $('#jqxTabs').jqxTabs({ selectedItem: 4 });
                                     // Create jqxTabs.
                                     cargarGrillaMovilidad(dataRecord.id_relaboral);
-
                                     var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                                     $("#imgFotoPerfilMover").attr("src",rutaImagen);
 

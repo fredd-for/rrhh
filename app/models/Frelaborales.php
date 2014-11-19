@@ -92,7 +92,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $id_organigrama;
     public $unidad_administrativa;
     public $organigrama_sigla;
-    public $organigrama_codigo;
+    public $organigrama_orden;
     public $id_area;
     public $area;
     public $id_ubicacion;
@@ -215,7 +215,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             'id_organigrama'=>'id_organigrama',
             'unidad_administrativa'=>'unidad_administrativa',
             'organigrama_sigla'=>'organigrama_sigla',
-            'organigrama_codigo'=>'organigrama_codigo',
+            'organigrama_orden'=>'organigrama_orden',
             'id_area'=>'id_area',
             'area'=>'area',
             'id_ubicacion'=>'id_ubicacion',

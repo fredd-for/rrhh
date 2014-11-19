@@ -75,7 +75,7 @@ class Organigramas extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $codigo;
+    public $orden;
 
     /**
      *
@@ -155,7 +155,7 @@ class Organigramas extends \Phalcon\Mvc\Model
             'sigla' => 'sigla',
             'fecha_ini' => 'fecha_ini',
             'fecha_fin' => 'fecha_fin',
-            'codigo' => 'codigo',
+            'orden' => 'orden',
             'observacion' => 'observacion',
             'estado' => 'estado',
             'baja_logica' => 'baja_logica',
@@ -189,4 +189,12 @@ class Organigramas extends \Phalcon\Mvc\Model
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    /**
+     * Función para la obtención del listado de gerencias administrativas con vigencia actual.
+     */
+    public function getGerencias(){
+        $sql = "SELECT * from f_listado_gerencias()";
+        $this->_db = new Organigramas();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }

@@ -686,54 +686,71 @@
             <div style="margin-top: 10px;" id="cellendeditevent"></div>
         </div>
         <div id="popupWindowNuevaMovilidad">
-            <div>Nuevo Registro de Movilidad</div>
+            <div id="divTitleRegistroMovilidad">Nuevo Registro de Movilidad</div>
             <div style="overflow: hidden;">
                 <table>
                     <tr>
                         <td align="right">Tipo Memor&aacute;ndum:</td>
-                        <td align="left"><select id="lstTipoMemorandumNuevo"></select></td>
+                        <td align="left"><select id="lstTipoMemorandum"></select></td>
                     </tr>
                     <tr>
                         <td align="right">Memor&aacute;ndum:</td>
-                        <td align="left"><input id="txtCorrelativoMemorandumNuevo" /><select id="lstGestionMemorandumNuevo"></select></td>
+                        <td align="left"><input id="txtCorrelativoMemorandum" />/<select id="lstGestionMemorandum"></select></td>
                     </tr>
                     <tr>
                         <td align="right">Fecha Memor&aacute;ndum:</td>
-                        <td align="left"><input id="txtFechaMemorandumNuevo" /></td>
+                        <td align="left">
+                            <!--<input id="txtFechaMemorandum" />-->
+                            <!--<div class="row div-down-relab" id="divFechasMem">
+                                <label class="col-sm-3 control-label" for="txtFechaMem">Fecha Memor&aacute;ndum *: </label>
+
+
+                            </div>-->
+
+                            <div class="col-sm-6">
+                                <div style="margin-top: 5px;" id="txtFechaMem" on></div>
+                                <span class="help-block" id="helpErrorFechasMem"></span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td align="right">Gerencia:</td>
-                        <td align="left"><select id="lstGerenciaMemorandumNuevo"></select></td>
+                        <td align="left">
+                        <!--    <select id="lstGerenciaMemorandum"></select>-->
+                            <div>
+                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Gerencia:</span><div style="margin-left: 5px; float: left;" id="lstGerenciasAdministrativasMovilidad"></div>
+                                <div style='clear: both;'></div>
+                        </td>
                     </tr>
                     <tr>
                         <td align="right">Departamento:</td>
-                        <td align="left"><select id="lstDepartamentoMemorandumNuevo"></select></td>
+                        <td align="left"><select id="lstDepartamentoMemorandum"></select></td>
                     </tr>
                     <tr>
                         <td align="right">&Aacute;rea:</td>
-                        <td align="left"><select id="lstAreaMemorandumNuevo"></select></td>
+                        <td align="left"><select id="lstAreaMemorandum"></select></td>
                     </tr>
                     <tr>
                         <td align="right">Ubicaci&oacute;n:</td>
-                        <td align="left"><select id="lstUbicacionMemorandumNuevo"></select></td>
+                        <td align="left"><select id="lstUbicacionMemorandum"></select></td>
                     </tr>
                     <tr>
                         <td align="right">Cargo:</td>
-                        <td align="left"><input type="text" id="txtCargoMemorandumNuevo"/></td>
+                        <td align="left"><input type="text" id="txtCargoMemorandum"/></td>
                     </tr>
                     <tr>
                         <td align="right">Fecha Inicio:</td>
-                        <td align="left"><input type="text" id="txtFechaInicioMemorandumNuevo"/></td>
+                        <td align="left"><input type="text" id="txtFechaInicioMemorandum"/></td>
                     </tr>
                     <tr>
                         <td align="right">Fecha Fin:</td>
-                        <td align="left"><input type="text" id="txtFechaFinMemorandumNuevo"/></td>
+                        <td align="left"><input type="text" id="txtFechaFinMemorandum"/></td>
                     </tr>
                     <tr>
                         <td align="right"></td>
                         <td style="padding-top: 10px;" align="right">
-                            <input style="margin-right: 5px;" type="button" id="btnGuardarMemorandumNuevo" value="Guardar" />
-                            <input id="btnCancelarMemorandumNuevo" type="button" value="Cancelar" />
+                            <input style="margin-right: 5px;" type="button" id="btnGuardarMovilidad" value="Guardar" />
+                            <input id="btnCancelarMovilidad" type="button" value="Cancelar" />
                         </td>
                     </tr>
                 </table>
