@@ -19,6 +19,27 @@
 </head>
 <body>
     <script type="text/javascript">
+        function verificar_ci(ver_ci){
+            var r=true;
+            var v=$.ajax({
+                url:'/personal/verificarci',
+                type:'POST',
+                datatype:'json',
+                async: false,
+                data:{ci:ver_ci},
+                success: function(data){
+                    if (data == 'true'){
+                        alert('El documento de identidad ya existe');
+                        r=false;
+                        return false;
+                    } else {
+                        r=true;
+                        return true;
+                    }
+                }
+            });
+            return r;
+        }
         $(document).ready(function () {
             //set
             
@@ -142,6 +163,10 @@
                        { input: '#observaciones', message: 'Prueba!', action: 'keyup, blur', rule: 'required' }*/
                 ]
             });
+            $("#ci").blur(function(){
+                verificar_ci($("#ci").val());
+            });
+            
             // Validate form.
             $("#sendButton").click(function () {
                 /*var validationResult = function (isValid) {
@@ -226,7 +251,7 @@
                     { Day: 'Sunday', Running: 20, Swimming: 40, Cycling: 0, Goal: 90 }
             ];
             // prepare jqxChart settings
-            var settings = {
+            /*var settings = {
                 borderLineWidth: 0,
                 title: "Fitness & exercise weekly scorecard",
                 description: "Time spent in vigorous exercise by activity",
@@ -290,7 +315,7 @@
                             ]
                         }
                     ]
-            };
+            };*/
             // setup the chart
             //$('#chart').jqxChart(settings);
             // prepare DataTable data.
@@ -340,7 +365,37 @@
                 $.jqx.resize();
                 $(this).parent().addClass('active');
             })
-        });
+        // upload files
+        /*var settings = {
+            url: "/personal/subir/",
+            dragDrop:true,
+            fileName: "myfile",
+            allowedTypes:"jpg,png,gif,doc,pdf,zip",	
+            returnType:"json",
+            onSuccess:function(files,data,xhr){
+               // alert(data);
+            },
+            Error:function(data){
+                alert(data);
+            }
+            showDelete:true,
+            deleteCallback: function(data,pd)
+            {
+                for(var i=0;i<data.length;i++)
+                {
+                    $.post("/personal/eliminar/",{op:"delete",name:data[i]},
+                    function(resp, textStatus, jqXHR)
+                    {
+                        //Show Message  
+                        $("#status").append("<div>File Deleted</div>");      
+                    });
+                }      
+                pd.statusbar.hide(); //You choice to hide/not.  
+            }
+        }
+        var uploadObj = $("#mulitplefileuploader").uploadFile(settings);*/
+        $("#boton_foto").load('/personal/subirfoto/');
+    });
     </script>
     <div style="min-height: 0px; box-shadow: none; -webkit-box-shadow: none;" class="navbar navbar-default " role="navigation">
         <ul id="myTab" style="min-width: 480px; box-shadow: none; -webkit-box-shadow: none; border: none;" class="nav nav-tabs">
@@ -350,9 +405,18 @@
             <li><a data-tab="alternativo" href="#alternativo">Datos Alternativos.</a></li>
         </ul>
     </div>
-    <h2 style="padding-top: 0px; width: 100%;"><b>Nuevo Registro de Persona.</b></h2>
-    <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido des manera obligatoria(*).</h6>
-    
+    <div class="box-body">
+        <div class="row">
+        <div class="form-horizontal col-sm-6">
+            <h2 style="padding-top: 0px; width: 100%;"><b>Nuevo Registro de Persona.</b></h2>
+            <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido des manera obligatoria(*).</h6>
+        </div>
+        <div class="form-horizontal col-sm-6">
+            <div class="box-body" width="100%" align="right" id="boton_foto">
+                
+            </div>
+        </div>
+    </div>
     <div style="padding-top: 0px; width: 100%; height: 100%;">
         <form class="navbar-form" id="form">
         <div id="identificacion" class="box" style="width: 100%; height: 100%; overflow-x: hidden; border: none;">
@@ -398,7 +462,7 @@
                     <div class="row">
                         <label class="col-sm-3 control-label" for="ci">N&uacute;mero de Documento *:</label>
                         <div class="col-sm-3">
-                            <input placeholder="Número Documento" id="ci" name="ci" value="" />
+                            <input placeholder="Número Documento" id="ci" name="ci" value=""/>
                         </div>
                         <div class="col-sm-3">
                             <div style="margin-top: 5px;" id="expedido"></div>
@@ -583,3 +647,5 @@
         </div>
         </form>
     </div>
+    </div>
+    
