@@ -31,6 +31,12 @@ $().ready(function () {
             guardarRegistroEditado();
         }
     });
+    $("#btnGuardarMovilidad").click(function (){
+        var ok = validaFormularioPorRegistroMovilidad();
+        if (ok){
+            //guardarRegistroMovilidad();
+        }
+    });
     $("#btnGuardarBaja").click(function (){
         var ok = validaFormularioPorBajaRegistro();
         if (ok){
@@ -119,11 +125,10 @@ $().ready(function () {
     $("#popupWindowCargo").jqxWindow({
         width: '100%',height:300, resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelar"), modalOpacity: 0.01
     });
-    // initialize the popup window and buttons.
+    //$('#jqxWindow').jqxWindow({ position: { x: 300, y: 400 }});
     $("#popupWindowNuevaMovilidad").jqxWindow({
-        width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelarMovilidad"), modalOpacity: 0.01
+        position: { x: 300, y: 400 },height: '100%',width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelarMovilidad"), modalOpacity: 0.01
     });
-
     $('#btnDesfiltrartodo').click(function () {
        $("#jqxgrid").jqxGrid('clearfilters');
     });
@@ -162,6 +167,7 @@ $().ready(function () {
         width: '100%', position: "bottom-right", opacity: 0.9,
         autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "error"
     });
+
     $("#divMsjeNotificacionWarning").jqxNotification({
         width: '100%', position: "bottom-right", opacity: 0.9,
         autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "warning"
@@ -1030,6 +1036,7 @@ function OperaEvento(evento) {
          */
         $('#jqxTabs').jqxTabs({ selectedItem: 0 });
         $("#popupWindowCargo").jqxWindow('close');
+        $("#popupWindowNuevaMovilidad").jqxWindow('close');
     }
 }
 /**

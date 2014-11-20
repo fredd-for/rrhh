@@ -197,4 +197,30 @@ class Organigramas extends \Phalcon\Mvc\Model
         $this->_db = new Organigramas();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de gerencias administrativas con vigencia actual.
+     * @param null $padre_id
+     * @return Resultset
+     */
+    public function getDepartamentosAdministrativosPorGerencia($padre_id=null){
+        $sql = "SELECT * from f_listado_departamentos_administrativos()";
+        if($padre_id!=null)
+            $sql .= " WHERE padre_id=".$padre_id;
+        $this->_db = new Organigramas();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de áreas administrativas.
+     * @param null $padre_id
+     * @return Resultset
+     */
+    public function getAreasAdministrativas($padre_id=null){
+        $sql = "SELECT * from f_listado_areas_administrativas()";
+        if($padre_id!=null)
+            $sql .= " WHERE padre_id=".$padre_id;
+        $this->_db = new Organigramas();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }

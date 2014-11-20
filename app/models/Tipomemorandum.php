@@ -14,6 +14,7 @@ class Tipomemorandum extends \Phalcon\Mvc\Model {
     public $id;
     public $tipo_memorandum;
     public $cabecera;
+    public $abrebiacion;
     public $observacion;
     public $estado;
     public $agrupador;
@@ -35,6 +36,7 @@ class Tipomemorandum extends \Phalcon\Mvc\Model {
             'id'=>'id',
             'tipo_memorandum'=>'tipo_memorandum',
             'cabecera'=>'cabecera',
+            'abreviacion'=>'abreviacion',
             'observacion'=>'observacion',
             'estado'=>'estado',
             'agrupador'=>'agrupador'
@@ -48,7 +50,7 @@ class Tipomemorandum extends \Phalcon\Mvc\Model {
     public function getAll()
     {
         $sql = "SELECT * from tipomemorandum";
-        $this->_db = new Frelaborales();
+        $this->_db = new Tipomemorandum();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 }

@@ -18,7 +18,8 @@ function cargarPersonasContactos(idPersona){
             if(res.length>0){
                 $.each( res, function( key, val ) {
                         if(verificarVisibilidad("dtTipoDeDocumento")){
-                        $("#dtTipoDeDocumento").html(val.tipo_documento+":");
+                            if(val.tipo_documento!=null)$("#dtTipoDeDocumento").html(val.tipo_documento+":");
+                            else $("#dtTipoDeDocumento").html("CI:");
                         $("#ddNumeroDeDocumento").html("");
                         $("#ddNumeroDeDocumento").append(val.ci+" "+val.expd);
                         if(val.num_complemento!=""&&val.num_complemento!=null)
