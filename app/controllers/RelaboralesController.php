@@ -1821,6 +1821,7 @@ class RelaboralesController extends ControllerBase
                     'id' => $v->id,
                     'tipo_memorandum' => $v->tipo_memorandum,
                     'cabecera' => $v->cabecera,
+                    'abreviacion' => $v->abreviacion,
                     'observacion' => $v->observacion,
                     'estado' => $v->estado,
                     'agrupador' => $v->agrupador
