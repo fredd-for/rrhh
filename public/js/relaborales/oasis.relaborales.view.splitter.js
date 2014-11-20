@@ -181,7 +181,7 @@ function cargarHistorialRelacionLaboralMovilidad(idRelaboral) {
     var historial = "";
     $.ajax({
         url: '/relaborales/listhistorialmovilidad',
-        type: 'POST',
+        type: 'GET',
         datatype: 'json',
         async: false,
         cache: false,

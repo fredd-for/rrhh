@@ -560,7 +560,7 @@ function definirGrillaParaListaRelaborales(){
                                     $("#imgFotoPerfilMover").attr("src",rutaImagen);
 
                                 }else{
-                                    var msje = "Para acceder a la asignación de Movilidad Funcionaria, el estado de registro de Relaci&oacute;n Laboral debe tener un estado ACTIVO.";
+                                    var msje = "Para acceder a la asignación de Movilidad Funcionaria, el estado de registro de Relación Laboral debe tener un estado ACTIVO.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
