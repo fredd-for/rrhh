@@ -242,7 +242,7 @@ public function listpacAction()
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'cargo' => $v->cargo,
 			'gestion' => $v->gestion,
-			'estado' => $v->estado,
+			'estado' => $v->estado1,
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
 			);
@@ -291,6 +291,18 @@ public function delete_pacAction(){
 	$resul->save();
 	$this->view->disable();
 	echo json_encode();
+}
+
+public function getEstadoSeguimientoAction()
+{
+	$model = new Cargos();
+	$resul = $model->getEstadoSeguimiento($_POST['cargo_id']);
+	$this->view->disable();
+	$estado = null;
+	foreach ($resul as $v) {
+		$estado=$v->seguimiento_estado_id;
+	}
+	echo json_encode($estado);
 }
 
 

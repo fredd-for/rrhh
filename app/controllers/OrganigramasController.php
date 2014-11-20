@@ -41,6 +41,7 @@ class OrganigramasController extends ControllerBase
 			$resul->estado = 1;
 			$resul->baja_logica = 1;
 			$resul->user_reg_id = 1;
+			$resul->visible = 1;
 			$resul->fecha_reg = date("Y-m-d H:i:s");
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
 			if ($resul->save()) {
@@ -145,7 +146,7 @@ class OrganigramasController extends ControllerBase
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';
-			$hijos=  Organigramas::find(array("padre_id='$id' and baja_logica=1"));
+			$hijos=  Organigramas::find(array("padre_id='$id' and baja_logica=1 and visible=1"));
             //$hijos = ORM::factory('oficinas')->where('padre', '=', $id)->find_all();
 			foreach ($hijos as $hijo) {
 				$oficina = $hijo->unidad_administrativa;

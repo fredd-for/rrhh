@@ -119,6 +119,7 @@ class ProcesoscontratacionesController extends ControllerBase
 						$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
 						$resul2->estado = 1;
 						$resul2->user_reg_id = $auth['id'];
+						$resul2->organigrama_id = 0;
 						$resul2->fecha_reg = date("Y-m-d H:i:s");
 						$resul2->baja_logica = 1;
 						$resul2->save();
