@@ -259,6 +259,23 @@ class RelaboralesController extends ControllerBase
     }
 
     /**
+     * Función para listar los nombres de cargos
+     */
+    public function listnombrecargosAction()
+    {
+        $this->view->disable();
+        $obj = new cargos();
+        $resul = $obj->listNombresCargos();
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $cargos[] = array('cargo' => $v->cargo);
+            }
+        }
+        echo json_encode($cargos);
+    }
+
+    /**
      * Función para la obtención del listado de procesos disponibles.
      */
     public function listprocesosAction()
@@ -1796,7 +1813,7 @@ class RelaboralesController extends ControllerBase
      */
     function listtiposmemorandumsAction(){
         $this->view->disable();
-        $resul = Tipomemorandum::find(array('estado=1', 'order' => 'tipo_memorandum ASC'));
+        $resul = Tipomemorandum::find(array('estado=:estado1: and agrupador=:agrupador1:','bind'=>array('estado1'=>1,'agrupador1'=>1),'order' => 'id ASC'));
         //comprobamos si hay filas
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
@@ -1833,9 +1850,9 @@ class RelaboralesController extends ControllerBase
     function listgerenciasAction(){
         $this->view->disable();
         $org = new Organigramas();
-        $gerencias = $org->getGerencias();
+        $resul = $org->getGerencias();
         //comprobamos si hay filas
-        /*if ($resul->count() > 0) {
+        if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $gerencias[] = array(
                     'id' => $v->id,
@@ -1860,7 +1877,84 @@ class RelaboralesController extends ControllerBase
                     'visible' => $v->visible
                 );
             }
-        }*/
+        }
         echo json_encode($gerencias);
+    }
+    /**
+     * Función para la obtención del listado de departamentos administrativos.
+     * El nombre de la función se especifica así pues se prevé necesitarse el listado de los departamentos del país.
+     */
+    function listdepartamentosadministrativosAction(){
+        $this->view->disable();
+        $org = new Organigramas();
+        $padre_id = $_GET["padre_id"];
+        $resul = $org->getDepartamentosAdministrativosPorGerencia($padre_id);
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $gerencias[] = array(
+                    'id' => $v->id,
+                    'padre_id' => $v->padre_id,
+                    'gestion' => $v->gestion,
+                    'da_id' => $v->da_id,
+                    'regional_id' => $v->regional_id,
+                    'unidad_administrativa' => $v->unidad_administrativa,
+                    'nivel_estructural_id' => $v->nivel_estructural_id,
+                    'sigla' => $v->sigla,
+                    'fecha_ini' => $v->fecha_ini,
+                    'fecha_fin' => $v->fecha_fin,
+                    'orden' => $v->orden,
+                    'observacion' => $v->observacion,
+                    'estado' => $v->estado,
+                    'baja_logica' => $v->baja_logica,
+                    'user_reg_id' => $v->user_reg_id,
+                    'fecha_reg' => $v->fecha_reg,
+                    'user_mod_id' => $v->user_mod_id,
+                    'fecha_mod' => $v->fecha_mod,
+                    'area_sustantiva' => $v->area_sustantiva,
+                    'visible' => $v->visible
+                );
+            }
+        }
+        echo json_encode($gerencias);
+    }
+
+    /**
+     * Función para la obtención del listado de áreas administrativas.
+     */
+    function listareasadministrativasAction(){
+        $this->view->disable();
+        $org = new Organigramas();
+        $padre_id = $_GET["padre_id"];
+        $resul = $org->getAreasAdministrativas($padre_id);
+        //comprobamos si hay filas
+        $areas = array();
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $areas[] = array(
+                    'id' => $v->id,
+                    'padre_id' => $v->padre_id,
+                    'gestion' => $v->gestion,
+                    'da_id' => $v->da_id,
+                    'regional_id' => $v->regional_id,
+                    'unidad_administrativa' => $v->unidad_administrativa,
+                    'nivel_estructural_id' => $v->nivel_estructural_id,
+                    'sigla' => $v->sigla,
+                    'fecha_ini' => $v->fecha_ini,
+                    'fecha_fin' => $v->fecha_fin,
+                    'orden' => $v->orden,
+                    'observacion' => $v->observacion,
+                    'estado' => $v->estado,
+                    'baja_logica' => $v->baja_logica,
+                    'user_reg_id' => $v->user_reg_id,
+                    'fecha_reg' => $v->fecha_reg,
+                    'user_mod_id' => $v->user_mod_id,
+                    'fecha_mod' => $v->fecha_mod,
+                    'area_sustantiva' => $v->area_sustantiva,
+                    'visible' => $v->visible
+                );
+            }
+        }
+        echo json_encode($areas);
     }
 }

@@ -111,15 +111,37 @@ function cargarGrillaMovilidad(idRelaboral){
                         $("#popupWindowNuevaMovilidad").jqxWindow('open');
                         $("#divTitleRegistroMovilidad").html("");
                         $("#divTitleRegistroMovilidad").append("Nuevo Registro de Movilidad de Personal");
+                        $("#divFechasFinMovilidad").hide();
                         cargarTiposMemorandumsParaMovilidad(0);
                         cargarGestionesMemorandumsParaMovilidad(0);
+                        cargarUnidadesOrganizacionalesParaMovilidad(0,0,0);
+                        cargarUbicacionesParaMovilidad(0);
+                        cargarCargosParaMovilidad('');
                         $("#lstTipoMemorandum").focus();
                         $("#lstTipoMemorandum").change(function(){
                             $("#txtCorrelativoMemorandum").focus();
+                            var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
+                            if(itemTipoMemorandum!=null){
+                                var textoDondeSeBusca = itemTipoMemorandum.label;
+                                var n = textoDondeSeBusca.search("COMISI");
+                                if(n<0){
+                                    $("#divFechasFinMovilidad").hide();
+                                }else $("#divFechasFinMovilidad").show();
+                            }
+                        });
+                        $("#lstUbicaciones").change(function(){
+                            $("#txtCargoMemorandum").focus();
                         });
                         //$("#txtFechaMem").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                         $("#txtFechaMem").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
-
+                        var fechaActual= $('#txtFechaMem').jqxDateTimeInput('getDate');
+                        $('#txtFechaMem').jqxDateTimeInput('setMaxDate', fechaActual);
+                        /*
+                            Se establece como fecha mínima debido a que al inicio de operaciones de la empresa
+                         */
+                        $('#txtFechaMem').jqxDateTimeInput('setMinDate', new Date(2014, 3, 1));
+                        $("#txtFechaIniMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                        $("#txtFechaFinMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                     });
 
                     // Modificar registro.
@@ -399,10 +421,6 @@ function cargarGrillaMovilidad(idRelaboral){
             });
     }
     // events
-    $("#jqxgridmovilidad").on('cellbeginedit', function (event) {
-        var args = event.args;
-        $("#cellbegineditevent").text("Event Type: cellbeginedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
-    });
     $("#jqxgridmovilidad").on('cellendedit', function (event) {
         var args = event.args;
         $("#cellendeditevent").text("Event Type: cellendedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
@@ -412,6 +430,7 @@ function cargarGrillaMovilidad(idRelaboral){
  * Función para cargar el combo de tipos de memorándums.
  * @param idTipoMemorandumPrederminado Identificador del tipo de memorándum predeterminado.
  */
+/*
 function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
     var agrupador = 1;
     var sw = 0;
@@ -424,7 +443,7 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
         success: function(data) {
             var res = jQuery.parseJSON(data);
             $('#lstTipoMemorandum').html("");
-            $('#lstTipoMemorandum').append("<option id='0'>Seleccionar...</option>");
+            $('#lstTipoMemorandum').append("<option value='0'>Seleccionar...</option>");
             if(res.length>0){
                 $.each( res, function( key, val ) {
                     if(val.agrupador==1){
@@ -438,31 +457,28 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
         }
     });
 }
+*/
+
 function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
-    var agrupador = 1;
-    var sw = 0;
-    $.ajax({
-        url:'/relaborales/listtiposmemorandums',
-        type:'POST',
-        datatype: 'json',
-        async:false,
-        cache:false,
-        success: function(data) {
-            var res = jQuery.parseJSON(data);
-            $('#lstTipoMemorandum').html("");
-            $('#lstTipoMemorandum').append("<option id='0'>Seleccionar...</option>");
-            if(res.length>0){
-                $.each( res, function( key, val ) {
-                    if(val.agrupador==1){
-                        if(idTipoMemorandumPrederminado==val.id){$selected='selected';}else{ $selected='';}
-                        $('#lstTipoMemorandum').append("<option value="+val.id+" "+$selected+">"+val.tipo_memorandum+"</option>");
-                        sw=1;
-                    }
-                });
-                if(sw==0)$('#lstTipoMemorandum').prop("disabled","disabled");
-            }else $('#lstTipoMemorandum').prop("disabled","disabled");
-        }
-    });
+    var tiposMemorandumsSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'tipo_memorandum'},
+            { name: 'id'}
+        ],
+        url: '/relaborales/listtiposmemorandums'
+    };
+    var tiposMemorandumsAdapter = new $.jqx.dataAdapter(tiposMemorandumsSource);
+    $("#lstTipoMemorandum").jqxComboBox(
+        {
+            source: tiposMemorandumsAdapter,
+            width: 300,
+            height: 25,
+            promptText: "Seleccione un tipo de memorandum...",
+            displayMember: 'tipo_memorandum',
+            valueMember: 'id'
+        });
 }
 /**
  * Función para cargar el combo de gestiones para memorándums.
@@ -478,7 +494,7 @@ function cargarGestionesMemorandumsParaMovilidad(gestionPredeterminada){
         success: function(data) {
             var res = jQuery.parseJSON(data);
             $('#lstGestionMemorandum').html("");
-            $('#lstGestionMemorandum').append("<option id='0'>Seleccionar...</option>");
+            $('#lstGestionMemorandum').append("<option value='0'>Seleccionar...</option>");
             if(res.length>0){
                 $.each( res, function( key, val ) {
                     if(gestionPredeterminada==val.gestion){$selected='selected';}else{ $selected='';}
@@ -488,14 +504,16 @@ function cargarGestionesMemorandumsParaMovilidad(gestionPredeterminada){
         }
     });
 }
-function cargarGerencias(){
-
+/**
+ * Función para la carga de los combos relacionados a las unidad administrativa a la cual corresponde la asignación de funciones.
+ */
+function cargarUnidadesOrganizacionalesParaMovilidad(idGerencia,idDepartamento,idArea){
     var gerenciasSource =
     {
         dataType: "json",
         dataFields: [
-            { name: 'CompanyName'},
-            { name: 'CustomerID'}
+            { name: 'unidad_administrativa'},
+            { name: 'id'}
         ],
         url: '/relaborales/listgerencias/'
     };
@@ -505,7 +523,51 @@ function cargarGerencias(){
             source: gerenciasAdapter,
             width: 300,
             height: 25,
-            promptText: "Select una gerencia...",
+            promptText: "Seleccione una gerencia...",
+            displayMember: 'unidad_administrativa',
+            valueMember: 'id'
+        });
+    var departamentosSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'padre_id'},
+            { name: 'id'},
+            { name: 'unidad_administrativa'},
+        ],
+        url: '/relaborales/listdepartamentosadministrativos/'
+    };
+    var departamentosAdapter = new $.jqx.dataAdapter(departamentosSource);
+
+    $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox(
+        {
+
+            width: 300,
+            height: 25,
+            disabled: true,
+            promptText: "Seleccione Departamento Administrativo...",
+            displayMember: 'unidad_administrativa',
+            valueMember: 'id'
+        });
+    var areasSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'padre_id'},
+            { name: 'id'},
+            { name: 'unidad_administrativa'},
+        ],
+        url: '/relaborales/listareasadministrativas/'
+    };
+    var areasAdapter = new $.jqx.dataAdapter(areasSource);
+
+    $("#lstAreasAdministrativasMovilidad").jqxComboBox(
+        {
+
+            width: 300,
+            height: 25,
+            disabled: true,
+            promptText: "Seleccione un Area Administrativa...",
             displayMember: 'unidad_administrativa',
             valueMember: 'id'
         });
@@ -513,12 +575,160 @@ function cargarGerencias(){
     {
         if (event.args)
         {
-            //$("#orders").jqxComboBox({ disabled: false, selectedIndex: -1});
-            //var value = event.args.item.value;
-            //ordersSource.data = {CustomerID: value};
-            //ordersAdapter = new $.jqx.dataAdapter(ordersSource);
-            //$("#orders").jqxComboBox({source: ordersAdapter});
+            $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox({ disabled: false, selectedIndex: -1});
+            var value = event.args.item.value;
+            departamentosSource.data = {padre_id: value};
+            departamentosAdapter = new $.jqx.dataAdapter(departamentosSource);
+            $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox({source: departamentosAdapter});
+            /**
+             * En caso de que una gerencia tenga un área dependiente
+             */
+            $("#lstAreasAdministrativasMovilidad").jqxComboBox({ disabled: false, selectedIndex: -1});
+            var value = event.args.item.value;
+            areasSource.data = {padre_id: value};
+            areasAdapter = new $.jqx.dataAdapter(areasSource);
+            $("#lstAreasAdministrativasMovilidad").jqxComboBox({source: areasAdapter});
         }
     });
+    $("#lstDepartamentosAdministrativosMovilidad").bind('select', function(event)
+    {
+        if (event.args)
+        {
+            $("#lstAreasAdministrativasMovilidad").jqxComboBox({ disabled: false, selectedIndex: -1});
+            var value = event.args.item.value;
+            areasSource.data = {padre_id: value};
+            areasAdapter = new $.jqx.dataAdapter(areasSource);
+            $("#lstAreasAdministrativasMovilidad").jqxComboBox({source: areasAdapter});
+        }
+    });
+}
+/**
+ * Función para cargar el combo de ubicaciones por movilidad.
+ */
+function cargarUbicacionesParaMovilidad(idUbicacion){
+    var ubicacionesSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'ubicacion'},
+            { name: 'id'}
+        ],
+        url: '/relaborales/listubicaciones/'
+    };
+    var ubicacionesAdapter = new $.jqx.dataAdapter(ubicacionesSource);
+    $("#lstUbicacionesMovilidad").jqxComboBox(
+        {
+            source: ubicacionesAdapter,
+            width: 300,
+            height: 25,
+            promptText: "Seleccione una ubicacion...",
+            displayMember: 'ubicacion',
+            valueMember: 'id'
+        });
+}
+/**
+ * Función para obtener el listado de cargos que se disponen como autocompletables en el campo Cargo.
+ * @param cargo
+ */
+function cargarCargosParaMovilidad(cargo){
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'cargo' },
+        ],
+        url: '/relaborales/listnombrecargos/'
+    };
+    var dataAdapter = new $.jqx.dataAdapter(source);
+    $("#txtCargoMemorandum").jqxInput({ width: 300, height: 35,source: dataAdapter, placeHolder: "Introduzca el nombre del cargo", displayMember: "cargo", valueMember: "cargo"});
+}
+/**
+ * Función para validar los datos del formulario de nuevo registro de relación laboral.
+ * @returns {boolean} True: La validación fue correcta; False: La validación anuncia que hay errores en el formulario.
+ */
+function validaFormularioPorRegistroMovilidad(){
+    var ok = true;
+    var msje = "";
+    $(".msjs-alert").hide();
+    $("#divTiposMemorandums").removeClass("has-error");
+    $("#divFechasMemorandums").removeClass("has-error");
+    $("#divCorrelativosMemorandums").removeClass("has-error");
+    $("#divGerenciasAdministrativasMovilidad").removeClass("has-error");
+    $("#divDepartamentosAdministrativosMovilidad").removeClass("has-error");
+    $("#divAreasAdministrativasMovilidad").removeClass("has-error");
+    $("#divCargosMovilidad").removeClass("has-error");
+    $("#divFechasIniMovilidad").removeClass("has-error");
+    $("#divFechasFinMovilidad").removeClass("has-error");
 
+
+    $("#helpErrorTiposMemorandums").html("");
+    $("#helpErrorCorrelativosMemorandums").html("");
+    $("#helpErrorFechasMemorandums").html("");
+    $("#helpErrorGerenciasAdministrativasMovilidad").html("");
+    $("#helpErrorDepartamentosAdministrativosMovilidad").html("");
+    $("#helpErrorAreasAdministrativasMovilidad").html("");
+    $("#helpErrorCargosMovilidad").html("");
+    $("#helpErrorFechasIniMovilidad").html("");
+    $("#helpErrorFechasFinMovilidad").html("");
+
+    //var idTipoMemoradundum = $("#lstTipoMemorandum").val();
+    var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
+    var correlativoMemoradundum  =$("#txtCorrelativoMemorandum").val();
+    var gestionMemorandum  =$("#lstGestionMemorandum").val();
+    var fechaMem= $('#txtFechaMem').jqxDateTimeInput('getText');
+    var itemGerencia = $("#lstGerenciasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
+    var itemDepartamento = $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox('getSelectedItem');
+    var itemArea = $("#lstAreasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
+    var cargo = $("#txtCargoMovilidad").val();
+    var fechaIni= $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
+    var fechaFin= $('#txtFechaFinMovilidad').jqxDateTimeInput('getText');
+
+    var enfoque=null;
+    if(itemTipoMemorandum==null){
+        ok=false;
+        var msje = "Debe introducir el tipo de Memor&aacute;ndum necesariamente.";
+        $("#divTiposMemorandums").addClass("has-error");
+        $("#helpErrorTiposMemorandums").html(msje);
+        if(enfoque==null)enfoque =$("#lstTipoMemorandum");
+    }
+    if(correlativoMemoradundum==''||gestionMemorandum==0){
+        ok=false;
+        var msje ="";
+        $("#divCorrelativosMemorandums").addClass("has-error");
+        if(correlativoMemoradundum==''){
+            msje = "Debe introducir el correlativo del Memor&aacute;ndum necesariamente.";
+            if(enfoque==null)enfoque =$("#txtCorrelativoMemorandum");
+        }
+        if(gestionMemorandum==0){
+            if(msje!="")msje+="<br>";
+            msje += "Debe seleccionar la gesti&oacute;n del memor&aacute;ndum necesariamente.";
+            if(enfoque==null)enfoque =$("#lstGestionMemorandum");
+        }
+        $("#helpErrorCorrelativosMemorandums").html(msje);
+    }
+    if(fechaMem==''){
+        ok=false;
+        var msje = "Debe introducir la fecha de emisi&oacute;n del memor&aacute;ndum necesariamente.";
+        $("#divFechasMemorandums").addClass("has-error");
+        $("#helpErrorFechasMemorandums").html(msje);
+        if(enfoque==null)enfoque =$("#txtFechaMem");
+    }
+    if(fechaIni==''){
+        ok=false;
+        var msje = "Debe introducir la fecha de inicio de aplicaci&oacute;n de la movilidad de personal necesariamente.";
+        $("#divFechasIniMovilidad").addClass("has-error");
+        $("#helpErrorFechasIniMovilidad").html(msje);
+        if(enfoque==null)enfoque =$("#txtFechaIniMovilidad");
+    }
+    if(fechaFin==''){
+        ok=false;
+        var msje = "Debe introducir la fecha de finalizaci&oacute;n de aplicaci&oacute;n de la movilidad de personal necesariamente.";
+        $("#divFechasFinMovilidad").addClass("has-error");
+        $("#helpErrorFechasFinMovilidad").html(msje);
+        if(enfoque==null)enfoque =$("#txtFechaFinMovilidad");
+    }
+    if(enfoque!=null){
+        enfoque.focus();
+    }
+    return ok;
 }

@@ -201,4 +201,14 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));      
     }
 
+    /**
+     * Función para listar los nombres de cargos registrados en la tabla de cargos.
+     * @return Resultset
+     */
+    public function listNombresCargos()
+    {
+        $sql = "SELECT DISTINCT cargo FROM cargos order by cargo";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }
