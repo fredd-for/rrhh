@@ -1119,10 +1119,10 @@ class RelaboralesController extends ControllerBase
     public function listhistorialmovilidadAction()
     {   $this->view->disable();
         $relaboralmovilidad = Array();
-        if (isset($_GET["id"]) && $_GET["id"] > 0) {
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
 
             $obj = new Frelaboralesmovilidad();
-            $resul = $obj->getAllByOne($_GET["id"]);
+            $resul = $obj->getAllByOne($_POST["id"]);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
