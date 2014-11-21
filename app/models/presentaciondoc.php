@@ -176,8 +176,29 @@ class presentaciondoc extends \Phalcon\Mvc\Model
             'id' => 'id',
             'institucion_id' => 'institucion_id',
             'gestion_emi' => 'gestion_emi',
-            
-            
+            'trim_emi' => 'trim_emi',
+            'mes_emi' => 'mes_emi',
+            'dia_emi' => 'dia_emi',
+            'tipodocumento_id' => 'tipodocumento_id',
+            'rellaboral_id' => 'rellaboral_id',
+            'fecha_pres' => 'fecha_pres',
+            'campo_aux_v1' => 'campo_aux_v1',
+            'campo_aux_v2' => 'campo_aux_v2',
+            'campo_aux_v3' => 'campo_aux_v3',
+            'campo_aux_n1' => 'campo_aux_n1',
+            'campo_aux_n2' => 'campo_aux_n2',
+            'campo_aux_n3' => 'campo_aux_n3',
+            'campo_aux_d1' => 'campo_aux_d1',
+            'campo_aux_d2' => 'campo_aux_d2',
+            'campo_aux_d3' => 'campo_aux_d3',
+            'observacion' => 'observacion',
+            'estado' => 'estado',
+            'visible' => 'visible',
+            'baja_logica' => 'baja_logica',
+            'user_reg_id' => 'user_reg_id',
+            'fecha_reg' => 'fecha_reg',
+            'fecha_reg' => 'fecha_reg',
+            'fecha_mod' => 'fecha_mod'
         );
     }
 }
