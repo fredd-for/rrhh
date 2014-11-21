@@ -105,9 +105,9 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $organismo_codigo;
     public $organismo;
     public $relaborales_observacion;
-    public $relaborales_estado;
-    public $relaborales_estado_descripcion;
-    public $relaborales_estado_abreviacion;
+    public $estado;
+    public $estado_descripcion;
+    public $estado_abreviacion;
     public $tiene_contrato_vigente;
     public $id_eventual;
     public $id_consultor;
@@ -251,7 +251,19 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAll()
     {
-        $sql = "SELECT * from f_relaborales()";
+        $sql = "SELECT * FROM f_relaborales()";
+        $this->_db = new Frelaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para obtener el registro correspondiente a una relación laboral.
+     * @param $id_relaboral
+     * @return Resultset
+     */
+    public function getOne($id_relaboral)
+    {
+        $sql = "SELECT * FROM f_relaborales() WHERE id_relaboral=".$id_relaboral;
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -261,7 +273,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllByPerson($idPersona,$gestion=0)
     {
-        $sql = "SELECT * from f_relaborales() WHERE id_persona=".$idPersona;
+        $sql = "SELECT * FROM f_relaborales() WHERE id_persona=".$idPersona;
         if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
         $sql.=" ORDER BY fecha_ini DESC";
         $this->_db = new Frelaborales();
@@ -275,7 +287,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllWithPersons()
     {
-        $sql = "SELECT * from f_relaborales_y_personas_nuevas()";
+        $sql = "SELECT * FROM f_relaborales_y_personas_nuevas()";
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -287,7 +299,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllWithPersonsOneRecord($where='',$group='')
     {
-        $sql = "SELECT * from f_relaborales_y_personas_nuevas_un_registro()";
+        $sql = "SELECT * FROM f_relaborales_y_personas_nuevas_un_registro()";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();

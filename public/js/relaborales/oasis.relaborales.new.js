@@ -262,22 +262,8 @@ function validaFormularioPorNuevoRegistro(){
     var ok = true;
     var msje = "";
     $(".msjs-alert").hide();
-    $("#helpErrorUbicaciones").html("");
-    $("#helpErrorProcesos").html("");
-    $("#helpErrorCategorias").html("");
-    $("#helpErrorItems").html("");
-    $("#helpErrorNumContratos").html("");
-    $("#helpErrorFechasIni").html("");
-    $("#helpErrorFechasIncor").html("");
-    $("#helpErrorFechasFin").html("");
-    $("#divUbicaciones").removeClass("has-error");
-    $("#divProcesos").removeClass("has-error");
-    $("#divCategorias").removeClass("has-error");
-    $("#divItems").removeClass("has-error");
-    $("#divNumContratos").removeClass("has-error");
-    $("#divFechasIni").removeClass("has-error");
-    $("#divFechasIncor").removeClass("has-error");
-    $("#divFechasFin").removeClass("has-error");
+    limpiarMensajesErrorPorValidacionNuevoRegistro();
+
     var id_condicion = $("#hdnIdCondicionNuevaSeleccionada").val();
     id_condicion = parseInt(id_condicion);
     var ubicacion = $("#lstUbicaciones").val();
@@ -451,6 +437,27 @@ function validaFormularioPorNuevoRegistro(){
     //}
     //alert(msje);
     return ok;
+}
+/**
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario para nuevo registro.
+ */
+function limpiarMensajesErrorPorValidacionNuevoRegistro(){
+    $("#helpErrorUbicaciones").html("");
+    $("#helpErrorProcesos").html("");
+    $("#helpErrorCategorias").html("");
+    $("#helpErrorItems").html("");
+    $("#helpErrorNumContratos").html("");
+    $("#helpErrorFechasIni").html("");
+    $("#helpErrorFechasIncor").html("");
+    $("#helpErrorFechasFin").html("");
+    $("#divUbicaciones").removeClass("has-error");
+    $("#divProcesos").removeClass("has-error");
+    $("#divCategorias").removeClass("has-error");
+    $("#divItems").removeClass("has-error");
+    $("#divNumContratos").removeClass("has-error");
+    $("#divFechasIni").removeClass("has-error");
+    $("#divFechasIncor").removeClass("has-error");
+    $("#divFechasFin").removeClass("has-error");
 }
 /**
  * Función para el almacenamiento de un nuevo registro en la Base de Datos.

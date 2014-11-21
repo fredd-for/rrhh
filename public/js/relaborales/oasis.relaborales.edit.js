@@ -266,22 +266,9 @@ function validaFormularioPorEditarRegistro(){
     var ok = true;
     var msje = "";
     $(".msjs-alert").hide();
-    $("#helpErrorUbicacionesEditar").html("");
-    $("#helpErrorProcesosEditar").html("");
-    $("#helpErrorCategoriasEditar").html("");
-    $("#helpErrorItemsEditar").html("");
-    $("#helpErrorNumContratosEditar").html("");
-    $("#helpErrorFechasIniEditar").html("");
-    $("#helpErrorFechasIncorEditar").html("");
-    $("#helpErrorFechasFinEditar").html("");
-    $("#divUbicacionesEditar").removeClass("has-error");
-    $("#divProcesosEditar").removeClass("has-error");
-    $("#divCategoriasEditar").removeClass("has-error");
-    $("#divItemsEditar").removeClass("has-error");
-    $("#divNumContratosEditar").removeClass("has-error");
-    $("#divFechasIniEdiar").removeClass("has-error");
-    $("#divFechasIncorEditar").removeClass("has-error");
-    $("#divFechasFinEditar").removeClass("has-error");
+
+    limpiarMensajesErrorPorValidacionEditarRegistro();
+
     var id_condicion = $("#hdnIdCondicionEditableSeleccionada").val();
     id_condicion = parseInt(id_condicion);
     var ubicacion = $("#lstUbicacionesEditar").val();
@@ -391,27 +378,6 @@ function validaFormularioPorEditarRegistro(){
             if(enfoque==null)enfoque =$("#FechaFinEditar");
         }
     }
-    /*switch (id_condicion){
-     case 1:
-     if($("#txtItem").val()==null||$("#txtItem").val()==""){
-     ok=false;
-     msje = "Debe introducir en n&uacute;mero de &iacute;tem necesariamente.";
-     $("#divItems").addClass("has-error");
-     $("#helpErrorItems").html(msje);
-     if(enfoque==null)enfoque =$("#txtItem");
-     }
-     break;
-     case 2:
-     case 3:
-     if($("#txtNumContrato").val()==null||$("#txtNumContrato").val()==""){
-     ok=false;
-     msje = "Debe introducir en n&uacute;mero de contrato necesariamente.";
-     $("#divNumContratos").addClass("has-error");
-     $("#helpErrorNumContratos").html(msje);
-     if(enfoque==null)enfoque =$("#txtNumContrato");
-     }
-     break;
-     }*/
     if(ubicacion==""||ubicacion==null){
         ok=false;
         msje = "Debe seleccionar la ubicaci&oacute;n de trabajo necesariamente.";
@@ -426,45 +392,32 @@ function validaFormularioPorEditarRegistro(){
         $("#helpErrorProcesosEditar").html(msje);
         if(enfoque==null)enfoque =$("#lstProcesosEditar");
     }
-    /*if(categoria==""||categoria==null){
-     ok=false;
-     msje = "Debe seleccionar la categor&iacute;a necesariamente.";
-     $("#divCategorias").addClass("has-error");
-     $("#helpErrorCategorias").html(msje);
-     if(enfoque==null)enfoque =$("#lstCategorias");
-     }*/
-    /*$('#formEditar').jqxValidator( { focus: false } );
-    $('#formEditar').jqxValidator({
-        hintType: 'label',
-        rules: [
-            { input: '#FechaIniEditar', message: 'Debe registrar la fecha de inicio!', action: 'keyup, blur', rule: 'required' },
-            { input: '#FechaIncorEditar', message: 'Debe registrar la fecha de incorporación!', action: 'keyup, blur', rule: 'required' },
-            { input: '#FechaFinEditar', message: 'Debe registrar la fecha de finalización!', action: 'keyup, blur', rule: 'required' }
-        ]
-    });*/
     if(enfoque!=null){
         enfoque.focus();
     }
-
-    //if(categoria==null||categoria==""){
-    //    ok=false;
-    //    msje = "Debe seleccionar la categoria necesariamente.";
-    //
-    //}
-    //if(fechaIni==""||fechaIni==null){
-    //    ok=false;
-    //    msje = "Debe registrar la Fecha de Inicio necesariamente.";
-    //}
-    //if(fechaIncor==""||fechaIncor==null){
-    //    ok=false;
-    //    msje = "Debe registrar la Fecha de Incorporaci&oacute;n necesariamente.";
-    //}
-    //if(fechaFin == ""||fechaFin == null){
-    //    ok=false;
-    //    msje = "Debe registrar la Fecha de Finalizaci&oacute;n necesariamente.";
-    //}
-    //alert(msje);
-    return ok;
+   return ok;
+}
+/**
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario para edición de registro.
+ */
+function limpiarMensajesErrorPorValidacionEditarRegistro() {
+    $("#helpErrorUbicacionesEditar").html("");
+    $("#helpErrorProcesosEditar").html("");
+    $("#helpErrorCategoriasEditar").html("");
+    $("#helpErrorNumContratosEditar").html("");
+    $("#helpErrorItemsEditar").html("");
+    $("#helpErrorFechasIniEditar").html("");
+    $("#helpErrorFechasIncorEditar").html("");
+    $("#helpErrorFechasFinEditar").html("");
+    $("#divUbicacionesEditar").removeClass("has-error");
+    $("#divProcesosEditar").removeClass("has-error");
+    $("#divCategoriasEditar").removeClass("has-error");
+    $("#divFechasIniEditar").removeClass("has-error");
+    $("#divFechasIncorEditar").removeClass("has-error");
+    $("#divFechasFinEditar").removeClass("has-error");
+    $("#divNumContratosEditar").removeClass("has-error");
+    $("#divItemsEditar").removeClass("has-error");
+    $("#tr_cargo_seleccionado_editar").html("");
 }
 /**
  * Función para el almacenamiento de un nuevo registro en la Base de Datos.

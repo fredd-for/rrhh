@@ -34,7 +34,11 @@ $().ready(function () {
     $("#btnGuardarMovilidad").click(function (){
         var ok = validaFormularioPorRegistroMovilidad();
         if (ok){
-            //guardarRegistroMovilidad();
+            var okk = guardarRegistroMovilidad();
+            if(okk){
+                $("#popupWindowNuevaMovilidad").jqxWindow('close');
+
+            }
         }
     });
     $("#btnGuardarBaja").click(function (){
@@ -125,9 +129,8 @@ $().ready(function () {
     $("#popupWindowCargo").jqxWindow({
         width: '100%',height:300, resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelar"), modalOpacity: 0.01
     });
-    //$('#jqxWindow').jqxWindow({ position: { x: 300, y: 400 }});
     $("#popupWindowNuevaMovilidad").jqxWindow({
-        position: { x: 300, y: 400 },height: '100%',width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelarMovilidad"), modalOpacity: 0.01
+        position: { x: 300, y: 200 },height: 700,width: '100%', resizable: true,  isModal: true, autoOpen: false, cancelButton: $("#btnCancelarMovilidad"), modalOpacity: 0.01
     });
     $('#btnDesfiltrartodo').click(function () {
        $("#jqxgrid").jqxGrid('clearfilters');
@@ -342,12 +345,7 @@ function definirGrillaParaListaRelaborales(){
                                     $("#divNumContratos").hide();
                                     $(".msjs-alert").hide();
                                     $("#divProcesos").hide();
-                                    $("#helpErrorUbicaciones").html("");
-                                    $("#helpErrorProcesos").html("");
-                                    $("#helpErrorCategorias").html("");
-                                    $("#divUbicaciones").removeClass("has-error");
-                                    $("#divProcesos").removeClass("has-error");
-                                    $("#divCategorias").removeClass("has-error");
+                                    limpiarMensajesErrorPorValidacionNuevoRegistro();
                                     var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
                                     $("#imgFotoPerfilNuevo").attr("src", rutaImagen);
                                 } else {
@@ -775,12 +773,9 @@ function definirGrillaParaListaRelaborales(){
                             $("#divNumContratos").hide();
                             $(".msjs-alert").hide();
                             $("#divProcesos").hide();
-                            $("#helpErrorUbicaciones").html("");
-                            $("#helpErrorProcesos").html("");
-                            $("#helpErrorCategorias").html("");
-                            $("#divUbicaciones").removeClass("has-error");
-                            $("#divProcesos").removeClass("has-error");
-                            $("#divCategorias").removeClass("has-error");
+
+                            limpiarMensajesErrorPorValidacionNuevoRegistro();
+
                             var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                             $("#imgFotoPerfilNuevo").attr("src",rutaImagen);
                         }
@@ -828,20 +823,8 @@ function definirGrillaParaListaRelaborales(){
                             $("#divItemsEditar").hide();
                             $("#divNumContratosEditar").hide();
                             $(".msjs-alert").hide();
-                            $("#helpErrorUbicacionesEditar").html("");
-                            $("#helpErrorProcesosEditar").html("");
-                            $("#helpErrorCategoriasEditar").html("");
-                            $("#helpErrorFechasIniEditar").html("");
-                            $("#helpErrorFechasIncorEditar").html("");
-                            $("#helpErrorFechasFinEditar").html("");
-                            $("#divUbicacionesEditar").removeClass("has-error");
-                            $("#divProcesosEditar").removeClass("has-error");
-                            $("#divCategoriasEditar").removeClass("has-error");
+                            limpiarMensajesErrorPorValidacionEditarRegistro();
                             $("#divAreas").hide();
-                            $("#divFechasIniEditar").removeClass("has-error");
-                            $("#divFechasIncorEditar").removeClass("has-error");
-                            $("#divFechasFinEditar").removeClass("has-error");
-                            $("#tr_cargo_seleccionado_editar").html("");
                             if(dataRecord.observacion!=null)$("#txtObservacionEditar").text(dataRecord.observacion);
                             else $("#txtObservacionEditar").text('');
                             cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_procesocontratacion);
@@ -887,6 +870,7 @@ function definirGrillaParaListaRelaborales(){
                             $("#hdnFechaRenBaja").val(0);
                             $("#hdnFechaAceptaRenBaja").val(0);
                             $("#hdnFechaAgraServBaja").val(0);
+                            limpiarMensajesErrorPorValidacionBaja();
                             agregarCargoSeleccionadoEnGrillaParaBaja(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             cargarMotivosBajas(0,dataRecord.id_condicion);
                             //habilitarCamposParaBajaRegistroDeRelacionLaboral(dataRecord.id_organigrama,dataRecord.id_fin_partida,dataRecord.id_condicion);
@@ -901,6 +885,7 @@ function definirGrillaParaListaRelaborales(){
                          */
                         $(".msjs-alert").hide();
                         $("#hdnIdPersonaMovilidad").val(dataRecord.id_persona);
+                        limpiarMensajesErrorPorValidacionMovilidad();
                         if (dataRecord.tiene_contrato_vigente >= 0) {
                             $('#jqxTabs').jqxTabs('enableAt', 0);
                             $('#jqxTabs').jqxTabs('disableAt', 1);
@@ -908,6 +893,7 @@ function definirGrillaParaListaRelaborales(){
                             $('#jqxTabs').jqxTabs('disableAt', 3);
                             $('#jqxTabs').jqxTabs('enableAt', 4);
                             $('#jqxTabs').jqxTabs('disableAt', 5);
+
                             /**
                              * Trasladamos el item seleccionado al que corresponde, el de vistas.
                              */

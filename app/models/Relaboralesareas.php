@@ -45,4 +45,7 @@ class Relaboralesareas  extends \Phalcon\Mvc\Model {
             'fecha_mod'=>'fecha_mod'
         );
     }
+    public function verificarCorrectaCorrespondeciaArea(){
+        return true;
+    }
 }

@@ -15,6 +15,7 @@ class Tipomemorandum extends \Phalcon\Mvc\Model {
     public $tipo_memorandum;
     public $cabecera;
     public $abrebiacion;
+    public $fecha_fin;
     public $observacion;
     public $estado;
     public $agrupador;
@@ -37,6 +38,7 @@ class Tipomemorandum extends \Phalcon\Mvc\Model {
             'tipo_memorandum'=>'tipo_memorandum',
             'cabecera'=>'cabecera',
             'abreviacion'=>'abreviacion',
+            'fecha_fin'=>'fecha_fin',
             'observacion'=>'observacion',
             'estado'=>'estado',
             'agrupador'=>'agrupador'

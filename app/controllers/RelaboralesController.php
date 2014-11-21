@@ -1819,9 +1819,11 @@ class RelaboralesController extends ControllerBase
             foreach ($resul as $v) {
                 $tipomemorandum[] = array(
                     'id' => $v->id,
+                    'idff' => $v->id."-".$v->fecha_fin,
                     'tipo_memorandum' => $v->tipo_memorandum,
                     'cabecera' => $v->cabecera,
                     'abreviacion' => $v->abreviacion,
+                    'fecha_fin' => $v->fecha_fin,
                     'observacion' => $v->observacion,
                     'estado' => $v->estado,
                     'agrupador' => $v->agrupador
@@ -1958,4 +1960,351 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($areas);
     }
+
+    /**
+     * Función para el registro de una nueva movilidad funcionaria
+     */
+    public function savemovilidadAction()
+    {
+        $user_reg_id = 1;
+        $user_mod_id = 1;
+        $msj = Array();
+        $gestion_actual = date("Y");
+        $hoy = date("Y-m-d H:i:s");
+        $fecha_fin = "31/12/" . $gestion_actual;
+        $this->view->disable();
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
+            /**
+             * Edición de registro
+             */
+            $objRelaboral = Relaborales::findFirstById($_POST["id"]);
+            $id_persona = $_POST['id_persona'];
+            $id_cargo = $_POST['id_cargo'];
+            $num_contrato = $_POST['num_contrato'];
+            $observacion = $_POST['observacion'];
+            $cargo = Cargos::findFirstById($id_cargo);
+            $id_organigrama = $cargo->organigrama_id;
+            $id_finpartida = $cargo->fin_partida_id;
+            $id_nivelsalarial = $cargo->nivelsalarial_id;
+            $id_relaboral = null;
+            $finpartida = Finpartidas::findFirstById($id_finpartida);
+            $id_condicion = $finpartida->condicion_id;
+            $id_area = $_POST['id_area'];
+            $id_ubicacion = $_POST['id_ubicacion'];
+            $id_regional = $_POST['id_regional'];
+            $id_procesocontratacion = $_POST['id_procesocontratacion'];
+            $date1 = new DateTime($_POST['fecha_inicio']);
+            $date2 = new DateTime($_POST['fecha_incor']);
+            $date3 = new DateTime($_POST['fecha_fin']);
+            $fecha_ini = $date1->format('Y-m-d');
+            $fecha_incor = $date2->format('Y-m-d');
+            /**
+             * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
+             */
+            if ($id_condicion == 2 || $id_condicion == 3) {
+                $fecha_fin = $date3->format('Y-m-d');
+            } else {
+                $fecha_fin = $objRelaboral->fecha_fin;
+            }
+            if ($id_persona > 0 && $id_cargo > 0) {
+                try {
+
+                    $objRelaboral->cargo_id = $id_cargo;
+                    $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
+                    $objRelaboral->da_id = 1;
+                    $objRelaboral->regional_id = $id_regional;
+                    $objRelaboral->organigrama_id = $id_organigrama;
+                    $objRelaboral->ejecutora_id = 1;
+                    $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
+                    $objRelaboral->cargo_id = $id_cargo;
+                    $objRelaboral->certificacionitem_id = null;
+                    $objRelaboral->finpartida_id = $id_finpartida;
+                    $objRelaboral->condicion_id = $id_condicion;
+                    $objRelaboral->carrera_adm = 0;
+                    $objRelaboral->pagado = 0;
+                    $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
+                    $objRelaboral->fecha_ini = $fecha_ini;
+                    $objRelaboral->fecha_incor = $fecha_incor;
+                    $objRelaboral->fecha_fin = $fecha_fin;
+                    $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
+                    /**
+                     * Con este valor eventualmente para presentación
+                     * --->
+                     */
+                    $objRelaboral->estado = 1;
+                    /*
+                     * <---
+                     */
+                    $objRelaboral->baja_logica = 1;
+                    $objRelaboral->user_mod_id = $user_mod_id;
+                    $objRelaboral->fecha_mod = $hoy;
+                    $objRelaboral->agrupador = 0;
+                    $ok = $objRelaboral->save();
+                    if ($ok) {
+                        /**
+                         * Modificar el estado del cargo a adjudicado
+                         */
+                        //$this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
+                        #region Registro del área de trabajo
+                        if ($id_area > 0) {
+                            /*
+                             * Verificando la existencia del registro de relación laboral.                             *
+                             */
+                            //$objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
+                            $objRA = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                            if ($objRA->id > 0) {
+                                $objRA->estado = 1;
+                                $objRA->baja_logica = 1;
+                                $objRA->organigrama_id = $id_area;
+                                $objRA->user_mod_id = $user_reg_id;
+                                $objRA->fecha_mod = $hoy;
+                                $objRA->save();
+                            } else {
+                                $objRelArea = new Relaboralesareas();
+                                $objRelArea->id = null;
+                                $objRelArea->relaboral_id = $objRelaboral->id;
+                                $objRelArea->organigrama_id = $id_area;
+                                $objRelArea->observacion = null;
+                                $objRelArea->estado = 1;
+                                $objRelArea->baja_logica = 1;
+                                $objRelArea->agrupador = 0;
+                                $objRelArea->user_reg_id = $user_reg_id;
+                                $objRelArea->fecha_reg = $hoy;
+                                $objRelArea->save();
+                            }
+                        } else {
+                            /*
+                             * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
+                             */
+                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                            if ($objRelArea!=null&&$objRelArea->id > 0) {
+                                $objRelArea->estado = 0;
+                                $objRelArea->baja_logica = 0;
+                                $objRelArea->user_mod_id = $user_reg_id;
+                                $objRelArea->fecha_mod = $hoy;
+                                $objRelArea->save();
+                            }
+                        }
+                        #endregion Registro del área de trabajo
+                        #region Registro de la ubicación de trabajo
+                        //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
+                        if ($id_ubicacion > 0) {
+                            //$ru = new Relaboralesubicaciones();
+                            $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/, 'bind' => array('relaboral_id1' => $objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/), 'order' => 'id ASC'));
+                            if ($ru->id > 0) {
+                                /**
+                                 * Si existia el registro de ubicación
+                                 */
+                                $ru->ubicacion_id = $id_ubicacion;
+                                $ru->fecha_ini = $objRelaboral->fecha_ini;
+                                $ru->estado = 1;
+                                $ru->baja_logica = 1;
+                                $ru->agrupador = 0;
+                                if ($ru->save()) {
+                                    //Si se ha especificado un area para la especificación de la dependencia de la persona.
+                                    /*if($id_area>0){
+
+
+                                    }*/
+                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                } else {
+                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                }
+                            } else {
+                                /**
+                                 * Si no se tenía registro de ubicación
+                                 */
+                                $ru = new Relaboralesubicaciones();
+                                $ru->relaboral_id = $objRelaboral->id;
+                                $ru->ubicacion_id = $id_ubicacion;
+                                $ru->fecha_ini = $objRelaboral->fecha_ini;
+                                $ru->estado = 1;
+                                $ru->baja_logica = 1;
+                                $ru->agrupador = 0;
+                                if ($ru->save()) {
+                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                } else {
+                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                }
+                            }
+                        } else {
+                            $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                        }
+                        #region de registro de la ubicación de trabajo
+                    } else {
+                        foreach ($objRelaboral->getMessages() as $message) {
+                            echo $message, "\n";
+                        }
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                    }
+                } catch (\Exception $e) {
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                }
+            } else {
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
+            }
+        } else {
+            /**
+             * Nuevo Registro
+             */
+            if (isset($_POST['id_relaboral'])) {
+                $id_relaboral = $_POST['id_relaboral'];
+                $id_da = $_POST['id_da'];
+                $id_regional = $_POST['id_regional'];
+                $id_organigrama = $_POST['id_organigrama'];
+                $id_area = $_POST['id_area'];
+                $id_ubicacion = $_POST['id_ubicacion'];
+                $cargo = $_POST['cargo'];
+                $id_tipomemorandum = $_POST['id_tipomemorandum'];
+                $correlativo = $_POST['correlativo'];
+                $gestion = $_POST['gestion'];
+                $datefm = new DateTime($_POST['fecha_mem']);
+                $fecha_mem = $datefm->format('Y-m-d');
+                $contenido_memorandum = $_POST['contenido'];
+                $datefi = new DateTime($_POST['fecha_ini']);
+                $fecha_ini = $datefi->format('Y-m-d');;
+                $dateff = new DateTime($_POST['fecha_fin']);
+                $fecha_fin = $dateff->format('Y-m-d');
+                $observacion = $_POST['observacion'];
+                $obj = new Frelaborales();
+                //$resul = $obj->getAllWithPersonsOneRecord();
+                $resul = $obj->getOne($id_relaboral);
+                $frelaboral = $resul[0];
+                //$frelaboral = new Frelaborales();
+                /**
+                 * Una movilidad de personal sólo debería poderse registrar para registros de relación laboral ACTIVOS o EN PROCESO.
+                 */
+                if($frelaboral->id_relaboral>0&&$frelaboral->estado>=1){
+                    $memorandum = new Memorandums();
+                    $memorandum->relaboral_id = $frelaboral->id_relaboral;
+                    $memorandum->finpartida_id = $frelaboral->id_fin_partida;
+                    $memorandum->fecha_mem = $fecha_mem;
+                    $memorandum->correlativo = $correlativo;
+                    $memorandum->gestion = $gestion;
+                    $memorandum->da_id = $frelaboral->id_da;
+                    $memorandum->regional_id = $frelaboral->id_regional;
+                    $memorandum->tipomemorandum_id = $id_tipomemorandum;
+                    $memorandum->estado=1;
+                    $memorandum->baja_logica=1;
+                    $memorandum->agrupador=1;
+                    $memorandum->user_reg_id = $user_reg_id;
+                    $memorandum->fecha_reg = $hoy;
+                    try{
+                        if($memorandum->save()){
+                            $relaboralesmovilidades = new Relaboralesmovilidades();
+                            $relaboralesmovilidades->relaboral_id=$frelaboral->id_relaboral;
+                            $relaboralesmovilidades->da_id = $frelaboral->id_da;
+                            $relaboralesmovilidades->regional_id = $frelaboral->id_regional;
+                            $relaboralesmovilidades->organigrama_id = $frelaboral->id_organigrama;
+                            $relaboralesmovilidades->ubicacion_id = $frelaboral->id_ubicacion;
+                            $relaboralesmovilidades->cargo = $frelaboral->cargo;
+                            $modalidadmemorandum = Modalidadmemorandum::findFirst(array("tipomemorandum_id=".$id_tipomemorandum));
+                            if($modalidadmemorandum->id>0){
+                                $relaboralesmovilidades->modalidadmemorandum_id = $modalidadmemorandum->id;
+                            }
+                            $relaboralesmovilidades->memorandum_id = $memorandum->id;
+
+                            /**
+                             * Obtener la cantidad de memos registrados + 1
+                             */
+                            $objRel = Relaboralesmovilidades::find(array("baja_logica=1 and relaboral_id=".$id_relaboral));
+                            $relaboralesmovilidades->numero = $objRel->count()+1;
+
+                            /**
+                             * Es necesario verificar si se ha especificado un valor para el organigrama,
+                             * si no es así se registra el correspondiente al registro de relación laboral.
+                             */
+                            if($id_organigrama>0){
+                                $relaboralesmovilidades->organigrama_id=$id_organigrama;
+                            }
+                            /**
+                             * Verificando el identificador del área enviada
+                             */
+                            if($id_area>0){
+                                /**
+                                 * Se evalua si el identificador del área enviada corresponde validamente al identificador del organigrama enviado.
+                                 */
+                                $okArea = verificarCorrectaCorrespondeciaArea($relaboralesmovilidades->organigrama_id,$id_area);
+                                if($okArea){
+                                    $relaboralesmovilidades->area_id=$id_area;
+                                }
+                            }else {
+                                if($id_organigrama==0){
+                                    /**
+                                     * Si no se ha establecido una gerencia, se busca si había un área registrada para la relación laboral,
+                                     * en caso de existir se registra en la misma área el memorándum.
+                                     */
+                                    if($frelaboral->id_area>0){
+                                        $relaboralesmovilidades->area_id=$frelaboral->id_area;
+                                    }
+                                }
+                            }
+                            /**
+                             * Verificando el identificador de la ubicación enviada
+                             */
+                            if($id_ubicacion>0){
+                                $relaboralesmovilidades->ubicacion_id = $id_ubicacion;
+                            }
+                            if($cargo!=''){
+                                $relaboralesmovilidades->cargo= $cargo;
+                            }
+                            $relaboralesmovilidades->fecha_ini = $fecha_ini;
+                            $tipomemorandum = Tipomemorandum::findFirst(array("id=".$id_tipomemorandum));
+                            if($tipomemorandum->fecha_fin==1){
+                                $relaboralesmovilidades->fecha_fin = $fecha_fin;
+                            }else{
+                                /**
+                                 * Evaluar la necesidad de registro de la fecha de finalización del registro de relación laboral como fecha de finalización de la movilidad.
+                                 */
+                            }
+                            $relaboralesmovilidades->observacion = $observacion;
+                            /**
+                             * Verificar que no haya otro memorándum de movilidad de personal que este activo,
+                             * si existe otro, darlo de baja inicialmente.
+                             */
+                            $relaboralesmovilidades->estado = 1;
+                            $relaboralesmovilidades->baja_logica = 1;
+                            $relaboralesmovilidades->agrupador = 0;
+                            $relaboralesmovilidades->user_reg_id = $user_reg_id;
+                            $relaboralesmovilidades->fecha_reg = $hoy;
+                            try {
+                                /*
+                                 * Es necesario verificar que memorándum del mismo tipo esta todavía activo para darlo de baja
+                                 * si es que aún no se lo ha hecho manualmente.
+                                 */
+                                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array(""));
+                                if ($relaboralesmovilidades->save()) {
+
+                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal.');
+                            }catch (\Exception $e) {
+                                echo get_class($e), ": ", $e->getMessage(), "\n";
+                                echo " File=", $e->getFile(), "\n";
+                                echo " Line=", $e->getLine(), "\n";
+                                echo $e->getTraceAsString();
+                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la movilidad de personal.');
+                            }
+                        }else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; el memor&aacute;ndum.');
+                    } catch (\Exception $e) {
+                        echo get_class($e), ": ", $e->getMessage(), "\n";
+                        echo " File=", $e->getFile(), "\n";
+                        echo " Line=", $e->getLine(), "\n";
+                        echo $e->getTraceAsString();
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la movilidad de personal.');
+                    }
+                }else{
+                    $msj = array('result' => 0, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la movilidad de personal. Verifique los datos enviados.');
+                }
+
+            } else {
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la relaci&oacute;n laboral.');
+            }
+        }
+        echo json_encode($msj);
+    }
+
 }
