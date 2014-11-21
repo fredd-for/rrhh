@@ -108,10 +108,10 @@ function cargarGrillaMovilidad(idRelaboral){
 
                     // Registrar nueva relación laboral.
                     $("#addrowbuttonmove").on('click', function () {
-                        $("#popupWindowNuevaMovilidad").jqxWindow('open');
+                        $("#hdnIdRelaboralNuevaMovilidad").val(idRelaboral);
+                        limpiarMensajesErrorPorValidacionMovilidad();
                         $("#divTitleRegistroMovilidad").html("");
                         $("#divTitleRegistroMovilidad").append("Nuevo Registro de Movilidad de Personal");
-                        $("#divFechasFinMovilidad").hide();
                         cargarTiposMemorandumsParaMovilidad(0);
                         cargarGestionesMemorandumsParaMovilidad(0);
                         cargarUnidadesOrganizacionalesParaMovilidad(0,0,0);
@@ -122,17 +122,24 @@ function cargarGrillaMovilidad(idRelaboral){
                             $("#txtCorrelativoMemorandum").focus();
                             var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
                             if(itemTipoMemorandum!=null){
-                                var textoDondeSeBusca = itemTipoMemorandum.label;
-                                var n = textoDondeSeBusca.search("COMISI");
-                                if(n<0){
+                                var idff = $("#lstTipoMemorandum").val();
+                                var arr = idff.split("-");
+                                var ff = arr[1];
+                                /*
+                                Se evalua si el tipo de memorándum establece el requerimiento de la fecha de finalización.
+                                 */
+                                if(ff==1){
+                                    $("#divFechasFinMovilidad").show();
+                                    $("#divHorasFinMovilidad").show();
+                                }else{
                                     $("#divFechasFinMovilidad").hide();
-                                }else $("#divFechasFinMovilidad").show();
+                                    $("#divHorasFinMovilidad").hide();
+                                }
                             }
                         });
                         $("#lstUbicaciones").change(function(){
                             $("#txtCargoMemorandum").focus();
                         });
-                        //$("#txtFechaMem").jqxDateTimeInput({ value:dataRecord.fecha_ini,enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                         $("#txtFechaMem").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                         var fechaActual= $('#txtFechaMem').jqxDateTimeInput('getDate');
                         $('#txtFechaMem').jqxDateTimeInput('setMaxDate', fechaActual);
@@ -140,8 +147,15 @@ function cargarGrillaMovilidad(idRelaboral){
                             Se establece como fecha mínima debido a que al inicio de operaciones de la empresa
                          */
                         $('#txtFechaMem').jqxDateTimeInput('setMinDate', new Date(2014, 3, 1));
+
                         $("#txtFechaIniMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                         $("#txtFechaFinMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                        $("#divFechasFinMovilidad").hide();
+                        $("#divHorasFinMovilidad").hide();
+                        $("#txtHoraIniMovilidad").val("");
+                        $("#txtHoraFinMovilidad").val("");
+                        $("#txtObservacionMovilidad").jqxInput({ width: 300, height: 35, placeHolder: "Introduzca sus observaciones"});
+                        $("#popupWindowNuevaMovilidad").jqxWindow('open');
                     });
 
                     // Modificar registro.
@@ -465,7 +479,7 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
         dataType: "json",
         dataFields: [
             { name: 'tipo_memorandum'},
-            { name: 'id'}
+            { name: 'idff'}
         ],
         url: '/relaborales/listtiposmemorandums'
     };
@@ -477,7 +491,7 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
             height: 25,
             promptText: "Seleccione un tipo de memorandum...",
             displayMember: 'tipo_memorandum',
-            valueMember: 'id'
+            valueMember: 'idff'
         });
 }
 /**
@@ -640,7 +654,7 @@ function cargarCargosParaMovilidad(cargo){
         url: '/relaborales/listnombrecargos/'
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
-    $("#txtCargoMemorandum").jqxInput({ width: 300, height: 35,source: dataAdapter, placeHolder: "Introduzca el nombre del cargo", displayMember: "cargo", valueMember: "cargo"});
+    $("#txtCargoMovilidad").jqxInput({ width: 300, height: 35,source: dataAdapter, placeHolder: "Introduzca el nombre del cargo", displayMember: "cargo", valueMember: "cargo"});
 }
 /**
  * Función para validar los datos del formulario de nuevo registro de relación laboral.
@@ -649,27 +663,14 @@ function cargarCargosParaMovilidad(cargo){
 function validaFormularioPorRegistroMovilidad(){
     var ok = true;
     var msje = "";
+    var idRelaboral = $("#hdnIdRelaboralNuevaMovilidad").val();
+    var swOrganigrama = 0;
+    var swUbicacion=0;
+    var swCargo = 0;
+    var swFechaFin=0;
     $(".msjs-alert").hide();
-    $("#divTiposMemorandums").removeClass("has-error");
-    $("#divFechasMemorandums").removeClass("has-error");
-    $("#divCorrelativosMemorandums").removeClass("has-error");
-    $("#divGerenciasAdministrativasMovilidad").removeClass("has-error");
-    $("#divDepartamentosAdministrativosMovilidad").removeClass("has-error");
-    $("#divAreasAdministrativasMovilidad").removeClass("has-error");
-    $("#divCargosMovilidad").removeClass("has-error");
-    $("#divFechasIniMovilidad").removeClass("has-error");
-    $("#divFechasFinMovilidad").removeClass("has-error");
 
-
-    $("#helpErrorTiposMemorandums").html("");
-    $("#helpErrorCorrelativosMemorandums").html("");
-    $("#helpErrorFechasMemorandums").html("");
-    $("#helpErrorGerenciasAdministrativasMovilidad").html("");
-    $("#helpErrorDepartamentosAdministrativosMovilidad").html("");
-    $("#helpErrorAreasAdministrativasMovilidad").html("");
-    $("#helpErrorCargosMovilidad").html("");
-    $("#helpErrorFechasIniMovilidad").html("");
-    $("#helpErrorFechasFinMovilidad").html("");
+    limpiarMensajesErrorPorValidacionMovilidad();
 
     //var idTipoMemoradundum = $("#lstTipoMemorandum").val();
     var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
@@ -679,17 +680,42 @@ function validaFormularioPorRegistroMovilidad(){
     var itemGerencia = $("#lstGerenciasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
     var itemDepartamento = $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox('getSelectedItem');
     var itemArea = $("#lstAreasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
+    var itemUbicacion = $("#lstUbicacionesMovilidad").jqxComboBox('getSelectedItem');
     var cargo = $("#txtCargoMovilidad").val();
     var fechaIni= $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
     var fechaFin= $('#txtFechaFinMovilidad').jqxDateTimeInput('getText');
 
     var enfoque=null;
+    if(idRelaboral<=0){
+        ok=false;
+        var msje = "Existe un error en la especificación del registro de relación laboral. Comuniquese con el Administrador del Sistema.";
+        $("#divMsjePorError").html("");
+        $("#divMsjePorError").append(msje);
+        $("#divMsjeNotificacionError").jqxNotification("open");
+    }
     if(itemTipoMemorandum==null){
         ok=false;
         var msje = "Debe introducir el tipo de Memor&aacute;ndum necesariamente.";
         $("#divTiposMemorandums").addClass("has-error");
         $("#helpErrorTiposMemorandums").html(msje);
         if(enfoque==null)enfoque =$("#lstTipoMemorandum");
+    }
+    else{
+        var idff = $("#lstTipoMemorandum").val();
+        var arr = idff.split("-");
+        var ff = arr[1];
+        if(ff==1)swFechaFin=1;
+        /*
+         Se evalua si el tipo de memorándum establece el requerimiento de la fecha de finalización.
+         */
+        if(ff==1&&fechaFin==''){
+            ok=false;
+            var msje = "Debe introducir la fecha de finalizaci&oacute;n de aplicaci&oacute;n de la movilidad de personal necesariamente.";
+            $("#divFechasFinMovilidad").show();
+            $("#divFechasFinMovilidad").addClass("has-error");
+            $("#helpErrorFechasFinMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtFechaFinMovilidad");
+        }
     }
     if(correlativoMemoradundum==''||gestionMemorandum==0){
         ok=false;
@@ -713,6 +739,27 @@ function validaFormularioPorRegistroMovilidad(){
         $("#helpErrorFechasMemorandums").html(msje);
         if(enfoque==null)enfoque =$("#txtFechaMem");
     }
+    if(itemGerencia!=null){
+        swOrganigrama=1;
+    }
+    if(itemUbicacion!=null){
+        swUbicacion=1;
+    }
+    if(cargo!=""){
+        swCargo=1;
+    }
+    var swTotal = parseFloat(swOrganigrama) + parseFloat(swUbicacion)+parseFloat(swCargo);
+    if(swTotal==0){
+        ok=false;
+        var msje = "Debe seleccionar una <b>Gerencia</b>, <b>Ubicación</b> o <b>Cargo</b> para que se pueda registrar la movilidad de personal.";
+        $("#divGerenciasAdministrativasMovilidad").addClass("has-error");
+        $("#divUbicacionesMovilidad").addClass("has-error");
+        $("#divCargosMovilidad").addClass("has-error");
+        $("#helpErrorGerenciasAdministrativasMovilidad").html(msje);
+        $("#helpErrorUbicacionesMovilidad").html(msje);
+        $("#helpErrorCargosMovilidad").html(msje);
+        if(enfoque==null)enfoque =$("#lstGerenciasAdministrativasMovilidad");
+    }
     if(fechaIni==''){
         ok=false;
         var msje = "Debe introducir la fecha de inicio de aplicaci&oacute;n de la movilidad de personal necesariamente.";
@@ -720,15 +767,180 @@ function validaFormularioPorRegistroMovilidad(){
         $("#helpErrorFechasIniMovilidad").html(msje);
         if(enfoque==null)enfoque =$("#txtFechaIniMovilidad");
     }
-    if(fechaFin==''){
+    var sep='-';
+    if(procesaTextoAFecha(fechaIni,sep)<procesaTextoAFecha(fechaMem,sep)){
         ok=false;
-        var msje = "Debe introducir la fecha de finalizaci&oacute;n de aplicaci&oacute;n de la movilidad de personal necesariamente.";
-        $("#divFechasFinMovilidad").addClass("has-error");
-        $("#helpErrorFechasFinMovilidad").html(msje);
-        if(enfoque==null)enfoque =$("#txtFechaFinMovilidad");
+        msje = "La fecha de inicio debe ser igual o superior a la fecha del memor&aacute;ndum.";
+        $("#divFechasIniMovilidad").addClass("has-error");
+        $("#divFechasMemorandums").addClass("has-error");
+        $("#helpErrorFechasIniMovilidad").html(msje);
+        $("#helpErrorFechasMemorandums").html(msje);
+        if(enfoque==null)enfoque =$("#txtFechaIniMovilidad");
+    }
+    if(swFechaFin==1){
+        if(procesaTextoAFecha(fechaFin,sep)<procesaTextoAFecha(fechaIni,sep)){
+            ok=false;
+            msje = "La fecha de finalizaci&oacute;n debe ser igual o superior a la fecha de inicio.";
+            $("#divFechasIniMovilidad").addClass("has-error");
+            $("#divFechasFinMovilidad").addClass("has-error");
+            $("#helpErrorFechasIniMovilidad").html(msje);
+            $("#helpErrorFechasFinMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtFechaIniMovilidad");
+        }
     }
     if(enfoque!=null){
         enfoque.focus();
+    }
+    return ok;
+}
+/**
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario para registro de movilidad de personal.
+ */
+function limpiarMensajesErrorPorValidacionMovilidad(){
+    $("#divTiposMemorandums").removeClass("has-error");
+    $("#divFechasMemorandums").removeClass("has-error");
+    $("#divCorrelativosMemorandums").removeClass("has-error");
+    $("#divGerenciasAdministrativasMovilidad").removeClass("has-error");
+    $("#divDepartamentosAdministrativosMovilidad").removeClass("has-error");
+    $("#divAreasAdministrativasMovilidad").removeClass("has-error");
+    $("#divUbicacionesMovilidad").removeClass("has-error");
+    $("#divCargosMovilidad").removeClass("has-error");
+    $("#divFechasIniMovilidad").removeClass("has-error");
+    $("#divFechasFinMovilidad").removeClass("has-error");
+
+    $("#helpErrorTiposMemorandums").html("");
+    $("#helpErrorCorrelativosMemorandums").html("");
+    $("#helpErrorFechasMemorandums").html("");
+    $("#helpErrorGerenciasAdministrativasMovilidad").html("");
+    $("#helpErrorDepartamentosAdministrativosMovilidad").html("");
+    $("#helpErrorAreasAdministrativasMovilidad").html("");
+    $("#helpErrorUbicacionesMovilidad").html("");
+    $("#helpErrorCargosMovilidad").html("");
+    $("#helpErrorFechasIniMovilidad").html("");
+    $("#helpErrorFechasFinMovilidad").html("");
+}
+/**
+ * Función para el registro de la movilidad de personal.
+ */
+function guardarRegistroMovilidad(){
+    var ok=true;
+    var swCargo = 0;
+    var idRelaboral = $("#hdnIdRelaboralNuevaMovilidad").val();
+    var idOrganigrama=0;
+    var idUbicacion=0;
+    var idArea=0;
+    var swOrganigrama = 0;
+    var swUbicacion=0;
+    var swCargo = 0;
+    var idff = $("#lstTipoMemorandum").val();
+    var arr = idff.split("-");
+    var idTipoMemorandum = arr[0];
+    var swFechaFin = arr[1];
+
+    var correlativoMemorandum = $("#txtCorrelativoMemorandum").val();
+    var gestionMemorandum = $("#lstGestionMemorandum").val();
+    var fechaMem= $('#txtFechaMem').jqxDateTimeInput('getText');
+    var idGerencia = $("#lstGerenciasAdministrativasMovilidad").val();
+    var idDepartamento = $("#lstDepartamentosAdministrativosMovilidad").val();
+    var idArea = $("#lstAreasAdministrativasMovilidad").val();
+    var idUbicacion = $("#lstUbicacionesMovilidad").val();
+    var cargo = $("#txtCargoMovilidad").val();
+    var fechaIni= $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
+    var fechaFin= $('#txtFechaFinMovilidad').jqxDateTimeInput('getText');
+    var observacion = $("#txtObservacionMovilidad").val();
+
+    idGerencia = parseInt(idGerencia);
+    idDepartamento = parseInt(idDepartamento);
+    idArea = parseInt(idArea);
+    idUbicacion = parseInt(idUbicacion);
+    if(idGerencia!=null&&idGerencia!=undefined){
+        swOrganigrama=1;
+        if(!isNaN(idGerencia)){
+            idOrganigrama = idGerencia;
+        }
+        if(!isNaN(idDepartamento)){
+            idOrganigrama = idDepartamento;
+        }
+    }
+    if(isNaN(idArea)){
+        idArea=0;
+    }
+    if(!isNaN(idUbicacion)){
+        idUbicacion = idUbicacion;
+        swUbicacion=1;
+    }else idUbicacion=0;
+    if(cargo!=""){
+        swCargo=1;
+    }
+    var swTotal = parseFloat(swOrganigrama) + parseFloat(swUbicacion) + parseFloat(swCargo);
+    if(swFechaFin==0){
+        fechaFin='';
+    }
+    if(idRelaboral>0&&idTipoMemorandum>0&&correlativoMemorandum!=''&&gestionMemorandum>0&&fechaMem!=''&&fechaIni!=''&&swTotal>0){
+        var ok=$.ajax({
+            url:'/relaborales/savemovilidad/',
+            type:"POST",
+            datatype: 'json',
+            async:false,
+            cache:false,
+            data:{id:0,
+                id_relaboral:idRelaboral,
+                id_da:0,
+                id_regional:0,
+                id_organigrama:idOrganigrama,
+                id_area:idArea,
+                id_ubicacion:idUbicacion,
+                cargo:cargo,
+                id_tipomemorandum:idTipoMemorandum,
+                correlativo:correlativoMemorandum,
+                gestion:gestionMemorandum,
+                fecha_mem:fechaMem,
+                contenido:'',
+                fecha_ini:fechaIni,
+                fecha_fin:fechaFin,
+                observacion:observacion
+            },
+            success: function(data) {  //alert(data);
+                //alert(data);
+                var res = jQuery.parseJSON(data);
+                /**
+                 * Si se ha realizado correctamente el registro de la relación laboral
+                 */
+                $(".msjes").hide();
+                if(res.result==1){
+                    /*$("#divMsjeExito").show();
+                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
+                    $("#aMsjeExito").html(res.msj);*/
+                    //alert(res.msj);
+                    /**
+                     * Se habilita nuevamente el listado actualizado con el registro realizado y
+                     * se inhabilita el formulario para nuevo registro.
+                     */
+                    //$('#jqxTabs').jqxTabs('enableAt', 0);
+                    //$('#jqxTabs').jqxTabs('disableAt', 1);
+                    //deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
+                    $("#jqxgridmovilidad").jqxGrid("updatebounddata");
+                } else if(res.result==0){
+                    /**
+                     * En caso de haberse presentado un error al momento de especificar la ubicación del trabajo
+                     */
+                    $("#divMsjePeligro").show();
+                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
+                    $("#aMsjePeligro").html(res.msj);
+                }else{
+                    /**
+                     * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
+                     */
+                    $("#divMsjeError").show();
+                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                    $("#aMsjeError").html(res.msj);
+                }
+
+            }, //mostramos el error
+            error: function() { alert('Se ha producido un error Inesperado'); }
+        });
+    }else {
+        ok = false;
     }
     return ok;
 }

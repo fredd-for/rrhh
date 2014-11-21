@@ -133,24 +133,7 @@ function validaFormularioPorBajaRegistro() {
     var msje = "";
     $(".msjs-alert").hide();
 
-    $("#helpErrorMotivosBajas").html("");
-    $("#divMotivosBajas").removeClass("has-error");
-
-    $("#helpErrorFechasBaja").html("");
-    $("#divFechasBaja").removeClass("has-error");
-
-    $("#helpErrorFechasRenBaja").html("");
-    $("#divFechasRenBaja").removeClass("has-error");
-
-    $("#helpErrorFechasAceptaRenBaja").html("");
-    $("#divFechasAceptaRenBaja").removeClass("has-error");
-
-    $("#helpErrorFechasAceptaRenBaja").html("");
-    $("#divFechasAceptaRenBaja").removeClass("has-error");
-
-    $("#helpErrorFechasAgraServBaja").html("");
-    $("#divFechasAgraServBaja").removeClass("has-error");
-
+    limpiarMensajesErrorPorValidacionBaja();
     var idRelaboral = $("#hdnIdRelaboralBaja").val();
     var fechaBaja = $("#txtFechaBaja").jqxDateTimeInput('getText');
     var valMotivoBaja = "";
@@ -233,6 +216,29 @@ function validaFormularioPorBajaRegistro() {
     }
     return ok;
 }
+/**
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario para baja de registro.
+ */
+function limpiarMensajesErrorPorValidacionBaja(){
+    $("#helpErrorMotivosBajas").html("");
+    $("#divMotivosBajas").removeClass("has-error");
+
+    $("#helpErrorFechasBaja").html("");
+    $("#divFechasBaja").removeClass("has-error");
+
+    $("#helpErrorFechasRenBaja").html("");
+    $("#divFechasRenBaja").removeClass("has-error");
+
+    $("#helpErrorFechasAceptaRenBaja").html("");
+    $("#divFechasAceptaRenBaja").removeClass("has-error");
+
+    $("#helpErrorFechasAceptaRenBaja").html("");
+    $("#divFechasAceptaRenBaja").removeClass("has-error");
+
+    $("#helpErrorFechasAgraServBaja").html("");
+    $("#divFechasAgraServBaja").removeClass("has-error");
+}
+
 /**
  * Función para el almacenamiento de un nuevo registro en la Base de Datos.
  */

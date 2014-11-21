@@ -4,7 +4,15 @@
     $mes = $mes;
     $dia = substr($datos_personal['fecha_nac'],8,2); 
     $fecha = $anio.', '.$mes.', '.$dia;
+    if (file_exists('images/personal/'.$datos_personal['ci'].'.jpg')){
+        //echo 'con foto';
+        echo '<input id="link_foto" value="/personal/subirfoto/'.$datos_personal["ci"].'/" hidden="hidden">';
+    } else {
+        //echo 'sin foto';
+        echo '<input id="link_foto" value="/personal/subirfoto/" hidden="hidden">';
+    }
 ?>
+<input id="ci_inicial" value="<?php echo $datos_personal["ci"]; ?>" hidden="hidden">
 <input id="vnacionalidad" value="<?php echo $datos_personal["nacionalidad"]; ?>" hidden="hidden">
 <input id="vtipo_doc" value="<?php echo $datos_personal["tipo_doc"]; ?>" hidden="hidden">
 <input id="vexpd" value="<?php echo $datos_personal["expd"]; ?>" hidden="hidden">
@@ -38,6 +46,31 @@
 </head>
 <body>
     <script type="text/javascript">
+        function verificar_ci(ver_ci,ant_ci){alert (ver_ci+' | '+ant_ci);
+            var r=true;
+            if(ant_ci != ver_ci){
+                var v=$.ajax({
+                    url:'/personal/verificarci',
+                    type:'POST',
+                    datatype:'json',
+                    async: false,
+                    data:{ci:ver_ci},
+                    success: function(data){
+                        if (data == 'true'){
+                            alert('El documento de identidad ya existe');
+                            r=false;
+                            return false;
+                        } else {
+                            r=true;
+                            return true;
+                        }
+                    }
+                });
+            } else {
+                r = true;
+            }
+            return r;
+        }
         $(document).ready(function () {
             //set
             
@@ -372,6 +405,7 @@
                 $.jqx.resize();
                 $(this).parent().addClass('active');
             })
+            $("#boton_foto").load($("#link_foto").val());
         });
     </script>
     <div style="min-height: 0px; box-shadow: none; -webkit-box-shadow: none;" class="navbar navbar-default " role="navigation">
@@ -382,9 +416,17 @@
             <li><a data-tab="alternativo" href="#alternativo">Datos Alternativos.</a></li>
         </ul>
     </div>
-    <h2 style="padding-top: 0px; width: 100%;"><b>Edici&oacute;n del Registro de Persona.</b></h2>
-    <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido des manera obligatoria(*).</h6>
-    
+    <div class="box-body">
+        <div class="row">
+            <div class="form-horizontal col-sm-6">
+                <h2 style="padding-top: 0px; width: 100%;"><b>Edici&oacute;n del Registro de Persona.</b></h2>
+                <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido des manera obligatoria(*).</h6>
+            </div>
+            <div class="form-horizontal col-sm-6">
+                <div class="box-body" width="100%" align="right" id="boton_foto"></div>
+            </div>
+        </div>
+    </div>
     <div style="padding-top: 0px; width: 100%; height: 100%;">
         <form class="navbar-form" id="form">
         <div id="identificacion" class="box" style="width: 100%; height: 100%; overflow-x: hidden; border: none;">

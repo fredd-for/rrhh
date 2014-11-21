@@ -685,114 +685,7 @@
             <div id="cellbegineditevent"></div>
             <div style="margin-top: 10px;" id="cellendeditevent"></div>
         </div>
-        <div id="popupWindowNuevaMovilidad">
-            <div id="divTitleRegistroMovilidad">Nuevo Registro de Movilidad</div>
-            <div style="overflow: hidden;">
-                <h6><b>NOTAS: </b><br>1. Los datos precedidos de asterisco son requerido de manera obligatoria (*).
-                    <br>2. En caso de no seleccionar un valor para <b>Gerencia</b> , <b>Ubicaci&oacute;n</b> o
-                    <b>Cargo</b>, se asume que la movilidad se aplica con los mismos datos registrados para la persona,
-                    sin embargo, para que se permita el registro de la movilidad es necesario que al menos uno de estos
-                    datos sea diferente.
-                </h6>
 
-                <div class="form-horizontal col-sm-12" id="detallesDependenciaMovilidad">
-                    <div class="row div-move-relab" id="divTiposMemorandums">
-                        <label class="col-sm-3 control-label" for="lstTipoMemorandum">Tipo Memorandum *:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-left: 5px;" id="lstTipoMemorandum"></div>
-                            <span class="help-block" id="helpErrorTiposMemorandums"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab form-inline" id="divCorrelativosMemorandums">
-                        <label class="col-sm-3 control-label" for="txtCorrelativoMemorandum">Memorandum *:</label>
-
-                        <div class="col-md-6 form-group">
-                            <input id="txtCorrelativoMemorandum" class="form-control move-relab"
-                                   placeholder="Introduzca el correlativo."/>/
-                            <select id="lstGestionMemorandum" class="form-control move-relab"></select>
-                            <span class="help-block" id="helpErrorCorrelativosMemorandums"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divFechasMemorandums">
-                        <label class="col-sm-3 control-label" for="txtFechaMem">Fecha Memor&aacute;ndum *:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-top: 5px;" id="txtFechaMem" on></div>
-                            <span class="help-block" id="helpErrorFechasMemorandums"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divGerenciasAdministrativasMovilidad">
-                        <label class="col-sm-3 control-label"
-                               for="lstGerenciasAdministrativasMovilidad">Gerencia:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-left: 5px; float: left;" id="lstGerenciasAdministrativasMovilidad"></div>
-                            <span class="help-block" id="helpErrorGerenciasAdministrativasMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divDepartamentosAdministrativosMovilidad">
-                        <label class="col-sm-3 control-label" for="lstDepartamentosAdministrativosMovilidad">Departamento:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-left: 5px; float: left;"
-                                 id="lstDepartamentosAdministrativosMovilidad"></div>
-                            <span class="help-block" id="helpErrorDepartamentosAdministrativosMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divAreasAdministrativasMovilidad">
-                        <label class="col-sm-3 control-label"
-                               for="lstAreasAdministrativasMovilidad">&Aacute;rea:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-left: 5px; float: left;" id="lstAreasAdministrativasMovilidad"></div>
-                            <span class="help-block" id="helpErrorAreasAdministrativasMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divUbicacionesMovilidad">
-                        <label class="col-sm-3 control-label" for="lstUbicacionesMovilidad">Ubicaci&oacute;n:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-left: 5px; float: left;" id="lstUbicacionesMovilidad"></div>
-                            <span class="help-block" id="helpErrorUbicacionesMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divCargosMovilidad">
-                        <label class="col-sm-3 control-label" for="txtCargoMovilidad">Cargo:</label>
-
-                        <div class="col-md-6">
-                            <textarea id="txtCargoMemorandum"></textarea>
-                            <span class="help-block" id="helpErrorCargosMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divFechasIniMovilidad">
-                        <label class="col-sm-3 control-label" for="txtFechaIniMovilidad">Fecha Inicio *:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-top: 5px;" id="txtFechaIniMovilidad" on></div>
-                            <span class="help-block" id="helpErrorFechasIniMovilidad"></span>
-                        </div>
-                    </div>
-                    <div class="row div-move-relab" id="divFechasFinMovilidad">
-                        <label class="col-sm-3 control-label" for="txtFechaFinMovilidad">Fecha Fin *:</label>
-
-                        <div class="col-md-6">
-                            <div style="margin-top: 5px;" id="txtFechaFinMovilidad" on></div>
-                            <span class="help-block" id="helpErrorFechasFinMovilidad"></span>
-                        </div>
-                    </div>
-                </div>
-                <button id="btnGuardarMovilidad" class="btn btn-primary" type="button">
-                    <i class="fa fa-floppy-o"></i>
-                    Guardar
-                </button>
-                <button id="btnCancelarMovilidad" class="btn btn-primary" type="button">
-                    <i class="fa fa-ban"></i>
-                    Cancelar
-                </button>
-                <!--<input id="btnCancelarMovilidad" type="button" value="Cancelar" />-->
-            </div>
-        </div>
     </div>
 </div>
 <div class="section" id="divView">
@@ -833,6 +726,7 @@
             </div>
             <div class="form-horizontal col-sm-12">
                 <br>
+
                 <div class="widget">
                     <div class="widget-simple themed-background-dark">
                         <a href="#" id="aFotoPerfilContactoPer"><img id="imgFotoPerfilContactoPer"
@@ -858,6 +752,7 @@
             </div>
             <div class="form-horizontal col-sm-12">
                 <br>
+
                 <div class="widget">
                     <div class="widget-simple themed-background-dark">
                         <a href="#" id="aFotoPerfilContactoInst"><img id="imgFotoPerfilContactoInst"
@@ -883,6 +778,7 @@
             </div>
         </div>
         <br>
+
         <div id="HistorialSplitter">
             <div class="splitter-panel">
                 Gestiones
@@ -928,8 +824,230 @@
 </div>
 <div id="popupWindowCargo">
     <div id="titulo">Seleccionar Cargo</div>
-    <div style="overflow: hidden;">
+    <div>
         <div id="divGrillaParaSeleccionarCargo"></div>
+    </div>
+</div>
+<div id="popupWindowNuevaMovilidad">
+    <div id="divTitleRegistroMovilidad">Nuevo Registro de Movilidad</div>
+    <div>
+        <h6><b>NOTAS: </b><br>1. Los datos precedidos de asterisco son requerido de manera obligatoria (*).
+            <br>2. En caso de no seleccionar un valor para <b>Gerencia</b> , <b>Ubicaci&oacute;n</b> o
+            <b>Cargo</b>, se asume que la movilidad se aplica con los mismos datos registrados para la persona,
+            sin embargo, para que se permita el registro de la movilidad es necesario que al menos uno de estos
+            datos sea diferente.
+            <br>3. En caso de existir un registro de movilidad de personal del mismo tipo en estado <b>ACTIVO</b> para
+            una misma persona se
+            proceder&aacute; a dar de baja el mismo con fecha de finalizaci&oacute;n al d&iacute;a previo del inicio del
+            presente registro.
+        </h6>
+
+        <div class="form-horizontal col-sm-12" id="detallesDependenciaMovilidad">
+            <div class="row div-move-relab" id="divTiposMemorandums">
+                <label class="col-sm-3 control-label" for="lstTipoMemorandum">Tipo Memorandum *:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px;" id="lstTipoMemorandum"></div>
+                    <span class="help-block" id="helpErrorTiposMemorandums"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab form-inline" id="divCorrelativosMemorandums">
+                <label class="col-sm-3 control-label" for="txtCorrelativoMemorandum">Memorandum *:</label>
+
+                <div class="col-md-6 form-group">
+                    <input id="txtCorrelativoMemorandum" class="form-control move-relab"
+                           placeholder="Introduzca el correlativo."/>/
+                    <select id="lstGestionMemorandum" class="form-control move-relab"></select>
+                    <span class="help-block" id="helpErrorCorrelativosMemorandums"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divFechasMemorandums">
+                <label class="col-sm-3 control-label" for="txtFechaMem">Fecha Memor&aacute;ndum *:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-top: 5px;" id="txtFechaMem" on></div>
+                    <span class="help-block" id="helpErrorFechasMemorandums"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divCargosMovilidad">
+                <label class="col-sm-3 control-label" for="txtCargoMovilidad">Asignaci&oacute;n Cargo:</label>
+
+                <div class="col-md-6">
+                    <textarea id="txtCargoMovilidad"></textarea>
+                    <span class="help-block" id="helpErrorCargosMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divGerenciasAdministrativasMovilidad">
+                <label class="col-sm-3 control-label"
+                       for="lstGerenciasAdministrativasMovilidad">Gerencia:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px;" id="lstGerenciasAdministrativasMovilidad"></div>
+                    <span class="help-block" id="helpErrorGerenciasAdministrativasMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divDepartamentosAdministrativosMovilidad">
+                <label class="col-sm-3 control-label"
+                       for="lstDepartamentosAdministrativosMovilidad">Departamento:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px; float: left;"
+                         id="lstDepartamentosAdministrativosMovilidad"></div>
+                    <span class="help-block" id="helpErrorDepartamentosAdministrativosMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divAreasAdministrativasMovilidad">
+                <label class="col-sm-3 control-label"
+                       for="lstAreasAdministrativasMovilidad">&Aacute;rea:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px;" id="lstAreasAdministrativasMovilidad"></div>
+                    <span class="help-block" id="helpErrorAreasAdministrativasMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divUbicacionesMovilidad">
+                <label class="col-sm-3 control-label" for="lstUbicacionesMovilidad">Ubicaci&oacute;n:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px;" id="lstUbicacionesMovilidad"></div>
+                    <span class="help-block" id="helpErrorUbicacionesMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divFechasIniMovilidad">
+                <label class="col-sm-3 control-label" for="txtFechaIniMovilidad">Fecha Inicio *:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-top: 5px;" id="txtFechaIniMovilidad" on></div>
+                    <span class="help-block" id="helpErrorFechasIniMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divHorasIniMovilidad">
+                <label class="col-sm-3 control-label" for="txtHoraIniMovilidad">Hora Inicio:</label>
+
+                <div class="col-md-4">
+                    <div class="input-group bootstrap-timepicker">
+                        <div class="bootstrap-timepicker-widget dropdown-menu">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control bootstrap-timepicker-hour" maxlength="2" type="text">
+                                    </td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-minute" maxlength="2"
+                                               type="text"></td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-second" maxlength="2"
+                                               type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator"></td>
+                                    <td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input id="txtHoraIniMovilidad" name="txtHoraIniMovilidad"
+                               class="form-control input-timepicker24" type="text">
+                                                    <span class="input-group-btn">
+                                                        <a href="javascript:void(0)" class="btn btn-primary"><i
+                                                                class="fa fa-clock-o"></i></a>
+                                                    </span>
+                    </div>
+                    <span class="help-block" id="helpErrorHorasIniMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divFechasFinMovilidad">
+                <label class="col-sm-3 control-label" for="txtFechaFinMovilidad">Fecha Fin *:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-top: 5px;" id="txtFechaFinMovilidad" on></div>
+                    <span class="help-block" id="helpErrorFechasFinMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divHorasFinMovilidad">
+                <label class="col-sm-3 control-label" for="txtHoraFinMovilidad">Hora Fin:</label>
+
+                <div class="col-md-4">
+                    <div class="input-group bootstrap-timepicker">
+                        <div class="bootstrap-timepicker-widget dropdown-menu">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control bootstrap-timepicker-hour" maxlength="2" type="text">
+                                    </td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-minute" maxlength="2"
+                                               type="text"></td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-second" maxlength="2"
+                                               type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator"></td>
+                                    <td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input id="txtHoraFinMovilidad" name="txtHoraFinMovilidad"
+                               class="form-control input-timepicker24" type="text">
+<span class="input-group-btn">
+    <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
+</span>
+                    </div>
+                    <span class="help-block" id="helpErrorHorasFinMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divObservacionesMovilidad">
+                <label class="col-sm-3 control-label" for="txtObservacionMovilidad">Observaciones:</label>
+
+                <div class="col-md-6">
+                    <textarea id="txtObservacionMovilidad"></textarea>
+                    <span class="help-block" id="helpErrorObservacionMovilidad"></span>
+                </div>
+            </div>
+        </div>
+        <button id="btnGuardarMovilidad" class="btn btn-sm btn-primary" type="button">
+            <i class="fa fa-floppy-o"></i>
+            Guardar
+        </button>
+        <button id="btnCancelarMovilidad" class="btn btn-sm btn-warning" type="button">
+            <i class="fa fa-repeat"></i>
+            Cancelar
+        </button>
+        <input type="hidden" id="hdnIdRelaboralNuevaMovilidad" value="0">
     </div>
 </div>
 <!--</form></div>-->

@@ -14,8 +14,8 @@ if (isset($foto_persona)){
             if (!$("#ci").val()){
                 alert("Debe ingresar un valor de documento de identidad");
                 return false;
-            } else {alert(
-                if(verificar_ci($("#ci").val())==false){
+            } else {
+                if(verificar_ci($("#ci").val(),$("#ci_inicial").val())==false){
                     return false;
                 } else {
                     alert("Subida la foto el documento de identidad no podrá modificarse.");
