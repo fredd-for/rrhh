@@ -146,7 +146,12 @@ WHERE c.baja_logica=1 order by c.id asc";
     }
 
 
-    public function listapac(){
+    public function listapac($estado=''){
+        $where = '';
+        if ($estado==1) {
+            $where = ' AND se.estado is NULL ';
+        }
+
         $sql = "SELECT  ROW_NUMBER() OVER(ORDER BY p.fecha_ini asc) AS nro,p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1
 FROM pacs p
 INNER JOIN cargos c ON p.cargo_id=c.id
@@ -154,14 +159,15 @@ INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id
 LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
 LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
-WHERE p.baja_logica=1 order by p.fecha_ini asc";
+WHERE p.baja_logica=1 ".$where." order by p.fecha_ini asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
     public function getEstadoSeguimiento($cargo_id)
     {
-        $sql="SELECT p.*,s.seguimiento_estado_id FROM pacs p 
+        $sql="SELECT p.*,s.seguimiento_estado_id ,CASE WHEN s.seguimiento_estado_id is NULL  THEN '0' ELSE s.seguimiento_estado_id  END as estado1
+        FROM pacs p 
         LEFT JOIN seguimientos s ON p.id=s.pac_id AND s.baja_logica=1
         WHERE p.baja_logica = 1 AND p.cargo_id = '$cargo_id'";
         $this->_db = new Cargos();

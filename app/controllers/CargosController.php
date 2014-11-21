@@ -300,7 +300,7 @@ public function getEstadoSeguimientoAction()
 	$this->view->disable();
 	$estado = null;
 	foreach ($resul as $v) {
-		$estado=$v->seguimiento_estado_id;
+		$estado=$v->estado1;
 	}
 	echo json_encode($estado);
 }

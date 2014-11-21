@@ -1,6 +1,9 @@
 <script type="text/javascript">
+
 	$(document).ready(function () {
 		/*Combo box organigramas*/
+		
+
 		var sourceOrg =
 		{
 			datatype: "json",
@@ -11,7 +14,7 @@
 			],
 			url: '/cargos/listorganigrama',
 			cache: false,
-            async: false
+			async: false
 		};
 		var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
 
@@ -145,7 +148,7 @@
 				showfilterrow: true,
 				filterable: true,
 				autorowheight: true,
-                autoheight: true,
+				autoheight: true,
 				columns: [
 				{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
 				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
@@ -188,20 +191,29 @@
              	return "Eliminar";
              }, buttonclick: function (row) {
              	editrow = row;
-             	var offset = $("#jqxgrid").offset();
-             	$("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
              	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
              	$("#id").val(dataRecord.id);
-             	$("#popupWindow_delete").jqxWindow('open');
+             	bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+             		if (result==true) {
+             			var v=$.ajax({
+             				url:'/cargos/delete/',
+             				type:'POST',
+             				datatype: 'json',
+             				data:{id:dataRecord.id},
+						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});	
+             		}
+             	});
              }
-         	}
+         }
          ]
      });
 
 }
 $("#jqxgrid").bind('rowselect', function (event) {
-					var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
 					//alert(dataRecord.estado);
 					$("#cargo_id_pac").val(dataRecord.id);
 					$("#estado_cargo").val(dataRecord.estado);
@@ -251,25 +263,34 @@ function cargar2(){
 		{ text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
 		{ text: 'Estado', datafield: 'estado', filtertype: 'input',width: '5%' },
 		{ text: '', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-             	return "Eliminar";
-             }, buttonclick: function (row) {
-             	editrow = row;
-             	var offset = $("#jqxgrid2").offset();
-             	$("#popupWindow_delete_pac").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+			return "Eliminar";
+		}, buttonclick: function (row) {
+			editrow = row;
+			var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', editrow);
+			$("#id").val(dataRecord.id);
+			if (dataRecord.estado!=null) {
+				bootbox.alert("<strong>¡Mensaje!</strong> MENSAJE: El cargo esta en proceso de contratacion.");
+			}else{
+				bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+					if (result==true) {
+						var v=$.ajax({
+							url:'/cargos/delete_pac/',
+							type:'POST',
+							datatype: 'json',
+							data:{id:$("#id").val()},
+						success: function(data) { cargar2(); //alert('Guardado Correctamente'); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+					}
+				});
+			}
 
-             	var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', editrow);
-             	$("#id").val(dataRecord.id);
-             	//alert(dataRecord.estado);
-             	if (dataRecord.estado!=null) {
-             		alert("MENSAJE: El cargo esta en proceso de contratacion.!!!");
-             	}else{
-             		$("#popupWindow_delete_pac").jqxWindow('open');
-             	}
-             	
-             }
-        }
-		]
-	});
+
+		}
+	}
+	]
+});
 
 }
 
@@ -278,13 +299,7 @@ function cargar2(){
 		$("#popupWindow").jqxWindow({
 			width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		});
-		$("#popupWindow_delete").jqxWindow({
-			width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		});
-		$("#popupWindow_delete_pac").jqxWindow({
-			width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		});
-
+		
 		$("#popupWindow_pac").jqxWindow({
 			width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		});
@@ -305,7 +320,7 @@ function cargar2(){
             $("#add_pac").click(function(){
             	if($("#cargo_id_pac").val()!=""){
             		if ($("#estado_cargo").val()=='ADJUDICADO') {
-            			alert("MENSAJE: El cargo ya esta ADJUDICADO.");	
+            			bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta ADJUDICADO.");
             		}else{
             			//alert($("#cargo_id_pac").val());
             			var v=$.ajax({
@@ -315,8 +330,8 @@ function cargar2(){
             				data:{cargo_id:$("#cargo_id_pac").val()},
             				success: function(data) { 
             					//alert(data);
-            					if(data==1 && data=="null"){
-            						alert("MENSAJE: El cargo ya esta en proceso o esta en el PAC.");	
+            					if(data>-1){
+            						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PAC.");
             					}else{
             						$("#popupWindow_pac").jqxWindow('open');					
             					}
@@ -328,100 +343,69 @@ function cargar2(){
             			
             		}
             	}else{
-            		alert("MENSAJE: Seleccione un registro ...");
+            		bootbox.alert("<strong>¡Mensaje!</strong> Para asignar PAC debe seleccionar un registro.");
             	}
             	
             });
 
-            $("#Save").click(function () {
-            	if ($('#testForm').jqxValidator('validate')){
-            	var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
-  				//alert(cargo_estado_id); 
-  				var v=$.ajax({
-  					url:'/cargos/save/',
-  					type:'POST',
-  					datatype: 'json',
-  					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
-						success: function(data) { cargar(); //alert(data.msm); 
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});
-  				$("#popupWindow").jqxWindow('hide');
-                }
-           });
+$("#Save").click(function () {
+	if ($('#testForm').jqxValidator('validate')){
+		var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
+				//alert(cargo_estado_id); 
+				var v=$.ajax({
+					url:'/cargos/save/',
+					type:'POST',
+					datatype: 'json',
+					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
+					success: function(data) { cargar(); //alert(data.msm); 
+											}, //mostramos el error
+											error: function() { alert('Se ha producido un error Inesperado'); }
+										});
+				$("#popupWindow").jqxWindow('hide');
+			}
+});
 
-            $("#guardar_pac").click(function () {
-            	if ($('#testForm_pac').jqxValidator('validate')){
-            	var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
-            	var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
-            	var v=$.ajax({
-  					url:'/cargos/save_pac/',
-  					type:'POST',
-  					datatype: 'json',
-  					data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
+$("#guardar_pac").click(function () {
+	if ($('#testForm_pac').jqxValidator('validate')){
+		var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
+		var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
+		var v=$.ajax({
+			url:'/cargos/save_pac/',
+			type:'POST',
+			datatype: 'json',
+			data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
 						success: function(data) { cargar2(); //alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
-  				$("#popupWindow_pac").jqxWindow('hide');
-                }
-           });
+		$("#popupWindow_pac").jqxWindow('hide');
+	}
+});
 
-            $("#Eliminar").click(function () {
-            	if (editrow >= 0) {
-            		var v=$.ajax({
-            			url:'/cargos/delete/',
-            			type:'POST',
-            			datatype: 'json',
-            			data:{id:$("#id").val()},
-						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});
-					//$('#jqxgrid').jqxGrid();
-					$("#popupWindow_delete").jqxWindow('hide');
-				}
-			});
 
-			$("#Eliminar_pac").click(function () {
-            	if (editrow >= 0) {
-            		var v=$.ajax({
-            			url:'/cargos/delete_pac/',
-            			type:'POST',
-            			datatype: 'json',
-            			data:{id:$("#id").val()},
-						success: function(data) { cargar2(); //alert('Guardado Correctamente'); 
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});
-					//$('#jqxgrid').jqxGrid();
-					$("#popupWindow_delete_pac").jqxWindow('hide');
-				}
-			});
+$("#nivelsalarial_id").change(function(){
+	var element = $(this).find('option:selected'); 
+	var myTag = element.attr("sueldo"); 
+	$('#sueldotxt').text(myTag);
+});
 
-            $("#nivelsalarial_id").change(function(){
-            	var element = $(this).find('option:selected'); 
-            	var myTag = element.attr("sueldo"); 
-            	$('#sueldotxt').text(myTag);
-            });
+$("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+$("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
 
-            $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-            $("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-            
-            $('#testForm').jqxValidator({
-                rules: [
-                       	{ input: "#organigrama_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-    						var index = $("#organigrama_id").jqxComboBox('getSelectedIndex');
-    						return index != -1;
-							}
-						},
-						
-                       { input: "#nivelsalarial_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-    						var index = $("#nivelsalarial_id").jqxComboBox('getSelectedIndex');
-    						return index != -1;
-							}
-						},
-                       { input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+$('#testForm').jqxValidator({
+	rules: [
+	{ input: "#organigrama_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
+		var index = $("#organigrama_id").jqxComboBox('getSelectedIndex');
+		return index != -1;
+	}
+},
+
+{ input: "#nivelsalarial_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
+	var index = $("#nivelsalarial_id").jqxComboBox('getSelectedIndex');
+	return index != -1;
+}
+},
+{ input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
                        /*{ input: "#codigo", message: "Item ", action: 'blur', rule: function () {
                        		if ($("#codigo").val()=='') {
                        			return false;
@@ -439,19 +423,19 @@ function cargar2(){
 															error: function() { alert('Se ha producido un error Inesperado'); }
 									});
                        		}
-						},*/
-                       { input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
-                       
-                       ]
-            });
+                       	},*/
+                       	{ input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
 
-			$('#testForm_pac').jqxValidator({
-                rules: [
-                       { input: '#gestion_pac', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
-                       ]
-            });
+                       	]
+                       });
 
-        });
+$('#testForm_pac').jqxValidator({
+	rules: [
+	{ input: '#gestion_pac', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
+	]
+});
+
+});
 </script>
 
 <div class="row">
@@ -487,149 +471,108 @@ function cargar2(){
 				<div id="titulo">Editar</div>
 				<div style="overflow: hidden;">
 					<form id="testForm">
-					<table>
-						<tr>
-							<td align="right">id:</td>
-							<td align="left"><input id="id" name="id" type="hidden" /></td>
-						</tr>
-						<tr>
-							<td align="right">Organigrama:</td>
-							<td align="left" ><?php // echo $organigrama ?>
-								<div name="list" id="organigrama_id" ></div>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Depende de:</td>
-							<td align="left" >
-								<div name="list_depende_id" id="depende_id" ></div>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Nivel Salarial:</td>
-							<td align="left">
-								<div name="list2" id="nivelsalarial_id" ></div>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Salario Mensual:</td>
-							<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
-						</tr>
-						<tr>
-							<td align="right">Item:</td>
-							<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
-						</tr>
-						<tr>
-							<td align="right">Cargo:</td>
-							<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
-						</tr>
-						<tr>
-							<td align="right">Tipo Cargo:</td>
-							<td align="left">
-								<!-- <div data-toggle="buttons">-->
-								<div class="form-control">
-									<?php foreach ($cargoestado as $v) { ?>
-									<!-- <label class="btn btn-primary btn-xs"> -->
+						<table>
+							<tr>
+								<td align="right">id:</td>
+								<td align="left"><input id="id" name="id" type="hidden" /></td>
+							</tr>
+							<tr>
+								<td align="right">Organigrama:</td>
+								<td align="left" ><?php // echo $organigrama ?>
+									<div name="list" id="organigrama_id" ></div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">Depende de:</td>
+								<td align="left" >
+									<div name="list_depende_id" id="depende_id" ></div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">Nivel Salarial:</td>
+								<td align="left">
+									<div name="list2" id="nivelsalarial_id" ></div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">Salario Mensual:</td>
+								<td align="left" class="form-control"><span id="sueldotxt"></span> Bs.</td>
+							</tr>
+							<tr>
+								<td align="right">Item:</td>
+								<td align="left"><input id="codigo" name="codigo" type="text" class="form-control"/></td>
+							</tr>
+							<tr>
+								<td align="right">Cargo:</td>
+								<td align="left"><input id="cargo" name="cargo" type="text" class="form-control"/></td>
+							</tr>
+							<tr>
+								<td align="right">Tipo Cargo:</td>
+								<td align="left">
+									<div class="form-control">
+										<?php foreach ($cargoestado as $v) { ?>
+										<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>"/> <?php echo $v->estado; ?>
+										<?php } ?>
 
-									<input type="radio" name="cargo_estado_id" value="<?php echo $v->id ?>"/> <?php echo $v->estado; ?>
-
-
-									<?php } ?>
-
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td align="right"></td>
-							<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-							</td>
-						</tr>
-					</table>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right"></td>
+								<td style="padding-top: 10px;" align="right">
+									<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
+									<input id="Cancel" type="button" value="Cancelar" />
+								</td>
+							</tr>
+						</table>
 					</form>
-				</div>
-			</div>
-
-			<div id="popupWindow_delete">
-				<div>Eliminar</div>
-				<div style="overflow: hidden;">
-					<table>
-						<tr>
-							<td align="left">Esta seguro de Eliminar el registro</td>
-						</tr>
-						<tr>
-							<td align="right"></td>
-							<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-
-			<div id="popupWindow_delete_pac">
-				<div>Eliminar</div>
-				<div style="overflow: hidden;">
-					<table>
-						<tr>
-							<td align="left">Esta seguro de Eliminar el registro</td>
-						</tr>
-						<tr>
-							<td align="right"></td>
-							<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Eliminar_pac" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-							</td>
-						</tr>
-					</table>
 				</div>
 			</div>
 
 			<div id="popupWindow_pac">
 				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES</div>
 				<div style="overflow: hidden;">
-				<form id="testForm_pac">
-					<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
-					<input id="estado_cargo" name="estado_cargo" type="hidden" />
-					<table>
-						<tr>
-							<td align="right">Organigrama:</td>
-							<td align="left" ><div id="organigrama_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right">Item:</td>
-							<td align="left"><div id="item_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right">Cargo:</td>
-							<td align="left"><div id="cargo_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right">Salario Mensual:</td>
-							<td align="left"><div id="sueldo_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right">Gestión:</td>
-							<td align="left"><input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" /></td>
-						</tr>
-						<tr>
-							<td align="right">Fecha Inicio:</td>
-							<td align="left"><div id="fecha_ini_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right">Fecha Finalización:</td>
-							<td align="left"><div id="fecha_fin_pac"></div></td>
-						</tr>
-						<tr>
-							<td align="right"></td>
-							<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="guardar_pac" value="Guardar" />
-								<input id="Cancel" type="button" value="Cancel" />
-							</td>
-						</tr>
-					</table>
-				</form>
+					<form id="testForm_pac">
+						<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
+						<input id="estado_cargo" name="estado_cargo" type="hidden" />
+						<table>
+							<tr>
+								<td align="right">Organigrama:</td>
+								<td align="left" ><div id="organigrama_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right">Item:</td>
+								<td align="left"><div id="item_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right">Cargo:</td>
+								<td align="left"><div id="cargo_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right">Salario Mensual:</td>
+								<td align="left"><div id="sueldo_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right">Gestión:</td>
+								<td align="left"><input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" /></td>
+							</tr>
+							<tr>
+								<td align="right">Fecha Inicio:</td>
+								<td align="left"><div id="fecha_ini_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right">Fecha Finalización:</td>
+								<td align="left"><div id="fecha_fin_pac"></div></td>
+							</tr>
+							<tr>
+								<td align="right"></td>
+								<td style="padding-top: 10px;" align="right">
+									<input style="margin-right: 5px;" type="button" id="guardar_pac" value="Guardar" />
+									<input id="Cancel" type="button" value="Cancel" />
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 
@@ -647,7 +590,6 @@ function cargar2(){
 
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			
 			<div class="table-responsive">
 				<div id="jqxgrid2"></div>
 			</div>
@@ -656,4 +598,3 @@ function cargar2(){
 	</div>
 
 </div>
-

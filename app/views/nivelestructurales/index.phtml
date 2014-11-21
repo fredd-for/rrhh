@@ -1,12 +1,12 @@
 <script type="text/javascript">
-$(document).ready(function () {
+	$(document).ready(function () {
 		var source =
 		{
 			datatype: "json",
 			datafields: [
-				{ name: 'id',type: 'number'},
-				{ name: 'orden',type: 'number'},
-				{ name: 'nivel_estructural',type: 'string'}
+			{ name: 'id',type: 'number'},
+			{ name: 'orden',type: 'number'},
+			{ name: 'nivel_estructural',type: 'string'}
 			],
 			url: '../../nivelestructurales/list',
 			cache: false
@@ -15,112 +15,104 @@ $(document).ready(function () {
 		cargar();	
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
-		{
-		width: '100%',
-		source: dataAdapter,
-		sortable: true,
-		altRows: true,
-		pageable: true,
-		pagerMode: 'advanced',
-		showfilterrow: true,
-		filterable: true,
-		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
-			{ text: 'Orden', datafield: 'orden', filtertype: 'number',width: '15%' },
-			{ text: 'Nivel Estructural', datafield: 'nivel_estructural',filtertype: 'input', width: '70%' },
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-                     return "Editar";
-                  }, buttonclick: function (row) {
-                     // open the popup window when the user clicks a button.
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+			{
+				width: '100%',
+				source: dataAdapter,
+				sortable: true,
+				altRows: true,
+				pageable: true,
+				pagerMode: 'advanced',
+				showfilterrow: true,
+				filterable: true,
+				columns: [
+				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+				{ text: 'Orden', datafield: 'orden', filtertype: 'number',width: '15%' },
+				{ text: 'Nivel Estructural', datafield: 'nivel_estructural',filtertype: 'input', width: '70%' },
+				{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
+					return "Editar";
+				}, buttonclick: function (row) {
+				// open the popup window when the user clicks a button.
+				editrow = row;
+				// var offset = $("#jqxgrid").offset();
+				// $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
 
-                     // get the clicked row's data and initialize the input fields.
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#titulo").text("Editar");
-                     $("#id").val(dataRecord.id);
-                     $("#orden").val(dataRecord.orden);
-                     $("#nivel_estructural").val(dataRecord.nivel_estructural);
+				// get the clicked row's data and initialize the input fields.
+				var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+				$("#titulo").text("Editar");
+				$("#id").val(dataRecord.id);
+				$("#orden").val(dataRecord.orden);
+				$("#nivel_estructural").val(dataRecord.nivel_estructural);
+				$('#myModalss').modal('show');
 
-                     // show the popup window.
-                     $("#popupWindow").jqxWindow('open');
-                 }
-            },
-            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', filterable:false,cellsrenderer: function () {
-                     return "Eliminar";
-                  }, buttonclick: function (row) {
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+				// show the popup window.
+				// $("#popupWindow").jqxWindow('open');
+			}
+		},
+		{ text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', filterable:false,cellsrenderer: function () {
+			return "Eliminar";
+		}, buttonclick: function (row) {
+			editrow = row;
+				// var offset = $("#jqxgrid").offset();
+				// $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
 
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#id").val(dataRecord.id);
-                     $("#popupWindow_delete").jqxWindow('open');
-                 }
-            }
-		]
-		});
-
+				var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+				$("#id").val(dataRecord.id);
+				// $("#popupWindow_delete").jqxWindow('open');
+				bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+					if (result==true) {
+						var v=$.ajax({
+							url:'/nivelestructurales/delete/',
+							type:'POST',
+							datatype: 'json',
+							data:{id:$("#id").val()},
+				success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+				}, //mostramos el error
+				error: function() { alert('Se ha producido un error Inesperado'); }
+			});
+					}
+				});
+			}
 		}
-		// initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            $("#popupWindow_delete").jqxWindow({
-                width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            // update the edited row when the user clicks the 'Save' button.
-            $("#add").click(function(){
-            	$("#titulo").text("Adicionar");
-            	$("#id").val("");
-            	$("#orden").val("");
-            	$("#nivel_estructural").val("");
-            	$("#popupWindow").jqxWindow('open');
-            });
-
-            $("#Save").click(function () {
-            	if ($('#testForm').jqxValidator('validate')){
-            		var v=$.ajax({
-                    	url:'../../nivelestructurales/save/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
-						success: function(data) { cargar(); //alert(data); 
-												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-						});
-                		$("#popupWindow").jqxWindow('hide');
-            	}
-            	       	
-               // }
-            });
-
-            $("#Eliminar").click(function () {
-            	if (editrow >= 0) {
-                    var v=$.ajax({
-                    	url:'../../nivelestructurales/delete/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val()},
-						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
-												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-					//$('#jqxgrid').jqxGrid();
-                    $("#popupWindow_delete").jqxWindow('hide');
-                }
-            });
-
-            $('#testForm').jqxValidator({
-                rules: [
-                       { input: '#orden', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       { input: '#nivel_estructural', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       ]
-            });
-
-            
+		]
 	});
+
+}
+
+// update the edited row when the user clicks the 'Save' button.
+$("#add").click(function(){
+	$("#titulo").text("Adicionar");
+	$("#id").val("");
+	$("#orden").val("");
+	$("#nivel_estructural").val("");
+	$('#myModalss').modal('show');
+//$("#popupWindow").jqxWindow('open');
+});
+
+$("#Save").click(function () {
+	 if ($('#testForm').jqxValidator('validate')){
+	var v=$.ajax({
+		url:'/nivelestructurales/save/',
+		type:'POST',
+		datatype: 'json',
+		data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
+	success: function(data) { cargar(); //alert(data); 
+	}, //mostramos el error
+	error: function() { alert('Se ha producido un error Inesperado'); }
+	});
+	$('#myModalss').modal('hide');
+	 }
+});
+
+
+$('#testForm').jqxValidator({
+	rules: [
+	{ input: '#orden', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+	{ input: '#nivel_estructural', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+	]
+});
+
+
+});
 </script>
 
 <div class="row">
@@ -144,62 +136,43 @@ $(document).ready(function () {
 					<div id="jqxgrid"></div>
 				</div>
 
-				<div style="margin-top: 30px;">
-            		<div id="cellbegineditevent"></div>
-            		<div style="margin-top: 10px;" id="cellendeditevent"></div>
-       			</div>
-				<div id="popupWindow">
-					
-					<div id="titulo">Editar</div>
-					<div style="overflow: hidden;">
-					<form id="testForm">
-						<table>
-							<tr>
-								<td align="right">id:</td>
-								<td align="left"><input id="id" name="id" type="hidden" /></td>
-							</tr>
-							<tr>
-								<td align="right">Orden:</td>
-								<td align="left"><input id="orden" name="orden" type="text" class="form-control" /></td>
-							</tr>
-							<tr>
-								<td align="right">Nivel Estructural:</td>
-								<td align="left"><input id="nivel_estructural" name="nivel_estructural" type="text" class="form-control"/></td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-								</td>
-							</tr>
-						</table>
+				<!-- Modal -->
+				<div class="modal fade" id="myModalss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form class="form-horizontal" id="testForm"/>
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title" id="titulo">Editar</h4>
+							</div>
+							<div class="modal-body">
+
+								<input id="id" name="id" type="hidden" />
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="example-hf-email">Orden</label>
+									<div class="col-md-9">
+										<input id="orden" name="orden" type="text" class="form-control" required="required"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="example-hf-password">Nivel Estructural</label>
+									<div class="col-md-9">
+										<input id="nivel_estructural" name="nivel_estructural" type="text" class="form-control"/>
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								<button type="button" class="btn btn-primary" id="Save">Guardar</button>
+							</div>
 						</form>
 					</div>
-					
 				</div>
-
-				<div id="popupWindow_delete">
-					<div>Eliminar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="left">Esta seguro de Eliminar el registro</td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-
 			</div>
+
 		</div>
-		
 	</div>
+</div>
 </div>
 
