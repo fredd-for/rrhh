@@ -60,6 +60,14 @@ class PersonalController extends ControllerBase{
     }
     
     public function editarAction($id_personas){
+        $this->assets
+            ->addCss('/js/dropzone/css/dropzone.css')
+            ->addCss('/js/jscrop/css/jquery.Jcrop.css')
+        ;
+        $this->assets
+            ->addJs('/js/dropzone/dropzone.min.js')
+            ->addJs('/js/jscrop/js/jquery.Jcrop.js')
+        ;
         $resul = new personas();
         $resul = personas::findFirstById($id_personas);
         $res = new personascontactos();
