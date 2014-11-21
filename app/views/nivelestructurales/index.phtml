@@ -8,7 +8,7 @@
 			{ name: 'orden',type: 'number'},
 			{ name: 'nivel_estructural',type: 'string'}
 			],
-			url: '../../nivelestructurales/list',
+			url: '/nivelestructurales/list',
 			cache: false
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
@@ -88,27 +88,78 @@ $("#add").click(function(){
 //$("#popupWindow").jqxWindow('open');
 });
 
-$("#Save").click(function () {
-	 if ($('#testForm').jqxValidator('validate')){
-	var v=$.ajax({
-		url:'/nivelestructurales/save/',
-		type:'POST',
-		datatype: 'json',
-		data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
-	success: function(data) { cargar(); //alert(data); 
-	}, //mostramos el error
-	error: function() { alert('Se ha producido un error Inesperado'); }
-	});
-	$('#myModalss').modal('hide');
-	 }
-});
+// $("#Save").click(function () {
+// 	//alert("hoal");
+// 	// alert($('#testForm').validate());
+// 	//  if ($('#testForm').jqxValidator('validate')){
+// 	// var v=$.ajax({
+// 	// 	url:'/nivelestructurales/save/',
+// 	// 	type:'POST',
+// 	// 	datatype: 'json',
+// 	// 	data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
+// 	// success: function(data) { cargar(); //alert(data); 
+// 	// }, //mostramos el error
+// 	// error: function() { alert('Se ha producido un error Inesperado'); }
+// 	// });
+// 	// $('#myModalss').modal('hide');
+// 	//  }
+// });
 
+// $('#testForm').validate({  // initialize plugin
+//         rules: {
+//             orden: {
+//                 // money: true, //<-- no such rule
+//                 required: true
+//             },
+//             nivel_estructural: {
+//                 required: true // superfluous; "false" same as leaving this rule out.
+//             }
+//         },
+//         highlight: function (element) {
+//             $(element).closest('.control-group')
+//                 .removeClass('success').addClass('error');
+//         },
+//         success: function (element) {
+//             element.addClass('valid').closest('.control-group')
+//                 .removeClass('error').addClass('success');
+//         },
+//         submitHandler: function (form) {
+//             // form validates so do the ajax
+//             $(this).modal('hide');
+//             return false; // ajax used, block the normal submit
+//         }
+//     });
 
-$('#testForm').jqxValidator({
-	rules: [
-	{ input: '#orden', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-	{ input: '#nivel_estructural', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-	]
+// $('#testForm').jqxValidator({
+// 	rules: [
+// 	{ input: '#orden', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+// 	{ input: '#nivel_estructural', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
+// 	]
+// });
+
+$('#testForm').validate({
+    rules: {
+        orden: {
+            minlength: 2,
+            required: true
+        },
+        nivel_estructural: {
+            required: true
+        }
+    },
+    highlight: function (element) {
+        $(element).closest('.control-group').removeClass('success').addClass('error');
+    },
+    success: function (element) {
+        element.text('OK!').addClass('valid')
+            .closest('.control-group').removeClass('error').addClass('success');
+    },
+    submitHandler: function (form) {
+            // form validates so do the ajax
+            alert("funciono");
+            $(this).modal('hide');
+            return false; // ajax used, block the normal submit
+        }
 });
 
 
@@ -140,7 +191,7 @@ $('#testForm').jqxValidator({
 				<div class="modal fade" id="myModalss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
-							<form class="form-horizontal" id="testForm"/>
+							<form class="form-horizontal" id="testForm" data-toggle="validator"/>
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 								<h4 class="modal-title" id="titulo">Editar</h4>
@@ -151,7 +202,7 @@ $('#testForm').jqxValidator({
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="example-hf-email">Orden</label>
 									<div class="col-md-9">
-										<input id="orden" name="orden" type="text" class="form-control" required="required"/>
+										<input id="orden" name="orden" type="text" class="form-control" required/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -164,7 +215,7 @@ $('#testForm').jqxValidator({
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-								<button type="button" class="btn btn-primary" id="Save">Guardar</button>
+								<button type="submit" class="btn btn-primary" id="Save">Guardar</button>
 							</div>
 						</form>
 					</div>

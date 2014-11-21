@@ -175,6 +175,7 @@
                      $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
                      $("#codigo").val(dataRecord.codigo);
                      $("#cargo").val(dataRecord.cargo);
+                     $("#formacion_requerida").val(dataRecord.formacion_requerida);
                      //$("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
                      //$("#cargo_estado_id").val(dataRecord.cargo_estado_id);
                      $("#sueldotxt").text(dataRecord.sueldo);
@@ -221,6 +222,7 @@ $("#jqxgrid").bind('rowselect', function (event) {
 					$("#item_pac").text(dataRecord.codigo);
 					$("#cargo_pac").text(dataRecord.cargo);
 					$("#sueldo_pac").text(dataRecord.sueldo);
+					$("#formacion_requerida").text(dataRecord.formacion_requerida);
 				});
 
 /*segundo grid*/
@@ -312,6 +314,7 @@ function cargar2(){
             	$("#organigrama_id").val("");
             	$("#nivelsalarial_id").val("");
             	$("#cargo").val("");
+            	$("#formacion_requerida").val("");
             	$("#sueldotxt").text("");
             	$('input[name=cargo_estado_id][value="1"]').prop('checked', true);
             	$("#popupWindow").jqxWindow('open');
@@ -331,7 +334,7 @@ function cargar2(){
             				success: function(data) { 
             					//alert(data);
             					if(data>-1){
-            						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PAC.");
+            						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PACP.");
             					}else{
             						$("#popupWindow_pac").jqxWindow('open');					
             					}
@@ -343,7 +346,7 @@ function cargar2(){
             			
             		}
             	}else{
-            		bootbox.alert("<strong>¡Mensaje!</strong> Para asignar PAC debe seleccionar un registro.");
+            		bootbox.alert("<strong>¡Mensaje!</strong> Para asignar PACP debe seleccionar un registro.");
             	}
             	
             });
@@ -356,7 +359,7 @@ $("#Save").click(function () {
 					url:'/cargos/save/',
 					type:'POST',
 					datatype: 'json',
-					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val()},
+					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
 					success: function(data) { cargar(); //alert(data.msm); 
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
@@ -456,7 +459,7 @@ $('#testForm_pac').jqxValidator({
 			</div> 
 			<div style="margin-left: 5px; ">
 				<div>
-					<input id="add_pac" type="button" value=" Asignar PAC" />
+					<input id="add_pac" type="button" value=" Asignar PACP" />
 				</div>
 			</div>
 			<br>
@@ -518,6 +521,14 @@ $('#testForm_pac').jqxValidator({
 								</td>
 							</tr>
 							<tr>
+								<td align="right">Formación y Experiencia Laboral:</td>
+								<td align="left">
+									<div >
+										<textarea name="formacion_requerida" id="formacion_requerida" class="form-control"><?php echo $v->formacion_requerida; ?></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<td align="right"></td>
 								<td style="padding-top: 10px;" align="right">
 									<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
@@ -530,7 +541,7 @@ $('#testForm_pac').jqxValidator({
 			</div>
 
 			<div id="popupWindow_pac">
-				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES</div>
+				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</div>
 				<div style="overflow: hidden;">
 					<form id="testForm_pac">
 						<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
@@ -585,7 +596,7 @@ $('#testForm_pac').jqxValidator({
 
 <div class="row">
 	<div class="col-lg-12">
-		<h3>Plan Anual de Contrataciones</h3>	
+		<h3>Plan Anual de Contrataciones de Personal</h3>	
 	</div>
 
 	<div class="col-lg-12">

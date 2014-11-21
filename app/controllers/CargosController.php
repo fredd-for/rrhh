@@ -141,6 +141,7 @@ public function saveAction()
 			$resul->fin_partida_id=$_POST['cargo_estado_id'];
 			$resul->user_mod_id = $user->id;
 			$resul->fecha_mod = date("Y-m-d");
+			$resul->formacion_requerida=$_POST['formacion_requerida'];
 			$resul->save();
 		}
 		else{
@@ -176,6 +177,7 @@ public function saveAction()
 					$resul->fecha_reg = date("Y-m-d");
 					$resul->fin_partida_id=$_POST['cargo_estado_id'];//$_POST['fin_partida_id'];
 					$resul->poa_id=1;
+					$resul->formacion_requerida=$_POST['formacion_requerida'];
 				//$resul->save();
 					if ($resul->save()) {
 						$msm = array('msm' => 'Exito: Se guardo correctamente' );
