@@ -175,7 +175,8 @@ class presentaciondoc extends \Phalcon\Mvc\Model
         return array(
             'id' => 'id',
             'institucion_id' => 'institucion_id',
-            'gestion_emi' => 'gestion_emi'
+            'gestion_emi' => 'gestion_emi',
+            
             
         );
     }
