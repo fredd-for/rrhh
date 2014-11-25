@@ -5,10 +5,10 @@
     $dia = substr($datos_personal['fecha_nac'],8,2); 
     $fecha = $anio.', '.$mes.', '.$dia;
     if (file_exists('images/personal/'.$datos_personal['ci'].'.jpg')){
-        echo 'con foto';
+        //echo 'con foto';
         echo '<input id="link_foto" value="/personal/subirfoto/'.$datos_personal["ci"].'/" hidden="hidden">';
     } else {
-        echo 'sin foto';
+        //echo 'sin foto';
         echo '<input id="link_foto" value="/personal/subirfoto/" hidden="hidden">';
     }
 ?>
@@ -46,7 +46,7 @@
 </head>
 <body>
     <script type="text/javascript">
-        function verificar_ci(ver_ci,ant_ci){alert (ver_ci+' | '+ant_ci);
+        function verificar_ci(ver_ci,ant_ci){//alert (ver_ci+' | '+ant_ci);
             var r=true;
             if(ant_ci != ver_ci){
                 var v=$.ajax({

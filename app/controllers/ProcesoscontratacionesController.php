@@ -195,19 +195,25 @@ class ProcesoscontratacionesController extends ControllerBase
 		$resul = Procesoscontrataciones::findFirstById($_POST['id']);
 		$resul->baja_logica = 0;
 		if ($resul->save()) {
-					$msm = 'Exito: Se elimino correctamente';
-				}else{
-					$msm = 'Error: No se elimino el registro';
-				}
+			$resul2 = Seguimientos::find(array('proceso_contratacion_id='.$resul->id));
+			foreach ($resul2 as $v) {
+				$resul3 = Seguimientos::findFirstById($v->id);
+				$resul3->baja_logica = 0;
+				$resul3->save();
+			}
+			$msm = 'Exito: Se elimino correctamente';
+		}else{
+			$msm = 'Error: No se elimino el registro';
+		}
 		$this->view->disable();
 		echo json_encode($msm);
 	}
 
-	public function listpacAction()
+public function listpacAction()
 	{
-	$estado = array('Rechazado','Espera','Proceso','Aprobado','Adjudicado');
+	//$estado = array('Rechazado','Espera','Proceso','Aprobado','Adjudicado');
 	$model = new Cargos();
-	$resul = $model->listapac();
+	$resul = $model->listapac(1);
 	$this->view->disable();
 	foreach ($resul as $v) {
 		$customers[] = array(
@@ -219,8 +225,7 @@ class ProcesoscontratacionesController extends ControllerBase
 			'sueldo' => $v->sueldo,
 			'gestion' => $v->gestion,
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
-			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin)),
-			'estado' => $estado[$v->estado]
+			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
 			);
 	}
 	echo json_encode($customers);
