@@ -842,7 +842,8 @@
                 <label class="col-sm-3 control-label" for="lstTipoMemorandum">Tipo Memorandum *:</label>
 
                 <div class="col-md-6">
-                    <div style="margin-left: 5px;" id="lstTipoMemorandum"></div>
+                    <!--<div style="margin-left: 5px;" id="lstTipoMemorandum"></div>-->
+                    <select id="lstTipoMemorandum" class="form-control move-relab"></select>
                     <span class="help-block" id="helpErrorTiposMemorandums"></span>
                 </div>
             </div>
@@ -908,6 +909,7 @@
                        for="lstGerenciasAdministrativasMovilidad">Gerencia:</label>
 
                 <div class="col-md-6">
+                    <div id='jqxComboBox'></div>
                     <div style="margin-left: 5px;" id="lstGerenciasAdministrativasMovilidad"></div>
                     <span class="help-block" id="helpErrorGerenciasAdministrativasMovilidad"></span>
                 </div>
@@ -1073,7 +1075,8 @@
             <i class="fa fa-repeat"></i>
             Cancelar
         </button>
-        <input type="hidden" id="hdnIdRelaboralNuevaMovilidad" value="0">
+        <input type="hidden" id="hdnIdRelaboralPorMovilidad" value="0">
+        <input type="hidden" id="hdnIdRelaboralMovilidadModificar" value="0">
         <input type="hidden" id="hdnIdOrganigramaPorSeleccionCargoSuperior" value="0">
         <input type="hidden" id="hdnIdUbicacionPorSeleccionCargoSuperior" value="0">
     </div>

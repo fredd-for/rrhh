@@ -29,8 +29,10 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $cargo;
     public $evento_id;
     public $motivo;
-    public $pais_id;
-    public $departamento_id;
+    public $id_pais;
+    public $pais;
+    public $id_departamento;
+    public $departamento;
     public $lugar;
     public $fecha_ini;
     public $hora_ini;
@@ -43,6 +45,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $fecha_mem;
     public $observacion;
     public $estado;
+    public $estado_descripcion;
     /**
      * Initialize method for model.
      */
@@ -75,8 +78,10 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'cargo'=>'cargo',
             'evento_id'=>'evento_id',
             'motivo'=>'motivo',
-            'pais_id'=>'pais_id',
-            'departamento_id'=>'departamento_id',
+            'id_pais'=>'id_pais',
+            'pais'=>'pais',
+            'id_departamento'=>'id_departamento',
+            'departamento'=>'departamento',
             'lugar'=>'lugar',
             'hora_ini'=>'hora_ini',
             'fecha_ini'=>'fecha_ini',
@@ -88,7 +93,8 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'memorandum_gestion'=>'memorandum_gestion',
             'fecha_mem'=>'fecha_mem',
             'observacion'=>'observacion',
-            'estado'=>'estado'
+            'estado'=>'estado',
+            'estado_descripcion'=>'estado_descripcion'
         );
     }
     private $_db;

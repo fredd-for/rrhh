@@ -1149,9 +1149,9 @@ class RelaboralesController extends ControllerBase
                         'evento_id'=>$v->evento_id,
                         'evento'=>$v->evento,
                         'motivo'=>$v->motivo,
-                        'pais_id'=>$v->pais_id,
+                        'id_pais'=>$v->id_pais,
                         'pais'=>$v->pais,
-                        'departamento_id'=>$v->departamento_id,
+                        'id_departamento'=>$v->id_departamento,
                         'lugar'=>$v->lugar,
                         'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
                         'hora_ini' => $v->hora_ini,
@@ -1164,7 +1164,8 @@ class RelaboralesController extends ControllerBase
                         'fecha_mem'=>$v->fecha_mem != "" ? date("d-m-Y", strtotime($v->fecha_mem)) : "",
                         'memorandum'=>$memorandum,
                         'observacion'=>$v->observacion!=null?$v->observacion:'',
-                        'estado'=>$v->estado
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion
                     );
                 }
             }
@@ -2172,7 +2173,12 @@ class RelaboralesController extends ControllerBase
                 $id_organigrama = $_POST['id_organigrama'];
                 $id_area = $_POST['id_area'];
                 $id_ubicacion = $_POST['id_ubicacion'];
-                $cargo = $_POST['cargo'];
+                if(isset($_POST['cargo']['value'])){
+                    $cargo = $_POST['cargo']['value'];
+                }
+                elseif(isset($_POST['cargo'])){
+                    $cargo = $_POST['cargo'];
+                }
                 $id_evento = $_POST['id_evento'];
                 $motivo = $_POST['motivo'];
                 $id_pais = $_POST['id_pais'];
@@ -2360,7 +2366,6 @@ class RelaboralesController extends ControllerBase
                                 }
                                 if($swAnterior){
                                     if ($relaboralesmovilidades->save()) {
-
                                         $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente el registro de Movilidad de Personal.');
                                     } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal.');
 

@@ -450,7 +450,7 @@ function definirGrillaParaListaRelaborales(){
                                 $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                                 cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_procesocontratacion);
                                 var idUbicacionPrederminada = 0;
-                                if(dataRecord.id_ubicacion==null||dataRecord.id_ubicacion=='')idUbicacionPrederminada=dataRecord.id_ubicacion;
+                                if(dataRecord.id_ubicacion!=null)idUbicacionPrederminada=dataRecord.id_ubicacion;
                                 cargarUbicacionesParaEditar(idUbicacionPrederminada);
                                 agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             }else {
@@ -1063,8 +1063,35 @@ function obtenerRutaFoto(numDocumento,numComplemento){
     }
     return resultado;
 }
-/*
-    Función anónima para la aplicación de clases a celdas en particular dentro la grilla.
+/**
+ * Función para obtener la fecha de este día
+ * @param separador
+ * @returns {*}
+ * @author JLM
+ */
+function fechaHoy(separador,format){
+    if(separador=='')separador="-";
+    var fullDate = new Date()
+    var dia = fullDate.getDate().toString();
+    var mes = (fullDate.getMonth()+1).toString();
+    var twoDigitDay = (dia.length === 1 )? '0' + dia : dia;
+    var twoDigitMonth = (mes.length ===1 )? '0' + mes: mes;
+    if(format=="dd-mm-yyyy")
+        var currentDate = twoDigitDay + separador + twoDigitMonth + separador + fullDate.getFullYear();
+    else if(format=="mm-dd-yyyy"){
+        var currentDate = twoDigitMonth + separador + twoDigitDay + separador + fullDate.getFullYear();
+    }else {
+        var currentDate = fullDate;
+    }
+    return currentDate;
+}
+/**
+ * Función anónima para la aplicación de clases a celdas en particular dentro de las grillas.
+ * @param row
+ * @param columnfield
+ * @param value
+ * @returns {string}
+ * @author JLM
  */
 var cellclass = function (row, columnfield, value) {
     if (value == 'ACTIVO') {

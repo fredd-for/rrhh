@@ -93,9 +93,6 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $depende_id;
 
-<<<<<<< HEAD
-    public $formacion_reuqerida;
-=======
     /**
      *
      * @var string
@@ -103,7 +100,6 @@ class Cargos extends \Phalcon\Mvc\Model
     public $formacion_requerida;
 
     
->>>>>>> 4fd1faf032d00f30d728166fba6aec051364f0cb
     /**
      * Initialize method for model.
      */
@@ -134,10 +130,6 @@ class Cargos extends \Phalcon\Mvc\Model
             'fin_partida_id' => 'fin_partida_id',
             'depende_id' => 'depende_id',
             'formacion_requerida' => 'formacion_requerida'
-<<<<<<< HEAD
-
-=======
->>>>>>> 4fd1faf032d00f30d728166fba6aec051364f0cb
         );
     }
 
