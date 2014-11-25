@@ -198,20 +198,38 @@ function cargarHistorialRelacionLaboralMovilidad(idRelaboral) {
                         historial += "<li class='active'>";
                         historial += "<div class='timeline-icon themed-background-fire themed-border-fire'>";
                     }
-
-                    historial += "<i class='fa fa-tag' title='Memor&aacute;ndum'></i></div>";
+                   if(val.id_tipomemorandum==4){
+                       historial += "<i class='gi gi-airplane' title='Memor&aacute;ndum'></i></div>";
+                   }else if(val.id_tipomemorandum==5){
+                       historial += "<i class='hi hi-tree_conifer' title='Memor&aacute;ndum'></i></div>";
+                   }else{
+                       historial += "<i class='fa fa-tag' title='Memor&aacute;ndum'></i></div>";
+                   }
                     historial += "<div class='timeline-time'><a href='#' id='divContentMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_ini + "</a><strong></strong></div>";
                     historial += "<div class='timeline-content'>";
-                    historial += "<p class='push-bit'>"+val.tipo_memorandum+": <strong id='strCargoMovilidad_" + val.id_relaboralmovilidad + "'>" + val.cargo + "</strong></p>";
-
+                    historial += "<p class='push-bit'>"+val.tipo_memorandum+": <strong id='strCargoMotivoMovilidad_" + val.id_relaboralmovilidad + "'>";
+                    if(val.cargo!=null){
+                        historial += val.cargo;
+                    }
+                    else if(val.motivo!=''){
+                        historial += val.motivo;
+                    }
+                    historial += "</strong></p>";
                     historial += "<dl class='dl-horizontal'>";
-                    historial += "<dt id='dtGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>Gerencia:</dt><dd id='ddGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>" + val.gerencia_administrativa + "</dd>";
-                    if (val.departamento_administrativo != "")historial += "<dt id='dtDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>Departamento:</dt><dd id='ddDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>" + val.departamento_administrativo + "</dd>";
+                    if(val.gerencia_administrativa!=null&&val.gerencia_administrativa!='')historial += "<dt id='dtGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>Gerencia:</dt><dd id='ddGerenciaMovilidad_" + val.id_relaboralmovilidad + "'>" + val.gerencia_administrativa + "</dd>";
+                    if (val.departamento_administrativo!=null&&val.departamento_administrativo != "")historial += "<dt id='dtDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>Departamento:</dt><dd id='ddDepartamentoMovilidad_" + val.id_relaboralmovilidad + "'>" + val.departamento_administrativo + "</dd>";
                     if(val.id_area>0)historial += "<dt id='dtAreaMovilidad_" + val.id_relaboralmovilidad + "'>&Aacute;rea:</dt><dd id='ddAreaMovilidad_" + val.id_relaboralmovilidad + "'>" + val.area + "</dd>";
-                    historial += "<dt id='dtUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>" + val.ubicacion + "</dd>";
+                    if(val.ubicacion!=null&&val.ubicacion!='')historial += "<dt id='dtUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacionMovilidad_" + val.id_relaboralmovilidad + "'>" + val.ubicacion + "</dd>";
                     historial += "<dt id='dtFechaIniMovilidad_" + val.id_relaboralmovilidad + "'>Fecha Inicio:</dt><dd id='ddFechaIniMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_ini + "</dd>";
+                    if(val.hora_ini!=null&&val.hora_ini!='')historial += "<dt id='dtHoraIniMovilidad_" + val.id_relaboralmovilidad + "'>Hora Ini:</dt><dd id='ddHoraIniMovilidad_" + val.id_relaboralmovilidad + "'>" + val.hora_ini + "</dd>";
                     if(val.fecha_fin!='')historial += "<dt id='dtFechaFinMovilidad_" + val.id_relaboralmovilidad + "'>Fecha Fin:</dt><dd id='ddFechaFinMovilidad_" + val.id_relaboralmovilidad + "'>" + val.fecha_fin + "</dd>";
+                    if(val.hora_fin!=null&&val.hora_fin!='')historial += "<dt id='dtHoraFinMovilidad_" + val.id_relaboralmovilidad + "'>Hora Fin:</dt><dd id='ddHoraFinMovilidad_" + val.id_relaboralmovilidad + "'>" + val.hora_fin + "</dd>";
                     historial += "<dt id='dtMemorandumMovilidad_" + val.id_relaboralmovilidad + "'>Memor&aacute;ndum:</dt><dd id='ddMemorandumMovilidad_" + val.id_relaboralmovilidad +"'>"+ val.memorandum_correlativo +"/" + val.memorandum_gestion + " de " + val.fecha_mem+"</dd>";
+                    if(val.id_tipomemorandum==4||val.id_tipomemorandum==5){
+                        if(val.pais!=null&&val.pais!='')historial += "<dt id='dtPaisMovilidad_" + val.id_relaboralmovilidad + "'>Pa&iacute;s:</dt><dd id='ddPaisMovilidad_" + val.id_relaboralmovilidad +"'>"+ val.pais +"</dd>";
+                        if(val.departamento!=null&&val.departamento!='')historial += "<dt id='dtCiudadMovilidad_" + val.id_relaboralmovilidad + "'>Ciudad:</dt><dd id='ddPaisMovilidad_" + val.id_relaboralmovilidad +"'>"+ val.departamento +"</dd>";
+                        if(val.lugar!=null&&val.lugar!='')historial += "<dt id='dtLugarMovilidad_" + val.id_relaboralmovilidad + "'>Lugar:</dt><dd id='ddLugarMovilidad_" + val.id_relaboralmovilidad +"'>"+ val.lugar +"</dd>";
+                    }
                     historial += "<dt id='dtObservacionMovilidad_" + val.id_relaboralmovilidad + "'>Observaciones:</dt><dd id='ddObservacionMovilidad_" + val.id_relaboralmovilidad + "'>" + val.observacion + "</dd>";
                     historial += "</dl>";
                 });

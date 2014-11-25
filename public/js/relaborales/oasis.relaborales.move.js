@@ -26,7 +26,9 @@ function cargarGrillaMovilidad(idRelaboral){
             { name: 'numero', type: 'integer' },
             { name: 'cargo', type: 'string' },
             { name: 'fecha_ini', type: 'date' },
+            { name: 'hora_ini', type: 'time' },
             { name: 'fecha_fin', type: 'date' },
+            { name: 'hora_fin', type: 'time' },
             { name: 'tipo_memorandum', type: 'string' },
             { name: 'memorandum_correlativo', type: 'string' },
             { name: 'memorandum_gestion', type: 'integer' },
@@ -40,30 +42,6 @@ function cargarGrillaMovilidad(idRelaboral){
         id: 'id_relaboralmovilidad',
         cache: false
     };
-    //var dataAdapter = new $.jqx.dataAdapter(source);
-    /*var source =
-    {
-        source: dataAdapter,
-        updaterow: function (rowid, rowdata, commit) {
-            // synchronize with the server - send update command
-            // call commit with parameter true if the synchronization with the server is successful
-            // and with parameter false if the synchronization failder.
-            commit(true);
-        },
-        datafields:
-            [
-                { name: 'Gerencia', type: 'string' },
-                { name: 'Departamento', type: 'string' },
-                { name: 'Area', type: 'string' },
-                { name: 'Ubicacion', type: 'string' },
-                { name: 'Cargo', type: 'string' },
-                { name: 'Fecha Ini', type: 'date' },
-                { name: 'Fecha Fin', type: 'date' },
-                { name: 'Memorandum', type: 'string' },
-                { name: 'Fecha Mem.', type: 'date' },
-                { name: 'Observacion', type: 'string' }
-            ]
-    };*/
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeMovilidadDePersonal();
     function cargarRegistrosDeMovilidadDePersonal() {
@@ -109,6 +87,16 @@ function cargarGrillaMovilidad(idRelaboral){
                     // Registrar nueva relación laboral.
                     $("#addrowbuttonmove").on('click', function () {
                         $("#hdnIdRelaboralNuevaMovilidad").val(idRelaboral);
+                        $("#chkAi").attr("checked",false);
+                        $("#txtCorrelativoMemorandum").val("");
+                        $("#txtCargoMovilidad").val("");
+                        $("#lstUbicaciones").val("");
+
+                        $("#txtFechaMem").val("");
+                        $("#txtFechaIniMovilidad").val("");
+                        $("#txtFechaFinMovilidad").val("");
+                        $("#hdnIdOrganigramaPorSeleccionCargoSuperior").val(0);
+
                         limpiarMensajesErrorPorValidacionMovilidad();
                         $("#divTitleRegistroMovilidad").html("");
                         $("#divTitleRegistroMovilidad").append("Nuevo Registro de Movilidad de Personal");
@@ -122,18 +110,74 @@ function cargarGrillaMovilidad(idRelaboral){
                             $("#txtCorrelativoMemorandum").focus();
                             var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
                             if(itemTipoMemorandum!=null){
-                                var idff = $("#lstTipoMemorandum").val();
-                                var arr = idff.split("-");
-                                var ff = arr[1];
+                                var id_agraupado = $("#lstTipoMemorandum").val();
+                                var arr = id_agraupado.split("-");
+                                var idTipoMemorandum = arr[0];/*Identificador del tipo de memorándum*/
+                                var ff = arr[1];/*Requerir fecha de finalización*/
+                                var hf = arr[2];/*Requerir hora de finalización*/
+                                var cc = arr[3];/*Requerir cargo*/
+                                var oo = arr[4];/*Requerir unidad organizacional*/
+                                var uu = arr[5];/*Requerir ubicación*/
+                                var mm = arr[6];/*Requerir motivo*/
+                                var pp = arr[7];/*Requerir pais*/
+                                var dd = arr[8];/*Requerir departamento o ciudad*/
+                                var ll = arr[9];/*Requerir lugar del evento*/
                                 /*
-                                Se evalua si el tipo de memorándum establece el requerimiento de la fecha de finalización.
+                                * Se evalua en función del tipo de memorándum seleccionado los datos requeridos.
                                  */
-                                if(ff==1){
+                                if(ff>=1){
                                     $("#divFechasFinMovilidad").show();
                                     $("#divHorasFinMovilidad").show();
                                 }else{
                                     $("#divFechasFinMovilidad").hide();
                                     $("#divHorasFinMovilidad").hide();
+                                }
+                                if(mm>=1){
+                                    $("#divMotivosMovilidad").show();
+                                }else $("#divMotivosMovilidad").hide();
+
+                                if(pp>=1){
+                                    $("#divPaisesMovilidad").show();
+                                    cargarPaisesCiudadesParaMovilidad(0,0);
+                                }else $("#divPaisesMovilidad").hide();
+
+                                if(dd>=1){
+                                    $("#divCiudadesMovilidad").show();
+                                }else $("#divCiudadesMovilidad").hide();
+
+                                if(ll>=1){
+                                    $("#divLugaresMovilidad").show();
+                                }else $("#divLugaresMovilidad").hide();
+
+                                if(cc>=1){
+                                    $("#divCargosMovilidad").show();
+                                    /**
+                                     * Si es requerido el cargo y además el tipo de documento refiere a ASIGNACIÓN DE FUNCIONES
+                                     * se pone visible la opción de añadir "a.i." al final del nombre del cargo.
+                                     */
+                                    if(idTipoMemorandum==2){
+                                        $("#divChkAi").show();
+                                        obtieneCargoInmediatoSuperior(idRelaboral);
+                                    }else {
+                                        $("#txtCargoMovilidad").val("");
+                                        $("#divChkAi").hide();
+                                    }
+                                }else {
+                                    $("#divCargosMovilidad").hide();
+                                }
+                                if(oo>=1){
+                                    $("#divGerenciasAdministrativasMovilidad").show();
+                                    $("#divDepartamentosAdministrativosMovilidad").show();
+                                    $("#divAreasAdministrativasMovilidad").show();
+                                }else{
+                                    $("#divGerenciasAdministrativasMovilidad").hide();
+                                    $("#divDepartamentosAdministrativosMovilidad").hide();
+                                    $("#divAreasAdministrativasMovilidad").hide();
+                                }
+                                if(uu>=1){
+                                    $("#divUbicacionesMovilidad").show();
+                                }else{
+                                    $("#divUbicacionesMovilidad").hide();
                                 }
                             }
                         });
@@ -150,8 +194,24 @@ function cargarGrillaMovilidad(idRelaboral){
 
                         $("#txtFechaIniMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
                         $("#txtFechaFinMovilidad").jqxDateTimeInput({ enableBrowserBoundsDetection: false, height: 24, formatString:'dd-MM-yyyy' });
+                        /**
+                         * Campos ocultos por defecto
+                         */
+                        $("#divCargosMovilidad").hide();
+                        $("#divChkAi").hide();
+
+                        $("#divMotivosMovilidad").hide();
+                        $("#divPaisesMovilidad").hide();
+                        $("#divCiudadesMovilidad").hide();
+                        $("#divLugaresMovilidad").hide();
+
+                        $("#divGerenciasAdministrativasMovilidad").hide();
+                        $("#divDepartamentosAdministrativosMovilidad").hide();
+                        $("#divAreasAdministrativasMovilidad").hide();
+                        $("#divUbicacionesMovilidad").hide();
                         $("#divFechasFinMovilidad").hide();
                         $("#divHorasFinMovilidad").hide();
+
                         $("#txtHoraIniMovilidad").val("");
                         $("#txtHoraFinMovilidad").val("");
                         $("#txtObservacionMovilidad").jqxInput({ width: 300, height: 35, placeHolder: "Introduzca sus observaciones"});
@@ -390,7 +450,10 @@ function cargarGrillaMovilidad(idRelaboral){
                     {text: 'Ubicacion',filtertype: 'checkedlist',datafield: 'ubicacion',width: 100,cellsalign: 'center',align:'center'},
                     {text: 'Cargo',columntype: 'textbox',datafield: 'cargo',width: 130,cellsalign: 'center',align:'center'},
                     {text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: 90, cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
-                    {text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 90, cellsalign: 'center', cellsformat: 'dd-MM-yyyy' ,align:'center'},
+                    {text: 'Hora Inicio', filtertype: 'checkedlist',datafield: 'hora_ini', width: 90, cellsalign: 'center', cellsformat: 't',align:'center'},
+                    {text: 'Fecha Fin', datafield: 'fecha_fin', filtertype: 'range', width: 90, cellsalign: 'center',cellsformat: 'dd-MM-yyyy' , align:'center'},
+                    {text: 'Hora Fin', filtertype: 'checkedlist',datafield: 'hora_fin', width: 90, cellsalign: 'center',cellsformat: 't' , align:'center'},
+
 
                     /*{ text: 'First Name', columntype: 'textbox', datafield: 'firstname', width: 120 },
                      { text: 'Last Name', datafield: 'lastname', columntype: 'textbox', width: 120 },
@@ -479,9 +542,9 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
         dataType: "json",
         dataFields: [
             { name: 'tipo_memorandum'},
-            { name: 'idff'}
+            { name: 'id_agrupado'}
         ],
-        url: '/relaborales/listtiposmemorandums'
+        url: '/relaborales/listtiposmemorandumsmovilidad'
     };
     var tiposMemorandumsAdapter = new $.jqx.dataAdapter(tiposMemorandumsSource);
     $("#lstTipoMemorandum").jqxComboBox(
@@ -491,7 +554,7 @@ function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado){
             height: 25,
             promptText: "Seleccione un tipo de memorandum...",
             displayMember: 'tipo_memorandum',
-            valueMember: 'idff'
+            valueMember: 'id_agrupado'
         });
 }
 /**
@@ -617,6 +680,66 @@ function cargarUnidadesOrganizacionalesParaMovilidad(idGerencia,idDepartamento,i
     });
 }
 /**
+ * Función para la especificación de los combos dependientes de país y ciudad.
+ * @param idPais Identificador del país.
+ * @param idDepartamento Identificador del departamento.
+ */
+function cargarPaisesCiudadesParaMovilidad(idPais,idDepartamento){
+    var paisesSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'pais'},
+            { name: 'id'}
+        ],
+        url: '/relaborales/listpaises/'
+    };
+    var paisesAdapter = new $.jqx.dataAdapter(paisesSource);
+    $("#lstPaisesMovilidad").jqxComboBox(
+        {
+            source: paisesAdapter,
+            width: 300,
+            height: 25,
+            promptText: "Seleccione un país...",
+            displayMember: 'pais',
+            valueMember: 'id'
+        });
+    var departamentosSource =
+    {
+        dataType: "json",
+        dataFields: [
+            { name: 'pais_id'},
+            { name: 'id'},
+            { name: 'departamento'},
+        ],
+        url: '/relaborales/listdepartamentos/'
+    };
+    var departamentosAdapter = new $.jqx.dataAdapter(departamentosSource);
+
+    $("#lstCiudadesMovilidad").jqxComboBox(
+        {
+
+            width: 300,
+            height: 25,
+            disabled: true,
+            promptText: "Seleccione la ciudad...",
+            displayMember: 'departamento',
+            valueMember: 'id'
+        });
+
+    $("#lstPaisesMovilidad").bind('select', function(event)
+    {
+        if (event.args)
+        {
+            $("#lstCiudadesMovilidad").jqxComboBox({ disabled: false, selectedIndex: -1});
+            var value = event.args.item.value;
+            departamentosSource.data = {pais_id: value};
+            departamentosAdapter = new $.jqx.dataAdapter(departamentosSource);
+            $("#lstCiudadesMovilidad").jqxComboBox({source: departamentosAdapter});
+        }
+    });
+}
+/**
  * Función para cargar el combo de ubicaciones por movilidad.
  */
 function cargarUbicacionesParaMovilidad(idUbicacion){
@@ -664,6 +787,9 @@ function validaFormularioPorRegistroMovilidad(){
     var ok = true;
     var msje = "";
     var idRelaboral = $("#hdnIdRelaboralNuevaMovilidad").val();
+    var idOrganigrama=0;
+    var idUbicacion=0;
+    var idArea=0;
     var swOrganigrama = 0;
     var swUbicacion=0;
     var swCargo = 0;
@@ -672,19 +798,41 @@ function validaFormularioPorRegistroMovilidad(){
 
     limpiarMensajesErrorPorValidacionMovilidad();
 
-    //var idTipoMemoradundum = $("#lstTipoMemorandum").val();
     var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');
     var correlativoMemoradundum  =$("#txtCorrelativoMemorandum").val();
     var gestionMemorandum  =$("#lstGestionMemorandum").val();
     var fechaMem= $('#txtFechaMem').jqxDateTimeInput('getText');
-    var itemGerencia = $("#lstGerenciasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
-    var itemDepartamento = $("#lstDepartamentosAdministrativosMovilidad").jqxComboBox('getSelectedItem');
-    var itemArea = $("#lstAreasAdministrativasMovilidad").jqxComboBox('getSelectedItem');
-    var itemUbicacion = $("#lstUbicacionesMovilidad").jqxComboBox('getSelectedItem');
+    var idGerencia = $("#lstGerenciasAdministrativasMovilidad").val();
+    var idDepartamentoAdministrativo = $("#lstDepartamentosAdministrativosMovilidad").val();
+    var idArea = $("#lstAreasAdministrativasMovilidad").val();
+    var idUbicacion = $("#lstUbicacionesMovilidad").val();
     var cargo = $("#txtCargoMovilidad").val();
+    var motivo = $("#txtMotivoMovilidad").val();
+    var idPais = $("#lstPaisesMovilidad").val();
+    var idDepartamento = $("#lstDepartamentosMovilidad").val();
+    var lugar = $("#txtLugarMovilidad").val();
     var fechaIni= $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
+    var horaIni= $('#txtHoraIniMovilidad').val();
     var fechaFin= $('#txtFechaFinMovilidad').jqxDateTimeInput('getText');
+    var horaFin= $('#txtHoraFinMovilidad').val();
 
+    idPais = parseInt(idPais);
+    idDepartamento = parseInt(idDepartamento);
+    if(isNaN(idPais))idPais=0;
+    if(isNaN(idDepartamento))idDepartamento=0;
+    idGerencia = parseInt(idGerencia);
+    idDepartamentoAdministrativo = parseInt(idDepartamentoAdministrativo);
+    idArea = parseInt(idArea);
+    idUbicacion = parseInt(idUbicacion);
+    if(idGerencia!=null&&idGerencia!=undefined){
+        swOrganigrama=1;
+        if(!isNaN(idGerencia)){
+            idOrganigrama = idGerencia;
+        }
+        if(!isNaN(idDepartamentoAdministrativo)){
+            idOrganigrama = idDepartamentoAdministrativo;
+        }
+    }
     var enfoque=null;
     if(idRelaboral<=0){
         ok=false;
@@ -701,9 +849,20 @@ function validaFormularioPorRegistroMovilidad(){
         if(enfoque==null)enfoque =$("#lstTipoMemorandum");
     }
     else{
-        var idff = $("#lstTipoMemorandum").val();
-        var arr = idff.split("-");
-        var ff = arr[1];
+        var id_agraupado = $("#lstTipoMemorandum").val();
+        var arr = id_agraupado.split("-");
+        var ff = arr[1];/*Requerir fecha de finalización*/
+        var hf = arr[2];/*Requerir hora de finalización*/
+        var cc = arr[3];/*Requerir cargo*/
+        var oo = arr[4];/*Requerir unidad organizacional*/
+        var uu = arr[5];/*Requerir ubicación*/
+        var mm = arr[6];/*Requerir motivo*/
+        var pp = arr[7];/*Requerir pais*/
+        var dd = arr[8];/*Requerir departamento o ciudad*/
+        var ll = arr[9];/*Requerir lugar del evento*/
+         /*
+         * Se evalua en función del tipo de memorándum seleccionado los datos requeridos.
+         */
         if(ff==1)swFechaFin=1;
         /*
          Se evalua si el tipo de memorándum establece el requerimiento de la fecha de finalización.
@@ -715,6 +874,60 @@ function validaFormularioPorRegistroMovilidad(){
             $("#divFechasFinMovilidad").addClass("has-error");
             $("#helpErrorFechasFinMovilidad").html(msje);
             if(enfoque==null)enfoque =$("#txtFechaFinMovilidad");
+        }
+        if(horaIni!=''&&fechaIni==''){
+            ok=false;
+            var msje = "Si desea registrar una hora de inicio debe especificar la fecha de inicio necesariamente.";
+            $("#divHorasIniMovilidad").show();
+            $("#divHorasIniMovilidad").addClass("has-error");
+            $("#helpErrorHorasIniMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtHoraIniMovilidad");
+        }
+        if(horaFin!=''&&fechaFin==''){
+            ok=false;
+            var msje = "Si desea registrar una hora de finalizaci&oacute;n debe especificar la fecha de finalizaci&oacute;n necesariamente.";
+            $("#divHorasFinMovilidad").show();
+            $("#divHorasFinMovilidad").addClass("has-error");
+            $("#helpErrorHorasFinMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtHoraFinMovilidad");
+        }
+        if(cc==1&&cargo==''){
+            var msje = "Debe introducir la asignaci&oacute;n del cargo necesariamente.";
+            $("#divCargosMovilidad").addClass("has-error");
+            $("#helpErrorCargosMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtCargoMovilidad");
+        }
+        if(oo==1&&idOrganigrama==0){
+            var msje = "Debe seleccionar una Gerencia y/o Departamento para el registro requerido.";
+            $("#divGerenciasAdministrativasMovilidad").addClass("has-error");
+            $("#helpErrorGerenciasAdministrativasMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#lstGerenciasAdministrativasMovilidad");
+        }
+        if(mm==1&&motivo==''){
+            var msje = "Debe registrar un motivo para la designaci&oacute;n.";
+            $("#divLugaresMovilidad").addClass("has-error");
+            $("#helpErrorLugaresMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtLugarMovilidad");
+        }
+        /*
+        Se oculta temporalmente
+        if(pp==1&&idPais==0){
+            var msje = "Debe seleccionar un pa&iacute;s necesariamente.";
+            $("#divPaisesMovilidad").addClass("has-error");
+            $("#helpErrorPaisesMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#lstPaisesMovilidad");
+        }
+        if(dd==1&&idDepartamento==0){
+            var msje = "Debe registrar una ciudad necesariamente.";
+            $("#divCiudadesMovilidad").addClass("has-error");
+            $("#helpErrorCiudadesMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#lstCiudadMovilidad");
+        }*/
+        if(ll==1&&lugar==''){
+            var msje = "Debe registrar un lugar para la designaci&oacute;n.";
+            $("#divMotivosMovilidad").addClass("has-error");
+            $("#helpErrorMotivosMovilidad").html(msje);
+            if(enfoque==null)enfoque =$("#txtMotivoMovilidad");
         }
     }
     if(correlativoMemoradundum==''||gestionMemorandum==0){
@@ -738,27 +951,6 @@ function validaFormularioPorRegistroMovilidad(){
         $("#divFechasMemorandums").addClass("has-error");
         $("#helpErrorFechasMemorandums").html(msje);
         if(enfoque==null)enfoque =$("#txtFechaMem");
-    }
-    if(itemGerencia!=null){
-        swOrganigrama=1;
-    }
-    if(itemUbicacion!=null){
-        swUbicacion=1;
-    }
-    if(cargo!=""){
-        swCargo=1;
-    }
-    var swTotal = parseFloat(swOrganigrama) + parseFloat(swUbicacion)+parseFloat(swCargo);
-    if(swTotal==0){
-        ok=false;
-        var msje = "Debe seleccionar una <b>Gerencia</b>, <b>Ubicación</b> o <b>Cargo</b> para que se pueda registrar la movilidad de personal.";
-        $("#divGerenciasAdministrativasMovilidad").addClass("has-error");
-        $("#divUbicacionesMovilidad").addClass("has-error");
-        $("#divCargosMovilidad").addClass("has-error");
-        $("#helpErrorGerenciasAdministrativasMovilidad").html(msje);
-        $("#helpErrorUbicacionesMovilidad").html(msje);
-        $("#helpErrorCargosMovilidad").html(msje);
-        if(enfoque==null)enfoque =$("#lstGerenciasAdministrativasMovilidad");
     }
     if(fechaIni==''){
         ok=false;
@@ -823,7 +1015,7 @@ function limpiarMensajesErrorPorValidacionMovilidad(){
  * Función para el registro de la movilidad de personal.
  */
 function guardarRegistroMovilidad(){
-    var ok=true;
+    var ok=false;
     var swCargo = 0;
     var idRelaboral = $("#hdnIdRelaboralNuevaMovilidad").val();
     var idOrganigrama=0;
@@ -832,35 +1024,63 @@ function guardarRegistroMovilidad(){
     var swOrganigrama = 0;
     var swUbicacion=0;
     var swCargo = 0;
+    var chAi = 0;
+    if($("#chkAi").is(':checked')) {
+        chAi=1;
+    }
     var idff = $("#lstTipoMemorandum").val();
     var arr = idff.split("-");
     var idTipoMemorandum = arr[0];
     var swFechaFin = arr[1];
+    var swHoraFin = arr[2];
+    var swCargo = arr[3];
+    var swOrganigrama = arr[4];
+    var swUbicacion = arr[5];
 
     var correlativoMemorandum = $("#txtCorrelativoMemorandum").val();
     var gestionMemorandum = $("#lstGestionMemorandum").val();
     var fechaMem= $('#txtFechaMem').jqxDateTimeInput('getText');
     var idGerencia = $("#lstGerenciasAdministrativasMovilidad").val();
-    var idDepartamento = $("#lstDepartamentosAdministrativosMovilidad").val();
+    var idDepartamentoAdministrativo = $("#lstDepartamentosAdministrativosMovilidad").val();
     var idArea = $("#lstAreasAdministrativasMovilidad").val();
     var idUbicacion = $("#lstUbicacionesMovilidad").val();
     var cargo = $("#txtCargoMovilidad").val();
+    if(cargo!=''&&chAi==1){
+        cargo+=" a.i.";
+    }
+    var motivo = $("#txtMotivoMovilidad").val();
+    var idPais = $("#lstPaisesMovilidad").val();
+    var idDepartamento = $("#lstDepartamentosMovilidad").val();
+    var lugar = $("#txtLugarMovilidad").val();
     var fechaIni= $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
+    var horaIni= $('#txtHoraIniMovilidad').val();
     var fechaFin= $('#txtFechaFinMovilidad').jqxDateTimeInput('getText');
+    var horaFin= $('#txtHoraFinMovilidad').val();
     var observacion = $("#txtObservacionMovilidad").val();
 
-    idGerencia = parseInt(idGerencia);
+    idPais = parseInt(idPais);
     idDepartamento = parseInt(idDepartamento);
+    if(isNaN(idPais))idPais=0;
+    if(isNaN(idDepartamento))idDepartamento=0;
+    idGerencia = parseInt(idGerencia);
+    idDepartamentoAdministrativo = parseInt(idDepartamentoAdministrativo);
     idArea = parseInt(idArea);
     idUbicacion = parseInt(idUbicacion);
     if(idGerencia!=null&&idGerencia!=undefined){
-        swOrganigrama=1;
         if(!isNaN(idGerencia)){
             idOrganigrama = idGerencia;
         }
-        if(!isNaN(idDepartamento)){
-            idOrganigrama = idDepartamento;
+        if(!isNaN(idDepartamentoAdministrativo)){
+            idOrganigrama = idDepartamentoAdministrativo;
         }
+    }
+    if(idOrganigrama==0){
+        /**
+         * En caso de que se haya seleccionado el cargo superior y no se haya especificado Gerencia, Departamento ni área
+         * se establece el valor de acuerdo al id_organigrama del cargo del jefe
+         */
+        if($("#hdnIdOrganigramaPorSeleccionCargoSuperior").val()>0)
+            idOrganigrama=$("#hdnIdOrganigramaPorSeleccionCargoSuperior").val();
     }
     if(isNaN(idArea)){
         idArea=0;
@@ -868,16 +1088,26 @@ function guardarRegistroMovilidad(){
     if(!isNaN(idUbicacion)){
         idUbicacion = idUbicacion;
         swUbicacion=1;
-    }else idUbicacion=0;
+    }else {
+        /*
+         * En caso de que se haya seleccionado el cargo superior y no se haya especificado la ubicación
+         * se establece el valor de acuerdo al lugar donde esta situado del cargo del jefe
+         */
+        if($("#hdnIdOrganigramaPorSeleccionCargoSuperior").val()>0){
+            idUbicacion=-1;
+        }
+        else idUbicacion=0;
+
+    }
     if(cargo!=""){
         swCargo=1;
     }
-    var swTotal = parseFloat(swOrganigrama) + parseFloat(swUbicacion) + parseFloat(swCargo);
+
     if(swFechaFin==0){
         fechaFin='';
     }
-    if(idRelaboral>0&&idTipoMemorandum>0&&correlativoMemorandum!=''&&gestionMemorandum>0&&fechaMem!=''&&fechaIni!=''&&swTotal>0){
-        var ok=$.ajax({
+    if(idRelaboral>0&&idTipoMemorandum>0&&correlativoMemorandum!=''&&gestionMemorandum>0&&fechaMem!=''&&fechaIni!=''){
+        $.ajax({
             url:'/relaborales/savemovilidad/',
             type:"POST",
             datatype: 'json',
@@ -891,56 +1121,84 @@ function guardarRegistroMovilidad(){
                 id_area:idArea,
                 id_ubicacion:idUbicacion,
                 cargo:cargo,
+                id_evento:0,
+                motivo:motivo,
+                id_pais:idPais,
+                id_departamento:idDepartamento,
+                lugar:lugar,
                 id_tipomemorandum:idTipoMemorandum,
                 correlativo:correlativoMemorandum,
                 gestion:gestionMemorandum,
                 fecha_mem:fechaMem,
                 contenido:'',
                 fecha_ini:fechaIni,
+                hora_ini:horaIni,
                 fecha_fin:fechaFin,
+                hora_fin:horaFin,
                 observacion:observacion
             },
             success: function(data) {  //alert(data);
-                //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
-                 * Si se ha realizado correctamente el registro de la relación laboral
+                 * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
                  */
                 $(".msjes").hide();
                 if(res.result==1){
-                    /*$("#divMsjeExito").show();
-                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
-                    $("#aMsjeExito").html(res.msj);*/
-                    //alert(res.msj);
-                    /**
-                     * Se habilita nuevamente el listado actualizado con el registro realizado y
-                     * se inhabilita el formulario para nuevo registro.
-                     */
-                    //$('#jqxTabs').jqxTabs('enableAt', 0);
-                    //$('#jqxTabs').jqxTabs('disableAt', 1);
-                    //deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
+                    ok=true;
                     $("#jqxgridmovilidad").jqxGrid("updatebounddata");
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(res.msj);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
                 } else if(res.result==0){
                     /**
-                     * En caso de haberse presentado un error al momento de especificar la ubicación del trabajo
+                     * En caso de presentarse un error subsanable
                      */
-                    $("#divMsjePeligro").show();
-                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
-                    $("#aMsjePeligro").html(res.msj);
+                    $("#divMsjePorWarning").html("");
+                    $("#divMsjePorWarning").append(res.msj);
+                    $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }else{
                     /**
                      * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
                      */
-                    $("#divMsjeError").show();
-                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
-                    $("#aMsjeError").html(res.msj);
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(res.msj);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
             }, //mostramos el error
             error: function() { alert('Se ha producido un error Inesperado'); }
         });
-    }else {
-        ok = false;
     }
     return ok;
+}
+/**
+ * Función para obtener registro correspondiente al cargo del inmediato superior considerando el identificador de la relación laboral.
+ * @param idRelaboral
+ */
+function obtieneCargoInmediatoSuperior(idRelaboral){
+    if(idRelaboral>0){
+        var resultado = $.ajax({
+            url: '/relaborales/getcargosuperiorrelaboral',
+            type: 'POST',
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id: idRelaboral},
+            success: function (data) {
+            }
+        }).responseText;
+        var res = jQuery.parseJSON(resultado);
+        if(res.cargo!=''){
+            if(confirm("Desea usar el cargo '"+res.cargo+"' del inmediato superior \nen la asignacion de funciones?"))
+            {$("#txtCargoMovilidad").val(res.cargo);
+                $("#chkAi").prop("checked","checked");
+                /*
+                   Si se ha seleccionado el cargo del nivel superior se debería asignar de igual modo el organigrama del jefe para la asignación de funciones.
+                 */
+                $("#hdnIdOrganigramaPorSeleccionCargoSuperior").val(res.organigrama_id);
+            }else{ $("#txtCargoMovilidad").val("");
+                $("#chkAi").attr("checked",false);
+            }
+        }
+    }
 }

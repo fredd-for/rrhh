@@ -93,7 +93,7 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $depende_id;
 
-    
+    public $formacion_reuqerida;
     /**
      * Initialize method for model.
      */
@@ -122,8 +122,9 @@ class Cargos extends \Phalcon\Mvc\Model
             'fecha_mod' => 'fecha_mod',
             'estado' => 'estado',
             'fin_partida_id' => 'fin_partida_id',
-            'depende_id' => 'depende_id'
-            
+            'depende_id' => 'depende_id',
+            'formacion_requerida' => 'formacion_requerida'
+
         );
     }
 
@@ -208,6 +209,26 @@ WHERE p.baja_logica=1 order by p.fecha_ini asc";
     public function listNombresCargos()
     {
         $sql = "SELECT DISTINCT cargo FROM cargos order by cargo";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+    /**
+     * Función para desplegar el registro del cargo del inmediato superior de un cargo identificado mediante el parámetro enviado.
+     * @return Resultset
+     */
+    public function getCargoSuperior($id_cargo)
+    {
+        $sql = "SELECT * FROM f_cargo_inmediato_superior_relaboral(".$id_cargo.")";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+    /**
+     * Función para desplegar el registro del cargo del inmediato superior de acuerdo al identificador del registro de relación laboral enviado como parámetro.
+     * @return Resultset
+     */
+    public function getCargoSuperiorPorRelaboral($id_relaboral)
+    {
+        $sql = "SELECT * FROM f_cargo_inmediato_superior_relaboral(".$id_relaboral.")";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

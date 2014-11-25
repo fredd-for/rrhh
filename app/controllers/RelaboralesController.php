@@ -986,11 +986,11 @@ class RelaboralesController extends ControllerBase
     public function listhistorialAction()
     {
         $relaboral = Array();
-        if (isset($_POST["id"]) && $_POST["id"] > 0) {
-            $gestion = 0;
-            if (isset($_POST["gestion"]) && $_POST["gestion"] > 0) {
-                $gestion = $_POST["gestion"];
-            }
+            if (isset($_POST["id"]) && $_POST["id"] > 0) {
+                $gestion = 0;
+                if (isset($_POST["gestion"]) && $_POST["gestion"] > 0) {
+                    $gestion = $_POST["gestion"];
+                }
             $this->view->disable();
             $obj = new Frelaborales();
             $resul = $obj->getAllByPerson($_POST["id"], $gestion);
@@ -1146,8 +1146,18 @@ class RelaboralesController extends ControllerBase
                         'ubicacion'=>$v->ubicacion,
                         'numero'=>$v->numero,
                         'cargo'=>$v->cargo,
+                        'evento_id'=>$v->evento_id,
+                        'evento'=>$v->evento,
+                        'motivo'=>$v->motivo,
+                        'pais_id'=>$v->pais_id,
+                        'pais'=>$v->pais,
+                        'departamento_id'=>$v->departamento_id,
+                        'lugar'=>$v->lugar,
                         'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                        'hora_ini' => $v->hora_ini,
                         'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                        'hora_fin' => $v->hora_fin,
+                        'id_tipomemorandum' => $v->id_tipomemorandum,
                         'tipo_memorandum' => $v->tipo_memorandum,
                         'memorandum_correlativo'=>$v->memorandum_correlativo,
                         'memorandum_gestion'=>$v->memorandum_gestion,
@@ -1811,19 +1821,23 @@ class RelaboralesController extends ControllerBase
     /**
      * Función para la obtención del listado de tipos de memorándum.
      */
-    function listtiposmemorandumsAction(){
+    function listtiposmemorandumsmovilidadAction(){
         $this->view->disable();
-        $resul = Tipomemorandum::find(array('estado=:estado1: and agrupador=:agrupador1:','bind'=>array('estado1'=>1,'agrupador1'=>1),'order' => 'id ASC'));
+        $resul = Tiposmemorandums::find(array('estado=:estado1: and movilidad=:movilidad1:','bind'=>array('estado1'=>1,'movilidad1'=>1),'order' => 'id ASC'));
         //comprobamos si hay filas
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $tipomemorandum[] = array(
                     'id' => $v->id,
-                    'idff' => $v->id."-".$v->fecha_fin,
+                    'id_agrupado' => $v->id."-".$v->fecha_fin."-".$v->hora_fin."-".$v->cargo."-".$v->organigrama."-".$v->ubicacion."-".$v->motivo."-".$v->pais."-".$v->ciudad."-".$v->lugar,
                     'tipo_memorandum' => $v->tipo_memorandum,
                     'cabecera' => $v->cabecera,
                     'abreviacion' => $v->abreviacion,
                     'fecha_fin' => $v->fecha_fin,
+                    'hora_fin' => $v->hora_fin,
+                    'cargo' => $v->cargo,
+                    'organigrama' => $v->organigrama,
+                    'ubicacion' => $v->ubicacion,
                     'observacion' => $v->observacion,
                     'estado' => $v->estado,
                     'agrupador' => $v->agrupador
@@ -2159,6 +2173,11 @@ class RelaboralesController extends ControllerBase
                 $id_area = $_POST['id_area'];
                 $id_ubicacion = $_POST['id_ubicacion'];
                 $cargo = $_POST['cargo'];
+                $id_evento = $_POST['id_evento'];
+                $motivo = $_POST['motivo'];
+                $id_pais = $_POST['id_pais'];
+                $id_departamento = $_POST['id_departamento'];
+                $lugar = $_POST['lugar'];
                 $id_tipomemorandum = $_POST['id_tipomemorandum'];
                 $correlativo = $_POST['correlativo'];
                 $gestion = $_POST['gestion'];
@@ -2166,9 +2185,18 @@ class RelaboralesController extends ControllerBase
                 $fecha_mem = $datefm->format('Y-m-d');
                 $contenido_memorandum = $_POST['contenido'];
                 $datefi = new DateTime($_POST['fecha_ini']);
-                $fecha_ini = $datefi->format('Y-m-d');;
+                $fecha_ini = $datefi->format('Y-m-d');
+                /**
+                 * Calculamos la fecha previa al inicio para uso posterior.
+                 */
+                $datefiaux = new DateTime($_POST['fecha_ini']);
+                $datefiaux->format('Y-m-d');
+                $fecha_fin_aux = date('Y-m-d',strtotime('-1 days', strtotime($_POST['fecha_ini'])));
+
+                $hora_ini = $_POST['hora_ini'];
                 $dateff = new DateTime($_POST['fecha_fin']);
                 $fecha_fin = $dateff->format('Y-m-d');
+                $hora_fin = $_POST['hora_fin'];
                 $observacion = $_POST['observacion'];
                 $obj = new Frelaborales();
                 //$resul = $obj->getAllWithPersonsOneRecord();
@@ -2199,9 +2227,7 @@ class RelaboralesController extends ControllerBase
                             $relaboralesmovilidades->relaboral_id=$frelaboral->id_relaboral;
                             $relaboralesmovilidades->da_id = $frelaboral->id_da;
                             $relaboralesmovilidades->regional_id = $frelaboral->id_regional;
-                            $relaboralesmovilidades->organigrama_id = $frelaboral->id_organigrama;
-                            $relaboralesmovilidades->ubicacion_id = $frelaboral->id_ubicacion;
-                            $relaboralesmovilidades->cargo = $frelaboral->cargo;
+
                             $modalidadmemorandum = Modalidadmemorandum::findFirst(array("tipomemorandum_id=".$id_tipomemorandum));
                             if($modalidadmemorandum->id>0){
                                 $relaboralesmovilidades->modalidadmemorandum_id = $modalidadmemorandum->id;
@@ -2214,53 +2240,96 @@ class RelaboralesController extends ControllerBase
                             $objRel = Relaboralesmovilidades::find(array("baja_logica=1 and relaboral_id=".$id_relaboral));
                             $relaboralesmovilidades->numero = $objRel->count()+1;
 
-                            /**
-                             * Es necesario verificar si se ha especificado un valor para el organigrama,
-                             * si no es así se registra el correspondiente al registro de relación laboral.
-                             */
-                            if($id_organigrama>0){
-                                $relaboralesmovilidades->organigrama_id=$id_organigrama;
-                            }
-                            /**
-                             * Verificando el identificador del área enviada
-                             */
-                            if($id_area>0){
-                                /**
-                                 * Se evalua si el identificador del área enviada corresponde validamente al identificador del organigrama enviado.
-                                 */
-                                $okArea = verificarCorrectaCorrespondeciaArea($relaboralesmovilidades->organigrama_id,$id_area);
-                                if($okArea){
-                                    $relaboralesmovilidades->area_id=$id_area;
-                                }
-                            }else {
-                                if($id_organigrama==0){
-                                    /**
-                                     * Si no se ha establecido una gerencia, se busca si había un área registrada para la relación laboral,
-                                     * en caso de existir se registra en la misma área el memorándum.
-                                     */
-                                    if($frelaboral->id_area>0){
-                                        $relaboralesmovilidades->area_id=$frelaboral->id_area;
-                                    }
-                                }
-                            }
-                            /**
-                             * Verificando el identificador de la ubicación enviada
-                             */
-                            if($id_ubicacion>0){
-                                $relaboralesmovilidades->ubicacion_id = $id_ubicacion;
-                            }
                             if($cargo!=''){
                                 $relaboralesmovilidades->cargo= $cargo;
                             }
                             $relaboralesmovilidades->fecha_ini = $fecha_ini;
-                            $tipomemorandum = Tipomemorandum::findFirst(array("id=".$id_tipomemorandum));
+                            if($hora_ini!=''){
+                                $relaboralesmovilidades->hora_ini=$hora_ini;
+                            }
+                            #region Evaluación de la obligatoriedad de registro de algunos datos
+                            $tipomemorandum = Tiposmemorandums::findFirst(array("id=".$id_tipomemorandum));
                             if($tipomemorandum->fecha_fin==1){
                                 $relaboralesmovilidades->fecha_fin = $fecha_fin;
+                                /**
+                                 * Para el control de la hora es necesario que si o si se registre la fecha de finalización
+                                 */
+                                if($hora_fin!='')$relaboralesmovilidades->hora_fin = $hora_fin;
                             }else{
                                 /**
                                  * Evaluar la necesidad de registro de la fecha de finalización del registro de relación laboral como fecha de finalización de la movilidad.
                                  */
                             }
+
+                            if($tipomemorandum->cargo>=1&&$cargo!=''){
+                                $relaboralesmovilidades->cargo = $cargo;
+                            }
+
+                            if($tipomemorandum->motivo>=1&&$motivo!=''){
+                                $relaboralesmovilidades->motivo = $motivo;
+                            }
+
+                            if($tipomemorandum->pais>=1&&$id_pais>0){
+                                $relaboralesmovilidades->pais_id = $id_pais;
+                            }
+
+                            if($tipomemorandum->ciudad>=1&&$id_departamento>0){
+                                $relaboralesmovilidades->departamento_id = $id_departamento;
+                            }
+
+                            if($tipomemorandum->lugar>=1&&$lugar!=''){
+                                $relaboralesmovilidades->lugar = $lugar;
+                            }
+                            /**
+                             * Es necesario verificar si se ha especificado un valor para el organigrama,
+                             * si no es así se registra el correspondiente al registro de relación laboral.
+                             */
+                            if($tipomemorandum->organigrama>=1&&$id_organigrama>0){
+                                $relaboralesmovilidades->organigrama_id=$id_organigrama;
+                                /**
+                                 * Verificando el identificador del área enviada
+                                 */
+                                if($id_area>0){
+                                    /**
+                                     * Se evalua si el identificador del área enviada corresponde validamente al identificador del organigrama enviado.
+                                     */
+                                    $okArea = verificarCorrectaCorrespondeciaArea($id_organigrama,$id_area);
+                                    if($okArea!=null&&$okArea->id>0){
+                                        $relaboralesmovilidades->area_id=$id_area;
+                                    }
+                                }
+                            }
+                            if($tipomemorandum->ubicacion>=1){
+                                //$relaboralesmovilidades->ubicacion_id = $id_ubicacion;
+
+                                /**
+                                 * Verificando el identificador de la ubicación enviada
+                                 */
+                                if($id_ubicacion>0){
+                                    $relaboralesmovilidades->ubicacion_id = $id_ubicacion;
+                                }elseif($id_ubicacion<0){
+                                    /**
+                                     * Este valor establece que se debe ubicar a la asignación de funciones en el mismo lugar donde
+                                     * se encuentra registrado el cargo del jefe, pues se ha seleccionado para el registro.
+                                     */
+                                    $objCargo = new Cargos();
+                                    $objSuperior = $objCargo->getCargoSuperiorPorRelaboral($frelaboral->id_relaboral);
+                                    if($objSuperior!=null&&count($objSuperior)>0){
+                                        $cargoSup =$objSuperior[0];
+                                        /**
+                                         * Se selecciona el último registro que haya sido usado por el jefe
+                                         */
+                                        $relaboralAux = Relaborales::findFirst(array("cargo_id = ".$cargoSup->id, 'order' => 'fecha_ini DESC'));
+                                        if($relaboralAux!=null&&$relaboralAux->id>0){
+                                            $relaboralUbicacionAux = Relaboralesubicaciones::findFirst(array("estado=1 AND relaboral_id=".$relaboralAux->id));
+                                            if($relaboralUbicacionAux!=null){
+                                                $relaboralesmovilidades->ubicacion_id = $relaboralUbicacionAux->ubicacion_id;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            #endregion Evaluación de la obligatoriedad de registro de algunos datos
                             $relaboralesmovilidades->observacion = $observacion;
                             /**
                              * Verificar que no haya otro memorándum de movilidad de personal que este activo,
@@ -2276,11 +2345,26 @@ class RelaboralesController extends ControllerBase
                                  * Es necesario verificar que memorándum del mismo tipo esta todavía activo para darlo de baja
                                  * si es que aún no se lo ha hecho manualmente.
                                  */
-                                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array(""));
-                                if ($relaboralesmovilidades->save()) {
+                                $swAnterior=true;
+                                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("estado=1 and modalidadmemorandum_id=".$relaboralesmovilidades->modalidadmemorandum_id));
+                                if($anteriorRelaboralMovilidadDelMismoTipo!=null&&$anteriorRelaboralMovilidadDelMismoTipo->id>0){
+                                    $anteriorRelaboralMovilidadDelMismoTipo->fecha_fin=$fecha_fin_aux;
+                                    $anteriorRelaboralMovilidadDelMismoTipo->estado=0;
+                                    $anteriorRelaboralMovilidadDelMismoTipo->user_mod_id=$user_reg_id;
+                                    $anteriorRelaboralMovilidadDelMismoTipo->fecha_mod = $hoy;
+                                    $datetime1 = new DateTime($anteriorRelaboralMovilidadDelMismoTipo->fecha_ini);
+                                    $datetime2 = new DateTime($fecha_fin_aux);
+                                    if($datetime1>$datetime2){
+                                        $swAnterior=false;
+                                    }else $anteriorRelaboralMovilidadDelMismoTipo->save();
+                                }
+                                if($swAnterior){
+                                    if ($relaboralesmovilidades->save()) {
 
-                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal.');
+                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente el registro de Movilidad de Personal.');
+                                    } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal.');
+
+                                } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal debido a que presenta una inconsistencia de fechas con un registro anterior de Movilidad de Personal del mismo tipo. Verifique la fecha de inicio.');
                             }catch (\Exception $e) {
                                 echo get_class($e), ": ", $e->getMessage(), "\n";
                                 echo " File=", $e->getFile(), "\n";
@@ -2307,4 +2391,74 @@ class RelaboralesController extends ControllerBase
         echo json_encode($msj);
     }
 
+    /**
+     * Función para obtener registro correspondiente al cargo del inmediato superior considerando el identificador de la relación laboral.
+     */
+    public function getcargosuperiorrelaboralAction(){
+        $cargo = Array();
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
+            $this->view->disable();
+            $id_relaboral = $_POST["id"];
+            $obj = new Cargos();
+            $result = $obj->getCargoSuperiorPorRelaboral($id_relaboral);
+            if(count($result)>0)$cargo = $result[0];
+        }
+        echo json_encode($cargo);
+    }
+    /**
+     * Función para la obtención del listado de paises.
+     */
+    public function listpaisesAction(){
+        $this->view->disable();
+        $resul = paises::find(array("estado=1 AND baja_logica=1"));
+        //comprobamos si hay filas
+        $paises = array();
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $paises[] = array(
+                    'id' => $v->id,
+                    'iso2'=>$v->iso2,
+                    'iso3'=>$v->iso3,
+                    'prefijo'=>$v->prefijo,
+                    'pais' => $v->pais,
+                    'continente'=>$v->continente,
+                    'subcontinente'=>$v->subcontinente,
+                    'iso_moneda'=>$v->iso_moneda,
+                    'nombre_moneda'=>$v->nombre_moneda,
+                    'nacionalidad' => $v->nacionalidad,
+                    'observacion' => $v->observacion,
+                    'estado' => $v->estado,
+                    'baja_logica' => $v->baja_logica,
+                    'agrupador' => $v->agrupador
+                );
+            }
+        }
+        echo json_encode($paises);
+    }
+    /**
+     * Función para la obtención del listado de departamentos.
+     */
+    public function listdepartamentosAction(){
+        $this->view->disable();
+        $paises = array();
+        if(isset($_GET["pais_id"])){
+            $pais_id = $_GET["pais_id"];
+            $resul = departamentos::find(array("estado=1 AND baja_logica=1 AND pais_id=".$pais_id));
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $paises[] = array(
+                        'id' => $v->id,
+                        'pais_id' => $v->pais_id,
+                        'departamento' => $v->departamento,
+                        'observacion' => $v->observacion,
+                        'estado' => $v->estado,
+                        'baja_logica' => $v->baja_logica,
+                        'agrupador' => $v->agrupador
+                    );
+                }
+            }
+        }
+        echo json_encode($paises);
+    }
 }

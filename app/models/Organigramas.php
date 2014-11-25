@@ -223,4 +223,18 @@ class Organigramas extends \Phalcon\Mvc\Model
         $this->_db = new Organigramas();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para verificar que un área determinada corresponda con la unidad administrativa representada por el parámetro $id_organigrama.
+     * @param $id_organigrama
+     * @param $id_area
+     * @return Resultset
+     */
+    public function verificarCorrectaCorrespondeciaArea($id_organigrama,$id_area){
+        $sql = "SELECT CASE WHEN COUNT(*)>0 THEN o.padre_id ELSE 0 END AS id FROM organigramas o ";
+        $sql .= "INNER JOIN nivelestructurales n ON n.id = o.nivel_estructural_id ";
+        $sql .= "WHERE o.id = ".$id_area." AND o.padre_id=".$id_organigrama." AND n.nivel_estructural LIKE 'AREA' GROUP BY padre_id";
+        $this->_db = new Organigramas();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }

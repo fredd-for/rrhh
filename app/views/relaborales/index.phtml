@@ -832,13 +832,8 @@
     <div id="divTitleRegistroMovilidad">Nuevo Registro de Movilidad</div>
     <div>
         <h6><b>NOTAS: </b><br>1. Los datos precedidos de asterisco son requerido de manera obligatoria (*).
-            <br>2. En caso de no seleccionar un valor para <b>Gerencia</b> , <b>Ubicaci&oacute;n</b> o
-            <b>Cargo</b>, se asume que la movilidad se aplica con los mismos datos registrados para la persona,
-            sin embargo, para que se permita el registro de la movilidad es necesario que al menos uno de estos
-            datos sea diferente.
-            <br>3. En caso de existir un registro de movilidad de personal del mismo tipo en estado <b>ACTIVO</b> para
-            una misma persona se
-            proceder&aacute; a dar de baja el mismo con fecha de finalizaci&oacute;n al d&iacute;a previo del inicio del
+            <br>2. En caso de existir un registro de movilidad de personal con el mismo tipo de memor&aacute;ndum en estado <b>ACTIVO</b> para
+            la misma persona se proceder&aacute; a dar de baja el mismo con fecha de finalizaci&oacute;n al d&iacute;a previo del inicio del
             presente registro.
         </h6>
 
@@ -853,7 +848,6 @@
             </div>
             <div class="row div-move-relab form-inline" id="divCorrelativosMemorandums">
                 <label class="col-sm-3 control-label" for="txtCorrelativoMemorandum">Memorandum *:</label>
-
                 <div class="col-md-6 form-group">
                     <input id="txtCorrelativoMemorandum" class="form-control move-relab"
                            placeholder="Introduzca el correlativo."/>/
@@ -862,8 +856,7 @@
                 </div>
             </div>
             <div class="row div-move-relab" id="divFechasMemorandums">
-                <label class="col-sm-3 control-label" for="txtFechaMem">Fecha Memor&aacute;ndum *:</label>
-
+                <label class="col-sm-3 control-label" for="txtFechaMem">Fecha Memo. *:</label>
                 <div class="col-md-6">
                     <div style="margin-top: 5px;" id="txtFechaMem" on></div>
                     <span class="help-block" id="helpErrorFechasMemorandums"></span>
@@ -871,10 +864,43 @@
             </div>
             <div class="row div-move-relab" id="divCargosMovilidad">
                 <label class="col-sm-3 control-label" for="txtCargoMovilidad">Asignaci&oacute;n Cargo:</label>
+                <div class="col-md-6" form-group>
+                    <textarea id="txtCargoMovilidad"></textarea>
+                    <div id="divChkAi">
+                    <input type="checkbox" value="" id="chkAi"> a.i.</div>
+                    <span class="help-block" id="helpErrorCargosMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divMotivosMovilidad">
+                <label class="col-sm-3 control-label" for="txtMotivoMovilidad">Motivo *:</label>
+                <div class="col-md-6" form-group>
+                    <textarea id="txtMotivoMovilidad"></textarea>
+                    <span class="help-block" id="helpErrorMotivosMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divPaisesMovilidad">
+                <label class="col-sm-3 control-label"
+                       for="lstPaisesMovilidad">Pa&iacute;s:</label>
 
                 <div class="col-md-6">
-                    <textarea id="txtCargoMovilidad"></textarea>
-                    <span class="help-block" id="helpErrorCargosMovilidad"></span>
+                    <div style="margin-left: 5px;" id="lstPaisesMovilidad"></div>
+                    <span class="help-block" id="helpErrorPaisesMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divCiudadesMovilidad">
+                <label class="col-sm-3 control-label"
+                       for="lstCiudadesMovilidad">Ciudad:</label>
+
+                <div class="col-md-6">
+                    <div style="margin-left: 5px;" id="lstCiudadesMovilidad"></div>
+                    <span class="help-block" id="helpErrorCiudadesMovilidad"></span>
+                </div>
+            </div>
+            <div class="row div-move-relab" id="divLugaresMovilidad">
+                <label class="col-sm-3 control-label" for="txtLugarMovilidad">Lugar *:</label>
+                <div class="col-md-6" form-group>
+                    <textarea id="txtLugarMovilidad"></textarea>
+                    <span class="help-block" id="helpErrorLugaresMovilidad"></span>
                 </div>
             </div>
             <div class="row div-move-relab" id="divGerenciasAdministrativasMovilidad">
@@ -1048,6 +1074,8 @@
             Cancelar
         </button>
         <input type="hidden" id="hdnIdRelaboralNuevaMovilidad" value="0">
+        <input type="hidden" id="hdnIdOrganigramaPorSeleccionCargoSuperior" value="0">
+        <input type="hidden" id="hdnIdUbicacionPorSeleccionCargoSuperior" value="0">
     </div>
 </div>
 <!--</form></div>-->

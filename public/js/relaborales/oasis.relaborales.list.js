@@ -37,7 +37,6 @@ $().ready(function () {
             var okk = guardarRegistroMovilidad();
             if(okk){
                 $("#popupWindowNuevaMovilidad").jqxWindow('close');
-
             }
         }
     });

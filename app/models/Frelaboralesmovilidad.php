@@ -27,8 +27,16 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $ubicacion;
     public $numero;
     public $cargo;
+    public $evento_id;
+    public $motivo;
+    public $pais_id;
+    public $departamento_id;
+    public $lugar;
     public $fecha_ini;
+    public $hora_ini;
     public $fecha_fin;
+    public $hora_fin;
+    public $id_tipomemorandum;
     public $tipo_memorandum;
     public $memorandum_correlativo;
     public $memorandum_gestion;
@@ -65,8 +73,16 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'ubicacion'=>'ubicacion',
             'numero'=>'numero',
             'cargo'=>'cargo',
+            'evento_id'=>'evento_id',
+            'motivo'=>'motivo',
+            'pais_id'=>'pais_id',
+            'departamento_id'=>'departamento_id',
+            'lugar'=>'lugar',
+            'hora_ini'=>'hora_ini',
             'fecha_ini'=>'fecha_ini',
             'fecha_fin'=>'fecha_fin',
+            'hora_fin'=>'hora_fin',
+            'id_tipomemorandum'=>'id_tipomemorandum',
             'tipo_memorandum'=>'tipo_memorandum',
             'memorandum_correlativo'=>'memorandum_correlativo',
             'memorandum_gestion'=>'memorandum_gestion',

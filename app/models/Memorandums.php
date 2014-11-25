@@ -11,6 +11,12 @@ use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 class Memorandums extends \Phalcon\Mvc\Model {
     public $id;
     public $relaboral_id;
+    public $emisor_id;
+    public $cargoemisor_id;
+    public $autorintelectual_id;
+    public $transcriptor_id;
+    public $destinocopia_id;
+    public $referencia;
     public $finpartida_id;
     public $fecha_mem;
     public $correlativo;
@@ -41,6 +47,12 @@ class Memorandums extends \Phalcon\Mvc\Model {
         return array(
             'id'=>'id',
             'relaboral_id'=>'relaboral_id',
+            'emisor_id'=>'emisor_id',
+            'cargoemisor_id'=>'cargoemisor_id',
+            'autorintelectual_id'=>'autorintelectual_id',
+            'transcriptor_id'=>'transcriptor_id',
+            'destinocopia_id'=>'destinocopia_id',
+            'referencia'=>'referencia',
             'finpartida_id'=>'finpartida_id',
             'fecha_mem'=>'fecha_mem',
             'correlativo'=>'correlativo',
