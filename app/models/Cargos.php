@@ -233,7 +233,7 @@ WHERE p.baja_logica=1 ".$where." order by p.fecha_ini asc";
      */
     public function listNombresCargos()
     {
-        $sql = "SELECT DISTINCT cargo FROM cargos order by cargo";
+        $sql = "SELECT DISTINCT cargo FROM cargos order by cargo limit 100";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
