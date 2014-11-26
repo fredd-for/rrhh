@@ -250,6 +250,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                         });
                         $("#txtFechaMem").jqxDateTimeInput({
                             enableBrowserBoundsDetection: false,
+                            disabled: false,
                             height: 24,
                             formatString: 'dd-MM-yyyy'
                         });
@@ -261,6 +262,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                         $('#txtFechaMem').jqxDateTimeInput('setMinDate', new Date(2014, 3, 1));
 
                         $("#txtFechaIniMovilidad").jqxDateTimeInput({
+                            disabled: false,
                             enableBrowserBoundsDetection: false,
                             height: 24,
                             formatString: 'dd-MM-yyyy'
@@ -345,6 +347,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                                     $("#txtCorrelativoMemorandum").focus();
                                     $("#txtFechaMem").jqxDateTimeInput({
                                         value: dataRecord.fecha_mem,
+                                        disabled: false,
                                         enableBrowserBoundsDetection: false,
                                         height: 24,
                                         formatString: 'dd-MM-yyyy'
@@ -374,6 +377,7 @@ function cargarGrillaMovilidad(idRelaboral) {
 
                                     $("#txtFechaIniMovilidad").jqxDateTimeInput({
                                         value: dataRecord.fecha_ini,
+                                        disabled: false,
                                         enableBrowserBoundsDetection: false,
                                         height: 24,
                                         formatString: 'dd-MM-yyyy'
@@ -1335,9 +1339,9 @@ function validaFormularioPorRegistroMovilidad() {
         if (mm == 1 && motivo == '') {
             ok = false;
             var msje = "Debe registrar un motivo para la designaci&oacute;n.";
-            $("#divLugaresMovilidad").addClass("has-error");
-            $("#helpErrorLugaresMovilidad").html(msje);
-            if (enfoque == null)enfoque = $("#txtLugarMovilidad");
+            $("#divMotivosMovilidad").addClass("has-error");
+            $("#helpErrorMotivosMovilidad").html(msje);
+            if (enfoque == null)enfoque = $("#txtMotivoMovilidad");
         }
         /*
          Se oculta temporalmente
@@ -1480,6 +1484,7 @@ function limpiarMensajesErrorPorValidacionMovilidad() {
     $("#divDepartamentosAdministrativosMovilidad").removeClass("has-error");
     $("#divAreasAdministrativasMovilidad").removeClass("has-error");
     $("#divUbicacionesMovilidad").removeClass("has-error");
+    $("#divLugaresMovilidad").removeClass("has-error");
     $("#divCargosMovilidad").removeClass("has-error");
     $("#divFechasIniMovilidad").removeClass("has-error");
     $("#divFechasFinMovilidad").removeClass("has-error");
@@ -1491,6 +1496,7 @@ function limpiarMensajesErrorPorValidacionMovilidad() {
     $("#helpErrorDepartamentosAdministrativosMovilidad").html("");
     $("#helpErrorAreasAdministrativasMovilidad").html("");
     $("#helpErrorUbicacionesMovilidad").html("");
+    $("#helpErrorLugaresMovilidad").html("");
     $("#helpErrorCargosMovilidad").html("");
     $("#helpErrorFechasIniMovilidad").html("");
     $("#helpErrorFechasFinMovilidad").html("");
@@ -1553,7 +1559,7 @@ function guardarRegistroMovilidad() {
     }
     var motivo = $("#txtMotivoMovilidad").val();
     var idPais = $("#lstPaisesMovilidad").val();
-    var idDepartamento = $("#lstDepartamentosMovilidad").val();
+    var idDepartamento = $("#lstCiudadesMovilidad").val();
     var lugar = $("#txtLugarMovilidad").val();
     var fechaIni = $('#txtFechaIniMovilidad').jqxDateTimeInput('getText');
     var horaIni = $('#txtHoraIniMovilidad').val();

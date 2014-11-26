@@ -4,7 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/app/models/pdfoasis.php" line="467" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="" />
+    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Cargos.php" afterPath="$PROJECT_DIR$/app/models/Cargos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
+    </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -31,8 +34,8 @@
       <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693" vertical-offset="36924" max-vertical-offset="43962">
-              <caret line="2187" column="19" selection-start-line="2187" selection-start-column="19" selection-end-line="2187" selection-end-column="19" />
+            <state vertical-scroll-proportion="-37.098038" vertical-offset="38109" max-vertical-offset="43962">
+              <caret line="2353" column="75" selection-start-line="2353" selection-start-column="59" selection-end-line="2353" selection-end-column="75" />
               <folding>
                 <element signature="e#7#215#0#PHP" expanded="true" />
               </folding>
@@ -85,8 +88,8 @@
       <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="14595" max-vertical-offset="18887">
-              <caret line="868" column="91" selection-start-line="868" selection-start-column="91" selection-end-line="868" selection-end-column="91" />
+            <state vertical-scroll-proportion="-12.076923" vertical-offset="15156" max-vertical-offset="18887">
+              <caret line="910" column="62" selection-start-line="910" selection-start-column="37" selection-end-line="910" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -95,8 +98,8 @@
       <file leaf-file-name="oasis.relaborales.move.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="42.28" vertical-offset="11597" max-vertical-offset="30277">
-              <caret line="620" column="57" selection-start-line="620" selection-start-column="57" selection-end-line="620" selection-end-column="57" />
+            <state vertical-scroll-proportion="-10.76" vertical-offset="25197" max-vertical-offset="30379">
+              <caret line="1498" column="45" selection-start-line="1498" selection-start-column="45" selection-end-line="1498" selection-end-column="45" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -125,9 +128,29 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24070796" vertical-offset="0" max-vertical-offset="565">
-              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.09026549" vertical-offset="0" max-vertical-offset="565">
+              <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.5384617" vertical-offset="3783" max-vertical-offset="4335">
+              <caret line="231" column="47" selection-start-line="231" selection-start-column="47" selection-end-line="231" selection-end-column="47" />
+              <folding>
+                <marker date="1417031670722" expanded="true" signature="2223:2554" placeholder="SELECT ROW_N..." />
+                <marker date="1417031670722" expanded="true" signature="3269:3748" placeholder="SELECT ROW_N..." />
+                <marker date="1417031670722" expanded="true" signature="3959:4243" placeholder="SELECT p.*,s..pacs..." />
+                <marker date="1417031670722" expanded="true" signature="4444:4621" placeholder="select p.ci,..relaborales..." />
+                <marker date="1417031670722" expanded="true" signature="4845:5156" placeholder="SELECT r.id,..relaborales..." />
+                <marker date="1417031670722" expanded="true" signature="5526:5743" placeholder="SELECT c.*, ..cargos..." />
+                <marker date="1417031670722" expanded="true" signature="6102:6150" placeholder="SELECT DISTI..cargos..." />
+                <marker date="1417031670722" expanded="true" signature="6549:6614" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+                <marker date="1417031670722" expanded="true" signature="7058:7127" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -183,14 +206,14 @@
         <option value="$PROJECT_DIR$/app/models/departamentos.php" />
         <option value="$PROJECT_DIR$/app/models/Relaboralesmovilidades.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
-        <option value="$PROJECT_DIR$/app/models/Cargos.php" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/app/models/Frelaboralesmovilidad.php" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
         <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/app/models/Cargos.php" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
       </list>
     </option>
   </component>
@@ -891,14 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="14595" max-vertical-offset="18887">
-          <caret line="868" column="91" selection-start-line="868" selection-start-column="91" selection-end-line="868" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.76" vertical-offset="2417" max-vertical-offset="19669">
@@ -915,48 +930,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
+    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="42.28" vertical-offset="11597" max-vertical-offset="30277">
-          <caret line="620" column="57" selection-start-line="620" selection-start-column="57" selection-end-line="620" selection-end-column="57" />
+        <state vertical-scroll-proportion="-5.5384617" vertical-offset="3783" max-vertical-offset="4335">
+          <caret line="231" column="47" selection-start-line="231" selection-start-column="47" selection-end-line="231" selection-end-column="47" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1417031670722" expanded="true" signature="2223:2554" placeholder="SELECT ROW_N..." />
+            <marker date="1417031670722" expanded="true" signature="3269:3748" placeholder="SELECT ROW_N..." />
+            <marker date="1417031670722" expanded="true" signature="3959:4243" placeholder="SELECT p.*,s..pacs..." />
+            <marker date="1417031670722" expanded="true" signature="4444:4621" placeholder="select p.ci,..relaborales..." />
+            <marker date="1417031670722" expanded="true" signature="4845:5156" placeholder="SELECT r.id,..relaborales..." />
+            <marker date="1417031670722" expanded="true" signature="5526:5743" placeholder="SELECT c.*, ..cargos..." />
+            <marker date="1417031670722" expanded="true" signature="6102:6150" placeholder="SELECT DISTI..cargos..." />
+            <marker date="1417031670722" expanded="true" signature="6549:6614" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+            <marker date="1417031670722" expanded="true" signature="7058:7127" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693" vertical-offset="36924" max-vertical-offset="43962">
-          <caret line="2187" column="19" selection-start-line="2187" selection-start-column="19" selection-end-line="2187" selection-end-column="19" />
+        <state vertical-scroll-proportion="-37.098038" vertical-offset="38109" max-vertical-offset="43962">
+          <caret line="2353" column="75" selection-start-line="2353" selection-start-column="59" selection-end-line="2353" selection-end-column="75" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
+    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5996377" vertical-offset="3681" max-vertical-offset="4284">
-          <caret line="236" column="66" selection-start-line="236" selection-start-column="66" selection-end-line="236" selection-end-column="66" />
+        <state vertical-scroll-proportion="-12.076923" vertical-offset="15156" max-vertical-offset="18887">
+          <caret line="910" column="62" selection-start-line="910" selection-start-column="37" selection-end-line="910" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.76" vertical-offset="25197" max-vertical-offset="30379">
+          <caret line="1498" column="45" selection-start-line="1498" selection-start-column="45" selection-end-line="1498" selection-end-column="45" />
           <folding>
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT p.*,s..pacs..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="select p.ci,..relaborales..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT r.id,..relaborales..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT c.*, ..cargos..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT DISTI..cargos..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24070796" vertical-offset="0" max-vertical-offset="565">
-          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.09026549" vertical-offset="0" max-vertical-offset="565">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
         </state>
       </provider>
