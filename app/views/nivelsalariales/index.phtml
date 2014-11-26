@@ -180,50 +180,54 @@
            });
 
 $('#testForm').validate({
-    rules: {
-        resolucion_id: {
-            required: true
-        },
-        categoria: {
-            required: true
-        },
-        denominacion: {
-            required: true
-        },
-        clase: {
-            required: true
-        },
-        nivel: {
-            required: true
-        },
-        sueldo: {
-            required: true
-        }
-    },
-    highlight: function (element) {
-        $(element).closest('.control-group').removeClass('success').addClass('error');
-    },
-    success: function (element) {
+	rules: {
+		resolucion_id: {
+			required: true
+		},
+		categoria: {
+			required: true
+		},
+		denominacion: {
+			required: true
+		},
+		clase: {
+			required: true
+		},
+		nivel: {
+			required: true
+		},
+		sueldo: {
+			required: true
+		}
+	},
+	highlight: function (element) {
+		$(element).closest('.control-group').removeClass('success').addClass('error');
+	},
+	success: function (element) {
         //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
         element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
     },
     submitHandler: function (form) {
             // form validates so do the ajax
             var v=$.ajax({
-            		url:'/nivelsalariales/save/',
-            		type:'POST',
-            		datatype: 'json',
-            		data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val()},
+            	url:'/nivelsalariales/save/',
+            	type:'POST',
+            	datatype: 'json',
+            	data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val()},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
-				});
+											});
             $('#myModal').modal('hide');
             return false; // ajax used, block the normal submit
         }
-});		
+    });		
 
-    });
+$("#nivel").blur(function(){
+	alert($("#nivel").val())
+})
+
+});
 </script>
 
 <div class="row">
@@ -409,6 +413,12 @@ $('#testForm').validate({
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-md-3 control-label">Nivel Salarial</label>
+					<div class="col-md-9">
+						<input id="nivel" name="nivel" type="number" class="form-control" placeholder="1,2,3.."/>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-md-3 control-label">Categoria</label>
 					<div class="col-md-9">
 						<input id="categoria" name="categoria" type="text" class="form-control" placeholder="SUPERIOR, EJECUTIVO O OPERATIVO"/>
@@ -420,12 +430,7 @@ $('#testForm').validate({
 						<input id="clase" name="clase" type="text" class="form-control" placeholder="2°, 3° o 4°"/>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label">Nivel Salarial</label>
-					<div class="col-md-9">
-						<input id="nivel" name="nivel" type="number" class="form-control" placeholder="1,2,3.."/>
-					</div>
-				</div>
+				
 				<div class="form-group">
 					<label class="col-md-3 control-label">Denominación del Puesto</label>
 					<div class="col-md-9">
