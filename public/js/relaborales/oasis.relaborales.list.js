@@ -31,19 +31,40 @@ $().ready(function () {
             guardarRegistroEditado();
         }
     });
-    $("#btnGuardarMovilidad").click(function (){
-        var ok = validaFormularioPorRegistroMovilidad();
-        if (ok){
-            var okk = guardarRegistroMovilidad();
-            if(okk){
-                $("#popupWindowNuevaMovilidad").jqxWindow('close');
-            }
-        }
-    });
     $("#btnGuardarBaja").click(function (){
         var ok = validaFormularioPorBajaRegistro();
         if (ok){
             guardarRegistroBaja();
+        }
+    });
+    /**
+     * Control sobre la solicitud de guardar registro de movilidad de personal por nuevo, edición y baja.
+     */
+    $("#btnGuardarMovilidad").click(function (){
+        var idRelaboralMovilidadBaja = $("#hdnIdRelaboralMovilidadBaja").val();
+        if(idRelaboralMovilidadBaja==0){
+            /**
+             * Si se solicita nuevo registro o modificación.
+             * @type {boolean}
+             */
+            var ok = validaFormularioPorRegistroMovilidad();
+            if (ok){
+                var okk = guardarRegistroMovilidad();
+                if(okk){
+                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
+                }
+            }
+        }else{
+            /**
+             * Si se ha solicitado realizar una baja.
+             */
+            var ok = validaFormularioPorBajaRegistroMovilidad();
+            if (ok){
+                var okk = bajaRegistroMovilidad();
+                if(okk){
+                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
+                }
+            }
         }
     });
     $("#btnCancelarNuevo").click(function (){
@@ -112,6 +133,9 @@ $().ready(function () {
             $("#jqxlistbox").jqxListBox('uncheckAll');
         }
     });
+    /**
+     * Control sobre el cambio en el listado de motivos de baja
+     */
     $("#lstMotivosBajas").change(function (){
         var res = this.value.split("_");
         $("#hdnFechaRenBaja").val(res[0]);
@@ -119,6 +143,26 @@ $().ready(function () {
         $("#hdnFechaAgraServBaja").val(res[2]);
         if(res[0]>0)defineFechasBajas(res[1],res[2],res[3]);
         else $("#divFechasBaja").hide();
+    });
+    /**
+     * Control sobre el uso o no de a.i. en el cargo para movilidad de personal.
+     */
+    $("#chkAi").on("click",function(){
+        var cargo = $("#txtCargoMovilidad").val();
+        if(cargo!=null&&cargo!=''){
+            if(this.checked==true){
+                var n = cargo.search("a.i.");
+                if (n < 0) {
+                    $("#txtCargoMovilidad").val(cargo+" a.i.")
+                }
+            }else {
+                var n = cargo.search("a.i.");
+                if (n > 0) {
+                    cargo = cargo.replace("a.i.", "").trim();
+                    $("#txtCargoMovilidad").val(cargo)
+                }
+            }
+        }
     });
     $("#liList").click(function(){
         $("#btnCancelarNuevo").click();

@@ -38,6 +38,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $hora_ini;
     public $fecha_fin;
     public $hora_fin;
+    public $id_memorandum;
     public $id_tipomemorandum;
     public $tipo_memorandum;
     public $memorandum_correlativo;
@@ -87,6 +88,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'fecha_ini'=>'fecha_ini',
             'fecha_fin'=>'fecha_fin',
             'hora_fin'=>'hora_fin',
+            'id_memorandum'=>'id_memorandum',
             'id_tipomemorandum'=>'id_tipomemorandum',
             'tipo_memorandum'=>'tipo_memorandum',
             'memorandum_correlativo'=>'memorandum_correlativo',
@@ -108,6 +110,21 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
         $this->_db = new Frelaboralesmovilidad();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del registro correspondiente al identificador de la relación laboral por movilidad.
+     * @param $idRelaboralMovilidad
+     * @return Resultset
+     */
+    public function getOne($idRelaboralMovilidad)
+    {
+        if($idRelaboralMovilidad>0){
+            $sql = "SELECT * from f_relaborales_movilidad()";
+            $sql .=" WHERE id_relaboralmovilidad=".$idRelaboralMovilidad;
+            $this->_db = new Frelaboralesmovilidad();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }else return new Frelaboralesmovilidad();
+    }
     /**
      * Función para la obtención de la totalidad de los registros de relaciones laborales para un persona en particular.
      * @return Resultset
@@ -119,7 +136,6 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             $sql .=" WHERE id_relaboral=".$idRelaboral;
             $this->_db = new Frelaboralesmovilidad();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-        }
+        }else return new Frelaboralesmovilidad();
     }
-
 } 
