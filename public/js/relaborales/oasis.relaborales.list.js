@@ -31,19 +31,40 @@ $().ready(function () {
             guardarRegistroEditado();
         }
     });
-    $("#btnGuardarMovilidad").click(function (){
-        var ok = validaFormularioPorRegistroMovilidad();
-        if (ok){
-            var okk = guardarRegistroMovilidad();
-            if(okk){
-                $("#popupWindowNuevaMovilidad").jqxWindow('close');
-            }
-        }
-    });
     $("#btnGuardarBaja").click(function (){
         var ok = validaFormularioPorBajaRegistro();
         if (ok){
             guardarRegistroBaja();
+        }
+    });
+    /**
+     * Control sobre la solicitud de guardar registro de movilidad de personal por nuevo, edición y baja.
+     */
+    $("#btnGuardarMovilidad").click(function (){
+        var idRelaboralMovilidadBaja = $("#hdnIdRelaboralMovilidadBaja").val();
+        if(idRelaboralMovilidadBaja==0){
+            /**
+             * Si se solicita nuevo registro o modificación.
+             * @type {boolean}
+             */
+            var ok = validaFormularioPorRegistroMovilidad();
+            if (ok){
+                var okk = guardarRegistroMovilidad();
+                if(okk){
+                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
+                }
+            }
+        }else{
+            /**
+             * Si se ha solicitado realizar una baja.
+             */
+            var ok = validaFormularioPorBajaRegistroMovilidad();
+            if (ok){
+                var okk = bajaRegistroMovilidad();
+                if(okk){
+                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
+                }
+            }
         }
     });
     $("#btnCancelarNuevo").click(function (){
@@ -112,6 +133,9 @@ $().ready(function () {
             $("#jqxlistbox").jqxListBox('uncheckAll');
         }
     });
+    /**
+     * Control sobre el cambio en el listado de motivos de baja
+     */
     $("#lstMotivosBajas").change(function (){
         var res = this.value.split("_");
         $("#hdnFechaRenBaja").val(res[0]);
@@ -119,6 +143,26 @@ $().ready(function () {
         $("#hdnFechaAgraServBaja").val(res[2]);
         if(res[0]>0)defineFechasBajas(res[1],res[2],res[3]);
         else $("#divFechasBaja").hide();
+    });
+    /**
+     * Control sobre el uso o no de a.i. en el cargo para movilidad de personal.
+     */
+    $("#chkAi").on("click",function(){
+        var cargo = $("#txtCargoMovilidad").val();
+        if(cargo!=null&&cargo!=''){
+            if(this.checked==true){
+                var n = cargo.search("a.i.");
+                if (n < 0) {
+                    $("#txtCargoMovilidad").val(cargo+" a.i.")
+                }
+            }else {
+                var n = cargo.search("a.i.");
+                if (n > 0) {
+                    cargo = cargo.replace("a.i.", "").trim();
+                    $("#txtCargoMovilidad").val(cargo)
+                }
+            }
+        }
     });
     $("#liList").click(function(){
         $("#btnCancelarNuevo").click();
@@ -450,7 +494,7 @@ function definirGrillaParaListaRelaborales(){
                                 $("#imgFotoPerfilEditar").attr("src",rutaImagen);
                                 cargarProcesosParaEditar(dataRecord.id_condicion,dataRecord.id_procesocontratacion);
                                 var idUbicacionPrederminada = 0;
-                                if(dataRecord.id_ubicacion==null||dataRecord.id_ubicacion=='')idUbicacionPrederminada=dataRecord.id_ubicacion;
+                                if(dataRecord.id_ubicacion!=null)idUbicacionPrederminada=dataRecord.id_ubicacion;
                                 cargarUbicacionesParaEditar(idUbicacionPrederminada);
                                 agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo,dataRecord.cargo_codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.id_area,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                             }else {
@@ -1063,8 +1107,35 @@ function obtenerRutaFoto(numDocumento,numComplemento){
     }
     return resultado;
 }
-/*
-    Función anónima para la aplicación de clases a celdas en particular dentro la grilla.
+/**
+ * Función para obtener la fecha de este día
+ * @param separador
+ * @returns {*}
+ * @author JLM
+ */
+function fechaHoy(separador,format){
+    if(separador=='')separador="-";
+    var fullDate = new Date()
+    var dia = fullDate.getDate().toString();
+    var mes = (fullDate.getMonth()+1).toString();
+    var twoDigitDay = (dia.length === 1 )? '0' + dia : dia;
+    var twoDigitMonth = (mes.length ===1 )? '0' + mes: mes;
+    if(format=="dd-mm-yyyy")
+        var currentDate = twoDigitDay + separador + twoDigitMonth + separador + fullDate.getFullYear();
+    else if(format=="mm-dd-yyyy"){
+        var currentDate = twoDigitMonth + separador + twoDigitDay + separador + fullDate.getFullYear();
+    }else {
+        var currentDate = fullDate;
+    }
+    return currentDate;
+}
+/**
+ * Función anónima para la aplicación de clases a celdas en particular dentro de las grillas.
+ * @param row
+ * @param columnfield
+ * @param value
+ * @returns {string}
+ * @author JLM
  */
 var cellclass = function (row, columnfield, value) {
     if (value == 'ACTIVO') {

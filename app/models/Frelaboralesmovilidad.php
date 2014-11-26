@@ -29,13 +29,16 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $cargo;
     public $evento_id;
     public $motivo;
-    public $pais_id;
-    public $departamento_id;
+    public $id_pais;
+    public $pais;
+    public $id_departamento;
+    public $departamento;
     public $lugar;
     public $fecha_ini;
     public $hora_ini;
     public $fecha_fin;
     public $hora_fin;
+    public $id_memorandum;
     public $id_tipomemorandum;
     public $tipo_memorandum;
     public $memorandum_correlativo;
@@ -43,6 +46,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $fecha_mem;
     public $observacion;
     public $estado;
+    public $estado_descripcion;
     /**
      * Initialize method for model.
      */
@@ -75,20 +79,24 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'cargo'=>'cargo',
             'evento_id'=>'evento_id',
             'motivo'=>'motivo',
-            'pais_id'=>'pais_id',
-            'departamento_id'=>'departamento_id',
+            'id_pais'=>'id_pais',
+            'pais'=>'pais',
+            'id_departamento'=>'id_departamento',
+            'departamento'=>'departamento',
             'lugar'=>'lugar',
             'hora_ini'=>'hora_ini',
             'fecha_ini'=>'fecha_ini',
             'fecha_fin'=>'fecha_fin',
             'hora_fin'=>'hora_fin',
+            'id_memorandum'=>'id_memorandum',
             'id_tipomemorandum'=>'id_tipomemorandum',
             'tipo_memorandum'=>'tipo_memorandum',
             'memorandum_correlativo'=>'memorandum_correlativo',
             'memorandum_gestion'=>'memorandum_gestion',
             'fecha_mem'=>'fecha_mem',
             'observacion'=>'observacion',
-            'estado'=>'estado'
+            'estado'=>'estado',
+            'estado_descripcion'=>'estado_descripcion'
         );
     }
     private $_db;
@@ -102,6 +110,21 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
         $this->_db = new Frelaboralesmovilidad();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del registro correspondiente al identificador de la relación laboral por movilidad.
+     * @param $idRelaboralMovilidad
+     * @return Resultset
+     */
+    public function getOne($idRelaboralMovilidad)
+    {
+        if($idRelaboralMovilidad>0){
+            $sql = "SELECT * from f_relaborales_movilidad()";
+            $sql .=" WHERE id_relaboralmovilidad=".$idRelaboralMovilidad;
+            $this->_db = new Frelaboralesmovilidad();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }else return new Frelaboralesmovilidad();
+    }
     /**
      * Función para la obtención de la totalidad de los registros de relaciones laborales para un persona en particular.
      * @return Resultset
@@ -113,7 +136,6 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             $sql .=" WHERE id_relaboral=".$idRelaboral;
             $this->_db = new Frelaboralesmovilidad();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-        }
+        }else return new Frelaboralesmovilidad();
     }
-
 } 

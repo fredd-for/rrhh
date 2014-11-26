@@ -263,9 +263,13 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getOne($id_relaboral)
     {
-        $sql = "SELECT * FROM f_relaborales() WHERE id_relaboral=".$id_relaboral;
-        $this->_db = new Frelaborales();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        if($id_relaboral>0){
+            $sql = "SELECT * FROM f_relaborales() WHERE id_relaboral=".$id_relaboral;
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else {
+            return new Frelaborales();
+        }
     }
     /**
      * Función para la obtención de la totalidad de los registros de relaciones laborales para un persona en particular.
@@ -273,11 +277,13 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllByPerson($idPersona,$gestion=0)
     {
-        $sql = "SELECT * FROM f_relaborales() WHERE id_persona=".$idPersona;
-        if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
-        $sql.=" ORDER BY fecha_ini DESC";
-        $this->_db = new Frelaborales();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        if($idPersona>0){
+            $sql = "SELECT * FROM f_relaborales() WHERE id_persona=".$idPersona;
+            if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
+            $sql.=" ORDER BY fecha_ini DESC";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }else return new Frelaborales();
     }
 
     /**

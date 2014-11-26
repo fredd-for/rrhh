@@ -99,6 +99,10 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $formacion_requerida;
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> bc11714532dd7b4a18b796eb96edc53b296770d5
     /**
      * Initialize method for model.
      */
