@@ -4,15 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/app/models/pdfoasis.php" line="467" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaborales.php" afterPath="$PROJECT_DIR$/app/models/Frelaborales.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Frelaboralesmovilidad.php" afterPath="$PROJECT_DIR$/app/models/Frelaboralesmovilidad.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/relaborales/index.phtml" afterPath="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="" />
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -133,29 +125,9 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21061946" vertical-offset="0" max-vertical-offset="565">
-              <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.24070796" vertical-offset="0" max-vertical-offset="565">
+              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3732" max-vertical-offset="4284">
-              <caret line="241" column="66" selection-start-line="241" selection-start-column="16" selection-end-line="241" selection-end-column="66" />
-              <folding>
-                <marker date="1416920138786" expanded="true" signature="2223:2554" placeholder="SELECT ROW_N..." />
-                <marker date="1416920138786" expanded="true" signature="3269:3748" placeholder="SELECT ROW_N..." />
-                <marker date="1416920138786" expanded="true" signature="3959:4243" placeholder="SELECT p.*,s..pacs..." />
-                <marker date="1416920138786" expanded="true" signature="4444:4621" placeholder="select p.ci,..relaborales..." />
-                <marker date="1416920138786" expanded="true" signature="4845:5156" placeholder="SELECT r.id,..relaborales..." />
-                <marker date="1416920138786" expanded="true" signature="5526:5743" placeholder="SELECT c.*, ..cargos..." />
-                <marker date="1416920138786" expanded="true" signature="6083:6131" placeholder="SELECT DISTI..cargos..." />
-                <marker date="1416920138786" expanded="true" signature="6511:6576" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-                <marker date="1416920138786" expanded="true" signature="7001:7070" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -875,24 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3732" max-vertical-offset="4284">
-          <caret line="241" column="66" selection-start-line="241" selection-start-column="16" selection-end-line="241" selection-end-column="66" />
-          <folding>
-            <marker date="1416920138786" expanded="true" signature="2223:2554" placeholder="SELECT ROW_N..." />
-            <marker date="1416920138786" expanded="true" signature="3269:3748" placeholder="SELECT ROW_N..." />
-            <marker date="1416920138786" expanded="true" signature="3959:4243" placeholder="SELECT p.*,s..pacs..." />
-            <marker date="1416920138786" expanded="true" signature="4444:4621" placeholder="select p.ci,..relaborales..." />
-            <marker date="1416920138786" expanded="true" signature="4845:5156" placeholder="SELECT r.id,..relaborales..." />
-            <marker date="1416920138786" expanded="true" signature="5526:5743" placeholder="SELECT c.*, ..cargos..." />
-            <marker date="1416920138786" expanded="true" signature="6083:6131" placeholder="SELECT DISTI..cargos..." />
-            <marker date="1416920138786" expanded="true" signature="6511:6576" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-            <marker date="1416920138786" expanded="true" signature="7001:7070" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4089" max-vertical-offset="5338">
@@ -981,10 +935,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5996377" vertical-offset="3681" max-vertical-offset="4284">
+          <caret line="236" column="66" selection-start-line="236" selection-start-column="66" selection-end-line="236" selection-end-column="66" />
+          <folding>
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT p.*,s..pacs..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="select p.ci,..relaborales..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT r.id,..relaborales..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT c.*, ..cargos..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT DISTI..cargos..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+            <marker date="1416920138786" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21061946" vertical-offset="0" max-vertical-offset="565">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.24070796" vertical-offset="0" max-vertical-offset="565">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
           <folding />
         </state>
       </provider>
