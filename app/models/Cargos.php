@@ -99,7 +99,10 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $formacion_requerida;
 
+<<<<<<< HEAD
+=======
     
+>>>>>>> bc11714532dd7b4a18b796eb96edc53b296770d5
     /**
      * Initialize method for model.
      */
@@ -135,18 +138,32 @@ class Cargos extends \Phalcon\Mvc\Model
 
     private $_db;
 
-    public function lista(){
-        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY c.id asc) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,c.depende_id,e.unidad_ejecutora,c.codigo,c.cargo,n.denominacion,n.sueldo,ca.estado,
-c.fin_partida_id, f.denominacion as fuentefinanciamiento,c.cargo_estado_id, 
-CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1
+    public function lista($organigrama_id='',$estado2='',$cargo_estado_id=''){
+        $where = '';
+        if ($organigrama_id>0) {
+            $where.=' AND c.organigrama_id='.$organigrama_id;
+        }
+        if ($cargo_estado_id>0) {
+            $where.=' AND c.cargo_estado_id='.$cargo_estado_id;
+        }
+        if ($estado2>0) {
+            if ($estado2==1) {
+                $where.=' AND r.estado is NOT NULL';
+            }else{
+                $where.=' AND r.estado is NULL';
+            }
+        }
+
+        $sql = "SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.nivelsalarial_id ASC) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,ca.estado,
+c.cargo_estado_id,ca.estado as cargo_estado,
+CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
-INNER JOIN ejecutoras e ON c.ejecutora_id=e.id
 INNER JOIN nivelsalariales n ON c.nivelsalarial_id = n.id 
 INNER JOIN cargosestados ca ON c.cargo_estado_id=ca.id
-INNER JOIN finpartidas f ON c.fin_partida_id=f.id
 LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
-WHERE c.baja_logica=1 order by c.id asc";
+LEFT JOIN personas p ON r.persona_id=p.id
+WHERE c.baja_logica=1 ".$where." order by c.organigrama_id asc, c.nivelsalarial_id ASC";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

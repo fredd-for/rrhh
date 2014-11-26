@@ -151,6 +151,7 @@
 				autoheight: true,
 				columns: [
 				{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
+				{ text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
 				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
 				{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
@@ -302,9 +303,9 @@ function cargar2(){
 			width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		});
 		
-		$("#popupWindow_pac").jqxWindow({
-			width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		});
+		// $("#popupWindow_pac").jqxWindow({
+		// 	width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+		// });
             // update the edited row when the user clicks the 'Save' button.
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
@@ -336,7 +337,8 @@ function cargar2(){
             					if(data>-1){
             						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PACP.");
             					}else{
-            						$("#popupWindow_pac").jqxWindow('open');					
+            						// $("#popupWindow_pac").jqxWindow('open');
+            						$('#myModal_pac').modal('show');					
             					}
 
 												}, //mostramos el error
@@ -368,24 +370,6 @@ $("#Save").click(function () {
 			}
 });
 
-$("#guardar_pac").click(function () {
-	if ($('#testForm_pac').jqxValidator('validate')){
-		var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
-		var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
-		var v=$.ajax({
-			url:'/cargos/save_pac/',
-			type:'POST',
-			datatype: 'json',
-			data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
-						success: function(data) { cargar2(); //alert(data); 
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});
-		$("#popupWindow_pac").jqxWindow('hide');
-	}
-});
-
-
 $("#nivelsalarial_id").change(function(){
 	var element = $(this).find('option:selected'); 
 	var myTag = element.attr("sueldo"); 
@@ -409,34 +393,51 @@ $('#testForm').jqxValidator({
 }
 },
 { input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       /*{ input: "#codigo", message: "Item ", action: 'blur', rule: function () {
-                       		if ($("#codigo").val()=='') {
-                       			return false;
-                       		}else{
-                       			return true;
-                       			}
-                       		
-                       		var v=$.ajax({
-			            			url:'/cargos/itemDuplicado/',
-			            			type:'POST',
-			            			datatype: 'json',
-			            			data:{id:$("#codigo").val()},
-									success: function(data) { ; //alert('Guardado Correctamente'); 
-															}, //mostramos el error
-															error: function() { alert('Se ha producido un error Inesperado'); }
-									});
-                       		}
-                       	},*/
-                       	{ input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
-
+{ input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
                        	]
                        });
+$('#testForm_pac').validate({
+    rules: {
+        gestion_pac: {
+            required: true
+        }
+    },
+    highlight: function (element) {
+        $(element).closest('.control-group').removeClass('success').addClass('error');
+    },
+    success: function (element) {
+        //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+    },
+    submitHandler: function (form) {
+            // form validates so do the ajax
+            //alert("funciono");
+		var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
+		var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
+		var v=$.ajax({
+			url:'/cargos/save_pac/',
+			type:'POST',
+			datatype: 'json',
+			data:{cargo_id_pac:$("#cargo_id_pac").val(),gestion:$('#gestion_pac').val(),fecha_ini:fecha_ini,fecha_fin:fecha_fin},
+						success: function(data) { cargar2(); //alert(data); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+		//$("#popupWindow_pac").jqxWindow('hide');
+		$('#myModal_pac').modal('hide');
 
-$('#testForm_pac').jqxValidator({
-	rules: [
-	{ input: '#gestion_pac', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
-	]
+
+            return false; // ajax used, block the normal submit
+        }
 });
+
+
+/***********Reporte PDF**************/
+$("#rep_pdf").click(function(){
+	$('#myModal_rep').modal('show');	
+	
+            });
+/**************************/
 
 });
 </script>
@@ -457,9 +458,14 @@ $('#testForm_pac').jqxValidator({
 					<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
 				</div>
 			</div> 
+			<div style="margin-left: 5px; float:left">
+				<div>
+					<input id="add_pac" type="button" value=" Asignar PACP" />&nbsp;&nbsp;&nbsp;
+				</div>
+			</div>
 			<div style="margin-left: 5px; ">
 				<div>
-					<input id="add_pac" type="button" value=" Asignar PACP" />
+					<input id="rep_pdf" type="button" value=" Reporte" />
 				</div>
 			</div>
 			<br>
@@ -540,52 +546,7 @@ $('#testForm_pac').jqxValidator({
 				</div>
 			</div>
 
-			<div id="popupWindow_pac">
-				<div>REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</div>
-				<div style="overflow: hidden;">
-					<form id="testForm_pac">
-						<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
-						<input id="estado_cargo" name="estado_cargo" type="hidden" />
-						<table>
-							<tr>
-								<td align="right">Organigrama:</td>
-								<td align="left" ><div id="organigrama_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right">Item:</td>
-								<td align="left"><div id="item_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right">Cargo:</td>
-								<td align="left"><div id="cargo_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right">Salario Mensual:</td>
-								<td align="left"><div id="sueldo_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right">Gestión:</td>
-								<td align="left"><input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" /></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Inicio:</td>
-								<td align="left"><div id="fecha_ini_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Finalización:</td>
-								<td align="left"><div id="fecha_fin_pac"></div></td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-									<input style="margin-right: 5px;" type="button" id="guardar_pac" value="Guardar" />
-									<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</div>
+			
 
 
 		</div>
@@ -609,3 +570,122 @@ $('#testForm_pac').jqxValidator({
 	</div>
 
 </div>
+
+<!-- Modal -->
+				<div class="modal fade" id="myModal_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form class="form-horizontal" id="testForm_pac" data-toggle="validator"/>
+							<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
+							<input id="estado_cargo" name="estado_cargo" type="hidden" />
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title" id="titulo">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
+							</div>
+							<div class="modal-body">
+
+								<input id="id" name="id" type="hidden" />
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Organigrama</label>
+									<div class="col-md-9">
+										<div id="organigrama_pac"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Item</label>
+									<div class="col-md-9">
+										<div id="item_pac"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Cargo</label>
+									<div class="col-md-9">
+										<div id="cargo_pac"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Salario Mensual</label>
+									<div class="col-md-9">
+										<div id="sueldo_pac"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Gestión</label>
+									<div class="col-md-9">
+										<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Fecha Inicio</label>
+									<div class="col-md-9">
+										<div id="fecha_ini_pac"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Fecha Finalización</label>
+									<div class="col-md-9">
+										<div id="fecha_fin_pac"></div>
+									</div>
+								</div>
+
+								
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								<button type="submit" class="btn btn-primary" id="guardar_pac">Guardar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end  modal -->
+
+<!-- Modal -->
+				<div class="modal fade" id="myModal_rep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<form class="form-horizontal" id="testForm_rep" data-toggle="validator" action="/cargos/reporteCargos/" method="POST" target="_blank" />
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Organigrama</label>
+									<div class="col-md-9">
+										<?php echo $organigrama ?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Estado</label>
+									<div class="col-md-9">
+										<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
+											<option value="0">(Seleccionar)</option>
+											<option value="1">ADJUDICADO</option>
+											<option value="2">ACEFALO</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" >Tipo</label>
+									<div class="col-md-9">
+										<select name="cargo_estado_id_rep" id="cargo_estado_id_rep" class="form-control select-chosen">
+											<option value="0">(Seleccionar)</option>
+											<?php foreach ($cargoestado as $v) { ?>
+											<option value="<?php echo $v->id ?>"><?php echo $v->estado; ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								<button type="submit" class="btn btn-primary" id="save_rep">Exportar Excel</button>
+								<button type="submit" class="btn btn-primary" id="save_rep">Exportar PDF</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end  modal -->

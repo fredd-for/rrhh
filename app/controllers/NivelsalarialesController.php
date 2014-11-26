@@ -14,15 +14,19 @@ class NivelsalarialesController extends ControllerBase
 		$resolucion = $this->tag->select(
 			array(
 				'resolucion_id',
-				Resoluciones::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "tipo_resolucion"),
+				Resoluciones::find(array('baja_logica=1',"order"=>"tipo_resolucion","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
+				'using' => array('id', "fullname"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
-				'emptyValue' => '0',
+				'emptyValue' => '',
 				'class' => 'form-control'
 				)
 			);
+
+
+
 		$this->view->setVar('resolucion',$resolucion);
+
 	}
 
 	public function listAction()
@@ -35,7 +39,7 @@ class NivelsalarialesController extends ControllerBase
 		foreach ($resul as $v) {
 			$customers[] = array(
 				'id' => $v->id,
-				//'resolucion_id' => $v->tipo_resolucion,
+				'resolucion_id' => $v->resolucion_id,
 				'categoria' => $v->categoria,
 				'clase' => $v->clase,
 				'nivel' => $v->nivel,
@@ -55,12 +59,13 @@ class NivelsalarialesController extends ControllerBase
 			
 			if ($_POST['id']>0) {
 				$resul = Nivelsalariales::findFirstById($_POST['id']);
-				//$resul->resolucion_id = $_POST['resolucion_id'];
+				$resul->resolucion_id = $_POST['resolucion_id'];
 				$resul->categoria = $_POST['categoria'];
 				$resul->clase = $_POST['clase'];
 				$resul->nivel = $_POST['nivel'];
 				$resul->denominacion = $_POST['denominacion'];
 				$resul->sueldo = $_POST['sueldo'];
+				$resul->activo = 1;
 				$resul->save();
 				if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
@@ -70,7 +75,7 @@ class NivelsalarialesController extends ControllerBase
 			}
 			else{
 				$resul = new Nivelsalariales();
-				$resul->resolucion_id = 1; //$_POST['resolucion_id'];
+				$resul->resolucion_id = $_POST['resolucion_id'];
 				$resul->gestion =date("Y");
 				$resul->categoria = $_POST['categoria'];
 				$resul->clase = $_POST['clase'];
@@ -82,6 +87,7 @@ class NivelsalarialesController extends ControllerBase
 				//$resul->fecha_fin = $fecha_emi;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
+				$resul->activo = 0;
 				$resul->save();
 				/*if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
