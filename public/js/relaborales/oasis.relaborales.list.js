@@ -149,18 +149,21 @@ $().ready(function () {
      */
     $("#chkAi").on("click",function(){
         var cargo = $("#txtCargoMovilidad").val();
-        if(cargo!=null&&cargo!=''){
-            if(this.checked==true){
-                var n = cargo.search("a.i.");
+        if(cargo!=null&&cargo!='') {
+            cargo = cargo + '';
+            var myarray = cargo.split(" ");
+            if (this.checked == true) {
+                var n = cargo.indexOf("a.i.");
                 if (n < 0) {
-                    $("#txtCargoMovilidad").val(cargo+" a.i.")
+                    $("#txtCargoMovilidad").val(cargo + " a.i.")
                 }
-            }else {
-                var n = cargo.search("a.i.");
-                if (n > 0) {
-                    cargo = cargo.replace("a.i.", "").trim();
-                    $("#txtCargoMovilidad").val(cargo)
-                }
+            } else {
+                    var n = cargo.indexOf("a.i.");
+                    if (n > 0) {
+                        cargo = cargo.replace("a.i.", "").trim();
+                        $("#txtCargoMovilidad").val(cargo)
+
+                    }
             }
         }
     });
@@ -595,7 +598,7 @@ function definirGrillaParaListaRelaborales(){
                                      * Trasladamos el item seleccionado al que corresponde, el de vistas.
                                      */
                                     $('#jqxTabs').jqxTabs({ selectedItem: 4 });
-                                    // Create jqxTabs.
+
                                     cargarGrillaMovilidad(dataRecord.id_relaboral);
                                     var rutaImagen = obtenerRutaFoto(dataRecord.ci,dataRecord.num_complemento);
                                     $("#imgFotoPerfilMover").attr("src",rutaImagen);

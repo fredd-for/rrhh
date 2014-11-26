@@ -14,7 +14,6 @@ class RelaboralesController extends ControllerBase
     {
         parent::initialize();
     }
-
     /**
      * Función para la carga de la página de gestión de relaciones laborales.
      * Se cargan los combos necesarios.
@@ -2577,5 +2576,9 @@ class RelaboralesController extends ControllerBase
             }
         }
         echo json_encode($paises);
+    }
+    public function cargamovilidadAction(){
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
+        $this->view->disable();
     }
 }

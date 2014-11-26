@@ -1080,6 +1080,7 @@ function cargarPaisesCiudadesParaMovilidad(idPais, idDepartamento) {
     var paisesSource =
     {
         dataType: "json",
+        method:'post',
         async: false,
         dataFields: [
             {name: 'pais'},
@@ -1100,6 +1101,7 @@ function cargarPaisesCiudadesParaMovilidad(idPais, idDepartamento) {
     var departamentosSource =
     {
         dataType: "json",
+        method:'post',
         async: false,
         dataFields: [
             {name: 'pais_id'},
@@ -1182,7 +1184,7 @@ function cargarUbicacionesParaMovilidad(idUbicacion) {
  */
 function cargarCargosParaMovilidad(cargo) {
     var source =
-    {
+    {   method: 'post',
         datatype: "json",
         datafields: [
             {name: 'cargo'},
@@ -1539,12 +1541,12 @@ function guardarRegistroMovilidad() {
     // var asignacionCargo = $("#txtCargoMovilidad").val();
     var asignacionCargo = $("#txtCargoMovilidad").val();
 
-
+    asignacionCargo = asignacionCargo+'';
     if (asignacionCargo != '' && chAi == 1) {
         /**
          * Si el cargo menciona la palabra a.i. no se hace nada
          */
-        var n = asignacionCargo.search("a.i.");
+        var n = asignacionCargo.indexOf("a.i.");
         if (n < 0) {
             asignacionCargo += " a.i.";
         }
@@ -1552,7 +1554,7 @@ function guardarRegistroMovilidad() {
         /**
          * Si el cargo menciona la palabra a.i. se le quita
          */
-        var n = asignacionCargo.search("a.i.");
+        var n = asignacionCargo.indexOf("a.i.");
         if (n > 0) {
             asignacionCargo.replace("a.i.", "");
         }
