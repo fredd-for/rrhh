@@ -42,7 +42,7 @@
 				$("#id").val(dataRecord.id);
 				$("#orden").val(dataRecord.orden);
 				$("#nivel_estructural").val(dataRecord.nivel_estructural);
-				$('#myModalss').modal('show');
+				$('#myModal').modal('show');
 
 				// show the popup window.
 				// $("#popupWindow").jqxWindow('open');
@@ -84,51 +84,9 @@ $("#add").click(function(){
 	$("#id").val("");
 	$("#orden").val("");
 	$("#nivel_estructural").val("");
-	$('#myModalss').modal('show');
+	$('#myModal').modal('show');
 //$("#popupWindow").jqxWindow('open');
 });
-
-// $("#Save").click(function () {
-// 	//alert("hoal");
-// 	// alert($('#testForm').validate());
-// 	//  if ($('#testForm').jqxValidator('validate')){
-// 	// var v=$.ajax({
-// 	// 	url:'/nivelestructurales/save/',
-// 	// 	type:'POST',
-// 	// 	datatype: 'json',
-// 	// 	data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
-// 	// success: function(data) { cargar(); //alert(data); 
-// 	// }, //mostramos el error
-// 	// error: function() { alert('Se ha producido un error Inesperado'); }
-// 	// });
-// 	// $('#myModalss').modal('hide');
-// 	//  }
-// });
-
-// $('#testForm').validate({  // initialize plugin
-//         rules: {
-//             orden: {
-//                 // money: true, //<-- no such rule
-//                 required: true
-//             },
-//             nivel_estructural: {
-//                 required: true // superfluous; "false" same as leaving this rule out.
-//             }
-//         },
-//         highlight: function (element) {
-//             $(element).closest('.control-group')
-//                 .removeClass('success').addClass('error');
-//         },
-//         success: function (element) {
-//             element.addClass('valid').closest('.control-group')
-//                 .removeClass('error').addClass('success');
-//         },
-//         submitHandler: function (form) {
-//             // form validates so do the ajax
-//             $(this).modal('hide');
-//             return false; // ajax used, block the normal submit
-//         }
-//     });
 
 // $('#testForm').jqxValidator({
 // 	rules: [
@@ -140,7 +98,6 @@ $("#add").click(function(){
 $('#testForm').validate({
     rules: {
         orden: {
-            minlength: 2,
             required: true
         },
         nivel_estructural: {
@@ -151,13 +108,22 @@ $('#testForm').validate({
         $(element).closest('.control-group').removeClass('success').addClass('error');
     },
     success: function (element) {
-        element.text('OK!').addClass('valid')
-            .closest('.control-group').removeClass('error').addClass('success');
+        //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
     },
     submitHandler: function (form) {
             // form validates so do the ajax
-            alert("funciono");
-            $(this).modal('hide');
+            //alert("funciono");
+            var v=$.ajax({
+            	url:'/nivelestructurales/save/',
+            	type:'POST',
+            	datatype: 'json',
+            	data:{id:$("#id").val(),orden:$("#orden").val(),nivel_estructural:$("#nivel_estructural").val()},
+				success: function(data) { cargar(); //alert(data); 
+				}, //mostramos el error
+			error: function() { alert('Se ha producido un error Inesperado'); }
+			});
+            $('#myModal').modal('hide');
             return false; // ajax used, block the normal submit
         }
 });
@@ -188,7 +154,7 @@ $('#testForm').validate({
 				</div>
 
 				<!-- Modal -->
-				<div class="modal fade" id="myModalss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<form class="form-horizontal" id="testForm" data-toggle="validator"/>
@@ -202,7 +168,7 @@ $('#testForm').validate({
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="example-hf-email">Orden</label>
 									<div class="col-md-9">
-										<input id="orden" name="orden" type="text" class="form-control" required/>
+										<input id="orden" name="orden" type="number" class="form-control" required/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -221,7 +187,7 @@ $('#testForm').validate({
 					</div>
 				</div>
 			</div>
-
+			<!-- end  modal -->
 		</div>
 	</div>
 </div>

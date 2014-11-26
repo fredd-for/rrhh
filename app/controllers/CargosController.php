@@ -11,21 +11,21 @@ class CargosController extends ControllerBase
 
 	public function indexAction()
 	{
-		/*$this->tag->setDefault("organigrama_id", 3);
+		// $this->tag->setDefault("organigrama_id", 3);
 		$organigrama = $this->tag->select(
 			array(
-				'organigrama_id',
+				'organigrama_id_rep',
 				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
 				'using' => array('id', "unidad_administrativa"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '0',
-				'class' => 'form-control'
+				'class' => 'form-control select-chosen'
 				)
 			);
 		
 		$this->view->setVar('organigrama',$organigrama);
-
+/*
 		$finpartida = $this->tag->select(
 			array(
 				'fin_partida_id',
@@ -306,6 +306,64 @@ public function getEstadoSeguimientoAction()
 	}
 	echo json_encode($estado);
 }
+
+public function reporteCargosAction()
+{
+		//$pdf = new fpdf();
+	$pdf = new pdfoasis('L','mm','Letter');
+	$pdf->pageWidth=280;
+	$pdf->AddPage();
+	//$title = utf8_decode('Reporte de Cargos');
+	$pdf->debug=0;
+	$pdf->title_rpt = utf8_decode('Reporte de Cargos');
+	$pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+	$pdf->SetFont('Arial','B',14);
+	$pdf->SetXY(110, 28);
+	$pdf->Cell(0,0,"REPORTE DE CARGOS");
+	$miCabecera = array('Nro', 'Organigrama', 'Item', 'Cargo','Sueldo','Estado','Tipo Cargo');
+
+	$pdf->SetXY(10, 35);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
+	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
+			$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
+			$pdf->Cell(80,7, 'organigrama',1, 0 , 'L', true );
+			$pdf->Cell(15,7, 'Item',1, 0 , 'L', true);
+			$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Sueldo',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Tipo Cargo',1, 0 , 'L', true );
+	// foreach($miCabecera as $fila)
+	// 	{
+	// 	    //Atención!! el parámetro true rellena la celda con el color elegido
+	// 		$pdf->Cell(24,7, utf8_decode($fila),1, 0 , 'L', true);
+	// 	}
+		$pdf->SetXY(10,42);
+		$pdf->SetFont('Arial','',7);
+		$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
+		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
+		$bandera = false; //Para alternar el relleno
+		$model = new Cargos();
+		$resul = $model->lista($_POST['organigrama_id_rep'],$_POST['estado_rep'],$_POST['cargo_estado_id_rep']);
+		foreach ($resul as $v) {
+			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
+			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
+			$pdf->Cell(15,7, utf8_decode($v->codigo),1, 0 , 'L', $bandera );
+			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->sueldo),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->cargo_estado),1, 0 , 'L', $bandera );
+		    $pdf->Ln();//Salto de línea para generar otra fila
+		    $bandera = !$bandera;//Alterna el valor de la bandera
+		}
+		$pdf->Output();
+		$this->view->disable();
+
+
+	}
+
+
+
 
 
 }

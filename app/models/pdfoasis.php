@@ -290,7 +290,7 @@ class pdfoasis extends fpdf{
     #region nuevas funciones
     function cabeceraHorizontal($cabecera)
     {
-        $this->SetXY(10, 10);
+        $this->SetXY(10, 40);
         $this->SetFont('Arial','B',10);
         $this->SetFillColor(2,157,116);//Fondo verde de celda
         $this->SetTextColor(240, 255, 240); //Letra color blanco
@@ -303,7 +303,7 @@ class pdfoasis extends fpdf{
 
     function datosHorizontal($datos)
     {
-        $this->SetXY(10,17);
+        $this->SetXY(10,47);
         $this->SetFont('Arial','',10);
         $this->SetFillColor(229, 229, 229); //Gris tenue de cada fila
         $this->SetTextColor(3, 3, 3); //Color del texto: Negro
