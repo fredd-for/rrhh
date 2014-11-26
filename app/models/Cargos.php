@@ -99,10 +99,6 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $formacion_requerida;
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> bc11714532dd7b4a18b796eb96edc53b296770d5
     /**
      * Initialize method for model.
      */
@@ -232,6 +228,7 @@ WHERE p.baja_logica=1 ".$where." order by p.fecha_ini asc";
 
     /**
      * Función para listar los nombres de cargos registrados en la tabla de cargos.
+     * @author JLM
      * @return Resultset
      */
     public function listNombresCargos()
@@ -242,6 +239,7 @@ WHERE p.baja_logica=1 ".$where." order by p.fecha_ini asc";
     }
     /**
      * Función para desplegar el registro del cargo del inmediato superior de un cargo identificado mediante el parámetro enviado.
+     * @author JLM
      * @return Resultset
      */
     public function getCargoSuperior($id_cargo)
@@ -252,6 +250,7 @@ WHERE p.baja_logica=1 ".$where." order by p.fecha_ini asc";
     }
     /**
      * Función para desplegar el registro del cargo del inmediato superior de acuerdo al identificador del registro de relación laboral enviado como parámetro.
+     * @author JLM
      * @return Resultset
      */
     public function getCargoSuperiorPorRelaboral($id_relaboral)
