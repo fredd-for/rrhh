@@ -149,24 +149,34 @@ $().ready(function () {
      */
     $("#chkAi").on("click",function(){
         var cargo = $("#txtCargoMovilidad").val();
+        var sw=0;
+        if(jQuery.type(cargo)=="object"){
+            cargo = String(cargo.label);
+            var sw=1;
+        }
+        if(sw==1){
+            //alert(cargo);
+        }
+        cargo = cargo + '';
         if(cargo!=null&&cargo!='') {
-            cargo = cargo + '';
-            var myarray = cargo.split(" ");
             if (this.checked == true) {
                 var n = cargo.indexOf("a.i.");
                 if (n < 0) {
-                    $("#txtCargoMovilidad").val(cargo + " a.i.")
+                    cargo = cargo+" a.i.";
+                    $('#txtCargoMovilidad').val(cargo);
+                    //$('#txtCargoMovilidad').jqxInput('val', {label: cargo, value: cargo});
                 }
             } else {
-                    var n = cargo.indexOf("a.i.");
+                var n = cargo.indexOf("a.i.");
                     if (n > 0) {
                         cargo = cargo.replace("a.i.", "").trim();
-                        $("#txtCargoMovilidad").val(cargo)
-
+                        $('#txtCargoMovilidad').val(cargo);
+                        //$('#txtCargoMovilidad').jqxInput('val', {label: cargo, value: cargo});
                     }
             }
         }
     });
+
     $("#liList").click(function(){
         $("#btnCancelarNuevo").click();
         $("#btnCancelarEditar").click();
@@ -224,6 +234,16 @@ $().ready(function () {
     $("#divMsjeNotificacionSuccess").jqxNotification({
         width: '100%', position: "bottom-right", opacity: 0.9,
         autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "success"
+    });
+    $("#txtMotivoMovilidad").jqxInput({
+        width: 300,
+        height: 35,
+        placeHolder: "Introduzca el motivo de la comisión."
+    });
+    $("#txtLugarMovilidad").jqxInput({
+        width: 300,
+        height: 35,
+        placeHolder: "Introduzca el lugar donde se realizará el evento."
     });
     $(document).keypress(OperaEvento);
     $(document).keyup(OperaEvento);

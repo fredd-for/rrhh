@@ -295,7 +295,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                         $("#txtObservacionMovilidad").jqxInput({
                             width: 300,
                             height: 35,
-                            placeHolder: "Introduzca sus observaciones"
+                            placeHolder: "Introduzca sus observaciones."
                         });
                         $("#popupWindowNuevaMovilidad").jqxWindow('open');
                     });
@@ -360,6 +360,9 @@ function cargarGrillaMovilidad(idRelaboral) {
                                     $('#txtFechaMem').jqxDateTimeInput('setMinDate', new Date(2014, 3, 1));
                                     $("#txtMotivoMovilidad").val(dataRecord.motivo);
                                     cargarCargosParaMovilidad('');
+                                    if(dataRecord.id_tipomemorandum==2){
+                                        $("#divChkAi").show();
+                                    }
                                     $("#txtCargoMovilidad").val(dataRecord.cargo);
                                     var asignacionCargo = dataRecord.cargo;
                                     if (asignacionCargo != null && asignacionCargo != '') {
@@ -994,7 +997,7 @@ function cargarUnidadesOrganizacionalesParaMovilidad(idGerencia, idDepartamento,
             source: gerenciasAdapter,
             width: 300,
             height: 25,
-            promptText: "Seleccione una gerencia...",
+            promptText: "Seleccione una gerencia.",
             displayMember: "unidad_administrativa",
             valueMember: 'id'
         });
@@ -1004,7 +1007,7 @@ function cargarUnidadesOrganizacionalesParaMovilidad(idGerencia, idDepartamento,
             width: 300,
             height: 25,
             disabled: true,
-            promptText: "Seleccione Departamento Administrativo...",
+            promptText: "Seleccione Departamento Administrativo.",
             displayMember: 'unidad_administrativa',
             valueMember: 'id'
         });
@@ -1013,7 +1016,7 @@ function cargarUnidadesOrganizacionalesParaMovilidad(idGerencia, idDepartamento,
             width: 300,
             height: 25,
             disabled: true,
-            promptText: "Seleccione un Area Administrativa...",
+            promptText: "Seleccione un Area Administrativa.",
             displayMember: 'unidad_administrativa',
             valueMember: 'id'
         });
@@ -1170,7 +1173,7 @@ function cargarUbicacionesParaMovilidad(idUbicacion) {
             source: ubicacionesAdapter,
             width: 300,
             height: 25,
-            promptText: "Seleccione una ubicacion...",
+            promptText: "Seleccione una ubicacion.",
             displayMember: 'ubicacion',
             valueMember: 'id'
         });
@@ -1183,9 +1186,15 @@ function cargarUbicacionesParaMovilidad(idUbicacion) {
  * @param cargo
  */
 function cargarCargosParaMovilidad(cargo) {
-    var source =
+    $("#txtCargoMovilidad").jqxInput({
+        width: 300,
+        height: 35,
+        placeHolder: "Introduzca el nombre del cargo."
+    });
+    /*var source =
     {   method: 'post',
         datatype: "json",
+        async:false,
         datafields: [
             {name: 'cargo'},
         ],
@@ -1199,7 +1208,7 @@ function cargarCargosParaMovilidad(cargo) {
         placeHolder: "Introduzca el nombre del cargo",
         displayMember: "cargo",
         valueMember: "cargo"
-    });
+    });*/
 }
 /**
  * Función para validar los datos del formulario de nuevo registro de relación laboral.
@@ -1231,6 +1240,9 @@ function validaFormularioPorRegistroMovilidad() {
     var idArea = $("#lstAreasAdministrativasMovilidad").val();
     var idUbicacion = $("#lstUbicacionesMovilidad").val();
     var cargo = $("#txtCargoMovilidad").val();
+    if(jQuery.type(cargo)=="object"){
+        cargo = String(cargo.label);
+    }
     var motivo = $("#txtMotivoMovilidad").val();
     var idPais = $("#lstPaisesMovilidad").val();
     var idDepartamento = $("#lstDepartamentosMovilidad").val();
@@ -1538,9 +1550,10 @@ function guardarRegistroMovilidad() {
     var idDepartamentoAdministrativo = $("#lstDepartamentosAdministrativosMovilidad").val();
     var idArea = $("#lstAreasAdministrativasMovilidad").val();
     var idUbicacion = $("#lstUbicacionesMovilidad").val();
-    // var asignacionCargo = $("#txtCargoMovilidad").val();
     var asignacionCargo = $("#txtCargoMovilidad").val();
-
+    if(jQuery.type(asignacionCargo)=="object"){
+        asignacionCargo = String(asignacionCargo.label);
+    }
     asignacionCargo = asignacionCargo+'';
     if (asignacionCargo != '' && chAi == 1) {
         /**
