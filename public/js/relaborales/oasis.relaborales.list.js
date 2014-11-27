@@ -152,10 +152,6 @@ $().ready(function () {
         var sw=0;
         if(jQuery.type(cargo)=="object"){
             cargo = String(cargo.label);
-            var sw=1;
-        }
-        if(sw==1){
-            //alert(cargo);
         }
         cargo = cargo + '';
         if(cargo!=null&&cargo!='') {
@@ -365,6 +361,7 @@ function definirGrillaParaListaRelaborales(){
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
+                    /*container.append("<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal' data-whatever='@mdo'>Open modal for @mdo</button>");*/
                     //container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");

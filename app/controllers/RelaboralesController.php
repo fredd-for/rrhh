@@ -20,7 +20,8 @@ class RelaboralesController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->assets->addCss('/css/oasis.tabla.incrementable.css');
+        /*$this->assets->addJs('/js/jquery-ui.js');
+        $this->assets->addCss('/js/jquery-ui.css');*/
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
@@ -2533,8 +2534,6 @@ class RelaboralesController extends ControllerBase
             foreach ($resul as $v) {
                 $paises[] = array(
                     'id' => $v->id,
-                    'pais' => $v->pais,
-                    /*'id' => $v->id,
                     'iso2'=>$v->iso2,
                     'iso3'=>$v->iso3,
                     'prefijo'=>$v->prefijo,
@@ -2547,7 +2546,7 @@ class RelaboralesController extends ControllerBase
                     'observacion' => $v->observacion,
                     'estado' => $v->estado,
                     'baja_logica' => $v->baja_logica,
-                    'agrupador' => $v->agrupador*/
+                    'agrupador' => $v->agrupador
                 );
             }
         }
