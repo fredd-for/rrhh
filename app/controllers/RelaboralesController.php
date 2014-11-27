@@ -2527,7 +2527,6 @@ class RelaboralesController extends ControllerBase
     public function listpaisesAction(){
         $this->view->disable();
         $resul = Paises::find(array("estado=1 AND baja_logica=1"));
-        //$resul = personas::find(array("baja_logica=1"));
         //comprobamos si hay filas
         $paises = array();
         if ($resul->count() > 0) {
@@ -2562,7 +2561,7 @@ class RelaboralesController extends ControllerBase
         $paises = array();
         if(isset($_GET["pais_id"])){
             $pais_id = $_GET["pais_id"];
-            $resul = departamentos::find(array("estado=1 AND baja_logica=1 AND pais_id=".$pais_id));
+            $resul = Departamentos::find(array("estado=1 AND baja_logica=1 AND pais_id=".$pais_id));
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
