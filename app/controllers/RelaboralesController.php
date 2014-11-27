@@ -2526,15 +2526,15 @@ class RelaboralesController extends ControllerBase
      */
     public function listpaisesAction(){
         $this->view->disable();
-        //$resul = personas::find(array("estado=1 AND baja_logica=1"));
-        $resul = personas::find(array("baja_logica=1"));
+        $resul = Paises::find(array("estado=1 AND baja_logica=1"));
+        //$resul = personas::find(array("baja_logica=1"));
         //comprobamos si hay filas
         $paises = array();
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $paises[] = array(
                     'id' => $v->id,
-                    'pais' => $v->ci,
+                    'pais' => $v->pais,
                     /*'id' => $v->id,
                     'iso2'=>$v->iso2,
                     'iso3'=>$v->iso3,
