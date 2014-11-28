@@ -25,20 +25,20 @@ class CargosController extends ControllerBase
 			);
 		
 		$this->view->setVar('organigrama',$organigrama);
-/*
-		$finpartida = $this->tag->select(
-			array(
-				'fin_partida_id',
-				Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "denominacion"),
-				'useEmpty' => true,
-				'emptyText' => '(Selecionar)',
-				'emptyValue' => '0',
-				'class' => 'form-control'
-				)
-			);
-		$this->view->setVar('finpartida',$finpartida);
-*/
+
+		// $finpartida = $this->tag->select(
+		// 	array(
+		// 		'fin_partida_id',
+		// 		Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
+		// 		'using' => array('id', "denominacion"),
+		// 		'useEmpty' => true,
+		// 		'emptyText' => '(Selecionar)',
+		// 		'emptyValue' => '0',
+		// 		'class' => 'form-control'
+		// 		)
+		// 	);
+		// $this->view->setVar('finpartida',$finpartida);
+
 		/*$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
@@ -53,8 +53,8 @@ class CargosController extends ControllerBase
 $nivelsalarial = Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
 $this->view->setVar('nivelsalarial',$nivelsalarial);
 */
-$cargoestado=Cargosestados::find(array('baja_logica=1','order' => 'id ASC'));
-$this->view->setVar('cargoestado',$cargoestado);
+// $cargoestado=Cargosestados::find(array('baja_logica=1','order' => 'id ASC'));
+// $this->view->setVar('cargoestado',$cargoestado);
 
 }
 
@@ -112,7 +112,19 @@ public function listnivelsalarialAction()
 		$this->view->disable();
 	echo json_encode($customers);
 }
-
+public function listfinpartidaAction()
+{
+		$resul=Finpartidas::find(array('baja_logica=1','order' => 'id ASC'));
+		foreach ($resul as $v) {
+			$customers[] = array(
+				'id' => $v->id,
+				'denominacion' => $v->denominacion,
+				'partida' => $v->partida
+				);
+		}
+		$this->view->disable();
+	echo json_encode($customers);
+}
 public function getSueldoAction()
 {
 		$resul=Nivelsalariales::findFirstById($_POST['id']);
@@ -137,8 +149,7 @@ public function saveAction()
 			$resul->codigo = $_POST['codigo'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->codigo_nivel = $_POST['codigo_nivel'];
-			$resul->cargo_estado_id = $_POST['cargo_estado_id'];
-			$resul->fin_partida_id=$_POST['cargo_estado_id'];
+			$resul->fin_partida_id=$_POST['fin_partida_id'];
 			$resul->user_mod_id = $user->id;
 			$resul->fecha_mod = date("Y-m-d");
 			$resul->formacion_requerida=$_POST['formacion_requerida'];
@@ -170,12 +181,12 @@ public function saveAction()
 					$resul->codigo = $_POST['codigo']; //generar
 					$resul->cargo = $_POST['cargo'];
 					$resul->codigo_nivel = $_POST['codigo_nivel'];
-					$resul->cargo_estado_id = $_POST['cargo_estado_id'];
+					$resul->cargo_estado_id = 0;
 					$resul->estado = 0;
 					$resul->baja_logica = 1;
 					$resul->user_reg_id = 1;
 					$resul->fecha_reg = date("Y-m-d");
-					$resul->fin_partida_id=$_POST['cargo_estado_id'];//$_POST['fin_partida_id'];
+					$resul->fin_partida_id=$_POST['fin_partida_id'];
 					$resul->poa_id=1;
 					$resul->formacion_requerida=$_POST['formacion_requerida'];
 				//$resul->save();
