@@ -38,7 +38,7 @@ class Cargos extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $nivelsalarial_id;
+    public $codigo_nivel;
 
     /**
      *
@@ -119,7 +119,7 @@ class Cargos extends \Phalcon\Mvc\Model
             'ejecutora_id' => 'ejecutora_id',
             'codigo' => 'codigo',
             'cargo' => 'cargo',
-            'nivelsalarial_id' => 'nivelsalarial_id',
+            'codigo_nivel' => 'codigo_nivel',
             'cargo_estado_id' => 'cargo_estado_id',
             'baja_logica' => 'baja_logica',
             'user_reg_id' => 'user_reg_id',
@@ -152,16 +152,16 @@ class Cargos extends \Phalcon\Mvc\Model
             }
         }
 
-        $sql = "SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.nivelsalarial_id ASC) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.nivelsalarial_id,c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,ca.estado,
+        $sql = "SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.codigo_nivel ASC) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.codigo_nivel,c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,ca.estado,
 c.cargo_estado_id,ca.estado as cargo_estado,
 CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
-INNER JOIN nivelsalariales n ON c.nivelsalarial_id = n.id 
+INNER JOIN nivelsalariales n ON c.codigo_nivel = n.nivel AND n.activo=1 
 INNER JOIN cargosestados ca ON c.cargo_estado_id=ca.id
 LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
 LEFT JOIN personas p ON r.persona_id=p.id
-WHERE c.baja_logica=1 " . $where . " order by c.organigrama_id asc, c.nivelsalarial_id ASC";
+WHERE c.baja_logica=1 " . $where . " order by c.organigrama_id asc, c.codigo_nivel ASC";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -178,7 +178,7 @@ WHERE c.baja_logica=1 " . $where . " order by c.organigrama_id asc, c.nivelsalar
 FROM pacs p
 INNER JOIN cargos c ON p.cargo_id=c.id
 INNER JOIN organigramas o ON c.organigrama_id=o.id
-INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id
+INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
 LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
 LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
 WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";

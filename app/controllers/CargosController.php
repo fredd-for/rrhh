@@ -41,7 +41,7 @@ class CargosController extends ControllerBase
 */
 		/*$nivelsalarial = $this->tag->select(
 			array(
-				'nivelsalarial_id',
+				'codigo_nivel',
 				Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "denominacion"),
 				'useEmpty' => tue,
@@ -70,7 +70,7 @@ public function listAction()
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
-			'nivelsalarial_id' => $v->nivelsalarial_id,
+			'codigo_nivel' => $v->codigo_nivel,
 			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
 			'denominacion' => $v->denominacion,
@@ -101,7 +101,7 @@ public function listorganigramaAction()
 
 public function listnivelsalarialAction()
 {
-		$resul=Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
+		$resul=Nivelsalariales::find(array('baja_logica=1 and activo=1','order' => 'id ASC'));
 		foreach ($resul as $v) {
 			$customers[] = array(
 				'id' => $v->id,
@@ -136,7 +136,7 @@ public function saveAction()
 		
 			$resul->codigo = $_POST['codigo'];
 			$resul->cargo = $_POST['cargo'];
-			$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
+			$resul->codigo_nivel = $_POST['codigo_nivel'];
 			$resul->cargo_estado_id = $_POST['cargo_estado_id'];
 			$resul->fin_partida_id=$_POST['cargo_estado_id'];
 			$resul->user_mod_id = $user->id;
@@ -169,7 +169,7 @@ public function saveAction()
 				$resul->ejecutora_id = 1;
 					$resul->codigo = $_POST['codigo']; //generar
 					$resul->cargo = $_POST['cargo'];
-					$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
+					$resul->codigo_nivel = $_POST['codigo_nivel'];
 					$resul->cargo_estado_id = $_POST['cargo_estado_id'];
 					$resul->estado = 0;
 					$resul->baja_logica = 1;

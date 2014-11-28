@@ -87,7 +87,7 @@
 		};
 		var dataAdapter = new $.jqx.dataAdapter(source);
 
-		$("#nivelsalarial_id").jqxComboBox(
+		$("#codigo_nivel").jqxComboBox(
 		{
 			source: dataAdapter,
 			width: 450,
@@ -98,12 +98,12 @@
 			
 		});       		
 
-		$('#nivelsalarial_id').bind('select', function (event) { 
+		$('#codigo_nivel').bind('select', function (event) { 
 			var v=$.ajax({
 				url:'/cargos/getSueldo/',
 				type:'POST',
 				datatype: 'json',
-				data:{id:$('#nivelsalarial_id').jqxComboBox('val')},
+				data:{id:$('#codigo_nivel').jqxComboBox('val')},
 				success: function(data) { $("#sueldotxt").text(data);
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
@@ -123,7 +123,7 @@
 				{ name: 'unidad_administrativa',type: 'string'},
 				{ name: 'organigrama_id',type: 'string'},
 				{ name: 'depende_id',type: 'number'},
-				{ name: 'nivelsalarial_id',type: 'string'},
+				{ name: 'codigo_nivel',type: 'string'},
 				{ name: 'denominacion',type: 'string'},
 				{ name: 'codigo',type: 'string'},
 				{ name: 'cargo',type: 'string'},
@@ -173,11 +173,11 @@
                      $("#id").val(dataRecord.id);
                      $("#organigrama_id").val(dataRecord.organigrama_id);
                      $("#depende_id").val(dataRecord.depende_id);
-                     $("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
+                     $("#codigo_nivel").val(dataRecord.codigo_nivel);
                      $("#codigo").val(dataRecord.codigo);
                      $("#cargo").val(dataRecord.cargo);
                      $("#formacion_requerida").val(dataRecord.formacion_requerida);
-                     //$("#nivelsalarial_id").val(dataRecord.nivelsalarial_id);
+                     //$("#codigo_nivel").val(dataRecord.codigo_nivel);
                      //$("#cargo_estado_id").val(dataRecord.cargo_estado_id);
                      $("#sueldotxt").text(dataRecord.sueldo);
                      //$("[type=radio][name=cargo_estado_id][value=" + dataRecord.cargo_estado_id + "]").attr("checked", "checked");
@@ -313,7 +313,7 @@ function cargar2(){
             	$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
             	$("#codigo").val("");
             	$("#organigrama_id").val("");
-            	$("#nivelsalarial_id").val("");
+            	$("#codigo_nivel").val("");
             	$("#cargo").val("");
             	$("#formacion_requerida").val("");
             	$("#sueldotxt").text("");
@@ -361,7 +361,7 @@ $("#Save").click(function () {
 					url:'/cargos/save/',
 					type:'POST',
 					datatype: 'json',
-					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),nivelsalarial_id:$("#nivelsalarial_id").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
+					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').jqxComboBox('val'),depende_id:$('#depende_id').jqxComboBox('val'),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").jqxComboBox('val'),cargo_estado_id:cargo_estado_id,codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
 					success: function(data) { cargar(); //alert(data.msm); 
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
@@ -370,7 +370,7 @@ $("#Save").click(function () {
 			}
 });
 
-$("#nivelsalarial_id").change(function(){
+$("#codigo_nivel").change(function(){
 	var element = $(this).find('option:selected'); 
 	var myTag = element.attr("sueldo"); 
 	$('#sueldotxt').text(myTag);
@@ -387,8 +387,8 @@ $('#testForm').jqxValidator({
 	}
 },
 
-{ input: "#nivelsalarial_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-	var index = $("#nivelsalarial_id").jqxComboBox('getSelectedIndex');
+{ input: "#codigo_nivel input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
+	var index = $("#codigo_nivel").jqxComboBox('getSelectedIndex');
 	return index != -1;
 }
 },
@@ -500,7 +500,7 @@ $("#rep_pdf").click(function(){
 							<tr>
 								<td align="right">Nivel Salarial:</td>
 								<td align="left">
-									<div name="list2" id="nivelsalarial_id" ></div>
+									<div name="list2" id="codigo_nivel" ></div>
 								</td>
 							</tr>
 							<tr>

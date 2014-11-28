@@ -128,9 +128,27 @@ class Nivelsalariales extends \Phalcon\Mvc\Model
     private $_db;
 
     public function lista(){
-        $sql = "SELECT n.id,n.resolucion_id,r.tipo_resolucion,r.numero_res,n.categoria,n.clase,n.denominacion,n.nivel,n.sueldo FROM nivelsalariales n, resoluciones r WHERE n.baja_logica=1 AND n.resolucion_id=r.id order by n.id asc";
+        $sql = "SELECT n.id,n.resolucion_id,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,n.activo,r.tipo_resolucion,r.numero_res, 
+CASE n.activo WHEN '1' THEN 'ACTIVO' ELSE 'INACTIVO' END as activo1, n.fecha_ini,n.fecha_fin,
+(SELECT id FROM nivelsalariales WHERE nivel=n.nivel AND baja_logica=1 AND activo=1) as nivelsalarial_id_existente
+FROM nivelsalariales n, resoluciones r 
+WHERE n.baja_logica=1 AND n.resolucion_id=r.id order by n.nivel asc, n.id asc";
         $this->_db = new Nivelsalariales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function updateFecha($nivel,$nivelsalarial_id,$fecha_fin)
+    {
+        $sql = "UPDATE nivelsalariales SET fecha_fin='$fecha_fin' WHERE id='$nivelsalarial_id'";
+        $this->_db = new Nivelsalariales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
+    public function updateActivos($nivel)
+    {
+        $sql = "UPDATE nivelsalariales SET activo=0 WHERE nivel ='$nivel'";
+        $this->_db = new Nivelsalariales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }
     
 }

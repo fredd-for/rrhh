@@ -10,8 +10,13 @@
 				{ name: 'clase',type: 'number'},
 				{ name: 'nivel',type: 'number'},
 				{ name: 'denominacion',type: 'string'},
-				{ name: 'sueldo'}
-				
+				{ name: 'sueldo',type: 'number'},
+				{ name: 'fecha_ini',type: 'date', format: 'dd-MM-yyyy'},
+				{ name: 'fecha_ini_v',type: 'string'},
+				{ name: 'fecha_fin',type: 'date'},
+				{ name: 'activo'},
+				{ name: 'activo1',type: 'string'},
+				{ name: 'nivelsalarial_id_existente'}
 				],
 				url: '/nivelsalariales/list',
 				cache: false
@@ -21,22 +26,31 @@
 			function cargar(){
 				$("#jqxgrid").jqxGrid(
 				{
-					width: '100%',
-					source: dataAdapter,
-					sortable: true,
-					altRows: true,
-					pageable: true,
-					pagerMode: 'advanced',
-					showfilterrow: true,
-					filterable: true,
+                width: '100%',
+                height: '100%',
+                source: dataAdapter,
+                sortable: true,
+                altRows: true,
+                //groupable: true,
+                columnsresize: true,
+                pageable: true,
+                pagerMode: 'advanced',
+                showfilterrow: true,
+                filterable: true,
+                //showtoolbar: true,
+                autorowheight: true,
 					columns: [
 					{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
 			//{ text: 'Resolucion', datafield: 'resolucion_id', filtertype: 'input',width: '25%' },
-			{ text: 'Categoria', datafield: 'categoria', filtertype: 'input',width: '25%' },
+			{ text: 'Categoria', datafield: 'categoria', filtertype: 'input',width: '15%' },
 			{ text: 'Clase', datafield: 'clase', filtertype: 'number',width: '5%' },
 			{ text: 'Nivel', datafield: 'nivel', filtertype: 'number',width: '5%' },
-			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '30%' },
+			{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '24%' },
 			{ text: 'Sueldo', datafield: 'sueldo', filtertype: 'number',width: '10%' },
+			{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '6%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+			{ text: 'Fecha Final', datafield: 'fecha_fin', filtertype: 'range', width: '6%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+			{ text: 'Estado', datafield: 'activo1', filtertype: 'checkedlist',width: '7%' },
+
 			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
 				return "Editar";
 			}, buttonclick: function (row) {
@@ -51,6 +65,16 @@
                      $("#nivel").val(dataRecord.nivel);
                      $("#denominacion").val(dataRecord.denominacion);
                      $("#sueldo").val(dataRecord.sueldo);
+                     $("#fecha_ini").val(dataRecord.fecha_ini_v);
+                     //$("#activo").removeAttr('checked');
+                      //$('#activo').attr('checked',false);
+                     if(dataRecord.activo=='1'){
+                     	$("#activo").prop('checked', true);
+                     }else{
+                     	$("#activo").prop('checked', false);
+                     }
+                     
+
                      $('#myModal').modal('show');
 
 
@@ -66,7 +90,7 @@
              	$("#id").val(dataRecord.id);
              	
              	var v=$.ajax({
-            			url:'/nivelsalariales/setCargosPerfiles/',
+            			url:'/nivelsalariales/getCargosPerfiles/',
             			type:'POST',
             			datatype: 'json',
             			data:{id:dataRecord.id},
@@ -74,6 +98,7 @@
 							var res = jQuery.parseJSON(data);
 							if(res.length>0){
 								$.each( res, function( key, valo ) {
+									alert(valo.formacion_academica);
  								$("#perfil_id").val(valo.id);
  								$("#formacion_academica").val(valo.formacion_academica);
  								$("#exp_general_lic").val(valo.exp_general_lic);
@@ -160,6 +185,7 @@
             	$("#nivel").val("");
             	$("#denominacion").val("");
             	$("#sueldo").val("");
+            	$("#nivelsalarial_id_existente").val("");
             	$('#myModal').modal('show');
 			});
 
@@ -213,7 +239,7 @@ $('#testForm').validate({
             	url:'/nivelsalariales/save/',
             	type:'POST',
             	datatype: 'json',
-            	data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val()},
+            	data:{id:$("#id").val(),resolucion_id:$("#resolucion_id").val(),categoria:$("#categoria").val(),clase:$("#clase").val(),nivel:$("#nivel").val(),denominacion:$("#denominacion").val(),sueldo:$("#sueldo").val(),fecha_ini:$("#fecha_ini").val(),activo:$("#activo").is(':checked'),nivelsalarial_id_existente:$("#nivelsalarial_id_existente").val()},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
@@ -224,8 +250,46 @@ $('#testForm').validate({
     });		
 
 $("#nivel").blur(function(){
-	alert($("#nivel").val())
+	var nivel=$("#nivel").val();
+	if(nivel!=''){
+		var v=$.ajax({
+            	url:'/nivelsalariales/getNivelActivo/',
+            	type:'POST',
+            	datatype: 'json',
+            	data:{nivel:$("#nivel").val()},
+						success: function(data) { 
+				var res = jQuery.parseJSON(data);
+							if(res.length>0){
+								$.each( res, function( key, valo ) {
+									// alert(valo.denominacion);
+ 								$("#nivelsalarial_id_existente").val(valo.id);
+ 								$("#categoria").val(valo.categoria);
+ 								$("#clase").val(valo.clase);
+ 								$("#denominacion").val(valo.denominacion);
+ 								$("#sueldo").val(valo.sueldo);
+ 								$("#nivel_existente").html("Denominación:"+valo.denominacion+"<br>Sueldo:"+valo.sueldo+" Bs.<br>Fecha Inicio:"+valo.fecha_ini+"<br>ACTIVO");
+ 								});	
+							}else{
+								$("#nivelsalarial_id_existente").val('');
+								$("#categoria").val('');
+ 								$("#clase").val('');
+ 								$("#denominacion").val('');
+ 								$("#sueldo").val('');
+ 								$("#nivel_existente").html("");
+							}
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+		});	
+	}
+	
 })
+
+$("#activo").click(function(){
+	//alert($("#activo").is(':checked'));
+	if($("#activo").is(':checked') && $("#nivelsalarial_id_existente").val()!='') {  
+            bootbox.alert("<strong>¡Mensaje!</strong> Esta seguro de activar el nivel salarial creado. Los demas niveles se desactivaran automaticamente.");
+        } 
+});
 
 });
 </script>
@@ -444,13 +508,28 @@ $("#nivel").blur(function(){
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-md-3 control-label">Fecha Inicio</label>
+					<div class="col-md-9">
+						<input type="text" id="fecha_ini" name="fecha_ini" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-md-3 control-label">Activar</label>
 					<div class="col-md-9">
+					
 					<label class="switch switch-primary">
 						<input id="activo" name="activo" type="checkbox"/>
 						<span></span>
 					</label>
 					
+					</div>
+				</div>
+				<hr>
+				<div class="form-group">
+					<input type="hidden" name="nivelsalarial_id_existente" id="nivelsalarial_id_existente">
+					<label class="col-md-3 control-label">Nivel Salarial Existente</label>
+					<div class="col-md-9" id="nivel_existente">
+
 					</div>
 				</div>
 
@@ -464,3 +543,8 @@ $("#nivel").blur(function(){
 </div>
 </div>
 <!-- end  modal -->
+<style type="text/css">
+  .datepicker{
+z-index:1151;
+}
+</style>

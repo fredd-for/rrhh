@@ -22,9 +22,6 @@ class NivelsalarialesController extends ControllerBase
 				'class' => 'form-control'
 				)
 			);
-
-
-
 		$this->view->setVar('resolucion',$resolucion);
 
 	}
@@ -44,7 +41,13 @@ class NivelsalarialesController extends ControllerBase
 				'clase' => $v->clase,
 				'nivel' => $v->nivel,
 				'denominacion' => $v->denominacion,
-				'sueldo' => $v->sueldo
+				'sueldo' => $v->sueldo,
+				'fecha_ini' => $v->fecha_ini,
+				'fecha_ini_v' => date("d-m-Y",strtotime($v->fecha_ini)),
+				'fecha_fin' => $v->fecha_fin,
+				'activo' => $v->activo,
+				'activo1' => $v->activo1,
+				'nivelsalarial_id_existente' => $v->nivelsalarial_id_existente,
 				//'fecha_ini' => date("Y-m-d",strtotime($v->fecha_ini))
 				);
 		}
@@ -55,8 +58,24 @@ class NivelsalarialesController extends ControllerBase
 	{
 		if (isset($_POST['id'])) {
 			//$date = new DateTime($_POST['fecha_ini']);
-			//$fecha_ini = $date->format('Y-m-d');
+			$fecha_ini=date("Y-m-d",strtotime($_POST['fecha_ini']));
+			$activo=0;
+			if($_POST['activo']=="true"){
+				$activo=1;
+			}
+
+			if($_POST['nivelsalarial_id_existente']!=''){
+			$fecha = strtotime ('-1 day' , strtotime ($fecha_ini));
+			$fecha = date ('Y-m-d', $fecha); 
+			$resul = new Nivelsalariales();
+			$r = $resul->updateFecha($_POST['nivel'],$_POST['nivelsalarial_id_existente'],$fecha);
+			}
 			
+			if($_POST['activo']=="true"){
+            $resul = new Nivelsalariales();
+			$r = $resul->updateActivos($_POST['nivel']);
+			}
+
 			if ($_POST['id']>0) {
 				$resul = Nivelsalariales::findFirstById($_POST['id']);
 				$resul->resolucion_id = $_POST['resolucion_id'];
@@ -65,13 +84,9 @@ class NivelsalarialesController extends ControllerBase
 				$resul->nivel = $_POST['nivel'];
 				$resul->denominacion = $_POST['denominacion'];
 				$resul->sueldo = $_POST['sueldo'];
-				$resul->activo = 1;
+				$resul->fecha_ini = $fecha_ini;
+				$resul->activo = $activo;
 				$resul->save();
-				if ($resul->save()) {
-					$msm = array('msm' => 'Exito: Se guardo correctamente' );
-				}else{
-					$msm = array('msm' => 'Error: No se guardo el registro' );
-				}
 			}
 			else{
 				$resul = new Nivelsalariales();
@@ -83,19 +98,14 @@ class NivelsalarialesController extends ControllerBase
 				$resul->sub_nivel_salarial = 0;
 				$resul->denominacion = $_POST['denominacion'];
 				$resul->sueldo = $_POST['sueldo'];
-				//$resul->fecha_ini = $fecha_ini;
-				//$resul->fecha_fin = $fecha_emi;
+				$resul->fecha_ini = $fecha_ini;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
-				$resul->activo = 0;
+				$resul->activo = $activo;
 				$resul->save();
-				/*if ($resul->save()) {
-					$msm = array('msm' => 'Exito: Se guardo correctamente' );
-				}else{
-					$msm = array('msm' => 'Error: No se guardo el registro' );
-				}
-				*/
-		}	
+				
+			}
+
 	}
 	$this->view->disable();
 	echo json_encode();
@@ -168,7 +178,7 @@ public function savePerfilAction()
 	echo json_encode($msm);
 }
 
-public function setCargosPerfilesAction()
+public function getCargosPerfilesAction()
 {	$customers = array();
 	if (isset($_POST['id'])) {
 		$resul=Cargosperfiles::find(array('baja_logica=1 and nivelsalarial_id='.$_POST['id'],'order' => 'id ASC'));
@@ -197,6 +207,26 @@ public function setCargosPerfilesAction()
 		
 	}
 	echo json_encode($customers);	
+}
+
+public function getNivelActivoAction()
+{
+	$resul=Nivelsalariales::find(array('baja_logica=1 and nivel='.$_POST['nivel']. ' and activo=1'));
+	$customers=array();
+	foreach ($resul as $v) {
+		$customers[]= array(
+			'id'=>$v->id,
+			'categoria'=>$v->categoria,
+			'clase'=>$v->clase,
+			'nivel'=>$v->nivel,
+			'denominacion'=>$v->denominacion,
+			'sueldo'=>$v->sueldo,
+			'fecha_ini'=>$v->fecha_ini,
+			'activo'=>$v->activo,
+		);
+	}
+	$this->view->disable();
+	echo json_encode($customers);
 }
 
 }
