@@ -2,13 +2,13 @@
 use Phalcon\Mvc\Controller,
     Phalcon\Mvc\View;
 
-class PersonalController extends ControllerBase{
+class PresentaciondocController extends ControllerBase{
 
     public function initialize() {
         parent::initialize();
     }
     
-    public function listarAction() {
+    public function gestionAction() {
       //echo 'hola';
     }
     public function registroAction() {
@@ -59,7 +59,7 @@ class PersonalController extends ControllerBase{
         echo json_encode($msm);
     }
     
-    public function editarAction($id_personas){
+    public function filepersonalAction($id_personas){
         $this->assets
             ->addCss('/js/dropzone/css/dropzone.css')
             ->addCss('/js/jscrop/css/jquery.Jcrop.css')
@@ -176,9 +176,18 @@ class PersonalController extends ControllerBase{
     }
     public function listAction()
     {
-        $resul = personas::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
+        $modelo = new personas();
+        $resul = $modelo->listaPerRelLab();
         $this->view->disable();
         foreach ($resul as $v) {
+            $mod = new tipodoccondicion();
+            $res = $mod->listaDocXPersona($v->ci , $v->genero);
+            $cont = 0;
+            foreach ($res as $t){
+                if ($t->doc_presentado_id == ''){
+                    $cont++;
+                }
+            }
             $customers[] = array(
                 'id' => $v->id,
                 'p_nombre' => $v->p_nombre,
@@ -189,9 +198,9 @@ class PersonalController extends ControllerBase{
                 'fecha_nac' => date("d-m-Y",strtotime($v->fecha_nac)),
                 'lugar_nac' => $v->lugar_nac,
                 'genero' => $v->genero,
-                'e_civil' => $v->e_civil,
-                'tipo_doc' => $v->tipo_doc,
-                'expd'=> $v->expd,
+                'num_docs' => count($res),
+                'num_falt' => $cont,
+                'expd' => $v->expd,
             );
         }
         echo json_encode($customers);

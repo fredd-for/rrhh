@@ -1,5 +1,5 @@
 <?php
-
+use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 class personas extends \Phalcon\Mvc\Model
 {
 
@@ -246,5 +246,17 @@ class personas extends \Phalcon\Mvc\Model
             'foto' => 'foto'
         );
     }
-
+    
+    private $_db;
+    /**
+     * Lista el personal que cuenta con una relación laboral activa con la empresa.
+     */
+    public function listaPerRelLab(){
+        $sql_query = "SELECT p.id, p.p_nombre, p.s_nombre, p.p_apellido, p.s_apellido, 
+                        p.ci, p.fecha_nac, p.lugar_nac, p.genero, p.expd 
+                      FROM relaborales rl, personas p 
+                      WHERE p.id = rl.persona_id AND rl.estado = 1 AND rl.baja_logica = 1";
+        $this->_db = new personas();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql_query));
+    }
 }

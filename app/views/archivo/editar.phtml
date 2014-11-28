@@ -220,7 +220,7 @@ foreach ($resul as $v){
             /*$("#expirationDate").jqxComboBox({ enableBrowserBoundsDetection: true, source: months, selectedIndex: 0, height: 22, width: '100%' });
             $("#expirationYear").jqxComboBox({ enableBrowserBoundsDetection: true, source: years, autoDropDownHeight: true, selectedIndex: 0, height: 22, width: '100%' });*/
             // Create the Form Validator. 
-            //$('#form').jqxValidator( { focus: false } );
+            //$('#form').jqxValidator( { focus: false } );*/
             $('#form').jqxValidator({
                 hintType: 'label',
                 rules: [
@@ -348,7 +348,7 @@ foreach ($resul as $v){
                     var tipo_dato_campo_aux_c=[{value:null}];
                 }
                 var formato_archivo_digital = $("#formato_archivo_digital").val();
-                if(formato_archivo_digital==null){
+                if(formato_archivo_digital== null){
                     var formato_archivo_digital=[{value:null}];
                 }
                 //var formato_archivo_digital = $("#formato_archivo_digital").jqxComboBox('getSelectedItem');//alert(formato_archivo_digital.value);
@@ -587,7 +587,7 @@ foreach ($resul as $v){
                             <button class="btn btn-default btn-lg" id="consultor">Consultor</button>
                             <button class="btn btn-default btn-lg" id="eventual">Eventual</button>
                             <button class="btn btn-default btn-lg" id="permanente">Permanente</button>
-                            <button class="btn btn-default btn-lg" id="carrera">Carrera</button>
+                            <button class="btn btn-default btn-lg" id="carrera">Libre Nombrado</button>
                             <button class="btn btn-default btn-lg" id="todas">Todas</button>
                         </div>
                     </div>

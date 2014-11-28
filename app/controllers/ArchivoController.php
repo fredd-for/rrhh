@@ -23,16 +23,36 @@ class ArchivoController extends ControllerBase{
         
     }
     public function editarAction($id_tipo_doc){
+        $res = new tipodoccondicion();
+        $res = tipodoccondicion::find(array("tipodocumento_id =".$id_tipo_doc ,"order" => 'condicion_id'));
+        foreach ($res as $v){
+            $tipo_doc_con[] = array(
+                'id' => $v->id,
+                'condicion_id' => $v->condicion_id,
+                'baja_logica' => $v->baja_logica
+            );
+        }
+        $v_length = count($tipo_doc_con);
+        for ($i=1;$i<=4;$i++){
+            for ($j=0;$j<=$v_length;$j++){
+                if ($tipo_doc_con[$j]['condicion_id'] == $i){
+                    $con_cont[$i] = $tipo_doc_con[$j]['baja_logica'];
+                }
+            }
+            if (!$con_cont[$i]){
+                $con_cont[$i] = 0;
+            }
+        }
         $resul = new tipodocumento();
         $resul = tipodocumento::findFirstById($id_tipo_doc);
         $datos_tipo_doc = array(
             'id' => $resul->id,
             'tipo_documento' => $resul->tipo_documento,
             'codigo' => $resul->codigo,
-            'consultor' => $resul->consultor,
-            'eventual' => $resul->eventual,
-            'permanente' => $resul->permanente,
-            'carrera' => $resul->carrera,
+            'consultor' => $con_cont[3],
+            'eventual' => $con_cont[2],
+            'permanente' => $con_cont[1],
+            'carrera' => $con_cont[4],
             'tipopresdoc_id' => $resul->tipopresdoc_id,
             'periodopresdoc_id' => $resul->periodopresdoc_id,
             'tipoemisordoc_id' => $resul->tipoemisordoc_id,
@@ -134,7 +154,7 @@ class ArchivoController extends ControllerBase{
                 'observacion' => $v->observacion,
                 'estado' => $v->estado,
                 'baja_logica' => $v->baja_logica,
-                'agrupador' => $v->agrupador,
+                'agrupador' => $v->agrupador
             );
         }
         echo json_encode($customers);
@@ -205,10 +225,6 @@ class ArchivoController extends ControllerBase{
                 $resul->id = $_POST['id'];
                 $resul->tipo_documento = $_POST['tipo_documento'];
                 $resul->codigo = $_POST['codigo'];
-                $resul->consultor = $_POST['consultor'];
-                $resul->eventual = $_POST['eventual'];
-                $resul->permanente = $_POST['permanente'];
-                $resul->carrera = $_POST['carrera'];
                 $resul->tipopresdoc_id = $_POST['tipopresdoc_id'];
                 $resul->periodopresdoc_id = $_POST['periodopresdoc_id'];
                 $resul->tipoperssoldoc_id = $_POST['tipoperssoldoc_id'];
@@ -216,10 +232,10 @@ class ArchivoController extends ControllerBase{
                 $resul->tipofechaemidoc_id = $_POST['tipofechaemidoc_id'];
                 $resul->grupoarchivos_id = $_POST['grupoarchivos_id'];
                 $resul->sexo = $_POST['sexo'];
-                if (isset($_POST['tipo_proceso_contratacion'])){
-                    $resul->tipo_proceso_contratacion = $_POST['tipo_proceso_contratacion'];
-                } else {
+                if ($_POST['tipo_proceso_contratacion'] == ''){
                     $resul->tipo_proceso_contratacion = NULL;
+                } else {
+                    $resul->tipo_proceso_contratacion = $_POST['tipo_proceso_contratacion'];
                 }
                 if ($_POST['nombre_carpeta'] == ''){
                     $resul->nombre_carpeta = NULL;
@@ -227,10 +243,10 @@ class ArchivoController extends ControllerBase{
                     $resul->nombre_carpeta = $_POST['ruta_carpeta'];
                 }
                 $resul->ruta_carpeta = '/';
-                if (isset($_POST['formato_archivo_digital'])){
-                    $resul->formato_archivo_digital = $_POST['formato_archivo_digital'];
-                } else {
+                if ($_POST['formato_archivo_digital']==''){ 
                     $resul->formato_archivo_digital = NULL;
+                } else {
+                    $resul->formato_archivo_digital = $_POST['formato_archivo_digital'];
                 }
                 if ($_POST['resolucion_archivo_digital']==''){
                     $resul->resolucion_archivo_digital = NULL;
@@ -285,7 +301,22 @@ class ArchivoController extends ControllerBase{
                 $resul->user_mod_id = 1;
                 $resul->fecha_mod = $hoy;
                 //$resul->save();
+                $tipo_condicion [3] = $_POST['consultor'];
+                $tipo_condicion [2] = $_POST['eventual'];
+                $tipo_condicion [1] = $_POST['permanente'];
+                $tipo_condicion [4] = $_POST['carrera'];
                 if ($resul->save()) {
+                    for ($i = 1; $i <= 4; $i++){
+                        //echo ' '.$i.'. ';
+                        $res = tipodoccondicion::findFirst(array("tipodocumento_id = ".$_POST['id']." AND condicion_id = ".$i,"order" => "id ASC"));
+                        if (!$res){
+                            $res = new tipodoccondicion();
+                            $res->tipodocumento_id = $_POST['id'];
+                            $res->condicion_id = $i;
+                        } 
+                        $res->baja_logica = $tipo_condicion[$i];
+                        $res->save();
+                    }
                     $msm = array('msm' => 'Exito: Se guardo correctamente' );
                 } else {
                     $msm = array('msm' => 'Error: No se guardo el registro' );
@@ -295,21 +326,18 @@ class ArchivoController extends ControllerBase{
                 $resul = new tipodocumento();
                 $resul->tipo_documento = $_POST['tipo_documento'];
                 $resul->codigo = $_POST['codigo'];
-                $resul->consultor = $_POST['consultor'];
-                $resul->eventual = $_POST['eventual'];
-                $resul->permanente = $_POST['permanente'];
-                $resul->carrera = $_POST['carrera'];
                 $resul->tipopresdoc_id = $_POST['tipopresdoc_id'];
                 $resul->periodopresdoc_id = $_POST['periodopresdoc_id'];
+                
                 $resul->tipoperssoldoc_id = $_POST['tipoperssoldoc_id'];
                 $resul->tipoemisordoc_id = $_POST['tipoemisordoc_id'];
                 $resul->tipofechaemidoc_id = $_POST['tipofechaemidoc_id'];
                 $resul->grupoarchivos_id = $_POST['grupoarchivos_id'];
                 $resul->sexo = $_POST['sexo'];
-                if (isset($_POST['tipo_proceso_contratacion'])){
-                    $resul->tipo_proceso_contratacion = $_POST['tipo_proceso_contratacion'];
-                } else {
+                if ($_POST['tipo_proceso_contratacion'] == ''){
                     $resul->tipo_proceso_contratacion = NULL;
+                } else {
+                    $resul->tipo_proceso_contratacion = $_POST['tipo_proceso_contratacion'];
                 }
                 if ($_POST['nombre_carpeta'] == ''){
                     $resul->nombre_carpeta = NULL;
@@ -317,10 +345,10 @@ class ArchivoController extends ControllerBase{
                     $resul->nombre_carpeta = $_POST['ruta_carpeta'];
                 }
                 $resul->ruta_carpeta = '/';
-                if (isset($_POST['formato_archivo_digital'])){
-                    $resul->formato_archivo_digital = $_POST['formato_archivo_digital'];
-                } else {
+                if ($_POST['formato_archivo_digital'] == ''){
                     $resul->formato_archivo_digital = NULL;
+                } else {
+                    $resul->formato_archivo_digital = $_POST['formato_archivo_digital'];
                 }
                 if ($_POST['resolucion_archivo_digital'] == ''){
                     $resul->resolucion_archivo_digital = NULL;
@@ -377,9 +405,21 @@ class ArchivoController extends ControllerBase{
                 $resul->user_reg_id = 1;
                 $resul->fecha_reg = $hoy;
                 $resul->agrupador = 0;
+                $tipo_condicion [3] = $_POST['consultor'];
+                $tipo_condicion [2] = $_POST['eventual'];
+                $tipo_condicion [1] = $_POST['permanente'];
+                $tipo_condicion [4] = $_POST['carrera'];
                 //echo $_POST['tipo_doc'];
                 //$resul->save();
                 if ($resul->save()) {
+                    $res_td = tipodocumento::findFirst(array("fecha_reg = '".$hoy."' AND user_reg_id = 1", "order" => "id ASC"));
+                    for ($i = 1; $i <=4; $i++){
+                        $res_tdc = new tipodoccondicion();
+                        $res_tdc->tipodocumento_id = $res_td->id;
+                        $res_tdc->condicion_id = $i;
+                        $res_tdc->baja_logica = $tipo_condicion[$i];
+                        $res_tdc->save();
+                    }
                     $msm = array('msm' => 'Exito: Se guardo correctamente' );
                 } else {
                     $msm = array('msm' => 'Error: No se guardo el registro' );
