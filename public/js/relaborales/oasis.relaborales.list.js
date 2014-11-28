@@ -619,7 +619,7 @@ function definirGrillaParaListaRelaborales() {
                                 $(".msjs-alert").hide();
                                 $("#hdnIdPersonaHistorialMovimiento").val(dataRecord.id_persona);
                                 $("#NombreParaMoverRegistro").html(dataRecord.nombres);
-                                if (dataRecord.tiene_contrato_vigente >= 0) {
+                                if (dataRecord.tiene_contrato_vigente >= 1) {
                                     $('#jqxTabs').jqxTabs('enableAt', 0);
                                     $('#jqxTabs').jqxTabs('disableAt', 1);
                                     $('#jqxTabs').jqxTabs('disableAt', 2);
