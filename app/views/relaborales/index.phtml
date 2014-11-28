@@ -836,13 +836,11 @@
             la misma persona se proceder&aacute; a dar de baja el mismo con fecha de finalizaci&oacute;n al d&iacute;a previo del inicio del
             presente registro.</span>
 </h6>
-
 <div class="form-horizontal col-sm-12" id="detallesDependenciaMovilidad">
 <div class="row div-move-relab" id="divTiposMemorandums">
     <label class="col-sm-3 control-label" for="lstTipoMemorandum">Tipo Memorandum *:</label>
 
     <div class="col-md-6">
-        <!--<div style="margin-left: 5px;" id="lstTipoMemorandum"></div>-->
         <select id="lstTipoMemorandum" class="form-control move-relab"></select>
         <span class="help-block" id="helpErrorTiposMemorandums"></span>
     </div>
@@ -865,13 +863,12 @@
         <span class="help-block" id="helpErrorFechasMemorandums"></span>
     </div>
 </div>
-
 <div class="row div-move-relab" id="divCargosMovilidad">
     <label class="col-sm-3 control-label" for="txtCargoMovilidad">Asignaci&oacute;n Cargo *:</label>
-
     <div class="col-md-6" form-group>
-        <textarea id="txtCargoMovilidad" class="form-control" placeholder="Introduzca el nombre de la asignaci&oacute;n de cargo."></textarea>
-
+        <div class="ui-widget">
+        <textarea id="txtCargoMovilidad" class="" placeholder="Introduzca el nombre de la asignaci&oacute;n de cargo."></textarea>
+        </div>
         <div id="divChkAi">
             <input type="checkbox" value="" id="chkAi"> a.i.
         </div>

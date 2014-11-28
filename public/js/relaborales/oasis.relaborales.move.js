@@ -1097,7 +1097,7 @@ function cargarPaisesCiudadesParaMovilidad(idPais, idDepartamento) {
             source: paisesAdapter,
             width: 300,
             height: 25,
-            promptText: "Seleccione un país...",
+            promptText: "Seleccione un país.",
             displayMember: 'pais',
             valueMember: 'id'
         });
@@ -1121,7 +1121,7 @@ function cargarPaisesCiudadesParaMovilidad(idPais, idDepartamento) {
             width: 300,
             height: 25,
             disabled: true,
-            promptText: "Seleccione la ciudad...",
+            promptText: "Seleccione la ciudad.",
             displayMember: 'departamento',
             valueMember: 'id'
         });
@@ -1186,12 +1186,12 @@ function cargarUbicacionesParaMovilidad(idUbicacion) {
  * @param cargo
  */
 function cargarCargosParaMovilidad(cargo) {
-    $("#txtCargoMovilidad").jqxInput({
+ /* $("#txtCargoMovilidad").jqxInput({
         width: 300,
         height: 35,
         placeHolder: "Introduzca el nombre del cargo."
     });
-    /*var source =
+    var source =
     {   method: 'post',
         datatype: "json",
         async:false,
