@@ -154,7 +154,8 @@ class RelaboralesController extends ControllerBase
                     'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
                     'numero_escala' => $v->numero_escala,
                     'gestion_escala' => $v->gestion_escala,
-                    'sueldo' => $v->sueldo,
+                    /*'sueldo' => $v->sueldo,*/
+                    'sueldo' => str_replace(".00", "", $v->sueldo),
                     'id_procesocontratacion' => $v->id_procesocontratacion,
                     'proceso_codigo' => $v->proceso_codigo,
                     'id_convocatoria' => $v->id_convocatoria,
