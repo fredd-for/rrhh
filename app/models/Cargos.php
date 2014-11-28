@@ -248,7 +248,7 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
      */
     public function getCargoSuperior($id_cargo)
     {
-        $sql = "SELECT * FROM f_cargo_inmediato_superior_relaboral(" . $id_cargo . ")";
+        $sql = "SELECT * FROM f_cargo_inmediato_superior(" . $id_cargo . ")";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

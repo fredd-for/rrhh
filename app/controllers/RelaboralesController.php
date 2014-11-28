@@ -381,186 +381,24 @@ class RelaboralesController extends ControllerBase
             $cargo = Cargos::findFirstById($id_cargo);
             $id_organigrama = $cargo->organigrama_id;
             $id_finpartida = $cargo->fin_partida_id;
-            $id_nivelsalarial = $cargo->nivelsalarial_id;
-            $id_relaboral = null;
-            $finpartida = Finpartidas::findFirstById($id_finpartida);
-            $id_condicion = $finpartida->condicion_id;
-            $id_area = $_POST['id_area'];
-            $id_ubicacion = $_POST['id_ubicacion'];
-            $id_regional = $_POST['id_regional'];
-            $id_procesocontratacion = $_POST['id_procesocontratacion'];
-            $date1 = new DateTime($_POST['fecha_inicio']);
-            $date2 = new DateTime($_POST['fecha_incor']);
-            $date3 = new DateTime($_POST['fecha_fin']);
-            $fecha_ini = $date1->format('Y-m-d');
-            $fecha_incor = $date2->format('Y-m-d');
-            /**
-             * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
-             */
-            if ($id_condicion == 2 || $id_condicion == 3) {
-                $fecha_fin = $date3->format('Y-m-d');
-            } else {
-                $fecha_fin = $objRelaboral->fecha_fin;
-            }
-            if ($id_persona > 0 && $id_cargo > 0) {
-                try {
-
-                    $objRelaboral->cargo_id = $id_cargo;
-                    $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
-                    $objRelaboral->da_id = 1;
-                    $objRelaboral->regional_id = $id_regional;
-                    $objRelaboral->organigrama_id = $id_organigrama;
-                    $objRelaboral->ejecutora_id = 1;
-                    $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
-                    $objRelaboral->cargo_id = $id_cargo;
-                    $objRelaboral->certificacionitem_id = null;
-                    $objRelaboral->finpartida_id = $id_finpartida;
-                    $objRelaboral->condicion_id = $id_condicion;
-                    $objRelaboral->carrera_adm = 0;
-                    $objRelaboral->pagado = 0;
+            #region Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
+            $objNS = new Nivelsalariales();
+            $nsArr = $objNS->getNivelSalarialActivoByCodigoNivel($cargo->codigo_nivel);
+            if(count($nsArr)>0){
+                $nivelsalariales = $nsArr[0];
+                $id_nivelsalarial = $nivelsalariales->id;
+                /**
+                 * En la modificación es necesario verificar que no se haya cambiado de cargo, si así fue,
+                 * sólo en ese caso se cambia el nivel salarial,
+                 * en caso contrarío no se modifica el nivel salarial.
+                 */
+                if($id_cargo!=$objRelaboral->cargo_id){
                     $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
-                    $objRelaboral->fecha_ini = $fecha_ini;
-                    $objRelaboral->fecha_incor = $fecha_incor;
-                    $objRelaboral->fecha_fin = $fecha_fin;
-                    $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
-                    /**
-                     * Con este valor eventualmente para presentación
-                     * --->
-                     */
-                    $objRelaboral->estado = 1;
-                    /*
-                     * <---
-                     */
-                    $objRelaboral->baja_logica = 1;
-                    $objRelaboral->user_mod_id = $user_mod_id;
-                    $objRelaboral->fecha_mod = $hoy;
-                    $objRelaboral->agrupador = 0;
-                    $ok = $objRelaboral->save();
-                    if ($ok) {
-                        /**
-                         * Modificar el estado del cargo a adjudicado
-                         */
-                        //$this->adjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
-                        #region Registro del área de trabajo
-                        if ($id_area > 0) {
-                            /*
-                             * Verificando la existencia del registro de relación laboral.                             *
-                             */
-                            //$objRA =  Relaboralesareas::findFirst(array('relaboral_id='.$objRelaboral->id.' AND baja_logica = 1 AND estado=1','order' => 'id ASC'));
-                            $objRA = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
-                            if ($objRA->id > 0) {
-                                $objRA->estado = 1;
-                                $objRA->baja_logica = 1;
-                                $objRA->organigrama_id = $id_area;
-                                $objRA->user_mod_id = $user_reg_id;
-                                $objRA->fecha_mod = $hoy;
-                                $objRA->save();
-                            } else {
-                                $objRelArea = new Relaboralesareas();
-                                $objRelArea->id = null;
-                                $objRelArea->relaboral_id = $objRelaboral->id;
-                                $objRelArea->organigrama_id = $id_area;
-                                $objRelArea->observacion = null;
-                                $objRelArea->estado = 1;
-                                $objRelArea->baja_logica = 1;
-                                $objRelArea->agrupador = 0;
-                                $objRelArea->user_reg_id = $user_reg_id;
-                                $objRelArea->fecha_reg = $hoy;
-                                $objRelArea->save();
-                            }
-                        } else {
-                            /*
-                             * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
-                             */
-                            $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
-                            if ($objRelArea!=null&&$objRelArea->id > 0) {
-                                $objRelArea->estado = 0;
-                                $objRelArea->baja_logica = 0;
-                                $objRelArea->user_mod_id = $user_reg_id;
-                                $objRelArea->fecha_mod = $hoy;
-                                $objRelArea->save();
-                            }
-                        }
-                        #endregion Registro del área de trabajo
-                        #region Registro de la ubicación de trabajo
-                        //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
-                        if ($id_ubicacion > 0) {
-                            //$ru = new Relaboralesubicaciones();
-                            $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/, 'bind' => array('relaboral_id1' => $objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/), 'order' => 'id ASC'));
-                            if ($ru->id > 0) {
-                                /**
-                                 * Si existia el registro de ubicación
-                                 */
-                                $ru->ubicacion_id = $id_ubicacion;
-                                $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                $ru->estado = 1;
-                                $ru->baja_logica = 1;
-                                $ru->agrupador = 0;
-                                if ($ru->save()) {
-                                    //Si se ha especificado un area para la especificación de la dependencia de la persona.
-                                    /*if($id_area>0){
-
-
-                                    }*/
-                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                                }
-                            } else {
-                                /**
-                                 * Si no se tenía registro de ubicación
-                                 */
-                                $ru = new Relaboralesubicaciones();
-                                $ru->relaboral_id = $objRelaboral->id;
-                                $ru->ubicacion_id = $id_ubicacion;
-                                $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                $ru->estado = 1;
-                                $ru->baja_logica = 1;
-                                $ru->agrupador = 0;
-                                if ($ru->save()) {
-                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                                }
-                            }
-                        } else {
-                            $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                        }
-                        #region de registro de la ubicación de trabajo
-                    } else {
-                        foreach ($objRelaboral->getMessages() as $message) {
-                            echo $message, "\n";
-                        }
-                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
-                    }
-                } catch (\Exception $e) {
-                    echo get_class($e), ": ", $e->getMessage(), "\n";
-                    echo " File=", $e->getFile(), "\n";
-                    echo " Line=", $e->getLine(), "\n";
-                    echo $e->getTraceAsString();
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
                 }
-            } else {
-                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
-            }
-        } else {
-            /**
-             * Nuevo Registro
-             */
-            if (isset($_POST['id_persona']) && isset($_POST['id_cargo'])) {
-                $id_persona = $_POST['id_persona'];
-                $id_cargo = $_POST['id_cargo'];
-                $num_contrato = $_POST['num_contrato'];
-                $observacion = $_POST['observacion'];
-
-                $cargo = Cargos::findFirstById($id_cargo);
-                $id_organigrama = $cargo->organigrama_id;
-                $id_finpartida = $cargo->fin_partida_id;
-                $id_nivelsalarial = $cargo->nivelsalarial_id;
+                /*$id_nivelsalarial = $cargo->nivelsalarial_id;*/
                 $id_relaboral = null;
                 $finpartida = Finpartidas::findFirstById($id_finpartida);
                 $id_condicion = $finpartida->condicion_id;
-
                 $id_area = $_POST['id_area'];
                 $id_ubicacion = $_POST['id_ubicacion'];
                 $id_regional = $_POST['id_regional'];
@@ -575,12 +413,12 @@ class RelaboralesController extends ControllerBase
                  */
                 if ($id_condicion == 2 || $id_condicion == 3) {
                     $fecha_fin = $date3->format('Y-m-d');
+                } else {
+                    $fecha_fin = $objRelaboral->fecha_fin;
                 }
                 if ($id_persona > 0 && $id_cargo > 0) {
                     try {
-                        $objRelaboral = new Relaborales();
-                        $objRelaboral->id = null;
-                        $objRelaboral->persona_id = $id_persona;
+
                         $objRelaboral->cargo_id = $id_cargo;
                         $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
                         $objRelaboral->da_id = 1;
@@ -594,65 +432,107 @@ class RelaboralesController extends ControllerBase
                         $objRelaboral->condicion_id = $id_condicion;
                         $objRelaboral->carrera_adm = 0;
                         $objRelaboral->pagado = 0;
-                        $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
                         $objRelaboral->fecha_ini = $fecha_ini;
                         $objRelaboral->fecha_incor = $fecha_incor;
                         $objRelaboral->fecha_fin = $fecha_fin;
                         $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
-                        /*
-                         * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
-                         * El registro de relación laboral
-                         * -->
+                        /**
+                         * Con este valor eventualmente para presentación
+                         * --->
                          */
                         $objRelaboral->estado = 1;
-                        /**
-                         * <--
+                        /*
+                         * <---
                          */
                         $objRelaboral->baja_logica = 1;
-                        $objRelaboral->user_reg_id = $user_reg_id;
-                        $objRelaboral->fecha_reg = $hoy;
+                        $objRelaboral->user_mod_id = $user_mod_id;
+                        $objRelaboral->fecha_mod = $hoy;
                         $objRelaboral->agrupador = 0;
                         $ok = $objRelaboral->save();
                         if ($ok) {
                             /**
-                             * Se modifica el estado del cargo para que se considere como adjudicado.
+                             * Modificar el estado del cargo a adjudicado
                              */
-                            //$this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
                             #region Registro del área de trabajo
                             if ($id_area > 0) {
-                                $objRelArea = new Relaboralesareas();
-                                $objRelArea->id = null;
-                                $objRelArea->relaboral_id = $objRelaboral->id;
-                                $objRelArea->organigrama_id = $id_area;
-                                $objRelArea->observacion = null;
-                                $objRelArea->estado = 1;
-                                $objRelArea->baja_logica = 1;
-                                $objRelArea->agrupador = 0;
-                                $objRelArea->user_reg_id = $user_reg_id;
-                                $objRelArea->fecha_reg = $hoy;
-                                $objRelArea->save();
+                                /*
+                                 * Verificando la existencia del registro de relación laboral.                             *
+                                 */
+                                $objRA = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                                if ($objRA->id > 0) {
+                                    $objRA->estado = 1;
+                                    $objRA->baja_logica = 1;
+                                    $objRA->organigrama_id = $id_area;
+                                    $objRA->user_mod_id = $user_reg_id;
+                                    $objRA->fecha_mod = $hoy;
+                                    $objRA->save();
+                                } else {
+                                    $objRelArea = new Relaboralesareas();
+                                    $objRelArea->id = null;
+                                    $objRelArea->relaboral_id = $objRelaboral->id;
+                                    $objRelArea->organigrama_id = $id_area;
+                                    $objRelArea->observacion = null;
+                                    $objRelArea->estado = 1;
+                                    $objRelArea->baja_logica = 1;
+                                    $objRelArea->agrupador = 0;
+                                    $objRelArea->user_reg_id = $user_reg_id;
+                                    $objRelArea->fecha_reg = $hoy;
+                                    $objRelArea->save();
+                                }
+                            } else {
+                                /*
+                                 * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
+                                 */
+                                $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
+                                if ($objRelArea!=null&&$objRelArea->id > 0) {
+                                    $objRelArea->estado = 0;
+                                    $objRelArea->baja_logica = 0;
+                                    $objRelArea->user_mod_id = $user_reg_id;
+                                    $objRelArea->fecha_mod = $hoy;
+                                    $objRelArea->save();
+                                }
                             }
                             #endregion Registro del área de trabajo
                             #region Registro de la ubicación de trabajo
                             //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
-                            if ($objRelaboral->id > 0 && $id_ubicacion > 0) {
-                                $ru = new Relaboralesubicaciones();
-                                $ru->relaboral_id = $objRelaboral->id;
-                                $ru->ubicacion_id = $id_ubicacion;
-                                $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                $ru->estado = 1;
-                                $ru->baja_logica = 1;
-                                $ru->agrupador = 0;
-                                if ($ru->save()) {
-                                    //Si se ha especificado un area para la especificación de la dependencia de la persona.
-                                    /*if($id_area>0){
+                            if ($id_ubicacion > 0) {
+                                //$ru = new Relaboralesubicaciones();
+                                $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/, 'bind' => array('relaboral_id1' => $objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/), 'order' => 'id ASC'));
+                                if ($ru->id > 0) {
+                                    /**
+                                     * Si existia el registro de ubicación
+                                     */
+                                    $ru->ubicacion_id = $id_ubicacion;
+                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
+                                    $ru->estado = 1;
+                                    $ru->baja_logica = 1;
+                                    $ru->agrupador = 0;
+                                    if ($ru->save()) {
+                                        //Si se ha especificado un area para la especificación de la dependencia de la persona.
+                                        /*if($id_area>0){
 
 
-                                    }*/
-
-                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                        }*/
+                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                    } else {
+                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                    }
                                 } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                    /**
+                                     * Si no se tenía registro de ubicación
+                                     */
+                                    $ru = new Relaboralesubicaciones();
+                                    $ru->relaboral_id = $objRelaboral->id;
+                                    $ru->ubicacion_id = $id_ubicacion;
+                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
+                                    $ru->estado = 1;
+                                    $ru->baja_logica = 1;
+                                    $ru->agrupador = 0;
+                                    if ($ru->save()) {
+                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                    } else {
+                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                    }
                                 }
                             } else {
                                 $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
@@ -674,6 +554,150 @@ class RelaboralesController extends ControllerBase
                 } else {
                     $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
                 }
+            } else {
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se hall&oacute; el registro correspondiente al nivel salarial para el registro de realaci&oacute;n laboral.');
+            }
+            #endregion Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
+        } else {
+            /**
+             * Nuevo Registro
+             */
+            if (isset($_POST['id_persona']) && isset($_POST['id_cargo'])) {
+                $id_persona = $_POST['id_persona'];
+                $id_cargo = $_POST['id_cargo'];
+                $num_contrato = $_POST['num_contrato'];
+                $observacion = $_POST['observacion'];
+
+                $cargo = Cargos::findFirstById($id_cargo);
+                $id_organigrama = $cargo->organigrama_id;
+                $id_finpartida = $cargo->fin_partida_id;
+                #region Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
+                $objNS = new Nivelsalariales();
+                $nsArr = $objNS->getNivelSalarialActivoByCodigoNivel($cargo->codigo_nivel);
+                if(count($nsArr)>0){
+                    $nivelsalariales = $nsArr[0];
+                    $id_nivelsalarial = $nivelsalariales->id;
+                    $id_relaboral = null;
+                    $finpartida = Finpartidas::findFirstById($id_finpartida);
+                    $id_condicion = $finpartida->condicion_id;
+                    $id_area = $_POST['id_area'];
+                    $id_ubicacion = $_POST['id_ubicacion'];
+                    $id_regional = $_POST['id_regional'];
+                    $id_procesocontratacion = $_POST['id_procesocontratacion'];
+                    $date1 = new DateTime($_POST['fecha_inicio']);
+                    $date2 = new DateTime($_POST['fecha_incor']);
+                    $date3 = new DateTime($_POST['fecha_fin']);
+                    $fecha_ini = $date1->format('Y-m-d');
+                    $fecha_incor = $date2->format('Y-m-d');
+                    /**
+                     * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
+                     */
+                    if ($id_condicion == 2 || $id_condicion == 3) {
+                        $fecha_fin = $date3->format('Y-m-d');
+                    }
+                    if ($id_persona > 0 && $id_cargo > 0) {
+                        try {
+                            $objRelaboral = new Relaborales();
+                            $objRelaboral->id = null;
+                            $objRelaboral->persona_id = $id_persona;
+                            $objRelaboral->cargo_id = $id_cargo;
+                            $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
+                            $objRelaboral->da_id = 1;
+                            $objRelaboral->regional_id = $id_regional;
+                            $objRelaboral->organigrama_id = $id_organigrama;
+                            $objRelaboral->ejecutora_id = 1;
+                            $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
+                            $objRelaboral->cargo_id = $id_cargo;
+                            $objRelaboral->certificacionitem_id = null;
+                            $objRelaboral->finpartida_id = $id_finpartida;
+                            $objRelaboral->condicion_id = $id_condicion;
+                            $objRelaboral->carrera_adm = 0;
+                            $objRelaboral->pagado = 0;
+                            $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
+                            $objRelaboral->fecha_ini = $fecha_ini;
+                            $objRelaboral->fecha_incor = $fecha_incor;
+                            $objRelaboral->fecha_fin = $fecha_fin;
+                            $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
+                            /*
+                             * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
+                             * El registro de relación laboral
+                             * -->
+                             */
+                            $objRelaboral->estado = 1;
+                            /**
+                             * <--
+                             */
+                            $objRelaboral->baja_logica = 1;
+                            $objRelaboral->user_reg_id = $user_reg_id;
+                            $objRelaboral->fecha_reg = $hoy;
+                            $objRelaboral->agrupador = 0;
+                            $ok = $objRelaboral->save();
+                            if ($ok) {
+                                /**
+                                 * Se modifica el estado del cargo para que se considere como adjudicado.
+                                 */
+                                //$this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
+                                #region Registro del área de trabajo
+                                if ($id_area > 0) {
+                                    $objRelArea = new Relaboralesareas();
+                                    $objRelArea->id = null;
+                                    $objRelArea->relaboral_id = $objRelaboral->id;
+                                    $objRelArea->organigrama_id = $id_area;
+                                    $objRelArea->observacion = null;
+                                    $objRelArea->estado = 1;
+                                    $objRelArea->baja_logica = 1;
+                                    $objRelArea->agrupador = 0;
+                                    $objRelArea->user_reg_id = $user_reg_id;
+                                    $objRelArea->fecha_reg = $hoy;
+                                    $objRelArea->save();
+                                }
+                                #endregion Registro del área de trabajo
+                                #region Registro de la ubicación de trabajo
+                                //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
+                                if ($objRelaboral->id > 0 && $id_ubicacion > 0) {
+                                    $ru = new Relaboralesubicaciones();
+                                    $ru->relaboral_id = $objRelaboral->id;
+                                    $ru->ubicacion_id = $id_ubicacion;
+                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
+                                    $ru->estado = 1;
+                                    $ru->baja_logica = 1;
+                                    $ru->agrupador = 0;
+                                    if ($ru->save()) {
+                                        //Si se ha especificado un area para la especificación de la dependencia de la persona.
+                                        /*if($id_area>0){
+
+
+                                        }*/
+
+                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                                    } else {
+                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                    }
+                                } else {
+                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                }
+                                #region de registro de la ubicación de trabajo
+                            } else {
+                                foreach ($objRelaboral->getMessages() as $message) {
+                                    echo $message, "\n";
+                                }
+                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                            }
+                        } catch (\Exception $e) {
+                            echo get_class($e), ": ", $e->getMessage(), "\n";
+                            echo " File=", $e->getFile(), "\n";
+                            echo " Line=", $e->getLine(), "\n";
+                            echo $e->getTraceAsString();
+                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                        }
+                    } else {
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
+                    }
+                }else {
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se hall&oacute; el registro correspondiente al nivel salarial para el registro de realaci&oacute;n laboral.');
+                }
+                #endregion Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
+
             } else {
                 $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
             }
@@ -1214,6 +1238,10 @@ class RelaboralesController extends ControllerBase
         echo json_encode($organigramas);
     }
 
+    /**
+     * Función básica de impresión.
+     * Su uso es con fines de verificación de funcionamiento simplemente.
+     */
     public function printbasicAction()
     {
         $pdf = new pdfoasis();
@@ -1270,6 +1298,7 @@ class RelaboralesController extends ControllerBase
             'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'proceso_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'nivelsalarial' => array('title' => 'Nivel', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),

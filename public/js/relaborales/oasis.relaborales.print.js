@@ -22,6 +22,7 @@ function exportarPDF(){
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
     departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
     area = $('#jqxgrid').jqxGrid('getcolumn','area');
+    fin_partida = $('#jqxgrid').jqxGrid('getcolumn','fin_partida');
     proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
     nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
     fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
@@ -42,6 +43,7 @@ function exportarPDF(){
     columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
     columna[area.datafield] = {text: area.text, hidden: area.hidden};
     columna[proceso_codigo.datafield] = {text: proceso_codigo.text, hidden: proceso_codigo.hidden};
+    columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
     columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
     columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};

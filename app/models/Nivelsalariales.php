@@ -150,5 +150,17 @@ WHERE n.baja_logica=1 AND n.resolucion_id=r.id order by n.nivel asc, n.id asc";
         $this->_db = new Nivelsalariales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }
+
+    /**
+     * Función para la obtención del registro de nivel salarial correspondiente al parámetro enviado codigo_nivel.
+     * @param $codigo_nivel
+     */
+    public function getNivelSalarialActivoByCodigoNivel($codigo_nivel){
+        if($codigo_nivel>0){
+            $sql = "SELECT * FROM nivelsalariales WHERE nivel=".$codigo_nivel." AND estado=1 LIMIT 1";
+            $this->_db = new Nivelsalariales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
+    }
     
 }
