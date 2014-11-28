@@ -35,7 +35,6 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
     function cargarRegistrosDeCargosParaEditar(){
         $("#divGrillaParaSeleccionarCargo").jqxGrid(
             {
-                theme:'oasis',
                 width: '100%',
                 height:250,
                 source: dataAdapterCargo,
@@ -124,20 +123,6 @@ function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
     $('#divAreasEditar').hide();
     $('#lstAreasEditar').html("");
     var ok=false;
-    var selected = "";$.ajax({
-        url:'/relaborales/listubicaciones',
-        type:'POST',
-        datatype: 'json',
-        cache:false,
-        async:false,
-        success: function(data) {
-            var res = jQuery.parseJSON(data);
-            $.each( res, function( key, valo ) {
-                if(idUbicacionPredeterminada==valo.id){$selected='selected';}else{ $selected='';}
-                $('#lstUbicacionesEditar').append("<option value="+valo.id+" "+$selected+">"+valo.ubicacion+"</option>");
-            });
-        }
-    });
     if(idPadre>0){
         $.ajax({
             url:'/relaborales/listareas',
