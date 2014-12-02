@@ -72,6 +72,24 @@ class PresentaciondocController extends ControllerBase{
         $resul = personas::findFirstById($id_personas);
         $res = new personascontactos();
         $res = personascontactos::findFirst(array('persona_id='.$id_personas.' AND baja_logica = 1','order' => 'id ASC'));
+        $mod = new tipodoccondicion();
+        $resul_doc = $mod->listaDocXPersona($resul->ci , $resul->genero);
+        foreach ($resul_doc as $vr){
+            $doc_x_persona[] = array (
+                'condicion' => $vr->condicion,
+                'tipo_doc_id' => $vr->tipo_doc_id,
+                'tipo_documento' => $vr->tipo_documento,
+                'doc_presentado_id' => $vr->doc_presentado_id,
+                'grupoarchivos' => $vr->grupoarchivos
+            );
+        };
+        $resul_doc = $mod->listaGrupoDoc($resul->ci , $resul->genero);
+        foreach ($resul_doc as $lgd){
+            $lista_doc[] = array(
+                'id' => $lgd->id,
+                'grupoarchivos' => $lgd->grupoarchivos
+            );
+        };
         $datos_personal = array(
             'id' => $resul->id,
             'p_nombre' => $resul->p_nombre,
@@ -86,7 +104,7 @@ class PresentaciondocController extends ControllerBase{
             'num_complemento' => $resul->num_complemento,
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
-            'fecha_nac' => $resul->fecha_nac,
+            'fecha_nac' => date("d-m-Y",strtotime($resul->fecha_nac)),
             'e_civil' => $resul->e_civil,
             'grupo_sanguineo'=> $resul->grupo_sanguineo,
             'genero' => $resul->genero,
@@ -107,6 +125,8 @@ class PresentaciondocController extends ControllerBase{
             'interno_inst' => $res->interno_inst
         );
         $this->view->setVar('datos_personal', $datos_personal);
+        $this->view->setVar('doc_x_persona', $doc_x_persona);
+        $this->view->setVar('lista_doc', $lista_doc);
     }
     public function visualizarAction($id_personas){
         $resul = new personas();

@@ -1,5 +1,27 @@
 <?php
-
+$nom_completo = $datos_personal['p_nombre'].' '.$datos_personal['s_nombre'].' '.$datos_personal['p_apellido'].' '.$datos_personal['s_apellido'];
+$doc_i = $datos_personal['ci'].$datos_personal['expd'];
+if ($datos_personal['genero'] == 'M'){
+    $sexo = 'masculino';
+} else if($datos_personal['genero'] == F){
+    $sexo = 'femenino';
+}
+$sum_faltantes = 0;
+for ($i = 0; $i < count($lista_doc);  $i++){
+    $contador[$i] = 0;
+    $faltantes[$i] = 0;
+    foreach ($doc_x_persona as $docs){
+        if ($docs['grupoarchivos'] == $lista_doc[$i]['grupoarchivos']){
+            $contador[$i]++;
+            if ($docs['doc_presentado_id'] == ''){
+                $faltantes[$i]++;
+            }
+        }
+    }
+    $sum_faltantes = $sum_faltantes + $faltantes[$i];
+}
+//echo $sum_faltantes;
+echo '<input id="num_grupo" name="num_grupo" value="'.count($lista_doc).'" hidden="hidden">';
 ?>
 <script type="text/javascript">
 function utf8_encode(argString) {
@@ -65,13 +87,34 @@ function utf8_encode(argString) {
   return utftext;
 };
 $(document).ready(function () {
+    var hasta = $("#num_grupo").val();
+    var bool_grupo = new Array();
+    for (var i = 0; i < hasta; i++ ){
+        bool_grupo[i] = 1;
+        var div_val = '#data_'+i;
+        //var but_val = '#btn_dat_'+i;
+        $(div_val).hide();
+    }
+    $("a").click(function (){
+        if ($(this).attr('data_inline')){
+            var i = $(this).attr('data_inline');
+            div_val = '#data_'+i;
+            if (bool_grupo[i] == 0){
+                $(div_val).hide();
+                bool_grupo[i] = 1;
+            } else if (bool_grupo[i] == 1){
+                $(div_val).show();
+                bool_grupo[i] = 0;
+            }
+        }
+    });
     var bdp = 0;
     $("#data_personal").show();
     $("#btn_dat_per").click(function (){
         if (bdp == 0){
             $("#data_personal").hide();
             bdp = 1;
-        } else {
+        } else if (bdp == 1){
             $("#data_personal").show();
             bdp = 0;
         }
@@ -118,7 +161,15 @@ $(document).ready(function () {
 <h2 style="padding-top: 0px; width: 100%;"><b>File de Personal.</b></h2>
 <div class="block" id="contenedor_principal">
     <div class="block-title">
-        <h2><strong>Archivo.</strong></h2>
+        <?php
+        if ($sum_faltantes == count($doc_x_persona)){
+            echo '<h2 class="red"><strong>Archivo.</strong></h2>';
+        } elseif ($sum_faltantes == count($doc_x_persona)) {
+            echo '<h2 class="yellow"><strong>Archivo.</strong></h2>';
+        } elseif ($sum_faltantes == 0) {
+            echo '<h2 class="green"><strong>Archivo.</strong></h2>';
+        }
+        ?>
     </div>
     <div class="block" id="datos_personales">
         <div class="block-title">
@@ -128,136 +179,197 @@ $(document).ready(function () {
                 </a>
             </div>
             <h3><strong>Datos Personales.</strong></h3>
-            <form class="form-horizontal form-bordered" >
-                <div class="row" id="data_personal">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Nombres y Apellidos:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Username</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Documento de Identidad:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">CI...</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Nacionalidad:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Gentilicio...</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Ciudad de Nacimiento:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Ciudad</p>
-                                </div>
+        </div>
+        <div class="block-content" id="data_personal">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Nombres y Apellidos:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $nom_completo; ?></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Fecha Nacimiento:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">dd-mm-yyyy</p>
-                                </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Documento de Identidad:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $doc_i; ?></p>
                             </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Estado Civil:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Civil</p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Nacionalidad:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $datos_personal['nacionalidad']; ?></p>
                             </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Grupo Sangu&iacute;neo:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Sangre</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Sexo:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">M o F</p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Ciudad de Nacimiento:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $datos_personal['lugar_nac']; ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Fecha Nacimiento:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $datos_personal['fecha_nac']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Estado Civil:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $datos_personal['e_civil']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Grupo Sangu&iacute;neo:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $datos_personal['grupo_sanguineo']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Sexo:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static"><?php echo $sexo; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="block" id="datos_personales">
+    <div class="block" id="datos_contacto">
         <div class="block-title">
             <div class="block-options pull-right">
                 <a class="btn btn-alt btn-xs btn-default" title="" id="btn_dat_con" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Contraer/Expandir">
                     <i class="caret"></i>
                 </a>
             </div>
-            <h3><strong>Datos Personales.</strong></h3>
-            <form class="form-horizontal form-bordered" >
-                <div class="row" id="data_contactos">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Nombres y Apellidos:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Username</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Documento de Identidad:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">CI...</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Nacionalidad:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Gentilicio...</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Ciudad de Nacimiento:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Ciudad</p>
-                                </div>
+            <h3><strong>Datos de Contacto.</strong></h3>
+        </div>
+        <div class="block-content" id="data_contactos">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Nombres y Apellidos:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">Username</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Fecha Nacimiento:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">dd-mm-yyyy</p>
-                                </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Documento de Identidad:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">CI...</p>
                             </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Estado Civil:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Civil</p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Nacionalidad:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">Gentilicio...</p>
                             </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Grupo Sangu&iacute;neo:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">Sangre</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-xs-4 control-label">Sexo:</label>
-                                <div class="col-xs-8">
-                                    <p class="form-control-static">M o F</p>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Ciudad de Nacimiento:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">Ciudad</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Fecha Nacimiento:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">dd-mm-yyyy</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Estado Civil:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">Civil</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Grupo Sangu&iacute;neo:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">Sangre</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-4 control-label">Sexo:</label>
+                            <div class="col-xs-8">
+                                <p class="form-control-static">M o F</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <?php
+    for($i = 0; $i < count($lista_doc); $i++){
+        echo '<div class="block" id="datos_'.$i.'">';
+            echo '<div class="block-title">';
+                echo '<div class="block-options pull-right ">';
+                    echo '<a class="btn btn-alt btn-xs btn-default" data_inline = "'.$i.'" title="" id="btn_dat_'.$i.'" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Contraer/Expandir">';
+                        echo '<i class="caret"></i>';
+                    echo '</a>';
+                echo '</div>';
+                if ($faltantes[$i] == $contador[$i]){
+                echo '<h3 class="red"><strong>'.$lista_doc[$i]['grupoarchivos'].'</strong></h3>';
+                } elseif ($faltantes[$i] < $contador[$i]) {
+                echo '<h3 class="col-xs-12 yellow"><strong>'.$lista_doc[$i]['grupoarchivos'].'</strong></h3>';
+                } elseif ($faltantes[$i] == 0) {
+                echo '<h3 class="col-xs-12 green"><strong>'.$lista_doc[$i]['grupoarchivos'].'</strong></h3>';
+                }
+            echo '</div>';
+            echo '<div class="block-content" id="data_'.$i.'">';
+                echo '<div class="row">';
+                    echo '<div class="col-xs-12">';
+                        echo '<div class="form-group">';
+                        foreach ($doc_x_persona as $docs){
+                            if ($docs['grupoarchivos'] == $lista_doc[$i]['grupoarchivos']){
+                            echo '<div class="row">';
+                                echo '<label class="col-xs-4 control-label">'.$docs['tipo_documento'].' : </label>';
+                                echo '<div class="col-xs-4">';
+                                if ($docs['doc_presentado_id'] == ''){
+                                    echo '<p class="form-control-static red">SIN DOCUMENTO.</p>';
+                                } else {
+                                     
+                                }
+                                echo '</div>';
+                                echo '<div class="col-xs-4">';
+                                    echo '<b class="btn btn-primary" data-toggle="modal" href="#mr_'.$i.'_'.$docs['tipo_doc_id'].'">Subir Archivo.</b>';
+                                    echo '<div id="mr_'.$i.'_'.$docs['tipo_doc_id'].'" class="modal" aria-hidden="true" role="dialog" tabindex="-1" style="display: none;">';
+                                        echo '<div class="modal-dialog">';
+                                            echo '<div class="modal-content">';
+                                                echo '<div class="modal-header">';
+                                                    echo '<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>';
+                                                    echo '<h3 class="modal-title">Subir Documento: '.$docs['tipo_documento'].'</h3>';
+                                                echo '</div>';
+                                                echo '<div id="subir_foto">';
+                                                    echo '<form action="/personal/subir/" class="dropzone" id="myAwesomeDropzone"></form>';
+                                                echo '</div>';
+                                                echo '<div class="modal-footer">';
+                                                    echo '<button class="btn btn-sm btn-default" data-dismiss="modal" id="cerrar" type="button">Cerrar</button>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    echo '</div>';
+                                echo '</div>';
+                            echo '</div>';
+                            }
+                        }
+                        echo '</div>';
+                    echo '</div>';
+                echo '</div>';
+            echo '</div>';
+        echo '</div>';
+    }
+    ?>
 </div>

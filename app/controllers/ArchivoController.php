@@ -22,6 +22,19 @@ class ArchivoController extends ControllerBase{
     public function parametrosAction(){
         
     }
+    
+    public function getgrupoarchivosAction() {
+        $resul = new parametros();
+        $resul = parametros::find(array("parametro = 'grupoarchivos' AND baja_logica = 1", "order" => 'id ASC'));
+        foreach ($resul as $v){
+            $grupo_archivo[] = array(
+                'id' => $v->id,
+                'nivel' => $v->nivel,
+                'valor_1' => $v->valor_1
+            );
+        }
+        $this->view->setVar('grupo_archivo', $grupo_archivo);
+    }
     public function editarAction($id_tipo_doc){
         $res = new tipodoccondicion();
         $res = tipodoccondicion::find(array("tipodocumento_id =".$id_tipo_doc ,"order" => 'condicion_id'));
