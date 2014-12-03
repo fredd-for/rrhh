@@ -21,44 +21,6 @@ class PresentaciondocController extends ControllerBase{
             ->addJs('/js/jscrop/js/jquery.Jcrop.js')
         ;
     }
-    public function subirfotoAction($ci){
-        if ($ci){
-            $foto_persona = $ci+'.jpg';
-            $this->view->setVar('foto_persona', $foto_persona);
-            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
-        } else {
-            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
-        }
-    }
-    public function cropAction(){
-        //$this->view->disable();
-        $targ_w = $targ_h = 472;
-        $jpeg_quality = 90;
-        $src = 'images/personal/tmp.jpg';
-        if ($src){
-            $img_r = imagecreatefromjpeg($src);
-            $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-            imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],$targ_w,$targ_h,$_POST['w'],$_POST['h']);
-            //header('Content-type: image/jpeg');
-            //imagejpeg($dst_r,null,$jpeg_quality);
-            imagejpeg($dst_r,'images/personal/'.$_POST['ci'].'.jpg',$jpeg_quality);
-            imagedestroy($dst_r);
-            unlink($src);
-        }
-        $this->view->disable();
-    }
-    public function verificarciAction() {
-        $resul = new personas();
-        $resul = personas::findFirst(array('ci="'.$_POST['ci'].'"','order' => 'id ASC'));
-        if ($resul->id){
-            $msm = true;
-        } else {
-            $msm = false;
-        }
-	$this->view->disable();
-        echo json_encode($msm);
-    }
-    
     public function filepersonalAction($id_personas){
         $this->assets
             ->addCss('/js/dropzone/css/dropzone.css')
@@ -80,7 +42,10 @@ class PresentaciondocController extends ControllerBase{
                 'tipo_doc_id' => $vr->tipo_doc_id,
                 'tipo_documento' => $vr->tipo_documento,
                 'doc_presentado_id' => $vr->doc_presentado_id,
-                'grupoarchivos' => $vr->grupoarchivos
+                'grupoarchivos' => $vr->grupoarchivos,
+                'codigo' => $vr->codigo,
+                'rellaboral_id' => $vr->rellaboral_id,
+                'nombre' => $vr->nombre
             );
         };
         $resul_doc = $mod->listaGrupoDoc($resul->ci , $resul->genero);
@@ -169,25 +134,20 @@ class PresentaciondocController extends ControllerBase{
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
-    public function cargarcropAction() {
-        //$this->view->disable();
-        /*$this->assets
-             ->addCss('/js/jscrop/css/jquery.Jcrop.css')
-        ;
-        $this->assets
-             ->addJs('/js/jscrop/js/jquery.Jcrop.js')
-        ;*/
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-    }
-    public function subirAction(){
+    public function subirAction($codigo,$ci,$rellaboral){
         //$ds = DIRECTORY_SEPARATOR;
         //$storeFolder = "/images/personal/";
+        $ruta = 'filepersonal/'.$ci.'/';
+        if (!file_exists ($ruta)){
+            mkdir($ruta,0777);
+        }
         $this->view->disable();
         if ($this->request->hasFiles() == true) {
             //Print the real file names and their sizes
             foreach ($this->request->getUploadedFiles() as $file){
                 //echo $file->getName(), " ", $file->getSize(), "\n";
-                $file->moveTo('images/personal/tmp.jpg');
+                $file_nombre = $codigo.'_'.$ci.'_'.$rellaboral.'.pdf';
+                $file->moveTo($ruta.$file_nombre);
             }
         }
     }

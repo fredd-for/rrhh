@@ -22,6 +22,7 @@ for ($i = 0; $i < count($lista_doc);  $i++){
 }
 //echo $sum_faltantes;
 echo '<input id="num_grupo" name="num_grupo" value="'.count($lista_doc).'" hidden="hidden">';
+echo '<input id="direccion" name="direccion" value="" hidden="hidden">';
 ?>
 <script type="text/javascript">
 function utf8_encode(argString) {
@@ -108,6 +109,14 @@ $(document).ready(function () {
             }
         }
     });
+    $("b").click(function (){
+        var ci_d = $(this).attr('ci');
+        var codigo_d = $(this).attr('codigo');
+        var rellaboral_d = $(this).attr('rellaboral_id');
+        var direccion = "/presentaciondoc/subir/"+codigo_d+"/"+ci_d+"/"+rellaboral_d+"/";
+        $("#direccion").val(direccion);
+        //alert (ci_d+'_'+codigo_d+'_'+rellaboral_d+'.pdf');
+    });
     var bdp = 0;
     $("#data_personal").show();
     $("#btn_dat_per").click(function (){
@@ -130,6 +139,22 @@ $(document).ready(function () {
             bdp = 0;
         }
     });
+    
+        $("form").dropzone({
+            url: $(this).attr("action"),
+            paramName: "file",
+            maxFilesize: 1,
+            addRemoveLinks: true,
+            uploadMultiple: false,
+            maxFiles: 1,
+            acceptedFiles: '.pdf',
+            success: function(file) {alert('se subirá el archivo: '+file.name);
+                /*$("#subir_foto").hide();
+                $("#recortar_foto").load('/personal/cargarcrop/');
+                $("#recortar_foto").show();
+                $("#cambio_foto").show();*/
+            }
+        });
 });
 </script>
 <style>     
@@ -344,7 +369,7 @@ $(document).ready(function () {
                                 }
                                 echo '</div>';
                                 echo '<div class="col-xs-4">';
-                                    echo '<b class="btn btn-primary" data-toggle="modal" href="#mr_'.$i.'_'.$docs['tipo_doc_id'].'">Subir Archivo.</b>';
+                                    echo '<b class="btn btn-primary" data-toggle="modal" href="#mr_'.$i.'_'.$docs['tipo_doc_id'].'" ci="'.$datos_personal['ci'].'" codigo="'.$docs['codigo'].'" rellaboral_id="'.$docs['rellaboral_id'].'">Subir Archivo.</b>';
                                     echo '<div id="mr_'.$i.'_'.$docs['tipo_doc_id'].'" class="modal" aria-hidden="true" role="dialog" tabindex="-1" style="display: none;">';
                                         echo '<div class="modal-dialog">';
                                             echo '<div class="modal-content">';
@@ -353,7 +378,7 @@ $(document).ready(function () {
                                                     echo '<h3 class="modal-title">Subir Documento: '.$docs['tipo_documento'].'</h3>';
                                                 echo '</div>';
                                                 echo '<div id="subir_foto">';
-                                                    echo '<form action="/personal/subir/" class="dropzone" id="myAwesomeDropzone"></form>';
+                                                    echo '<form action="/presentaciondoc/subir/'.$docs['codigo'].'/'.$datos_personal['ci'].'/'.$docs['rellaboral_id'].'/" class="dropzone" id="myAwesomeDropzone"></form>';
                                                 echo '</div>';
                                                 echo '<div class="modal-footer">';
                                                     echo '<button class="btn btn-sm btn-default" data-dismiss="modal" id="cerrar" type="button">Cerrar</button>';
