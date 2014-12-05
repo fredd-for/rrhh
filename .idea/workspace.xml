@@ -28,46 +28,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+      <file leaf-file-name="oasis.calendariolaboral.index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.259259" vertical-offset="17736" max-vertical-offset="44761">
-              <caret line="1060" column="113" selection-start-line="1060" selection-start-column="113" selection-end-line="1060" selection-end-column="113" />
-              <folding>
-                <element signature="e#7#215#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Cargos.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4089" max-vertical-offset="4641">
-              <caret line="253" column="5" selection-start-line="253" selection-start-column="5" selection-end-line="253" selection-end-column="5" />
-              <folding>
-                <marker date="1417210411066" expanded="true" signature="2718:3054" placeholder="SELECT ROW_N..." />
-                <marker date="1417210411066" expanded="true" signature="3893:4390" placeholder="SELECT ROW_N..." />
-                <marker date="1417210411066" expanded="true" signature="4603:4887" placeholder="SELECT p.*,s..pacs..." />
-                <marker date="1417210411066" expanded="true" signature="5090:5267" placeholder="select p.ci,..relaborales..." />
-                <marker date="1417210411066" expanded="true" signature="5493:5804" placeholder="SELECT r.id,..relaborales..." />
-                <marker date="1417210411066" expanded="true" signature="6168:6385" placeholder="SELECT c.*, ..cargos..." />
-                <marker date="1417210411066" expanded="true" signature="6740:6788" placeholder="SELECT DISTI..cargos..." />
-                <marker date="1417210411066" expanded="true" signature="7188:7247" placeholder="SELECT * FRO..f_cargo_inmediato_superior..." />
-                <marker date="1417210411066" expanded="true" signature="7692:7765" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oasis.relaborales.move.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.428572" vertical-offset="10692" max-vertical-offset="30617">
-              <caret line="656" column="74" selection-start-line="656" selection-start-column="74" selection-end-line="656" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2635">
+              <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CargosController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/CargosController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.884615" vertical-offset="2268" max-vertical-offset="6528">
+              <caret line="149" column="32" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,28 +53,44 @@
       <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/calendariolaboral/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="1071">
-              <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+            <state vertical-scroll-proportion="-5.962963" vertical-offset="375" max-vertical-offset="1309">
+              <caret line="41" column="63" selection-start-line="41" selection-start-column="63" selection-end-line="41" selection-end-column="63" />
+              <folding>
+                <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#3;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerBase.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/ControllerBase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-19.346153" vertical-offset="1333" max-vertical-offset="2805">
+              <caret line="109" column="45" selection-start-line="109" selection-start-column="45" selection-end-line="109" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <file leaf-file-name="add.phtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/organigramas/add.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13325869" vertical-offset="0" max-vertical-offset="893">
-              <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+            <state vertical-scroll-proportion="-12.703704" vertical-offset="28" max-vertical-offset="1326">
+              <caret line="42" column="69" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="69" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oasis.calendariolaboral.index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js">
+      <file leaf-file-name="compCalendar.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/compCalendar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2669">
+              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -104,41 +98,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.166667" vertical-offset="17349" max-vertical-offset="18853">
-              <caret line="1056" column="106" selection-start-line="1056" selection-start-column="106" selection-end-line="1056" selection-end-column="106" />
+            <state vertical-scroll-proportion="0.09518477" vertical-offset="0" max-vertical-offset="893">
+              <caret line="5" column="53" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="53" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="20896" max-vertical-offset="24446">
-              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
-              <folding>
-                <marker date="1417212709326" expanded="false" signature="41599:41610" placeholder="..." />
-                <marker date="1417212709326" expanded="false" signature="42650:42661" placeholder="..." />
-                <marker date="1417212709326" expanded="false" signature="43696:43707" placeholder="..." />
-                <marker date="1417212709326" expanded="false" signature="44922:44933" placeholder="..." />
-                <marker date="1417212709326" expanded="false" signature="45977:45988" placeholder="..." />
-                <marker date="1417212709326" expanded="false" signature="47020:47031" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CalendariolaboralController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/CalendariolaboralController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1173">
-              <caret line="21" column="75" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="75" />
-              <folding>
-                <element signature="e#7#215#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -182,7 +147,6 @@
         <option value="$PROJECT_DIR$/app/models/Frelaboralesmovilidad.php" />
         <option value="$PROJECT_DIR$/app/models/Paises.php" />
         <option value="$PROJECT_DIR$/public/js/jquery-ui.css" />
-        <option value="$PROJECT_DIR$/app/controllers/ControllerBase.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
         <option value="$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js" />
         <option value="$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js" />
@@ -192,13 +156,15 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
         <option value="$PROJECT_DIR$/app/controllers/CalendarioController.php" />
         <option value="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" />
-        <option value="$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js" />
-        <option value="$PROJECT_DIR$/app/views/calendariolaboral/index.phtml" />
         <option value="$PROJECT_DIR$/app/views/relaborales/index.phtml" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
         <option value="$PROJECT_DIR$/public/ConexionPosgreSql.php" />
         <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/app/views/calendariolaboral/index.phtml" />
+        <option value="$PROJECT_DIR$/public/js/calendariolaboral/compCalendar.js" />
+        <option value="$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js" />
+        <option value="$PROJECT_DIR$/app/controllers/ControllerBase.php" />
       </list>
     </option>
   </component>
@@ -282,28 +248,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rrhh" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rrhh" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="relaborales" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -424,6 +368,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="relaborales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="organigramas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -598,20 +564,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/parametros.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36106196" vertical-offset="0" max-vertical-offset="2074">
-          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/OrganigramasController (copia).php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8300886" vertical-offset="3515" max-vertical-offset="4080">
-          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/OficinasController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21061946" vertical-offset="0" max-vertical-offset="565">
@@ -871,42 +823,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/CargosController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40884957" vertical-offset="2268" max-vertical-offset="6528">
-          <caret line="149" column="32" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/ControllerBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="619" max-vertical-offset="2822">
-          <caret line="63" column="58" selection-start-line="63" selection-start-column="56" selection-end-line="63" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4089" max-vertical-offset="4641">
           <caret line="253" column="5" selection-start-line="253" selection-start-column="5" selection-end-line="253" selection-end-column="5" />
           <folding>
-            <marker date="1417210411066" expanded="true" signature="2718:3054" placeholder="SELECT ROW_N..." />
-            <marker date="1417210411066" expanded="true" signature="3893:4390" placeholder="SELECT ROW_N..." />
-            <marker date="1417210411066" expanded="true" signature="4603:4887" placeholder="SELECT p.*,s..pacs..." />
-            <marker date="1417210411066" expanded="true" signature="5090:5267" placeholder="select p.ci,..relaborales..." />
-            <marker date="1417210411066" expanded="true" signature="5493:5804" placeholder="SELECT r.id,..relaborales..." />
-            <marker date="1417210411066" expanded="true" signature="6168:6385" placeholder="SELECT c.*, ..cargos..." />
-            <marker date="1417210411066" expanded="true" signature="6740:6788" placeholder="SELECT DISTI..cargos..." />
-            <marker date="1417210411066" expanded="true" signature="7188:7247" placeholder="SELECT * FRO..f_cargo_inmediato_superior..." />
-            <marker date="1417210411066" expanded="true" signature="7692:7765" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT ROW_N..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT p.*,s..pacs..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="select p.ci,..relaborales..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT r.id,..relaborales..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT c.*, ..cargos..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT DISTI..cargos..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior..." />
+            <marker date="1417210411066" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_cargo_inmediato_superior_relaboral..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/CalendariolaboralController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1173">
+        <state vertical-scroll-proportion="0.0862262" vertical-offset="280" max-vertical-offset="1173">
           <caret line="21" column="75" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="75" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
@@ -914,43 +851,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/calendariolaboral/index.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="1071">
-          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.166667" vertical-offset="17349" max-vertical-offset="18853">
+        <state vertical-scroll-proportion="0.6971098" vertical-offset="17349" max-vertical-offset="18853">
           <caret line="1056" column="106" selection-start-line="1056" selection-start-column="106" selection-end-line="1056" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="20896" max-vertical-offset="24446">
+        <state vertical-scroll-proportion="-22.613686" vertical-offset="20896" max-vertical-offset="24446">
           <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
           <folding>
-            <marker date="1417212709326" expanded="false" signature="41599:41610" placeholder="..." />
-            <marker date="1417212709326" expanded="false" signature="42650:42661" placeholder="..." />
-            <marker date="1417212709326" expanded="false" signature="43696:43707" placeholder="..." />
-            <marker date="1417212709326" expanded="false" signature="44922:44933" placeholder="..." />
-            <marker date="1417212709326" expanded="false" signature="45977:45988" placeholder="..." />
-            <marker date="1417212709326" expanded="false" signature="47020:47031" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417212709326" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -985,10 +904,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/compCalendar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2669">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2635">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/calendariolaboral/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.962963" vertical-offset="375" max-vertical-offset="1309">
+          <caret line="41" column="63" selection-start-line="41" selection-start-column="63" selection-end-line="41" selection-end-column="63" />
+          <folding>
+            <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/organigramas/add.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.703704" vertical-offset="28" max-vertical-offset="1326">
+          <caret line="42" column="69" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/CargosController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.884615" vertical-offset="2268" max-vertical-offset="6528">
+          <caret line="149" column="32" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/ControllerBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.346153" vertical-offset="1333" max-vertical-offset="2805">
+          <caret line="109" column="45" selection-start-line="109" selection-start-column="45" selection-end-line="109" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13325869" vertical-offset="0" max-vertical-offset="893">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.09518477" vertical-offset="0" max-vertical-offset="893">
+          <caret line="5" column="53" selection-start-line="5" selection-start-column="39" selection-end-line="5" selection-end-column="53" />
           <folding />
         </state>
       </provider>

@@ -108,8 +108,7 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxnotification.js')
                     ->addJs('/js/jqwidgets/jqxbuttongroup.js')
                     ->addJs('/js/bootbox.js')
-                    /* Adicionado por Javier */
-                    ->addJs('/js/jquery-ui.js')
+
             ;
             //menu
             $this->menu($this->_user->nivel);
