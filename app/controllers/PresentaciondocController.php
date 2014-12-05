@@ -45,7 +45,13 @@ class PresentaciondocController extends ControllerBase{
                 'grupoarchivos' => $vr->grupoarchivos,
                 'codigo' => $vr->codigo,
                 'rellaboral_id' => $vr->rellaboral_id,
-                'nombre' => $vr->nombre
+                'nombre' => $vr->nombre,
+                'campo_a' => $vr->campo_a,
+                'tipo_a' => $vr->tipo_a,
+                'campo_b' => $vr->campo_b,
+                'tipo_b' => $vr->tipo_b,
+                'campo_c' => $vr->campo_c,
+                'tipo_c' => $vr->tipo_c
             );
         };
         $resul_doc = $mod->listaGrupoDoc($resul->ci , $resul->genero);
@@ -151,7 +157,12 @@ class PresentaciondocController extends ControllerBase{
             }
         }
     }
-    public function eliminarAction(){
+    public function eliminarAction($codigo,$ci,$rellaboral){
+        $ruta = 'filepersonal/'.$ci.'/';
+        $file_nombre = $codigo.'_'.$ci.'_'.$rellaboral.'.pdf';
+        $ruta = $ruta.$file_nombre;
+        $this->view->disable();
+        unlink($ruta);
         
     }
     public function listAction()
