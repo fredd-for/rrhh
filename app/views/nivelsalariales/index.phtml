@@ -73,8 +73,6 @@
                      }else{
                      	$("#activo").prop('checked', false);
                      }
-                     
-
                      $('#myModal').modal('show');
 
 
@@ -84,9 +82,11 @@
              	return "Perfiles";
              }, buttonclick: function (row) {
              	editrow = row;
-             	var offset = $("#jqxgrid").offset();
-             	$("#popupWindow_perfil").jqxWindow({ position: { x: parseInt(offset.left) + 30, y: parseInt(offset.top) + 30 } });
              	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+
+             	// var offset = $("#jqxgrid").offset();
+             	// $("#popupWindow_perfil").jqxWindow({ position: { x: parseInt(offset.left) + 30, y: parseInt(offset.top) + 30 } });
+             	
              	$("#id").val(dataRecord.id);
              	
              	var v=$.ajax({
@@ -98,7 +98,7 @@
 							var res = jQuery.parseJSON(data);
 							if(res.length>0){
 								$.each( res, function( key, valo ) {
-									alert(valo.formacion_academica);
+									//alert(valo.formacion_academica);
  								$("#perfil_id").val(valo.id);
  								$("#formacion_academica").val(valo.formacion_academica);
  								$("#exp_general_lic").val(valo.exp_general_lic);
@@ -138,9 +138,7 @@
 				});
 
                 $("#tituloPerfil").text("PERFIL GENERICO DE CARGOS / "+dataRecord.denominacion + " / "+ dataRecord.sueldo +"Bs.");
-                var offset = $("#jqxgrid").offset();
-             	$("#popupWindow_perfil").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-                $("#popupWindow_perfil").jqxWindow('open');
+                $('#myModal_Perfil').modal('show');
                      
                  }
 
@@ -172,11 +170,6 @@
 
 }
 
-		$("#popupWindow_perfil").jqxWindow({
-			width: 850,height:600, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		});
-
-
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#resolucion_id").val("");
@@ -201,7 +194,8 @@
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 				});
-            	$("#popupWindow_perfil").jqxWindow('hide');
+            	// $("#popupWindow_perfil").jqxWindow('hide');
+            	$('#myModal_Perfil').modal('hide');
                
            });
 
@@ -304,7 +298,7 @@ $("#activo").click(function(){
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php //echo $this->flashSession->output() ?>
+				
 				<div style="margin-left: 5px;">
 					<div>
 						<input id="add" type="button" value=" (+) Adicionar" />
@@ -314,17 +308,25 @@ $("#activo").click(function(){
 				<div class="table-responsive">
 					<div id="jqxgrid"></div>
 				</div>
+			</div>
+		</div>
+	</div>
 
-				<div style="margin-top: 30px;">
-					<div id="cellbegineditevent"></div>
-					<div style="margin-top: 10px;" id="cellendeditevent"></div>
-				</div>
+</div>
+</div>
 
+<!-- Modal Perfil-->
 
-				<div id="popupWindow_perfil">
-					<div id="tituloPerfil">PERFIL GENERICO DE CARGO</div>
-					<div id="page-wrapper">
-					<div class="row">
+<div class="modal fade bs-example-modal-lg" id="myModal_Perfil" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm" data-toggle="validator"/>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="tituloPerfil">Perfil Generico de Cargos</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
 						<div class="col-lg-6">
 							<div class="panel panel-default">
 							<input type="hidden" name="perfil_id" id="perfil_id" value="">
@@ -439,25 +441,17 @@ $("#activo").click(function(){
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="form-group">
-							<div class="col-lg-12" align="center">
-								<input class="btn btn-primary" type="button" id="Guardar" value="Guardar" />
-								<input class="btn btn-primary" id="Cancel" type="button" value="Cancel" />
-							</div>
-						</div>
-					</div>
-				</div>
-
-				</div>
 
 			</div>
-
-		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary" id="Guardar">Guardar</button>
+			</div>
+		</form>
 	</div>
-
 </div>
 </div>
+<!-- end  modal -->
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
