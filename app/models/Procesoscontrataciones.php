@@ -189,6 +189,18 @@ WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }
+
+    public function cargosConvocatoria()
+    {
+        $sql = "SELECT s.id,p.codigo_proceso,c.cargo
+        FROM procesoscontrataciones p
+        INNER JOIN seguimientos s ON p.id = s.proceso_contratacion_id
+        INNER JOIN pacs pa ON s.pac_id= pa.id
+        INNER JOIN cargos c ON pa.cargo_id=c.id
+        WHERE CURRENT_DATE BETWEEN p.fecha_publ AND p.fecha_concl";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));        
+    }
     /**
      * Función para la obtención del listado de procesos disponibles de acuerdo a la condición referida en el parámetro enviado.
      * @param $id_condicion Identificador de la condición de relación laboral.

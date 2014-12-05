@@ -204,10 +204,13 @@ public function saveAction()
 public function save_pacAction()
 {
 	if (isset($_POST['cargo_id_pac'])) {
-		$date = new DateTime($_POST['fecha_ini']);
-		$fecha_ini = $date->format('Y-m-d');
-		$date = new DateTime($_POST['fecha_fin']);
-		$fecha_fin = $date->format('Y-m-d');
+		// $date = new DateTime($_POST['fecha_ini']);
+		// $fecha_ini = $date->format('Y-m-d');
+		// $date = new DateTime($_POST['fecha_fin']);
+		// $fecha_fin = $date->format('Y-m-d');
+
+		$fecha_ini = date("Y-m-d",strtotime($_POST['fecha_ini']));
+		$fecha_fin = date("Y-m-d",strtotime($_POST['fecha_fin']));
 
 		if ($_POST['cargo_id_pac']>0) {
 				$resul = new Pacs();
@@ -318,7 +321,7 @@ public function getEstadoSeguimientoAction()
 	echo json_encode($estado);
 }
 
-public function reporteCargosAction()
+public function exportarPdfAction()
 {
 		//$pdf = new fpdf();
 	$pdf = new pdfoasis('L','mm','Letter');
@@ -373,7 +376,34 @@ public function reporteCargosAction()
 
 	}
 
+	public function exportarExcelAction()
+	{
+		global $config;
 
+		$loader = new \Phalcon\Loader();
+
+		$loader->registerDirs(
+			array(
+				$config->application->libraryDir."PHPExcel/"
+				)
+			);
+
+		$loader->register();
+
+		$excel = new PHPExcel();
+		$excel->setActiveSheetIndex(0);
+		$excel->getActiveSheet()->setTitle('test worksheet');
+
+		$excel->getActiveSheet()->setCellValue('A1', 'Rezultati pretrage');
+		$excel->getActiveSheet()->setCellValue('A2', "Ime");
+		$excel->getActiveSheet()->setCellValue('C2', "Prezime");
+		$excel->getActiveSheet()->setCellValue('F2', "Adresa stanovanja");
+
+		$br = rand(0,1000000);
+		$naziv = $br.".xls";
+		$objWriter = new PHPExcel_Writer_Excel2007($excel);
+		$objWriter->save('../tmp/'.$naziv);
+	}
 
 
 
