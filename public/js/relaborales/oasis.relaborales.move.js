@@ -618,7 +618,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
-                    // Dar de baja un registro de movilidad de personal.
+                    /* Dar de baja un registro de movilidad de personal.*/
                     $("#deleterowbuttonmove").on('click', function () {
                         $("#hdnIdRelaboralPorMovilidad").val(idRelaboral);
                         $("#hdnIdMemorandumMovilidadModificar").val(0);
@@ -654,10 +654,9 @@ function cargarGrillaMovilidad(idRelaboral) {
                                     if (dataRecord.hora_ini != '') {
                                         $("#txtHoraIniMovilidad").val(dataRecord.hora_ini);
                                     } else {
-                                        $("#txtHoraIniMovilidad").val("")
+                                        $("#txtHoraIniMovilidad").val("");
                                     }
                                     $("#txtHoraIniMovilidad").prop("disabled",true);
-
                                     $("#divTiposMemorandums").hide();
                                     $("#divCorrelativosMemorandums").hide();
                                     $("#divFechasMemorandums").hide();

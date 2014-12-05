@@ -141,7 +141,7 @@ class RelaboralesController extends ControllerBase
                     'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
                     'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
                     'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
+                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
                     'motivo_baja' => $v->motivo_baja,
                     'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                     'descripcion_baja' => $v->descripcion_baja,
@@ -1058,7 +1058,7 @@ class RelaboralesController extends ControllerBase
                         'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
                         'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
                         'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                        'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_Serv)) : "",
+                        'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
                         'motivo_baja' => $v->motivo_baja,
                         'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
                         'descripcion_baja' => $v->descripcion_baja,
@@ -2215,7 +2215,7 @@ class RelaboralesController extends ControllerBase
                                          * Pueden tener la misma fecha, pues la variación puede ser en horas.
                                          */
                                         $swAnterior=true;
-                                        $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("baja_logica=1 and modalidadmemorandum_id=".$objRelaboralMovilidad->modalidadmemorandum_id." AND id!=".$id_relaboralmovilidad));
+                                        $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("baja_logica=1 and modalidadmemorandum_id=".$objRelaboralMovilidad->modalidadmemorandum_id." AND relaboral_id = ".$objRelaboralMovilidad->relaboral_id." AND id!=".$id_relaboralmovilidad));
                                         if($anteriorRelaboralMovilidadDelMismoTipo!=null&&$anteriorRelaboralMovilidadDelMismoTipo->id>0){
                                             /**
                                              * Viendo si hay cruce de fechas, si lo hay se impide el registro
@@ -2237,7 +2237,7 @@ class RelaboralesController extends ControllerBase
                                             if ($objRelaboralMovilidad->save()) {
                                                 $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente el registro de Movilidad de Personal.');
                                             } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal.');
-                                        } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal debido a que presenta una inconsistencia de fechas con un registro anterior de Movilidad de Personal del mismo tipo. Verifique la fecha de inicio.');
+                                        } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal debido a que presenta una inconsistencia de fechas con un registro anterior de Movilidad de Personal del mismo tipo. Verifique la fecha de inicio. ('.$objRelaboralMovilidad->relaboral_id.':'.$objRelaboralMovilidad->modalidadmemorandum_id.')');
                                     }catch (\Exception $e) {
                                         echo get_class($e), ": ", $e->getMessage(), "\n";
                                         echo " File=", $e->getFile(), "\n";
@@ -2454,7 +2454,7 @@ class RelaboralesController extends ControllerBase
                                  * Pueden tener la misma fecha, pues la variación puede ser en horas.
                                  */
                                 $swAnterior=true;
-                                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("baja_logica=1 and modalidadmemorandum_id=".$objRelaboralMovilidad->modalidadmemorandum_id));
+                                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("baja_logica=1 and modalidadmemorandum_id=".$objRelaboralMovilidad->modalidadmemorandum_id." AND relaboral_id=".$objRelaboralMovilidad->relaboral_id));
                                 if($anteriorRelaboralMovilidadDelMismoTipo!=null&&$anteriorRelaboralMovilidadDelMismoTipo->id>0){
                                     /**
                                      * Viendo si hay cruce de fechas, si lo hay se impide el registro
@@ -2480,7 +2480,7 @@ class RelaboralesController extends ControllerBase
                                     }
 
                                 } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal debido a que presenta una inconsistencia de fechas con un registro anterior de Movilidad de Personal del mismo tipo. Verifique la fecha de inicio.');
+                                    $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la movilidad de personal debido a que presenta una inconsistencia de fechas con un registro anterior de Movilidad de Personal del mismo tipo. Verifique la fecha de inicio. ('.$objRelaboralMovilidad->relaboral_id.':'.$objRelaboralMovilidad->modalidadmemorandum_id.')');
                                     /**
                                      * Es necesario dar de baja el registro del memorandum
                                      */
@@ -2524,14 +2524,27 @@ class RelaboralesController extends ControllerBase
         $this->view->disable();
         if (isset($_POST["id"]) && $_POST["id"] > 0) {
             $id_relaboralmovilidad = $_POST["id"];
+            $dateff = new DateTime($_POST['fecha_fin']);
+            $fecha_fin = $dateff->format('Y-m-d');
             $objRM = Relaboralesmovilidades::findFirst(array("id=".$id_relaboralmovilidad));
             if($objRM!=null&&$objRM->id>0){
+                $objRM->fecha_fin = $fecha_fin;
                 $objRM->estado = 0;
                 $objRM->user_mod_id = $user_mod_id;
                 $objRM->fecha_mod = $hoy;
-                if($objRM->save()){
-                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se di&oacute; de baja correctamente el registro de Movilidad de Personal.');
-                }else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la baja del registro de movilidad de personal. Verifique los datos enviados.');
+                /**
+                 * Es necesario verificar que la fecha de finalización registrada en la baja no tenga conflictos con las fechas de otros registros del mismo tipo.
+                 */
+                $swAnterior=true;
+                $anteriorRelaboralMovilidadDelMismoTipo=Relaboralesmovilidades::findFirst(array("baja_logica=1 and modalidadmemorandum_id=".$objRM->modalidadmemorandum_id." AND relaboral_id=".$objRM->relaboral_id." AND id!=".$objRM->id." AND CAST('".$fecha_fin."' AS DATE) BETWEEN fecha_ini and fecha_fin" ));
+                if($anteriorRelaboralMovilidadDelMismoTipo!=null&&$anteriorRelaboralMovilidadDelMismoTipo->id>0){
+                    $swAnterior=false;
+                }
+                if($swAnterior){
+                    if($objRM->save()){
+                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se di&oacute; de baja correctamente el registro de Movilidad de Personal.');
+                    }else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la baja del registro de movilidad de personal. Verifique los datos enviados.');
+                }else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la baja del registro de movilidad de personal debido a que la fecha de finalizaci&oacute;n presenta una inconsistencia en relaci&oacute; a otro registro del mismo tipo . Verifique la fecha de finalizaci&oacute;n.');
             }else {
                 $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la baja debido a que no se hall&oacute; registro de la relaci&oacute;n laboral por movilidad.');
             }
