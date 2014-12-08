@@ -21,44 +21,6 @@ class PresentaciondocController extends ControllerBase{
             ->addJs('/js/jscrop/js/jquery.Jcrop.js')
         ;
     }
-    public function subirfotoAction($ci){
-        if ($ci){
-            $foto_persona = $ci+'.jpg';
-            $this->view->setVar('foto_persona', $foto_persona);
-            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
-        } else {
-            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
-        }
-    }
-    public function cropAction(){
-        //$this->view->disable();
-        $targ_w = $targ_h = 472;
-        $jpeg_quality = 90;
-        $src = 'images/personal/tmp.jpg';
-        if ($src){
-            $img_r = imagecreatefromjpeg($src);
-            $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-            imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],$targ_w,$targ_h,$_POST['w'],$_POST['h']);
-            //header('Content-type: image/jpeg');
-            //imagejpeg($dst_r,null,$jpeg_quality);
-            imagejpeg($dst_r,'images/personal/'.$_POST['ci'].'.jpg',$jpeg_quality);
-            imagedestroy($dst_r);
-            unlink($src);
-        }
-        $this->view->disable();
-    }
-    public function verificarciAction() {
-        $resul = new personas();
-        $resul = personas::findFirst(array('ci="'.$_POST['ci'].'"','order' => 'id ASC'));
-        if ($resul->id){
-            $msm = true;
-        } else {
-            $msm = false;
-        }
-	$this->view->disable();
-        echo json_encode($msm);
-    }
-    
     public function filepersonalAction($id_personas){
         $this->assets
             ->addCss('/js/dropzone/css/dropzone.css')
@@ -80,7 +42,16 @@ class PresentaciondocController extends ControllerBase{
                 'tipo_doc_id' => $vr->tipo_doc_id,
                 'tipo_documento' => $vr->tipo_documento,
                 'doc_presentado_id' => $vr->doc_presentado_id,
-                'grupoarchivos' => $vr->grupoarchivos
+                'grupoarchivos' => $vr->grupoarchivos,
+                'codigo' => $vr->codigo,
+                'rellaboral_id' => $vr->rellaboral_id,
+                'nombre' => $vr->nombre,
+                'campo_a' => $vr->campo_a,
+                'tipo_a' => $vr->tipo_a,
+                'campo_b' => $vr->campo_b,
+                'tipo_b' => $vr->tipo_b,
+                'campo_c' => $vr->campo_c,
+                'tipo_c' => $vr->tipo_c
             );
         };
         $resul_doc = $mod->listaGrupoDoc($resul->ci , $resul->genero);
@@ -169,29 +140,31 @@ class PresentaciondocController extends ControllerBase{
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
-    public function cargarcropAction() {
-        //$this->view->disable();
-        /*$this->assets
-             ->addCss('/js/jscrop/css/jquery.Jcrop.css')
-        ;
-        $this->assets
-             ->addJs('/js/jscrop/js/jquery.Jcrop.js')
-        ;*/
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-    }
-    public function subirAction(){
+    public function subirAction($codigo,$ci,$rellaboral,$param){
         //$ds = DIRECTORY_SEPARATOR;
         //$storeFolder = "/images/personal/";
+        $ruta = 'filepersonal/'.$ci.'/';
+        if (!file_exists ($ruta)){
+            mkdir($ruta,0777);
+        }
         $this->view->disable();
         if ($this->request->hasFiles() == true) {
             //Print the real file names and their sizes
             foreach ($this->request->getUploadedFiles() as $file){
                 //echo $file->getName(), " ", $file->getSize(), "\n";
-                $file->moveTo('images/personal/tmp.jpg');
+                $file_nombre = $codigo.'_'.$ci.'_'.$rellaboral.'.pdf';
+                $file->moveTo($ruta.$file_nombre);
+                echo $param;
             }
         }
     }
-    public function eliminarAction(){
+    public function eliminarAction($codigo,$ci,$rellaboral,$param){
+        $ruta = 'filepersonal/'.$ci.'/';
+        $file_nombre = $codigo.'_'.$ci.'_'.$rellaboral.'.pdf';
+        $ruta = $ruta.$file_nombre;
+        $this->view->disable();
+        unlink($ruta);
+        echo $param;
         
     }
     public function listAction()
@@ -238,8 +211,8 @@ class PresentaciondocController extends ControllerBase{
             $hoy = date("Y-m-d H:i:s");
             //$date = new DateTime($hoydia);
             //$hoy = $date->format('Y-m-d H:i:s');
-            $date = new DateTime($_POST['fecha_nac']);
-            $fecha_nac = $date->format('Y-m-d');//echo $fecha_nac." | ".$hoy;
+            $date = new DateTime($_POST['fecha_pres']);
+            $fecha_pres = $date->format('Y-m-d');//echo $fecha_nac." | ".$hoy;*/
             if ($_POST['id']>0) {
                 $resul = new personas();
                 $resul = personas::findFirstById($_POST['id']);
@@ -371,133 +344,56 @@ class PresentaciondocController extends ControllerBase{
                 }
             } else {
                 try{
-                $resul = new personas();
-                $resul->p_nombre = $_POST['p_nombre'];
-                if ($_POST['s_nombre'] == ''){
-                    $resul->s_nombre = NULL;
+                $resul = new presentaciondoc();
+                $resul->gestion_emi = $_POST['gestion_emi'];
+                $resul->mes_emi = $_POST['mes_emi'];
+                $resul->dia_emi = $_POST['dia_emi'];
+                $resul->tipodocumento_id = $_POST['tipodocumento_id'];
+                $resul->rellaboral_id = $_POST['rellaboral_id'];
+                $resul->fecha_pres = $fecha_pres;
+                if ($_POST['campo_aux_v1']==''){
+                    $resul->campo_aux_v1 = NULL;
                 } else {
-                    $resul->s_nombre = $_POST['s_nombre'];
+                    $resul->campo_aux_v1 = $_POST['campo_aux_v1'];
                 }
-                if ($_POST['t_nombre'] == ''){
-                    $resul->t_nombre = NULL;
+                if ($_POST['campo_aux_v2']==''){
+                    $resul->campo_aux_v2 = NULL;
                 } else {
-                    $resul->t_nombre = $_POST['t_nombre'];
+                    $resul->campo_aux_v2 = $_POST['campo_aux_v2'];
                 }
-                $resul->p_apellido = $_POST['p_apellido'];
-                if ($_POST['s_apellido']==''){
-                    $resul->s_apellido = NULL;
+                if ($_POST['campo_aux_v3']==''){
+                    $resul->campo_aux_v3 = NULL;
                 } else {
-                    $resul->s_apellido = $_POST['s_apellido'];
+                    $resul->campo_aux_v3 = $_POST['campo_aux_v3'];
                 }
-                if (isset($_POST['c_apellido'])){
-                  $resul->c_apellido = $_POST['c_apellido'];
+                if ($_POST['campo_aux_d1']==''){
+                    $resul->campo_aux_d1 = NULL;
                 } else {
-                  $resul->c_apellido = NULL;
+                    $resul->campo_aux_d1 = $_POST['campo_aux_d1'];
                 }
-                $resul->ci = $_POST['ci'];
-                $resul->expd = $_POST['expd'];
-                if (isset($_POST['num_complemento'])){
-                  $resul->num_complemento = $_POST['num_complemento'];
+                if ($_POST['campo_aux_d2']==''){
+                    $resul->campo_aux_d2 = NULL;
                 } else {
-                  $resul->num_complemento = NULL;
+                    $resul->campo_aux_d2 = $_POST['campo_aux_d2'];
                 }
-                $resul->fecha_nac = $fecha_nac;
-                $resul->lugar_nac = $_POST['lugar_nac'];
-                $resul->genero = $_POST['sexo'];
-                $resul->e_civil = $_POST['e_civil'];
-                $resul->codigo = $_POST['ci'];
-                $resul->nacionalidad = $_POST['nacionalidad'];
-                if ($_POST['nit'] == ''){
-                    $resul->nit = NULL;
+                if ($_POST['campo_aux_d3']==''){
+                    $resul->campo_aux_d3 = NULL;
                 } else {
-                    $resul->nit = $_POST['nit'];
+                    $resul->campo_aux_d3 = $_POST['campo_aux_d3'];
                 }
-                if ($_POST['num_func_sigma'] != ''){
-                  $resul->num_func_sigma = $_POST['num_func_sigma'];
-                } else {
-                  $resul->num_func_sigma = NULL;
-                }
-                $resul->grupo_sanguineo = $_POST['grupo_sanguineo'];
-                if ($_POST['num_lib_ser_militar'] == ''){
-                    $resul->num_lib_ser_militar = NULL;
-                } else {
-                    $resul->num_lib_ser_militar = $_POST['num_lib_ser_militar'];
-                }
-                if (isset($_POST['num_reg_profesional'])){
-                  $resul->num_reg_profesional = $_POST['num_reg_profesional'];
-                } else {
-                  $resul->num_reg_profesional = NULL;
-                }
-                if ($_POST['observacion'] == ''){
+                if ($_POST['observacion']==''){
                     $resul->observacion = NULL;
                 } else {
                     $resul->observacion = $_POST['observacion'];
                 }
-                $resul->estado = 0;
+                $resul->estado = 1;
+                $resul->visible = 1;
                 $resul->baja_logica = 1;
                 $resul->user_reg_id = 1;
                 $resul->fecha_reg = $hoy;
-                $resul->tipo_doc = $_POST['tipo_doc'];
-                $resul->agrupador = 0;
-                $resul->foto = $_POST['ci'].'.jpg';
-                //echo $_POST['tipo_doc'];
-                //$resul->save();
+                $resul->nombre = $_POST['nombre'];
                 if ($resul->save()) {
-                    $resul = personas::findFirst(array('ci="'.$_POST['ci'].'" AND p_apellido = "'.$_POST['p_apellido'].'"','order' => 'id ASC'));
-                    $res = new personascontactos();
-                    $res->persona_id = $resul->id;
-                    if($_POST['direccion_dom'] == ''){
-                        $res->direccion_dom = NULL;
-                    } else {
-                        $res->direccion_dom = $_POST['direccion_dom'];
-                    }
-                    if($_POST['telefono_fijo'] == ''){
-                        $res->telefono_fijo = NULL;
-                    } else {
-                        $res->telefono_fijo = $_POST['telefono_fijo'];
-                    }
-                    if($_POST['telefono_inst'] == ''){
-                        $res->telefono_inst = NULL;
-                    } else {
-                        $res->telefono_inst = $_POST['telefono_inst'];
-                    }
-                    if($_POST['telefono_fax'] == ''){
-                        $res->telefono_fax = NULL;
-                    } else {
-                        $res->telefono_fax = $_POST['telefono_fax'];
-                    }
-                    if($_POST['interno_inst'] == ''){
-                        $res->interno_inst = NULL;
-                    } else {
-                        $res->interno_inst = $_POST['interno_inst'];
-                    }
-                    if($_POST['celular_per'] == ''){
-                        $res->celular_per = NULL;
-                    } else {
-                        $res->celular_per = $_POST['celular_per'];
-                    }
-                    if($_POST['celular_inst'] == ''){
-                        $res->celular_inst = NULL;
-                    } else {
-                        $res->celular_inst = $_POST['celular_inst'];
-                    }
-                    if($_POST['e_mail_per'] == ''){
-                        $res->e_mail_per = NULL;
-                    } else {
-                        $res->e_mail_per = $_POST['e_mail_per'];
-                    }
-                    if($_POST['e_mail_inst'] == ''){
-                        $res->e_mail_inst = NULL;
-                    } else {
-                        $res->e_mail_inst = $_POST['e_mail_inst'];
-                    }
-                    $res->estado = 0;
-                    $res->baja_logica = 1;
-                    if ($res->save()){
-                        $msm = array('msm' => 'Exito: Se guardo correctamente' );
-                    } else {
-                        $msm = array('msm' => 'Error: No se guardo el registro' );
-                    }
+                    $msm = array('msm' => 'Exito: Se guardo correctamente' );
                 } else {
                     $msm = array('msm' => 'Error: No se guardo el registro' );
                 }

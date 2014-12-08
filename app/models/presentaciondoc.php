@@ -160,6 +160,12 @@ class presentaciondoc extends \Phalcon\Mvc\Model
     public $fecha_mod;
     
     /**
+     * 
+     *  @var string
+     */
+    public $nombre;
+    
+    /**
      * Initialize method for model.
      */
     
@@ -197,8 +203,9 @@ class presentaciondoc extends \Phalcon\Mvc\Model
             'baja_logica' => 'baja_logica',
             'user_reg_id' => 'user_reg_id',
             'fecha_reg' => 'fecha_reg',
-            'fecha_reg' => 'fecha_reg',
-            'fecha_mod' => 'fecha_mod'
+            'user_mod_id' => 'user_mod_id',
+            'fecha_mod' => 'fecha_mod',
+            'nombre' => 'nombre'
         );
     }
 }
