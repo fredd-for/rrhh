@@ -28,6 +28,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
     public $numero;
     public $cargo;
     public $evento_id;
+    public $evento;
     public $motivo;
     public $id_pais;
     public $pais;
@@ -78,6 +79,7 @@ class Frelaboralesmovilidad extends \Phalcon\Mvc\Model {
             'numero'=>'numero',
             'cargo'=>'cargo',
             'evento_id'=>'evento_id',
+            'evento'=>'evento',
             'motivo'=>'motivo',
             'id_pais'=>'id_pais',
             'pais'=>'pais',

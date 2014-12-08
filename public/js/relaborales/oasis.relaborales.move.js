@@ -1673,6 +1673,8 @@ function guardarRegistroMovilidad() {
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                    /*Es necesario actualizar la grilla principal debido a que este debe mostrar los datos de acuerdo a la última movilidad de personal*/
+                    $("#jqxgrid").jqxGrid('beginupdate');
                 } else if (res.result == 0) {
                     /**
                      * En caso de presentarse un error subsanable

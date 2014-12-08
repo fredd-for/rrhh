@@ -2,21 +2,47 @@
 <head>
 </head>
 <body>
+
 <!-- Page content -->
 <div id="page-content">
-    <!-- Calendar Header -->
-    <div class="content-header">
-        <div class="header-section">
-            <h1>
-                <i class="fa fa-calendar"></i>Calendar<br><small>An awesome calendar for your events!</small>
-            </h1>
-        </div>
+    <h2 style="padding-top: 0px; width: 100%;"><b>Calendario Laboral</b></h2>
+
+    <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+        <h4>
+            <i class="fa fa-check-circle"></i>
+            &Eacute;xito!
+        </h4>
+        Solicitud completada!
+        <a class="alert-link" href="javascript:void(0)" id="aMsjeExito"></a>
     </div>
-    <ul class="breadcrumb breadcrumb-top">
-        <li>Components</li>
-        <li><a href="">Calendar</a></li>
-    </ul>
-    <!-- END Calendar Header -->
+    <div id="divMsjeInformacion" class="msjs-alert" hidden="hidden">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+        <h4>
+            <i class="fa fa-info-circle"></i>
+            Atenci&oacute;n!
+        </h4>
+        Algo que considerar!
+        <a class="alert-link" href="javascript:void(0)" id="aMsjeInformacion"></a>
+    </div>
+    <div id="divMsjePeligro" class="msjs-alert" hidden="hidden">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+        <h4>
+            <i class="fa fa-exclamation-circle"></i>
+            Cuidado!
+        </h4>
+        Considere lo siguiente!
+        <a class="alert-link" href="javascript:void(0)" id="aMsjePeligro"></a>
+    </div>
+    <div id="divMsjeError" class="msjs-alert" hidden="hidden">
+        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+        <h4>
+            <i class="fa fa-times-circle"></i>
+            Error!
+        </h4>
+        Solicitud inv&aacute;lida!
+        <a class="alert-link" href="javascript:void(0)" id="aMsjeError"></a>
+    </div>
 
     <!-- FullCalendar Content -->
     <div class="block block-alt-noborder full">
@@ -26,16 +52,19 @@
                     <!-- Add event functionality (initialized in js/pages/compCalendar.js) -->
                     <form>
                         <div class="input-group">
-                            <input type="text" id="add-event" name="add-event" class="form-control" placeholder="Add Event">
+                            <input type="text" id="add-event" name="add-event" class="form-control"
+                                   placeholder="Añada Horario">
+
                             <div class="input-group-btn">
-                                <button type="submit" id="add-event-btn" class="btn btn-primary"><i class="gi gi-plus"></i></button>
+                                <button type="submit" id="add-event-btn" class="btn btn-primary"><i
+                                        class="gi gi-plus"></i></button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="block-section">
                     <div class="block-section text-center text-muted">
-                        <small><em><i class="fa fa-arrows"></i> Drag and Drop Events on the Calendar</em></small>
+                        <small><em><i class="fa fa-arrows"></i> Arrastre y suelte horarios en el calendario</em></small>
                     </div>
                     <ul class="calendar-events">
                         <li style="background-color: #1abc9c">Work</li>
@@ -55,6 +84,209 @@
     <!-- END FullCalendar Block -->
     <!-- END FullCalendar Content -->
 </div>
+<div id="popupWindowHorario">
+    <div id="divTitleHorario">Nuevo Registro de Horario</div>
+    <div>
+        <h6><b>NOTAS: </b><br>1. Los datos precedidos de asterisco son requerido de manera obligatoria (*).</h6>
+
+        <div class="form-horizontal col-sm-12" id="detallesDependenciaMovilidad">
+            <div class="row div-calendario-laboral" id="divNombreHorario">
+                <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtNombreHorario" class="form-control">
+                    <span class="help-block" id="helpErrorNombreHorario"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divNombreAlternativoHorario">
+                <label class="col-sm-3 control-label" for="txtNombreAlternativoHorario">Nombre Alternativo :</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtNombreAlternativoHorario" class="form-control">
+                    <span class="help-block" id="helpErrorNombreAlternativoHorario"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divHorasEntHorario">
+                <label class="col-sm-3 control-label" for="txtHoraEntHorario">Hora Entrada *:</label>
+
+                <div class="col-md-4">
+                    <div class="input-group bootstrap-timepicker">
+                        <div class="bootstrap-timepicker-widget dropdown-menu">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control bootstrap-timepicker-hour" maxlength="2" type="text">
+                                    </td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-minute" maxlength="2"
+                                               type="text"></td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-second" maxlength="2"
+                                               type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator"></td>
+                                    <td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input id="txtHoraEntHorario" name="txtHoraEntHorario"
+                               placeholder="Introduzca la hora de entrada."
+                               class="form-control input-timepicker24" type="text">
+                                                    <span class="input-group-btn">
+                                                        <a href="javascript:void(0)" class="btn btn-primary"><i
+                                                                class="fa fa-clock-o"></i></a>
+                                                    </span>
+                    </div>
+                    <span class="help-block" id="helpErrorHorasEntHorario"></span>
+                </div>
+
+            </div>
+            <div class="row div-calendario-laboral" id="divHorasSalHorario">
+                <label class="col-sm-3 control-label" for="txtHoraEntHorario">Hora Salida *:</label>
+
+                <div class="col-md-4">
+                    <div class="input-group bootstrap-timepicker">
+                        <div class="bootstrap-timepicker-widget dropdown-menu">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#" data-action="incrementHour"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementMinute"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="incrementSecond"><i class="fa fa-chevron-up"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control bootstrap-timepicker-hour" maxlength="2" type="text">
+                                    </td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-minute" maxlength="2"
+                                               type="text"></td>
+                                    <td class="separator">:</td>
+                                    <td><input class="form-control bootstrap-timepicker-second" maxlength="2"
+                                               type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" data-action="decrementHour"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator"></td>
+                                    <td><a href="#" data-action="decrementMinute"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                    <td class="separator">&nbsp;</td>
+                                    <td><a href="#" data-action="decrementSecond"><i class="fa fa-chevron-down"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input id="txtHoraSalHorario" name="txtHoraSalHorario"
+                               placeholder="Introduzca la hora de salida."
+                               class="form-control input-timepicker24" type="text">
+<span class="input-group-btn">
+    <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
+</span>
+                    </div>
+                    <span class="help-block" id="helpErrorHorasFinMovilidad"></span>
+                </div>
+            </div>
+
+            <div class="row div-calendario-laboral" id="divColorHorario">
+                <label class="col-sm-3 control-label" for="txtColorHorario">Color *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtColorHorario" value="#FFFFFF" class="kolorPicker form-control">
+                    <span class="help-block" id="helpErrorColorHorario"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divMinutosToleranciaEnt">
+                <label class="col-sm-3 control-label" for="txtMinutosToleranciaEnt">Minutos Tolerancia Entrada:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtMinutosToleranciaEnt" class="form-control">
+                    <span class="help-block" id="helpErrorMinutosToleranciaEnt"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divMinutosToleranciaSal">
+                <label class="col-sm-3 control-label" for="txtMinutosToleranciaEnt">Minutos Tolerancia Salida:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtMinutosToleranciaSal" class="form-control">
+                    <span class="help-block" id="helpErrorMinutosToleranciaSal"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divMinutosToleranciaAcu">
+                <label class="col-sm-3 control-label" for="txtMinutosToleranciaAcu">Minutos Tolerancia Acumulable:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtMinutosToleranciaAcu" class="form-control">
+                    <span class="help-block" id="helpErrorMinutosToleranciaAcu"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divHoraInicioEnt">
+                <label class="col-sm-3 control-label" for="txtHoraInicioEnt">Hora Inicio Entrada *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtHoraInicioEnt" class="form-control">
+                    <span class="help-block" id="helpErrorHoraInicioEnt"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divHoraFinalizacionEnt">
+                <label class="col-sm-3 control-label" for="txtHoraFinalizacionEnt">Hora Finalizaci&oacute;n Entrada *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtHoraFinalizacionEnt" class="form-control">
+                    <span class="help-block" id="helpErrorHoraFinalizacionEnt"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divHoraInicioSal">
+                <label class="col-sm-3 control-label" for="txtHoraInicioSal">Hora Inicio Salida *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtHoraInicioSal" class="form-control">
+                    <span class="help-block" id="helpErrorHoraInicioSal"></span>
+                </div>
+            </div>
+            <div class="row div-calendario-laboral" id="divHoraFinalizacionSal">
+                <label class="col-sm-3 control-label" for="txtHoraFinalizacionSal">Hora Finalizaci&oacute;n Salida *:</label>
+
+                <div class="col-md-6" form-group>
+                    <input type="text" id="txtHoraFinalizacionSal" class="form-control">
+                    <span class="help-block" id="helpErrorHoraFinalizacionSal"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="btnGuardarHorario" class="btn btn-sm btn-primary" type="button">
+        <i class="fa fa-floppy-o"></i>
+        Guardar
+    </button>
+    <button id="btnCancelarHorario" class="btn btn-sm btn-warning" type="button">
+        <i class="fa fa-repeat"></i>
+        Cancelar
+    </button>
+</div>
+
 <!-- END Page Content -->
 </body>
 <div id="divMsjeNotificacionError">

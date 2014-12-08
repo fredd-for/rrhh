@@ -7,6 +7,16 @@
  */
 $().ready(function () {
     /*CompCalendar.init();*/
+
+    $("#popupWindowHorario").jqxWindow({
+        width: '100%',
+        height: 800,
+        resizable: true,
+        isModal: true,
+        autoOpen: false,
+        cancelButton: $("#btnCancelar"),
+        modalOpacity: 0.01
+    });
     var calendarEvents  = $('.calendar-events');
         /* Inicializa la funcionalidad de eventos: arrastrar y soltar */
         initEvents();
@@ -19,9 +29,12 @@ $().ready(function () {
         $('#add-event-btn').on('click', function(){
             // Obteniendo el valor del input
             eventInputVal = eventInput.prop('value');
-
+            $("#popupWindowHorario").jqxWindow('open');
+            $("#txtColorHorario").css({'background-color' : "#FFFFFF",'color' : "#FFFFFF"});
+            $("#txtNombreHorario").focus();
             // Check if the user entered something
             if ( eventInputVal ) {
+
                 // Add it to the events list
                 calendarEvents.append('<li class="animation-slideDown">' + $('<div />').text(eventInputVal).html() + '</li>');
 
