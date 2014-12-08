@@ -410,8 +410,8 @@ $("#codigo_nivel").change(function(){
 	$('#sueldotxt').text(myTag);
 });
 
-$("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-$("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+// $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+// $("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
 
 $('#testForm').jqxValidator({
 	rules: [
@@ -451,8 +451,10 @@ $('#testForm_pac').validate({
     submitHandler: function (form) {
             // form validates so do the ajax
             //alert("funciono");
-		var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
-		var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
+		// var fecha_ini = $('#fecha_ini_pac').jqxDateTimeInput('getDate');
+		// var fecha_fin = $('#fecha_fin_pac').jqxDateTimeInput('getDate');
+		var fecha_ini = $('#fecha_ini_pac').val();
+		var fecha_fin = $('#fecha_fin_pac').val();
 		var v=$.ajax({
 			url:'/cargos/save_pac/',
 			type:'POST',
@@ -476,6 +478,13 @@ $("#rep_pdf").click(function(){
 	$('#myModal_rep').modal('show');	
 	
             });
+
+$('#exportar_excel').click(function(){
+   $('#testForm_rep').attr('action', '/cargos/exportarExcel/');
+});
+$('#exportar_pdf').click(function(){
+   $('#testForm_rep').attr('action', '/cargos/exportarPdf/');
+});
 /**************************/
 
 });
@@ -606,7 +615,7 @@ $("#rep_pdf").click(function(){
 
 </div>
 
-<!-- Modal -->
+<!-- Modal PACP-->
 				<div class="modal fade" id="myModal_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -615,7 +624,7 @@ $("#rep_pdf").click(function(){
 							<input id="estado_cargo" name="estado_cargo" type="hidden" />
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-								<h4 class="modal-title" id="titulo">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
+								<h4 class="modal-title" id="titulo_pac">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
 							</div>
 							<div class="modal-body">
 
@@ -647,19 +656,21 @@ $("#rep_pdf").click(function(){
 								<div class="form-group">
 									<label class="col-md-3 control-label" >Gestión</label>
 									<div class="col-md-9">
-										<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" />
+										<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label" >Fecha Inicio</label>
 									<div class="col-md-9">
-										<div id="fecha_ini_pac"></div>
+										<!-- <div id="fecha_ini_pac"></div> -->
+										<input type="text" id="fecha_ini_pac" name="fecha_ini_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label" >Fecha Finalización</label>
 									<div class="col-md-9">
-										<div id="fecha_fin_pac"></div>
+										<!-- <div id="fecha_fin_pac"></div> -->
+										<input type="text" id="fecha_fin_pac" name="fecha_fin_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 									</div>
 								</div>
 
@@ -676,51 +687,57 @@ $("#rep_pdf").click(function(){
 			</div>
 			<!-- end  modal -->
 
-<!-- Modal -->
-				<div class="modal fade" id="myModal_rep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<form class="form-horizontal" id="testForm_rep" data-toggle="validator" action="/cargos/reporteCargos/" method="POST" target="_blank" />
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-								<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Organigrama</label>
-									<div class="col-md-9">
-										<?php echo $organigrama ?>
-									</div>
+			<!-- Modal -->
+			<div class="modal fade" id="myModal_rep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form class="form-horizontal" id="testForm_rep" data-toggle="validator" action="/cargos/exportarExcel/" method="POST" target="_blank" />
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Organigrama</label>
+								<div class="col-md-9">
+									<?php echo $organigrama ?>
 								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Estado</label>
-									<div class="col-md-9">
-										<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
-											<option value="0">(Seleccionar)</option>
-											<option value="1">ADJUDICADO</option>
-											<option value="2">ACEFALO</option>
-										</select>
-									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Estado</label>
+								<div class="col-md-9">
+									<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
+										<option value="0">(Seleccionar)</option>
+										<option value="1">ADJUDICADO</option>
+										<option value="2">ACEFALO</option>
+									</select>
 								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Tipo</label>
-									<div class="col-md-9">
-										<select name="cargo_estado_id_rep" id="cargo_estado_id_rep" class="form-control select-chosen">
-											<option value="0">(Seleccionar)</option>
-											<?php foreach ($cargoestado as $v) { ?>
-											<option value="<?php echo $v->id ?>"><?php echo $v->estado; ?></option>
-											<?php } ?>
-										</select>
-									</div>
 							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Tipo</label>
+								<div class="col-md-9">
+									<select name="cargo_estado_id_rep" id="cargo_estado_id_rep" class="form-control select-chosen">
+										<option value="0">(Seleccionar)</option>
+										<?php foreach ($cargoestado as $v) { ?>
+										<option value="<?php echo $v->id ?>"><?php echo $v->estado; ?></option>
+										<?php } ?>
+									</select>
+								</div>
 							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-								<button type="submit" class="btn btn-primary" id="save_rep">Exportar Excel</button>
-								<button type="submit" class="btn btn-primary" id="save_rep">Exportar PDF</button>
-							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
+							<button type="submit" class="btn btn-primary" id="exportar_pdf">Exportar PDF</button>
+						</div>
 						</form>
 					</div>
 				</div>
 			</div>
-			<!-- end  modal -->
+		<!-- end  modal -->
+
+<style type="text/css">
+  .datepicker{
+z-index:1151;
+}
+</style>
