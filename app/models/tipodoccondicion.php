@@ -81,4 +81,17 @@ class tipodoccondicion extends \Phalcon\Mvc\Model
         $this->_db = new tipodoccondicion();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql_query));
     }
+    
+    /**
+     *  Lista los tipos de documentos asociados a una condición
+     */
+    public function listaDocCond($id_condiciones){
+        $sql_query = "SELECT td.id AS id, td.tipo_documento, td.codigo, td.tipopresdoc_id, td.periodopresdoc_id, 
+                        td.tipoemisordoc_id, td.tipofechaemidoc_id, td.tipoperssoldoc_id, td.grupoarchivos_id
+                      FROM tipodoccondicion tdc, tipodocumento td 
+                      WHERE tipodocumento_id = td.id AND condicion_id =".$id_condiciones." 
+                      ORDER BY id";
+        $this->_db = new tipodoccondicion();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql_query));
+    }
 }

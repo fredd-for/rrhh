@@ -174,8 +174,8 @@ class ArchivoController extends ControllerBase{
     }
     public function listdocAction($seleccion)
     {
-        $resul = new tipodocumento();
-        $resul = tipodocumento::find(array("baja_logica = 1 AND ".$seleccion." = 1 ",'order' => 'id ASC'));
+        $mod = new tipodoccondicion();
+        $resul = $mod->listaDocCond($seleccion);
         $this->view->disable();
         foreach ($resul as $v) {
             $res_1 = parametros::findFirstById($v->tipopresdoc_id);

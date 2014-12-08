@@ -8,6 +8,15 @@ foreach ($resul as $v){
         'valor_1' => $v->valor_1
     );
 };
+$res = new Normativasmod();
+$res = Normativasmod::find(array('baja_logica = 1','order'=> 'id ASC'));
+foreach ($res as $w){
+    $norm_data[] = array(
+        'id' => $w->id,
+        'modalidad' => $w->modalidad,
+        'denominacion' => $w->denominacion
+    );
+}
 ?>
 <input id="vconsultor" value="<?php echo $datos_tipo_doc["consultor"]; ?>" hidden="hidden">
 <input id="veventual" value="<?php echo $datos_tipo_doc["eventual"]; ?>" hidden="hidden">
@@ -624,55 +633,18 @@ foreach ($resul as $v){
                         <div class="col-sm-6">
                             <select id="tipo_proceso_contratacion" class="form-control" >
                                 <?php 
-                                switch ($datos_tipo_doc['tipo_proceso_contratacion']) {
-                                    case 1:
-                                        echo "<option value='' >Seleccione.</option>";
-                                        echo "<option value='1' selected >Invitaci&oacute;n directa.</option>";
-                                        echo "<option value='2' >Convocatoria P&uacute;blica.</option>";
-                                        echo "<option value='3' >Contrataci&oacute;n menor o ANPE.</option>";
-                                        echo "<option value='4' >Todas.</option>";
-                                        break;
-                                    case 2:
-                                        echo "<option value='' >Seleccione.</option>";
-                                        echo "<option value='1' >Invitaci&oacute;n directa.</option>";
-                                        echo "<option value='2' selected >Convocatoria P&uacute;blica.</option>";
-                                        echo "<option value='3' >Contrataci&oacute;n menor o ANPE.</option>";
-                                        echo "<option value='4' >Todas.</option>";
-                                        break;
-                                    case 3:
-                                        echo "<option value='' >Seleccione.</option>";
-                                        echo "<option value='1' >Invitaci&oacute;n directa.</option>";
-                                        echo "<option value='2' >Convocatoria P&uacute;blica.</option>";
-                                        echo "<option value='3' selected >Contrataci&oacute;n menor o ANPE.</option>";
-                                        echo "<option value='4' >Todas.</option>";
-                                        break;
-                                    case 4:
-                                        echo "<option value='' >Seleccione.</option>";
-                                        echo "<option value='1' >Invitaci&oacute;n directa.</option>";
-                                        echo "<option value='2' >Convocatoria P&uacute;blica.</option>";
-                                        echo "<option value='3' >Contrataci&oacute;n menor o ANPE.</option>";
-                                        echo "<option value='4' selected >Todas.</option>";
-                                        break;
-                                    default:
-                                        echo "<option value='' selected >Seleccione.</option>";
-                                        echo "<option value='1' >Invitaci&oacute;n directa.</option>";
-                                        echo "<option value='2' >Convocatoria P&uacute;blica.</option>";
-                                        echo "<option value='3' >Contrataci&oacute;n menor o ANPE.</option>";
-                                        echo "<option value='4' >Todas.</option>";
-                                        break;
+                                echo "<option value=''>Seleccione.</option>";
+                                for ($i = 0; $i < sizeof($norm_data); $i++){
+                                    if($norm_data[$i]['id'] == $datos_tipo_doc['tipo_proceso_contratacion']){
+                                        echo '<option value="'.$norm_data[$i]['id'].'" selected >'.$norm_data[$i]['modalidad'].' - '.$norm_data[$i]['denominacion'].'</option>';
+                                    } else {
+                                        echo '<option value="'.$norm_data[$i]['id'].'" >'.$norm_data[$i]['modalidad'].' - '.$norm_data[$i]['denominacion'].'</option>';
+                                    }
                                 }
                                 ?>
                             </select>
                         </div>
                     </div>
-                    
-                    
-                    <!--<div>
-                        <label class="col-sm-4 control-label" for="birthDate">Birth Date</label>
-                        <div class="col-sm-8">
-                            <div style="margin-top: 5px;" id="birthDate" name="birthDate"></div>
-                        </div>
-                    </div>-->
                 </div>
                 <div class="form-horizontal col-sm-6">
                     <div class="form-horizontal">

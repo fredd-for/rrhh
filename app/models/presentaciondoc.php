@@ -169,7 +169,7 @@ class presentaciondoc extends \Phalcon\Mvc\Model
      * Initialize method for model.
      */
     
-    public function initializa(){
+    public function initialize(){
         $this->setSchema("");
     }
     
