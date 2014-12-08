@@ -20,7 +20,8 @@ class CalendariolaboralController extends ControllerBase
      */
     public function indexAction()
     {   $this->assets->addJs('/js/calendariolaboral/oasis.calendariolaboral.index.js');
-        $this->assets->addJs('/js/calendariolaboral/compCalendar.js');
+        $this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addCss('/assets/css/kolorpicker.css');
         /*
         /*$this->assets->addJs('/js/calendariolaboral/oasis.calendariolaboral.tab.js');
         $this->assets->addJs('/js/calendariolaboral/oasis.calendariolaboral.list.js');
