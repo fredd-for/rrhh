@@ -83,7 +83,7 @@ class PersonalController extends ControllerBase{
             'tipo_doc' => $resul->tipo_doc,
             'ci' => $resul->ci,
             'expd' => $resul->expd,
-            'num_complemento' => $resul->num_complemento,
+            'f_caducidad' => $resul->f_caducidad,
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
             'fecha_nac' => $resul->fecha_nac,
@@ -104,7 +104,10 @@ class PersonalController extends ControllerBase{
             'celular_inst' => $res->celular_inst,
             'e_mail_per' => $res->e_mail_per,
             'e_mail_inst' => $res->e_mail_inst,
-            'interno_inst' => $res->interno_inst
+            'interno_inst' => $res->interno_inst,
+            'telefono_emerg' => $res->telefono_emerg,
+            'persona_emerg' => $res->persona_emerg,
+            'relacion_emerg' => $res->relacion_emerg
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
@@ -124,7 +127,7 @@ class PersonalController extends ControllerBase{
             'tipo_doc' => $resul->tipo_doc,
             'ci' => $resul->ci,
             'expd' => $resul->expd,
-            'num_complemento' => $resul->num_complemento,
+            'f_caducidad' => date("d-m-Y",strtotime($resul->f_caducidad)),
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
             'fecha_nac' => date("d-m-Y",strtotime($resul->fecha_nac)),
@@ -145,7 +148,10 @@ class PersonalController extends ControllerBase{
             'celular_inst' => $res->celular_inst,
             'e_mail_per' => $res->e_mail_per,
             'e_mail_inst' => $res->e_mail_inst,
-            'interno_inst' => $res->interno_inst
+            'interno_inst' => $res->interno_inst,
+            'telefono_emerg' => $res->telefono_emerg,
+            'persona_emerg' => $res->persona_emerg,
+            'relacion_emerg' => $res->relacion_emerg
         );
         $this->view->setVar('datos_personal', $datos_personal);
     }
@@ -211,37 +217,39 @@ class PersonalController extends ControllerBase{
             //$hoy = $date->format('Y-m-d H:i:s');
             $date = new DateTime($_POST['fecha_nac']);
             $fecha_nac = $date->format('Y-m-d');//echo $fecha_nac." | ".$hoy;
+            $date1 = new DateTime($_POST['f_caducidad']);
+            $f_caducidad = $date1->format('Y-m-d');
             if ($_POST['id']>0) {
                 $resul = new personas();
                 $resul = personas::findFirstById($_POST['id']);
-                $resul->p_nombre = $_POST['p_nombre'];
+                $resul->p_nombre = strtr(strtoupper($_POST['p_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 if ($_POST['s_nombre'] == ''){
                     $resul->s_nombre = NULL;
                 } else {
-                    $resul->s_nombre = $_POST['s_nombre'];
+                    $resul->s_nombre = strtr(strtoupper($_POST['s_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
                 if ($_POST['t_nombre'] == ''){
                     $resul->t_nombre = NULL;
                 } else {
-                    $resul->t_nombre = $_POST['t_nombre'];
+                    $resul->t_nombre = strtr(strtoupper($_POST['t_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
-                $resul->p_apellido = $_POST['p_apellido'];
+                $resul->p_apellido = strtr(strtoupper($_POST['p_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 if ($_POST['s_apellido']==''){
                     $resul->s_apellido = NULL;
                 } else {
-                    $resul->s_apellido = $_POST['s_apellido'];
+                    $resul->s_apellido = strtr(strtoupper($_POST['s_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
                 if (isset($_POST['c_apellido'])){
-                  $resul->c_apellido = $_POST['c_apellido'];
+                  $resul->c_apellido = strtr(strtoupper($_POST['c_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 } else {
                   $resul->c_apellido = NULL;
                 }
                 $resul->ci = $_POST['ci'];
                 $resul->expd = $_POST['expd'];
-                if (isset($_POST['num_complemento'])){
-                  $resul->num_complemento = $_POST['num_complemento'];
+                if (isset($_POST['f_caducidad'])){
+                  $resul->f_caducidad = $f_caducidad;
                 } else {
-                  $resul->num_complemento = NULL;
+                  $resul->f_caducidad = NULL;
                 }
                 $resul->fecha_nac = $fecha_nac;
                 $resul->lugar_nac = $_POST['lugar_nac'];
@@ -332,6 +340,21 @@ class PersonalController extends ControllerBase{
                     } else {
                         $res->e_mail_inst = $_POST['e_mail_inst'];
                     }
+                    if($_POST['telefono_emerg'] == ''){
+                        $res->telefono_emerg = NULL;
+                    } else {
+                        $res->telefono_emerg = $_POST['telefono_emerg'];
+                    }
+                    if($_POST['persona_emerg'] == ''){
+                        $res->persona_emerg = NULL;
+                    } else {
+                        $res->persona_emerg = strtr(strtoupper($_POST['persona_emerg']),"áéíóúñü","ÁÉÍÓÚÑÜ");
+                    }
+                    if($_POST['relacion_emerg'] == ''){
+                        $res->relacion_emerg = NULL;
+                    } else {
+                        $res->relacion_emerg = $_POST['relacion_emerg'];
+                    }
                     $res->estado = 0;
                     $res->baja_logica = 1;
                     if ($res->save()){
@@ -343,34 +366,34 @@ class PersonalController extends ControllerBase{
             } else {
                 try{
                 $resul = new personas();
-                $resul->p_nombre = $_POST['p_nombre'];
+                $resul->p_nombre = strtr(strtoupper($_POST['p_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 if ($_POST['s_nombre'] == ''){
                     $resul->s_nombre = NULL;
                 } else {
-                    $resul->s_nombre = $_POST['s_nombre'];
+                    $resul->s_nombre = strtr(strtoupper($_POST['s_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
                 if ($_POST['t_nombre'] == ''){
                     $resul->t_nombre = NULL;
                 } else {
-                    $resul->t_nombre = $_POST['t_nombre'];
+                    $resul->t_nombre = strtr(strtoupper($_POST['t_nombre']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
-                $resul->p_apellido = $_POST['p_apellido'];
+                $resul->p_apellido = strtr(strtoupper($_POST['p_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 if ($_POST['s_apellido']==''){
                     $resul->s_apellido = NULL;
                 } else {
-                    $resul->s_apellido = $_POST['s_apellido'];
+                    $resul->s_apellido = strtr(strtoupper($_POST['s_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 }
                 if (isset($_POST['c_apellido'])){
-                  $resul->c_apellido = $_POST['c_apellido'];
+                  $resul->c_apellido = strtr(strtoupper($_POST['c_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ");
                 } else {
                   $resul->c_apellido = NULL;
                 }
                 $resul->ci = $_POST['ci'];
                 $resul->expd = $_POST['expd'];
-                if (isset($_POST['num_complemento'])){
-                  $resul->num_complemento = $_POST['num_complemento'];
+                if (isset($_POST['f_caducidad'])){
+                  $resul->f_caducidad = $f_caducidad;
                 } else {
-                  $resul->num_complemento = NULL;
+                  $resul->f_caducidad = NULL;
                 }
                 $resul->fecha_nac = $fecha_nac;
                 $resul->lugar_nac = $_POST['lugar_nac'];
@@ -414,7 +437,7 @@ class PersonalController extends ControllerBase{
                 //echo $_POST['tipo_doc'];
                 //$resul->save();
                 if ($resul->save()) {
-                    $resul = personas::findFirst(array('ci="'.$_POST['ci'].'" AND p_apellido = "'.$_POST['p_apellido'].'"','order' => 'id ASC'));
+                    $resul = personas::findFirst(array('ci="'.$_POST['ci'].'" AND p_apellido = "'.strtr(strtoupper($_POST['p_apellido']),"áéíóúñü","ÁÉÍÓÚÑÜ").'"','order' => 'id ASC'));
                     $res = new personascontactos();
                     $res->persona_id = $resul->id;
                     if($_POST['direccion_dom'] == ''){
@@ -461,6 +484,21 @@ class PersonalController extends ControllerBase{
                         $res->e_mail_inst = NULL;
                     } else {
                         $res->e_mail_inst = $_POST['e_mail_inst'];
+                    }
+                    if($_POST['telefono_emerg'] == ''){
+                        $res->telefono_emerg = NULL;
+                    } else {
+                        $res->telefono_emerg = $_POST['telefono_emerg'];
+                    }
+                    if($_POST['persona_emerg'] == ''){
+                        $res->persona_emerg = NULL;
+                    } else {
+                        $res->persona_emerg = strtr(strtoupper($_POST['persona_emerg']),"áéíóúñü","ÁÉÍÓÚÑÜ");
+                    }
+                    if($_POST['relacion_emerg'] == ''){
+                        $res->relacion_emerg = NULL;
+                    } else {
+                        $res->relacion_emerg = $_POST['relacion_emerg'];
                     }
                     $res->estado = 0;
                     $res->baja_logica = 1;

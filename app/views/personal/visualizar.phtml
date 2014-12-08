@@ -58,7 +58,9 @@
     $sexo = array(
                 "F" => "femenino",
                 "M" => "masculino");
-            
+if ($datos_personal['f_caducidad']!= ''){
+    $datos_personal['f_caducidad'] = date ("d-m-Y",strtotime($datos_personal['f_caducidad']));
+}
     
 ?>
 <input id="vnacionalidad" value="<?php echo $datos_personal["nacionalidad"]; ?>" hidden="hidden">
@@ -317,7 +319,6 @@
             $("#myTab").tab();
             $('.box:nth-child(2)').hide();
             $('.box:nth-child(3)').hide();
-            $('.box:nth-child(4)').hide();
             $('#myTab a').click(function (e) {
                 e.preventDefault();
                 $('.box').hide();
@@ -333,7 +334,6 @@
     <div style="min-height: 0px; box-shadow: none; -webkit-box-shadow: none;" class="navbar navbar-default " role="navigation">
         <ul id="myTab" style="min-width: 480px; box-shadow: none; -webkit-box-shadow: none; border: none;" class="nav nav-tabs">
             <li style="margin-left: 20px;" class="active"><a data-tab="identificacion" href="#identificacion">Detalles de Identificaci&oacute;n.</a></li>
-            <li><a data-tab="generico" href="#generico">Detalles Gen&eacute;ricos.</a></li>
             <li><a data-tab="contacto" href="#contacto">Datos de Contacto.</a></li>
             <li><a data-tab="alternativo" href="#alternativo">Datos Alternativos.</a></li>
         </ul>
@@ -361,11 +361,11 @@
         <form class="navbar-form" id="form">
         <div id="identificacion" class="box" style="width: 100%; height: 100%; overflow-x: hidden; border: none;">
             <!--<form class="navbar-form" id="form">-->
-                <div class="form-horizontal">
-                    <h2>Detalles de Identificaci&oacute;n:</h2>
-                </div>
                 <input id="id" name="id" value="<?php echo $datos_personal['id']; ?>" hidden="hidden">
                 <div class="form-horizontal col-sm-6">
+                    <div class="form-horizontal">
+                        <h2>Detalles de Identificaci&oacute;n:</h2>
+                    </div>
                     <div class="row">
                         <label class="col-sm-3 control-label">Nombres :</label>
                         <div class="col-sm-3">
@@ -409,26 +409,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="num_complemento">N&uacute;mero Complemento :</label>
+                        <label class="col-sm-3 control-label" for="f_caducidad">Fecha de Caducidad :</label>
                         <div class="col-sm-6">
-                            <label class="col-sm-3 control-label"><?php echo $datos_personal['num_complemento']; ?></label>
+                            <label class="col-sm-3 control-label"><?php echo $datos_personal['f_caducidad']; ?></label>
                         </div>
                     </div>
-                    <!--<div>
-                        <label class="col-sm-4 control-label" for="birthDate">Birth Date</label>
-                        <div class="col-sm-8">
-                            <div style="margin-top: 5px;" id="birthDate" name="birthDate"></div>
-                        </div>
-                    </div>-->
-                </div>
-            <!--</form>-->
-        </div>
-        <div id="generico" class="box" style="width: 100%; height: 100%; overflow: hidden; border: none;">
-           <!--<form class="navbar-form" id="form">-->
-                <div class="form-horizontal">
-                    <h2>Detalles de Gen&eacute;ricos:</h2>
                 </div>
                 <div class="form-horizontal col-sm-6">
+                    <div class="form-horizontal">
+                        <h2>Detalles de Gen&eacute;ricos:</h2>
+                    </div>
                     <div class="row">
                         <label class="col-sm-3 control-label" for="nacionalidad">Nacionalidad *:</label>
                         <div class="col-sm-6">
@@ -444,7 +434,7 @@
                     <div class="row">
                         <label class="col-sm-3 control-label" for="f_nacimiento">Fecha de nacimiento *:</label>
                         <div class="col-sm-6">
-                            <label class="col-sm-3 control-label"><?php echo $datos_personal['fecha_nac']; ?></label>
+                            <label class="col-sm-3 control-label"><?php echo date('d-m-Y', strtotime($datos_personal['fecha_nac'])); ?></label>
                         </div>
                     </div>
                     <div class="row">
@@ -499,6 +489,24 @@
                         <label class="col-sm-3 control-label" for="email_p">E-mail Personal:</label>
                         <div class="col-sm-6">
                             <label class="col-sm-3 control-label"><?php echo $datos_personal['e_mail_per']; ?></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="telefono_emerg">Tel&eacute;fono de Emergencia:</label>
+                        <div class="col-sm-6">
+                            <label class="col-sm-3 control-label"><?php echo $datos_personal['telefono_emerg']; ?></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="persona_emerg">Persona de Emergencia:</label>
+                        <div class="col-sm-6">
+                            <label class="col-sm-3 control-label"><?php echo $datos_personal['persona_emerg']; ?></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="relacion_emerg">Relaci&oacute;n de Parentezco:</label>
+                        <div class="col-sm-6">
+                            <label class="col-sm-3 control-label"><?php echo $datos_personal['relacion_emerg']; ?></label>
                         </div>
                     </div>
                 </div>
