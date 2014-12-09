@@ -257,7 +257,7 @@ $(document).ready(function () {
         } else {
             var observacion = '';
         }
-        var nombre = $("#nom_"+comp).val();
+        var nombre = $("#nom_"+comp).val();//alert(tipo);
         var v=$.ajax({
             url:'/presentaciondoc/save/',
             type:'POST',
@@ -314,7 +314,7 @@ $(document).ready(function () {
             addRemoveLinks: true,
             uploadMultiple: false,
             maxFiles: 1,
-            /*acceptedFiles: '.pdf',*/
+            //acceptedFiles: 'image/*',
             removedfile: function(file) {
                 /*for (var aux in file){
                     alert (file);
@@ -341,7 +341,7 @@ $(document).ready(function () {
                 var boton = '#gr_'+res.param;
                 $(boton).removeAttr('disabled');
                 $("#tamanio_"+res.param).val(res.size);
-                $("#tipo_"+res.param).val(res.type);
+                $("#tipo_"+res.param).val('application/pdf');
                 alert('se subirá el archivo: '+file.name);
                 /*$("#subir_foto").hide();
                 $("#recortar_foto").load('/personal/cargarcrop/');
@@ -560,7 +560,7 @@ $(document).ready(function () {
                            // echo '<input id="id_'.$i.'_'.$docs['tipo_doc_id'].'" value="0" hidden="hidden">';
                             echo '<input id="td_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tipo_doc_id'].'" hidden="hidden">';
                             echo '<input id="rl_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['rellaboral_id'].'" hidden="hidden">';
-                            echo '<input id="nom_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['codigo'].'_'.$datos_personal['ci'].'_'.$docs['rellaboral_id'].'pdf" hidden="hidden">';
+                            echo '<input id="nom_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['codigo'].'_'.$datos_personal['ci'].'_'.$docs['rellaboral_id'].'.pdf" hidden="hidden">';
                             echo '<input id="tamanio_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tamanio'].'" hidden="hidden">';
                             echo '<input id="tipo_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tipo'].'" hidden="hidden">';
                             echo '<div class="row">';

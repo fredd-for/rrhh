@@ -301,7 +301,7 @@ function cargar2(){
 							url:'/cargos/delete_pac/',
 							type:'POST',
 							datatype: 'json',
-							data:{id:$("#id").val()},
+							data:{id:dataRecord.id},
 						success: function(data) { cargar2(); //alert('Guardado Correctamente'); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
@@ -524,13 +524,27 @@ $('#testForm_pac').validate({
 $("#rep_pdf").click(function(){
 	$('#myModal_rep').modal('show');	
 	
-            });
+});
 
 $('#exportar_excel').click(function(){
    $('#testForm_rep').attr('action', '/cargos/exportarExcel/');
 });
 $('#exportar_pdf').click(function(){
    $('#testForm_rep').attr('action', '/cargos/exportarPdf/');
+});
+/**************************/
+
+/***********Reporte PDF PACP**************/
+$("#rep_pac_pdf").click(function(){
+	$('#myModal_rep_pac').modal('show');	
+	
+});
+
+$('#exportar_pac_excel').click(function(){
+   $('#testForm_rep_pac').attr('action', '/cargos/exportarPacExcel/');
+});
+$('#exportar_pac_pdf').click(function(){
+   $('#testForm_rep_pac').attr('action', '/cargos/exportarPacPdf/');
 });
 /**************************/
 
@@ -587,6 +601,12 @@ $('#exportar_pdf').click(function(){
 
 	<div class="col-lg-12">
 		<div class="panel panel-default">
+			<div style="margin-left: 5px; ">
+				<div>
+					<input id="rep_pac_pdf" type="button" value=" Reporte" />
+				</div>
+			</div>
+			<br>
 			<div class="table-responsive">
 				<div id="jqxgrid2"></div>
 			</div>
@@ -685,7 +705,7 @@ $('#exportar_pdf').click(function(){
 							</div>
 							<div class="modal-body">
 
-								<input id="id" name="id" type="hidden" />
+								<input id="id_pac" name="id_pac" type="hidden" />
 								<div class="form-group">
 									<label class="col-md-3 control-label" >Organigrama</label>
 									<div class="col-md-9">
@@ -781,6 +801,47 @@ $('#exportar_pdf').click(function(){
 							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 							<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
 							<button type="submit" class="btn btn-primary" id="exportar_pdf">Exportar PDF</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		<!-- end  modal -->
+
+
+			<!-- Modal Reporte-->
+			<div class="modal fade" id="myModal_rep_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form class="form-horizontal" id="testForm_rep_pac" data-toggle="validator" action="" method="POST" target="_blank" />
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Organigrama</label>
+								<div class="col-md-9">
+									<?php  echo $organigrama_rep_pac ?>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Fecha Inicio Desde</label>
+								<div class="col-md-9">
+									<input type="text" id="fecha_ini_rep_pac" name="fecha_ini_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label" >Hasta</label>
+								<div class="col-md-9">
+									<input type="text" id="fecha_fin_rep_pac" name="fecha_fin_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
+							<button type="submit" class="btn btn-primary" id="exportar_pac_pdf">Exportar PDF</button>
 						</div>
 						</form>
 					</div>

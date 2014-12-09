@@ -181,11 +181,17 @@ WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel
     }
 
 
-    public function listapac($estado = '')
+    public function listapac($estado = '', $organigrama_id = '',$fecha_ini='',$fecha_fin='')
     {
         $where = '';
         if ($estado == 1) {
-            $where = ' AND se.estado is NULL ';
+            $where.= " AND se.estado is NULL ";
+        }
+        if ($organigrama_id>0) {
+            $where.= " AND c.organigrama_id =".$organigrama_id;   
+        }
+        if ($fecha_ini!='' && $fecha_fin!='') {
+            $where.= " AND p.fecha_ini BETWEEN '$fecha_ini' AND '$fecha_fin'";   
         }
 
         $sql = "SELECT  ROW_NUMBER() OVER(ORDER BY p.fecha_ini asc) AS nro,p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1

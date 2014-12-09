@@ -26,6 +26,20 @@ class CargosController extends ControllerBase
 		
 		$this->view->setVar('organigrama',$organigrama);
 
+		$organigrama_rep_pac = $this->tag->select(
+			array(
+				'organigrama_id_rep_pac',
+				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
+				'using' => array('id', "unidad_administrativa"),
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control',
+				)
+			);
+		
+		$this->view->setVar('organigrama_rep_pac',$organigrama_rep_pac);
+
 		$finpartida = $this->tag->select(
 			array(
 				'fin_partida_id',
@@ -353,7 +367,7 @@ public function exportarPdfAction()
 	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
 	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
 			$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
-			$pdf->Cell(80,7, 'organigrama',1, 0 , 'L', true );
+			$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
 			$pdf->Cell(15,7, 'Item',1, 0 , 'L', true);
 			$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
 			$pdf->Cell(20,7, 'Sueldo',1, 0 , 'L', true );
@@ -416,6 +430,63 @@ public function exportarPdfAction()
 		$objWriter = new PHPExcel_Writer_Excel2007($excel);
 		$objWriter->save('../tmp/'.$naziv);
 	}
+
+
+public function exportarPacPdfAction()
+{
+		//$pdf = new fpdf();
+	$pdf = new pdfoasis('L','mm','Letter');
+	$pdf->pageWidth=280;
+	$pdf->AddPage();
+	//$title = utf8_decode('Reporte de Cargos');
+	$pdf->debug=0;
+	$pdf->title_rpt = utf8_decode('Reporte de Plan Anual de Contratacion de Personal');
+	$pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+	$pdf->SetFont('Arial','B',14);
+	$pdf->SetXY(50, 28);
+	$pdf->Cell(0,0,"REPORTE DE PLAN ANUAL DE CONTRATACIONES DE PERSONAL");
+	// $miCabecera = array('Nro', 'Organigrama', 'Item', 'Cargo','Sueldo','Estado','Tipo Cargo');
+
+	$pdf->SetXY(10, 35);
+	$pdf->SetFont('Arial','B',10);
+	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
+	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
+			$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
+			$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
+			$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Fecha Inicio',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Fecha Finalizacion',1, 0 , 'L', true );
+			$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
+	// foreach($miCabecera as $fila)
+	// 	{
+	// 	    //Atención!! el parámetro true rellena la celda con el color elegido
+	// 		$pdf->Cell(24,7, utf8_decode($fila),1, 0 , 'L', true);
+	// 	}
+		$pdf->SetXY(10,42);
+		$pdf->SetFont('Arial','',7);
+		$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
+		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
+		$bandera = false; //Para alternar el relleno
+		$model = new Cargos();
+		$fecha_ini=date("Y-m-d", strtotime($_POST['fecha_ini_rep_pac']));
+		$fecha_fin=date("Y-m-d", strtotime($_POST['fecha_fin_rep_pac']));
+		$resul = $model->listapac('',$_POST['organigrama_id_rep_pac'],$fecha_ini,$fecha_fin);
+		foreach ($resul as $v) {
+			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
+			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
+			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->fecha_ini),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->fecha_fin),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
+		    $pdf->Ln();//Salto de línea para generar otra fila
+		    $bandera = !$bandera;//Alterna el valor de la bandera
+		}
+		$pdf->Output();
+		$this->view->disable();
+
+
+	}
+
 
 	public function dependenciaAction($id='')
 	{
