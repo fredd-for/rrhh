@@ -52,7 +52,9 @@ class tipodoccondicion extends \Phalcon\Mvc\Model
      */
     public function listaDocXPersona($ci,$sexo) {
         $sql_query = "SELECT p.id AS per_id, rl.id AS rellaboral_id, c.condicion, td.id AS tipo_doc_id, td.tipo_documento, td.codigo,  td.sexo , pd.id AS doc_presentado_id, pd.nombre, pr.valor_1 as grupoarchivos,
-                      td.campo_aux_a AS campo_a, td.tipo_dato_campo_aux_a AS tipo_a, td.campo_aux_b AS campo_b, td.tipo_dato_campo_aux_b AS tipo_b, td.campo_aux_c AS campo_c, td.tipo_dato_campo_aux_c AS tipo_c
+                      td.campo_aux_a AS campo_a, td.tipo_dato_campo_aux_a AS tipo_a, td.campo_aux_b AS campo_b, td.tipo_dato_campo_aux_b AS tipo_b, td.campo_aux_c AS campo_c, td.tipo_dato_campo_aux_c AS tipo_c,
+                      (dia_emi || '-' || mes_emi || '-' || gestion_emi) AS fecha_emi, fecha_pres, campo_aux_v1, campo_aux_v2, campo_aux_v3, campo_aux_d1, campo_aux_d2, campo_aux_d3, pd.observacion,
+                      tamanio, tipo
                       FROM personas p, relaborales rl, finpartidas fp, condiciones c, tipodoccondicion tdc, parametros pr, tipodocumento td 
                       LEFT JOIN presentaciondoc pd ON pd.tipodocumento_id = td.id
                       WHERE p.id = rl.persona_id AND fp.id = rl.finpartida_id AND c.id = fp.condicion_id AND c.id = tdc.condicion_id AND td.id = tdc.tipodocumento_id
