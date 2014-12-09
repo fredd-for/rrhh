@@ -153,7 +153,6 @@
 				{ name: 'sueldo'},
 				{ name: 'fin_partida_id'},
 				{ name: 'estado', type: 'string'},
-				{ name: 'cargo_estado_id'},
 				{ name: 'condicion', type: 'string'}
 				],
 				url: '/cargos/list',
@@ -758,7 +757,7 @@ $('#exportar_pdf').click(function(){
 							<div class="form-group">
 								<label class="col-md-3 control-label" >Organigrama</label>
 								<div class="col-md-9">
-									<?php // echo $organigrama ?>
+									<?php  echo $organigrama ?>
 								</div>
 							</div>
 							<div class="form-group">
@@ -774,12 +773,7 @@ $('#exportar_pdf').click(function(){
 							<div class="form-group">
 								<label class="col-md-3 control-label" >Tipo</label>
 								<div class="col-md-9">
-									<select name="cargo_estado_id_rep" id="cargo_estado_id_rep" class="form-control select-chosen">
-										<option value="0">(Seleccionar)</option>
-										<?php foreach ($cargoestado as $v) { ?>
-										<option value="<?php echo $v->id ?>"><?php echo $v->estado; ?></option>
-										<?php } ?>
-									</select>
+									<?php echo $condicion ?>
 								</div>
 							</div>
 						</div>

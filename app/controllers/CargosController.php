@@ -56,6 +56,19 @@ class CargosController extends ControllerBase
 // $cargoestado=Cargosestados::find(array('baja_logica=1','order' => 'id ASC'));
 // $this->view->setVar('cargoestado',$cargoestado);
 
+		$condicion = $this->tag->select(
+			array(
+				'condicion_id',
+				Condiciones::find(array('baja_logica=1','order' => 'id ASC')),
+				'using' => array('id', "condicion"),
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control',
+				)
+			);
+		$this->view->setVar('condicion',$condicion);
+
 }
 
 public function listAction()
@@ -77,8 +90,7 @@ public function listAction()
 			'sueldo' => $v->sueldo,
 			'depende_id' => $v->depende_id,
 			'estado' => $v->estado1,
-			'cargo_estado_id' => $v->cargo_estado_id,
-			'condicion' => $v->estado,
+			'condicion' => $v->condicion,
 			'fin_partida_id' => $v->fin_partida_id
 			);
 	}
@@ -358,7 +370,7 @@ public function exportarPdfAction()
 		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
 		$bandera = false; //Para alternar el relleno
 		$model = new Cargos();
-		$resul = $model->lista($_POST['organigrama_id_rep'],$_POST['estado_rep'],$_POST['cargo_estado_id_rep']);
+		$resul = $model->lista($_POST['organigrama_id'],$_POST['estado_rep'],$_POST['condicion_id']);
 		foreach ($resul as $v) {
 			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
 			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
@@ -366,7 +378,7 @@ public function exportarPdfAction()
 			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
 			$pdf->Cell(20,7, utf8_decode($v->sueldo),1, 0 , 'L', $bandera );
 			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, utf8_decode($v->cargo_estado),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, utf8_decode($v->condicion),1, 0 , 'L', $bandera );
 		    $pdf->Ln();//Salto de línea para generar otra fila
 		    $bandera = !$bandera;//Alterna el valor de la bandera
 		}
