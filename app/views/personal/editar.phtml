@@ -11,6 +11,9 @@
         //echo 'sin foto';
         echo '<input id="link_foto" value="/personal/subirfoto/" hidden="hidden">';
     }
+    if ($datos_personal['f_caducidad'] != ''){
+        $datos_personal['f_caducidad'] = date ("d-m-Y",strtotime($datos_personal['f_caducidad']));//echo $datos_personal['f_caducidad'];
+    }
 ?>
 <input id="ci_inicial" value="<?php echo $datos_personal["ci"]; ?>" hidden="hidden">
 <input id="vnacionalidad" value="<?php echo $datos_personal["nacionalidad"]; ?>" hidden="hidden">
@@ -159,7 +162,7 @@
             // create Accept Terms Checkbox.CI
             //$("#acceptTerms").jqxCheckBox({ width: '100%' });
             // create the Birth Date Calendar.
-            $("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
+            //$("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
             //$("#f_nacimiento").jqxDateTimeInput('setDate',new Date($("#anio").val(),$("mes").val(),$("dia").val()));
             $("#f_nacimiento").jqxDateTimeInput('setDate',$("#fecha").val());
             // create the Cart Type ComboBox.
@@ -239,7 +242,7 @@
                     alert ('Debe seleccionar un lugar de nacimiento.');
                     return false;
                 }
-                var fecha_nac = $('#f_nacimiento').jqxDateTimeInput('getDate');
+                var fecha_nac = $('#f_nacimiento').val();
                 var e_civil = $('#estado_civil').jqxComboBox('getSelectedItem');
                 if (e_civil == null){
                     alert ('Debe seleccionar un estado civil.');
@@ -258,11 +261,12 @@
                     	datatype: 'json',
 			data:{id:$("#id").val(),p_nombre:$("#p_nombre").val(),s_nombre:$("#s_nombre").val(),t_nombre:$("#t_nombre").val()
                               ,p_apellido:$("#p_apellido").val(),s_apellido:$("#s_apellido").val(),c_apellido:$("#c_apellido").val()
-                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,num_complemento:$("#num_complemento").val()
+                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,f_caducidad:$("#f_caducidad").val()
                               ,nacionalidad:nacionalidad.value,lugar_nac:l_nacimiento.value,fecha_nac:fecha_nac,e_civil:e_civil.value
                               ,grupo_sanguineo:grupo_sanguineo.value,sexo:genero.value
                               ,id_personas_contacto:$("#id_personas_contactos").val(),direccion_dom:$("#direccion").val()
                               ,telefono_fijo:$("#telefono").val(),celular_per:$("#celular").val(),e_mail_per:$("#email_p").val()
+                              ,telefono_emerg:$("#telefono_emerg").val(),persona_emerg:$("#persona_emerg").val(),relacion_emerg:$("#relacion_emerg").val()
                               ,telefono_inst:$("#tel_inst").val(),telefono_fax:$("#fax").val(),interno_inst:$('#n_interno').val()
                               ,celular_inst:$("#cel_inst").val(),e_mail_inst:$("#email_inst").val(),nit:$("#nit").val()
                               ,num_func_sigma:$("#n_sigma").val(),num_lib_ser_militar:$("#libreta_militar").val(),num_reg_profesional:$("registro_prof").val()
@@ -394,7 +398,6 @@
             $("#myTab").tab();
             $('.box:nth-child(2)').hide();
             $('.box:nth-child(3)').hide();
-            $('.box:nth-child(4)').hide();
             $('#myTab a').click(function (e) {
                 e.preventDefault();
                 $('.box').hide();
@@ -411,7 +414,6 @@
     <div style="min-height: 0px; box-shadow: none; -webkit-box-shadow: none;" class="navbar navbar-default " role="navigation">
         <ul id="myTab" style="min-width: 480px; box-shadow: none; -webkit-box-shadow: none; border: none;" class="nav nav-tabs">
             <li style="margin-left: 20px;" class="active"><a data-tab="identificacion" href="#identificacion">Detalles de Identificaci&oacute;n.</a></li>
-            <li><a data-tab="generico" href="#generico">Detalles Gen&eacute;ricos.</a></li>
             <li><a data-tab="contacto" href="#contacto">Datos de Contacto.</a></li>
             <li><a data-tab="alternativo" href="#alternativo">Datos Alternativos.</a></li>
         </ul>
@@ -431,11 +433,11 @@
         <form class="navbar-form" id="form">
         <div id="identificacion" class="box" style="width: 100%; height: 100%; overflow-x: hidden; border: none;">
             <!--<form class="navbar-form" id="form">-->
-                <div class="form-horizontal">
-                    <h2>Detalles de Identificaci&oacute;n:</h2>
-                </div>
                 <input id="id" name="id" value="<?php echo $datos_personal['id']; ?>" hidden="hidden">
                 <div class="form-horizontal col-sm-6">
+                    <div class="form-horizontal">
+                        <h2>Detalles de Identificaci&oacute;n:</h2>
+                    </div>
                     <div class="row">
                         <label class="col-sm-3 control-label" for="p_nombre">Nombres *:</label>
                         <div class="col-sm-3">
@@ -479,26 +481,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="num_complemento">N&uacute;mero Complemento :</label>
+                        <label class="col-sm-3 control-label" for="f_caducidad">Fecha de Caducidad :</label>
                         <div class="col-sm-6">
-                            <input placeholder="123" id="expd" name="num_complemento" value="<?php echo $datos_personal['num_complemento']; ?>" />
+                            <input type="text" id="f_caducidad" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" value="<?php echo $datos_personal['f_caducidad']; ?>">
                         </div>
                     </div>
-                    <!--<div>
-                        <label class="col-sm-4 control-label" for="birthDate">Birth Date</label>
-                        <div class="col-sm-8">
-                            <div style="margin-top: 5px;" id="birthDate" name="birthDate"></div>
-                        </div>
-                    </div>-->
-                </div>
-            <!--</form>-->
-        </div>
-        <div id="generico" class="box" style="width: 100%; height: 100%; overflow: hidden; border: none;">
-           <!--<form class="navbar-form" id="form">-->
-                <div class="form-horizontal">
-                    <h2>Detalles de Gen&eacute;ricos:</h2>
                 </div>
                 <div class="form-horizontal col-sm-6">
+                    <div class="form-horizontal">
+                        <h2>Detalles de Gen&eacute;ricos:</h2>
+                    </div>
                     <div class="row">
                         <label class="col-sm-3 control-label" for="nacionalidad">Nacionalidad *:</label>
                         <div class="col-sm-6">
@@ -514,7 +506,7 @@
                     <div class="row">
                         <label class="col-sm-3 control-label" for="f_nacimiento">Fecha de nacimiento *:</label>
                         <div class="col-sm-6">
-                            <div style="margin-top: 5px;" id="f_nacimiento" name="f_nacimiento"></div>
+                            <input type="text" id="f_nacimiento" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" value="<?php echo date("d-m-Y",strtotime($datos_personal['fecha_nac'])); ?>">
                         </div>
                     </div>
                     <div class="row">
@@ -575,6 +567,24 @@
                         <label class="col-sm-3 control-label" for="email_p">E-mail Personal:</label>
                         <div class="col-sm-6">
                             <input placeholder="Correo electr&oacute;nico" id="email_p" name="email_p" value="<?php echo $datos_personal['e_mail_per']; ?>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="telefono_emerg">Tel&eacute;fono de Emergencia:</label>
+                        <div class="col-sm-6">
+                            <input placeholder="Tel&eacute;fono de Emergencia" id="telefono_emerg" name="telefono_emerg" value="<?php echo $datos_personal['telefono_emerg']; ?>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="persona_emerg">Persona de Emergencia:</label>
+                        <div class="col-sm-6">
+                            <input placeholder="Persona de Emergencia" id="persona_emerg" name="persona_emerg" value="<?php echo $datos_personal['persona_emerg']; ?>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-3 control-label" for="relacion_emerg">Relaci&oacute;n de Parentezco:</label>
+                        <div class="col-sm-6">
+                            <input placeholder="Relaci&oacute;n de Parentezco" id="relacion_emerg" name="relacion_emerg" value="<?php echo $datos_personal['relacion_emerg']; ?>" />
                         </div>
                     </div>
                 </div>

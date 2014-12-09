@@ -8,6 +8,15 @@ foreach ($resul as $v){
         'valor_1' => $v->valor_1
     );
 };
+$res = new Normativasmod();
+$res = Normativasmod::find(array('baja_logica = 1','order'=> 'id ASC'));
+foreach ($res as $w){
+    $norm_data[] = array(
+        'id' => $w->id,
+        'modalidad' => $w->modalidad,
+        'denominacion' => $w->denominacion
+    );
+}
 ?>
 <style type="text/css">
         body, html {
@@ -575,23 +584,16 @@ foreach ($resul as $v){
                     <div class="row">
                         <label class="col-sm-3 control-label" for="tipo_proceso_contratacion">Tipo de contrataci&oacute;n *:</label>
                         <div class="col-sm-6">
-                            <select id="tipo_proceso_contratacion" class="form-control" >
-                                <option value='' selected >Seleccione.</option>
-                                <option value='1' >Invitaci&oacute;n directa.</option>
-                                <option value='2' >Convocatoria P&uacute;blica.</option>
-                                <option value='3' >Contrataci&oacute;n menor o ANPE.</option>
-                                <option value='4' >Todas.</option>
-                            </select>
+                            <?php 
+                            echo '<select id="tipo_proceso_contratacion" class="form-control" >';
+                            echo '<option value="" selected >Seleccione.</option>';
+                            for ($i = 0; $i < sizeof($norm_data); $i++){
+                                echo '<option value="'.$norm_data[$i]['id'].'" >'.$norm_data[$i]['modalidad'].' - '.$norm_data[$i]['denominacion'].'</option>';
+                            }
+                            echo '</select>';
+                            ?>
                         </div>
                     </div>
-                    
-                    
-                    <!--<div>
-                        <label class="col-sm-4 control-label" for="birthDate">Birth Date</label>
-                        <div class="col-sm-8">
-                            <div style="margin-top: 5px;" id="birthDate" name="birthDate"></div>
-                        </div>
-                    </div>-->
                 </div>
                 <div class="form-horizontal col-sm-6">
                     <div class="form-horizontal">

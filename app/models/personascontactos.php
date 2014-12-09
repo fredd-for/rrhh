@@ -101,6 +101,24 @@ class personascontactos extends \Phalcon\Mvc\Model
     public $baja_logica;
     
     /**
+     * 
+     * @var string
+     */
+    public  $telefono_emerg;
+    
+    /**
+     * 
+     * @var string
+     */
+    public  $persona_emerg;
+    
+    /**
+     * 
+     * @var string
+     */
+    public  $relacion_emerg;
+        
+    /**
      * Initialize method for model.
      */
     public function initialize(){
@@ -127,7 +145,10 @@ class personascontactos extends \Phalcon\Mvc\Model
             'e_mail_inst' => 'e_mail_inst',
             'observacion' => 'observacion',
             'estado' => 'estado',
-            'baja_logica' => 'baja_logica'
+            'baja_logica' => 'baja_logica',
+            'telefono_emerg' => 'telefono_emerg',
+            'persona_emerg' => 'persona_emerg',
+            'relacion_emerg' => 'relacion_emerg'
         );
     }
 }

@@ -119,6 +119,11 @@ $(document).ready(function () {
         var rellaboral_d = $(this).attr('rellaboral_id');
         var direccion = "/presentaciondoc/subir/"+codigo_d+"/"+ci_d+"/"+rellaboral_d+"/";
         $("#direccion").val(direccion);
+        var aux = $(this).attr('href');
+        var aux1 = aux.split('#mr_');//alert(aux1[1]+'|'+$("#id_"+aux1[1]).val());
+        if ($("#data_"+aux1[1]).val()== 1){
+            $("#gr_"+aux1[1]).removeAttr('disabled');
+        }
         //alert (ci_d+'_'+codigo_d+'_'+rellaboral_d+'.pdf');
     });
     $("c").click(function (){
@@ -209,6 +214,8 @@ $(document).ready(function () {
         var tipodocumento_id = $("#td_"+comp).val();
         var rellaboral_id = $("#rl_"+comp).val();
         var fecha_pres = $("#f_pres_"+comp).val();
+        var tamanio = $("#tamanio_"+comp).val();
+        var tipo = $("#tipo_"+comp).val();
         if ($("#campo1"+comp).val()){
             if ($("#campo1"+comp).attr('tipo')=='date'){
                 var campo_aux_d1 = $("#campo1"+comp).val();
@@ -259,8 +266,8 @@ $(document).ready(function () {
                   tipodocumento_id: tipodocumento_id, rellaboral_id: rellaboral_id,
                   fecha_pres: fecha_pres, campo_aux_d1: campo_aux_d1, campo_aux_v1: campo_aux_v1,
                   campo_aux_d2: campo_aux_d2, campo_aux_v2: campo_aux_v2, campo_aux_d3: campo_aux_d3, 
-                  campo_aux_v3: campo_aux_v3, observacion: observacion, nombre: nombre},
-            success: function(data) { //alert(data);
+                  campo_aux_v3: campo_aux_v3, observacion: observacion, nombre: nombre, tamanio:tamanio, tipo:tipo},
+            success: function(data) {// alert(data);
                 var res = jQuery.parseJSON(data);
                 alert (res.msm);
                 location.reload();
@@ -307,7 +314,7 @@ $(document).ready(function () {
             addRemoveLinks: true,
             uploadMultiple: false,
             maxFiles: 1,
-            acceptedFiles: '.pdf',
+            /*acceptedFiles: '.pdf',*/
             removedfile: function(file) {
                 /*for (var aux in file){
                     alert (file);
@@ -315,20 +322,26 @@ $(document).ready(function () {
                 var direction = this.options.url;
                 direction = direction.replace('subir','eliminar');
                 //alert (direction);
-                $.ajax({
-                    type: 'POST',
-                    url: direction,
-                    success: function(data){
-                        var boton = '#gr_'+data;
-                        $(boton).attr('disabled','true');
-                    }
-                });
+                var complemento = direction.split('/');
+                if ($("#data_"+complemento[6]).val()==0){
+                    $.ajax({
+                        type: 'POST',
+                        url: direction,
+                        success: function(data){
+                            var boton = '#gr_'+data;
+                            $(boton).attr('disabled','true');
+                        }
+                    });
+                }
                 var _ref;
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             },
             success: function(file,data) {
-                var boton = '#gr_'+data;
+                var res = jQuery.parseJSON(data);//alert(res.size+'|'+res.type+'|'+res.param);
+                var boton = '#gr_'+res.param;
                 $(boton).removeAttr('disabled');
+                $("#tamanio_"+res.param).val(res.size);
+                $("#tipo_"+res.param).val(res.type);
                 alert('se subirá el archivo: '+file.name);
                 /*$("#subir_foto").hide();
                 $("#recortar_foto").load('/personal/cargarcrop/');
@@ -450,7 +463,7 @@ $(document).ready(function () {
             </div>
         </div>
     </div>
-    <div class="block" id="datos_contacto">
+    <!--<div class="block" id="datos_contacto">
         <div class="block-title">
             <div class="block-options pull-right">
                 <a class="btn btn-alt btn-xs btn-default" title="" id="btn_dat_con" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Contraer/Expandir">
@@ -519,7 +532,7 @@ $(document).ready(function () {
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     
     <?php
     for($i = 0; $i < count($lista_doc); $i++){
@@ -544,17 +557,33 @@ $(document).ready(function () {
                         echo '<div class="form-group">';
                         foreach ($doc_x_persona as $docs){
                             if ($docs['grupoarchivos'] == $lista_doc[$i]['grupoarchivos']){
-                            echo '<input id="id_'.$i.'_'.$docs['tipo_doc_id'].'" value="0" hidden="hidden">';
+                           // echo '<input id="id_'.$i.'_'.$docs['tipo_doc_id'].'" value="0" hidden="hidden">';
                             echo '<input id="td_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tipo_doc_id'].'" hidden="hidden">';
                             echo '<input id="rl_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['rellaboral_id'].'" hidden="hidden">';
                             echo '<input id="nom_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['codigo'].'_'.$datos_personal['ci'].'_'.$docs['rellaboral_id'].'pdf" hidden="hidden">';
+                            echo '<input id="tamanio_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tamanio'].'" hidden="hidden">';
+                            echo '<input id="tipo_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['tipo'].'" hidden="hidden">';
                             echo '<div class="row">';
                                 echo '<label class="col-xs-4 control-label">'.$docs['tipo_documento'].' : </label>';
                                 echo '<div class="col-xs-4">';
                                 if ($docs['doc_presentado_id'] == ''){
                                     echo '<p class="form-control-static red">SIN DOCUMENTO.</p>';
+                                    echo '<input id="data_'.$i.'_'.$docs['tipo_doc_id'].'" value="0" hidden="hidden">';
+                                    echo '<input id="id_'.$i.'_'.$docs['tipo_doc_id'].'" value="0" hidden="hidden">';
+                                    $fecha_emi[$i][$docs['tipo_doc_id']] = '';
+                                    $fecha_pres[$i][$docs['tipo_doc_id']] = '';
+                                    $f_1 = '';
+                                    $f_2 = '';
+                                    $f_3 = '';
                                 } else {
-                                    echo '<p class="form-control-static green"><a target="blank" href="/filepersonal/'.$datos_personal['ci'].'/'.$docs['nombre'].'">'.$docs['nombre'].'</a></p>';
+                                    echo '<p class="form-control-static green"><a target="blank" href="/presentaciondoc/mostrar/'.$docs['doc_presentado_id'].'/'.$datos_personal['ci'].'/">'.$docs['nombre'].'</a></p>';
+                                    echo '<input id="data_'.$i.'_'.$docs['tipo_doc_id'].'" value="1" hidden="hidden">';
+                                    echo '<input id="id_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['doc_presentado_id'].'" hidden="hidden">';
+                                    $fecha_emi[$i][$docs['tipo_doc_id']] = date('d-m-Y',  strtotime($docs['fecha_emi']));
+                                    $fecha_pres[$i][$docs['tipo_doc_id']] = date('d-m-Y',  strtotime($docs['fecha_pres']));
+                                    $f_1 = date('d-m-Y',  strtotime($docs['campo_aux_d1']));
+                                    $f_2 = date('d-m-Y',  strtotime($docs['campo_aux_d2']));
+                                    $f_3 = date('d-m-Y',  strtotime($docs['campo_aux_d3']));
                                 }
                                 echo '</div>';
                                 echo '<div class="col-xs-4">';
@@ -566,19 +595,19 @@ $(document).ready(function () {
                                                     echo '<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>';
                                                     echo '<h3 class="modal-title">Subir Documento: '.$docs['tipo_documento'].'</h3>';
                                                 echo '</div>';
-                                                echo '<div  id="subir_foto">';
+                                                echo '<div  id="subir_foto">';//echo $docs['fecha_pres'].'|'.date('d-m-Y',  strtotime($docs['fecha_pres']));
                                                     //echo '<div class="col-xs-offset-0">';
                                                         echo '<div id="first_'.$i.'_'.$docs['tipo_doc_id'].'">';
                                                             echo '<div class="form-group">';
                                                                 echo '<label class="col-md-4 control-label" for="example-username">Fecha Emisi&oacute;n</label>';
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input type="text" id="f_emi_'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input type="text" id="f_emi_'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$fecha_emi[$i][$docs['tipo_doc_id']].'">';
                                                                 echo '</div>';
                                                             echo '</div>';
                                                             echo '<div class="form-group">';
                                                                 echo '<label class="col-md-4 control-label" for="example-username">Fecha Presentaci&oacute;n</label>';
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input type="text" id="f_pres_'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input type="text" id="f_pres_'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$fecha_pres[$i][$docs['tipo_doc_id']].'">';
                                                                 echo '</div>';
                                                             echo '</div>';
                                                         if ($docs['campo_a']==''){
@@ -589,11 +618,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_a'].'</label>';
                                                             if ($docs['tipo_a'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_1.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['campo_aux_v1'].'">';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -603,11 +632,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_a'].'</label>';
                                                             if ($docs['tipo_a'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_1.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'"  value="'.$docs['campo_aux_v1'].'">';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -615,11 +644,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_b'].'</label>';
                                                             if ($docs['tipo_b'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_2.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'"  value="'.$docs['campo_aux_v2'].'">';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -629,11 +658,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_a'].'</label>';
                                                             if ($docs['tipo_a'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_1.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_a'].'" tipo="'.$docs['tipo_a'].'" type="text" id="campo1'.$i.'_'.$docs['tipo_doc_id'].'"  value="'.$docs['campo_aux_v1'].'">';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -641,11 +670,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_b'].'</label>';
                                                             if ($docs['tipo_b'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_2.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_b'].'" tipo="'.$docs['tipo_b'].'" type="text" id="campo2'.$i.'_'.$docs['tipo_doc_id'].'"  value="'.$docs['campo_aux_v2'].'">';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -653,11 +682,11 @@ $(document).ready(function () {
                                                                 echo '<label class="col-md-4 control-label" for="example-username">'.$docs['campo_c'].'</label>';
                                                             if ($docs['tipo_c'] == 'date'){
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_c'].'" tipo="'.$docs['tipo_c'].'" type="text" id="campo3'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true">';
+                                                                    echo '<input lbl="'.$docs['campo_c'].'" tipo="'.$docs['tipo_c'].'" type="text" id="campo3'.$i.'_'.$docs['tipo_doc_id'].'" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" readonly="true" value="'.$f_3.'">';
                                                                 echo '</div>';
                                                             } else {
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input lbl="'.$docs['campo_c'].'" tipo="'.$docs['tipo_c'].'" type="text" id="campo3'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input lbl="'.$docs['campo_c'].'" tipo="'.$docs['tipo_c'].'" type="text" id="campo3'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['campo_aux_v3'].'" >';
                                                                 echo '</div>';
                                                             }
                                                             echo '</div>';
@@ -665,7 +694,7 @@ $(document).ready(function () {
                                                             echo '<div class="form-group">';
                                                                 echo '<label class="col-md-4 control-label" for="example-username">Observaciones</label>';
                                                                 echo '<div class="col-md-8">';
-                                                                    echo '<input type="text" id="obs_'.$i.'_'.$docs['tipo_doc_id'].'" >';
+                                                                    echo '<input type="text" id="obs_'.$i.'_'.$docs['tipo_doc_id'].'" value="'.$docs['observacion'].'">';
                                                                 echo '</div>';
                                                             echo '</div>';
                                                         echo '</div>';

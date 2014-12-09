@@ -166,10 +166,22 @@ class presentaciondoc extends \Phalcon\Mvc\Model
     public $nombre;
     
     /**
+     * 
+     * @var integer
+     */
+    public $tamanio;
+    
+    /**
+     * 
+     * @var string
+     */
+    public $tipo;
+    
+    /**
      * Initialize method for model.
      */
     
-    public function initializa(){
+    public function initialize(){
         $this->setSchema("");
     }
     
@@ -205,7 +217,9 @@ class presentaciondoc extends \Phalcon\Mvc\Model
             'fecha_reg' => 'fecha_reg',
             'user_mod_id' => 'user_mod_id',
             'fecha_mod' => 'fecha_mod',
-            'nombre' => 'nombre'
+            'nombre' => 'nombre',
+            'tamanio' => 'tamanio',
+            'tipo' => 'tipo'
         );
     }
 }
