@@ -14,45 +14,45 @@ class CargosController extends ControllerBase
 		// $this->tag->setDefault("organigrama_id", 3);
 		$organigrama = $this->tag->select(
 			array(
-				'organigrama_id_rep',
+				'organigrama_id',
 				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
 				'using' => array('id', "unidad_administrativa"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
-				'emptyValue' => '0',
-				'class' => 'form-control select-chosen'
+				'emptyValue' => '',
+				'class' => 'form-control',
 				)
 			);
 		
 		$this->view->setVar('organigrama',$organigrama);
 
-		// $finpartida = $this->tag->select(
-		// 	array(
-		// 		'fin_partida_id',
-		// 		Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
-		// 		'using' => array('id', "denominacion"),
-		// 		'useEmpty' => true,
-		// 		'emptyText' => '(Selecionar)',
-		// 		'emptyValue' => '0',
-		// 		'class' => 'form-control'
-		// 		)
-		// 	);
-		// $this->view->setVar('finpartida',$finpartida);
+		$finpartida = $this->tag->select(
+			array(
+				'fin_partida_id',
+				Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
+				'using' => array('id', "denominacion"),
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+		$this->view->setVar('finpartida',$finpartida);
 
-		/*$nivelsalarial = $this->tag->select(
+		$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
 				Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "denominacion"),
 				'useEmpty' => tue,
 				'emptyText' => '(Selecionar)',
-				'emptyValue' => '0',
+				'emptyValue' => '',
 				'class' => 'form-control'
 				)
-);
-$nivelsalarial = Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
-$this->view->setVar('nivelsalarial',$nivelsalarial);
-*/
+			);
+// $nivelsalarial = Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC'));
+		$this->view->setVar('nivelsalarial',$nivelsalarial);
+
 // $cargoestado=Cargosestados::find(array('baja_logica=1','order' => 'id ASC'));
 // $this->view->setVar('cargoestado',$cargoestado);
 
@@ -151,7 +151,7 @@ public function saveAction()
 			$resul->codigo_nivel = $_POST['codigo_nivel'];
 			$resul->fin_partida_id=$_POST['fin_partida_id'];
 			$resul->user_mod_id = $user->id;
-			$resul->fecha_mod = date("Y-m-d");
+			$resul->fecha_mod = date("Y-m-d H:i:s");
 			$resul->formacion_requerida=$_POST['formacion_requerida'];
 			$resul->save();
 		}
@@ -172,20 +172,20 @@ public function saveAction()
 				$resul = new Cargos();
 				$resul->organigrama_id = $_POST['organigrama_id'];
 				if ($_POST['depende_id']!="") {
-				$resul->depende_id = $_POST['depende_id'];
-			}else{
-				$resul->depende_id = 0;
-			}
-		
+					$resul->depende_id = $_POST['depende_id'];
+				}else{
+					$resul->depende_id = 0;
+				}
+
 				$resul->ejecutora_id = 1;
 					$resul->codigo = $_POST['codigo']; //generar
 					$resul->cargo = $_POST['cargo'];
 					$resul->codigo_nivel = $_POST['codigo_nivel'];
-					$resul->cargo_estado_id = 0;
+					$resul->cargo_estado_id = 1;
 					$resul->estado = 0;
 					$resul->baja_logica = 1;
 					$resul->user_reg_id = 1;
-					$resul->fecha_reg = date("Y-m-d");
+					$resul->fecha_reg = date("Y-m-d H:i:s");
 					$resul->fin_partida_id=$_POST['fin_partida_id'];
 					$resul->poa_id=1;
 					$resul->formacion_requerida=$_POST['formacion_requerida'];
@@ -405,7 +405,21 @@ public function exportarPdfAction()
 		$objWriter->save('../tmp/'.$naziv);
 	}
 
+	public function dependenciaAction($id='')
+	{
+		
+		$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
+		$this->view->disable();
+		$options = '<option value="">(Seleccionar)</option>';
 
+		foreach ($resul as $v) {
+			$options.='<option value="'.$v->id.'">'.$v->cargo.'</option>';
+		}
+    
+        
+	echo $options; 
+	}
 
+	
 }
 ?>

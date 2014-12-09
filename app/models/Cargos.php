@@ -152,7 +152,7 @@ class Cargos extends \Phalcon\Mvc\Model
             }
         }
 
-        $sql = "SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.codigo_nivel ASC) AS nro,c.id,c.organigrama_id,o.unidad_administrativa,c.codigo_nivel,c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,ca.estado,
+        $sql = "SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.codigo_nivel ASC) AS nro,c.id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,ca.estado,
 c.cargo_estado_id,ca.estado as cargo_estado,
 CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci
 FROM cargos c 
