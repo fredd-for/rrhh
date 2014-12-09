@@ -58,7 +58,7 @@ class tipodoccondicion extends \Phalcon\Mvc\Model
                       FROM personas p, relaborales rl, finpartidas fp, condiciones c, tipodoccondicion tdc, parametros pr, tipodocumento td 
                       LEFT JOIN presentaciondoc pd ON pd.tipodocumento_id = td.id
                       WHERE p.id = rl.persona_id AND fp.id = rl.finpartida_id AND c.id = fp.condicion_id AND c.id = tdc.condicion_id AND td.id = tdc.tipodocumento_id
-                      AND td.grupoarchivos_id = pr.id AND (pd.id IS NULL OR rellaboral_id = rl.id)
+                      AND td.grupoarchivos_id = pr.id AND (pd.id IS NULL OR (rellaboral_id = rl.id AND pd.baja_logica = 1))
                       AND p.baja_logica = 1 AND rl.baja_logica = 1 AND tdc.baja_logica = 1 AND td.baja_logica = 1 AND rl.estado = 1 AND rl.baja_logica = 1
                       AND (td.sexo = 'I' OR td.sexo = '".$sexo."')
                       AND p.ci = '".$ci."'
