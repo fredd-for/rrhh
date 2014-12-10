@@ -20,8 +20,6 @@ class RelaboralesController extends ControllerBase
      */
     public function indexAction()
     {
-        /*$this->assets->addJs('/js/jquery-ui.js');
-        $this->assets->addCss('/js/jquery-ui.css');*/
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
@@ -118,7 +116,8 @@ class RelaboralesController extends ControllerBase
                     'nombres' => $v->nombres,
                     'ci' => $v->ci,
                     'expd' => $v->expd,
-                    'num_complemento' => $v->num_complemento,
+                    'fecha_caducidad' => $v->fecha_caducidad,
+                    'num_complemento' => '',
                     'fecha_nac' => $v->fecha_nac,
                     'edad' => $v->edad,
                     'lugar_nac' => $v->lugar_nac,
@@ -893,7 +892,8 @@ class RelaboralesController extends ControllerBase
                             'tipo_documento' => $v->tipo_documento,
                             'ci' => $v->ci,
                             'expd' => $v->expd,
-                            'num_complemento' => $v->num_complemento,
+                            'fecha_caducidad' => $v->fecha_caducidad,
+                            'num_complemento' => '',
                             'fecha_nac' => $fecha_nac,
                             'edad' => $v->edad,
                             'lugar_nac' => $v->lugar_nac,
@@ -1035,7 +1035,8 @@ class RelaboralesController extends ControllerBase
                         'nombres' => $v->p_nombre . " " . $v->s_nombre . " " . $v->t_nombre . " " . $v->p_apellido . " " . $v->s_apellido . " " . $v->c_apellido,
                         'ci' => $v->ci,
                         'expd' => $v->expd,
-                        'num_complemento' => $v->num_complemento,
+                        'fecha_caducidad' => $v->fecha_caducidad,
+                        'num_complemento' => '',
                         'fecha_nac' => $v->fecha_nac,
                         'edad' => $v->edad,
                         'lugar_nac' => $v->lugar_nac,
@@ -1295,7 +1296,7 @@ class RelaboralesController extends ControllerBase
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'ci' => array('title' => 'CI', 'width' => 12, 'align' => 'C', 'type' => 'varchar'),
             'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
-            'num_complemento' => array('title' => 'N/C', 'width' => 15, 'align' => 'C', 'type' => 'bpchar'),
+            'fecha_caducidad' => array('title' => 'Fecha Cad', 'width' => 18, 'align' => 'C', 'type' => 'bpchar'),
             'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
@@ -1571,9 +1572,9 @@ class RelaboralesController extends ControllerBase
                     if($groups!="")$groups.=",";
                     $coma="";
                     if($pdf->debug==1){
-                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        echo "<p>===========================================Orden======================================</p>";
                         print_r($sorteds);
-                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        echo "<p>===========================================Orden======================================</p>";
                     }
                     foreach($sorteds as $ord=>$orden){
                         $groups.=$coma.$ord;
@@ -1588,9 +1589,9 @@ class RelaboralesController extends ControllerBase
                 if(is_array($sorteds)&&count($sorteds)>0){
                     $coma="";
                     if($pdf->debug==1){
-                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        echo "<p>===========================================Orden======================================</p>";
                         print_r($sorteds);
-                        echo "<p>===========================================Ordenadossss======================================</p>";
+                        echo "<p>===========================================Orden======================================</p>";
                     }
                     foreach($sorteds as $ord=>$orden){
                         $groups.=$coma.$ord;
@@ -1619,7 +1620,8 @@ class RelaboralesController extends ControllerBase
                     'nombres' => $v->nombres,
                     'ci' => $v->ci,
                     'expd' => $v->expd,
-                    'num_complemento' => $v->num_complemento,
+                    'fecha_caducidad' => $v->fecha_caducidad,
+                    'num_complemento' => '',
                     'fecha_nac' => $v->fecha_nac,
                     'edad' => $v->edad,
                     'lugar_nac' => $v->lugar_nac,

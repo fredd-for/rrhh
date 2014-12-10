@@ -57,8 +57,8 @@ $(document).ready(function() {
               <li id="2">Claro</li>\
              </ul>\
             </div>\';*/
-      html[palette] = '<div class="x-close-box">X</div>\
-            <br><table id="palette-table" style="border-collapse: seperate;padding: 0px;margin:0; width: 290px;">';
+      html[palette] = '<div class="x-close-box" style="height: auto">X</div>\
+            <br><br><table id="palette-table" style="border-collapse: seperate;padding: 5px;margin:0; width: 290px;">';
 
       for (var row in palettes[palette]) {
         html[palette] += '<tr>';
@@ -106,7 +106,6 @@ $(document).ready(function() {
     });
 
     $(".kolorPicker").on("keyup", function () {
-
       if ($(this).val().charAt(0) != '#') {
         $(this).val('#' + $(this).val());
       }
@@ -124,7 +123,6 @@ $(document).ready(function() {
     });
 
     $(".kolorPicker").on("keypress", function (e) {
-          
       preInput = $(this).val(); //catch this value for comparison in keyup
 
       return true;

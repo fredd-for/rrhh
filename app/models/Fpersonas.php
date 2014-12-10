@@ -21,7 +21,7 @@ class Fpersonas extends \Phalcon\Mvc\Model {
     public $tipo_documento;
     public $ci;
     public $expd;
-    public $num_complemento;
+    public $fecha_caducidad;
     public $fecha_nac;
     public $edad;
     public $lugar_nac;
@@ -78,7 +78,7 @@ class Fpersonas extends \Phalcon\Mvc\Model {
             'tipo_documento'=>'tipo_documento',
             'ci'=>'ci',
             'expd'=>'expd',
-            'num_complemento'=>'num_complemento',
+            'fecha_caducidad'=>'fecha_caducidad',
             'fecha_nac'=>'fecha_nac',
             'edad'=>'edad',
             'lugar_nac'=>'lugar_nac',
