@@ -220,7 +220,7 @@ class PresentaciondocController extends ControllerBase{
         $resul = presentaciondoc::findFirstById($id);
         $this->view->disable();
         //$file = 'D:\xampp\htdocs\rrhh\public\filepersonal\\'.$ci.'\\'.$resul->nombre;
-        $file = '/var/www/html/rrhh_publicado/public/filepersonal/'.$ci.'/'.$resul->nombre;
+        $file = '/var/www/html/rrhh/public/filepersonal/'.$ci.'/'.$resul->nombre;
         if ( file_exists($file)){
         $filetemp = substr($resul->nombre, 0,-4);
         header("Content-Disposition: attachment; filename=" . $filetemp . "\n\n");
