@@ -83,7 +83,7 @@ class PersonalController extends ControllerBase{
             'tipo_doc' => $resul->tipo_doc,
             'ci' => $resul->ci,
             'expd' => $resul->expd,
-            'f_caducidad' => $resul->f_caducidad,
+            'fecha_caducidad' => $resul->fecha_caducidad,
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
             'fecha_nac' => $resul->fecha_nac,
@@ -127,7 +127,7 @@ class PersonalController extends ControllerBase{
             'tipo_doc' => $resul->tipo_doc,
             'ci' => $resul->ci,
             'expd' => $resul->expd,
-            'f_caducidad' => date("d-m-Y",strtotime($resul->f_caducidad)),
+            'fecha_caducidad' => date("d-m-Y",strtotime($resul->fecha_caducidad)),
             'nacionalidad' => $resul->nacionalidad,
             'lugar_nac' => $resul->lugar_nac,
             'fecha_nac' => date("d-m-Y",strtotime($resul->fecha_nac)),
@@ -217,8 +217,8 @@ class PersonalController extends ControllerBase{
             //$hoy = $date->format('Y-m-d H:i:s');
             $date = new DateTime($_POST['fecha_nac']);
             $fecha_nac = $date->format('Y-m-d');//echo $fecha_nac." | ".$hoy;
-            $date1 = new DateTime($_POST['f_caducidad']);
-            $f_caducidad = $date1->format('Y-m-d');
+            $date1 = new DateTime($_POST['fecha_caducidad']);
+            $fecha_caducidad = $date1->format('Y-m-d');
             if ($_POST['id']>0) {
                 $resul = new personas();
                 $resul = personas::findFirstById($_POST['id']);
@@ -246,10 +246,10 @@ class PersonalController extends ControllerBase{
                 }
                 $resul->ci = $_POST['ci'];
                 $resul->expd = $_POST['expd'];
-                if (isset($_POST['f_caducidad'])){
-                  $resul->f_caducidad = $f_caducidad;
+                if (isset($_POST['fecha_caducidad'])){
+                  $resul->fecha_caducidad = $fecha_caducidad;
                 } else {
-                  $resul->f_caducidad = NULL;
+                  $resul->fecha_caducidad = NULL;
                 }
                 $resul->fecha_nac = $fecha_nac;
                 $resul->lugar_nac = $_POST['lugar_nac'];
@@ -390,10 +390,10 @@ class PersonalController extends ControllerBase{
                 }
                 $resul->ci = $_POST['ci'];
                 $resul->expd = $_POST['expd'];
-                if (isset($_POST['f_caducidad'])){
-                  $resul->f_caducidad = $f_caducidad;
+                if (isset($_POST['fecha_caducidad'])){
+                  $resul->fecha_caducidad = $fecha_caducidad;
                 } else {
-                  $resul->f_caducidad = NULL;
+                  $resul->fecha_caducidad = NULL;
                 }
                 $resul->fecha_nac = $fecha_nac;
                 $resul->lugar_nac = $_POST['lugar_nac'];

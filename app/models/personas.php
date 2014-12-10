@@ -67,7 +67,7 @@ class personas extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $f_caducidad;
+    public $fecha_caducidad;
     
     /**
      *
@@ -222,7 +222,7 @@ class personas extends \Phalcon\Mvc\Model
             'c_apellido' => 'c_apellido',
             'ci' => 'ci', 
             'expd' => 'expd', 
-            'f_caducidad' => 'f_caducidad', 
+            'fecha_caducidad' => 'fecha_caducidad', 
             'fecha_nac' => 'fecha_nac', 
             'lugar_nac' => 'lugar_nac', 
             'genero' => 'genero', 
