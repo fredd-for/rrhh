@@ -58,8 +58,8 @@
     $sexo = array(
                 "F" => "femenino",
                 "M" => "masculino");
-if ($datos_personal['f_caducidad']!= ''){
-    $datos_personal['f_caducidad'] = date ("d-m-Y",strtotime($datos_personal['f_caducidad']));
+if ($datos_personal['fecha_caducidad']!= ''){
+    $datos_personal['fecha_caducidad'] = date ("d-m-Y",strtotime($datos_personal['fecha_caducidad']));
 }
     
 ?>
@@ -409,9 +409,9 @@ if ($datos_personal['f_caducidad']!= ''){
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="f_caducidad">Fecha de Caducidad :</label>
+                        <label class="col-sm-3 control-label" for="fecha_caducidad">Fecha de Caducidad :</label>
                         <div class="col-sm-6">
-                            <label class="col-sm-3 control-label"><?php echo $datos_personal['f_caducidad']; ?></label>
+                            <label class="col-sm-3 control-label"><?php echo $datos_personal['fecha_caducidad']; ?></label>
                         </div>
                     </div>
                 </div>

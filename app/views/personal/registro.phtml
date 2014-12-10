@@ -223,7 +223,7 @@ $hoy = date("d-m-Y", $nuevafecha);
                     	datatype: 'json',
 			data:{id:$("#id").val(),p_nombre:$("#p_nombre").val(),s_nombre:$("#s_nombre").val(),t_nombre:$("#t_nombre").val()
                               ,p_apellido:$("#p_apellido").val(),s_apellido:$("#s_apellido").val(),c_apellido:$("#c_apellido").val()
-                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,f_caducidad:$("#f_caducidad").val()
+                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,fecha_caducidad:$("#fecha_caducidad").val()
                               ,nacionalidad:nacionalidad.value,lugar_nac:l_nacimiento.value,fecha_nac:fecha_nac,e_civil:e_civil.value
                               ,grupo_sanguineo:grupo_sanguineo.value,sexo:genero.value
                               ,id_personas_contacto:$("#id_personas_contactos").val(),direccion_dom:$("#direccion").val()
@@ -473,9 +473,9 @@ $hoy = date("d-m-Y", $nuevafecha);
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="f_caducidad">Fecha de Caducidad :</label>
+                        <label class="col-sm-3 control-label" for="fecha_caducidad">Fecha de Caducidad :</label>
                         <div class="col-sm-6">
-                            <input type="text" id="f_caducidad" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" value="">
+                            <input type="text" id="fecha_caducidad" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" value="">
                         </div>
                     </div>
                 </div>
