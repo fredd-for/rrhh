@@ -5,7 +5,7 @@
  *   Usuario Creador: Lic. Javier Loza
  *   Fecha Creación:  09-11-2014
  */
-function exportarPDF(){
+function exportarReporte(option){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
@@ -96,7 +96,15 @@ function exportarPDF(){
     json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+    var ruta='';
+    switch (option){
+        case 1: ruta="/relaborales/exportexcel/";break;
+        case 2: ruta="/relaborales/exportpdf/";break;
+    }
+    /*if(option==1)ruta="/relaborales/print/";
+    elseif(option==2)ruta="/relaborales/print/";*/
+    if(ruta!='')
+        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

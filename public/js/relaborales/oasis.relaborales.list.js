@@ -114,13 +114,25 @@ $().ready(function () {
         $("#popupWindowCargo").jqxWindow('open');
         definirGrillaParaSeleccionarCargoAcefaloParaEditar(0, '');
     });
+    $("#btnExportarExcel").click(function () {
+        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
+        if (numColumnas > 0) exportarReporte(1);
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#jqxlistbox").focus();
+        }
+    });
     $("#btnExportarPDF").click(function () {
         var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
             numColumnas++;
         });
-        if (numColumnas > 0) exportarPDF();
+        if (numColumnas > 0) exportarReporte(2);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#jqxlistbox").focus();

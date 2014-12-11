@@ -1,4 +1,12 @@
 <?php
+/*
+*   Oasis - Sistema de Gestión para Recursos Humanos
+*   Empresa Estatal de Transporte por Cable "Mi Teleférico"
+*   Versión:  1.0.0
+*   Usuario Creador: Lic. Javier Loza
+*   Fecha Creación:  01-12-2014
+*/
+
 class pdfoasis extends fpdf{
     public $title_rpt = '';
     public $header_title_estado_rpt = 'Estado Plurinacional de Bolivia';
