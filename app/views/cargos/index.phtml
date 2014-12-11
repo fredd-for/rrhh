@@ -176,7 +176,14 @@
                 autorowheight: true,
 				
 				columns: [
-				{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
+				{
+                      text: '#', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '', columntype: 'number', width: '3%',
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+                      }
+        		},
 				{ text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
 				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
 				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
@@ -279,7 +286,14 @@ function cargar2(){
         //showtoolbar: true,
         autorowheight: true,
 		columns: [
-		{ text: 'Nro', datafield: 'nro',filtertype: 'number', width: '3%'},
+		{
+                      text: '#', sortable: false, filterable: false, editable: false,
+                      groupable: false, draggable: false, resizable: false,
+                      datafield: '', columntype: 'number', width: '3%',
+                      cellsrenderer: function (row, column, value) {
+                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+                      }
+        },
 		{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
 		{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
 		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
