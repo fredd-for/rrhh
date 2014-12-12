@@ -85,10 +85,9 @@ class ResolucionesController extends ControllerBase
 	public function saveAction()
 	{
 		if (isset($_POST['id'])) {
-			$date = new DateTime($_POST['fecha_emi']);
-			$fecha_emi = $date->format('Y-m-d');
-			$date = new DateTime($_POST['fecha_apr']);
-			$fecha_apr = $date->format('Y-m-d');
+
+			$fecha_emi = date("Y-m-d",strtotime($_POST['fecha_emi']));
+			$fecha_apr = date("Y-m-d",strtotime($_POST['fecha_apr']));
 
 			if ($_POST['id']>0) {
 				$resul = Resoluciones::findFirstById($_POST['id']);
@@ -96,7 +95,6 @@ class ResolucionesController extends ControllerBase
 				$resul->numero_res = $_POST['numero_res'];
 				$resul->fecha_emi = $fecha_emi;
 				$resul->fecha_apr = $fecha_apr;
-				$resul->save();
 				if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
 				}else{
@@ -116,7 +114,6 @@ class ResolucionesController extends ControllerBase
 				//$resul->fecha_fin = $fecha_emi;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
-				//$resul->save();
 				if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
 				}else{

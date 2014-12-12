@@ -7,7 +7,7 @@ $(document).ready(function () {
 				{ name: 'id',type: 'number'},
 				{ name: 'tipo_resolucion',type: 'string'},
 				{ name: 'numero_res',type: 'number'},
-				{ name: 'fecha_emi',type:'date'},
+				{ name: 'fecha_emi',type:'date',format: 'dd-MM-yyyy'},
 				{ name: 'fecha_apr',type:'date'}
 			],
 			url: '/resoluciones/list',
@@ -17,125 +17,124 @@ $(document).ready(function () {
 		cargar();	
 		function cargar(){
 			$("#jqxgrid").jqxGrid(
-		{
-		width: '100%',
-		source: dataAdapter,
-		sortable: true,
-		altRows: true,
-		pageable: true,
-		pagerMode: 'advanced',
-		showfilterrow: true,
-		filterable: true,
-		columns: [
-			{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
-			{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: '45%' },
-			{ text: 'Nro Resolucion', datafield: 'numero_res',filtertype: 'input', width: '10%' },
-			{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
-			{ text: 'Fecha Aprobación', datafield: 'fecha_apr', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
-			{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
-                     return "Editar";
-                  }, buttonclick: function (row) {
-                     // open the popup window when the user clicks a button.
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+			{
+				width: '100%',
+				source: dataAdapter,
+				sortable: true,
+				altRows: true,
+				pageable: true,
+				pagerMode: 'advanced',
+				showfilterrow: true,
+				filterable: true,
+				columns: [
+				{
+					text: '#', sortable: false, filterable: false, editable: false,
+					groupable: false, draggable: false, resizable: false,
+					datafield: '', columntype: 'number', width: '5%',
+					cellsrenderer: function (row, column, value) {
+						return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+					}
+				},
+				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%',hidden:true},
+				{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: '45%' },
+				{ text: 'Nro Resolucion', datafield: 'numero_res',filtertype: 'input', width: '10%' },
+				{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+				{ text: 'Fecha Aprobación', datafield: 'fecha_apr', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'}
+				]
+			});
 
-                     // get the clicked row's data and initialize the input fields.
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#titulo").text("Editar");
-                     $("#id").val(dataRecord.id);
-                     $("#tipo_resolucion").val(dataRecord.tipo_resolucion);
-                     $("#numero_res").val(dataRecord.numero_res);
-					
-					$("#fecha_emi").jqxDateTimeInput({ value:dataRecord.fecha_emi,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });	
-					$("#fecha_apr").jqxDateTimeInput({ value:dataRecord.fecha_apr,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' });	
-                     $("#popupWindow").jqxWindow('open');
-                     
-                 }
-            },
-            { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
-                     return "Eliminar";
-                  }, buttonclick: function (row) {
-                     editrow = row;
-                     var offset = $("#jqxgrid").offset();
-                     $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#id").val(dataRecord.id);
-                     $("#popupWindow_delete").jqxWindow('open');
-                 }
-            }
-		]
-		});
-
-		}
-		// initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            $("#popupWindow_delete").jqxWindow({
-                width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
+}
             // update the edited row when the user clicks the 'Save' button.
+            $("#jqxgrid").bind('rowselect', function (event) {
+            	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+            	$("#id").val(dataRecord.id);
+            	$("#tipo_resolucion").val(dataRecord.tipo_resolucion);
+                $("#numero_res").val(dataRecord.numero_res);
+                var fe = $.jqx.dataFormat.formatdate(dataRecord.fecha_emi, 'dd-MM-yyyy');
+                var fa = $.jqx.dataFormat.formatdate(dataRecord.fecha_apr, 'dd-MM-yyyy');
+                $("#fecha_emi").val(fe);
+                $("#fecha_apr").val(fa);
+            });
+
             $("#add").click(function(){
             	$("#titulo").text("Adicionar");
             	$("#id").val("");
             	$("#tipo_resolucion").val("");
             	$("#numero_res").val("");
-            	$("#popupWindow").jqxWindow('open');
-            	/*fecha= new Date();
-  				fecha.setDate(fecha.getDate());
-				$("#fecha_emi").jqxDateTimeInput('setDate', fecha);
-				fecha= new Date();
-  				fecha.setDate(fecha.getDate());
-				$("#fecha_apr").jqxDateTimeInput('setDate', fecha);
-				*/
+            	$("#fecha_emi").val("");
+            	$("#fecha_apr").val("");
+            	$('#myModal').modal('show');
             });
 
-            $("#Save").click(function () {
-            	if ($('#testForm').jqxValidator('validate')){
-            	var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
-            	var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
-            	var v=$.ajax({
-                    	url:'../../resoluciones/save/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
-						success: function(data) { cargar(); //alert(data); 
-												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-                    $("#popupWindow").jqxWindow('hide');
-               }
+            $("#edit").click(function(){
+            	if($("#id").val()!=""){
+            		$("#titulo").text("Editar");
+            		$('#myModal').modal('show');        		
+            	}else{
+            		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
+            	}
             });
 
-            $("#Eliminar").click(function () {
-            	if (editrow >= 0) {
-                    var v=$.ajax({
-                    	url:'../../resoluciones/delete/',
-                    	type:'POST',
-                    	datatype: 'json',
-						data:{id:$("#id").val()},
+            $("#delete").click(function(){
+            	if($("#id").val()!=""){
+            		bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+            			if (result==true) {
+            				var v=$.ajax({
+            					url:'/resoluciones/delete/',
+            					type:'POST',
+            					datatype: 'json',
+            					data:{id:$("#id").val()},
 						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
 												}, //mostramos el error
-						error: function() { alert('Se ha producido un error Inesperado'); }
-					});
-					//$('#jqxgrid').jqxGrid();
-                    $("#popupWindow_delete").jqxWindow('hide');
-                }
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+            			}
+            		});
+            	}else{
+            		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+            	}
             });
 
-            $('#testForm').jqxValidator({
-                rules: [
-                       { input: '#tipo_resolucion', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       { input: '#numero_res', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       ]
-            });
-
-            // create a jqxDateTimeInput.
-            //var f='2014-01-01'; 
-               	$("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-                $("#fecha_apr").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+$('#testForm').validate({
+	rules: {
+		fecha_apr: {
+			required: true
+		},
+		fecha_emi: {
+			required: true
+		},
+		tipo_resolucion: {
+			required: true
+		},
+		numero_res: {
+			required: true
+		}
+	},
+	highlight: function (element) {
+		$(element).closest('.control-group').removeClass('success').addClass('error');
+	},
+	success: function (element) {
+        //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+    },
+    submitHandler: function (form) {
+            // form validates so do the ajax
+            var fecha_apr = $('#fecha_apr').val();
+            var fecha_emi = $('#fecha_emi').val();
+            var v=$.ajax({
+            	url:'/resoluciones/save/',
+            	type:'POST',
+            	datatype: 'json',
+            	data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
+						success: function(data) { cargar(); //alert(data); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+            $('#myModal').modal('hide');
+            return false; // ajax used, block the normal submit
+        }
+    });		
+            
 	});
 </script>
 
@@ -150,78 +149,71 @@ $(document).ready(function () {
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<?php //echo $this->flashSession->output() ?>
-				<div style="margin-left: 5px;">
-					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />
+				<div class="form-group form-actions">
+					<div class="col-xs-12">
+						<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+						<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+						<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					</div>
 				</div>
 				<br>
 				<div class="table-responsive">
 					<div id="jqxgrid"></div>
 				</div>
-
-				<div style="margin-top: 30px;">
-            		<div id="cellbegineditevent"></div>
-            		<div style="margin-top: 10px;" id="cellendeditevent"></div>
-       			</div>
-				<div id="popupWindow">
-					<div id="titulo">Editar</div>
-					<div style="overflow: hidden;">
-						<form id="testForm">
-						<table>
-							<tr>
-								<td align="right">id:</td>
-								<td align="left"><input id="id" name="id" type="hidden" /></td>
-							</tr>
-							<tr>
-								<td align="right">Tipo Resolución:</td>
-								<td align="left"><input id="tipo_resolucion" name="tipo_resolucion" type="text" class="form-control"/></td>
-							</tr>
-							<tr>
-								<td align="right">Numero Resolución:</td>
-								<td align="left"><input id="numero_res" name="numero_res" type="text" class="form-control"/></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Emisión:</td>
-								<td align="left"><div id='fecha_emi'></div></td>
-							</tr>
-							<tr>
-								<td align="right">Fecha Aprobación:</td>
-								<td align="left"><div id='fecha_apr'></div></td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Save" value="Guardar" />
-								<input id="Cancel" type="button" value="Cancelar" />
-								</td>
-							</tr>
-						</table>
-						</form>
-					</div>
-				</div>
-
-				<div id="popupWindow_delete">
-					<div>Eliminar</div>
-					<div style="overflow: hidden;">
-						<table>
-							<tr>
-								<td align="left">Esta seguro de Eliminar el registro</td>
-							</tr>
-							<tr>
-								<td align="right"></td>
-								<td style="padding-top: 10px;" align="right">
-								<input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-								<input id="Cancel" type="button" value="Cancel" />
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-
 			</div>
 		</div>
 		
 	</div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm" data-toggle="validator"/>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="titulo">Editar</h4>
+			</div>
+			<div class="modal-body">
+				<input id="id" name="id" type="hidden" />
+				<div class="form-group">
+					<label class="col-md-3 control-label">Tipo Resolución</label>
+					<div class="col-md-9">
+						<input id="tipo_resolucion" name="tipo_resolucion" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">Numero Resolución</label>
+					<div class="col-md-9">
+						<input id="numero_res" name="numero_res" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">Fecha Emisión</label>
+					<div class="col-md-9">
+						<input type="text" id="fecha_emi" name="fecha_emi"  class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">Fecha Aprobación</label>
+					<div class="col-md-9">
+						<input type="text" id="fecha_apr" name="fecha_apr" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary" id="Save">Guardar</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
+
+<style type="text/css">
+	.datepicker{
+		z-index:1151;
+	}
+</style>
