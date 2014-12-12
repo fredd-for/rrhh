@@ -44,7 +44,10 @@ class ControllerBase extends Controller {
                     ->addCss('/js/jqwidgets/styles/jqx.blackberry.css')
                     ->addCss('/js/jqwidgets/styles/jqx.mobile.css')
                     ->addCss('/js/jqwidgets/styles/jqx.android.css')
-                    
+
+                    /*Adicionado por Javier*/
+                    ->addCss('/assets/css/jquery-ui.css')
+
             ;
             $this->assets
                     ->addJs('/js/jqwidgets/scripts/jquery-1.11.1.min.js')
@@ -54,13 +57,13 @@ class ControllerBase extends Controller {
                     ->addJs('/js/wizard/prettify.js')
                     ->addJs('/assets/js/vendor/modernizr-2.7.1-respond-1.4.2.min.js')
                     ->addJs('/assets/js/vendor/bootstrap.min.js')
-                    ->addJs('/assets/js/plugins.js')
+                    ->addJs('/assets//js/plugins.js')
                     ->addJs('/assets/js/app.js')
                     //  ->addJs('/assets/js/helpers/gmaps.min.js')
                     ->addJs('/js/app.plugin.js')
                     //  ->addJs('/js/jquery-ui-1.9.0.custom.min.js')
-                    ->addJs('/js/bootstrap.min.js')
-                    //JS ingresado por Freddy   
+                    //->addJs('/js/bootstrap.min.js')
+                    //JS ingresado por Freddy
                     
                     ->addJs('/js/jqwidgets/simulator.js')
                     ->addJs('/js/jqwidgets/jqxcore.js')
@@ -101,6 +104,11 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxtree.js')
                     ->addJs('/js/jqwidgets/jqxdata.export.js')
                     ->addJs('/js/jqwidgets/jqxgrid.export.js')
+                    ->addJs('/js/jqwidgets/jqxgrid.edit.js')
+                    ->addJs('/js/jqwidgets/jqxnotification.js')
+                    ->addJs('/js/jqwidgets/jqxbuttongroup.js')
+                    ->addJs('/js/bootbox.js')
+
             ;
             //menu
             $this->menu($this->_user->nivel);

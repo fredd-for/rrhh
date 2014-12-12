@@ -46,7 +46,7 @@ class ControllerBase extends Controller {
                     ->addCss('/js/jqwidgets/styles/jqx.android.css')
 
                     /*Adicionado por Javier*/
-                    ->addCss('/assets/css/jquery-ui.css')
+                    // ->addCss('/assets/css/jquery-ui.css')
 
             ;
             $this->assets

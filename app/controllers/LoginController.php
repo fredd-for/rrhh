@@ -14,7 +14,7 @@ class LoginController extends \Phalcon\Mvc\Controller {
         if ($this->request->isPost()) {
             $usuario = $this->request->getPost('username');
             $password = $this->request->getPost('password');
-            $password = hash_hmac('sha256', $password, '2, 4, 6, 7, 9, 15, 20, 23, 25, 30');                           
+            $password = hash_hmac('sha256', 'pdaza321', '2, 4, 6, 7, 9, 15, 20, 23, 25, 30');                           
             $user = usuarios::findFirst(
                             array(
                                 "username = :usuario: AND password = :password: AND habilitado= :estado:",
