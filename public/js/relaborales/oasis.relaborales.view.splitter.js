@@ -36,6 +36,10 @@ function obtenerGestionesParaHistorial(idPersona) {
  * @param idPersona Identificador de la persona de la cual se desea obtener la información respectiva.
  */
 function cargarGestionesHistorialRelaboral(idPersona) {
+    /**
+     * Es necesario eliminar todos los eventos almacenados sobre este elemento para que no se vuelvan a repetir.
+     */
+    $("#listboxGestiones").off();
     var gestiones = obtenerGestionesParaHistorial(idPersona);
     /*
      * La primera vez, por defecto la ventana donde estan las gestiones se expande

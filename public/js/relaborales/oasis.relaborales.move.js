@@ -92,6 +92,10 @@ function cargarGrillaMovilidad(idRelaboral) {
 
                     // Registrar nueva movilidad de personal.
                     $("#addrowbuttonmove").on('click', function () {
+                        /**
+                         * Inicialmente es necesario eliminar los eventos sobre este elemento para que no se repitan
+                         */
+                        $("#lstTipoMemorandum").off();
                         $("#hdnIdRelaboralPorMovilidad").val(idRelaboral);
                         $("#hdnIdRelaboralMovilidadModificar").val(0);
                         $("#hdnIdRelaboralMovilidadBaja").val(0);
@@ -137,9 +141,9 @@ function cargarGrillaMovilidad(idRelaboral) {
                         cargarUnidadesOrganizacionalesParaMovilidad(0, 0, 0);
                         cargarUbicacionesParaMovilidad(0);
                         cargarCargosParaMovilidad('');
-                        $("#lstTipoMemorandum").focus();
+                        //$("#lstTipoMemorandum").focus();
                         $("#lstTipoMemorandum").change(function () {
-                            $("#txtCorrelativoMemorandum").focus();
+
                             /*var itemTipoMemorandum = $("#lstTipoMemorandum").jqxComboBox('getSelectedItem');*/
                             var itemTipoMemorandum = $("#lstTipoMemorandum").val();
                             if (itemTipoMemorandum != 0) {
@@ -244,6 +248,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                                 $("#divHorasFinMovilidad").hide();
 
                             }
+                            $("#txtCorrelativoMemorandum").focus();
                         });
                         $("#lstUbicaciones").change(function () {
                             $("#txtCargoMemorandum").focus();
@@ -304,6 +309,10 @@ function cargarGrillaMovilidad(idRelaboral) {
                      * Modificar registro de movilidad de personal.
                      */
                     $("#updaterowbuttonmove").on('click', function () {
+                        /**
+                         * Inicialmente es necesario eliminar los eventos sobre este elemento para que no se repitan
+                         */
+                        $("#lstTipoMemorandum").off();
                         $("#hdnIdRelaboralPorMovilidad").val(idRelaboral);
                         $("#hdnIdRelaboralMovilidadBaja").val(0);
                         $("#hdnFechaMemMovilidadBaja").val("");

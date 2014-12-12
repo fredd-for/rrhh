@@ -106,6 +106,13 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
     });
+
+    $("#btnCancelarMovilidad").click(function () {
+        /**
+         * Inicialmente es necesario eliminar los eventos sobre este elemento para que no se repitan
+         */
+        $("#lstTipoMemorandum").off();
+    });
     $("#btnBuscarCargo").click(function () {
         $("#popupWindowCargo").jqxWindow('open');
         definirGrillaParaSeleccionarCargoAcefalo(0, '');
@@ -663,6 +670,7 @@ function definirGrillaParaListaRelaborales() {
                     });
                     /* Ver registro.*/
                     $("#viewrowbutton").on('click', function () {
+
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
@@ -1363,6 +1371,7 @@ function OperaEvento(evento) {
         $('#jqxTabs').jqxTabs({selectedItem: 0});
         $("#popupWindowCargo").jqxWindow('close');
         $("#popupWindowNuevaMovilidad").jqxWindow('close');
+        $("#lstTipoMemorandum").off();
     }
 }
 /**
