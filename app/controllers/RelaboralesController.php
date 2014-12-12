@@ -1852,8 +1852,6 @@ class RelaboralesController extends ControllerBase
                 $ancho = $ancho + $w;
             }
             $excel = new exceloasis();
-            $excel->defineOrientation("V");
-            $excel->defineSize("C");
             $excel->tableWidth = $ancho;
             #region Proceso de generación del documento Excel
             $excel->debug = 0;
@@ -1879,8 +1877,16 @@ class RelaboralesController extends ControllerBase
             $excel->segundaLetraCabeceraTabla = "B";
             $excel->celdaInicial = $excel->primeraLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
             $excel->celdaFinal = $excel->ultimaLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
-
-
+            if($cantCol<=9){
+                $excel->defineOrientation("V");
+                $excel->defineSize("C");
+            }elseif($cantCol<=13){
+                $excel->defineOrientation("H");
+                $excel->defineSize("C");
+            }else{
+                $excel->defineOrientation("H");
+                $excel->defineSize("O");
+            }
             if ($excel->debug == 1) {
                 echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
                 print_r($columns);
