@@ -25,58 +25,28 @@
 				showfilterrow: true,
 				filterable: true,
 				columns: [
-				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%'},
+				{
+					text: '#', sortable: false, filterable: false, editable: false,
+					groupable: false, draggable: false, resizable: false,
+					datafield: '', columntype: 'number', width: '5%',
+					cellsrenderer: function (row, column, value) {
+						return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+					}
+				},
+				{ text: 'Nro', datafield: 'id',filtertype: 'number', width: '5%',hidden:true},
 				{ text: 'Orden', datafield: 'orden', filtertype: 'number',width: '15%' },
 				{ text: 'Nivel Estructural', datafield: 'nivel_estructural',filtertype: 'input', width: '70%' },
-				{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-					return "Editar";
-				}, buttonclick: function (row) {
-				// open the popup window when the user clicks a button.
-				editrow = row;
-				// var offset = $("#jqxgrid").offset();
-				// $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
-				// get the clicked row's data and initialize the input fields.
-				var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-				$("#titulo").text("Editar");
-				$("#id").val(dataRecord.id);
-				$("#orden").val(dataRecord.orden);
-				$("#nivel_estructural").val(dataRecord.nivel_estructural);
-				$('#myModal').modal('show');
-
-				// show the popup window.
-				// $("#popupWindow").jqxWindow('open');
-			}
-		},
-		{ text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', filterable:false,cellsrenderer: function () {
-			return "Eliminar";
-		}, buttonclick: function (row) {
-			editrow = row;
-				// var offset = $("#jqxgrid").offset();
-				// $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
-				var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-				$("#id").val(dataRecord.id);
-				// $("#popupWindow_delete").jqxWindow('open');
-				bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
-					if (result==true) {
-						var v=$.ajax({
-							url:'/nivelestructurales/delete/',
-							type:'POST',
-							datatype: 'json',
-							data:{id:$("#id").val()},
-				success: function(data) { cargar(); //alert('Guardado Correctamente'); 
-				}, //mostramos el error
-				error: function() { alert('Se ha producido un error Inesperado'); }
-			});
-					}
-				});
-			}
-		}
 		]
 	});
 
 }
+
+$("#jqxgrid").bind('rowselect', function (event) {
+	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+	$("#id").val(dataRecord.id);
+	$("#orden").val(dataRecord.orden);
+	$("#nivel_estructural").val(dataRecord.nivel_estructural);
+});
 
 // update the edited row when the user clicks the 'Save' button.
 $("#add").click(function(){
@@ -87,6 +57,36 @@ $("#add").click(function(){
 	$('#myModal').modal('show');
 //$("#popupWindow").jqxWindow('open');
 });
+
+$("#edit").click(function(){
+	if($("#id").val()!=""){
+		$("#titulo").text("Editar");
+		$('#myModal').modal('show');        		
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
+	}
+});
+
+$("#delete").click(function(){
+	if($("#id").val()!=""){
+		bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+			if (result==true) {
+				var v=$.ajax({
+					url:'/nivelestructurales/delete/',
+					type:'POST',
+					datatype: 'json',
+					data:{id:$("#id").val()},
+				success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+				}, //mostramos el error
+				error: function() { alert('Se ha producido un error Inesperado'); }
+			});
+			}
+		});
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+	}
+});
+
 
 $('#testForm').validate({
     rules: {
@@ -136,17 +136,23 @@ $('#testForm').validate({
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<?php //echo $this->flashSession->output() ?>
-				<div style="margin-left: 5px;">
-					<div>
-						<input id="add" type="button" value=" (+) Adicionar" />
+				<div class="form-group form-actions">
+					<div class="col-xs-12">
+						<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+						<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+						<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					</div>
 				</div>
 				<br>
 				<div class="table-responsive">
 					<div id="jqxgrid"></div>
 				</div>
+		</div>
+	</div>
+</div>
+</div>
 
-				<!-- Modal -->
+	<!-- Modal -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -181,8 +187,3 @@ $('#testForm').validate({
 				</div>
 			</div>
 			<!-- end  modal -->
-		</div>
-	</div>
-</div>
-</div>
-
