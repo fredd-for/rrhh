@@ -221,7 +221,22 @@ class PresentaciondocController extends ControllerBase{
         $this->view->disable();
 
         //$file = 'D:\xampp\htdocs\rrhh\public\filepersonal\\'.$ci.'\\'.$resul->nombre;
-        $file = '/var/www/html/rrhh_publicado/public/filepersonal/'.$ci.'/'.$resul->nombre;
+        
+        //************************************************************************
+        //**                                                                    **
+        //** Se debe habilitar la línea de abajo para el publicado              **
+        //**                                                                    **
+        //************************************************************************
+        
+        //$file = '/var/www/html/rrhh_publicado/public/filepersonal/'.$ci.'/'.$resul->nombre;
+        
+        //************************************************************************
+        //**                                                                    **
+        //** Se debe habilitar la línea de abajo para el RRHH"                  **
+        //**                                                                    **
+        //************************************************************************
+        
+        //$file = '/var/www/html/rrhh/public/filepersonal/'.$ci.'/'.$resul->nombre;
 
         if ( file_exists($file)){
         $filetemp = substr($resul->nombre, 0,-4);
