@@ -10,6 +10,10 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/perfileslaborales/index.phtml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/perfileslaborales/oasis.localizacion.js" />
       <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\calendariolaboral\compCalendar.js" afterPath="" />
+<<<<<<< HEAD
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/reporte_relaboral.xls" afterPath="$PROJECT_DIR$/public/reporte_relaboral.xls" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" afterPath="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Relaborales.php" afterPath="$PROJECT_DIR$/app/models/Relaborales.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
@@ -48,7 +52,11 @@
       <file leaf-file-name="oasis.perfileslaborales.index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.index.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21675">
+=======
+            <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="21675">
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
               <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -63,22 +71,52 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-8.076923" vertical-offset="31206" max-vertical-offset="54247">
               <caret line="1854" column="31" selection-start-line="1854" selection-start-column="31" selection-end-line="1854" selection-end-column="31" />
+=======
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.15229563" vertical-offset="0" max-vertical-offset="893">
+              <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/perfileslaborales/index.phtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.5" vertical-offset="1412" max-vertical-offset="18853">
+              <caret line="93" column="33" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="33" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
       <file leaf-file-name="exceloasis.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/exceloasis.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.19036955" vertical-offset="0" max-vertical-offset="9520">
               <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
               <folding />
+=======
+      <file leaf-file-name="PerfileslaboralesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.576923" vertical-offset="157" max-vertical-offset="52700">
+              <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+              <folding>
+                <element signature="e#7#215#0#PHP" expanded="true" />
+                <marker date="1418427122648" expanded="true" signature="707:1408" placeholder="..." />
+              </folding>
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
             </state>
           </provider>
         </entry>
@@ -127,7 +165,10 @@
         <option value="$PROJECT_DIR$/app/models/exceloasis.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/config/config.php" />
+=======
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
         <option value="$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.js" />
         <option value="$PROJECT_DIR$/public/js/calendar/demo.js" />
         <option value="$PROJECT_DIR$/public/assets/js/plugins.js" />
@@ -147,6 +188,10 @@
         <option value="$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js" />
         <option value="$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js" />
         <option value="$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php" />
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/app/config/config.php" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
       </list>
     </option>
   </component>
@@ -393,6 +438,8 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="procesoscontrataciones" />
+<<<<<<< HEAD
+=======
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -415,6 +462,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="perfileslaborales" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -432,6 +480,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+<<<<<<< HEAD
+              <option name="myItemId" value="perfileslaborales" />
+=======
+              <option name="myItemId" value="calendariolaboral" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -454,6 +529,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+=======
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -650,6 +727,7 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/public/js/fullcalendar/fullcalendar.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
@@ -940,17 +1018,316 @@
     <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-start.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="3485">
+=======
+    <entry file="file://$PROJECT_DIR$/public/js/intro/intro.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.456621" vertical-offset="55" max-vertical-offset="493">
+          <caret line="15" column="352" selection-start-line="15" selection-start-column="352" selection-end-line="15" selection-end-column="352" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/fullcalendar/fullcalendar.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="6" column="7916" selection-start-line="6" selection-start-column="7916" selection-end-line="6" selection-end-column="7916" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/dropzone/dropzone.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="29363" selection-start-line="0" selection-start-column="29363" selection-end-line="0" selection-end-column="29363" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/dropzone/dropzone-amd-module.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="28896" selection-start-line="0" selection-start-column="28896" selection-end-line="0" selection-end-column="28896" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/profile/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="11368" max-vertical-offset="15113">
+          <caret line="677" column="69" selection-start-line="677" selection-start-column="69" selection-end-line="677" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesos/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16797313" vertical-offset="10594" max-vertical-offset="14314">
+          <caret line="632" column="69" selection-start-line="632" selection-start-column="69" selection-end-line="632" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/archivo/gestion.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="5367" max-vertical-offset="7463">
+          <caret line="324" column="77" selection-start-line="324" selection-start-column="77" selection-end-line="324" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/cargos/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.269231" vertical-offset="7190" max-vertical-offset="14875">
+          <caret line="431" column="66" selection-start-line="431" selection-start-column="66" selection-end-line="431" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/archivo/parametros.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="5248" max-vertical-offset="7191">
+          <caret line="317" column="75" selection-start-line="317" selection-start-column="75" selection-end-line="317" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/personal/listar.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="4993" max-vertical-offset="6749">
+          <caret line="302" column="75" selection-start-line="302" selection-start-column="75" selection-end-line="302" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/personas/personal/listar.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="2477" max-vertical-offset="4216">
+          <caret line="154" column="75" selection-start-line="154" selection-start-column="75" selection-end-line="154" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/presentaciondoc/gestion.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="3888" max-vertical-offset="6069">
+          <caret line="237" column="75" selection-start-line="237" selection-start-column="75" selection-end-line="237" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones/add.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="1957" max-vertical-offset="4641">
+          <caret line="123" column="65" selection-start-line="123" selection-start-column="65" selection-end-line="123" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.9615383" vertical-offset="6467" max-vertical-offset="16031">
+          <caret line="388" column="62" selection-start-line="388" selection-start-column="62" selection-end-line="388" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/add.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="1957" max-vertical-offset="4641">
+          <caret line="123" column="65" selection-start-line="123" selection-start-column="65" selection-end-line="123" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="6360" max-vertical-offset="8449">
+          <caret line="382" column="73" selection-start-line="382" selection-start-column="73" selection-end-line="382" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/resoluciones/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="2195" max-vertical-offset="3961">
+          <caret line="137" column="75" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+          <caret line="5" column="52103" selection-start-line="5" selection-start-column="52103" selection-end-line="5" selection-end-column="52103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/cite.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1103" max-vertical-offset="1564">
+          <caret line="73" column="99" selection-start-line="73" selection-start-column="99" selection-end-line="73" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+          <caret line="4" column="35053" selection-start-line="4" selection-start-column="35053" selection-end-line="4" selection-end-column="35053" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/plugins.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
+          <caret line="4" column="106198" selection-start-line="4" selection-start-column="106198" selection-end-line="4" selection-end-column="106198" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/plugins.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="13" column="15258" selection-start-line="13" selection-start-column="15258" selection-end-line="13" selection-end-column="15258" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/style.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="9970" selection-start-line="0" selection-start-column="9970" selection-end-line="0" selection-end-column="9970" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/js/plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2248" max-vertical-offset="2686">
+          <caret line="147" column="8873" selection-start-line="147" selection-start-column="8873" selection-end-line="147" selection-end-column="8873" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/app.v1.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="171596" selection-start-line="0" selection-start-column="171596" selection-end-line="0" selection-end-column="171596" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/jquery.dataTables.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2944" max-vertical-offset="3859">
+          <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/chosen/chosen.jquery.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+          <caret line="1" column="11438" selection-start-line="1" selection-start-column="11438" selection-end-line="1" selection-end-column="11438" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/datatables/datatables.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1887">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jorgchart/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2795" max-vertical-offset="6052">
+          <caret line="173" column="38" selection-start-line="173" selection-start-column="38" selection-end-line="173" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxcolorpicker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
+          <caret line="6" column="2760" selection-start-line="6" selection-start-column="2760" selection-end-line="6" selection-end-column="2760" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxcombobox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
+          <caret line="6" column="42629" selection-start-line="6" selection-start-column="42629" selection-end-line="6" selection-end-column="42629" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/upload/uploadfile.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1295" max-vertical-offset="2210">
+          <caret line="85" column="11" selection-start-line="85" selection-start-column="11" selection-end-line="85" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/nestable/nestable.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="568" max-vertical-offset="1921">
+          <caret line="42" column="93" selection-start-line="42" selection-start-column="93" selection-end-line="42" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jscrop/demos/demo_files/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="32715" max-vertical-offset="85034">
+          <caret line="1933" column="24" selection-start-line="1933" selection-start-column="24" selection-end-line="1933" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.mobile.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="8116" max-vertical-offset="13022">
+          <caret line="486" column="12" selection-start-line="486" selection-start-column="12" selection-end-line="486" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.blackberry.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="9323" max-vertical-offset="10863">
+          <caret line="557" column="12" selection-start-line="557" selection-start-column="12" selection-end-line="557" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="74246" max-vertical-offset="75497">
+          <caret line="4376" column="12" selection-start-line="4376" selection-start-column="12" selection-end-line="4376" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.android.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="5294" max-vertical-offset="8602">
+          <caret line="320" column="12" selection-start-line="320" selection-start-column="12" selection-end-line="320" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jquery.mobile-1.4.3.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="2" column="192159" selection-start-line="2" selection-start-column="192159" selection-end-line="2" selection-end-column="192159" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/scripts/documentation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="194" max-vertical-offset="1105">
+          <caret line="20" column="115" selection-start-line="20" selection-start-column="115" selection-end-line="20" selection-end-column="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.filter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="6" column="38645" selection-start-line="6" selection-start-column="38645" selection-end-line="6" selection-end-column="38645" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.localizacion.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-sunny.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="2635">
+=======
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-start.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="3485">
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.038724374" vertical-offset="0" max-vertical-offset="878">
@@ -982,10 +1359,40 @@
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
             <marker date="1418427122648" expanded="true" signature="-1:-1" placeholder="..." />
+=======
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-sunny.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="2635">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.038724374" vertical-offset="0" max-vertical-offset="878">
+          <caret line="6" column="158922" selection-start-line="6" selection-start-column="158922" selection-end-line="6" selection-end-column="158922" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxtabs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11617312" vertical-offset="0" max-vertical-offset="878">
+          <caret line="6" column="34783" selection-start-line="6" selection-start-column="34776" selection-end-line="6" selection-end-column="34783" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6997793" vertical-offset="1372" max-vertical-offset="2278">
+          <caret line="122" column="39744" selection-start-line="122" selection-start-column="39738" selection-end-line="122" selection-end-column="39744" />
+          <folding>
+            <marker date="1418426860816" expanded="true" signature="-1:-1" placeholder="..." />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/views/perfileslaborales/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18924972" vertical-offset="1412" max-vertical-offset="18853">
@@ -1022,6 +1429,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19036955" vertical-offset="0" max-vertical-offset="9520">
           <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.576923" vertical-offset="157" max-vertical-offset="52700">
+          <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+          <folding>
+            <element signature="e#7#215#0#PHP" expanded="true" />
+            <marker date="1418427122648" expanded="true" signature="707:1408" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/perfileslaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.5" vertical-offset="1412" max-vertical-offset="18853">
+          <caret line="93" column="33" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="21675">
+          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1418426704674" expanded="false" signature="41152:41163" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="42203:42214" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="43249:43260" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="44475:44486" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="45530:45541" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="46573:46584" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15229563" vertical-offset="0" max-vertical-offset="893">
+          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+>>>>>>> 0280429a203224fd44af01f7c9fd037a36ab1372
           <folding />
         </state>
       </provider>

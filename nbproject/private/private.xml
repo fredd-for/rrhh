@@ -3,41 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/editar.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/config/config.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/controllers/PresentaciondocController.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/Resoluciones.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/t_pdf.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/parametros.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/tipodoccondicion.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/tipodocumento.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/subirfoto.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/presentaciondoc.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/editar.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ControllerBase.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/personas.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/cargos/index.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/gestion.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/registro.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/controllers/ArchivoController.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/public/js/relaborales/oasis.relaborales.list.js</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/presentaciondoc/filepersonal.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/controllers/PersonalController.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/listar.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/nuevoparametro.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/presentaciondoc/gestion.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/models/parametros.php</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/editarparametro.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/visualizar.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/archivo/nuevo.phtml</file>
-            <file>file:/D:/xampp/htdocs/rrhh/app/views/personal/cargarcrop.phtml</file>
-=======
-            <file>file:/var/www/html/rrhh/app/views/cargos/index.phtml</file>
-            <file>file:/var/www/html/rrhh/app/models/Cargos.php</file>
-            <file>file:/var/www/html/rrhh/app/controllers/CargosController.php</file>
-            <file>file:/var/www/html/rrhh/index.php</file>
->>>>>>> 665d5d38729b1509f58a2e8b0022d87e173a18e4
+            <file>file:/var/www/html/rrhh/app/controllers/ResolucionesController.php</file>
         </group>
     </open-files>
 </project-private>

@@ -1,171 +1,58 @@
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		/*Combo box organigramas*/
-		// var sourceOrg =
-		// {
-		// 	datatype: "json",
-		// 	datafields: [
-		// 	{ name: 'id'},
-		// 	{ name: 'unidad_administrativa'},
-		// 	{ name: 'sigla'},
-		// 	],
-		// 	url: '/cargos/listorganigrama',
-		// 	cache: false,
-		// 	async: false
-		// };
-		// var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
-
-		// $("#organigrama_id").jqxComboBox(
-		// {
-		// 	source: dataAdapterOrg,
-		// 	width: 450,
-		// 	height: 25,
-		// 	promptText: '(Seleccionar)',
-		// 	displayMember: 'unidad_administrativa',
-		// 	valueMember: 'id'
-		// }); 
-
-		// /*Combo box depende de*/
-		// var sourceDep =
-		// {
-		// 	datatype: "json",
-		// 	datafields: [
-		// 	{ name: 'organigrama'},
-		// 	{ name: 'id'},
-		// 	{ name: 'codigo'},
-		// 	{ name: 'cargo'},
-		// 	],
-		// 	url: '/cargos/listdepende',
-		// 	cache: false,
-		// 	async: false
-		// };
-		// var dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
-
-		// $("#depende_id").jqxComboBox(
-		// {
-		// 	//source: dataAdapterDep,
-		// 	width: 450,
-		// 	height: 25,
-		// 	disabled: false ,
-		// 	promptText: '(Seleccionar)',
-		// 	displayMember: 'cargo',
-		// 	valueMember: 'id',
-		// 	autoDropDownHeight: true
-		// }); 
-
-		// /*Filtro segun organigrama a cargos*/
-		
-		// $("#organigrama_id").bind('select', function(event)
-		// {
-		// 	if (event.args)
-		// 	{
-		// 		$("#depende_id").jqxComboBox({ disabled: false, selectedIndex: -1});		
-		// 		var value = event.args.item.value;
-		// 		sourceDep.data = {organigrama_id: value};
-		// 		dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
-		// 		$("#depende_id").jqxComboBox({source: dataAdapterDep});
-		// 	}
-		// }); 
 
 
-
-
-		/*Combo box nivel salarial*/
-		// var source =
-		// {
-		// 	datatype: "json",
-		// 	datafields: [
-		// 	{ name: 'id'},
-		// 	{ name: 'denominacion'},
-		// 	{ name: 'sueldo'},
-		// 	],
-		// 	url: '/cargos/listnivelsalarial',
-		// 	async: false
-		// };
-		// var dataAdapter = new $.jqx.dataAdapter(source);
-
-		// $("#codigo_nivel").jqxComboBox(
-		// {
-		// 	source: dataAdapter,
-		// 	width: 450,
-		// 	height: 25,
-		// 	promptText: '(Seleccionar)',
-		// 	displayMember: 'denominacion',
-		// 	valueMember: 'id'
-			
-		// });
-
-		/*Combo box Fin partida*/
-		// var sourcePar =
-		// {
-		// 	datatype: "json",
-		// 	datafields: [
-		// 	{ name: 'id'},
-		// 	{ name: 'denominacion'},
-		// 	{ name: 'partida'},
-		// 	],
-		// 	url: '/cargos/listfinpartida',
-		// 	async: false
-		// };
-		// var dataAdapterPar = new $.jqx.dataAdapter(sourcePar);
-
-		// $("#fin_partida_id").jqxComboBox(
-		// {
-		// 	source: dataAdapterPar,
-		// 	width: 450,
-		// 	height: 25,
-		// 	promptText: '(Seleccionar)',
-		// 	displayMember: 'denominacion',
-		// 	valueMember: 'id'
-			
-		// });
-
-		$('#codigo_nivel').change('select', function (event) {
-			var v=$.ajax({
-				url:'/cargos/getSueldo/',
-				type:'POST',
-				datatype: 'json',
-				data:{id:$('#codigo_nivel').val()},
-				success: function(data) { $("#sueldotxt").text(data);
+$('#codigo_nivel').change('select', function (event) {
+	var v=$.ajax({
+		url:'/cargos/getSueldo/',
+		type:'POST',
+		datatype: 'json',
+		data:{id:$('#codigo_nivel').val()},
+		success: function(data) { $("#sueldotxt").text(data);
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
-		});
-		
-		
-		cargar();	
+});
 
-		function cargar(){
-			var source =
-			{
-				datatype: "json",
-				datafields: [
-				{ name: 'nro',type: 'number'},
-				{ name: 'id',type: 'number'},
-				{ name: 'unidad_administrativa',type: 'string'},
-				{ name: 'organigrama_id',type: 'string'},
-				{ name: 'depende_id',type: 'number'},
-				{ name: 'codigo_nivel',type: 'string'},
-				{ name: 'denominacion',type: 'string'},
-				{ name: 'codigo',type: 'string'},
-				{ name: 'cargo',type: 'string'},
-				{ name: 'sueldo'},
-				{ name: 'fin_partida_id'},
-				{ name: 'estado', type: 'string'},
-				{ name: 'condicion', type: 'string'}
-				],
-				url: '/cargos/list',
-				cache: false
-			};
 
-			var dataAdapter = new $.jqx.dataAdapter(source);
-			$("#jqxgrid").jqxGrid({
-				width: '100%',
-                height: '100%',
-                source: dataAdapter,
-                sortable: true,
-                altRows: true,
+cargar();	
+
+function cargar(){
+	var source =
+	{
+		datatype: "json",
+		datafields: [
+		{ name: 'id',type: 'number'},
+		{ name: 'unidad_administrativa',type: 'string'},
+		{ name: 'organigrama_id',type: 'string'},
+		{ name: 'depende_id',type: 'number'},
+		{ name: 'codigo_nivel',type: 'string'},
+		{ name: 'denominacion',type: 'string'},
+		{ name: 'codigo',type: 'string'},
+		{ name: 'cargo',type: 'string'},
+		{ name: 'sueldo'},
+		{ name: 'fin_partida_id'},
+		{ name: 'estado', type: 'string'},
+		{ name: 'condicion', type: 'string'},
+
+		{ name: 'partida', type: 'number'},
+		{ name: 'fuente_codigo', type: 'number'},
+		{ name: 'fuente', type: 'string'},
+		{ name: 'organismo_codigo', type: 'number'},
+		{ name: 'organismo', type: 'string'}
+		],
+		url: '/cargos/list',
+		cache: false
+	};
+
+	var dataAdapter = new $.jqx.dataAdapter(source);
+	$("#jqxgrid").jqxGrid({
+		width: '91%',
+		height: '100%',
+		source: dataAdapter,
+		sortable: true,
+		altRows: true,
                 //groupable: true,
                 columnsresize: true,
                 pageable: true,
@@ -174,81 +61,153 @@
                 filterable: true,
                 //showtoolbar: true,
                 autorowheight: true,
-				
-				columns: [
-				{
-                      text: '#', sortable: false, filterable: false, editable: false,
-                      groupable: false, draggable: false, resizable: false,
-                      datafield: '', columntype: 'number', width: '3%',
-                      cellsrenderer: function (row, column, value) {
-                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
-                      }
-        		},
-				{ text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
-				{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
-				{ text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-				{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
-				{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-				{ text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%' },
-				{ text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
-				{ text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
-				{ text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-					return "Editar";
-				}, buttonclick: function (row) {
-                     // open the popup window when the user clicks a button.
-                     editrow = row;
-                     var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                     $("#titulo").text("Editar");
-                     $("#id").val(dataRecord.id);
-                     $("#organigrama_id").val(dataRecord.organigrama_id);
-                     $("#fin_partida_id").val(dataRecord.fin_partida_id);
-                     dependencia();
-                     $("#depende_id").val(dataRecord.depende_id);
-                     $("#codigo_nivel").val(dataRecord.codigo_nivel);
-                     $("#codigo").val(dataRecord.codigo);
-                     $("#cargo").val(dataRecord.cargo);
-                     $("#formacion_requerida").val(dataRecord.formacion_requerida);
-                     $("#sueldotxt").text(dataRecord.sueldo);
-                     $('#myModal').modal('show');
-                 }
-             },
-             { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-             	return "Eliminar";
-             }, buttonclick: function (row) {
-             	editrow = row;
-             	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-             	$("#id").val(dataRecord.id);
-             	bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
-             		if (result==true) {
-             			var v=$.ajax({
-             				url:'/cargos/delete/',
-             				type:'POST',
-             				datatype: 'json',
-             				data:{id:dataRecord.id},
-						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});	
-             		}
-             	});
-             }
-         }
-         ]
-     });
+
+                columns: [
+                {
+                	text: '#', sortable: false, filterable: false, editable: false,
+                	groupable: false, draggable: false, resizable: false,
+                	datafield: '', columntype: 'number', width: '2%',
+                	cellsrenderer: function (row, column, value) {
+                		return "<div style='margin:3px;'>" + (value + 1) + "</div>";
+                	}
+                },
+                { text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
+                { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
+                { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
+                { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
+                { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
+                { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%', cellsalign: 'right', align: 'right'},
+                { text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
+                { text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
+
+                { text: 'Partida', datafield: 'partida', filtertype: 'number',width: '5%' },
+                { text: 'Fuente Codigo', datafield: 'fuente_codigo', filtertype: 'number',width: '5%' },
+                { text: 'Fuente', datafield: 'fuente', filtertype: 'input',width: '10%', hidden: true},
+                { text: 'Organismo Codigo', datafield: 'organismo_codigo', filtertype: 'number',width: '5%' },
+                { text: 'Organismo', datafield: 'organismo', filtertype: 'input',width: '10%', hidden: true},
+      ]
+  });
 
 }
 $("#jqxgrid").bind('rowselect', function (event) {
 	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
-					//alert(dataRecord.estado);
-					$("#cargo_id_pac").val(dataRecord.id);
-					$("#estado_cargo").val(dataRecord.estado);
-					$("#organigrama_pac").text(dataRecord.unidad_administrativa);
-					$("#item_pac").text(dataRecord.codigo);
-					$("#cargo_pac").text(dataRecord.cargo);
-					$("#sueldo_pac").text(dataRecord.sueldo);
-					$("#formacion_requerida").text(dataRecord.formacion_requerida);
-				});
+	//alert(dataRecord.estado);
+	$("#cargo_id_pac").val(dataRecord.id);
+	$("#estado_cargo").val(dataRecord.estado);
+	$("#organigrama_pac").text(dataRecord.unidad_administrativa);
+	$("#item_pac").text(dataRecord.codigo);
+	$("#cargo_pac").text(dataRecord.cargo);
+	$("#sueldo_pac").text(dataRecord.sueldo);
+	$("#formacion_requerida").text(dataRecord.formacion_requerida);
 
+
+	/*****Edita cargo*******/
+	$("#id").val(dataRecord.id);
+	$("#organigrama_id").val(dataRecord.organigrama_id);
+	$("#fin_partida_id").val(dataRecord.fin_partida_id);
+	dependencia();
+	$("#depende_id").val(dataRecord.depende_id);
+	$("#codigo_nivel").val(dataRecord.codigo_nivel);
+	$("#codigo").val(dataRecord.codigo);
+	$("#cargo").val(dataRecord.cargo);
+	$("#formacion_requerida").val(dataRecord.formacion_requerida);
+	$("#sueldotxt").text(dataRecord.sueldo);
+	
+	/**********************/
+});
+$("#add").click(function(){
+	$("#titulo").text("Adicionar");
+	$("#id").val("");
+//$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
+$("#codigo").val("");
+$("#organigrama_id").val("");
+$("#depende_id").val("");
+$("#fin_partida_id").val("");
+$("#codigo_nivel").val("");
+$("#cargo").val("");
+$("#formacion_requerida").val("");
+$("#sueldotxt").text("");
+	//$('input[name=cargo_estado_id][value="1"]').prop('checked', true);
+	// $("#popupWindow").jqxWindow('open');
+	$('#myModal').modal('show');
+});
+
+$("#edit").click(function(){
+	if($("#id").val()!=""){
+		$("#titulo").text("Editar");
+		$('#myModal').modal('show');        		
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
+	}
+});
+
+$("#delete").click(function(){
+	if($("#id").val()!=""){
+		bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+			if (result==true) {
+				var v=$.ajax({
+					url:'/cargos/delete/',
+					type:'POST',
+					datatype: 'json',
+					data:{id:$("#id").val()},
+						success: function(data) { cargar(); //alert('Guardado Correctamente'); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});	
+			}
+		});
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+	}
+});
+
+$("#add_pac").click(function(){
+            	if($("#cargo_id_pac").val()!=""){
+            		if ($("#estado_cargo").val()=='ADJUDICADO') {
+            			bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta ADJUDICADO.");
+            		}else{
+            			//alert($("#cargo_id_pac").val());
+            			var v=$.ajax({
+            				url:'/cargos/getEstadoSeguimiento/',
+            				type:'POST',
+            				datatype: 'json',
+            				data:{cargo_id:$("#cargo_id_pac").val()},
+            				success: function(data) { 
+            					//alert(data);
+            					if(data>-1){
+            						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PACP.");
+            					}else{
+            						// $("#popupWindow_pac").jqxWindow('open');
+            						$('#myModal_pac').modal('show');					
+            					}
+
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+
+            			
+            		}
+            	}else{
+            		bootbox.alert("<strong>¡Mensaje!</strong> Para asignar PACP debe seleccionar un registro.");
+            	}
+            	
+});
+
+
+
+var listSource = [{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Item', value: 'codigo', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true}, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
+
+$("#jqxlistbox").jqxListBox({ source: listSource, width: '7%', height: 380,  checkboxes: true });
+$("#jqxlistbox").on('checkChange', function (event) {
+	$("#jqxgrid").jqxGrid('beginupdate');
+	if (event.args.checked) {
+		$("#jqxgrid").jqxGrid('showcolumn', event.args.value);
+	}
+	else {
+		$("#jqxgrid").jqxGrid('hidecolumn', event.args.value);
+	}
+	$("#jqxgrid").jqxGrid('endupdate');
+});
 /*segundo grid*/
 
 cargar2();	
@@ -285,111 +244,63 @@ function cargar2(){
         filterable: true,
         //showtoolbar: true,
         autorowheight: true,
-		columns: [
-		{
-                      text: '#', sortable: false, filterable: false, editable: false,
-                      groupable: false, draggable: false, resizable: false,
-                      datafield: '', columntype: 'number', width: '3%',
-                      cellsrenderer: function (row, column, value) {
-                          return "<div style='margin:4px;'>" + (value + 1) + "</div>";
-                      }
+        columns: [
+        {
+        	text: '#', sortable: false, filterable: false, editable: false,
+        	groupable: false, draggable: false, resizable: false,
+        	datafield: '', columntype: 'number', width: '2%',
+        	cellsrenderer: function (row, column, value) {
+        		return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+        	}
         },
-		{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
-		{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-		{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
-		{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
-		{ text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
-		{ text: 'Estado', datafield: 'estado', filtertype: 'input',width: '5%' },
-		{ text: '', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button',filterable:false, cellsrenderer: function () {
-			return "Eliminar";
-		}, buttonclick: function (row) {
-			editrow = row;
-			var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', editrow);
-			$("#id").val(dataRecord.id);
-			if (dataRecord.estado!=null) {
-				bootbox.alert("<strong>¡Mensaje!</strong> MENSAJE: El cargo esta en proceso de contratacion.");
-			}else{
-				bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
-					if (result==true) {
-						var v=$.ajax({
-							url:'/cargos/delete_pac/',
-							type:'POST',
-							datatype: 'json',
-							data:{id:dataRecord.id},
+        { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
+        { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '35%' },
+        { text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
+        { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Estado', datafield: 'estado', filtertype: 'input',width: '5%' }
+    ]
+});
+
+}
+$("#jqxgrid2").bind('rowselect', function (event) {
+	var dataRecord = $("#jqxgrid2").jqxGrid('getrowdata', event.args.rowindex);
+	//alert(dataRecord.estado);
+	$("#id_pac").val(dataRecord.id);
+});
+$("#delete_pac").click(function(){
+	if($("#id_pac").val()!=""){
+		bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+        			if (result==true) {
+        				var v=$.ajax({
+        					url:'/cargos/delete_pac/',
+        					type:'POST',
+        					datatype: 'json',
+        					data:{id:$("#id_pac").val()},
 						success: function(data) { cargar2(); //alert('Guardado Correctamente'); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
-					}
-				});
-			}
-
-
-		}
+        			}
+        });
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
 	}
-	]
 });
-
-}
 
 /*******end segungo grid*********/
 		// initialize the popup window and buttons.
 		// $("#popupWindow").jqxWindow({
 		// 	width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		// });
-		
+
 		// // $("#popupWindow_pac").jqxWindow({
 		// // 	width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 		// // });
             // update the edited row when the user clicks the 'Save' button.
-            $("#add").click(function(){
-            	$("#titulo").text("Adicionar");
-            	$("#id").val("");
-            	//$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
-            	$("#codigo").val("");
-            	$("#organigrama_id").val("");
-            	$("#depende_id").val("");
-            	$("#fin_partida_id").val("");
-            	$("#codigo_nivel").val("");
-            	$("#cargo").val("");
-            	$("#formacion_requerida").val("");
-            	$("#sueldotxt").text("");
-            	//$('input[name=cargo_estado_id][value="1"]').prop('checked', true);
-            	// $("#popupWindow").jqxWindow('open');
-            	$('#myModal').modal('show');
-            });
+            
 
-            $("#add_pac").click(function(){
-            	if($("#cargo_id_pac").val()!=""){
-            		if ($("#estado_cargo").val()=='ADJUDICADO') {
-            			bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta ADJUDICADO.");
-            		}else{
-            			//alert($("#cargo_id_pac").val());
-            			var v=$.ajax({
-            				url:'/cargos/getEstadoSeguimiento/',
-            				type:'POST',
-            				datatype: 'json',
-            				data:{cargo_id:$("#cargo_id_pac").val()},
-            				success: function(data) { 
-            					//alert(data);
-            					if(data>-1){
-            						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PACP.");
-            					}else{
-            						// $("#popupWindow_pac").jqxWindow('open');
-            						$('#myModal_pac').modal('show');					
-            					}
-
-												}, //mostramos el error
-												error: function() { alert('Se ha producido un error Inesperado'); }
-											});
-
-            			
-            		}
-            	}else{
-            		bootbox.alert("<strong>¡Mensaje!</strong> Para asignar PACP debe seleccionar un registro.");
-            	}
-            	
-            });
+            
 
 $("#Save").click(function () {
 	if ($('#testForm').jqxValidator('validate')){
@@ -407,7 +318,7 @@ $("#Save").click(function () {
 				//$("#popupWindow").jqxWindow('hide');
 				$('#myModal_pac').modal('hide');
 			}
-});
+		});
 
 $("#codigo_nivel").change(function(){
 	var element = $(this).find('option:selected'); 
@@ -416,16 +327,16 @@ $("#codigo_nivel").change(function(){
 });
 
 /*************Select Dependiente*****************/
-    $("#organigrama_id").change(function(){
-    	dependencia();
+$("#organigrama_id").change(function(){
+	dependencia();
         // var id = $("#organigrama_id").find(':selected').val();
         // $("#depende_id").load('/cargos/dependencia/'+id);
     });
-    
-    function dependencia(){
-    	var id = $("#organigrama_id").find(':selected').val();
-        $("#depende_id").load('/cargos/dependencia/'+id);
-    }
+
+function dependencia(){
+	var id = $("#organigrama_id").find(':selected').val();
+	$("#depende_id").load('/cargos/dependencia/'+id);
+}
 /***********************************************/
 
 // $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
@@ -456,56 +367,56 @@ $("#codigo_nivel").change(function(){
 
 
 $('#testForm').validate({
-    rules: {
-        organigrama_id: {
-            required: true,
-        },
-        codigo_nivel: {
-            required: true,
-        },
-        codigo: {
-            required: true,
-        },
-        cargo: {
-            required: true
-        },
-        fin_partida_id: {
-            required: true,
-        },
-    },
-    highlight: function (element) {
-        $(element).closest('.control-group').removeClass('success').addClass('error');
-    },
-    success: function (element) {
-        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
-    },
-    submitHandler: function (form) {
-            var v=$.ajax({
-					url:'/cargos/save/',
-					type:'POST',
-					datatype: 'json',
-					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
+	rules: {
+		organigrama_id: {
+			required: true,
+		},
+		codigo_nivel: {
+			required: true,
+		},
+		codigo: {
+			required: true,
+		},
+		cargo: {
+			required: true
+		},
+		fin_partida_id: {
+			required: true,
+		},
+	},
+	highlight: function (element) {
+		$(element).closest('.control-group').removeClass('success').addClass('error');
+	},
+	success: function (element) {
+		element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+	},
+	submitHandler: function (form) {
+		var v=$.ajax({
+			url:'/cargos/save/',
+			type:'POST',
+			datatype: 'json',
+			data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
 					success: function(data) { cargar(); //alert(data.msm); 
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
 										});
-            $('#myModal').modal('hide');
+		$('#myModal').modal('hide');
             return false; // ajax used, block the normal submit
         }
-});
+    });
  //$("[name='organigrama_id']").css("position", "absolute").css("z-index","-9999").chosen().show();
 
 
-$('#testForm_pac').validate({
-    rules: {
-        gestion_pac: {
-            required: true
-        }
-    },
-    highlight: function (element) {
-        $(element).closest('.control-group').removeClass('success').addClass('error');
-    },
-    success: function (element) {
+ $('#testForm_pac').validate({
+ 	rules: {
+ 		gestion_pac: {
+ 			required: true
+ 		}
+ 	},
+ 	highlight: function (element) {
+ 		$(element).closest('.control-group').removeClass('success').addClass('error');
+ 	},
+ 	success: function (element) {
         //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
         element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
     },
@@ -531,7 +442,7 @@ $('#testForm_pac').validate({
 
             return false; // ajax used, block the normal submit
         }
-});
+    });
 
 
 /***********Reporte PDF**************/
@@ -541,24 +452,24 @@ $("#rep_pdf").click(function(){
 });
 
 $('#exportar_excel').click(function(){
-   $('#testForm_rep').attr('action', '/cargos/exportarExcel/');
+	$('#testForm_rep').attr('action', '/cargos/exportarExcel/');
 });
 $('#exportar_pdf').click(function(){
-   $('#testForm_rep').attr('action', '/cargos/exportarPdf/');
+	$('#testForm_rep').attr('action', '/cargos/exportarPdf/');
 });
 /**************************/
 
 /***********Reporte PDF PACP**************/
-$("#rep_pac_pdf").click(function(){
+$("#rep_pdf_pac").click(function(){
 	$('#myModal_rep_pac').modal('show');	
 	
 });
 
 $('#exportar_pac_excel').click(function(){
-   $('#testForm_rep_pac').attr('action', '/cargos/exportarPacExcel/');
+	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacExcel/');
 });
 $('#exportar_pac_pdf').click(function(){
-   $('#testForm_rep_pac').attr('action', '/cargos/exportarPacPdf/');
+	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacPdf/');
 });
 /**************************/
 
@@ -577,30 +488,23 @@ $('#exportar_pac_pdf').click(function(){
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			
+			<div class="form-group form-actions">
+				<div class="col-xs-12">
+					<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+					<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
+					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte</button>
+				</div>
+			</div>
+
 			<?php //echo $this->flashSession->output() ?>
-			<div style="margin-left: 5px;float:left">
-				<div>
-					<input id="add" type="button" value=" (+) Adicionar" />&nbsp;&nbsp;&nbsp;
-				</div>
-			</div> 
-			<div style="margin-left: 5px; float:left">
-				<div>
-					<input id="add_pac" type="button" value=" Asignar PACP" />&nbsp;&nbsp;&nbsp;
-				</div>
-			</div>
-			<div style="margin-left: 5px; ">
-				<div>
-					<input id="rep_pdf" type="button" value=" Reporte" />
-				</div>
-			</div>
 			<br>
 			<div class="table-responsive">
-				<div id="jqxgrid"></div>
+				<div style="float: left;" id="jqxlistbox"></div>
+				 <div style="margin-left: 15px; float: left;" id="jqxgrid"></div>
 			</div>
-			<div style="margin-top: 30px;">
-				<div id="cellbegineditevent"></div>
-				<div style="margin-top: 10px;" id="cellendeditevent"></div>
-			</div>
+			
 
 		</div>
 	</div>
@@ -615,9 +519,10 @@ $('#exportar_pac_pdf').click(function(){
 
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div style="margin-left: 5px; ">
-				<div>
-					<input id="rep_pac_pdf" type="button" value=" Reporte" />
+			<div class="form-group form-actions">
+				<div class="col-xs-12">
+					<button class="btn btn-sm btn-danger" type="button" id="delete_pac"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf_pac"><i class="fa fa-book fa-fw"></i> Reporte</button>
 				</div>
 			</div>
 			<br>
@@ -631,240 +536,240 @@ $('#exportar_pac_pdf').click(function(){
 </div>
 
 <!-- Modal add / edit Cargos-->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<form class="form-horizontal" id="testForm" data-toggle="validator"/>
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-								<h4 class="modal-title" id="titulo">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
-							</div>
-							<div class="modal-body">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm" data-toggle="validator"/>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="titulo">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
+			</div>
+			<div class="modal-body">
 
-								<input id="id" name="id" type="hidden" />
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Organigrama</label>
-									<div class="col-md-9">
-										<?php echo $organigrama ?>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Depende de</label>
-									<div class="col-md-9">
-										<select name="depende_id" id="depende_id" class="form-control">
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Nivel Salarial</label>
-									<div class="col-md-9">
-										<?php echo $nivelsalarial; ?>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Salario Mensual</label>
-									<div class="col-md-9">
-										<span id="sueldotxt"></span> Bs.
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Item</label>
-									<div class="col-md-9">
-										<input id="codigo" name="codigo" type="text" class="form-control"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Cargo</label>
-									<div class="col-md-9">
-										<input id="cargo" name="cargo" type="text" class="form-control"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Fuente Financiamiento</label>
-									<div class="col-md-9">
-										<?php echo $finpartida; ?>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Formación y Experiencia Laboral</label>
-									<div class="col-md-9">
-										<textarea name="formacion_requerida" id="formacion_requerida" class="form-control"><?php echo $v->formacion_requerida; ?></textarea>
-									</div>
-								</div>
-
-								
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-								<button type="submit" class="btn btn-primary" id="save">Guardar</button>
-							</div>
-						</form>
+				<input id="id" name="id" type="hidden" />
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Organigrama</label>
+					<div class="col-md-9">
+						<?php echo $organigrama ?>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Depende de</label>
+					<div class="col-md-9">
+						<select name="depende_id" id="depende_id" class="form-control">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Nivel Salarial</label>
+					<div class="col-md-9">
+						<?php echo $nivelsalarial; ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Salario Mensual</label>
+					<div class="col-md-9">
+						<span id="sueldotxt"></span> Bs.
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Item</label>
+					<div class="col-md-9">
+						<input id="codigo" name="codigo" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Cargo</label>
+					<div class="col-md-9">
+						<input id="cargo" name="cargo" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Fuente Financiamiento</label>
+					<div class="col-md-9">
+						<?php echo $finpartida; ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Formación y Experiencia Laboral</label>
+					<div class="col-md-9">
+						<textarea name="formacion_requerida" id="formacion_requerida" class="form-control"><?php echo $v->formacion_requerida; ?></textarea>
+					</div>
+				</div>
+
+
+
 			</div>
-			<!-- end  modal -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary" id="save">Guardar</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
 
 
 <!-- Modal PACP-->
-				<div class="modal fade" id="myModal_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<form class="form-horizontal" id="testForm_pac" data-toggle="validator"/>
-							<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
-							<input id="estado_cargo" name="estado_cargo" type="hidden" />
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-								<h4 class="modal-title" id="titulo_pac">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
-							</div>
-							<div class="modal-body">
+<div class="modal fade" id="myModal_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm_pac" data-toggle="validator"/>
+			<input id="cargo_id_pac" name="cargo_id_pac" type="hidden" />
+			<input id="estado_cargo" name="estado_cargo" type="hidden" />
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="titulo_pac">REGISTRAR EN EL PLAN ANUAL DE CONTRATACIONES DE PERSONAL</h4>
+			</div>
+			<div class="modal-body">
 
-								<input id="id_pac" name="id_pac" type="hidden" />
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Organigrama</label>
-									<div class="col-md-9">
-										<div id="organigrama_pac"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Item</label>
-									<div class="col-md-9">
-										<div id="item_pac"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Cargo</label>
-									<div class="col-md-9">
-										<div id="cargo_pac"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Salario Mensual</label>
-									<div class="col-md-9">
-										<div id="sueldo_pac"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Gestión</label>
-									<div class="col-md-9">
-										<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" class="form-control"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Fecha Inicio</label>
-									<div class="col-md-9">
-										<!-- <div id="fecha_ini_pac"></div> -->
-										<input type="text" id="fecha_ini_pac" name="fecha_ini_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label" >Fecha Finalización</label>
-									<div class="col-md-9">
-										<!-- <div id="fecha_fin_pac"></div> -->
-										<input type="text" id="fecha_fin_pac" name="fecha_fin_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
-									</div>
-								</div>
+				<input id="id_pac" name="id_pac" type="hidden" />
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Organigrama</label>
+					<div class="col-md-9">
+						<div id="organigrama_pac"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Item</label>
+					<div class="col-md-9">
+						<div id="item_pac"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Cargo</label>
+					<div class="col-md-9">
+						<div id="cargo_pac"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Salario Mensual</label>
+					<div class="col-md-9">
+						<div id="sueldo_pac"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Gestión</label>
+					<div class="col-md-9">
+						<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Fecha Inicio</label>
+					<div class="col-md-9">
+						<!-- <div id="fecha_ini_pac"></div> -->
+						<input type="text" id="fecha_ini_pac" name="fecha_ini_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Fecha Finalización</label>
+					<div class="col-md-9">
+						<!-- <div id="fecha_fin_pac"></div> -->
+						<input type="text" id="fecha_fin_pac" name="fecha_fin_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
 
-								
 
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-								<button type="submit" class="btn btn-primary" id="guardar_pac">Guardar</button>
-							</div>
-						</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary" id="guardar_pac">Guardar</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
+
+<!-- Modal Reporte-->
+<div class="modal fade" id="myModal_rep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm_rep" data-toggle="validator" action="/cargos/exportarExcel/" method="POST" target="_blank" />
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Organigrama</label>
+					<div class="col-md-9">
+						<?php  echo $organigrama ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Estado</label>
+					<div class="col-md-9">
+						<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
+							<option value="0">(Seleccionar)</option>
+							<option value="1">ADJUDICADO</option>
+							<option value="2">ACEFALO</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Tipo</label>
+					<div class="col-md-9">
+						<?php echo $condicion ?>
 					</div>
 				</div>
 			</div>
-			<!-- end  modal -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
+				<button type="submit" class="btn btn-primary" id="exportar_pdf">Exportar PDF</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
 
-			<!-- Modal Reporte-->
-			<div class="modal fade" id="myModal_rep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form class="form-horizontal" id="testForm_rep" data-toggle="validator" action="/cargos/exportarExcel/" method="POST" target="_blank" />
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Organigrama</label>
-								<div class="col-md-9">
-									<?php  echo $organigrama ?>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Estado</label>
-								<div class="col-md-9">
-									<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
-										<option value="0">(Seleccionar)</option>
-										<option value="1">ADJUDICADO</option>
-										<option value="2">ACEFALO</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Tipo</label>
-								<div class="col-md-9">
-									<?php echo $condicion ?>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-							<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
-							<button type="submit" class="btn btn-primary" id="exportar_pdf">Exportar PDF</button>
-						</div>
-						</form>
+
+<!-- Modal Reporte-->
+<div class="modal fade" id="myModal_rep_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm_rep_pac" data-toggle="validator" action="" method="POST" target="_blank" />
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Organigrama</label>
+					<div class="col-md-9">
+						<?php  echo $organigrama_rep_pac ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Fecha Inicio Desde</label>
+					<div class="col-md-9">
+						<input type="text" id="fecha_ini_rep_pac" name="fecha_ini_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label" >Hasta</label>
+					<div class="col-md-9">
+						<input type="text" id="fecha_fin_rep_pac" name="fecha_fin_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 					</div>
 				</div>
 			</div>
-		<!-- end  modal -->
-
-
-			<!-- Modal Reporte-->
-			<div class="modal fade" id="myModal_rep_pac" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form class="form-horizontal" id="testForm_rep_pac" data-toggle="validator" action="" method="POST" target="_blank" />
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="titulo">FORMULARIO DE REPORTES</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Organigrama</label>
-								<div class="col-md-9">
-									<?php  echo $organigrama_rep_pac ?>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Fecha Inicio Desde</label>
-								<div class="col-md-9">
-									<input type="text" id="fecha_ini_rep_pac" name="fecha_ini_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label" >Hasta</label>
-								<div class="col-md-9">
-									<input type="text" id="fecha_fin_rep_pac" name="fecha_fin_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-							<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
-							<button type="submit" class="btn btn-primary" id="exportar_pac_pdf">Exportar PDF</button>
-						</div>
-						</form>
-					</div>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
+				<button type="submit" class="btn btn-primary" id="exportar_pac_pdf">Exportar PDF</button>
 			</div>
-		<!-- end  modal -->
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
 
 <style type="text/css">
-  .datepicker{
-z-index:1151;
-}
+	.datepicker{
+		z-index:1151;
+	}
 </style>

@@ -350,9 +350,9 @@ $("#Save").click(function () {
                // }
              });
 
-$("#add").click(function(){
- location.href="/procesoscontrataciones/add/";
-});
+// $("#add").click(function(){
+//  location.href="/procesoscontrataciones/add/";
+// });
 
 $("#Eliminar").click(function () {
                 //alert($("#id").val());
@@ -600,11 +600,14 @@ function lista_criterios(id_seg){
       <div class="col-lg-12">
         <h3>Procesos de Contratación</h3>		
       </div>
-      <div style="margin-left: 5px;">
-       <div>
-        <input id="add" type="button" value=" (+) Adicionar" />
+      <div class="form-group form-actions">
+          <div class="col-xs-12">
+            <!-- <button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button> -->
+            <a href="/procesoscontrataciones/add/" class="btn btn-sm btn-primary"><i class="fa fa-plus fa-fw"></i>Adicionar</a>
+            <button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+            <button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+          </div>
       </div>
-    </div>
     <br>
     <div class="table-responsive">
      <div id="jqxgrid"></div>
