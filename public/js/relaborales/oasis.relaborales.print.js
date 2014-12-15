@@ -16,7 +16,7 @@ function exportarReporte(option){
     nombres = $('#jqxgrid').jqxGrid('getcolumn','nombres');
     ci = $('#jqxgrid').jqxGrid('getcolumn','ci');
     expd = $('#jqxgrid').jqxGrid('getcolumn','expd');
-    num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');
+    /*num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');*/
     gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
     cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
@@ -38,7 +38,7 @@ function exportarReporte(option){
     columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
     columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
     columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
-    columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};
+    /*columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};*/
     columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
     columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
     columna[area.datafield] = {text: area.text, hidden: area.hidden};
