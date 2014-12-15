@@ -219,6 +219,7 @@ function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finparti
         if(!okArea)$("#lstUbicaciones").focus();
         else $("#lstAreas").focus();
     }
+    $(".btnDescartarCargoSeleccionado").off();
     $(".btnDescartarCargoSeleccionado").click(function(){
         $("#tr_cargo_seleccionado").html("");
         $("#hdnIdCargoNuevoSeleccionado").val(0);

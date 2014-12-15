@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d27c1db-70bc-4060-bb4a-d71548b3a282" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/reporte_relaboral.xls" afterPath="$PROJECT_DIR$/public/reporte_relaboral.xls" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" afterPath="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/exceloasis.php" afterPath="$PROJECT_DIR$/app/models/exceloasis.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" afterPath="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/Perfileslaborales.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\rrhh\public\js\calendariolaboral\compCalendar.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" afterPath="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Relaborales.php" afterPath="$PROJECT_DIR$/app/models/Relaborales.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.js" afterPath="$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/calendar/demo.js" afterPath="$PROJECT_DIR$/public/js/calendar/demo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/plugins.js" afterPath="$PROJECT_DIR$/public/assets/js/plugins.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rrhh.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,118 +38,88 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RelaboralesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
+      <file leaf-file-name="oasis.perfileslaborales.index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.192308" vertical-offset="31573" max-vertical-offset="54332">
-              <caret line="1882" column="32" selection-start-line="1882" selection-start-column="32" selection-end-line="1882" selection-end-column="32" />
-              <folding>
-                <element signature="e#7#215#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/config.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="510">
-              <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oasis.relaborales.move.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.392858" vertical-offset="1386" max-vertical-offset="30804">
-              <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="54" />
+            <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="21675">
+              <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <marker date="1418426704674" expanded="false" signature="41152:41163" placeholder="..." />
+                <marker date="1418426704674" expanded="false" signature="42203:42214" placeholder="..." />
+                <marker date="1418426704674" expanded="false" signature="43249:43260" placeholder="..." />
+                <marker date="1418426704674" expanded="false" signature="44475:44486" placeholder="..." />
+                <marker date="1418426704674" expanded="false" signature="45530:45541" placeholder="..." />
+                <marker date="1418426704674" expanded="false" signature="46573:46584" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.phtml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
+        <entry file="file://$PROJECT_DIR$/app/views/perfileslaborales/index.phtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.076923" vertical-offset="17960" max-vertical-offset="18853">
-              <caret line="1078" column="32" selection-start-line="1078" selection-start-column="12" selection-end-line="1078" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="exceloasis.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/exceloasis.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5" vertical-offset="1692" max-vertical-offset="9520">
-              <caret line="111" column="59" selection-start-line="111" selection-start-column="59" selection-end-line="111" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NumberFormat.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/Style/NumberFormat.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="11781">
-              <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RelaboralesexcelController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/PHPExcel/reportesexcel/RelaboralesexcelController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3292" max-vertical-offset="9350">
-              <caret line="227" column="149" selection-start-line="227" selection-start-column="8" selection-end-line="227" selection-end-column="150" />
+            <state vertical-scroll-proportion="-3.1296296" vertical-offset="1412" max-vertical-offset="18853">
+              <caret line="93" column="33" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="33" />
               <folding>
-                <element signature="e#6#1053#0#PHP" expanded="true" />
+                <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#8;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#9;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#10;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#11;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#12;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#14;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oasis.relaborales.list.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+      <file leaf-file-name="PerfileslaboralesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="11597" max-vertical-offset="24905">
-              <caret line="711" column="60" selection-start-line="711" selection-start-column="60" selection-end-line="711" selection-end-column="60" />
+            <state vertical-scroll-proportion="-13.576923" vertical-offset="157" max-vertical-offset="52700">
+              <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <marker date="1418391947220" expanded="false" signature="42282:42293" placeholder="..." />
-                <marker date="1418391947220" expanded="false" signature="43333:43344" placeholder="..." />
-                <marker date="1418391947220" expanded="false" signature="44379:44390" placeholder="..." />
-                <marker date="1418391947220" expanded="false" signature="45605:45616" placeholder="..." />
-                <marker date="1418391947220" expanded="false" signature="46660:46671" placeholder="..." />
-                <marker date="1418391947220" expanded="false" signature="47703:47714" placeholder="..." />
+                <element signature="e#7#215#0#PHP" expanded="true" />
+                <marker date="1418427122648" expanded="true" signature="707:1408" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oasis.relaborales.view.splitter.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
+      <file leaf-file-name="jqx-all.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11551529" vertical-offset="459" max-vertical-offset="4148">
-              <caret line="39" column="112" selection-start-line="39" selection-start-column="112" selection-end-line="39" selection-end-column="112" />
+            <state vertical-scroll-proportion="0.69020504" vertical-offset="1400" max-vertical-offset="2278">
+              <caret line="122" column="39744" selection-start-line="122" selection-start-column="39738" selection-end-line="122" selection-end-column="39744" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oasis.relaborales.view.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
-              <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -164,22 +137,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/Departamentos.php" />
-        <option value="$PROJECT_DIR$/app/models/paises.php" />
-        <option value="$PROJECT_DIR$/app/models/departamentos.php" />
-        <option value="$PROJECT_DIR$/app/models/Relaboralesmovilidades.php" />
-        <option value="$PROJECT_DIR$/app/models/Paises.php" />
-        <option value="$PROJECT_DIR$/public/js/jquery-ui.css" />
-        <option value="$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js" />
-        <option value="$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js" />
-        <option value="$PROJECT_DIR$/app/models/Nivelsalariales.php" />
-        <option value="$PROJECT_DIR$/app/models/Cargos.php" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
-        <option value="$PROJECT_DIR$/app/controllers/CalendarioController.php" />
-        <option value="$PROJECT_DIR$/public/ConexionPosgreSql.php" />
-        <option value="$PROJECT_DIR$/public/js/calendariolaboral/compCalendar.js" />
-        <option value="$PROJECT_DIR$/app/controllers/ControllerBase.php" />
-        <option value="$PROJECT_DIR$/app/models/Horariostrabajo.php" />
         <option value="$PROJECT_DIR$/app/models/Frelaboralesmovilidad.php" />
         <option value="$PROJECT_DIR$/public/assets/css/kolorpicker.css" />
         <option value="$PROJECT_DIR$/public/js/jquery.kolorpicker.js" />
@@ -187,7 +144,6 @@
         <option value="$PROJECT_DIR$/app/models/Horarioslaborales.php" />
         <option value="$PROJECT_DIR$/app/models/Fhorarioslaborales.php" />
         <option value="$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js" />
-        <option value="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" />
         <option value="$PROJECT_DIR$/app/models/Fpersonas.php" />
         <option value="I:/DOCUMENTACION/VARIOS/SMARTYADODB/Intranet/Reportes/exportarExcel.php" />
         <option value="$PROJECT_DIR$/public/exportarExcel.php" />
@@ -209,12 +165,29 @@
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js" />
         <option value="$PROJECT_DIR$/app/models/Frelaborales.php" />
         <option value="$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/Style/NumberFormat.php" />
-        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
         <option value="$PROJECT_DIR$/app/models/exceloasis.php" />
-        <option value="$PROJECT_DIR$/app/config/config.php" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js" />
-        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
         <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js" />
+        <option value="$PROJECT_DIR$/app/config/config.php" />
+        <option value="$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.js" />
+        <option value="$PROJECT_DIR$/public/js/calendar/demo.js" />
+        <option value="$PROJECT_DIR$/public/assets/js/plugins.js" />
+        <option value="$PROJECT_DIR$/app/controllers/CalendariolaboralController.php" />
+        <option value="$PROJECT_DIR$/app/models/Relaborales.php" />
+        <option value="$PROJECT_DIR$/app/models/Perfileslaborales.php" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.new.js" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js" />
+        <option value="$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.edit.js" />
+        <option value="$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.edit.js" />
+        <option value="$PROJECT_DIR$/app/controllers/RelaboralesController.php" />
+        <option value="$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.tab.js" />
+        <option value="$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.new.js" />
+        <option value="$PROJECT_DIR$/app/views/procesos/relaborales/index.phtml" />
+        <option value="$PROJECT_DIR$/app/views/perfileslaborales/index.phtml" />
+        <option value="$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.index.js" />
+        <option value="$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js" />
+        <option value="$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js" />
+        <option value="$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php" />
       </list>
     </option>
   </component>
@@ -354,6 +327,50 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="perfileslaborales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calendariolaboral" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -395,6 +412,72 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="relaborales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="procesoscontrataciones" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="perfileslaborales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calendariolaboral" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -462,11 +545,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fpdf" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -502,6 +581,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\rrhh\public\js\perfileslaborales" />
+      <recent name="C:\xampp\htdocs\rrhh\app\views\perfileslaborales" />
       <recent name="C:\xampp\htdocs\rrhh\public\PHPExcel\Examples" />
     </key>
   </component>
@@ -534,6 +615,9 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StructuralSearchPlugin">
+    <searchConfiguration name="user defined" text="position: relative; height=" recursive="true" caseInsensitive="true" type="JavaScript" history="1" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -553,21 +637,21 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49419218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.719113" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -607,420 +691,617 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/libs/fpdf/fpdf.php">
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxdropdownbutton.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="30770">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="6" column="658" selection-start-line="6" selection-start-column="658" selection-end-line="6" selection-end-column="658" />
           <folding>
-            <element signature="e#6#572#0#PHP" expanded="false" />
+            <marker date="1415475481661" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1415475481661" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1415475481661" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1415475481661" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/exceloasis.php">
+    <entry file="file://$PROJECT_DIR$/public/js/intro/intro.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="5287">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.456621" vertical-offset="55" max-vertical-offset="493">
+          <caret line="15" column="352" selection-start-line="15" selection-start-column="352" selection-end-line="15" selection-end-column="352" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
+    <entry file="file://$PROJECT_DIR$/public/js/fullcalendar/fullcalendar.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1346" max-vertical-offset="24650">
-          <caret line="124" column="82" selection-start-line="124" selection-start-column="82" selection-end-line="124" selection-end-column="82" />
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="6" column="7916" selection-start-line="6" selection-start-column="7916" selection-end-line="6" selection-end-column="7916" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/dropzone/dropzone.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="29363" selection-start-line="0" selection-start-column="29363" selection-end-line="0" selection-end-column="29363" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/dropzone/dropzone-amd-module.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="28896" selection-start-line="0" selection-start-column="28896" selection-end-line="0" selection-end-column="28896" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/profile/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="11368" max-vertical-offset="15113">
+          <caret line="677" column="69" selection-start-line="677" selection-start-column="69" selection-end-line="677" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesos/relaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16797313" vertical-offset="10594" max-vertical-offset="14314">
+          <caret line="632" column="69" selection-start-line="632" selection-start-column="69" selection-end-line="632" selection-end-column="69" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1418391947220" expanded="false" signature="42282:42293" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="43333:43344" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="44379:44390" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="45605:45616" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="46660:46671" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="47703:47714" placeholder="..." />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js">
+    <entry file="file://$PROJECT_DIR$/app/views/archivo/gestion.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1212" max-vertical-offset="3077">
-          <caret line="100" column="39" selection-start-line="100" selection-start-column="39" selection-end-line="100" selection-end-column="39" />
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="5367" max-vertical-offset="7463">
+          <caret line="324" column="77" selection-start-line="324" selection-start-column="77" selection-end-line="324" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/cargos/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.269231" vertical-offset="7190" max-vertical-offset="14875">
+          <caret line="431" column="66" selection-start-line="431" selection-start-column="66" selection-end-line="431" selection-end-column="66" />
           <folding>
-            <element signature="n#!!doc" expanded="false" />
+            <marker date="1418340019155" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418340019155" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/CargosController.php">
+    <entry file="file://$PROJECT_DIR$/app/views/archivo/parametros.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35172415" vertical-offset="2193" max-vertical-offset="7038">
-          <caret line="149" column="32" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="5248" max-vertical-offset="7191">
+          <caret line="317" column="75" selection-start-line="317" selection-start-column="75" selection-end-line="317" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cargos.php">
+    <entry file="file://$PROJECT_DIR$/app/views/personal/listar.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-27.73077" vertical-offset="3784" max-vertical-offset="4641">
-          <caret line="265" column="5" selection-start-line="255" selection-start-column="4" selection-end-line="265" selection-end-column="5" />
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="4993" max-vertical-offset="6749">
+          <caret line="302" column="75" selection-start-line="302" selection-start-column="75" selection-end-line="302" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Horarioslaborales.php">
+    <entry file="file://$PROJECT_DIR$/app/views/personas/personal/listar.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-32.03846" vertical-offset="0" max-vertical-offset="1360">
-          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="2477" max-vertical-offset="4216">
+          <caret line="154" column="75" selection-start-line="154" selection-start-column="75" selection-end-line="154" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Fhorarioslaborales.php">
+    <entry file="file://$PROJECT_DIR$/app/views/presentaciondoc/gestion.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.115385" vertical-offset="677" max-vertical-offset="1717">
-          <caret line="66" column="61" selection-start-line="66" selection-start-column="61" selection-end-line="66" selection-end-column="61" />
+        <state vertical-scroll-proportion="-5.423077" vertical-offset="3888" max-vertical-offset="6069">
+          <caret line="237" column="75" selection-start-line="237" selection-start-column="75" selection-end-line="237" selection-end-column="75" />
+          <folding>
+            <marker date="1417216425285" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/calendariolaboral/index.phtml">
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones/add.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.538462" vertical-offset="847" max-vertical-offset="8551">
-          <caret line="69" column="73" selection-start-line="69" selection-start-column="73" selection-end-line="69" selection-end-column="73" />
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="1957" max-vertical-offset="4641">
+          <caret line="123" column="65" selection-start-line="123" selection-start-column="65" selection-end-line="123" selection-end-column="65" />
+          <folding>
+            <marker date="1417184986420" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Procesoscontrataciones.php">
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones/index.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-25.961538" vertical-offset="3048" max-vertical-offset="3944">
-          <caret line="219" column="43" selection-start-line="219" selection-start-column="17" selection-end-line="219" selection-end-column="43" />
+        <state vertical-scroll-proportion="-4.9615383" vertical-offset="6467" max-vertical-offset="16031">
+          <caret line="388" column="62" selection-start-line="388" selection-start-column="62" selection-end-line="388" selection-end-column="62" />
+          <folding>
+            <marker date="1416487554771" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1416487554771" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/js/vendor/bootstrap.min.js">
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/add.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="883">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="1957" max-vertical-offset="4641">
+          <caret line="123" column="65" selection-start-line="123" selection-start-column="65" selection-end-line="123" selection-end-column="65" />
+          <folding>
+            <marker date="1415738157133" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/procesoscontrataciones (copia)/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="6360" max-vertical-offset="8449">
+          <caret line="382" column="73" selection-start-line="382" selection-start-column="73" selection-end-line="382" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/resoluciones/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1538463" vertical-offset="2195" max-vertical-offset="3961">
+          <caret line="137" column="75" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+          <caret line="5" column="52103" selection-start-line="5" selection-start-column="52103" selection-end-line="5" selection-end-column="52103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/cite.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1103" max-vertical-offset="1564">
+          <caret line="73" column="99" selection-start-line="73" selection-start-column="99" selection-end-line="73" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+          <caret line="4" column="35053" selection-start-line="4" selection-start-column="35053" selection-end-line="4" selection-end-column="35053" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/plugins.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
+          <caret line="4" column="106198" selection-start-line="4" selection-start-column="106198" selection-end-line="4" selection-end-column="106198" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/plugins.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="13" column="15258" selection-start-line="13" selection-start-column="15258" selection-end-line="13" selection-end-column="15258" />
+          <folding>
+            <element signature="e#47331#47418#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/assets/css/style.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="9970" selection-start-line="0" selection-start-column="9970" selection-end-line="0" selection-end-column="9970" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/js/plugins.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62222224" vertical-offset="1882" max-vertical-offset="2737">
-          <caret line="142" column="17109" selection-start-line="142" selection-start-column="17097" selection-end-line="142" selection-end-column="17109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/wizard/jquery-latest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3325893" vertical-offset="65390" max-vertical-offset="175134">
-          <caret line="3876" column="4" selection-start-line="3876" selection-start-column="4" selection-end-line="3876" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.tab.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12948857" vertical-offset="0" max-vertical-offset="919">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jquery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3030303" vertical-offset="63497" max-vertical-offset="166311">
-          <caret line="3763" column="4" selection-start-line="3763" selection-start-column="4" selection-end-line="3763" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/bootstrap-calendar-master/events.json.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1411">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/compCalendar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2601">
-          <caret line="25" column="55" selection-start-line="25" selection-start-column="55" selection-end-line="25" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36996734" vertical-offset="0" max-vertical-offset="1564">
-          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/bootstrap-calendar-master/js/calendar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2134" max-vertical-offset="20485">
-          <caret line="139" column="29" selection-start-line="139" selection-start-column="29" selection-end-line="139" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/bootstrap-calendar-master/js/language/es-MX.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1343">
-          <caret line="3" column="25" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/calendar/bootstrap_calendar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1071" max-vertical-offset="6154">
-          <caret line="46" column="12" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/presentaciondoc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="90.11539" vertical-offset="2734" max-vertical-offset="3910">
-          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/tipodoccondicion.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.192308" vertical-offset="459" max-vertical-offset="1785">
-          <caret line="64" column="58" selection-start-line="53" selection-start-column="22" selection-end-line="64" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/CalendariolaboralController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="2533">
-          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/personas.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.9230769" vertical-offset="76" max-vertical-offset="4539">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Fpersonas.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.8461537" vertical-offset="858" max-vertical-offset="2159">
-          <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Fcargos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52407616" vertical-offset="297" max-vertical-offset="1292">
-          <caret line="50" column="37" selection-start-line="50" selection-start-column="37" selection-end-line="50" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://I:/DOCUMENTACION/VARIOS/SMARTYADODB/Intranet/Reportes/R_Excel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20044793" vertical-offset="93" max-vertical-offset="986">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/Ejemplo.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09518477" vertical-offset="0" max-vertical-offset="893">
-          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://I:/DOCUMENTACION/VARIOS/SMARTYADODB/Intranet/Reportes/ficheroExcel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://I:/DOCUMENTACION/VARIOS/SMARTYADODB/Intranet/Reportes/exportarExcel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/calendariolaboral/oasis.calendariolaboral.index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="10455">
-          <caret line="140" column="29" selection-start-line="140" selection-start-column="29" selection-end-line="140" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.export.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2958">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/pdfoasis.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7312" max-vertical-offset="8177">
-          <caret line="460" column="30" selection-start-line="460" selection-start-column="27" selection-end-line="460" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2248" max-vertical-offset="2686">
+          <caret line="147" column="8873" selection-start-line="147" selection-start-column="8873" selection-end-line="147" selection-end-column="8873" />
           <folding>
-            <element signature="e#6#214#0#PHP" expanded="false" />
+            <marker date="1418396251018" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418396251018" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418396251018" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/IOFactory.php">
+    <entry file="file://$PROJECT_DIR$/public/css/app.v1.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.68533033" vertical-offset="765" max-vertical-offset="4590">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="171596" selection-start-line="0" selection-start-column="171596" selection-end-line="0" selection-end-column="171596" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel.php">
+    <entry file="file://$PROJECT_DIR$/public/css/jquery.dataTables.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5356" max-vertical-offset="19057">
-          <caret line="381" column="50" selection-start-line="358" selection-start-column="8" selection-end-line="381" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2944" max-vertical-offset="3859">
+          <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/fpdf/fpdf.php">
+    <entry file="file://$PROJECT_DIR$/public/js/chosen/chosen.jquery.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4682" max-vertical-offset="30770">
-          <caret line="348" column="19" selection-start-line="348" selection-start-column="13" selection-end-line="348" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+          <caret line="1" column="11438" selection-start-line="1" selection-start-column="11438" selection-end-line="1" selection-end-column="11438" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/datatables/datatables.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1887">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jorgchart/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2795" max-vertical-offset="6052">
+          <caret line="173" column="38" selection-start-line="173" selection-start-column="38" selection-end-line="173" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxcolorpicker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
+          <caret line="6" column="2760" selection-start-line="6" selection-start-column="2760" selection-end-line="6" selection-end-column="2760" />
           <folding>
-            <element signature="e#6#572#0#PHP" expanded="false" />
+            <marker date="1415475481631" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1415475481631" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/Style/Color.php">
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxcombobox.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="7004">
-          <caret line="48" column="26" selection-start-line="48" selection-start-column="26" selection-end-line="48" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
+          <caret line="6" column="42629" selection-start-line="6" selection-start-column="42629" selection-end-line="6" selection-end-column="42629" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/Style/Alignment.php">
+    <entry file="file://$PROJECT_DIR$/public/js/upload/uploadfile.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="6698">
-          <caret line="41" column="27" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1295" max-vertical-offset="2210">
+          <caret line="85" column="11" selection-start-line="85" selection-start-column="11" selection-end-line="85" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.print.js">
+    <entry file="file://$PROJECT_DIR$/public/js/nestable/nestable.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1212" max-vertical-offset="3077">
-          <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="568" max-vertical-offset="1921">
+          <caret line="42" column="93" selection-start-line="42" selection-start-column="93" selection-end-line="42" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jscrop/demos/demo_files/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="32715" max-vertical-offset="85034">
+          <caret line="1933" column="24" selection-start-line="1933" selection-start-column="24" selection-end-line="1933" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.mobile.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="8116" max-vertical-offset="13022">
+          <caret line="486" column="12" selection-start-line="486" selection-start-column="12" selection-end-line="486" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.blackberry.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="9323" max-vertical-offset="10863">
+          <caret line="557" column="12" selection-start-line="557" selection-start-column="12" selection-end-line="557" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="74246" max-vertical-offset="75497">
+          <caret line="4376" column="12" selection-start-line="4376" selection-start-column="12" selection-end-line="4376" selection-end-column="12" />
+          <folding>
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1415475483606" expanded="true" signature="-1:-1" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.android.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="5294" max-vertical-offset="8602">
+          <caret line="320" column="12" selection-start-line="320" selection-start-column="12" selection-end-line="320" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jquery.mobile-1.4.3.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="2" column="192159" selection-start-line="2" selection-start-column="192159" selection-end-line="2" selection-end-column="192159" />
+          <folding>
+            <element signature="e#177#986#2" expanded="false" />
+            <element signature="e#1025#1983#2" expanded="false" />
+            <element signature="e#2026#3051#2" expanded="false" />
+            <element signature="e#3094#4119#2" expanded="false" />
+            <element signature="e#4160#5173#2" expanded="false" />
+            <element signature="e#5214#6228#2" expanded="false" />
+            <element signature="e#6269#7282#2" expanded="false" />
+            <element signature="e#7325#8350#2" expanded="false" />
+            <element signature="e#8393#9418#2" expanded="false" />
+            <element signature="e#9459#10473#2" expanded="false" />
+            <element signature="e#10512#11940#2" expanded="false" />
+            <element signature="e#11978#12785#2" expanded="false" />
+            <element signature="e#12823#13879#2" expanded="false" />
+            <element signature="e#13920#15273#2" expanded="false" />
+            <element signature="e#15315#16643#2" expanded="false" />
+            <element signature="e#16683#17855#2" expanded="false" />
+            <element signature="e#17896#18700#2" expanded="false" />
+            <element signature="e#18741#19546#2" expanded="false" />
+            <element signature="e#19587#20391#2" expanded="false" />
+            <element signature="e#20432#21237#2" expanded="false" />
+            <element signature="e#21325#22128#2" expanded="false" />
+            <element signature="e#22167#23421#2" expanded="false" />
+            <element signature="e#23460#24507#2" expanded="false" />
+            <element signature="e#24548#25638#2" expanded="false" />
+            <element signature="e#25678#26739#2" expanded="false" />
+            <element signature="e#26777#27794#2" expanded="false" />
+            <element signature="e#27831#28831#2" expanded="false" />
+            <element signature="e#28874#30432#2" expanded="false" />
+            <element signature="e#30473#31275#2" expanded="false" />
+            <element signature="e#31313#34344#2" expanded="false" />
+            <element signature="e#34382#36568#2" expanded="false" />
+            <element signature="e#36607#37451#2" expanded="false" />
+            <element signature="e#37489#38539#2" expanded="false" />
+            <element signature="e#38577#39742#2" expanded="false" />
+            <element signature="e#39784#40698#2" expanded="false" />
+            <element signature="e#40736#41725#2" expanded="false" />
+            <element signature="e#41763#42531#2" expanded="false" />
+            <element signature="e#42570#43315#2" expanded="false" />
+            <element signature="e#43359#44107#2" expanded="false" />
+            <element signature="e#44146#45574#2" expanded="false" />
+            <element signature="e#45612#46667#2" expanded="false" />
+            <element signature="e#46706#48154#2" expanded="false" />
+            <element signature="e#48195#49221#2" expanded="false" />
+            <element signature="e#49262#50604#2" expanded="false" />
+            <element signature="e#50644#51720#2" expanded="false" />
+            <element signature="e#51758#52813#2" expanded="false" />
+            <element signature="e#52851#53659#2" expanded="false" />
+            <element signature="e#53696#54760#2" expanded="false" />
+            <element signature="e#54798#56332#2" expanded="false" />
+            <element signature="e#56371#57242#2" expanded="false" />
+            <element signature="e#57329#58102#2" expanded="false" />
+            <element signature="e#58187#59109#2" expanded="false" />
+            <element signature="e#59198#60189#2" expanded="false" />
+            <element signature="e#60282#61285#2" expanded="false" />
+            <element signature="e#61378#62381#2" expanded="false" />
+            <element signature="e#62470#63462#2" expanded="false" />
+            <element signature="e#63551#64542#2" expanded="false" />
+            <element signature="e#64631#65623#2" expanded="false" />
+            <element signature="e#65716#66719#2" expanded="false" />
+            <element signature="e#66812#67815#2" expanded="false" />
+            <element signature="e#67900#69306#2" expanded="false" />
+            <element signature="e#69389#70160#2" expanded="false" />
+            <element signature="e#70243#71263#2" expanded="false" />
+            <element signature="e#71352#72666#2" expanded="false" />
+            <element signature="e#72757#74063#2" expanded="false" />
+            <element signature="e#74150#75283#2" expanded="false" />
+            <element signature="e#75372#76140#2" expanded="false" />
+            <element signature="e#76229#76998#2" expanded="false" />
+            <element signature="e#77087#77855#2" expanded="false" />
+            <element signature="e#77944#78713#2" expanded="false" />
+            <element signature="e#78891#79658#2" expanded="false" />
+            <element signature="e#79743#80975#2" expanded="false" />
+            <element signature="e#81060#82071#2" expanded="false" />
+            <element signature="e#82160#83228#2" expanded="false" />
+            <element signature="e#83315#84354#2" expanded="false" />
+            <element signature="e#84437#85432#2" expanded="false" />
+            <element signature="e#85513#86477#2" expanded="false" />
+            <element signature="e#86570#88106#2" expanded="false" />
+            <element signature="e#88195#88961#2" expanded="false" />
+            <element signature="e#89044#92053#2" expanded="false" />
+            <element signature="e#92136#94300#2" expanded="false" />
+            <element signature="e#94385#95196#2" expanded="false" />
+            <element signature="e#95279#96307#2" expanded="false" />
+            <element signature="e#96390#97533#2" expanded="false" />
+            <element signature="e#97624#98502#2" expanded="false" />
+            <element signature="e#98585#99535#2" expanded="false" />
+            <element signature="e#99618#100350#2" expanded="false" />
+            <element signature="e#100435#101144#2" expanded="false" />
+            <element signature="e#101239#101951#2" expanded="false" />
+            <element signature="e#102036#103413#2" expanded="false" />
+            <element signature="e#103496#104529#2" expanded="false" />
+            <element signature="e#104614#106026#2" expanded="false" />
+            <element signature="e#106115#107102#2" expanded="false" />
+            <element signature="e#107191#108511#2" expanded="false" />
+            <element signature="e#108621#109661#2" expanded="false" />
+            <element signature="e#109744#110763#2" expanded="false" />
+            <element signature="e#110846#111618#2" expanded="false" />
+            <element signature="e#111699#112741#2" expanded="false" />
+            <element signature="e#112824#114336#2" expanded="false" />
+            <element signature="e#114421#115253#2" expanded="false" />
+            <element signature="e#175984#176073#2" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/scripts/documentation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="194" max-vertical-offset="1105">
+          <caret line="20" column="115" selection-start-line="20" selection-start-column="115" selection-end-line="20" selection-end-column="115" />
+          <folding>
+            <marker date="1415475481796" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.filter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07762557" vertical-offset="0" max-vertical-offset="438">
+          <caret line="6" column="38645" selection-start-line="6" selection-start-column="38645" selection-end-line="6" selection-end-column="38645" />
+          <folding>
+            <marker date="1415475481686" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.localizacion.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="919">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/perfileslaborales/index.phtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.1296296" vertical-offset="1412" max-vertical-offset="18853">
+          <caret line="93" column="33" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#h2#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#1;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#2;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#3;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#7;n#div#2;n#form#0;n#div#3;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#small#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#form#0;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#4;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#STYLE#0;n#dl#0;n#div#0;n#h4#0;n#div#0;n#div#0;n#div#2;n#div#0;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#form#0;n#div#5;n#div#4;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#5;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#6;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#8;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#9;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#10;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#11;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#12;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#14;n#div#0;n#div#1;n#div#6;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-start.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="3485">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/styles/jqx.ui-sunny.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.03189066" vertical-offset="28" max-vertical-offset="2635">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxgrid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.038724374" vertical-offset="0" max-vertical-offset="878">
+          <caret line="6" column="158922" selection-start-line="6" selection-start-column="158922" selection-end-line="6" selection-end-column="158922" />
+          <folding>
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1418426921474" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqxtabs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11617312" vertical-offset="0" max-vertical-offset="878">
+          <caret line="6" column="34783" selection-start-line="6" selection-start-column="34776" selection-end-line="6" selection-end-column="34783" />
           <folding>
             <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Frelaborales.php">
+    <entry file="file://$PROJECT_DIR$/public/js/perfileslaborales/oasis.perfileslaborales.index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4445" max-vertical-offset="5338">
-          <caret line="310" column="8" selection-start-line="310" selection-start-column="8" selection-end-line="310" selection-end-column="8" />
+        <state vertical-scroll-proportion="-17.0" vertical-offset="0" max-vertical-offset="21675">
+          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
           <folding>
-            <marker date="1418338145431" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_relaborales..." />
-            <marker date="1418338145431" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_relaborales..." />
-            <marker date="1418338145431" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_relaborales..." />
-            <marker date="1418338145431" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_relaborales_y_personas_nuevas..." />
-            <marker date="1418338145431" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..f_relaborales_y_personas_nuevas_un_registro..." />
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1418426704674" expanded="false" signature="41152:41163" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="42203:42214" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="43249:43260" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="44475:44486" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="45530:45541" placeholder="..." />
+            <marker date="1418426704674" expanded="false" signature="46573:46584" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/PHPExcel/reportesexcel/RelaboralesexcelController.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/PerfileslaboralesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3292" max-vertical-offset="9350">
-          <caret line="227" column="149" selection-start-line="227" selection-start-column="8" selection-end-line="227" selection-end-column="150" />
-          <folding>
-            <element signature="e#6#1053#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/libs/phpexcel180/PHPExcel/Style/NumberFormat.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="11781">
-          <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/RelaboralesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.192308" vertical-offset="31573" max-vertical-offset="54332">
-          <caret line="1882" column="32" selection-start-line="1882" selection-start-column="32" selection-end-line="1882" selection-end-column="32" />
+        <state vertical-scroll-proportion="-13.576923" vertical-offset="157" max-vertical-offset="52700">
+          <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
           <folding>
             <element signature="e#7#215#0#PHP" expanded="true" />
+            <marker date="1418427122648" expanded="true" signature="707:1408" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/exceloasis.php">
+    <entry file="file://$PROJECT_DIR$/public/js/jqwidgets/jqx-all.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="1692" max-vertical-offset="9520">
-          <caret line="111" column="59" selection-start-line="111" selection-start-column="59" selection-end-line="111" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="510">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/relaborales/index.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.076923" vertical-offset="17960" max-vertical-offset="18853">
-          <caret line="1078" column="32" selection-start-line="1078" selection-start-column="12" selection-end-line="1078" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.move.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.392858" vertical-offset="1386" max-vertical-offset="30804">
-          <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="54" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
-          <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="11597" max-vertical-offset="24905">
-          <caret line="711" column="60" selection-start-line="711" selection-start-column="60" selection-end-line="711" selection-end-column="60" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1418391947220" expanded="false" signature="42282:42293" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="43333:43344" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="44379:44390" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="45605:45616" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="46660:46671" placeholder="..." />
-            <marker date="1418391947220" expanded="false" signature="47703:47714" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/relaborales/oasis.relaborales.view.splitter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11551529" vertical-offset="459" max-vertical-offset="4148">
-          <caret line="39" column="112" selection-start-line="39" selection-start-column="112" selection-end-line="39" selection-end-column="112" />
+        <state vertical-scroll-proportion="0.69020504" vertical-offset="1400" max-vertical-offset="2278">
+          <caret line="122" column="39744" selection-start-line="122" selection-start-column="39738" selection-end-line="122" selection-end-column="39744" />
           <folding />
         </state>
       </provider>
