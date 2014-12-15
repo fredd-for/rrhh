@@ -1,7 +1,7 @@
 $(document).ready( function(){
   var cTime = new Date(), month = cTime.getMonth()+1, year = cTime.getFullYear();
 
-	theMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	theMonths = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Deciembre"];
 
 	theDays = ["S", "M", "T", "W", "T", "F", "S"];
     events = [

@@ -21,13 +21,13 @@ $.fn.calendar = function(options) {
         if ( typeof args.days != "undefined" )
             days = args.days;
         else
-            days = ["S", "M", "T", "W", "T", "F", "S"];
+            days = ["D", "L", "M", "M", "J", "V", "S"];
 
         var months;
         if ( typeof args.months != "undefined" )
             months = args.months;
         else
-            months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
         var show_days;
         if ( typeof args.show_days != "undefined" )
