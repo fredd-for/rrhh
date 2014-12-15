@@ -3,7 +3,7 @@
 use Phalcon\Mvc\Controller;
 use Phalcon\Events\Event;
 
-class ControllerBase extends Controller {
+class ControllerBaseFreddy extends Controller {
 
     protected $_user;
     protected $_con;
