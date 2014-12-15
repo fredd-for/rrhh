@@ -205,7 +205,6 @@ function agregarCargoSeleccionadoEnGrillaParaEditar(id_cargo,codigo,id_finpartid
     $("#divProcesosEditar").show();
     var okArea = cargarAreasAdministrativasParaEditar(id_organigrama,id_area);
     id_condicion = parseInt(id_condicion);
-    cargarProcesosParaEditar(id_condicion,0);
     if(id_condicion==2||id_condicion==3){
         $("#divNumContratosEditar").show();
         $("#divFechasFinEditar").show();
