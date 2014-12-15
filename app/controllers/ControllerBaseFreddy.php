@@ -34,8 +34,8 @@ class ControllerBaseFreddy extends Controller {
                     ->addCss('/assets/css/plugins.css')
                     ->addCss('/assets/css/main.css')
                     ->addCss('/assets/css/themes.css')
-                    //CSS ingresados por freddy
-                    ->addCss('/js/datepicker/datepicker.css')
+                    // //CSS ingresados por freddy
+                   ->addCss('/js/datepicker/datepicker.css')
                     ->addCss('/js/datatables/dataTables.bootstrap.css')
                     ->addCss('/js/jqwidgets/styles/jqx.base.css')
 

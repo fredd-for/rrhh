@@ -1,131 +1,48 @@
 <script type="text/javascript">
 
-  $(document).ready(function () {
-    /*Combo box organigramas*/
-    var sourceOrg =
-    {
-      datatype: "json",
-      datafields: [
-      { name: 'id'},
-      { name: 'unidad_administrativa'},
-      { name: 'sigla'},
-      ],
-      url: '/cargos/listorganigrama',
-      cache: false,
-      async: false
-    };
-    var dataAdapterOrg = new $.jqx.dataAdapter(sourceOrg);
+    $(document).ready(function () {
+    var source =
+            {
+                 datatype: "json",
+                 datafields: [
+                 { name: 'nro',type: 'number'},
+                 { name: 'id',type: 'number'},
+                 { name: 'denominacion',type: 'string'},
+                 { name: 'codigo_convocatoria',type: 'string'},
+                 { name: 'normativamod_id',type: 'number'},
+                 { name: 'fecha_publ'},
+                 { name: 'fecha_recep'},
+                 { name: 'fecha_concl'}
+                 ],
+                 id:'id',
+                 url: '/procesoscontrataciones/list',
+                 cache: false,
+                 async: false
+            };
+         var dataAdapter = new $.jqx.dataAdapter(source);
 
-    $("#organigrama_sel").jqxComboBox(
-    {
-      source: dataAdapterOrg,
-      width: 450,
-      height: 25,
-      promptText: '(Seleccionar)',
-      displayMember: 'unidad_administrativa',
-      valueMember: 'id'
-    }); 
-
-    /*Combo box depende de*/
-    var sourceDep =
-    {
-      datatype: "json",
-      datafields: [
-      { name: 'organigrama'},
-      { name: 'id'},
-      { name: 'nombre'},
-      { name: 'cargo'},
-      ],
-      url: '/cargos/listPersonal',
-      cache: false,
-      async: false
-    };
-    var dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
-
-    $("#depende_id").jqxComboBox(
-    {
-      //source: dataAdapterDep,
-      width: 450,
-      height: 25,
-      disabled: false ,
-      promptText: '(Seleccionar)',
-      displayMember: 'nombre',
-      valueMember: 'cargo',
-      autoDropDownHeight: true
-    }); 
-
-    /*Filtro segun organigrama a cargos*/
-    
-    $("#organigrama_sel").bind('select', function(event)
-    {
-      if (event.args)
-      {
-        $("#depende_id").jqxComboBox({ disabled: false, selectedIndex: -1});    
-        var value = event.args.item.value;
-        sourceDep.data = {organigrama_id: value};
-        dataAdapterDep = new $.jqx.dataAdapter(sourceDep);
-        $("#depende_id").jqxComboBox({source: dataAdapterDep});
-      }
-    }); 
-
-    $("#depende_id").bind('select', function(event)
-    {
-      if (event.args)
-      {
-        var value = event.args.item.value;
-        $("#comision_nombre").val(event.args.item.value);
-        $("#comision_cargo").val(event.args.item.label);
-
-      }
-    }); 
-
-
-//function cargar(){
-  var source =
-  {
-   datatype: "json",
-   datafields: [
-   { name: 'nro',type: 'number'},
-   { name: 'id',type: 'number'},
-   { name: 'denominacion',type: 'string'},
-   { name: 'codigo_convocatoria',type: 'string'},
-   { name: 'normativamod_id',type: 'number'},
-   { name: 'fecha_publ'},
-   { name: 'fecha_recep'},
-   { name: 'fecha_concl'}
-   ],
-   id:'id',
-   url: '/procesoscontrataciones/list',
-   cache: false,
-   async: false
- };
- var dataAdapter = new $.jqx.dataAdapter(source);
-
- var sourceSeg1 =
- {
-  datafields: [
-  { name: 'nro', type: 'number' },
-  { name: 'id', type: 'number' },
-  { name: 'unidad_administrativa', type: 'string' },
-  { name: 'proceso_contratacion_id', type: 'number' },
-  { name: 'codigo', type: 'string' },
-  { name: 'cargo', type: 'string' },
-  { name: 'sueldo', type: 'number' },
-  { name: 'estado', type: 'number' }
-  ],
-                //root: "Orders",
-                //record: "Order",
+         var sourceSeg1 =
+         {
+            datafields: [
+            { name: 'nro', type: 'number' },
+            { name: 'id', type: 'number' },
+            { name: 'proceso_contratacion_id', type: 'number' },
+            { name: 'codigo', type: 'string' },
+            { name: 'cargo', type: 'string' },
+            { name: 'sueldo', type: 'number' },
+            { name: 'estado', type: 'number' }
+            ],
                 datatype: "json",
                 url: '/procesoscontrataciones/listseguimiento',
                 async: false
-              };
+            };
 
-              var dataAdapterSeg = new $.jqx.dataAdapter(sourceSeg1, { autoBind: true });
-              orders = dataAdapterSeg.records;
-              var nestedGrids = new Array();
+            var dataAdapterSeg = new $.jqx.dataAdapter(sourceSeg1, { autoBind: true });
+            orders = dataAdapterSeg.records;
+            var nestedGrids = new Array();
             // create nested grid.
             var initrowdetails = function (index, parentElement, gridElement, record) {
-              var id = record.uid.toString();
+                var id = record.uid.toString();
                 //alert(id);
                 var grid = $($(parentElement).children()[0]);
                 nestedGrids[index] = grid;
@@ -137,127 +54,89 @@
                 // fill the orders depending on the id.
                 var ordersbyid = [];
                 for (var m = 0; m < orders.length; m++) {
-                  var result = filter.evaluate(orders[m]["proceso_contratacion_id"]);
-                  if (result)
-                    ordersbyid.push(orders[m]);
+                    var result = filter.evaluate(orders[m]["proceso_contratacion_id"]);
+                    if (result)
+                        ordersbyid.push(orders[m]);
                 }
 
                 var sourceSeg = { datafields: [
-                  { name: 'nro', type: 'number' },
-                  { name: 'id', type: 'number' },
-                  { name: 'unidad_administrativa', type: 'string' },
-                  { name: 'proceso_contratacion_id', type: 'number' },
-                  { name: 'codigo', type: 'string' },
-                  { name: 'cargo', type: 'string' },
-                  { name: 'sueldo', type: 'number' },
-                  { name: 'estado', type: 'number' }
-                  ],
-                  id: 'proceso_contratacion_id',
-                  localdata: ordersbyid
+                    { name: 'nro', type: 'number' },
+                    { name: 'id', type: 'number' },
+                    { name: 'proceso_contratacion_id', type: 'number' },
+                    { name: 'codigo', type: 'number' },
+                    { name: 'cargo', type: 'string' },
+                    { name: 'sueldo', type: 'number' },
+                    { name: 'estado', type: 'number' }
+                    ],
+                    id: 'proceso_contratacion_id',
+                    localdata: ordersbyid
                 }
                 var nestedGridAdapter = new $.jqx.dataAdapter(sourceSeg);
 
                 if (grid != null) {
-                  grid.jqxGrid({
-                    source: nestedGridAdapter, 
-                    width: '95%', 
-                    height: 150,
-                    columns: [
+                    grid.jqxGrid({
+                        source: nestedGridAdapter, 
+                        width: '90%', 
+                        height: 150,
+                        columns: [
                         //{ text: 'Nro', datafield: 'id', width: '5%' },
-                        { text: 'Item / Codigo Cargo', datafield: 'codigo', width: '7%'},
-                        { text: 'Unidad Administrativa', datafield: 'unidad_administrativa', width: '35%' },
-                        { text: 'Cargo', datafield: 'cargo', width: '35%' },
-                        { text: 'Sueldo', datafield: 'sueldo', width: '5%' },
-                        { text: 'Estado', datafield: 'estado', width: '8%' },
+                        { text: 'Item / Codigo Cargo', datafield: 'codigo', width: '10%'},
+                        { text: 'Cargo', datafield: 'cargo', width: '40%' },
+                        { text: 'Sueldo', datafield: 'sueldo', width: '10%' },
+                        { text: 'Estado', datafield: 'estado', width: '10%' },
                         { text: 'Seguimiento', datafield: 'Seguimiento',width:'10%', sortable:false, columntype: 'button', cellsrenderer: function () {
-                          return "Seguimiento";
-                        }, buttonclick: function (row) {
-                          editrow = row;
-                          var dataRecord = grid.jqxGrid('getrowdata', editrow);
+                            return "Seguimiento";
+                            }, buttonclick: function (row) {
+                                editrow = row;
+                                var dataRecord = grid.jqxGrid('getrowdata', editrow);
                                //alert (dataRecord.id);
-                               var v=$.ajax({
-                                url:'/procesoscontrataciones/getSeguimiento/',
-                                type:'POST',
-                                datatype: 'json',
-                                data:{id:dataRecord.id},
-                                    success: function(data) { datos = JSON.parse(data);//alert(datos.id_seguimiento); 
-                                      $("#id_seguimiento").val(datos.id_seguimiento);
-                                      $("#codigo_convocatoria_s").text(datos.codigo_convocatoria);
-                                      $("#cargo_s").text(dataRecord.cargo);
-                                      $("#item_s").text(dataRecord.codigo);
-                                      $("#denominacion_s").text(datos.denominacion);
-                                      $("#usuario_sol").val(datos.usuario_sol);
-                                      $("#cert_presupuestaria").val(datos.cert_presupuestaria);
-                                      $("#seguimiento_estado_id").val(datos.seguimiento_estado_id);
-                                      $("#organigrama_id").val(datos.organigrama_id);
-                                      
-                                      //alert(datos.usuario_sol);
-                                      var fecha1 = null;
-                                      if (datos.fecha_sol!=null) {
-                                        fecha1 = new Date(datos.fecha_sol);
-                                        fecha1.setTime( fecha1.getTime()+1*24*60*60*1000 );
-                                      };
-                                      var fecha2 = null;
-                                      if (datos.fecha_cert_pre!=null) {
-                                        fecha2 = new Date(datos.fecha_cert_pre);
-                                        fecha2.setTime( fecha2.getTime()+1*24*60*60*1000 );
-                                      };
-                                      var fecha3 = null;
-                                      if (datos.fecha_apr_mae!=null) {
-                                        fecha3 = new Date(datos.fecha_apr_mae);
-                                        fecha3.setTime( fecha3.getTime()+1*24*60*60*1000 );
-                                      };
-                                      
-                                      $('#fecha_sol').jqxDateTimeInput('setDate', fecha1);
-                                      //$("#fecha_cert_pre").jqxDateTimeInput({ value:fecha2,enableBrowserBoundsDetection: false, width: '100%', height: 24, formatString:'dd-MM-yyyy' }); 
-                                      $('#fecha_cert_pre').jqxDateTimeInput('setDate', fecha2);
-                                      $('#fecha_apr_mae').jqxDateTimeInput('setDate', fecha3);
+                                var v=$.ajax({
+                                    url:'/procesoscontrataciones/getSeguimiento/',
+                                    type:'POST',
+                                    datatype: 'json',
+                                    data:{id:dataRecord.id},
+                                    success: function(data) { cargar(); //alert(data); 
                                     }, //mostramos el error
                                     error: function() { alert('Se ha producido un error Inesperado'); }
-                                  });
+                                });
+                            }
+                        }
+                        ]
+                    });
+                }
+            }
 
-lista_adjudicados(dataRecord.id);
-lista_comision(dataRecord.id);
-lista_criterios(dataRecord.id);
-
-}
-}
-]
-});
-}
-}
-
-var renderer = function (row, column, value) {
-  return '<span style="margin-left: 4px; margin-top: 9px; float: left;">' + value + '</span>';
-}
+            var renderer = function (row, column, value) {
+                return '<span style="margin-left: 4px; margin-top: 9px; float: left;">' + value + '</span>';
+            }
 
 
-$("#jqxgrid").jqxGrid({
-  width: '100%',
-  source: source,
-  rowdetails: true,
-  rowsheight: 35,
-  initrowdetails: initrowdetails,
-  rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
-  ready: function () {
-   $("#jqxgrid").jqxGrid('showrowdetails', 0);
- },
- sortable: true,
- altRows: true,
- pageable: true,
- pagerMode: 'advanced',
- showfilterrow: true,
- filterable: true,
- columns: [
- { text: 'Nro', datafield: 'nro',filtertype: 'number', width: '5%'},
- { text: 'Denominaión', datafield: 'denominacion', filtertype: 'input',width: '25%' },
- { text: 'Codigo Convocatoria', datafield: 'codigo_convocatoria',filtertype: 'input', width: '15%' },
- { text: 'Fecha Publicación', datafield: 'fecha_publ', filtertype: 'range',width: '15%' },
- { text: 'Fecha Recepeción', datafield: 'fecha_recep',filtertype: 'range', width: '15%' },
- { text: 'Fecha Conclusión', datafield: 'fecha_concl',filtertype: 'range', width: '15%' },
- { text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
-   return "Editar";
- }, buttonclick: function (row) {
+    $("#jqxgrid").jqxGrid({
+              width: '100%',
+              source: source,
+              rowdetails: true,
+              rowsheight: 35,
+              initrowdetails: initrowdetails,
+              rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+              ready: function () {
+                 $("#jqxgrid").jqxGrid('showrowdetails', 0);
+             },
+             sortable: true,
+             altRows: true,
+             pageable: true,
+             pagerMode: 'advanced',
+             showfilterrow: true,
+             filterable: true,
+             columns: [
+             { text: 'Nro', datafield: 'nro',filtertype: 'number', width: '5%'},
+             { text: 'Denominaión', datafield: 'denominacion', filtertype: 'input',width: '25%' },
+             { text: 'Codigo Convocatoria', datafield: 'codigo_convocatoria',filtertype: 'input', width: '15%' },
+             { text: 'Fecha Publicación', datafield: 'fecha_publ', filtertype: 'range',width: '15%' },
+             { text: 'Fecha Recepeción', datafield: 'fecha_recep',filtertype: 'range', width: '15%' },
+             { text: 'Fecha Conclusión', datafield: 'fecha_concl',filtertype: 'range', width: '15%' },
+             { text: 'Editar', datafield: 'Editar', width: '5%',sortable:false, columntype: 'button', cellsrenderer: function () {
+               return "Editar";
+           }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
                      editrow = row;
                      var offset = $("#jqxgrid").offset();
@@ -290,86 +169,94 @@ $("#jqxgrid").jqxGrid({
 
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
-                   }
-                 },
-                 { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
-                   return "Eliminar";
-                 }, buttonclick: function (row) {
-                   editrow = row;
-                   var offset = $("#jqxgrid").offset();
-                   $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-
-                   var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-                   $("#id").val(dataRecord.id);
-                   $("#popupWindow_delete").jqxWindow('open');
                  }
-               }
-               ]
-             });
+             },
+             { text: 'Eliminar', datafield: 'Eliminar',width:'5%', sortable:false, columntype: 'button', cellsrenderer: function () {
+               return "Eliminar";
+                }, buttonclick: function (row) {
+               editrow = row;
+               var offset = $("#jqxgrid").offset();
+               $("#popupWindow_delete").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
 
+               var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+               $("#id").val(dataRecord.id);
+               $("#popupWindow_delete").jqxWindow('open');
+                }
+            }
+       ]
+   });
+//}
+/*
+$('#jqxgrid').on('rowdoubleclick', function (event) {
+     // event.args.rowindex is a bound index.
+    alert(event.args.rowindex);
+     var dataRecordx = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
+                    alert(dataRecordx.id);
+ });   
+*/
 
 /********************Funciones de la primera grilla************************/
 // initialize the popup window and buttons.
 $("#popupWindow").jqxWindow({
-  width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+    width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 });
 $("#popupWindow_delete").jqxWindow({
-  width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+    width: 850, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
 });
+            // update the edited row when the user clicks the 'Save' button.
+/*            $("#add").click(function(){
+            	$("#titulo").text("Adicionar");
+            	$("#id").val("");
+            	$("#normativamod_id").val("");
+            	
+            	$("#fecha_publ").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+            	fecha= new Date();
+  				fecha.setDate(fecha.getDate());
+				$("#fecha_recep").jqxDateTimeInput('setDate', fecha);
+				fecha= new Date();
+  				fecha.setDate(fecha.getDate());
+				$("#fecha_concl").jqxDateTimeInput('setDate', fecha);
 
-$("#popupWindow_adjudicado").jqxWindow({
-  width: 600, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-});
-
-$("#popupWindow_deleteAdjudicado").jqxWindow({
-  width: 600,height:100, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-});
-
-$("#popupWindow_comision").jqxWindow({
-  width: 600, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-});
-
-$("#popupWindow_deleteComision").jqxWindow({
-  width: 700,height:100, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-});
-
+				$("#popupWindow").jqxWindow('open');
+            });
+*/	
 $("#Save").click(function () {
- var fecha_publ = $('#fecha_publ').jqxDateTimeInput('getDate');
- var fecha_recep = $('#fecha_recep').jqxDateTimeInput('getDate');
- var fecha_concl = $('#fecha_concl').jqxDateTimeInput('getDate');
- var v=$.ajax({
-   url:'../../procesoscontrataciones/save/',
-   type:'POST',
-   datatype: 'json',
-   data:{id:$("#id").val(),normativamod_id:$("#normativamod_id").val(),codigo_convocatoria:$("#codigo_convocatoria2").val(),fecha_publ:fecha_publ,fecha_recep:fecha_recep,fecha_concl:fecha_concl},
+   var fecha_publ = $('#fecha_publ').jqxDateTimeInput('getDate');
+   var fecha_recep = $('#fecha_recep').jqxDateTimeInput('getDate');
+   var fecha_concl = $('#fecha_concl').jqxDateTimeInput('getDate');
+   var v=$.ajax({
+       url:'../../procesoscontrataciones/save/',
+       type:'POST',
+       datatype: 'json',
+       data:{id:$("#id").val(),normativamod_id:$("#normativamod_id").val(),codigo_convocatoria:$("#codigo_convocatoria2").val(),fecha_publ:fecha_publ,fecha_recep:fecha_recep,fecha_concl:fecha_concl},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
- $("#popupWindow").jqxWindow('hide');
+                                              error: function() { alert('Se ha producido un error Inesperado'); }
+                                          });
+   $("#popupWindow").jqxWindow('hide');
                // }
-             });
+           });
 
-// $("#add").click(function(){
-//  location.href="/procesoscontrataciones/add/";
-// });
+$("#add").click(function(){
+ location.href="/procesoscontrataciones/add/";
+});
 
 $("#Eliminar").click(function () {
                 //alert($("#id").val());
                 if (editrow >= 0) {
-                  var v=$.ajax({
-                   url:'/procesoscontrataciones/delete/',
-                   type:'POST',
-                   datatype: 'json',
-                   data:{id:$("#id").val()},
+                    var v=$.ajax({
+                    	url:'/procesoscontrataciones/delete/',
+                    	type:'POST',
+                    	datatype: 'json',
+                      data:{id:$("#id").val()},
                     success: function(data) { location.href="/procesoscontrataciones/";//cargar(); //alert(data); 
 												}, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
+                    error: function() { alert('Se ha producido un error Inesperado'); }
+                                          });
 					//$('#jqxgrid').jqxGrid();
-          $("#popupWindow_delete").jqxWindow('hide');
-        }
-      });
+                    $("#popupWindow_delete").jqxWindow('hide');
+                }
+            });
 
 $("#normativamod_id, #codigo_convocatoria").change(function(){ 
   var element = $("#normativamod_id").find('option:selected'); 
@@ -384,210 +271,7 @@ $("#normativamod_id, #codigo_convocatoria").change(function(){
 $("#fecha_publ").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
 $("#fecha_recep").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
 $("#fecha_concl").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-$("#fecha_sol").jqxDateTimeInput({width: '100%', height: '25px',formatString:'dd-MM-yyyy',value:null});
-$("#fecha_cert_pre").jqxDateTimeInput({width: '100%', height: '25px',formatString:'dd-MM-yyyy',value:null});
-$("#fecha_apr_mae").jqxDateTimeInput({width: '100%', height: '25px',formatString:'dd-MM-yyyy',value:null});
-
-
-/*************Scrip para seguimiengo***********************************/
-$("#guardar_hito").click(function(){
-  if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
-  }else{
-    var id_seguimiento = $("#id_seguimiento").val();
-    var organigrama_id = $("#organigrama_id").val();
-    var usuario_sol = $("#usuario_sol").val();
-    var cert_presupuestaria = $("#cert_presupuestaria").val();
-    var seguimiento_estado_id = $("#seguimiento_estado_id").val();
-    var fecha_sol = $('#fecha_sol').jqxDateTimeInput('getDate');
-    var fecha_cert_pre = $('#fecha_cert_pre').jqxDateTimeInput('getDate');
-    var fecha_apr_mae = $('#fecha_apr_mae').jqxDateTimeInput('getDate');
-    //alert(fecha_apr_mae);
-    var v=$.ajax({
-      url:'/procesoscontrataciones/editSeguimiento/',
-      type:'POST',
-      datatype: 'json',
-      data:{id:id_seguimiento,organigrama_id:organigrama_id,usuario_sol:usuario_sol,cert_presupuestaria:cert_presupuestaria,seguimiento_estado_id:seguimiento_estado_id,fecha_sol:fecha_sol,fecha_cert_pre:fecha_cert_pre,fecha_apr_mae:fecha_apr_mae},
-      success: function(data) { alert(data); 
-                      }, //mostramos el error
-                      error: function() { alert('Se ha producido un error Inesperado'); 
-                    }
-
-                  });
-  }
-});
-
-/**********Lista de adjudicados***************/
-
-function lista_adjudicados(id_seg){
-  //alert(id_seg);
-  var v=$.ajax({
-    url:'/procesoscontrataciones/listAdjudicado/',
-    type:'POST',
-    datatype: 'json',
-    complete:function(){
-      $(".delete_adjudicado").click(function(){
-        var id_adjudicado = $(this).attr("adjudicado");
-        var nombre = $(this).attr("nombre");
-        $("#id_adjudicado").val(id_adjudicado);
-        $("#nombre_delete").text("Esta seguro de eliminar a : "+nombre);
-        var offset = $("#add_adjudicado").offset();
-        $("#popupWindow_deleteAdjudicado").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
-        $("#popupWindow_deleteAdjudicado").jqxWindow('open');
-      });
-    },
-    data:{id_seguimiento:id_seg},
-    success: function(data) { $("#li_adjudicados").html(data);
-
-                      }, //mostramos el error
-                      error: function() { alert('Se ha producido un error Inesperado'); 
-                    }
-
-                  });
-}
-
-
-
-$("#add_adjudicado").click(function(){
-  if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
-  }else{
-    var offset = $("#add_adjudicado").offset();
-    $("#popupWindow_adjudicado").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
-    $("#popupWindow_adjudicado").jqxWindow('open');
-  }
-});
-
-$("#Save_adjudicado").click(function () {
- var v=$.ajax({
-   url:'/procesoscontrataciones/saveAdjudicado/',
-   type:'POST',
-   datatype: 'json',
-   data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#nombre").val(),ci:$("#ci").val()},
-   success: function(data) { alert(data); 
-                        }, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
- $("#popupWindow_adjudicado").jqxWindow('hide');
- lista_adjudicados($("#id_seguimiento").val());              // }
-});
-
-$("#EliminarAdjudicado").click(function(){
-  if ($("#id_adjudicado").val()>0) {
-    var v=$.ajax({
-     url:'/procesoscontrataciones/deleteAdjudicado/',
-     type:'POST',
-     datatype: 'json',
-     data:{id:$("#id_adjudicado").val()},
-     success: function(data) { alert(data);
-      lista_adjudicados($("#id_seguimiento").val());
-                        }, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
-          //$('#jqxgrid').jqxGrid();
-          $("#popupWindow_deleteAdjudicado").jqxWindow('hide');
-        }
-      });
-/*************************************************/
-
-/***********Comision de calificacion****************/
-function lista_comision(id_seg){
-  //alert(id_seg);
-  var v=$.ajax({
-    url:'/procesoscontrataciones/listComision/',
-    type:'POST',
-    datatype: 'json',
-    complete:function(){
-      $(".delete_comision").click(function(){
-        var id_comision = $(this).attr("comision");
-          //alert(id_comision);
-          var nombre = $(this).attr("nombre");
-          $("#id_comision").val(id_comision);
-          $("#nombre_delete_comision").text("Esta seguro de eliminar a : "+nombre);
-          var offset = $("#add_comision").offset();
-          $("#popupWindow_deleteComision").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
-          $("#popupWindow_deleteComision").jqxWindow('open');
-        });
-    },
-    data:{id_seguimiento:id_seg},
-    success: function(data) { $("#li_comision").html(data);
-
-                      }, //mostramos el error
-                      error: function() { alert('Se ha producido un error Inesperado'); 
-                    }
-
-                  });
-}
-
-$("#add_comision").click(function(){
-  if ($("#id_seguimiento").val()=="") {
-    alert("INFO: En la tabla PROCESOS CONTRATACION debe seleccionar el boton seguimiento, para cargar datos.")
-  }else{
-    var offset = $("#add_comision").offset();
-    $("#popupWindow_comision").jqxWindow({ position: { x: parseInt(offset.left) - 30, y: parseInt(offset.top) - 60 } });
-    $("#popupWindow_comision").jqxWindow('open');
-  }
-});
-
-$("#Save_comision").click(function () {
- var v=$.ajax({
-   url:'/procesoscontrataciones/saveComision/',
-   type:'POST',
-   datatype: 'json',
-   data:{id_seguimiento:$("#id_seguimiento").val(),nombre:$("#comision_nombre").val(),cargo:$("#comision_cargo").val()},
-   success: function(data) { alert(data); 
-                        }, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
- $("#popupWindow_comision").jqxWindow('hide');
- lista_comision($("#id_seguimiento").val());              // }
-});
-
-$("#EliminarComision").click(function(){
-  if ($("#id_comision").val()>0) {
-    var v=$.ajax({
-     url:'/procesoscontrataciones/deleteComision/',
-     type:'POST',
-     datatype: 'json',
-     data:{id:$("#id_comision").val()},
-     success: function(data) { alert(data);
-      lista_comision($("#id_seguimiento").val());
-                        }, //mostramos el error
-                        error: function() { alert('Se ha producido un error Inesperado'); }
-                      });
-          //$('#jqxgrid').jqxGrid();
-          $("#popupWindow_deleteComision").jqxWindow('hide');
-        }
-      });
-
-/***************************************/
-
-/***********Criterios de calificacion****************/
-function lista_criterios(id_seg){
-
-  var v=$.ajax({
-    url:'/procesoscontrataciones/getPerfilCargo/',
-    type:'POST',
-    datatype: 'json',
-    data:{id_seguimiento:id_seg},
-    success: function(data) { 
-      datos = JSON.parse(data);//alert(datos); 
-      $("#formacion_academica_text").text(datos.formacion_academica);
-      $("#exp_general_lic_text").text('A nivel Licenciatura '+' '+datos.exp_general_lic);
-      $("#exp_general_tec_text").text('A nivel tecnico '+' '+datos.exp_general_tec);
-      $("#exp_profesional_lic_text").text('A nivel Licenciatura '+' '+datos.exp_profesional_lic);
-      $("#exp_profesional_tec_text").text('A nivel tecnico '+' '+datos.exp_profesional_tec);
-      $("#exp_relacionado_lic_text").text('A nivel Licenciatura '+' '+datos.exp_relacionado_lic);
-      $("#exp_relacionado_tec_text").text('A nivel tecnico '+' '+datos.exp_relacionado_tec);
-      
-                      }, //mostramos el error
-                      error: function() { alert('Se ha producido un error Inesperado'); 
-                    }
-
-                  });
-}
-
-
+/************************************************/
 
 });
 </script>
@@ -596,89 +280,86 @@ function lista_criterios(id_seg){
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			
-      <?php echo $this->flashSession->output() ?>
-      <div class="col-lg-12">
-        <h3>Procesos de Contratación</h3>		
-      </div>
-      <div class="form-group form-actions">
-          <div class="col-xs-12">
-            <!-- <button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button> -->
-            <a href="/procesoscontrataciones/add/" class="btn btn-sm btn-primary"><i class="fa fa-plus fa-fw"></i>Adicionar</a>
-            <button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
-            <button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+            <?php echo $this->flashSession->output() ?>
+            <div class="col-lg-12">
+              <h3>Procesos de Contratación</h3>		
+          </div>
+          <div style="margin-left: 5px;">
+           <div>
+              <input id="add" type="button" value=" (+) Adicionar" />
           </div>
       </div>
-    <br>
-    <div class="table-responsive">
-     <div id="jqxgrid"></div>
+      <br>
+      <div class="table-responsive">
+         <div id="jqxgrid"></div>
 
-   </div>
+     </div>
 
-   <div id="popupWindow">
-     <div id="titulo">Editar</div>
-     <div style="overflow: hidden;">
-      <table>
+     <div id="popupWindow">
+       <div id="titulo">Editar</div>
+       <div style="overflow: hidden;">
+          <table>
+             <tr>
+                <td align="right">id:</td>
+                <td align="left"><input id="id" name="id" type="hidden" /></td>
+            </tr>
+            <tr>
+                <td align="right">Normativa:</td>
+                <td align="left">
+                   <select name="normativamod_id" id="normativamod_id">
+                      <option value="">(Seleccionar)</option>
+                      <?php foreach ($normativamod as $v) { ?>
+                      <option value="<?php echo $v->id ?>" modalidad="<?php echo $v->modalidad ?>"><?php echo $v->denominacion ?></option>
+                      <?php } ?>
+                  </select>
+              </td>
+          </tr>
+          <tr>
+            <td align="right">Codigo:</td>
+            <td align="left">
+               <input type="number" name="codigo_convocatoria" id="codigo_convocatoria" >
+               <input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly">
+
+           </td>
+       </tr>
        <tr>
-        <td align="right">id:</td>
-        <td align="left"><input id="id" name="id" type="hidden" /></td>
-      </tr>
-      <tr>
-        <td align="right">Normativa:</td>
-        <td align="left">
-         <select name="normativamod_id" id="normativamod_id">
-          <option value="">(Seleccionar)</option>
-          <?php foreach ($normativamod as $v) { ?>
-          <option value="<?php echo $v->id ?>" modalidad="<?php echo $v->modalidad ?>"><?php echo $v->denominacion ?></option>
-          <?php } ?>
-        </select>
-      </td>
+        <td align="right">Fecha Publicación:</td>
+        <td align="left"><div id='fecha_publ'></div></td>
     </tr>
     <tr>
-      <td align="right">Codigo:</td>
-      <td align="left">
-       <input type="number" name="codigo_convocatoria" id="codigo_convocatoria" >
-       <input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly">
-
-     </td>
-   </tr>
-   <tr>
-    <td align="right">Fecha Publicación:</td>
-    <td align="left"><div id='fecha_publ'></div></td>
-  </tr>
-  <tr>
-    <td align="right">Fecha Recepción:</td>
-    <td align="left"><div id='fecha_recep'></div></td>
-  </tr>
-  <tr>
-    <td align="right">Fecha Conclusión:</td>
-    <td align="left"><div id='fecha_concl'></div></td>
-  </tr>
-  <tr>
-    <td align="right"></td>
-    <td style="padding-top: 10px;" align="right">
-      <input style="margin-right: 5px;" type="button" id="Save" value="Save" />
-      <input id="Cancel" type="button" value="Cancel" />
-    </td>
-  </tr>
+        <td align="right">Fecha Recepción:</td>
+        <td align="left"><div id='fecha_recep'></div></td>
+    </tr>
+    <tr>
+        <td align="right">Fecha Conclusión:</td>
+        <td align="left"><div id='fecha_concl'></div></td>
+    </tr>
+    <tr>
+        <td align="right"></td>
+        <td style="padding-top: 10px;" align="right">
+            <input style="margin-right: 5px;" type="button" id="Save" value="Save" />
+            <input id="Cancel" type="button" value="Cancel" />
+        </td>
+    </tr>
 </table>
 </div>
 </div>
 
 <div id="popupWindow_delete">
- <div>Eliminar</div>
- <div style="overflow: hidden;">
-  <table>
-   <tr>
-    <td align="left">Esta seguro de Eliminar el registro</td>
-  </tr>
-  <tr>
-    <td align="right"></td>
-    <td style="padding-top: 10px;" align="right">
-      <input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
-      <input id="Cancel" type="button" value="Cancel" />
-    </td>
-  </tr>
-</table>
+   <div>Eliminar</div>
+   <div style="overflow: hidden;">
+      <table>
+         <tr>
+            <td align="left">Esta seguro de Eliminar el registro</td>
+        </tr>
+        <tr>
+            <td align="right"></td>
+            <td style="padding-top: 10px;" align="right">
+                <input style="margin-right: 5px;" type="button" id="Eliminar" value="Eliminar" />
+                <input id="Cancel" type="button" value="Cancel" />
+            </td>
+        </tr>
+    </table>
 </div>
 </div>
 
@@ -690,251 +371,157 @@ function lista_criterios(id_seg){
 
 <!-- proceso de contratacion -->
 <div id="page-wrapper">
-  <div class="row">
-    <div class="col-lg-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          SEGUIMIENTO HITOS
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    SEGUIMIENTO HITOS
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form-horizontal" id="testForm">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Codigo Proceso</label>
+                                    <div class="col-lg-3">
+                                        3456mt09
+                                    </div>
+                                    <label class="col-lg-3 control-label">Item / Codigo Cargo</label>
+                                    <div class="col-lg-3">
+                                        25
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Cargo</label>
+                                    <div class="col-lg-3" id="cargo_s">
+                                        
+                                    </div>
+                                    <label class="col-lg-3 control-label">Tipo Contratación</label>
+                                    <div class="col-lg-3">
+                                        Responsable de sistemas
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Unidad Solicitante</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Responsable Solicitud</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Fecha Solicitud</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Certificación Presuspuestaria</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Fecha Cert. Presupuestaria</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Normativa</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Componente</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Fuente de Financiamiento</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Partida</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Fechar Aprobacion MAE</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">Estado</label>
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                        
+                    </form>
+                </div>    
+            </div>
         </div>
-        <div class="panel-body">
-          <form class="form-horizontal" id="testForm">
-            <input type="hidden" name="id_seguimiento" id="id_seguimiento">
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Codigo Convocatoria</label>
-              <div class="col-lg-3" id="codigo_convocatoria_s"></div>
-              <label class="col-lg-3 control-label">Item / Codigo Cargo</label>
-              <div class="col-lg-3" id="item_s"></div>
-            </div>
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Cargo</label>
-              <div class="col-lg-3" id="cargo_s"></div>
-              <label class="col-lg-3 control-label">Tipo Contratación</label>
-              <div class="col-lg-3" id="denominacion_s"></div>
-            </div>
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Unidad Solicitante</label>
-              <div class="col-lg-9">
-                <?php echo $organigrama_id; ?>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Responsable Solicitud</label>
-              <div class="col-lg-3">
-                <input type="text" class="form-control" id="usuario_sol" name="usuario_sol">
-              </div>
-              <label class="col-lg-3 control-label">Fecha Solicitud</label>
-              <div class="col-lg-3" >
-                <div id="fecha_sol"></div>
-              </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    COMISION DE CALIFICACION
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form-horizontal" id="testForm">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Unidad Solicitante</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                        
+                    </form>
+                </div>    
             </div>
 
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Certificación Presuspuestaria</label>
-              <div class="col-lg-3">
-                <input type="text" class="form-control" id="cert_presupuestaria" name="cert_presupuestaria">
-              </div>
-              <label class="col-lg-3 control-label">Fecha Cert. Presupuestaria</label>
-              <div class="col-lg-3">
-                <div id="fecha_cert_pre"></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-lg-3 control-label">Estado</label>
-              <div class="col-lg-3">
-                <?php echo $seguimientoestado; ?>
-              </div>
-              <label class="col-lg-3 control-label">Fechar Aprobacion MAE</label>
-              <div class="col-lg-3">
-                <div id="fecha_apr_mae"></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-lg-12" align="center">
-                <button type="button" id="guardar_hito" class="btn btn-primary">Guardar</button>
-              </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    CRITERIOS CALIFICACION
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form-horizontal" id="testForm">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Unidad Solicitante</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                        
+                    </form>
+                </div>    
             </div>
 
-          </form>
-        </div>    
-      </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    ADJUDICATARIO
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form-horizontal" id="testForm">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Unidad Solicitante</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                        
+                    </form>
+                </div>    
+            </div>
+
+        </div>
+
+        
+
+
+
     </div>
-    <div class="col-lg-6">
-      <div class="panel panel-default">
-        <div class="panel-heading" >
-          COMISION DE CALIFICACION  <button class="btn btn-xs btn-primary" type="button" id="add_comision"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <ul id="li_comision" class="list-group">
-            </ul>
-          </div>
-        </div>    
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          CRITERIOS CALIFICACION
-        </div>
-        <div class="panel-body">
-          <div class="form-group col-lg-12">
-            <div class="col-lg-4"><b>Formacion Academica</b></div>
-            <div class="col-lg-8" id="formacion_academica_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="formacion_academica" id="formacion_academica"></div> -->
-          </div>
-          <div class="form-group col-lg-12">
-            <div class="col-lg-4"><b>Experiencia General</b></div>
-            <div class="col-lg-4" id="exp_general_lic_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_general_lic" id="exp_general_lic"></div> -->
-            <div class="col-lg-4" id="exp_general_tec_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_general_tec" id="exp_general_tec"></div> -->
-          </div>
-          <div class="form-group col-lg-12">
-            <div class="col-lg-4 "><b>Experiencia Profesional</b></div>
-            <div class="col-lg-4" id="exp_profesional_lic_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_profesional_lic" id="exp_profesional_lic"></div> -->
-            <div class="col-lg-4" id="exp_profesional_tec_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_profesional_tec" id="exp_profesional_tec"></div> -->
-          </div>
-          <div class="form-group col-lg-12">
-            <div class="col-lg-4 "><b>Experiencia Relacionado al Cargo</b></div>
-            <div class="col-lg-4" id="exp_relacionado_lic_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_relacionado_lic" id="exp_relacionado_lic"></div> -->
-            <div class="col-lg-4" id="exp_relacionado_tec_text"></div>
-            <!-- <div class="col-lg-1"><input type="checkbox" name="exp_relacionado_tec" id="exp_relacionado_tec"></div> -->
-          </div>
-          <div class="form-group col-lg-12">
-            <div class="col-lg-4"><b>Observación</b></div>
-            <div class="col-lg-8"><input type="text" class="form-control"></div>
-          </div>
-          <div class="form-group col-lg-12">
-            <div class="col-lg-12" align="center">
-              <button type="button" id="guardar_criterio" class="btn btn-primary">Guardar</button>
-            </div>
-          </div>
-        </div>    
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading" >
-          PERSONAS APROBADAS  <button class="btn btn-xs btn-primary" type="button" id="add_adjudicado"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <ul id="li_adjudicados" class="list-group">
-            </ul>
-          </div>
-        </div>    
-      </div>
-
 </div>
-
-
-
-
-
-
-
-  </div>
-</div>
-
-<!-- Adicionar Adjudicatario -->
-<div id="popupWindow_adjudicado">
-  <div id="titulo">ADICIONAR PERSONA QUE CUMPLE CON LOS REQUISITOS DEL CARGO</div>
-  <div style="overflow: hidden;">
-    <form id="testForm_adjudicatario">
-      <table>
-        <tr>
-          <td align="right">Nombre Completo</td>
-          <td align="left"><input id="nombre" name="nombre" type="text" class="form-control" placeholder="Ej: Nombres y Apellidos"/></td>
-        </tr>
-        <tr>
-          <td align="right">Nro Documento Identidad:</td>
-          <td align="left"><input id="ci" name="ci" type="text" class="form-control" placeholder="Ej: 12345678 L.P."/></td>
-        </tr>
-        <tr>
-          <td align="right"></td>
-          <td style="padding-top: 10px;" align="right">
-            <input style="margin-right: 5px;" type="button" id="Save_adjudicado" value="Guardar" />
-            <input id="Cancel" type="button" value="Cancelar" />
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
-</div>
-
-
-<!-- Eliminar Adjudicado -->
-<div id="popupWindow_deleteAdjudicado">
- <div>Eliminar</div>
- <div style="overflow: hidden;">
-  <table>
-   <tr>
-    <td align="left" id="nombre_delete"></td>
-  </tr>
-  <tr>
-    <td align="right"></td>
-    <td style="padding-top: 10px;" align="center">
-      <input type="hidden" name="id_adjudicado" id="id_adjudicado">
-      <input style="margin-right: 5px;" type="button" id="EliminarAdjudicado" value="Eliminar" />
-      <input id="Cancel" type="button" value="Cancel" />
-    </td>
-  </tr>
-</table>
-</div>
-</div>
-
-<!-- Adicionar Comision de calificacion -->
-<div id="popupWindow_comision">
-  <div id="titulo">ADICIONAR COMISION DE CALIFICACION</div>
-  <div style="overflow: hidden;">
-    <form id="testForm_comision">
-     <input type="hidden" name="comision_nombre" id="comision_nombre">
-     <input type="hidden" name="comision_cargo" id="comision_cargo">
-     <table>
-      <tr>
-        <td align="right">Organigrama</td>
-        <td align="left"><div name="list" id="organigrama_sel" ></div></td>
-      </tr>
-      <tr>
-        <td align="right">Depende de:</td>
-        <td align="left" >
-          <div name="list_depende_id" id="depende_id" ></div>
-        </td>
-      </tr>
-      <tr>
-        <td align="right"></td>
-        <td style="padding-top: 10px;" align="right">
-          <input style="margin-right: 5px;" type="button" id="Save_comision" value="Guardar" />
-          <input id="Cancel" type="button" value="Cancelar" />
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
-</div>
-
-
-<!-- Eliminar Comision -->
-<div id="popupWindow_deleteComision">
- <div>Eliminar</div>
- <div style="overflow: hidden;">
-  <table>
-    <tr>
-      <td align="left" id="nombre_delete_comision"></td>
-    </tr>
-    <tr>
-      <td align="right"></td>
-      <td style="padding-top: 10px;" align="center">
-        <input type="hidden" name="id_comision" id="id_comision">
-        <input style="margin-right: 5px;" type="button" id="EliminarComision" value="Eliminar" />
-        <input id="Cancel" type="button" value="Cancel" />
-      </td>
-    </tr>
-  </table>
-</div>
-</div>
-
 
 
 
