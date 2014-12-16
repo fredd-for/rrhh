@@ -26,7 +26,11 @@ class OrganigramasController extends ControllerBase
 	}
 
 	public function addAction($id='')
-	{
+	{	
+		$this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addCss('/assets/css/kolorpicker.css');
+                    
+		$auth = $this->session->get('auth');
 		if ($this->request->isPost()) {
 			$resul = new Organigramas();
 			$resul->padre_id = $this->request->getPost('padre_id');
@@ -37,13 +41,15 @@ class OrganigramasController extends ControllerBase
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
 			$resul->fecha_ini = date("Y-m-d",strtotime($_POST['fecha_ini']));
-			$resul->codigo = 0;
+			$resul->codigo = $this->request->getPost('codigo');
 			$resul->estado = 1;
 			$resul->baja_logica = 1;
-			$resul->user_reg_id = 1;
+			$resul->user_reg_id = $auth['id'];
 			$resul->visible = 1;
 			$resul->fecha_reg = date("Y-m-d H:i:s");
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
+			$resul->asistente = $this->request->getPost('asistente');
+			$resul->color = $this->request->getPost('color');
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
@@ -84,6 +90,9 @@ class OrganigramasController extends ControllerBase
 
 	public function editAction($id='')
 	{
+		$this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addCss('/assets/css/kolorpicker.css');
+		$auth = $this->session->get('auth');
 		$resul = Organigramas::findFirstById($id);
 		if ($this->request->isPost()) {
 			$resul = Organigramas::findFirstById($this->request->getPost('id'));
@@ -91,10 +100,13 @@ class OrganigramasController extends ControllerBase
 			$resul->unidad_administrativa = $this->request->getPost('unidad_administrativa');
 			$resul->nivel_estructural_id = $this->request->getPost('nivel_estructural_id');
 			$resul->sigla = $this->request->getPost('sigla');
+			$resul->codigo = $this->request->getPost('codigo');
 			$resul->fecha_ini = date("Y-m-d",strtotime($this->request->getPost('fecha_ini')));
-			$resul->user_mod_id = 1;
+			$resul->user_mod_id = $auth['id'];
 			$resul->fecha_mod = date("Y-m-d H:i:s");
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
+			$resul->asistente = $this->request->getPost('asistente');
+			$resul->color = $this->request->getPost('color');
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
@@ -196,6 +208,8 @@ class OrganigramasController extends ControllerBase
 				$resul->nivel_estructural_id = $_POST['nivel_estructural_id'];
 				$resul->sigla = $_POST['sigla'];
 				$resul->fecha_ini = $fecha_ini;
+				$resul->user_mod_id = $auth['id'];
+				$resul->fecha_mod = date("Y-m-d H:i:s");
 				$resul->save();
 				
 			}
@@ -211,7 +225,7 @@ class OrganigramasController extends ControllerBase
 				$resul->fecha_ini = $fecha_ini;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
-				$resul->user_reg_id = 1;
+				$resul->user_reg_id = $auth = $this->session->get('auth');
 				$resul->fecha_reg = date("Y-m-d H:i:s");
 				if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
@@ -228,6 +242,8 @@ class OrganigramasController extends ControllerBase
 	public function deleteAction($id)
 	{
 		$resul = Organigramas::findFirstById($id);
+		$resul->user_mod_id = $auth['id'];
+		$resul->fecha_mod = date("Y-m-d H:i:s");
 		$resul->baja_logica = 0;
 		if ($resul->save()) {
 			$this->flashSession->success("Exito: Elimino correctamente el registro...");

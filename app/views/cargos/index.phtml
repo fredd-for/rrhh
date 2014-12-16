@@ -1,6 +1,5 @@
 <script type="text/javascript">
-
-	$(document).ready(function () {
+$(document).ready(function () {
 
 
 $('#codigo_nivel').change('select', function (event) {
@@ -40,7 +39,9 @@ function cargar(){
 		{ name: 'fuente_codigo', type: 'number'},
 		{ name: 'fuente', type: 'string'},
 		{ name: 'organismo_codigo', type: 'number'},
-		{ name: 'organismo', type: 'string'}
+		{ name: 'organismo', type: 'string'},
+		{ name: 'asistente', type: 'number'},
+		{ name: 'jefe', type: 'number'}
 		],
 		url: '/cargos/list',
 		cache: false
@@ -72,7 +73,7 @@ function cargar(){
                 	}
                 },
                 { text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
-                { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '20%' },
+                { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
                 { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
@@ -100,12 +101,23 @@ $("#jqxgrid").bind('rowselect', function (event) {
 	$("#sueldo_pac").text(dataRecord.sueldo);
 	$("#formacion_requerida").text(dataRecord.formacion_requerida);
 
+	$("#asistente0").prop("checked", true);	
+	if (dataRecord.asistente==1) {
+		$("#asistente1").prop("checked", true);	
+	}
+
+	$("#jefe0").prop("checked", true);	
+	if (dataRecord.jefe==1) {
+		$("#jefe1").prop("checked", true);	
+	} 
+
+
 
 	/*****Edita cargo*******/
 	$("#id").val(dataRecord.id);
 	$("#organigrama_id").val(dataRecord.organigrama_id);
 	$("#fin_partida_id").val(dataRecord.fin_partida_id);
-	dependencia();
+	dependencia(dataRecord.depende_id);
 	$("#depende_id").val(dataRecord.depende_id);
 	$("#codigo_nivel").val(dataRecord.codigo_nivel);
 	$("#codigo").val(dataRecord.codigo);
@@ -219,6 +231,7 @@ function cargar2(){
 		{ name: 'nro',type: 'number'},
 		{ name: 'id',type: 'number'},
 		{ name: 'unidad_administrativa',type: 'string'},
+		{ name: 'codigo',type: 'string'},
 		{ name: 'cargo',type: 'string'},
 		{ name: 'estado',type: 'string'},
 		{ name: 'gestion',type: 'string'},
@@ -254,7 +267,8 @@ function cargar2(){
         	}
         },
         { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
-        { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '35%' },
+        { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
+        { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '33%' },
         { text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
         { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
         { text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
@@ -289,36 +303,24 @@ $("#delete_pac").click(function(){
 });
 
 /*******end segungo grid*********/
-		// initialize the popup window and buttons.
-		// $("#popupWindow").jqxWindow({
-		// 	width: 850,height:500, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		// });
 
-		// // $("#popupWindow_pac").jqxWindow({
-		// // 	width: 850, height:500,resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-		// // });
-            // update the edited row when the user clicks the 'Save' button.
-            
-
-            
-
-$("#Save").click(function () {
-	if ($('#testForm').jqxValidator('validate')){
-		//var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
-				//alert(cargo_estado_id); 
-				var v=$.ajax({
-					url:'/cargos/save/',
-					type:'POST',
-					datatype: 'json',
-					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
-					success: function(data) { cargar(); //alert(data.msm); 
-											}, //mostramos el error
-											error: function() { alert('Se ha producido un error Inesperado'); }
-										});
-				//$("#popupWindow").jqxWindow('hide');
-				$('#myModal_pac').modal('hide');
-			}
-		});
+// $("#Save").click(function () {
+// 	if ($('#testForm').jqxValidator('validate')){
+// 		//var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
+// 				//alert(cargo_estado_id); 
+// 				var v=$.ajax({
+// 					url:'/cargos/save/',
+// 					type:'POST',
+// 					datatype: 'json',
+// 					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
+// 					success: function(data) { cargar(); //alert(data.msm); 
+// 											}, //mostramos el error
+// 											error: function() { alert('Se ha producido un error Inesperado'); }
+// 										});
+// 				//$("#popupWindow").jqxWindow('hide');
+// 				$('#myModal_pac').modal('hide');
+// 			}
+// 		});
 
 $("#codigo_nivel").change(function(){
 	var element = $(this).find('option:selected'); 
@@ -328,42 +330,26 @@ $("#codigo_nivel").change(function(){
 
 /*************Select Dependiente*****************/
 $("#organigrama_id").change(function(){
-	dependencia();
+	dependencia('');
         // var id = $("#organigrama_id").find(':selected').val();
         // $("#depende_id").load('/cargos/dependencia/'+id);
     });
 
-function dependencia(){
+function dependencia(depende_id){
 	var id = $("#organigrama_id").find(':selected').val();
-	$("#depende_id").load('/cargos/dependencia/'+id);
+	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
+
 }
+
 /***********************************************/
 
-// $("#fecha_ini_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
-// $("#fecha_fin_pac").jqxDateTimeInput({width: '250px', height: '25px',formatString:'dd-MM-yyyy'});
+/*************Select Dependiente*****************/
+$("#gerencia_id").change(function(){
+	var id = $("#gerencia_id").find(':selected').val();
+	$("#depende_id").load('/cargos/dependencia_gerencia/'+id);
+});
 
-// $('#testForm').jqxValidator({
-// 	rules: [
-// 	{ input: "#organigrama_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-// 		var index = $("#organigrama_id").jqxComboBox('getSelectedIndex');
-// 		return index != -1;
-// 		}
-// 	},
-// 	{ input: "#fin_partida_id input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-// 		var index = $("#fin_partida_id").jqxComboBox('getSelectedIndex');
-// 		return index != -1;
-// 		}
-// 	},
-
-// { input: "#codigo_nivel input", message: "Campo requerido!", action: 'blur', rule: function (input, commit) {
-// 	var index = $("#codigo_nivel").jqxComboBox('getSelectedIndex');
-// 	return index != -1;
-// }
-// },
-// { input: '#codigo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' },
-// { input: '#cargo', message: 'Campo requerido!', action: 'keyup, blur', rule: 'required' }
-// ]
-// });
+/***********************************************/
 
 
 $('#testForm').validate({
@@ -383,6 +369,7 @@ $('#testForm').validate({
 		fin_partida_id: {
 			required: true,
 		},
+
 	},
 	highlight: function (element) {
 		$(element).closest('.control-group').removeClass('success').addClass('error');
@@ -391,11 +378,13 @@ $('#testForm').validate({
 		element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
 	},
 	submitHandler: function (form) {
+		var asistente=$('input:radio[name=asistente]:checked').val();
+		var jefe=$('input:radio[name=jefe]:checked').val();
 		var v=$.ajax({
 			url:'/cargos/save/',
 			type:'POST',
 			datatype: 'json',
-			data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
+			data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
 					success: function(data) { cargar(); //alert(data.msm); 
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
@@ -548,51 +537,65 @@ $('#exportar_pac_pdf').click(function(){
 
 				<input id="id" name="id" type="hidden" />
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Organigrama</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Organigrama</label>
+					<div class="col-md-8">
 						<?php echo $organigrama ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Depende de</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Depende de</label>
+					<div class="col-md-8">
 						<select name="depende_id" id="depende_id" class="form-control">
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Nivel Salarial</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Nivel Salarial</label>
+					<div class="col-md-8">
 						<?php echo $nivelsalarial; ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Salario Mensual</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Salario Mensual</label>
+					<div class="col-md-8">
 						<span id="sueldotxt"></span> Bs.
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Item</label>
-					<div class="col-md-9">
-						<input id="codigo" name="codigo" type="text" class="form-control"/>
+					<label class="col-md-4 control-label" >Item / Codigo</label>
+					<div class="col-md-8">
+						<input id="codigo" name="codigo" type="text" class="form-control" placeholder='Nro item, nro contrato para eventuales y consultorias'/>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Cargo</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Cargo</label>
+					<div class="col-md-8">
 						<input id="cargo" name="cargo" type="text" class="form-control"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Fuente Financiamiento</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label">El Cargo es Jefe de Oficina?</label>
+					<div class="col-md-8">
+						<input type="radio" name="jefe" id="jefe1" value="1" /> Si
+						<input type="radio" name="jefe" id="jefe0" value="0" checked="checked"/> No
+					</div>
+				</div>
+				<div class="form-group">
+				<label class="col-md-4 control-label">El Cargo es Asistente del Dependiente?</label>
+					<div class="col-md-8">
+						<input type="radio" name="asistente" id="asistente1" value="1"  /> Si
+						<input type="radio" name="asistente" id="asistente0" value="0" checked="checked"/> No
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" >Fuente Financiamiento</label>
+					<div class="col-md-8">
 						<?php echo $finpartida; ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Formación y Experiencia Laboral</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Formación y Experiencia Laboral</label>
+					<div class="col-md-8">
 						<textarea name="formacion_requerida" id="formacion_requerida" class="form-control"><?php echo $v->formacion_requerida; ?></textarea>
 					</div>
 				</div>
@@ -626,45 +629,45 @@ $('#exportar_pac_pdf').click(function(){
 
 				<input id="id_pac" name="id_pac" type="hidden" />
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Organigrama</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Organigrama</label>
+					<div class="col-md-8">
 						<div id="organigrama_pac"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Item</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Item</label>
+					<div class="col-md-8">
 						<div id="item_pac"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Cargo</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Cargo</label>
+					<div class="col-md-8">
 						<div id="cargo_pac"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Salario Mensual</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Salario Mensual</label>
+					<div class="col-md-8">
 						<div id="sueldo_pac"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Gestión</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Gestión</label>
+					<div class="col-md-8">
 						<input id="gestion_pac" name="gestion_pac" type="text" value="<?php echo date("Y"); ?>" class="form-control"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Fecha Inicio</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Fecha Inicio</label>
+					<div class="col-md-8">
 						<!-- <div id="fecha_ini_pac"></div> -->
 						<input type="text" id="fecha_ini_pac" name="fecha_ini_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Fecha Finalización</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Fecha Finalización</label>
+					<div class="col-md-8">
 						<!-- <div id="fecha_fin_pac"></div> -->
 						<input type="text" id="fecha_fin_pac" name="fecha_fin_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 					</div>
@@ -694,14 +697,22 @@ $('#exportar_pac_pdf').click(function(){
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Organigrama</label>
-					<div class="col-md-9">
-						<?php  echo $organigrama ?>
+					<label class="col-md-4 control-label" >Gerencias</label>
+					<div class="col-md-8">
+						<?php  echo $gerencia ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Estado</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Departamentos</label>
+					<div class="col-md-8">
+						<select id="departamento" name="departamento">
+							<option value="">(Seleccionar)</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" >Estado</label>
+					<div class="col-md-8">
 						<select name="estado_rep" id="estado_rep" class="form-control select-chosen">
 							<option value="0">(Seleccionar)</option>
 							<option value="1">ADJUDICADO</option>
@@ -710,8 +721,8 @@ $('#exportar_pac_pdf').click(function(){
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Tipo</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Tipo</label>
+					<div class="col-md-8">
 						<?php echo $condicion ?>
 					</div>
 				</div>
@@ -739,20 +750,20 @@ $('#exportar_pac_pdf').click(function(){
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Organigrama</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Organigrama</label>
+					<div class="col-md-8">
 						<?php  echo $organigrama_rep_pac ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Fecha Inicio Desde</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Fecha Inicio Desde</label>
+					<div class="col-md-8">
 						<input type="text" id="fecha_ini_rep_pac" name="fecha_ini_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 control-label" >Hasta</label>
-					<div class="col-md-9">
+					<label class="col-md-4 control-label" >Hasta</label>
+					<div class="col-md-8">
 						<input type="text" id="fecha_fin_rep_pac" name="fecha_fin_rep_pac" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 					</div>
 				</div>

@@ -132,6 +132,24 @@ class Organigramas extends \Phalcon\Mvc\Model
     public $visible;
 
     /**
+     *
+     * @var string
+     */
+    public $codigo;
+
+    /**
+     *
+     * @var integer
+     */
+    public $asistente;
+
+    /**
+     *
+     * @var string
+     */
+    public $color;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -164,13 +182,16 @@ class Organigramas extends \Phalcon\Mvc\Model
             'user_mod_id' => 'user_mod_id',
             'fecha_mod' => 'fecha_mod',
             'area_sustantiva' => 'area_sustantiva',
-            'visible' => 'visible'
+            'visible' => 'visible',
+            'codigo' => 'codigo',
+            'asistente' => 'asistente',
+            'color' => 'color'
         );
     }
 
     private $_db;
     public function lista() {
-        $sql = "SELECT o.id,o.padre_id,org.unidad_administrativa as padre,d.direccion_administrativa,o.unidad_administrativa,o.nivel_estructural_id,o.da_id,n.nivel_estructural,o.sigla 
+        $sql = "SELECT o.id,o.padre_id,org.unidad_administrativa as padre,d.direccion_administrativa,o.unidad_administrativa,o.nivel_estructural_id,o.da_id,n.nivel_estructural,o.sigla,o.codigo,o.asistente,o.color 
         FROM organigramas o, das d, nivelestructurales n, organigramas org
         WHERE o.da_id=d.id AND o.nivel_estructural_id=n.id AND o.baja_logica=1 AND o.padre_id=org.id ORDER BY o.padre_id ASC";
         $this->_db = new Seguimientos();

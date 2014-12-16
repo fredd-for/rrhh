@@ -76,8 +76,24 @@ class CargosController extends ControllerBase
 				'class' => 'form-control',
 				)
 			);
-		
 		$this->view->setVar('organigrama',$organigrama);
+
+
+		$model = new Cargos();
+		$resul = $model->listGerencias();
+		$gerencia = $this->tag->select(
+			array(
+				'gerencia_id',
+				$resul,
+				'using' => array('id', "unidad_administrativa"),
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control',
+				)
+			);
+		$this->view->setVar('gerencia',$gerencia);
+
 
 		$organigrama_rep_pac = $this->tag->select(
 			array(
@@ -162,7 +178,9 @@ public function listAction()
 			'fuente_codigo' => $v->fuente_codigo,
 			'fuente' => $v->fuente,
 			'organismo_codigo' => $v->organismo_codigo,
-			'organismo' => $v->organismo
+			'organismo' => $v->organismo,
+			'asistente' => $v->asistente,
+			'jefe' => $v->jefe,
 			);
 	}
 	echo json_encode($customers);
@@ -219,7 +237,7 @@ public function getSueldoAction()
 public function saveAction()
 {
 	if (isset($_POST['id'])) {
-
+		$auth = $this->session->get('auth');
 		if ($_POST['id']>0) {
 			$resul = Cargos::findFirstById($_POST['id']);
 			$resul->organigrama_id = $_POST['organigrama_id'];
@@ -228,57 +246,46 @@ public function saveAction()
 			}else{
 				$resul->depende_id = 0;
 			}
-		
 			$resul->codigo = $_POST['codigo'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->codigo_nivel = $_POST['codigo_nivel'];
 			$resul->fin_partida_id=$_POST['fin_partida_id'];
-			$resul->user_mod_id = $user->id;
+			$resul->user_mod_id = $auth['id'];
 			$resul->fecha_mod = date("Y-m-d H:i:s");
 			$resul->formacion_requerida=$_POST['formacion_requerida'];
+			$resul->asistente=$_POST['asistente'];
+			$resul->jefe=$_POST['jefe'];
 			$resul->save();
 		}
 		else{
-			/*	//$this->_registerSession($user);
-			$finpartida=Finpartidas::findFirstById($_POST['fin_partida_id']);
-			if ($finpartida != false)
-			{
-
-				$finpartida->contador=$finpartida->contador+1;            
-				$finpartida->save();
-				$codigo = $finpartida->codigo.'.'.substr('0000'.$finpartida->contador,-5);
+			$resul = new Cargos();
+			$resul->organigrama_id = $_POST['organigrama_id'];
+			if ($_POST['depende_id']!="") {
+				$resul->depende_id = $_POST['depende_id'];
+			}else{
+				$resul->depende_id = 0;
 			}
-			else{
-					$msm = array('msm' => 'Error: Generacion de codigo' );	
-				}
-				*/
-				$resul = new Cargos();
-				$resul->organigrama_id = $_POST['organigrama_id'];
-				if ($_POST['depende_id']!="") {
-					$resul->depende_id = $_POST['depende_id'];
-				}else{
-					$resul->depende_id = 0;
-				}
 
-				$resul->ejecutora_id = 1;
-					$resul->codigo = $_POST['codigo']; //generar
-					$resul->cargo = $_POST['cargo'];
-					$resul->codigo_nivel = $_POST['codigo_nivel'];
-					$resul->cargo_estado_id = 1;
-					$resul->estado = 0;
-					$resul->baja_logica = 1;
-					$resul->user_reg_id = 1;
-					$resul->fecha_reg = date("Y-m-d H:i:s");
-					$resul->fin_partida_id=$_POST['fin_partida_id'];
-					$resul->poa_id=1;
-					$resul->formacion_requerida=$_POST['formacion_requerida'];
-				//$resul->save();
-					if ($resul->save()) {
-						$msm = array('msm' => 'Exito: Se guardo correctamente' );
-					}else{
-						$msm = array('msm' => 'Error: No se guardo el registro' );
-					}
-			}	
+			$resul->ejecutora_id = 1;
+			$resul->codigo = $_POST['codigo'];
+			$resul->cargo = $_POST['cargo'];
+			$resul->codigo_nivel = $_POST['codigo_nivel'];
+			$resul->cargo_estado_id = 1;
+			$resul->estado = 0;
+			$resul->baja_logica = 1;
+			$resul->user_reg_id = $auth['id'];
+			$resul->fecha_reg = date("Y-m-d H:i:s");
+			$resul->fin_partida_id=$_POST['fin_partida_id'];
+			$resul->asistente=$_POST['asistente'];
+			$resul->jefe=$_POST['jefe'];
+			$resul->poa_id=1;
+			$resul->formacion_requerida=$_POST['formacion_requerida'];
+			if ($resul->save()) {
+				$msm = array('msm' => 'Exito: Se guardo correctamente' );
+			}else{
+				$msm = array('msm' => 'Error: No se guardo el registro' );
+			}
+		}	
 		}
 		$this->view->disable();
 		echo json_encode();
@@ -321,6 +328,8 @@ public function save_pacAction()
 
 public function deleteAction(){
 	$resul = Cargos::findFirstById($_POST['id']);
+	$resul->user_mod_id = $auth['id'];
+	$resul->fecha_mod = date("Y-m-d H:i:s");
 	$resul->baja_logica = 0;
 	$resul->save();
 	$this->view->disable();
@@ -339,6 +348,7 @@ public function listpacAction()
 			'nro' => $v->nro,
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
+			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
 			'gestion' => $v->gestion,
 			'estado' => $v->estado1,
@@ -532,8 +542,8 @@ public function exportarPacPdfAction()
 			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
 			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
 			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, utf8_decode($v->fecha_ini),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, utf8_decode($v->fecha_fin),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_ini)),1, 0 , 'L', $bandera );
+			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_fin)),1, 0 , 'L', $bandera );
 			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
 		    $pdf->Ln();//Salto de línea para generar otra fila
 		    $bandera = !$bandera;//Alterna el valor de la bandera
@@ -545,7 +555,7 @@ public function exportarPacPdfAction()
 	}
 
 
-	public function dependenciaAction($id='')
+	public function dependenciaAction($id='',$depende_id='')
 	{
 		
 		$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
@@ -553,7 +563,12 @@ public function exportarPacPdfAction()
 		$options = '<option value="">(Seleccionar)</option>';
 
 		foreach ($resul as $v) {
-			$options.='<option value="'.$v->id.'">'.$v->cargo.'</option>';
+			$checked='';
+			if($depende_id==$v->id)
+			{
+				$checked='selected=selected';
+			}				
+			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->cargo.'</option>';
 		}
     
         
