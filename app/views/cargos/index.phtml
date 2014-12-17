@@ -46,7 +46,6 @@ function cargar(){
 		url: '/cargos/list',
 		cache: false
 	};
-
 	var dataAdapter = new $.jqx.dataAdapter(source);
 	$("#jqxgrid").jqxGrid({
 		width: '91%',
@@ -90,6 +89,7 @@ function cargar(){
   });
 
 }
+
 $("#jqxgrid").bind('rowselect', function (event) {
 	var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', event.args.rowindex);
 	//alert(dataRecord.estado);
@@ -116,6 +116,7 @@ $("#jqxgrid").bind('rowselect', function (event) {
 	/*****Edita cargo*******/
 	$("#id").val(dataRecord.id);
 	$("#organigrama_id").val(dataRecord.organigrama_id);
+	$('#organigrama_id').trigger("chosen:updated");
 	$("#fin_partida_id").val(dataRecord.fin_partida_id);
 	dependencia(dataRecord.depende_id);
 	$("#depende_id").val(dataRecord.depende_id);
@@ -130,15 +131,14 @@ $("#jqxgrid").bind('rowselect', function (event) {
 $("#add").click(function(){
 	$("#titulo").text("Adicionar");
 	$("#id").val("");
-//$("[type=radio][name=cargo_estado_id]:checked").removeAttr("checked");
-$("#codigo").val("");
-$("#organigrama_id").val("");
-$("#depende_id").val("");
-$("#fin_partida_id").val("");
-$("#codigo_nivel").val("");
-$("#cargo").val("");
-$("#formacion_requerida").val("");
-$("#sueldotxt").text("");
+	$("#codigo").val("");
+	$("#organigrama_id").val("");
+	$("#depende_id").val("");
+	$("#fin_partida_id").val("");
+	$("#codigo_nivel").val("");
+	$("#cargo").val("");
+	$("#formacion_requerida").val("");
+	$("#sueldotxt").text("");
 	//$('input[name=cargo_estado_id][value="1"]').prop('checked', true);
 	// $("#popupWindow").jqxWindow('open');
 	$('#myModal').modal('show');
@@ -147,6 +147,16 @@ $("#sueldotxt").text("");
 $("#edit").click(function(){
 	if($("#id").val()!=""){
 		$("#titulo").text("Editar");
+		$('#myModal').modal('show');        		
+	}else{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
+	}
+});
+
+$("#copy").click(function(){
+	if($("#id").val()!=""){
+		$("#id").val("");
+		$("#titulo").text("Copera Cargo");
 		$('#myModal').modal('show');        		
 	}else{
 		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
@@ -483,6 +493,7 @@ $('#exportar_pac_pdf').click(function(){
 					<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
 					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
+					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copear Cargo</button>
 					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte</button>
 				</div>
 			</div>
@@ -491,7 +502,7 @@ $('#exportar_pac_pdf').click(function(){
 			<br>
 			<div class="table-responsive">
 				<div style="float: left;" id="jqxlistbox"></div>
-				 <div style="margin-left: 15px; float: left;" id="jqxgrid"></div>
+				<div style="margin-left: 15px; float: left;" id="jqxgrid"></div>
 			</div>
 			
 
@@ -697,19 +708,19 @@ $('#exportar_pac_pdf').click(function(){
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
-					<label class="col-md-4 control-label" >Gerencias</label>
+					<label class="col-md-4 control-label" >Organigrama</label>
 					<div class="col-md-8">
-						<?php  echo $gerencia ?>
+						<?php  echo $organigrama ?>
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-md-4 control-label" >Departamentos</label>
 					<div class="col-md-8">
 						<select id="departamento" name="departamento">
 							<option value="">(Seleccionar)</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 				<div class="form-group">
 					<label class="col-md-4 control-label" >Estado</label>
 					<div class="col-md-8">

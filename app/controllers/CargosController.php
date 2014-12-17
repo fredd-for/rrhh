@@ -68,16 +68,15 @@ class CargosController extends ControllerBase
 		$organigrama = $this->tag->select(
 			array(
 				'organigrama_id',
-				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
+				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa DESC')),
 				'using' => array('id', "unidad_administrativa"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
-				'class' => 'form-control',
+				'class' => 'form-control select-chosen',
 				)
 			);
 		$this->view->setVar('organigrama',$organigrama);
-
 
 		$model = new Cargos();
 		$resul = $model->listGerencias();
@@ -518,20 +517,20 @@ public function exportarPacPdfAction()
 	$pdf->SetFont('Arial','B',10);
 	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
 	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
-			$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
-			$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
-			$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
-			$pdf->Cell(20,7, 'Fecha Inicio',1, 0 , 'L', true );
-			$pdf->Cell(20,7, 'Fecha Finalizacion',1, 0 , 'L', true );
-			$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
+	$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
+	$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
+	$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
+	$pdf->Cell(20,7, 'Fecha Inicio',1, 0 , 'L', true );
+	$pdf->Cell(20,7, 'Fecha Finalizacion',1, 0 , 'L', true );
+	$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
 	// foreach($miCabecera as $fila)
 	// 	{
 	// 	    //Atención!! el parámetro true rellena la celda con el color elegido
 	// 		$pdf->Cell(24,7, utf8_decode($fila),1, 0 , 'L', true);
 	// 	}
-		$pdf->SetXY(10,42);
-		$pdf->SetFont('Arial','',7);
-		$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
+	$pdf->SetXY(10,42);
+	$pdf->SetFont('Arial','',7);
+			$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
 		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
 		$bandera = false; //Para alternar el relleno
 		$model = new Cargos();
@@ -554,14 +553,20 @@ public function exportarPacPdfAction()
 
 	}
 
-
+/**
+ * [dependenciaAction selecciona los cargos dependientes de un organigrama]
+ * @param  string $id         [criterio de busqueda]
+ * @param  string $depende_id [criterio de selected al editar]
+ */
 	public function dependenciaAction($id='',$depende_id='')
 	{
 		
-		$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
+		//$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
+		$model = new Cargos();
+		$resul = $model->dependientes($id);
+		
 		$this->view->disable();
 		$options = '<option value="">(Seleccionar)</option>';
-
 		foreach ($resul as $v) {
 			$checked='';
 			if($depende_id==$v->id)

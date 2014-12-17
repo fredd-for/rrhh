@@ -280,6 +280,15 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }
 
+    public function dependientes($organigrama_id='')
+    {
+        $sql="SELECT id,cargo FROM cargos WHERE organigrama_id=(SELECT padre_id FROM organigramas WHERE id=".$organigrama_id.") AND jefe=1 AND baja_logica = 1
+        UNION ALL
+        SELECT id,cargo FROM cargos WHERE organigrama_id=".$organigrama_id." AND baja_logica = 1";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
     /**
      * Función para listar los nombres de cargos registrados en la tabla de cargos.
      * @author JLM
