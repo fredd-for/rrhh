@@ -375,22 +375,21 @@ public function listdependeAction()
 	echo json_encode($customers);
 }
 
-public function listPersonalAction()
+public function listPersonalAction($organigrama_id)
 {
-    if (isset($_GET['organigrama_id'])){
+    $options='';
+    
 	    $model = new Cargos();
-	    $resul = $model->getPersonalOrganigrama($_GET['organigrama_id']);
+	    $resul = $model->getPersonalOrganigrama($organigrama_id);
 		$this->view->disable();
+		$options = '<option value="">(Seleccionar)</option>';
 		foreach ($resul as $v) {
-			$customers[] = array(
-				'id' => $v->id,
-				'nombre' => $v->nombre,
-				'cargo' => $v->cargo
-				);
-		}
-    }
-        
-	echo json_encode($customers);
+			$options.='<option value="'.$v->id.'" nombre="'.$v->nombre.'" cargo="'.$v->cargo.'">'.$v->cargo.' - '.$v->nombre.'</option>';
+			}
+    	
+    	
+    
+    echo $options; 
 }
 
 public function delete_pacAction(){
