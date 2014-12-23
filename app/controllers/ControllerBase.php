@@ -29,6 +29,7 @@ class ControllerBase extends Controller {
             $this->_user = usuarios::findFirst("id = '$user_id'");
             //Prepend the application name to the title
             $this->tag->setTitle('Sistema de RRHH');
+
             $this->assets
                     ->addCss('/assets/css/bootstrap.min.css')
                     ->addCss('/assets/css/plugins.css')
@@ -47,6 +48,7 @@ class ControllerBase extends Controller {
 
                     /*Adicionado por Javier*/
                     ->addCss('/assets/css/jquery-ui.css')
+                    
 
             ;
             $this->assets

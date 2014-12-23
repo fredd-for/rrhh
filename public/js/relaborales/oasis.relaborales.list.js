@@ -922,7 +922,7 @@ function definirGrillaParaListaRelaborales() {
                         align: 'center',
                         hidden: false
                     },
-                    {
+                    /*{
                         text: 'N/C',
                         columntype: 'textbox',
                         filtertype: 'input',
@@ -931,7 +931,7 @@ function definirGrillaParaListaRelaborales() {
                         cellsalign: 'center',
                         align: 'center',
                         hidden: true
-                    },
+                    },*/
                     {
                         text: 'Gerencia',
                         filtertype: 'checkedlist',
@@ -1321,7 +1321,7 @@ function definirGrillaParaListaRelaborales() {
             {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
             {label: 'CI', value: 'ci', checked: true},
             {label: 'Exp', value: 'expd', checked: true},
-            {label: 'N/C', value: 'num_complemento', checked: false},
+            /*{label: 'N/C', value: 'num_complemento', checked: false},*/
             {label: 'Gerencia', value: 'gerencia_administrativa', checked: true},
             {label: 'Departamento', value: 'departamento_administrativo', checked: false},
             {label: '&Aacute;rea', value: 'area', checked: false},
@@ -1337,7 +1337,7 @@ function definirGrillaParaListaRelaborales() {
             {label: 'Motivo Baja', value: 'motivo_baja', checked: false},
             {label: 'Observacion', value: 'observacion', checked: false},
         ];
-        $("#jqxlistbox").jqxListBox({source: listSource, width: "100%", height: 100, checkboxes: true});
+        $("#jqxlistbox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
         $("#jqxlistbox").on('checkChange', function (event) {
             $("#jqxgrid").jqxGrid('beginupdate');
             if (event.args.checked) {

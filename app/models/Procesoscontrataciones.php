@@ -150,15 +150,16 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
 
     private $_db;
     public function lista() {
-        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY p.id asc) AS nro,p.*, n.normativa,n.modalidad,n.denominacion 
-        FROM procesoscontrataciones p, normativasmod n WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.id ASC";
+        $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion 
+FROM procesoscontrataciones p, normativasmod n 
+WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.id ASC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
     public function listseguimiento()
     {
-        $sql = "SELECT ROW_NUMBER() OVER(ORDER BY s.id asc) AS nro,s.id,s.pac_id,s.proceso_contratacion_id,se.estado, c.codigo,c.cargo,n.sueldo,o.unidad_administrativa
+        $sql = "SELECT s.id,s.pac_id,s.proceso_contratacion_id,se.estado, c.codigo,c.cargo,n.sueldo,o.unidad_administrativa
 FROM seguimientos s 
 INNER JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
 INNER JOIN pacs p ON s.pac_id=p.id
@@ -173,7 +174,9 @@ WHERE s.baja_logica=1 ORDER BY s.id ASC";
 
     public function getSeguimiento($id)
     {
-        $sql = "SELECT s.*,p.codigo_convocatoria,n.denominacion FROM seguimientos s
+        $sql = "SELECT s.id,s.codigo_proceso,to_char(s.fecha_sol, 'DD-MM-YYYY')as fecha_sol,s.cert_presupuestaria,to_char(s.fecha_cert_pre, 'DD-MM-YYYY')as fecha_cert_pre,
+to_char(s.fecha_apr_mae, 'DD-MM-YYYY')as fecha_apr_mae,s.seguimiento_estado_id,s.organigrama_id,s.usuario_sol,p.codigo_convocatoria,n.denominacion 
+FROM seguimientos s
 INNER JOIN procesoscontrataciones p ON s.proceso_contratacion_id=p.id
 INNER JOIN normativasmod n ON p.normativamod_id=n.id
 WHERE s.id='$id'";
@@ -185,7 +188,7 @@ WHERE s.id='$id'";
     {
         $sql = "SELECT o.area_sustantiva,ca.* 
 FROM seguimientos s, pacs p, cargos c, organigramas o, nivelsalariales n, cargosperfiles ca
-WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id AND c.nivelsalarial_id=n.id AND ca.nivelsalarial_id = n.id AND ca.baja_logica=1";
+WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id AND c.codigo_nivel=n.nivel AND n.baja_logica=1 AND n.activo=1  AND ca.nivelsalarial_id = n.id AND ca.baja_logica=1";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }

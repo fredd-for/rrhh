@@ -101,6 +101,18 @@ class Cargos extends \Phalcon\Mvc\Model
     public $formacion_requerida;
 
     /**
+     *
+     * @var integer
+     */
+    public $asistente;
+
+    /**
+     *
+     * @var integer
+     */
+    public $jefe;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -129,7 +141,9 @@ class Cargos extends \Phalcon\Mvc\Model
             'estado' => 'estado',
             'fin_partida_id' => 'fin_partida_id',
             'depende_id' => 'depende_id',
-            'formacion_requerida' => 'formacion_requerida'
+            'formacion_requerida' => 'formacion_requerida',
+            'asistente' => 'asistente',
+            'jefe' => 'jefe'
         );
     }
 
@@ -164,7 +178,7 @@ class Cargos extends \Phalcon\Mvc\Model
 // LEFT JOIN personas p ON r.persona_id=p.id
 // WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel ASC";
         $sql="SELECT c.id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
-c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
+c.depende_id,c.codigo,c.cargo,n.categoria,c.asistente,c.jefe,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
 CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci,
 f.partida,
 cp.gestion,cp.programa,cp.proyecto,cp.actividad,
@@ -201,7 +215,7 @@ WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel
             $where.= " AND p.fecha_ini BETWEEN '$fecha_ini' AND '$fecha_fin'";   
         }
 
-        $sql = "SELECT  ROW_NUMBER() OVER(ORDER BY p.fecha_ini asc) AS nro,p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1
+        $sql = "SELECT  p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1
 FROM pacs p
 INNER JOIN cargos c ON p.cargo_id=c.id
 INNER JOIN organigramas o ON c.organigrama_id=o.id
@@ -254,6 +268,25 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
                 WHERE c.baja_logica = 1 AND c.depende_id = '$depende_id' " . $where;
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function listGerencias()
+    {
+        $sql = "SELECT o.id, o.padre_id, o.unidad_administrativa
+        FROM nivelestructurales n
+        INNER JOIN organigramas o ON n.id=o.nivel_estructural_id
+        WHERE o.baja_logica =1 AND n.estado=1";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
+    }
+
+    public function dependientes($organigrama_id='')
+    {
+        $sql="SELECT id,cargo FROM cargos WHERE organigrama_id=(SELECT padre_id FROM organigramas WHERE id=".$organigrama_id.") AND jefe=1 AND baja_logica = 1
+        UNION ALL
+        SELECT id,cargo FROM cargos WHERE organigrama_id=".$organigrama_id." AND baja_logica = 1";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }
 
     /**
