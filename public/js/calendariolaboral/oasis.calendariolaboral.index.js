@@ -539,8 +539,8 @@ function guardaHorario(){
     var horaInicioRangoSalida = $("#txtHoraInicioRangoSal").val();
     var horaFinalizacionRangoSalida = $("#txtHoraFinalizacionRangoSal").val();
     var observacion = $("#txtObservacion").val();
-    var fecha_ini = '01-01-2014';
-    var fecha_fin = '31-12-2020';
+    var fechaIni = '01-01-2014';
+    var fechaFin = '31-12-2020';
     if (nombre != '' && color != '') {
         $.ajax({
             url: '/calendariolaboral/savehorario/',

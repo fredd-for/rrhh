@@ -3185,8 +3185,4 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($paises);
     }
-    public function cargamovilidadAction(){
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
-        $this->view->disable();
-    }
 }

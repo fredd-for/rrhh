@@ -24,39 +24,21 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.index.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.approve.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.new.js');
-        /*$this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.edit.js');
+        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.edit.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.down.js');
-        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.move.js');
-        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.view.js');
+        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.turn.js');
+        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.js');
+        $this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addCss('/assets/css/kolorpicker.css');
+        $this->assets->addCss('/assets/css/oasis.principal.css');
+
+
+
+        /*$this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.view.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.print.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.view.splitter.js');*/
         //$this->assets->addJs('/js/perfileslaborales/oasis.localizacion.js');
         //$this->assets->addCss('/assets/css/oasis.principal.css');
-        $ubicaciones = $this->tag->select(
-            array(
-                'lstUbicaciones',
-                Ubicaciones::find(array('baja_logica=1', 'order' => 'id ASC')),
-                'using' => array('id', "ubicacion"),
-                'useEmpty' => true,
-                'emptyText' => 'Seleccionar..',
-                'emptyValue' => '',
-                'class' => 'form-control new-relab'
-            )
-        );
-        $this->view->setVar('ubicaciones', $ubicaciones);
-
-        $categorias = $this->tag->select(
-            array(
-                'lstCategorias',
-                Categorias::find(array('order' => 'id ASC')),
-                'using' => array('id', "categoria"),
-                'useEmpty' => true,
-                'emptyText' => 'Seleccionar..',
-                'emptyValue' => '',
-                'class' => 'form-control new-relab'
-            )
-        );
-        $this->view->setVar('categorias', $categorias);
     }
 
     /**
@@ -67,7 +49,7 @@ class PerfileslaboralesController extends ControllerBase
     {
         $this->view->disable();
         $perfillaboral = Array();
-        $resul = Perfileslaborales::find(array('estado=:estado1: and baja_logica=:baja_logica1:','bind'=>array('estado1'=>1,'baja_logica1'=>1),'order' => 'id ASC'));
+        $resul = Perfileslaborales::find(array('baja_logica=:baja_logica1:','bind'=>array('baja_logica1'=>1),'order' => 'id ASC'));
         $permisoC = true;
         $permisoR = true;
         $permisoU = true;
@@ -100,6 +82,12 @@ class PerfileslaboralesController extends ControllerBase
                 switch($v->estado){
                     case 0:$estado_descripcion='PASIVO';break;
                     case 1:$estado_descripcion='ACTIVO';break;
+                    case 2:$estado_descripcion='EN PROCESO';break;
+                }
+                switch($v->tipo_horario){
+                    case 1:$tipo_horario_descripcion='DISCONTINUO (LUN A VIE)';break;
+                    case 2:$tipo_horario_descripcion='CONTINUO (LUN A VIE)';break;
+                    case 3:$tipo_horario_descripcion='MULTIPLE (LUN A DOM)';break;
                 }
                 $perfillaboral[] = array(
                     'chk' => $chk,
@@ -111,6 +99,9 @@ class PerfileslaboralesController extends ControllerBase
                     'ver' => $view,
                     'id' => $v->id,
                     'perfil_laboral' => $v->perfil_laboral,
+                    'grupo' => $v->grupo,
+                    'tipo_horario' => $v->tipo_horario,
+                    'tipo_horario_descripcion' => $tipo_horario_descripcion,
                     'observacion' => ($v->observacion != null) ? $v->observacion : "",
                     'estado' => $v->estado,
                     'estado_descripcion' => $estado_descripcion,
@@ -126,42 +117,22 @@ class PerfileslaboralesController extends ControllerBase
     }
 
     /**
-     * Función para la obtención del listado de cargos al momento de registrar una nueva relación laboral.
+     * Función para la obtención del listado de tipos de horarios disponibles en el sistema.
      */
-    public function listcargosAction()
-    {
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
+    public function listtiposhorariosAction(){
         $this->view->disable();
-        $obj = new Fcargos();
-        $resul = $obj->getAllCargosAcefalos();
+        $resul = parametros::find(array("parametro LIKE 'TIPOS_HORARIOS'"));
         //comprobamos si hay filas
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
-                $relaboral[] = array(
-                    'seleccionable' => 'seleccionable',
-                    'codigo' => $v->codigo,
-                    'finpartida' => $v->finpartida,
-                    'id_condicion' => $v->id_condicion,
-                    'condicion' => $v->condicion,
-                    'cargo' => $v->cargo,
-                    'id_cargo' => $v->id_cargo,
-                    'nivelsalarial' => $v->nivelsalarial,
-                    'sueldo' => $v->sueldo,
-                    'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
-                    'gerencia_administrativa' => $v->gerencia_administrativa,
-                    'id_departamento_administrativo' => $v->id_departamento_administrativo,
-                    'departamento_administrativo' => $v->departamento_administrativo,
-                    'id_organigrama' => $v->id_organigrama,
-                    'unidad_administrativa' => $v->unidad_administrativa,
+                $tiposHorarios[] = array(
+                    'tipo_horario' => $v->nivel,
+                    'tipo_horario_descripcion' => $v->valor_1
                 );
             }
-        }
-        echo json_encode($relaboral);
+        }else $tiposHorarios = array();
+        echo json_encode($tiposHorarios);
     }
-
     /**
      * Función para listar los nombres de cargos
      */
@@ -255,7 +226,7 @@ class PerfileslaboralesController extends ControllerBase
     }
 
     /**
-     * Función para el almacenamiento y actualización de un registro de relación laboral.
+     * Función para el almacenamiento y actualización de un registro de perfil laboral.
      * return array(EstadoResultado,Mensaje)
      * Los valores posibles para la variable EstadoResultado son:
      *  0: Error
@@ -277,340 +248,97 @@ class PerfileslaboralesController extends ControllerBase
             /**
              * Edición de registro
              */
-            $objRelaboral = Relaborales::findFirstById($_POST["id"]);
-            $id_persona = $_POST['id_persona'];
-            $id_cargo = $_POST['id_cargo'];
-            $num_contrato = $_POST['num_contrato'];
+            $objPerfilLaboral = Perfileslaborales::findFirstById($_POST["id"]);
+            $perfil_laboral = $_POST['perfil_laboral'];
+            $grupo = $_POST['grupo'];
+            $tipo_horario = $_POST['tipo_horario'];
             $observacion = $_POST['observacion'];
-            $cargo = Cargos::findFirstById($id_cargo);
-            $id_organigrama = $cargo->organigrama_id;
-            $id_finpartida = $cargo->fin_partida_id;
-            #region Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
-            $objNS = new Nivelsalariales();
-            $nsArr = $objNS->getNivelSalarialActivoByCodigoNivel($cargo->codigo_nivel);
-            if(count($nsArr)>0){
-                $nivelsalariales = $nsArr[0];
-                $id_nivelsalarial = $nivelsalariales->id;
-                /**
-                 * En la modificación es necesario verificar que no se haya cambiado de cargo, si así fue,
-                 * sólo en ese caso se cambia el nivel salarial,
-                 * en caso contrarío no se modifica el nivel salarial.
-                 */
-                if($id_cargo!=$objRelaboral->cargo_id){
-                    $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
-                }
-                /*$id_nivelsalarial = $cargo->nivelsalarial_id;*/
-                $id_relaboral = null;
-                $finpartida = Finpartidas::findFirstById($id_finpartida);
-                $id_condicion = $finpartida->condicion_id;
-                $id_area = $_POST['id_area'];
-                $id_ubicacion = $_POST['id_ubicacion'];
-                $id_regional = $_POST['id_regional'];
-                $id_procesocontratacion = $_POST['id_procesocontratacion'];
-                $date1 = new DateTime($_POST['fecha_inicio']);
-                $date2 = new DateTime($_POST['fecha_incor']);
-                $date3 = new DateTime($_POST['fecha_fin']);
-                $fecha_ini = $date1->format('Y-m-d');
-                $fecha_incor = $date2->format('Y-m-d');
-                /**
-                 * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
-                 */
-                if ($id_condicion == 2 || $id_condicion == 3) {
-                    $fecha_fin = $date3->format('Y-m-d');
-                } else {
-                    $fecha_fin = $objRelaboral->fecha_fin;
-                }
-                if ($id_persona > 0 && $id_cargo > 0) {
-                    try {
+            $resul = Perfileslaborales::find(array("UPPER(perfil_laboral) LIKE UPPER('".$perfil_laboral."') AND (UPPER(grupo) LIKE UPPER('".$grupo."') OR (grupo is null and '".$grupo."' like '')) AND id!=".$objPerfilLaboral->id));
+            if(count($resul)>0){
+                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el registro de debido a que ya existe otro registro con el mismo nombre de perfil y/o grupo.');
+            }else{
+                try {
 
-                        $objRelaboral->cargo_id = $id_cargo;
-                        $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
-                        $objRelaboral->da_id = 1;
-                        $objRelaboral->regional_id = $id_regional;
-                        $objRelaboral->organigrama_id = $id_organigrama;
-                        $objRelaboral->ejecutora_id = 1;
-                        $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
-                        $objRelaboral->cargo_id = $id_cargo;
-                        $objRelaboral->certificacionitem_id = null;
-                        $objRelaboral->finpartida_id = $id_finpartida;
-                        $objRelaboral->condicion_id = $id_condicion;
-                        $objRelaboral->carrera_adm = 0;
-                        $objRelaboral->pagado = 0;
-                        $objRelaboral->fecha_ini = $fecha_ini;
-                        $objRelaboral->fecha_incor = $fecha_incor;
-                        $objRelaboral->fecha_fin = $fecha_fin;
-                        $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
-                        /**
-                         * Con este valor eventualmente para presentación
-                         * --->
-                         */
-                        $objRelaboral->estado = 1;
-                        /*
-                         * <---
-                         */
-                        $objRelaboral->baja_logica = 1;
-                        $objRelaboral->user_mod_id = $user_mod_id;
-                        $objRelaboral->fecha_mod = $hoy;
-                        $objRelaboral->agrupador = 0;
-                        $ok = $objRelaboral->save();
-                        if ($ok) {
-                            /**
-                             * Modificar el estado del cargo a adjudicado
-                             */
-                            #region Registro del área de trabajo
-                            if ($id_area > 0) {
-                                /*
-                                 * Verificando la existencia del registro de relación laboral.                             *
-                                 */
-                                $objRA = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
-                                if ($objRA->id > 0) {
-                                    $objRA->estado = 1;
-                                    $objRA->baja_logica = 1;
-                                    $objRA->organigrama_id = $id_area;
-                                    $objRA->user_mod_id = $user_reg_id;
-                                    $objRA->fecha_mod = $hoy;
-                                    $objRA->save();
-                                } else {
-                                    $objRelArea = new Relaboralesareas();
-                                    $objRelArea->id = null;
-                                    $objRelArea->relaboral_id = $objRelaboral->id;
-                                    $objRelArea->organigrama_id = $id_area;
-                                    $objRelArea->observacion = null;
-                                    $objRelArea->estado = 1;
-                                    $objRelArea->baja_logica = 1;
-                                    $objRelArea->agrupador = 0;
-                                    $objRelArea->user_reg_id = $user_reg_id;
-                                    $objRelArea->fecha_reg = $hoy;
-                                    $objRelArea->save();
-                                }
-                            } else {
-                                /*
-                                 * En caso de ser necesario descartar la pertenencia de una persona a un área en la cual se haya registrado con anterioridad
-                                 */
-                                $objRelArea = Relaboralesareas::findFirst(array('relaboral_id=' . $objRelaboral->id, 'order' => 'id ASC'));
-                                if ($objRelArea!=null&&$objRelArea->id > 0) {
-                                    $objRelArea->estado = 0;
-                                    $objRelArea->baja_logica = 0;
-                                    $objRelArea->user_mod_id = $user_reg_id;
-                                    $objRelArea->fecha_mod = $hoy;
-                                    $objRelArea->save();
-                                }
-                            }
-                            #endregion Registro del área de trabajo
-                            #region Registro de la ubicación de trabajo
-                            //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
-                            if ($id_ubicacion > 0) {
-                                //$ru = new Relaboralesubicaciones();
-                                $ru = Relaboralesubicaciones::findFirst(array('relaboral_id=:relaboral_id1:'/*,'baja_logica=:activo1:','estado=:estado1:'*/, 'bind' => array('relaboral_id1' => $objRelaboral->id,/*'activo1'=>'1','estado1'=>1*/), 'order' => 'id ASC'));
-                                if ($ru->id > 0) {
-                                    /**
-                                     * Si existia el registro de ubicación
-                                     */
-                                    $ru->ubicacion_id = $id_ubicacion;
-                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                    $ru->estado = 1;
-                                    $ru->baja_logica = 1;
-                                    $ru->agrupador = 0;
-                                    if ($ru->save()) {
-                                        //Si se ha especificado un area para la especificación de la dependencia de la persona.
-                                        /*if($id_area>0){
-
-
-                                        }*/
-                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                    } else {
-                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                                    }
-                                } else {
-                                    /**
-                                     * Si no se tenía registro de ubicación
-                                     */
-                                    $ru = new Relaboralesubicaciones();
-                                    $ru->relaboral_id = $objRelaboral->id;
-                                    $ru->ubicacion_id = $id_ubicacion;
-                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                    $ru->estado = 1;
-                                    $ru->baja_logica = 1;
-                                    $ru->agrupador = 0;
-                                    if ($ru->save()) {
-                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                    } else {
-                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                                    }
-                                }
-                            } else {
-                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                            }
-                            #region de registro de la ubicación de trabajo
-                        } else {
-                            foreach ($objRelaboral->getMessages() as $message) {
-                                echo $message, "\n";
-                            }
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                    $objPerfilLaboral->perfil_laboral = $perfil_laboral;
+                    $objPerfilLaboral->grupo = $grupo;
+                    $objPerfilLaboral->tipo_horario = $tipo_horario;
+                    $objPerfilLaboral->observacion = ($observacion == "") ? null : $observacion;
+                    $objPerfilLaboral->baja_logica = 1;
+                    $objPerfilLaboral->agrupador = 0;
+                    $objPerfilLaboral->user_mod_id = $user_mod_id;
+                    $objPerfilLaboral->fecha_mod = $hoy;
+                    $ok = $objPerfilLaboral->save();
+                    if ($ok) {
+                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se modific&oacute; correctamente.');
+                    } else {
+                        foreach ($objPerfilLaboral->getMessages() as $message) {
+                            echo $message, "\n";
                         }
-                    } catch (\Exception $e) {
-                        echo get_class($e), ": ", $e->getMessage(), "\n";
-                        echo " File=", $e->getFile(), "\n";
-                        echo " Line=", $e->getLine(), "\n";
-                        echo $e->getTraceAsString();
-                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
                     }
-                } else {
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
+                } catch (\Exception $e) {
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
                 }
-            } else {
-                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se hall&oacute; el registro correspondiente al nivel salarial para el registro de realaci&oacute;n laboral.');
             }
-            #endregion Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
         } else {
             /**
              * Nuevo Registro
              */
-            if (isset($_POST['id_persona']) && isset($_POST['id_cargo'])) {
-                $id_persona = $_POST['id_persona'];
-                $id_cargo = $_POST['id_cargo'];
-                $num_contrato = $_POST['num_contrato'];
+            if (isset($_POST['perfil_laboral'])) {
+                $perfil_laboral = $_POST['perfil_laboral'];
+                $grupo = $_POST['grupo']==''?'':$_POST["grupo"];
+                $tipo_horario = $_POST['tipo_horario'];
                 $observacion = $_POST['observacion'];
-
-                $cargo = Cargos::findFirstById($id_cargo);
-                $id_organigrama = $cargo->organigrama_id;
-                $id_finpartida = $cargo->fin_partida_id;
-                #region Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
-                $objNS = new Nivelsalariales();
-                $nsArr = $objNS->getNivelSalarialActivoByCodigoNivel($cargo->codigo_nivel);
-                if(count($nsArr)>0){
-                    $nivelsalariales = $nsArr[0];
-                    $id_nivelsalarial = $nivelsalariales->id;
-                    $id_relaboral = null;
-                    $finpartida = Finpartidas::findFirstById($id_finpartida);
-                    $id_condicion = $finpartida->condicion_id;
-                    $id_area = $_POST['id_area'];
-                    $id_ubicacion = $_POST['id_ubicacion'];
-                    $id_regional = $_POST['id_regional'];
-                    $id_procesocontratacion = $_POST['id_procesocontratacion'];
-                    $date1 = new DateTime($_POST['fecha_inicio']);
-                    $date2 = new DateTime($_POST['fecha_incor']);
-                    $date3 = new DateTime($_POST['fecha_fin']);
-                    $fecha_ini = $date1->format('Y-m-d');
-                    $fecha_incor = $date2->format('Y-m-d');
-                    /**
-                     * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
-                     */
-                    if ($id_condicion == 2 || $id_condicion == 3) {
-                        $fecha_fin = $date3->format('Y-m-d');
-                    }
-                    if ($id_persona > 0 && $id_cargo > 0) {
+                if ($perfil_laboral!='') {
                         try {
-                            $objRelaboral = new Relaborales();
-                            $objRelaboral->id = null;
-                            $objRelaboral->persona_id = $id_persona;
-                            $objRelaboral->cargo_id = $id_cargo;
-                            $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
-                            $objRelaboral->da_id = 1;
-                            $objRelaboral->regional_id = $id_regional;
-                            $objRelaboral->organigrama_id = $id_organigrama;
-                            $objRelaboral->ejecutora_id = 1;
-                            $objRelaboral->procesocontratacion_id = $id_procesocontratacion;
-                            $objRelaboral->cargo_id = $id_cargo;
-                            $objRelaboral->certificacionitem_id = null;
-                            $objRelaboral->finpartida_id = $id_finpartida;
-                            $objRelaboral->condicion_id = $id_condicion;
-                            $objRelaboral->carrera_adm = 0;
-                            $objRelaboral->pagado = 0;
-                            $objRelaboral->nivelsalarial_id = $id_nivelsalarial;
-                            $objRelaboral->fecha_ini = $fecha_ini;
-                            $objRelaboral->fecha_incor = $fecha_incor;
-                            $objRelaboral->fecha_fin = $fecha_fin;
-                            $objRelaboral->observacion = ($observacion == "") ? null : $observacion;
-                            /*
-                             * Modificación expresa debido a la anulación del formulario de aprobación de registros de relación laboral.
-                             * El registro de relación laboral
-                             * -->
-                             */
-                            $objRelaboral->estado = 1;
-                            /**
-                             * <--
-                             */
-                            $objRelaboral->baja_logica = 1;
-                            $objRelaboral->user_reg_id = $user_reg_id;
-                            $objRelaboral->fecha_reg = $hoy;
-                            $objRelaboral->agrupador = 0;
-                            $ok = $objRelaboral->save();
-                            if ($ok) {
-                                /**
-                                 * Se modifica el estado del cargo para que se considere como adjudicado.
-                                 */
-                                //$this->adjudicarCargo($id_cargo,$objRelaboral->user_mod_id);
-                                #region Registro del área de trabajo
-                                if ($id_area > 0) {
-                                    $objRelArea = new Relaboralesareas();
-                                    $objRelArea->id = null;
-                                    $objRelArea->relaboral_id = $objRelaboral->id;
-                                    $objRelArea->organigrama_id = $id_area;
-                                    $objRelArea->observacion = null;
-                                    $objRelArea->estado = 1;
-                                    $objRelArea->baja_logica = 1;
-                                    $objRelArea->agrupador = 0;
-                                    $objRelArea->user_reg_id = $user_reg_id;
-                                    $objRelArea->fecha_reg = $hoy;
-                                    $objRelArea->save();
-                                }
-                                #endregion Registro del área de trabajo
-                                #region Registro de la ubicación de trabajo
-                                //Si se ha registrado correctamente la relación laboral y se ha definido una ubicación de trabajo
-                                if ($objRelaboral->id > 0 && $id_ubicacion > 0) {
-                                    $ru = new Relaboralesubicaciones();
-                                    $ru->relaboral_id = $objRelaboral->id;
-                                    $ru->ubicacion_id = $id_ubicacion;
-                                    $ru->fecha_ini = $objRelaboral->fecha_ini;
-                                    $ru->estado = 1;
-                                    $ru->baja_logica = 1;
-                                    $ru->agrupador = 0;
-                                    if ($ru->save()) {
-                                        //Si se ha especificado un area para la especificación de la dependencia de la persona.
-                                        /*if($id_area>0){
-
-
-                                        }*/
-
-                                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                                    } else {
-                                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
-                                    }
+                            $resul = Perfileslaborales::find(array("UPPER(perfil_laboral) LIKE UPPER('".$perfil_laboral."') AND (UPPER(grupo) LIKE UPPER('".$grupo."') OR (grupo is null and '".$grupo."' like ''))"));
+                            if ($resul->count() > 0) {
+                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el registro de perfil laboral debido a que ya existe un perfil con el mismo nombre y/o denominaci&oacute;n de grupo.');
+                            }else{
+                                $objPerfilLaboral = new Perfileslaborales();
+                                $objPerfilLaboral->id = null;
+                                $objPerfilLaboral->perfil_laboral = $perfil_laboral;
+                                if($grupo!='')$objPerfilLaboral->grupo = $grupo;
+                                $objPerfilLaboral->tipo_horario = $tipo_horario;
+                                $objPerfilLaboral->observacion = ($observacion == "") ? null : $observacion;
+                                $objPerfilLaboral->estado = 2;
+                                $objPerfilLaboral->baja_logica = 1;
+                                $objPerfilLaboral->agrupador = 0;
+                                $objPerfilLaboral->user_reg_id = $user_reg_id;
+                                $objPerfilLaboral->fecha_reg = $hoy;
+                                $ok = $objPerfilLaboral->save();
+                                if ($ok) {
+                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
                                 } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la ubicaci&oacute;n del trabajo.');
+                                    foreach ($objPerfilLaboral->getMessages() as $message) {
+                                        echo $message, "\n";
+                                    }
+                                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
                                 }
-                                #region de registro de la ubicación de trabajo
-                            } else {
-                                foreach ($objRelaboral->getMessages() as $message) {
-                                    echo $message, "\n";
-                                }
-                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
                             }
                         } catch (\Exception $e) {
                             echo get_class($e), ": ", $e->getMessage(), "\n";
                             echo " File=", $e->getFile(), "\n";
                             echo " Line=", $e->getLine(), "\n";
                             echo $e->getTraceAsString();
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
                         }
                     } else {
-                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos del perfil laboral.');
                     }
-                }else {
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se hall&oacute; el registro correspondiente al nivel salarial para el registro de realaci&oacute;n laboral.');
-                }
-                #endregion Modificación realizada a objeto de implementar el uso de la variable codigo_nivel en la tabla cargos
-
             } else {
-                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos de la persona o cargo.');
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro debido a datos erroneos en el perfil laboral.');
             }
         }
         echo json_encode($msj);
     }
 
     /*
-     * Función para la aprobación del registro de relación laboral que se encontraba en estado EN PROCESO.
+     * Función para la aprobación del registro de perfil laboral que se encontraba en estado EN PROCESO.
      */
     public function approveAction()
     {
@@ -622,37 +350,37 @@ class PerfileslaboralesController extends ControllerBase
             /**
              * Aprobación de registro
              */
-            $objRelaboral = Relaborales::findFirstById($_POST["id"]);
-            if ($objRelaboral->id > 0 && $objRelaboral->estado == 2) {
+            $objPerfilLaboral = Perfileslaborales::findFirstById($_POST["id"]);
+            if ($objPerfilLaboral->id > 0 && $objPerfilLaboral->estado == 2) {
                 try {
-                    $objRelaboral->estado = 1;
-                    $objRelaboral->user_mod_id = $user_mod_id;
-                    $objRelaboral->fecha_mod = $hoy;
-                    $ok = $objRelaboral->save();
+                    $objPerfilLaboral->estado = 1;
+                    $objPerfilLaboral->user_mod_id = $user_mod_id;
+                    $objPerfilLaboral->fecha_mod = $hoy;
+                    $ok = $objPerfilLaboral->save();
                     if ($ok) {
                         //$this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
-                        $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de relaci&oacute;n laboral.');
+                        $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de perfil laboral.');
                     } else {
-                        $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de relaci&oacute;n laboral.');
+                        $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de perfil laboral.');
                     }
                 } catch (\Exception $e) {
                     echo get_class($e), ": ", $e->getMessage(), "\n";
                     echo " File=", $e->getFile(), "\n";
                     echo " Line=", $e->getLine(), "\n";
                     echo $e->getTraceAsString();
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
                 }
             } else {
-                $msj = array('result' => 0, 'msj' => 'Error: El registro de relaci&oacute;n laboral no cumple con el requisito establecido para su aprobaci&oacute;n, debe estar en estado EN PROCESO.');
+                $msj = array('result' => 0, 'msj' => 'Error: El registro de perfil laboral no cumple con el requisito establecido para su aprobaci&oacute;n, debe estar en estado EN PROCESO.');
             }
         } else {
-            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se envi&oacute; el identificador del registro de relaci&oacute;n laboral.');
+            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se envi&oacute; el identificador del registro de perfil laboral.');
         }
         echo json_encode($msj);
     }
 
     /**
-     * Función para el la baja del registro de una relación laboral..
+     * Función para el la baja del registro de una perfil laboral..
      * return array(EstadoResultado,Mensaje)
      * Los valores posibles para la variable EstadoResultado son:
      *  0: Error
@@ -663,8 +391,8 @@ class PerfileslaboralesController extends ControllerBase
      */
     public function downAction()
     {
-        $ok = true;
         $msj = Array();
+        $user_mod_id = 1;
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
         try {
@@ -672,96 +400,31 @@ class PerfileslaboralesController extends ControllerBase
                 /**
                  * Baja de registro
                  */
-                $objRelaboral = Relaborales::findFirstById($_POST["id"]);
-                $id_motivo_baja = (isset($_POST['id_motivobaja'])) ? $_POST['id_motivobaja'] : 0;
-                $fecha_baja = (isset($_POST['fecha_baja'])) ? $_POST['fecha_baja'] : '31-12-2014';
-                $fecha_acepta_ren = (isset($_POST['fecha_acepta_ren'])) ? $_POST['fecha_acepta_ren'] : null;
-                $fecha_agra_serv = (isset($_POST['fecha_agra_serv'])) ? $_POST['fecha_agra_serv'] : "";
-
-                if ($id_motivo_baja > 0 && $fecha_baja != "" && $fecha_baja != null) {
+                $objPerfilLaboral = Perfileslaborales::findFirst(array("id=".$_POST["id"]));
+                $objPerfilLaboral->estado = 0;
+                $objPerfilLaboral->user_mod_id = $user_mod_id;
+                $objPerfilLaboral->fecha_mod = $hoy;
+                if ($objPerfilLaboral->save()) {
                     /**
-                     * Control de fechas necesarias por el tipo de motivo de baja.
+                     * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
                      */
-                    $motivobaja = Motivosbajas::findFirstById($id_motivo_baja);
-                    if ($motivobaja->id > 0) {
-                        /**
-                         * Se cargan los datos elementales.
-                         */
-                        $objRelaboral->motivobaja_id = $id_motivo_baja;
-                        $objRelaboral->fecha_baja = $fecha_baja;
+                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
+                } else {
+                    foreach ($objPerfilLaboral->getMessages() as $message) {
+                        echo $message, "\n";
+                    }
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; la baja del registro de perfil laboral.');
+                }
 
-                        /**
-                         * Si la fecha de renuncia es requerida
-                         */
-                        if ($motivobaja->fecha_ren > 0) {
-                            if (isset($_POST['fecha_ren'])) {
-                                $fecha_ren = $_POST['fecha_ren'];
-                                $objRelaboral->fecha_ren = $fecha_ren;
-                            } elseif ($motivobaja->fecha_ren == 1) {
-                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de renuncia si desea usar el tipo de baja seleccionado.');
-                                $ok = false;
-                            }
-                        }
-                        /**
-                         * Si la fecha de aceptación de renuncia es requerida
-                         */
-                        if ($motivobaja->fecha_acepta_ren > 0) {
-                            if (isset($_POST['fecha_acepta_ren'])) {
-                                $fecha_acepta_ren = $_POST['fecha_acepta_ren'];
-                                $objRelaboral->fecha_acepta_ren = $fecha_acepta_ren;
-                            } elseif ($motivobaja->fecha_acepta_ren == 1) {
-                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de aceptaci&oacute;n de la renuncia si desea usar el tipo de baja seleccionado.');
-                                $ok = false;
-                            }
-                        }
-                        /**
-                         * Si la fecha de agradecimiento es requerida
-                         */
-                        if ($motivobaja->fecha_agra_serv > 0) {
-                            if (isset($_POST['fecha_agra_serv'])) {
-                                $fecha_agra_serv = $_POST['fecha_agra_serv'];
-                                $objRelaboral->fecha_agra_serv = $fecha_agra_serv;
-                            } elseif ($motivobaja->fecha_agra_serv == 1) {
-                                $msj = array('result' => 0, 'msj' => 'Error: Debe registrar la fecha de agradecimiento de servicios si desea usar el tipo de baja seleccionado.');
-                                $ok = false;
-                            }
-                        }
-                        /**
-                         * Si el motivo de renuncia es no incorporación, la fecha de incorporación se establece en nulo.
-                         */
-                        if ($motivobaja->motivo_baja == "NO SE INCORPORA") {
-                            $objRelaboral->fecha_incor = null;
-                            $objRelaboral->fecha_baja = $objRelaboral->fecha_ini;
-                        }
-                        /**
-                         * Se verifica que todos los datos requeridos para una baja esten registrados
-                         */
-                        if ($ok) {
-                            $objRelaboral->estado = 0;
-                            $objRelaboral->user_mod_id = 1;
-                            $objRelaboral->fecha_mod = $hoy;
-                            if ($objRelaboral->save()) {
-                                /**
-                                 * Se modifica el estado del cargo a desadjudicado a objeto de permitir su uso.
-                                 */
-                                //$this->desadjudicarCargo($objRelaboral->cargo_id,$objRelaboral->user_mod_id);
-                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: Registro de Baja realizado de modo satisfactorio.');
-                            } else {
-                                foreach ($objRelaboral->getMessages() as $message) {
-                                    echo $message, "\n";
-                                }
-                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
-                            }
-                        }
-                    } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
-                } else $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute; la baja de la relaci&oacute;n laboral debido a datos inv&acute;lidos para la tarea.');
-            } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral debido a que no se especific&oacute; el registro de relaci&oacute;n laboral.');
+
+
+            } else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; la baja del registro de perfil laboral debido a que no se especific&oacute; el registro de perfil laboral.');
         } catch (\Exception $e) {
             echo get_class($e), ": ", $e->getMessage(), "\n";
             echo " File=", $e->getFile(), "\n";
             echo " Line=", $e->getLine(), "\n";
             echo $e->getTraceAsString();
-            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de relaci&oacute;n laboral.');
+            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de perfil laboral.');
         }
         echo json_encode($msj);
     }
@@ -1046,62 +709,35 @@ class PerfileslaboralesController extends ControllerBase
     /**
      * Función para la carga del historial de movilidad funcionaria.
      */
-    public function listhistorialmovilidadAction()
+    public function listhistorialturnosAction()
     {   $this->view->disable();
-        $relaboralmovilidad = Array();
+        $turnoslaborales = Array();
         if (isset($_GET["id"]) && $_GET["id"] > 0) {
-
-            $obj = new Frelaboralesmovilidad();
+            $idPerfilLaboral = $_GET["id"];
+            $obj = new Fturnoslaborales();
             $resul = $obj->getAllByOne($_GET["id"]);
+            $tipo_horario_descripcion="";
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
-                    #endregion Control de valores para fechas para evitar error al momento de mostrar en grilla
-                    $memorandum = $v->memorandum_correlativo."/".$v->memorandum_gestion;
-                    $memorandum .= ($v->fecha_mem != "" )? " de ".date("d-m-Y", strtotime($v->fecha_mem)) : "";
-                    $relaboralmovilidad[] = array(
-                        'id_relaboral'=>$v->id_relaboral,
-                        'id_relaboralmovilidad'=>$v->id_relaboralmovilidad,
-                        'id_gerencia_administrativa'=>$v->id_gerencia_administrativa,
-                        'gerencia_administrativa'=>$v->gerencia_administrativa,
-                        'id_departamento_administrativo'=>$v->id_departamento_administrativo,
-                        'departamento_administrativo'=>$v->departamento_administrativo,
-                        'id_organigrama'=>$v->id_organigrama,
-                        'unidad_administrativa'=>$v->unidad_administrativa,
-                        'organigrama_sigla'=>$v->organigrama_sigla,
-                        'organigrama_orden'=>$v->organigrama_orden,
-                        'id_area'=>$v->id_area,
-                        'area'=>$v->area,
-                        'id_ubicacion'=>$v->id_ubicacion,
-                        'ubicacion'=>$v->ubicacion,
-                        'numero'=>$v->numero,
-                        'cargo'=>$v->cargo,
-                        'evento_id'=>$v->evento_id,
-                        'evento'=>$v->evento,
-                        'motivo'=>$v->motivo,
-                        'id_pais'=>$v->id_pais,
-                        'pais'=>$v->pais,
-                        'id_departamento'=>$v->id_departamento,
-                        'lugar'=>$v->lugar,
+                    $turnoslaborales[] = array(
+                        'id_perfillaboral'=>$v->id_perfillaboral,
+                        'perfil_laboral'=>$v->perfil_laboral,
+                        'grupo'=>$v->grupo,
+                        'gestion'=>$v->gestion,
+                        'numero_mes'=>$v->numero_mes,
+                        'mes'=>$v->mes,
                         'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                        'hora_ini' => $v->hora_ini,
                         'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                        'hora_fin' => $v->hora_fin,
-                        'id_memorandum' => $v->id_memorandum,
-                        'id_tipomemorandum' => $v->id_tipomemorandum,
-                        'tipo_memorandum' => $v->tipo_memorandum,
-                        'memorandum_correlativo'=>$v->memorandum_correlativo,
-                        'memorandum_gestion'=>$v->memorandum_gestion,
-                        'fecha_mem'=>$v->fecha_mem != "" ? date("d-m-Y", strtotime($v->fecha_mem)) : "",
-                        'memorandum'=>$memorandum,
-                        'observacion'=>$v->observacion!=null?$v->observacion:'',
+                        'tipo_horario'=>$v->tipo_horario,
+                        'tipo_horario_descripcion'=>$v->tipo_horario_descripcion,
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion
                     );
                 }
             }
         }
-        echo json_encode($relaboralmovilidad);
+        echo json_encode($turnoslaborales);
     }
     /**
      * Función para la obtención del listado de áreas administrativas disponibles de acuerdo a un identificador de organigrama.
@@ -3092,4 +2728,127 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
         $this->view->disable();
     }
+    #region Funciones referentes a la gestión de Calendario y Horarios Laborales
+    /**
+     * Función para el registro de horarios en el sistema.
+     */
+    public function savehorarioAction(){
+        $user_reg_id = 1;
+        $user_mod_id = 1;
+        $msj = Array();
+        $gestion_actual = date("Y");
+        $hoy = date("Y-m-d H:i:s");
+        $fecha_fin = "31/12/" . $gestion_actual;
+        $this->view->disable();
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
+            /**
+             * Edición de Horario
+             */
+        }else{
+            /**
+             * Registro de Horario
+             */
+            $nombre = $_POST['nombre'];
+            $nombre_alternativo = $_POST['nombre_alternativo'];
+            $color = $_POST['color'];
+            $hora_entrada = $_POST['hora_entrada'];
+            $hora_salida = $_POST['hora_salida'];
+            $minutos_tolerancia_acu = $_POST['minutos_tolerancia_acu'];
+            $minutos_tolerancia_ent = $_POST['minutos_tolerancia_ent'];
+            $minutos_tolerancia_sal = $_POST['minutos_tolerancia_sal'];
+            $rango_entrada = $_POST['rango_entrada'];
+            $rango_salida = $_POST['rango_salida'];
+            $hora_inicio_rango_ent = $_POST['hora_inicio_rango_ent'];
+            $hora_final_rango_ent = $_POST['hora_final_rango_ent'];
+            $hora_inicio_rango_sal = $_POST['hora_inicio_rango_sal'];
+            $hora_final_rango_sal = $_POST['hora_final_rango_sal'];
+            $observacion = $_POST['observacion'];
+            if($nombre!=''&& $color!=''&&$hora_entrada!=''&&$hora_salida!=''&&$minutos_tolerancia_acu!=''&&$minutos_tolerancia_ent!=''&&$minutos_tolerancia_sal!=''&&$hora_inicio_rango_ent!=''&&$hora_final_rango_ent!=''&&$hora_inicio_rango_sal!=''&&$hora_final_rango_sal!=''){
+                $objHorarioLaboral = new Horarioslaborales();
+                $objHorarioLaboral->nombre = $nombre;
+                $objHorarioLaboral->nombre_alternativo = $nombre_alternativo;
+                $objHorarioLaboral->hora_ent=$hora_entrada;
+                $objHorarioLaboral->hora_sal=$hora_salida;
+                $objHorarioLaboral->color=$color;
+                $objHorarioLaboral->minutos_tolerancia_ent=$minutos_tolerancia_ent;
+                $objHorarioLaboral->minutos_tolerancia_sal=$minutos_tolerancia_sal;
+                $objHorarioLaboral->minutos_tolerancia_acu=$minutos_tolerancia_acu;
+                $objHorarioLaboral->rango_entrada=$rango_entrada;
+                $objHorarioLaboral->rango_salida=$rango_salida;
+                $objHorarioLaboral->hora_inicio_rango_ent=$hora_inicio_rango_ent;
+                $objHorarioLaboral->hora_final_rango_ent=$hora_final_rango_ent;
+                $objHorarioLaboral->hora_inicio_rango_sal=$hora_inicio_rango_sal;
+                $objHorarioLaboral->hora_final_rango_sal=$hora_final_rango_sal;
+                $objHorarioLaboral->observacion=$observacion;
+                $objHorarioLaboral->estado=2;
+                $objHorarioLaboral->baja_logica=1;
+                $objHorarioLaboral->agrupador=0;
+                $objHorarioLaboral->user_reg_id=$user_reg_id;
+                $objHorarioLaboral->fecha_reg=$hoy;
+                try{
+                    $ok = $objHorarioLaboral->save();
+                    if ($ok)  {
+                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                    } else {
+                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el horario.');
+                    }
+                }catch (\Exception $e) {
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de Horario laboral laboral.');
+                }
+            }else{
+                $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
+            }
+        }
+        echo json_encode($msj);
+    }
+
+    /**
+     * Función para la obtención del listado de horarios registrados en el sistema
+     */
+    public function gethorariosregistradosAction(){
+        $this->view->disable();
+        $horariolaboral = Array();
+        $obj = new Fhorarioslaborales();
+        $resul = $obj->getHorariosLaboralesDisponibles();
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $horariolaboral[] = array(
+                    'id_horariolaboral'=>$v->id_horariolaboral,
+                    'nombre' => $v->nombre,
+                    'nombre_alternativo' => $v->nombre_alternativo,
+                    'hora_entrada'=> $v->hora_entrada,
+                    'hora_salida'=> $v->hora_salida,
+                    'horas_laborales'=> $v->horas_laborales,
+                    'dias_laborales'=> $v->dias_laborales,
+                    'minutos_tolerancia_ent'=> $v->minutos_tolerancia_ent,
+                    'minutos_tolerancia_sal'=> $v->minutos_tolerancia_sal,
+                    'minutos_tolerancia_acu'=> $v->minutos_tolerancia_acu,
+                    'rango_entrada'=> $v->rango_entrada,
+                    'rango_salida'=> $v->rango_salida,
+                    'hora_inicio_rango_ent'=> $v->hora_inicio_rango_ent,
+                    'hora_final_rango_ent'=> $v->hora_final_rango_ent,
+                    'hora_inicio_rango_sal'=> $v->hora_inicio_rango_sal,
+                    'hora_final_rango_sal'=> $v->hora_final_rango_sal,
+                    'color'=> $v->color,
+                    'fecha_ini'=> $v->fecha_ini,
+                    'fecha_fin'=> $v->fecha_fin,
+                    'observacion'=>$v->observacion!=null?$v->observacion:'',
+                    'estado'=> $v->estado,
+                    'baja_logica'=> $v->baja_logica,
+                    'agrupador'=> $v->agrupador,
+                    'user_reg_id'=> $v->user_reg_id,
+                    'fecha_reg'=> $v->fecha_reg,
+                    'user_mod_id'=> $v->user_mod_id,
+                    'fecha_mod'=> $v->fecha_mod
+                );
+            }
+        }
+        echo json_encode($horariolaboral);
+    }
+    #endregion Funciones referentes a la gestión de Calendario y Horarios Laborales
 }
