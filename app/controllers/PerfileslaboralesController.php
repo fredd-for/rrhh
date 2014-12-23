@@ -20,6 +20,7 @@ class PerfileslaboralesController extends ControllerBase
      */
     public function indexAction()
     {
+        $this->assets->addJs('/js/jqwidgets/jqxdropdownbutton.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.tab.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.index.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.approve.js');
