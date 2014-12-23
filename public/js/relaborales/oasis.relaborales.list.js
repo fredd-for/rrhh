@@ -106,7 +106,24 @@ $().ready(function () {
         $('#jqxTabs').jqxTabs('disableAt', 5);
         $("#msjs-alert").hide();
     });
-
+    $("#btnVolverDesdeMovilidad").click(function (){
+        $('#jqxTabs').jqxTabs('enableAt', 0);
+        $('#jqxTabs').jqxTabs('disableAt', 1);
+        $('#jqxTabs').jqxTabs('disableAt', 2);
+        $('#jqxTabs').jqxTabs('disableAt', 3);
+        $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
+        $("#msjs-alert").hide();
+    });
+    $("#btnVolverDesdeBaja").click(function (){
+        $('#jqxTabs').jqxTabs('enableAt', 0);
+        $('#jqxTabs').jqxTabs('disableAt', 1);
+        $('#jqxTabs').jqxTabs('disableAt', 2);
+        $('#jqxTabs').jqxTabs('disableAt', 3);
+        $('#jqxTabs').jqxTabs('disableAt', 4);
+        $('#jqxTabs').jqxTabs('disableAt', 5);
+        $("#msjs-alert").hide();
+    });
     $("#btnCancelarMovilidad").click(function () {
         /**
          * Inicialmente es necesario eliminar los eventos sobre este elemento para que no se repitan
@@ -1093,7 +1110,7 @@ function definirGrillaParaListaRelaborales() {
                          */
                         if (dataRecord.estado == 2) {
                             if (confirm("¿Esta seguro de aprobar este registro?")) {
-                                aprobarRegistroRelabolar(dataRecord.id_relaboral);
+                                aprobarRegistroPerfilLaboral(dataRecord.id_relaboral);
                             }
                         } else alert("Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro");
                         break;
@@ -1254,7 +1271,7 @@ function definirGrillaParaListaRelaborales() {
                                  */
                                 $('#jqxTabs').jqxTabs({selectedItem: 4});
 
-                                cargarGrillaMovilidad(dataRecord.id_relaboral);
+                                cargarGrillaTurnos(dataRecord.id_relaboral);
                                 var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
                                 $("#imgFotoPerfilMover").attr("src", rutaImagen);
 

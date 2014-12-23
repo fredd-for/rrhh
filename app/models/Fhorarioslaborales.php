@@ -18,9 +18,6 @@ class Fhorarioslaborales extends \Phalcon\Mvc\Model {
     public $hora_salida;
     public $horas_laborales;
     public $dias_laborales;
-    public $minutos_tolerancia_ent;
-    public $minutos_tolerancia_sal;
-    public $minutos_tolerancia_acu;
     public $rango_entrada;
     public $rango_salida;
     public $hora_inicio_rango_ent;
@@ -59,9 +56,6 @@ class Fhorarioslaborales extends \Phalcon\Mvc\Model {
             'hora_salida'=>'hora_salida',
             'horas_laborales'=>'horas_laborales',
             'dias_laborales'=>'dias_laborales',
-            'minutos_tolerancia_ent'=>'minutos_tolerancia_ent',
-            'minutos_tolerancia_sal'=>'minutos_tolerancia_sal',
-            'minutos_tolerancia_acu'=>'minutos_tolerancia_acu',
             'rango_entrada'=>'rango_entrada',
             'rango_salida'=>'rango_salida',
             'hora_inicio_rango_ent'=>'hora_inicio_rango_ent',
@@ -86,9 +80,9 @@ class Fhorarioslaborales extends \Phalcon\Mvc\Model {
      * Función para la obtención del listado de horarios laborales disponibles en el sistema.
      * @return Resultset
      */
-    public function getHorariosLaborales()
+    public function getHorariosLaboralesDisponibles()
     {
-        $sql = "SELECT * FROM f_horarioslaborales()";
+        $sql = "SELECT * FROM f_horarioslaborales() where estado>=1";
         $this->_db = new Fhorarioslaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

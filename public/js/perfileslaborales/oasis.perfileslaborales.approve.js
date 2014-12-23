@@ -3,19 +3,19 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  08-11-2014
+ *   Fecha Creación:  16-12-2014
  */
 /**
- * Función para aprobar un registro de relación laboral.
+ * Función para aprobar un registro de perfil laboral.
  */
-function aprobarRegistroRelabolar(idRelaboral){
+function aprobarRegistroPerfilLaboral(idPerfilLaboral){
     var ok = false;
     $.ajax({
-        url:'/relaborales/approve/',
+        url:'/perfileslaborales/approve/',
         type:'POST',
         datatype: 'json',
         async:false,
-        data:{id:idRelaboral},
+        data:{id:idPerfilLaboral},
         success: function(data) {
 
             var res = jQuery.parseJSON(data);
@@ -27,7 +27,7 @@ function aprobarRegistroRelabolar(idRelaboral){
                 $("#divMsjeExito").show();
                 $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
                 $("#aMsjeExito").html(res.msj);
-                $("#jqxgrid").jqxGrid("updatebounddata");
+                $("#divGridPerfilesLaborales").jqxGrid("updatebounddata");
                 ok=true;
             } else if(res.result==0){
                 /**

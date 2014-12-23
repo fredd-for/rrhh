@@ -110,7 +110,7 @@ class CalendariolaboralController extends ControllerBase
         $this->view->disable();
         $horariolaboral = Array();
             $obj = new Fhorarioslaborales();
-            $resul = $obj->getHorariosLaborales();
+            $resul = $obj->getHorariosLaboralesDisponibles();
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -122,9 +122,6 @@ class CalendariolaboralController extends ControllerBase
                         'hora_salida'=> $v->hora_salida,
                         'horas_laborales'=> $v->horas_laborales,
                         'dias_laborales'=> $v->dias_laborales,
-                        'minutos_tolerancia_ent'=> $v->minutos_tolerancia_ent,
-                        'minutos_tolerancia_sal'=> $v->minutos_tolerancia_sal,
-                        'minutos_tolerancia_acu'=> $v->minutos_tolerancia_acu,
                         'rango_entrada'=> $v->rango_entrada,
                         'rango_salida'=> $v->rango_salida,
                         'hora_inicio_rango_ent'=> $v->hora_inicio_rango_ent,
