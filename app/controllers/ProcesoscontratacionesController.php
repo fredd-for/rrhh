@@ -144,24 +144,28 @@ class ProcesoscontratacionesController extends ControllerBase
 		
 
 		if ($this->request->isPost()) {
-			$resul = new Procesoscontrataciones();
+			$resul = Procesoscontrataciones::findFirstById($id);
 				$resul->normativamod_id = $_POST['normativamod_id'];
 				$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
 				$resul->regional_id = 1;
 				$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
-				$resul->gestion = date("Y");
+				//$resul->gestion = date("Y");
 				$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
 				$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
 				$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
-				$resul->tipoconvocatoria_id = 1;
-				$resul->estado = 1;
-				$resul->baja_logica = 1;
-				$resul->agrupador = 1;
-				$resul->user_reg_id = $auth['id'];
-				$resul->fecha_reg = date("Y-m-d H:i:s");
+				// $resul->tipoconvocatoria_id = 1;
+				// $resul->estado = 1;
+				// $resul->baja_logica = 1;
+				// $resul->agrupador = 1;
+				// $resul->user_reg_id = $auth['id'];
+				// $resul->fecha_reg = date("Y-m-d H:i:s");
 				if ($resul->save()) {
 					$pac_id = explode(',', $_POST['pac_ids']);
 					foreach ($pac_id as $v) {
+						$resul=Seguimientos::find(array('baja_logica=1 and pac_id='.$v,'order'=>'id ASC'));
+
+
+
 						$resul2 = new Seguimientos();
 						$resul2->pac_id = $v;
 						$resul2->proceso_contratacion_id = $resul->id;
@@ -261,14 +265,13 @@ class ProcesoscontratacionesController extends ControllerBase
 	}
 
 public function listpacAction()
-	{
+{
 	//$estado = array('Rechazado','Espera','Proceso','Aprobado','Adjudicado');
 	$model = new Cargos();
 	$resul = $model->listapac(1);
 	$this->view->disable();
 	foreach ($resul as $v) {
 		$customers[] = array(
-			'nro' => $v->nro,
 			'id' => $v->id,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'codigo' => $v->codigo,
@@ -280,7 +283,31 @@ public function listpacAction()
 			);
 	}
 	echo json_encode($customers);
+}
+
+
+public function listpaceditAction($proceso_contratacion_id)
+{
+	//$estado = array('Rechazado','Espera','Proceso','Aprobado','Adjudicado');
+	$model = new Cargos();
+	$resul = $model->listaeditpac($proceso_contratacion_id);
+	$this->view->disable();
+	foreach ($resul as $v) {
+		$customers[] = array(
+			'id' => $v->id,
+			'unidad_administrativa' => $v->unidad_administrativa,
+			'codigo' => $v->codigo,
+			'cargo' => $v->cargo,
+			'sueldo' => $v->sueldo,
+			'gestion' => $v->gestion,
+			'proceso_contratacion_id' => $v->proceso_contratacion_id,
+			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
+			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
+			);
 	}
+	echo json_encode($customers);
+}
+
 
 	public function getSeguimientoAction()
 	{

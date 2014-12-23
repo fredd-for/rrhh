@@ -2,14 +2,16 @@
 	$(document).ready(function () {
 cargar2();
 function cargar2(){
+	var pc=<?php echo $procesocontratacion->id ?>;
+
 	var source =
 	{
 		datatype: "json",
 		datafields: [
 		{ name: '<input type="checkbox" id="chkAll">',type: 'number'},
 		//{ name: 'seleccionar',type: 'bool'},
-		{ name: 'nro',type: 'number'},
 		{ name: 'id',type: 'number'},
+		{ name: 'proceso_contratacion_id',type: 'number'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'codigo',type: 'string'},
 		{ name: 'cargo',type: 'string'},
@@ -19,7 +21,7 @@ function cargar2(){
 		{ name: 'fecha_fin',type:'date'}
 		//{ name: 'estado',type:'input'}
 		],
-		url: '/procesoscontrataciones/listpac',
+		url: '/procesoscontrataciones/listpacedit/'+pc+'/',
 		cache: false
 	};
 
@@ -46,9 +48,15 @@ function cargar2(){
 		columns: [
 		{text: '', datafield: 'nuevo', width: 10,sortable:false,showfilterrow:false, filterable:false, columntype: 'number',
 		cellsrenderer: function (rowline) {
+
 			ctrlrow = rowline
 			var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', ctrlrow);
-			return "<div style='width: 100%' align='center'><input type='checkbox' id='"+dataRecord.id+"' class='chkOne' checked></div>";
+			var chk = "";
+			if (dataRecord.proceso_contratacion_id==pc) {
+				var chk = 'checked';
+				var chkc= 'chkcontratos';
+			} 
+			return "<div style='width: 100%' align='center'><input type='checkbox' id='"+dataRecord.id+"' class='chkOne "+chkc+"' "+chk+"></div>";
 		}
 	},
 	{
@@ -93,6 +101,7 @@ $("#normativamod_id, #codigo_convocatoria").change(function(){
 
 $("#guardar").click(function() {
 	var pac_ids = obtenerPac_ids();
+	alert(pac_ids);
 	$("#pac_ids").val(pac_ids);
 	
 
@@ -175,19 +184,19 @@ $("#normativamod_id").val(<?php echo $procesocontratacion->normativamod_id ?>);
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Publicacion</label>
 									<div class="col-lg-8">
-										<input type="text" id="fecha_publ" name="fecha_publ" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+										<input type="text" id="fecha_publ" name="fecha_publ" value="<?php echo date("d-m-Y",strtotime($procesocontratacion->fecha_publ)) ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Recepción</label>
 									<div class="col-lg-8">
-										<input type="text" id="fecha_recep" name="fecha_recep" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+										<input type="text" id="fecha_recep" name="fecha_recep" value="<?php echo date("d-m-Y",strtotime($procesocontratacion->fecha_recep)) ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Fecha Conclusión</label>
 									<div class="col-lg-8">
-									<input type="text" id="fecha_concl" name="fecha_concl" value="<?php echo date("d-m-Y") ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+									<input type="text" id="fecha_concl" name="fecha_concl" value="<?php echo date("d-m-Y",strtotime($procesocontratacion->fecha_concl)) ?>" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
 									</div>
 								</div>
 								
