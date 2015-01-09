@@ -478,7 +478,7 @@ function definirGrillaParaListaRelaborales() {
                                 /**
                                  * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO o ACTIVO.
                                  */
-                                if (dataRecord.estado >= 0) {//Modificado eventualmente
+                                if (dataRecord.estado!=null&&dataRecord.estado >= 0) {//Modificado eventualmente
                                     $('#jqxTabs').jqxTabs('enableAt', 0);
                                     $('#jqxTabs').jqxTabs('disableAt', 1);
                                     $('#jqxTabs').jqxTabs('enableAt', 2);
