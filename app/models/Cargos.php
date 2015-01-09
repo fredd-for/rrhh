@@ -227,6 +227,21 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    public function listaeditpac($proceso_contratacion_id)
+    {
+        $sql="SELECT  p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1, s.proceso_contratacion_id
+        FROM pacs p
+        INNER JOIN cargos c ON p.cargo_id=c.id
+        INNER JOIN organigramas o ON c.organigrama_id=o.id
+        INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
+        LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
+        LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
+        WHERE p.baja_logica=1  AND (se.estado is NULL OR proceso_contratacion_id='$proceso_contratacion_id') order by p.fecha_ini asc";
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+
+    }
+
     public function getEstadoSeguimiento($cargo_id)
     {
         $sql = "SELECT p.*,s.seguimiento_estado_id ,CASE WHEN s.seguimiento_estado_id is NULL  THEN '0' ELSE s.seguimiento_estado_id  END as estado1
