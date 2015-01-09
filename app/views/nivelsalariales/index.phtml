@@ -140,36 +140,70 @@ $("#perfil").click(function(){
 									//alert(valo.formacion_academica);
 									$("#perfil_id").val(valo.id);
 									$("#formacion_academica").val(valo.formacion_academica);
-									$("#exp_general_lic").val(valo.exp_general_lic);
-									$("#exp_general_tec").val(valo.exp_general_tec);
-									$("#exp_profesional_lic").val(valo.exp_profesional_lic);
-									$("#exp_profesional_tec").val(valo.exp_profesional_tec);
-									$("#exp_relacionado_lic").val(valo.exp_relacionado_lic);
-									$("#exp_relacionado_tec").val(valo.exp_relacionado_tec);
 									$("#formacion_academica0").val(valo.formacion_academica0);
-									$("#exp_general_lic0").val(valo.exp_general_lic0);
-									$("#exp_general_tec0").val(valo.exp_general_tec0);
-									$("#exp_profesional_lic0").val(valo.exp_profesional_lic0);
-									$("#exp_profesional_tec0").val(valo.exp_profesional_tec0);
-									$("#exp_relacionado_lic0").val(valo.exp_relacionado_lic0);
-									$("#exp_relacionado_tec0").val(valo.exp_relacionado_tec0);
+
+									$("#exp_general_lic_anio").val(valo.exp_general_lic_anio);
+									$("#exp_general_tec_anio").val(valo.exp_general_tec_anio);
+									$("#exp_profesional_lic_anio").val(valo.exp_profesional_lic_anio);
+									$("#exp_profesional_tec_anio").val(valo.exp_profesional_tec_anio);
+									$("#exp_relacionado_lic_anio").val(valo.exp_relacionado_lic_anio);
+									$("#exp_relacionado_tec_anio").val(valo.exp_relacionado_tec_anio);
+									
+									$("#exp_general_lic0_anio").val(valo.exp_general_lic0_anio);
+									$("#exp_general_tec0_anio").val(valo.exp_general_tec0_anio);
+									$("#exp_profesional_lic0_anio").val(valo.exp_profesional_lic0_anio);
+									$("#exp_profesional_tec0_anio").val(valo.exp_profesional_tec0_anio);
+									$("#exp_relacionado_lic0_anio").val(valo.exp_relacionado_lic0_anio);
+									$("#exp_relacionado_tec0_anio").val(valo.exp_relacionado_tec0_anio);
+
+
+									$("#exp_general_lic_mes").val(valo.exp_general_lic_mes);
+									$("#exp_general_tec_mes").val(valo.exp_general_tec_mes);
+									$("#exp_profesional_lic_mes").val(valo.exp_profesional_lic_mes);
+									$("#exp_profesional_tec_mes").val(valo.exp_profesional_tec_mes);
+									$("#exp_relacionado_lic_mes").val(valo.exp_relacionado_lic_mes);
+									$("#exp_relacionado_tec_mes").val(valo.exp_relacionado_tec_mes);
+									
+									$("#exp_general_lic0_mes").val(valo.exp_general_lic0_mes);
+									$("#exp_general_tec0_mes").val(valo.exp_general_tec0_mes);
+									$("#exp_profesional_lic0_mes").val(valo.exp_profesional_lic0_mes);
+									$("#exp_profesional_tec0_mes").val(valo.exp_profesional_tec0_mes);
+									$("#exp_relacionado_lic0_mes").val(valo.exp_relacionado_lic0_mes);
+									$("#exp_relacionado_tec0_mes").val(valo.exp_relacionado_tec0_mes);
 								});	
 }else{
 	$("#perfil_id").val("");
 	$("#formacion_academica").val("");
-	$("#exp_general_lic").val("");
-	$("#exp_general_tec").val("");
-	$("#exp_profesional_lic").val("");
-	$("#exp_profesional_tec").val("");
-	$("#exp_relacionado_lic").val("");
-	$("#exp_relacionado_tec").val("");
 	$("#formacion_academica0").val("");
-	$("#exp_general_lic0").val("");
-	$("#exp_general_tec0").val("");
-	$("#exp_profesional_lic0").val("");
-	$("#exp_profesional_tec0").val("");
-	$("#exp_relacionado_lic0").val("");
-	$("#exp_relacionado_tec0").val("");
+
+	$("#exp_general_lic_anio").val("");
+	$("#exp_general_tec_anio").val("");
+	$("#exp_profesional_lic_anio").val("");
+	$("#exp_profesional_tec_anio").val("");
+	$("#exp_relacionado_lic_anio").val("");
+	$("#exp_relacionado_tec_anio").val("");
+	
+	$("#exp_general_lic0_anio").val("");
+	$("#exp_general_tec0_anio").val("");
+	$("#exp_profesional_lic0_anio").val("");
+	$("#exp_profesional_tec0_anio").val("");
+	$("#exp_relacionado_lic0_anio").val("");
+	$("#exp_relacionado_tec0_anio").val("");
+
+
+	$("#exp_general_lic_mes").val("");
+	$("#exp_general_tec_mes").val("");
+	$("#exp_profesional_lic_mes").val("");
+	$("#exp_profesional_tec_mes").val("");
+	$("#exp_relacionado_lic_mes").val("");
+	$("#exp_relacionado_tec_mes").val("");
+	
+	$("#exp_general_lic0_mes").val("");
+	$("#exp_general_tec0_mes").val("");
+	$("#exp_profesional_lic0_mes").val("");
+	$("#exp_profesional_tec0_mes").val("");
+	$("#exp_relacionado_lic0_mes").val("");
+	$("#exp_relacionado_tec0_mes").val("");
 }
 
 						}, //mostramos el error
@@ -183,21 +217,148 @@ $('#myModal_Perfil').modal('show');
 }
 });
 
-$("#Guardar").click(function () {
+// $("#Guardar").click(function () {
 
-	var v=$.ajax({
+// 	var v=$.ajax({
+// 		url:'/nivelsalariales/savePerfil/',
+// 		type:'POST',
+// 		datatype: 'json',
+// 		data:{perfil_id:$("#perfil_id").val(),nivelsalarial_id:$("#id").val(),formacion_academica:$("#formacion_academica").val(),formacion_academica0:$("#formacion_academica0").val(),exp_general_lic_anio:$("#exp_general_lic_anio").val(),exp_general_tec_anio:$("#exp_general_tec_anio").val(),exp_profesional_lic_anio:$("#exp_profesional_lic_anio").val(),exp_profesional_tec_anio:$("#exp_profesional_tec_anio").val(),exp_relacionado_lic_anio:$("#exp_relacionado_lic_anio").val(),exp_relacionado_tec_anio:$("#exp_relacionado_tec_anio").val(),exp_general_lic0_anio:$("#exp_general_lic0_anio").val(),exp_general_tec0_anio:$("#exp_general_tec0_anio").val(),exp_profesional_lic0_anio:$("#exp_profesional_lic0_anio").val(),exp_profesional_tec0_anio:$("#exp_profesional_tec0_anio").val(),exp_relacionado_lic0_anio:$("#exp_relacionado_lic0_anio").val(),exp_relacionado_tec0_anio:$("#exp_relacionado_tec0_anio").val(),exp_general_lic_mes:$("#exp_general_lic_mes").val(),exp_general_tec_mes:$("#exp_general_tec_mes").val(),exp_profesional_lic_mes:$("#exp_profesional_lic_mes").val(),exp_profesional_tec_mes:$("#exp_profesional_tec_mes").val(),exp_relacionado_lic_mes:$("#exp_relacionado_lic_mes").val(),exp_relacionado_tec_mes:$("#exp_relacionado_tec_mes").val(),exp_general_lic0_mes:$("#exp_general_lic0_mes").val(),exp_general_tec0_mes:$("#exp_general_tec0_mes").val(),exp_profesional_lic0_mes:$("#exp_profesional_lic0_mes").val(),exp_profesional_tec0_mes:$("#exp_profesional_tec0_mes").val(),exp_relacionado_lic0_mes:$("#exp_relacionado_lic0_mes").val(),exp_relacionado_tec0_mes:$("#exp_relacionado_tec0_mes").val()
+// 	},
+// 						success: function(data) { cargar(); //alert(data); 
+// 												}, //mostramos el error
+// 												error: function() { alert('Se ha producido un error Inesperado'); }
+// 											});
+//             	// $("#popupWindow_perfil").jqxWindow('hide');
+//             	$('#myModal_Perfil').modal('hide');
+
+//             });
+jQuery.extend(jQuery.validator.messages, {
+    // required: "This field is required.",
+    // remote: "Please fix this field.",
+    // email: "Please enter a valid email address.",
+    // url: "Please enter a valid URL.",
+    // date: "Please enter a valid date.",
+    // dateISO: "Please enter a valid date (ISO).",
+    number: "Ingrese solo numeros."
+    // digits: "Please enter only digits.",
+    // creditcard: "Please enter a valid credit card number.",
+    // equalTo: "Please enter the same value again.",
+    // accept: "Please enter a value with a valid extension.",
+    // maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+    // minlength: jQuery.validator.format("Please enter at least {0} characters."),
+    // rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+    // range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    // max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+    // min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+});
+
+$('#testForm_perfil').validate({
+rules: {
+        exp_general_lic_anio: {
+            number: true
+        },
+        exp_general_lic_mes: {
+            number: true
+        },
+        exp_general_tec_anio: {
+            number: true
+        },
+        exp_general_tec_mes: {
+            number: true
+        },
+
+        exp_profesional_lic_anio: {
+            number: true
+        },
+        exp_profesional_lic_mes: {
+            number: true
+        },
+        exp_profesional_tec_anio: {
+            number: true
+        },
+        exp_profesional_tec_mes: {
+            number: true
+        },
+
+        exp_relacionado_lic_anio: {
+            number: true
+        },
+        exp_relacionado_lic_mes: {
+            number: true
+        },
+        exp_relacionado_tec_anio: {
+            number: true
+        },
+        exp_relacionado_tec_mes: {
+            number: true
+        },
+
+        exp_general_lic0_anio: {
+            number: true
+        },
+        exp_general_lic0_mes: {
+            number: true
+        },
+        exp_general_tec0_anio: {
+            number: true
+        },
+        exp_general_tec0_mes: {
+            number: true
+        },
+
+        exp_profesional_lic0_anio: {
+            number: true
+        },
+        exp_profesional_lic0_mes: {
+            number: true
+        },
+        exp_profesional_tec0_anio: {
+            number: true
+        },
+        exp_profesional_tec0_mes: {
+            number: true
+        },
+
+        exp_relacionado_lic0_anio: {
+            number: true
+        },
+        exp_relacionado_lic0_mes: {
+            number: true
+        },
+        exp_relacionado_tec0_anio: {
+            number: true
+        },
+        exp_relacionado_tec0_mes: {
+            number: true
+        },
+    },
+
+	highlight: function (element) {
+		$(element).closest('.control-group').removeClass('success').addClass('error');
+	},
+	success: function (element) {
+        //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+    },
+    submitHandler: function (form) {
+            // form validates so do the ajax
+        var v=$.ajax({
 		url:'/nivelsalariales/savePerfil/',
 		type:'POST',
 		datatype: 'json',
-		data:{perfil_id:$("#perfil_id").val(),nivelsalarial_id:$("#id").val(),formacion_academica:$("#formacion_academica").val(),exp_general_lic:$("#exp_general_lic").val(),exp_general_tec:$("#exp_general_tec").val(),exp_profesional_lic:$("#exp_profesional_lic").val(),exp_profesional_tec:$("#exp_profesional_tec").val(),exp_relacionado_lic:$("#exp_relacionado_lic").val(),exp_relacionado_tec:$("#exp_relacionado_tec").val(),formacion_academica0:$("#formacion_academica0").val(),exp_general_lic0:$("#exp_general_lic0").val(),exp_general_tec0:$("#exp_general_tec0").val(),exp_profesional_lic0:$("#exp_profesional_lic0").val(),exp_profesional_tec0:$("#exp_profesional_tec0").val(),exp_relacionado_lic0:$("#exp_relacionado_lic0").val(),exp_relacionado_tec0:$("#exp_relacionado_tec0").val()},
+		data:{perfil_id:$("#perfil_id").val(),nivelsalarial_id:$("#id").val(),formacion_academica:$("#formacion_academica").val(),formacion_academica0:$("#formacion_academica0").val(),exp_general_lic_anio:$("#exp_general_lic_anio").val(),exp_general_tec_anio:$("#exp_general_tec_anio").val(),exp_profesional_lic_anio:$("#exp_profesional_lic_anio").val(),exp_profesional_tec_anio:$("#exp_profesional_tec_anio").val(),exp_relacionado_lic_anio:$("#exp_relacionado_lic_anio").val(),exp_relacionado_tec_anio:$("#exp_relacionado_tec_anio").val(),exp_general_lic0_anio:$("#exp_general_lic0_anio").val(),exp_general_tec0_anio:$("#exp_general_tec0_anio").val(),exp_profesional_lic0_anio:$("#exp_profesional_lic0_anio").val(),exp_profesional_tec0_anio:$("#exp_profesional_tec0_anio").val(),exp_relacionado_lic0_anio:$("#exp_relacionado_lic0_anio").val(),exp_relacionado_tec0_anio:$("#exp_relacionado_tec0_anio").val(),exp_general_lic_mes:$("#exp_general_lic_mes").val(),exp_general_tec_mes:$("#exp_general_tec_mes").val(),exp_profesional_lic_mes:$("#exp_profesional_lic_mes").val(),exp_profesional_tec_mes:$("#exp_profesional_tec_mes").val(),exp_relacionado_lic_mes:$("#exp_relacionado_lic_mes").val(),exp_relacionado_tec_mes:$("#exp_relacionado_tec_mes").val(),exp_general_lic0_mes:$("#exp_general_lic0_mes").val(),exp_general_tec0_mes:$("#exp_general_tec0_mes").val(),exp_profesional_lic0_mes:$("#exp_profesional_lic0_mes").val(),exp_profesional_tec0_mes:$("#exp_profesional_tec0_mes").val(),exp_relacionado_lic0_mes:$("#exp_relacionado_lic0_mes").val(),exp_relacionado_tec0_mes:$("#exp_relacionado_tec0_mes").val()
+	},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
 											});
             	// $("#popupWindow_perfil").jqxWindow('hide');
             	$('#myModal_Perfil').modal('hide');
-
-            });
+            
+            return false; // ajax used, block the normal submit
+        }
+    });	
 
 $('#testForm').validate({
 	rules: {
@@ -351,40 +512,59 @@ $("#activo").click(function(){
 								<b>EXPERIENCIA GENERAL</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_general_lic" id="exp_general_lic">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_lic_anio" id="exp_general_lic_anio" placeholder="años">
 									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_lic_mes" id="exp_general_lic_mes" placeholder="meses">
+									</div>
+									
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_general_tec" id="exp_general_tec">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_tec_anio" id="exp_general_tec_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_tec_mes" id="exp_general_tec_mes" placeholder="meses">
 									</div>
 								</div>
 								<b>EXPERIENCIA PROFESIONAL</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_profesional_lic" id="exp_profesional_lic">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_lic_anio" id="exp_profesional_lic_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_lic_mes" id="exp_profesional_lic_mes" placeholder="meses">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_profesional_tec" id="exp_profesional_tec">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_tec_anio" id="exp_profesional_tec_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_tec_mes" id="exp_profesional_tec_mes" placeholder="meses">
 									</div>
 								</div>
 								<b>EXPERIENCIA EN CARGOS RELACIONADOS</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_relacionado_lic" id="exp_relacionado_lic">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_lic_anio" id="exp_relacionado_lic_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_lic_mes" id="exp_relacionado_lic_mes" placeholder="meses">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_relacionado_tec" id="exp_relacionado_tec">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_tec_anio" id="exp_relacionado_tec_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_tec_mes" id="exp_relacionado_tec_mes" placeholder="meses">
 									</div>
 								</div>
 
@@ -407,40 +587,59 @@ $("#activo").click(function(){
 								<b>EXPERIENCIA GENERAL</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_general_lic0" id="exp_general_lic0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_lic0_anio" id="exp_general_lic0_anio" placeholder="años">
 									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_lic0_mes" id="exp_general_lic0_mes" placeholder="meses">
+									</div>
+									
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_general_tec0" id="exp_general_tec0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_tec0_anio" id="exp_general_tec0_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_general_tec0_mes" id="exp_general_tec0_mes" placeholder="meses">
 									</div>
 								</div>
 								<b>EXPERIENCIA PROFESIONAL</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_profesional_lic0" id="exp_profesional_lic0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_lic0_anio" id="exp_profesional_lic0_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_lic0_mes" id="exp_profesional_lic0_mes" placeholder="meses">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_profesional_tec0" id="exp_profesional_tec0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_tec0_anio" id="exp_profesional_tec0_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_profesional_tec0_mes" id="exp_profesional_tec0_mes" placeholder="meses">
 									</div>
 								</div>
 								<b>EXPERIENCIA EN CARGOS RELACIONADOS</b>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Licenciatura</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_relacionado_lic0" id="exp_relacionado_lic0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_lic0_anio" id="exp_relacionado_lic0_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_lic0_mes" id="exp_relacionado_lic0_mes" placeholder="meses">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-4" >A Nivel Tecnico</div>
-									<div class="col-sm-8">
-										<input type="text" class="form-control" name="exp_relacionado_tec0" id="exp_relacionado_tec0">
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_tec0_anio" id="exp_relacionado_tec0_anio" placeholder="años">
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" name="exp_relacionado_tec0_mes" id="exp_relacionado_tec0_mes" placeholder="meses">
 									</div>
 								</div>
 

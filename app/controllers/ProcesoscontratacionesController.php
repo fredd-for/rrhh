@@ -102,6 +102,7 @@ class ProcesoscontratacionesController extends ControllerBase
 				$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
 				$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
 				$resul->tipoconvocatoria_id = 1;
+				$resul->observacion = $_POST['observacion'];
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
 				$resul->agrupador = 1;
@@ -145,27 +146,33 @@ class ProcesoscontratacionesController extends ControllerBase
 
 		if ($this->request->isPost()) {
 			$resul = Procesoscontrataciones::findFirstById($id);
-				$resul->normativamod_id = $_POST['normativamod_id'];
-				$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
-				$resul->regional_id = 1;
-				$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
-				//$resul->gestion = date("Y");
-				$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
-				$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
-				$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
+			$resul->normativamod_id = $_POST['normativamod_id'];
+			$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
+			$resul->regional_id = 1;
+			$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
+			$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
+			$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
+			$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
+			$resul->observacion = $_POST['observacion'];
 				// $resul->tipoconvocatoria_id = 1;
 				// $resul->estado = 1;
 				// $resul->baja_logica = 1;
 				// $resul->agrupador = 1;
 				// $resul->user_reg_id = $auth['id'];
 				// $resul->fecha_reg = date("Y-m-d H:i:s");
-				if ($resul->save()) {
-					$pac_id = explode(',', $_POST['pac_ids']);
-					foreach ($pac_id as $v) {
-						$resul=Seguimientos::find(array('baja_logica=1 and pac_id='.$v,'order'=>'id ASC'));
+			if ($resul->save()) {
+				$pac_id = explode(',', $_POST['pac_ids']);
+				$model = new Procesoscontrataciones();
+				$resul4 = $model->seguimientoCero($id);
 
-
-
+				foreach ($pac_id as $v) {
+					
+					$resul5=Seguimientos::findFirst(array('proceso_contratacion_id='.$id.' AND pac_id='.$v,'order'=>'id DESC','limit'=> 1));
+					if ($resul5!=false) {
+						$resul2=Seguimientos::findFirstById($resul5->id);
+						$resul2->baja_logica = 1;
+						$resul2->save();
+					}else{
 						$resul2 = new Seguimientos();
 						$resul2->pac_id = $v;
 						$resul2->proceso_contratacion_id = $resul->id;
@@ -176,16 +183,17 @@ class ProcesoscontratacionesController extends ControllerBase
 						$resul2->organigrama_id = 0;
 						$resul2->fecha_reg = date("Y-m-d H:i:s");
 						$resul2->baja_logica = 1;
-						$resul2->save();
-						
+						$resul2->save();	
 					}
-				$this->flashSession->success("Exito: Registro guardado correctamente...");
-					
-				}else{
-					$this->flashSession->error("Error: no se guardo el registro...");
+
 				}
-				
-				$this->response->redirect('/procesoscontrataciones');
+				$this->flashSession->success("Exito: Registro guardado correctamente...");
+
+			}else{
+				$this->flashSession->error("Error: no se guardo el registro...");
+			}
+
+			$this->response->redirect('/procesoscontrataciones');
 		}
 		
 	}

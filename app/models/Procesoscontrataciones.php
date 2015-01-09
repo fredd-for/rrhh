@@ -225,5 +225,11 @@ WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    public function seguimientoCero($proceso_contratacion_id='')
+    {
+        $sql="UPDATE seguimientos SET baja_logica = 0 WHERE proceso_contratacion_id='$proceso_contratacion_id' AND baja_logica = 1";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 
 }

@@ -177,23 +177,91 @@ public function deleteAction(){
 public function savePerfilAction()
 	{
 		if (isset($_POST['perfil_id'])) {
+			$exp_general_lic0_anio = $_POST['exp_general_lic0_anio'];
+			$exp_general_lic0_mes = $_POST['exp_general_lic0_mes'];
+			$exp_general_tec0_anio = $_POST['exp_general_tec0_anio'];
+			$exp_general_tec0_mes = $_POST['exp_general_tec0_mes'];
+			$exp_profesional_lic0_anio = $_POST['exp_profesional_lic0_anio'];
+			$exp_profesional_lic0_mes = $_POST['exp_profesional_lic0_mes'];
+			$exp_profesional_tec0_anio = $_POST['exp_profesional_tec0_anio'];
+			$exp_profesional_tec0_mes = $_POST['exp_profesional_tec0_mes'];
+			$exp_relacionado_lic0_anio = $_POST['exp_relacionado_lic0_anio'];
+			$exp_relacionado_lic0_mes = $_POST['exp_relacionado_lic0_mes'];
+			$exp_relacionado_tec0_anio = $_POST['exp_relacionado_tec0_anio'];
+			$exp_relacionado_tec0_mes = $_POST['exp_relacionado_tec0_mes'];
+			
+			$exp_general_lic_anio = $_POST['exp_general_lic_anio'];
+			$exp_general_lic_mes = $_POST['exp_general_lic_mes'];
+			$exp_general_tec_anio = $_POST['exp_general_tec_anio'];
+			$exp_general_tec_mes = $_POST['exp_general_tec_mes'];
+			$exp_profesional_lic_anio = $_POST['exp_profesional_lic_anio'];
+			$exp_profesional_lic_mes = $_POST['exp_profesional_lic_mes'];
+			$exp_profesional_tec_anio = $_POST['exp_profesional_tec_anio'];
+			$exp_profesional_tec_mes = $_POST['exp_profesional_tec_mes'];
+			$exp_relacionado_lic_anio = $_POST['exp_relacionado_lic_anio'];
+			$exp_relacionado_lic_mes = $_POST['exp_relacionado_lic_mes'];
+			$exp_relacionado_tec_anio = $_POST['exp_relacionado_tec_anio'];
+			$exp_relacionado_tec_mes = $_POST['exp_relacionado_tec_mes'];
+
+
+			if ($exp_general_lic_anio=='') {$exp_general_lic_anio=NULL;}
+			if ($exp_general_lic_mes=='') {$exp_general_lic_mes=NULL;}
+			if ($exp_general_tec_anio=='') {$exp_general_tec_anio=NULL;}
+			if ($exp_general_tec_mes=='') {$exp_general_tec_mes=NULL;}
+			if ($exp_profesional_lic_anio=='') {$exp_profesional_lic_anio=NULL;}
+			if ($exp_profesional_lic_mes=='') {$exp_profesional_lic_mes=NULL;}
+			if ($exp_profesional_tec_anio=='') {$exp_profesional_tec_anio=NULL;}
+			if ($exp_profesional_tec_mes=='') {$exp_profesional_tec_mes=NULL;}
+			if ($exp_relacionado_lic_anio=='') {$exp_relacionado_lic_anio=NULL;}
+			if ($exp_relacionado_lic_mes=='') {$exp_relacionado_lic_mes=NULL;}
+			if ($exp_relacionado_tec_anio=='') {$exp_relacionado_tec_anio=NULL;}
+			if ($exp_relacionado_tec_mes=='') {$exp_relacionado_tec_mes=NULL;}
+
+			if ($exp_general_lic0_anio=='') {$exp_general_lic0_anio=NULL;}
+			if ($exp_general_lic0_mes=='') {$exp_general_lic0_mes=NULL;}
+			if ($exp_general_tec0_anio=='') {$exp_general_tec0_anio=NULL;}
+			if ($exp_general_tec0_mes=='') {$exp_general_tec0_mes=NULL;}
+			if ($exp_profesional_lic0_anio=='') {$exp_profesional_lic0_anio=NULL;}
+			if ($exp_profesional_lic0_mes=='') {$exp_profesional_lic0_mes=NULL;}
+			if ($exp_profesional_tec0_anio=='') {$exp_profesional_tec0_anio=NULL;}
+			if ($exp_profesional_tec0_mes=='') {$exp_profesional_tec0_mes=NULL;}
+			if ($exp_relacionado_lic0_anio=='') {$exp_relacionado_lic0_anio=NULL;}
+			if ($exp_relacionado_lic0_mes=='') {$exp_relacionado_lic0_mes=NULL;}
+			if ($exp_relacionado_tec0_anio=='') {$exp_relacionado_tec0_anio=NULL;}
+			if ($exp_relacionado_tec0_mes=='') {$exp_relacionado_tec0_mes=NULL;}
+
+
+
+
 			if ($_POST['perfil_id']>0) {
 				$resul = Cargosperfiles::findFirstById($_POST['perfil_id']);
 				$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
 				$resul->formacion_academica0 =$_POST['formacion_academica0'];
-				$resul->exp_general_lic0 = $_POST['exp_general_lic0'];
-				$resul->exp_general_tec0 = $_POST['exp_general_tec0'];
-				$resul->exp_profesional_lic0 = $_POST['exp_profesional_lic0'];
-				$resul->exp_profesional_tec0 = $_POST['exp_profesional_tec0'];
-				$resul->exp_relacionado_lic0 = $_POST['exp_relacionado_lic0'];
-				$resul->exp_relacionado_tec0 = $_POST['exp_relacionado_tec0'];
+				$resul->exp_general_lic0_anio = $exp_general_lic0_anio;
+				$resul->exp_general_lic0_mes = $exp_general_lic0_mes;
+				$resul->exp_general_tec0_anio = $exp_general_tec0_anio;
+				$resul->exp_general_tec0_mes = $exp_general_tec0_mes;
+				$resul->exp_profesional_lic0_anio = $exp_profesional_lic0_anio;
+				$resul->exp_profesional_lic0_mes = $exp_profesional_lic0_mes;
+				$resul->exp_profesional_tec0_anio = $exp_profesional_tec0_anio;
+				$resul->exp_profesional_tec0_mes = $exp_profesional_tec0_mes;
+				$resul->exp_relacionado_lic0_anio = $exp_relacionado_lic0_anio;
+				$resul->exp_relacionado_lic0_mes = $exp_relacionado_lic0_mes;
+				$resul->exp_relacionado_tec0_anio = $exp_relacionado_tec0_anio;
+				$resul->exp_relacionado_tec0_mes = $exp_relacionado_tec0_mes;
 				$resul->formacion_academica =$_POST['formacion_academica'];
-				$resul->exp_general_lic = $_POST['exp_general_lic'];
-				$resul->exp_general_tec = $_POST['exp_general_tec'];
-				$resul->exp_profesional_lic = $_POST['exp_profesional_lic'];
-				$resul->exp_profesional_tec = $_POST['exp_profesional_tec'];
-				$resul->exp_relacionado_lic = $_POST['exp_relacionado_lic'];
-				$resul->exp_relacionado_tec = $_POST['exp_relacionado_tec'];
+				$resul->exp_general_lic_anio = $exp_general_lic_anio;
+				$resul->exp_general_lic_mes = $exp_general_lic_mes;
+				$resul->exp_general_tec_anio = $exp_general_tec_anio;
+				$resul->exp_general_tec_mes = $exp_general_tec_mes;
+				$resul->exp_profesional_lic_anio = $exp_profesional_lic_anio;
+				$resul->exp_profesional_lic_mes = $exp_profesional_lic_mes;
+				$resul->exp_profesional_tec_anio = $exp_profesional_tec_anio;
+				$resul->exp_profesional_tec_mes = $exp_profesional_tec_mes;
+				$resul->exp_relacionado_lic_anio = $exp_relacionado_lic_anio;
+				$resul->exp_relacionado_lic_mes = $exp_relacionado_lic_mes;
+				$resul->exp_relacionado_tec_anio = $exp_relacionado_tec_anio;
+				$resul->exp_relacionado_tec_mes = $exp_relacionado_tec_mes;
 				if ($resul->save()) {
 					$msm = 'Exito: Se guardo correctamente';
 				}else{
@@ -202,21 +270,33 @@ public function savePerfilAction()
 			}
 			else{
 				$resul = new Cargosperfiles();
-				$resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
+				$resul->nivelsalarial_id = $nivelsalarial_id;
 				$resul->formacion_academica0 =$_POST['formacion_academica0'];
-				$resul->exp_general_lic0 = $_POST['exp_general_lic0'];
-				$resul->exp_general_tec0 = $_POST['exp_general_tec0'];
-				$resul->exp_profesional_lic0 = $_POST['exp_profesional_lic0'];
-				$resul->exp_profesional_tec0 = $_POST['exp_profesional_tec0'];
-				$resul->exp_relacionado_lic0 = $_POST['exp_relacionado_lic0'];
-				$resul->exp_relacionado_tec0 = $_POST['exp_relacionado_tec0'];
+				$resul->exp_general_lic0_anio = $exp_general_lic0_anio;
+				$resul->exp_general_lic0_mes = $exp_general_lic0_mes;
+				$resul->exp_general_tec0_anio = $exp_general_tec0_anio;
+				$resul->exp_general_tec0_mes = $exp_general_tec0_mes;
+				$resul->exp_profesional_lic0_anio = $exp_profesional_lic0_anio;
+				$resul->exp_profesional_lic0_mes = $exp_profesional_lic0_mes;
+				$resul->exp_profesional_tec0_anio = $exp_profesional_tec0_anio;
+				$resul->exp_profesional_tec0_mes = $exp_profesional_tec0_mes;
+				$resul->exp_relacionado_lic0_anio = $exp_relacionado_lic0_anio;
+				$resul->exp_relacionado_lic0_mes = $exp_relacionado_lic0_mes;
+				$resul->exp_relacionado_tec0_anio = $exp_relacionado_tec0_anio;
+				$resul->exp_relacionado_tec0_mes = $exp_relacionado_tec0_mes;
 				$resul->formacion_academica =$_POST['formacion_academica'];
-				$resul->exp_general_lic = $_POST['exp_general_lic'];
-				$resul->exp_general_tec = $_POST['exp_general_tec'];
-				$resul->exp_profesional_lic = $_POST['exp_profesional_lic'];
-				$resul->exp_profesional_tec = $_POST['exp_profesional_tec'];
-				$resul->exp_relacionado_lic = $_POST['exp_relacionado_lic'];
-				$resul->exp_relacionado_tec = $_POST['exp_relacionado_tec'];
+				$resul->exp_general_lic_anio = $exp_general_lic_anio;
+				$resul->exp_general_lic_mes = $exp_general_lic_mes;
+				$resul->exp_general_tec_anio = $exp_general_tec_anio;
+				$resul->exp_general_tec_mes = $exp_general_tec_mes;
+				$resul->exp_profesional_lic_anio = $exp_profesional_lic_anio;
+				$resul->exp_profesional_lic_mes = $exp_profesional_lic_mes;
+				$resul->exp_profesional_tec_anio = $exp_profesional_tec_anio;
+				$resul->exp_profesional_tec_mes = $exp_profesional_tec_mes;
+				$resul->exp_relacionado_lic_anio = $exp_relacionado_lic_anio;
+				$resul->exp_relacionado_lic_mes = $exp_relacionado_lic_mes;
+				$resul->exp_relacionado_tec_anio = $exp_relacionado_tec_anio;
+				$resul->exp_relacionado_tec_mes = $exp_relacionado_tec_mes;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
 				//$resul->save();
@@ -226,8 +306,8 @@ public function savePerfilAction()
 					$msm = array('msm' => 'Error: No se guardo el registro' );
 				}
 				
-		}	
-	}
+			}	
+		}
 	$this->view->disable();
 	echo json_encode($msm);
 }
@@ -243,19 +323,31 @@ public function getCargosPerfilesAction()
 				'id' => $v->id,
 				'nivelsalarial_id' => $v->nivelsalarial_id,
 				'formacion_academica' => $v->formacion_academica,
-				'exp_general_lic' => $v->exp_general_lic,
-				'exp_general_tec' => $v->exp_general_tec,
-				'exp_profesional_lic' => $v->exp_profesional_lic,
-				'exp_profesional_tec' => $v->exp_profesional_tec,
-				'exp_relacionado_lic' => $v->exp_relacionado_lic,
-				'exp_relacionado_tec' => $v->exp_relacionado_tec,
+				'exp_general_lic_anio' => $v->exp_general_lic_anio,
+				'exp_general_lic_mes' => $v->exp_general_lic_mes,
+				'exp_general_tec_anio' => $v->exp_general_tec_anio,
+				'exp_general_tec_mes' => $v->exp_general_tec_mes,
+				'exp_profesional_lic_anio' => $v->exp_profesional_lic_anio,
+				'exp_profesional_lic_mes' => $v->exp_profesional_lic_mes,
+				'exp_profesional_tec_anio' => $v->exp_profesional_tec_anio,
+				'exp_profesional_tec_mes' => $v->exp_profesional_tec_mes,
+				'exp_relacionado_lic_anio' => $v->exp_relacionado_lic_anio,
+				'exp_relacionado_lic_mes' => $v->exp_relacionado_lic_mes,
+				'exp_relacionado_tec_anio' => $v->exp_relacionado_tec_anio,
+				'exp_relacionado_tec_mes' => $v->exp_relacionado_tec_mes,
 				'formacion_academica0' => $v->formacion_academica0,
-				'exp_general_lic0' => $v->exp_general_lic0,
-				'exp_general_tec0' => $v->exp_general_tec0,
-				'exp_profesional_lic0' => $v->exp_profesional_lic0,
-				'exp_profesional_tec0' => $v->exp_profesional_tec0,
-				'exp_relacionado_lic0' => $v->exp_relacionado_lic0,
-				'exp_relacionado_tec0' => $v->exp_relacionado_tec0
+				'exp_general_lic0_anio' => $v->exp_general_lic0_anio,
+				'exp_general_lic0_mes' => $v->exp_general_lic0_mes,
+				'exp_general_tec0_anio' => $v->exp_general_tec0_anio,
+				'exp_general_tec0_mes' => $v->exp_general_tec0_mes,
+				'exp_profesional_lic0_anio' => $v->exp_profesional_lic0_anio,
+				'exp_profesional_lic0_mes' => $v->exp_profesional_lic0_mes,
+				'exp_profesional_tec0_anio' => $v->exp_profesional_tec0_anio,
+				'exp_profesional_tec0_mes' => $v->exp_profesional_tec0_mes,
+				'exp_relacionado_lic0_anio' => $v->exp_relacionado_lic0_anio,
+				'exp_relacionado_lic0_mes' => $v->exp_relacionado_lic0_mes,
+				'exp_relacionado_tec0_anio' => $v->exp_relacionado_tec0_anio,
+				'exp_relacionado_tec0_mes' => $v->exp_relacionado_tec0_mes
 				);
 		}
 		

@@ -101,7 +101,7 @@ $("#normativamod_id, #codigo_convocatoria").change(function(){
 
 $("#guardar").click(function() {
 	var pac_ids = obtenerPac_ids();
-	alert(pac_ids);
+	//alert(pac_ids);
 	$("#pac_ids").val(pac_ids);
 	
 
@@ -164,16 +164,16 @@ $("#normativamod_id").val(<?php echo $procesocontratacion->normativamod_id ?>);
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Codigo Convocatoria</label>
 									<div class="col-lg-4">
-										<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control" value="<?php echo $procesocontratacion->codigo_convocatoria; ?>">
+										<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control" value="">
 									</div>
 									<div class="col-lg-4">
-										<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" value="<?php echo $procesocontratacion->codigo_proceso; ?>" readonly="readonly" class="form-control">
+										<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" value="<?php echo $procesocontratacion->codigo_convocatoria; ?>" readonly="readonly" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Observación</label>
 									<div class="col-lg-8">
-										<textarea name="observacion" id="observacion" class="form-control"></textarea>
+										<textarea name="observacion" id="observacion" class="form-control"><?php echo $procesocontratacion->observacion ?></textarea>
 									</div>
 								</div>
 
