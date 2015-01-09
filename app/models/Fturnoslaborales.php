@@ -23,6 +23,7 @@ class Fturnoslaborales extends \Phalcon\Mvc\Model {
     public $tipo_horario_descripcion;
     public $estado;
     public $estado_descripcion;
+    public $id_tolerancia;
     /**
      * Initialize method for model.
      */
@@ -48,7 +49,8 @@ class Fturnoslaborales extends \Phalcon\Mvc\Model {
             'tipo_horario'=>'tipo_horario',
             'tipo_horario_descripcion'=>'tipo_horario_descripcion',
             'estado'=>'estado',
-            'estado_descripcion'=>'estado_descripcion'
+            'estado_descripcion'=>'estado_descripcion',
+            'id_tolerancia'=>'id_tolerancia'
         );
     }
     private $_db;

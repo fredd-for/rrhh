@@ -79,6 +79,8 @@ function validaFormularioTolerancia() {
     var tolerancia = $("#txtTolerancia"+sufijoEditar).val();
     var tipoAcumulacion = $("#lstTipoAcumulacion"+sufijoEditar).val();
     var consideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar).val();
+    var fechaIni = $("#txtFechaIni"+sufijoEditar).val();
+    var fechaFin = $("#txtFechaFin"+sufijoEditar).val();
 
     var divTolerancia = $("#divTolerancia"+sufijoEditar);
     var helpErrorTolerancia = $("#helpErrorTolerancia"+sufijoEditar);
@@ -91,6 +93,14 @@ function validaFormularioTolerancia() {
     var divConsideracionRetraso=$("#divConsideracionRetraso"+sufijoEditar);
     var helpErrorConsideracionRetraso=$("#helpErrorConsideracionRetraso"+sufijoEditar);
     var lstConsideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar);
+
+    var divFechaIni=$("#divFechaIni"+sufijoEditar);
+    var helpErrorFechaIni=$("#helpErrorFechaIni"+sufijoEditar);
+    var txtFechaIni = $("#txtFechaIni"+sufijoEditar);
+
+    var divFechaFin=$("#divFechaFin"+sufijoEditar);
+    var helpErrorFechaFin=$("#helpErrorFechaFin"+sufijoEditar);
+    var txtFechaFin = $("#txtFechaFin"+sufijoEditar);
 
     if (tolerancia == '') {
         ok = false;
@@ -113,6 +123,13 @@ function validaFormularioTolerancia() {
         helpErrorConsideracionRetraso.html(msje);
         if (enfoque == null)enfoque = lstConsideracionRetraso;
     }
+    if(fechaIni==''){
+        ok = false;
+        var msje = "Debe introducir la fecha de inicio de aplicaci&oacute;n de la tolerancia.";
+        divFechaIni.addClass("has-error");
+        helpErrorFechaIni.html(msje);
+        if (enfoque == null)enfoque = txtFechaIni;
+    }
     if (enfoque != null) {
         enfoque.focus();
     }
@@ -129,6 +146,8 @@ function limpiarMensajesErrorPorValidacionTolerancia(sufijoEditar) {
     $("#helpErrorAcumulacion"+sufijoEditar).html("");
     $("#divConsideracionRetraso"+sufijoEditar).removeClass("has-error");
     $("#helpErrorConsideracionRetraso"+sufijoEditar).html("");
+    $("#divFechaIni"+sufijoEditar).removeClass("has-error");
+    $("#helpErrorFechaIni"+sufijoEditar).html("");
 }
 /**
  * Función para guardar el registro de la tolerancia.
@@ -147,6 +166,8 @@ function guardaTolerancia(){
     var tipoAcumulacion = $("#lstTipoAcumulacion"+sufijoEditar).val();
     var consideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar).val();
     var descripcion = $("#txtDescripcion"+sufijoEditar).val();
+    var fechaIni = $("#txtFechaIni"+sufijoEditar).val();
+    var fechaFin = $("#txtFechaFin"+sufijoEditar).val();
     var observacion = $("#txtObservacion"+sufijoEditar).val();
     if (tolerancia != '') {
         $.ajax({
@@ -161,6 +182,8 @@ function guardaTolerancia(){
                 tipo_acumulacion:tipoAcumulacion,
                 consideracion_retraso:consideracionRetraso,
                 descripcion:descripcion,
+                fecha_ini: fechaIni,
+                fecha_fin:fechaFin,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);

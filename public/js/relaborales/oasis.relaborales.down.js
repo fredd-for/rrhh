@@ -11,7 +11,7 @@
  */
 function cargarMotivosBajas(idMotivoBajaPredeterminada,idCondicion){
     $.ajax({
-        url:'../../relaborales/listmotivosbajas',
+        url:'/relaborales/listmotivosbajas',
         type:'POST',
         datatype: 'json',
         cache:false,

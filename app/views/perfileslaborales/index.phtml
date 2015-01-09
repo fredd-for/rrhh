@@ -318,15 +318,33 @@
                             <ul class="calendar-events" id="ulHorariosEnEspera">
                             </ul>
                         </div>
+                        <h6>Tipo de Tolerancia:</h6>
+                        <select id="lstTolerancias" class="form-control"></select>
                     </div>
                     <div class="col-md-10">
-                        <div id="calendar"></div>
-                        <br>
-                        <div id="jqxdropdownbuttontolerancias">
-                            <div style="border-color: transparent;" id="jqxgridtolerancias">
-                            </div>
+                        <div id="calendar"></div><br>
+                        <div id="divDatosTolerancia">
+                            <table id="tblGrillaTolerancia" class="table table-vcenter table-condensed table-bordered">
+                                <thead>
+                                <tr>
+                                    <th class='text-center'>Minutos</th>
+                                    <th class='text-center'>Acumulaci&oacute;n</th>
+                                    <th class='text-center'>Consideraci&oacute;n</th>
+                                    <th class='text-center'>Descripci&oacute;n</th>
+                                    <th class='text-center'>Observaci&oacute;n</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr id="tr_tolerancia">
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <input type="hidden" id="hdnIdTolerancia" value="0">
+                    </div>
+
+                    <input type="hidden" id="hdnIdTolerancia" value="0">
+                    <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
+                    <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
                         <br>
                         <div class="form-group form-actions">
                             <div class="col-md-8 col-md-offset-4">
@@ -366,5 +384,96 @@
 </div>
 <div id="divMsjeNotificacionSuccess">
     <div id="divMsjePorSuccess">
+    </div>
+</div>
+<div class="modal fade" id="popupDescripcionHorario" tabindex="-1" role="dialog" aria-labelledby="popupDescripcionHorarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content form-horizontal col-sm-12">
+            <div>
+                <fieldset>
+                    <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n del Horario</legend><div class="row div-calendario-laboral" id="divNombreHorario">
+                        <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre:</label>
+                        <div class="col-md-6" form-group>
+                            <input type="text" id="txtNombreHorario" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row div-calendario-laboral" id="divNombreAlternativoHorario">
+                        <label class="col-sm-3 control-label" for="txtNombreAlternativoHorario">Nombre Alternativo:</label>
+                        <div class="col-md-6" form-group>
+                            <textarea id="txtNombreAlternativoHorario" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row div-calendario-laboral" id="divColorHorario">
+                        <label class="col-sm-3 control-label" for="txtColorHorario">Color:</label>
+                        <div class="col-md-6" form-group>
+                            <input type="text" id="txtColorHorario" value="#FFFFFF" class="form-control" readonly>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend><i class="fa fa-angle-right"></i> Horario Marcaci&oacute;n V&aacute;lida</legend>
+                    <div class="form-group">
+                        <div class="div-calendario-laboral" id="divHoraEntHorario">
+                            <label class="col-sm-3 control-label" for="txtHoraEntHorario">Entrada:</label>
+                            <div class="col-md-3"  form-group>
+                                <input id="txtHoraEntHorario" name="txtHoraEntHorario" placeholder="Hora de entrada." class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="div-calendario-laboral" id="divHoraSalHorario">
+                            <label class="col-sm-3 control-label" for="txtHoraSalHorario">Salida:</label>
+                            <div class="col-md-3"  form-group>
+                                <input id="txtHoraSalHorario" name="txtHoraSalHorario" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend><i class="fa fa-angle-right"></i> Rango Control Marcaciones</legend>
+                    <div class="form-group">
+                        <div class="div-calendario-laboral" id="divHoraInicioRangoEnt">
+                            <label class="col-sm-3 control-label" for="txtHoraInicioRangoEnt">Inicio Entrada:</label>
+                            <div class="col-md-3">
+                                <input id="txtHoraInicioRangoEnt" name="txtHoraInicioRangoEnt" placeholder="Hora de entrada." class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="div-calendario-laboral" id="divHoraFinalizacionRangoEnt">
+                            <label class="col-sm-3 control-label" for="txtHoraFinalizacionRangoEnt">Finalizaci&oacute;n Entrada:</label>
+                            <div class="col-md-3">
+                                <input id="txtHoraFinalizacionRangoEnt" name="txtHoraFinalizacionRangoEnt" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="div-calendario-laboral" id="divHoraInicioRangoSal">
+                            <label class="col-sm-3 control-label" for="txtHoraInicioRangoSal">Inicio Salida:</label>
+                            <div class="col-md-3">
+                                <input id="txtHoraInicioRangoSal" name="txtHoraInicioRangoSal" placeholder="Hora de inicio de salida." class="form-control" type="text" readonly>
+                            </div>
+
+                        </div>
+                        <div class="div-calendario-laboral" id="divHoraFinalizacionRangoSal">
+                            <label class="col-sm-3 control-label" for="txtHoraFinalizacionRangoSal">Fin Salida:</label>
+                            <div class="col-md-3">
+                                <input id="txtHoraFinalizacionRangoSal" name="txtHoraFinalizacionRangoSal" placeholder="Hora de finalizaci&oacute;n de salida." class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group div-move-relab" id="divObservacion">
+                        <label class="col-md-3 control-label" for="txtObservacion">Observaciones:</label>
+                        <div class="col-md-6">
+                            <textarea id="txtObservacion" name="txtObservacion" class="form-control" placeholder="Observaciones.." readonly></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarHorario" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnDescartarHorario" class="btn btn-primary"><i class="gi gi-bin"></i>Descartar</button>
+            </div>
+
+        </div>
     </div>
 </div>

@@ -68,7 +68,7 @@ class RelaboralesController extends ControllerBase
         $this->view->disable();
         $obj = new Frelaborales();
         $relaboral = Array();
-        $resul = $obj->getAllWithPersonsOneRecord();
+        $resul = $obj->getAllWithPersons();
         $permisoC = true;
         $permisoR = true;
         $permisoU = true;

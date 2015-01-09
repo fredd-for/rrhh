@@ -41,6 +41,63 @@ class HorarioslaboralesController extends ControllerBase
         $this->view->disable();
         $horariolaboral = Array();
         $obj = new Fhorarioslaborales();
+        $resul = $obj->getHorariosLaborales();
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                switch($v->estado){
+                    case 0:$estadoDescripcion="PASIVO";break;
+                    case 1:$estadoDescripcion="ACTIVO";break;
+                    case 2:$estadoDescripcion="EN PROCESO";break;
+                }
+                $diasLaborales = $this->truncateFloat($v->dias_laborales,1);
+                $horariolaboral[] = array(
+                    'chk' => "",
+                    'nro_row' => 0,
+                    'nuevo' => "",
+                    'aprobar' => "",
+                    'editar' => "",
+                    'eliminar' => "",
+                    'ver' => "",
+                    'id_horariolaboral'=>$v->id_horariolaboral,
+                    'nombre' => $v->nombre,
+                    'nombre_alternativo' => $v->nombre_alternativo,
+                    'hora_entrada'=> $v->hora_entrada,
+                    'hora_salida'=> $v->hora_salida,
+                    'horas_laborales'=> $v->horas_laborales,
+                    'dias_laborales'=> $diasLaborales,
+                    'rango_entrada'=> $v->rango_entrada,
+                    'rango_salida'=> $v->rango_salida,
+                    'hora_inicio_rango_ent'=> $v->hora_inicio_rango_ent,
+                    'hora_final_rango_ent'=> $v->hora_final_rango_ent,
+                    'hora_inicio_rango_sal'=> $v->hora_inicio_rango_sal,
+                    'hora_final_rango_sal'=> $v->hora_final_rango_sal,
+                    'color'=> $v->color,
+                    'fecha_ini'=> $v->fecha_ini,
+                    'fecha_fin'=> $v->fecha_fin,
+                    'observacion'=>$v->observacion!=null?$v->observacion:'',
+                    'estado'=> $v->estado,
+                    'estado_descripcion'=> $estadoDescripcion,
+                    'baja_logica'=> $v->baja_logica,
+                    'agrupador'=> $v->agrupador,
+                    'user_reg_id'=> $v->user_reg_id,
+                    'fecha_reg'=> $v->fecha_reg,
+                    'user_mod_id'=> $v->user_mod_id,
+                    'fecha_mod'=> $v->fecha_mod
+                );
+            }
+        }
+        echo json_encode($horariolaboral);
+    }
+    /**
+     * Función para la carga del listado de horarios laborales disponibles para su uso en los calendarios laborales.
+     * Se inhabilita la vista para el uso de jqwidgets,
+     */
+    public function listDisponiblesAction()
+    {
+        $this->view->disable();
+        $horariolaboral = Array();
+        $obj = new Fhorarioslaborales();
         $resul = $obj->getHorariosLaboralesDisponibles();
         //comprobamos si hay filas
         if ($resul->count() > 0) {
@@ -90,7 +147,6 @@ class HorarioslaboralesController extends ControllerBase
         echo json_encode($horariolaboral);
     }
 
-
     /**
      * Función para el almacenamiento y actualización de un registro de horario laboral.
      * return array(EstadoResultado,Mensaje)
@@ -111,7 +167,7 @@ class HorarioslaboralesController extends ControllerBase
         $this->view->disable();
         if (isset($_POST["id"]) && $_POST["id"] > 0) {
             /**
-             * Registro de Horario
+             * Edición de Horario
              */
             $nombre = $_POST['nombre'];
             $nombre_alternativo = $_POST['nombre_alternativo'];
@@ -1483,5 +1539,65 @@ class HorarioslaboralesController extends ControllerBase
         $resultado = ((int)($number * $multiplicador)) / $multiplicador;
         return number_format($resultado, $digitos);
 
+    }
+
+    /**
+     * Función para la obtención del resgistro correspondiente a un horario laboral determinado por su id.
+     */
+    function getoneAction(){
+        $horariolaboral = Array();
+        if(isset($_POST["id"])&&$_POST["id"]>0){
+            $id = $_POST["id"];
+            $this->view->disable();
+            $obj = new Fhorarioslaborales();
+            $resul = $obj->getOne($id);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    switch($v->estado){
+                        case 0:$estadoDescripcion="PASIVO";break;
+                        case 1:$estadoDescripcion="ACTIVO";break;
+                        case 2:$estadoDescripcion="EN PROCESO";break;
+                    }
+                    $diasLaborales = $this->truncateFloat($v->dias_laborales,1);
+                    $horariolaboral[] = array(
+                        'chk' => "",
+                        'nro_row' => 0,
+                        'nuevo' => "",
+                        'aprobar' => "",
+                        'editar' => "",
+                        'eliminar' => "",
+                        'ver' => "",
+                        'id_horariolaboral'=>$v->id_horariolaboral,
+                        'nombre' => $v->nombre,
+                        'nombre_alternativo' => $v->nombre_alternativo,
+                        'hora_entrada'=> $v->hora_entrada,
+                        'hora_salida'=> $v->hora_salida,
+                        'horas_laborales'=> $v->horas_laborales,
+                        'dias_laborales'=> $diasLaborales,
+                        'rango_entrada'=> $v->rango_entrada,
+                        'rango_salida'=> $v->rango_salida,
+                        'hora_inicio_rango_ent'=> $v->hora_inicio_rango_ent,
+                        'hora_final_rango_ent'=> $v->hora_final_rango_ent,
+                        'hora_inicio_rango_sal'=> $v->hora_inicio_rango_sal,
+                        'hora_final_rango_sal'=> $v->hora_final_rango_sal,
+                        'color'=> $v->color,
+                        'fecha_ini'=> $v->fecha_ini,
+                        'fecha_fin'=> $v->fecha_fin,
+                        'observacion'=>$v->observacion!=null?$v->observacion:'',
+                        'estado'=> $v->estado,
+                        'estado_descripcion'=> $estadoDescripcion,
+                        'baja_logica'=> $v->baja_logica,
+                        'agrupador'=> $v->agrupador,
+                        'user_reg_id'=> $v->user_reg_id,
+                        'fecha_reg'=> $v->fecha_reg,
+                        'user_mod_id'=> $v->user_mod_id,
+                        'fecha_mod'=> $v->fecha_mod
+                    );
+                }
+            }
+
+        }
+        echo json_encode($horariolaboral);
     }
 }

@@ -38,8 +38,8 @@ class ToleranciasController extends ControllerBase
     {
         $this->view->disable();
         $estado = -1;
-        if(isset($_GET["estado"])){
-            $estado = $_GET["estado"];
+        if(isset($_POST["estado"])){
+            $estado = $_POST["estado"];
             $resul = Tolerancias::find(array('baja_logica=1 AND estado='.$estado,'order' => 'id ASC'));
         }else
             $resul = Tolerancias::find(array('baja_logica=1','order' => 'id ASC'));
@@ -77,6 +77,8 @@ class ToleranciasController extends ControllerBase
                     'consideracion_retraso'=> $v->consideracion_retraso,
                     'consideracion_retraso_descripcion'=> $consideracionRetrasoDescripcion,
                     'descripcion'=> $v->descripcion,
+                    'fecha_ini'=> $v->fecha_ini,
+                    'fecha_fin'=> $v->fecha_fin,
                     'observacion'=>$v->observacion!=null?$v->observacion:'',
                     'estado'=> $v->estado,
                     'estado_descripcion'=> $estadoDescripcion,
@@ -120,6 +122,13 @@ class ToleranciasController extends ControllerBase
             $tipo_acumulacion = $_POST['tipo_acumulacion'];
             $consideracion_retraso = $_POST['consideracion_retraso'];
             $descripcion = $_POST['descripcion'];
+            $date1 = new DateTime($_POST['fecha_inicio']);
+            $fecha_ini = $date1->format('Y-m-d');
+
+            if($_POST['fecha_fin']!=""){
+                $date2 = new DateTime($_POST['fecha_fin']);
+                $fecha_fin = $date2->format('Y-m-d');
+            }else $fecha_fin = "";
             $observacion = $_POST['observacion'];
             if($tolerancia>=0&&$tipo_acumulacion>=0&&$consideracion_retraso>=0){
                 $objTolerancia = Tolerancias::findFirst(array("id=".$_POST["id"]));
@@ -130,6 +139,8 @@ class ToleranciasController extends ControllerBase
                         $objTolerancia->tipo_acumulacion = $tipo_acumulacion;
                         $objTolerancia->consideracion_retraso=$consideracion_retraso;
                         $objTolerancia->descripcion=$descripcion;
+                        $objTolerancia->fecha_ini=$fecha_ini;
+                        if($fecha_fin!="")$objTolerancia->fecha_fin=$fecha_fin;
                         $objTolerancia->observacion=$observacion;
                         $objTolerancia->user_mod_id=$user_mod_id;
                         $objTolerancia->fecha_mod=$hoy;
@@ -160,8 +171,16 @@ class ToleranciasController extends ControllerBase
             $tipo_acumulacion = $_POST['tipo_acumulacion'];
             $consideracion_retraso = $_POST['consideracion_retraso'];
             $descripcion = $_POST['descripcion'];
+
+            $date1 = new DateTime($_POST['fecha_inicio']);
+            $fecha_ini = $date1->format('Y-m-d');
+
+            if($_POST['fecha_fin']!=""){
+                $date2 = new DateTime($_POST['fecha_fin']);
+                $fecha_fin = $date2->format('Y-m-d');
+            }else $fecha_fin = "";
             $observacion = $_POST['observacion'];
-            if($tolerancia>=0&&$tipo_acumulacion>=0&&$consideracion_retraso>=0){
+            if($tolerancia>=0&&$tipo_acumulacion>=0&&$consideracion_retraso>=0&&$fecha_ini!=''){
                 $cantMismosDatos = Tolerancias::count(array("tolerancia = ".$tolerancia." AND tipo_acumulacion=".$tipo_acumulacion." AND consideracion_retraso=".$consideracion_retraso.""));
                 if($cantMismosDatos==0){
                     $objTolerancia = new Tolerancias();
@@ -169,6 +188,8 @@ class ToleranciasController extends ControllerBase
                     $objTolerancia->tipo_acumulacion = $tipo_acumulacion;
                     $objTolerancia->consideracion_retraso=$consideracion_retraso;
                     $objTolerancia->descripcion=$descripcion;
+                    $objTolerancia->fecha_ini=$fecha_ini;
+                    if($fecha_fin!="")$objTolerancia->fecha_fin=$fecha_fin;
                     $objTolerancia->observacion=$observacion;
                     $objTolerancia->estado=2;
                     $objTolerancia->baja_logica=1;

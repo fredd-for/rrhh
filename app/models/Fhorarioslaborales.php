@@ -75,7 +75,16 @@ class Fhorarioslaborales extends \Phalcon\Mvc\Model {
             'fecha_mod'=>'fecha_mod'
         );
     }
-
+    /**
+     * Función para la obtención del listado de horarios laborales disponibles en el sistema.
+     * @return Resultset
+     */
+    public function getHorariosLaborales()
+    {
+        $sql = "SELECT * FROM f_horarioslaborales()";
+        $this->_db = new Fhorarioslaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
     /**
      * Función para la obtención del listado de horarios laborales disponibles en el sistema.
      * @return Resultset
@@ -83,6 +92,18 @@ class Fhorarioslaborales extends \Phalcon\Mvc\Model {
     public function getHorariosLaboralesDisponibles()
     {
         $sql = "SELECT * FROM f_horarioslaborales() where estado>=1";
+        $this->_db = new Fhorarioslaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del registro correspondiente al horario laboral solicitado
+     * @param $id
+     * @return Resultset
+     */
+    public function getOne($id)
+    {
+        $sql = "SELECT * FROM f_horarioslaborales() where id_horariolaboral=".$id;
         $this->_db = new Fhorarioslaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

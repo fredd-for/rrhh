@@ -5,7 +5,7 @@
  *   Usuario Creador: Lic. Javier Loza
  *   Fecha Creación:  18-12-2014
  */
-function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescripcion) {
+function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipoHorarioDescripcion) {
     var source =
     {
         datatype: "json",
@@ -22,8 +22,8 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
             {name: 'tipo_horario', type: 'integer'},
             {name: 'tipo_horario_descripcion', type: 'string'},
             {name: 'estado', type: 'integer'},
-            {name: 'estado_descripcion', type: 'string'}
-
+            {name: 'estado_descripcion', type: 'string'},
+            {name: 'id_tolerancia', type: 'integer'}
         ],
         url: '/perfileslaborales/listhistorialturnos?id=' + idPerfilLaboral,
         /*id: 'id_perfillaboral',*/
@@ -64,6 +64,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
                     $("#viewrowbuttonturn").jqxButton();
 
                     // Registrar nuevo turno laboral.
+                    $("#addrowbuttonturn").off();
                     $("#addrowbuttonturn").on('click', function () {
                         /**
                          * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
@@ -79,15 +80,35 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
                         if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                         else $("#ddGrupoCalendario").html("&nbsp;");
                         $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                        $("#spanPrefijoCalendarioLaboral").text("Nuevo ")
+                        $("#spanPrefijoCalendarioLaboral").text("Nuevo ");
                         $("#calendar").html("");
-                        iniciarCalendarioLaboral();
+                        var date = new Date();
+                        var defaultDia = date.getDate();
+                        var defaultMes = date.getMonth();
+                        var defaultGestion = date.getFullYear();
+                        var arrHorariosRegistrados = [];
+                        var accion = 1;
+                        $("#hdnIdPerfilLaboralParaCalendario").val(idPerfilLaboral);
+                        $("#hdnTipoHorarioParaCalendario").val(tipoHorario);
+                        /**
+                         * Para determinar el focus donde se establece el calendario será en el dia seguiente de la última fecha registrada para el perfil.
+                         * Si el perfil no tiene ningún registro, se habilita el mes actual para el registro
+                         */
+                        var arrFechaIni =obtenerFechaDeInicioProximo(idPerfilLaboral);
+                        if(arrFechaIni.length>0){
+                            defaultDia =arrFechaIni[0].dia;
+                            defaultMes = arrFechaIni[0].mes-1;
+                            defaultGestion = arrFechaIni[0].gestion;
+                        }
+                        cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
+                        iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                         iniciarSelectorTolerancias();
                     });
 
                     /**
                      * Modificar registro de turno laboral.
                      */
+                    $("#updaterowbuttonturn").off();
                     $("#updaterowbuttonturn").on('click', function () {
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
@@ -97,6 +118,51 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
                                  * Para el caso cuando el estado del turno esté EN ELABORACIÓN, de otro modo no es admisible.
                                  */
                                 if (dataRecord.estado == 1) {
+                                    /**
+                                     * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
+                                     */
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+
+                                    $("#ddPerfilLaboralCalendario").text(perfilLaboral);
+                                    if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
+                                    else $("#ddGrupoCalendario").html("&nbsp;");
+                                    $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
+                                    $("#spanPrefijoCalendarioLaboral").text("Modificar ");
+                                    $("#calendar").html("");
+                                    var date = new Date();
+                                    var d = date.getDate();
+                                    var m = date.getMonth();
+                                    var y = date.getFullYear();
+                                    var accion = 2;
+                                    var fechaActual = fechaConvertirAFormato(new Date(),'-');
+                                    var formattedDate = dataRecord.fecha_ini;
+                                    var d = formattedDate.getDate();
+                                    var m =  formattedDate.getMonth();
+                                    m += 1;  // Los meses en JavaScript son 0-11
+                                    var y = formattedDate.getFullYear();
+                                    var fechaIni = d+"-"+m+"-"+y;
+
+                                    var defaultDay=d;
+                                    var defaultMonth = m-1;
+                                    var defaultYear = y;
+                                    if(dataRecord.tipo_horario==1||dataRecord.tipo_horario==2){
+                                        var arrFechaActual  = fechaActual.split("-");
+                                        defaultDay=arrFechaActual[0];
+                                        defaultMonth = arrFechaActual[1]-1;
+                                        defaultYear = arrFechaActual[2];
+                                    }
+                                    var fechaFin = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
+                                    var tipoHorario = dataRecord.tipo_horario;
+                                    $("#hdnIdPerfilLaboralParaCalendario").val(idPerfilLaboral);
+                                    arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,fechaIni,fechaFin);
+                                    cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
+                                    iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
+                                    iniciarSelectorTolerancias(dataRecord.id_tolerancia);
 
                                 } else {
                                     var msj = "Debe seleccionar un registro en estado EN PROCESO para posibilitar la modificaci&oacute;n de los registros correspondientes.";
@@ -113,6 +179,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
                         }
                     });
                     /* Dar de baja un registro de movilidad de personal.*/
+                    $("#deleterowbuttonturn").off();
                     $("#deleterowbuttonturn").on('click', function () {
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
@@ -216,39 +283,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorarioDescr
         $("#cellendeditevent").text("Event Type: cellendedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
     });*/
 }
-/**
- * Función para cargar el combo de tipos de memorándums.
- * @param idTipoMemorandumPrederminado Identificador del tipo de memorándum predeterminado.
- */
 
-function cargarTiposMemorandumsParaMovilidad(idTipoMemorandumPrederminado) {
-    var agrupador = 1;
-    var sw = 0;
-    $.ajax({
-        url: '/relaborales/listtiposmemorandumsmovilidad',
-        type: 'POST',
-        datatype: 'json',
-        async: false,
-        cache: false,
-        success: function (data) {
-            var res = jQuery.parseJSON(data);
-            $('#lstTipoMemorandum').html("");
-            $('#lstTipoMemorandum').append("<option value='0'>Seleccionar...</option>");
-            if (res.length > 0) {
-                $.each(res, function (key, val) {
-                    if (idTipoMemorandumPrederminado == val.id) {
-                        $selected = 'selected';
-                    } else {
-                        $selected = '';
-                    }
-                    $('#lstTipoMemorandum').append("<option value=" + val.id_agrupado + " " + $selected + ">" + val.tipo_memorandum + "</option>");
-                    sw = 1;
-                });
-                if (sw == 0)$('#lstTipoMemorandum').prop("disabled", "disabled");
-            } else $('#lstTipoMemorandum').prop("disabled", "disabled");
-        }
-    });
-}
 /**
  * Función para validar los datos del formulario de nuevo registro de calendario laboral.
  * @returns {boolean} True: La validación fue correcta; False: La validación anuncia que hay errores en el formulario.
@@ -449,4 +484,32 @@ function guardarRegistroCalendarioLaboral() {
         });
     }
     return ok;
+}
+/**
+ * Función para obtener la fecha de inicio próximo sin registro para un determinado perfil.
+ * @param idPerfil
+ */
+function obtenerFechaDeInicioProximo(idPerfil){
+    var arrFecha = [];
+    $.ajax({
+        url: '/perfileslaborales/getfechainiproximo/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id: idPerfil},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    arrFecha.push( {
+                        dia:val.dia,
+                        mes:val.mes,
+                        gestion:val.gestion
+                    });
+                });
+            }
+        }
+    });
+    return arrFecha;
 }

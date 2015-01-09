@@ -16,17 +16,7 @@ $().ready(function () {
     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
 
-
     definirGrillaParaListaPerfilesLaborales();
-    /*$("#popupWindowHorario").jqxWindow({
-        width: '100%',
-        height: '100%',
-        resizable: true,
-        isModal: true,
-        autoOpen: false,
-        cancelButton: $("#btnCancelar"),
-        modalOpacity: 0.01
-    });*/
     $("#btnGuardarNuevo").click(function () {
         var ok = validaFormularioPorNuevoRegistroPerfilLaboral();
         if (ok) {
@@ -45,13 +35,25 @@ $().ready(function () {
             guardarRegistroBajaPerfilLaboral();
         }
     });
-    /**
-     * Control sobre la solicitud de guardar registro de movilidad de personal por nuevo, edición y baja.
-     */
     $("#btnGuardarCalendario").click(function () {
-        alert("Se guardara luego de validar");
-        //var content = $('#jqxdropdownbuttontolerancias').jqxDropDownButton('getContent');
-        alert($("#hdnIdTolerancia").val());
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
+        var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
+        var fechaIni = $("#hdnFechaIniParaCalendario").val();
+        var fechaFin = $("#hdnFechaFinParaCalendario").val();
+
+        fechaIni = '01-01-2015';
+        fechaFin = '31-01-2015';
+        var ok = validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+        if (ok) {
+            var okk = guardaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+            if(okk){
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                $("#jqxgridturnos").jqxGrid("updatebounddata");
+            }
+        }
     });
     $("#btnCancelarNuevo").click(function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
@@ -175,9 +177,14 @@ $().ready(function () {
         $("#btnCancelarNuevo").click();
         $("#btnCancelarEditar").click();
         $("#btnCancelarBaja").click();
+        $("#hdnIdPerfilLaboralParaCalendario").val(0);
     });
-
-
+    $("#liTurn").click(function () {
+        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
+        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+        $("#msjs-alert").hide();
+    });
     $('#btnDesfiltrartodo').click(function () {
         $("#divGridPerfilesLaborales").jqxGrid('clearfilters');
     });
@@ -419,7 +426,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                                      * Trasladamos el item seleccionado al que corresponde, el de vistas.
                                      */
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
-                                    cargarGrillaTurnos(id_perfillaboral,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario_descripcion);
+                                    cargarGrillaTurnos(id_perfillaboral,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
                                     $("#ddPerfilLaboralTurnos").text(dataRecord.perfil_laboral);
                                     if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoTurnos").text(dataRecord.grupo);
                                     else $("#ddGrupoTurnos").html("&nbsp;");
@@ -606,4 +613,19 @@ var cellclass = function (row, columnfield, value) {
         return 'rojo';
     }
     else return ''
+}
+/**
+ * Función para la obtención de la fecha enviada como parámetro en formato dd-mm-yyyy
+ * @param fecha
+ * @returns {string}
+ */
+function fechaConvertirAFormato(fecha,separador){
+    if(separador=='')separador='-';
+    var formattedDate = fecha;
+    var d = formattedDate.getDate();
+    var m =  formattedDate.getMonth();
+    m += 1;  // Los meses en JavaScript son 0-11
+    var y = formattedDate.getFullYear();
+    var fechaResultado = d+separador+m+separador+y;
+    return fechaResultado;
 }

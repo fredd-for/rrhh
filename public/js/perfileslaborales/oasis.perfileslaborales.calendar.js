@@ -5,7 +5,7 @@
  *   Usuario Creador: Lic. Javier Loza
  *   Fecha Creación:  18-12-2014
  */
-function iniciarCalendarioLaboral() {
+function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
 
     var calendarEvents  = $('.calendar-events');
     /* Inicializa la funcionalidad de eventos: arrastrar y soltar */
@@ -41,88 +41,40 @@ function iniciarCalendarioLaboral() {
     });*/
 
     /* Initialize FullCalendar */
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    var arrEventos = [
-        {
-            title: 'Gaming Day',
-            start: new Date(y, m, 1),
-            color: '#9b59b6'
-        },
-        {
-            title: 'Live Conference',
-            start: new Date(y, m, 3)
-        },
-        {
-            title: 'Top Secret Project',
-            start: new Date(y, m, 4),
-            end: new Date(y, m, 8),
-            color: '#1abc9c'
-        },
-        {
-            id: 999,
-            title: 'Gym (repeated)',
-            start: new Date(y, m, d - 3, 15, 0),
-            allDay: false
-        },
-        {
-            id: 999,
-            title: 'Gym (repeated)',
-            start: new Date(y, m, d + 3, 15, 0),
-            allDay: false
-        },
-        {
-            title: 'Job Meeting',
-            start: new Date(y, m, d, 16, 00),
-            allDay: false,
-            color: '#f39c12'
-        },
-        {
-            title: 'Awesome Project',
-            start: new Date(y, m, d, 9, 0),
-            end: new Date(y, m, d, 12, 0),
-            allDay: false,
-            color: '#d35400'
-        },
-        {
-            title: 'Book Reading',
-            start: new Date(y, m, 15),
-            end: new Date(y, m, 16),
-            allDay: true,
-            color: '#3498db'
-        },
-        {
-            title: 'Party',
-            start: new Date(y, m, d + 8, 21, 0),
-            end: new Date(y, m, d + 8, 23, 30),
-            allDay: false
-        },
-        {
-            title: 'Follow me on Twitter',
-            start: new Date(y, m, 20),
-            end: new Date(y, m, 24),
-            url: 'http://twitter.com/pixelcave',
-            color: '#e74c3c'
-        }
-    ];
-    arrHorarios = cargarHorariosRegistradosEnCalendario();
-    if(arrHorarios.length>0){
-        cargarHorariosRegistradosParaModificar(arrHorarios);
+    var optLeft = 'prev,next';
+    var optRight = 'year,month,agendaWeek,agendaDay';
+    var optEditable = true;
+    var optDroppable = true;
+    var optSelectable = true;
+    switch (accion){
+        case 1://Nuevo
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 2://Edición
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
     }
-    arrHorarios=[];
     $('#calendar').fullCalendar({
         header: {
-            left: 'prev,next',
+            left: optLeft,
             center: 'title',
-            right: 'year,month,agendaWeek,agendaDay'
+            right: optRight
         },
+        year:defaultGestion,
+        month:defaultMes,
+        date:defaultDia,
         firstDay: 1,
-        editable: true,
-        droppable: true,
-        selectable: true,
-
+        editable: optEditable,
+        droppable: optDroppable,
+        selectable: optSelectable,
         drop: function(date, allDay) { // this function is called when something is dropped
             //alert("drop");
             // retrieve the dropped element's stored Event Object
@@ -145,21 +97,86 @@ function iniciarCalendarioLaboral() {
             //$(this).remove();
 
         },
-        events: arrHorarios,
+        events: arrHorariosRegistrados,
+        /*eventClick: function(calEvent, jsEvent, view) {
+
+
+            var idHorario = calEvent.class;
+            idHorario = idHorario.replace("h_","");
+            var ok = cargarModalHorario(idHorario);
+            if(ok)
+            {   var horario =$(this);
+                $(this).remove();
+                //$('#popupDescripcionHorario').modal('show');
+                $("#btnDescartarHorario").on("click",function(){
+                    horario.remove();
+
+                    //$('#popupDescripcionHorario').modal('hide');
+
+                });
+            }
+            else alert("Error al determinar los datos del horario.")
+
+            alert('Event: ' + calEvent.title);
+            alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+            alert('View: ' + view.name);
+
+
+        },*/
         eventClick: function(calEvent, jsEvent, view) {
-            /*if (event.url) {
-             window.open(event.url);
-             return false;
-             }*/
-            /*alert(event.id+":"+event.title);*/
-            /*alert('Event: ' + calEvent.title);
-             alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-             alert('View: ' + view.name);
-             */
-            // change the border color just for fun
-            //$(this).css('border-color', 'red');
-            /*this.remove();*/
-        }/*,
+
+            var clase = calEvent.className+"";
+            var arrClass = clase.split("_");
+            var idTipoHorario = arrClass[1];
+            clase = arrClass[0];
+            var idTurno = 0;
+            if(calEvent.id!=undefined){
+                idTurno = calEvent.id;
+            }
+            if(idTipoHorario>0){
+                var ok = cargarModalHorario(idTipoHorario);
+                if(ok) {
+                    $('#popupDescripcionHorario').modal('show');
+                    $("#btnDescartarHorario").off();
+                    $("#btnDescartarHorario").on("click", function () {
+                        switch (clase){
+                            case "r":
+                            case "d":
+                                var okBaja = bajaTurnoEnCalendario(idTurno);
+                                if(okBaja){
+                                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                    $('#popupDescripcionHorario').modal('hide');
+                                }
+                                break;
+                            case "n":
+                                $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                $('#popupDescripcionHorario').modal('hide');
+                                break;
+                        }
+                    });
+                }else alert("Error al determinar los datos del horario.");
+            }else {
+                alert("El registro corresponde a un periodo de descanso");
+            }
+        }
+        /*eventClick: function(event) {
+            *//*alert("id:"+event.id);*//*
+            $('#popupDescripcionHorario').modal('show');
+        }*/
+      /*  eventRender: function (event, element) {
+            element.attr('href', 'javascript:void(0);');
+            element.click(function() {
+
+
+                *//*$("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));*//*
+                *//*$("#eventInfo").html(event.description);
+                $("#eventLink").attr('href', event.url);
+                $("#eventContent").dialog({ modal: true, title: event.title, width:350});*//*
+                //$('#popupDescripcionHorario').modal('show');
+            });
+        }*/
+       /*,
          eventRender: function (event, element) {
          element.popover({
          title: event.title,
@@ -199,32 +216,40 @@ function iniciarCalendarioLaboral() {
     });*/
 
 }
-/* Function for initializing drag and drop event functionality */
+/**
+ * Función para inicializar las funcionalidad para el evento de arrastre y eliminación
+ */
 var initEvents = function() {
     var calendarEvents  = $('.calendar-events');
     calendarEvents.find('li').each(function() {
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        var eventObject = { title: $.trim($(this).text()), color: $(this).css('background-color') };
+        /*Creando un nuevo objeto*/
+        //alert("el id es:"+this.id);
+        var eventObject = { className:'n_'+this.id,title: $.trim($(this).text()), color: $(this).css('background-color') };
 
-        // store the Event Object in the DOM element so we can get to it later
+        /* Almacenar el objeto de evento en el elemento DOM para que podamos llegar a ella más tarde */
         $(this).data('eventObject', eventObject);
 
-        // make the event draggable using jQuery UI
+        /* Hacer que el evento se pueda arrastrar usando jQuery UI*/
         $(this).draggable({ zIndex: 999, revert: true, revertDuration: 0 });
     });
 };
 /**
- * Función para el registro de horarios en espera (El primer estado de un horario) para su disponibilidad de asignación en las fechas dentro del calendario.
+ * Función para la obtención del listado de horarios registrados en el sistema a objeto de ponerlos disponibles para su registro en el calendario.
  * @returns {Array}
  */
-function cargarHorariosRegistradosEnCalendario(){
+function obtenerHorariosDisponibles(tipoHorario){
     var arrHorarios = [];
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
+    var ctrlAllDay=false;
+    switch (tipoHorario){
+        case 1:
+        case 2:ctrlAllDay=true;break;
+    }
     $.ajax({
-        url: '/calendariolaboral/gethorariosregistrados',
+        url: '/horarioslaborales/listDisponibles',
         type: 'POST',
         datatype: 'json',
         async: false,
@@ -251,10 +276,11 @@ function cargarHorariosRegistradosEnCalendario(){
                     var ss = horaSal[2];
                     arrHorarios.push( {
                         id:val.id_horariolaboral,
+                        className:'d_'+val.id_horariolaboral,
                         title: val.nombre,
                         start: new Date(yi, mi, di, he, me),
                         end: new Date(yf, mf, df, hs, ms),
-                        allDay: true,
+                        allDay: ctrlAllDay,
                         color: val.color
                     });
                 });
@@ -264,11 +290,90 @@ function cargarHorariosRegistradosEnCalendario(){
     return arrHorarios;
 }
 /**
+ * Función para la obtención del listado de horarios registrados en el calendario de acuerdo a un perfil determinado, una rango de fechas y un tipo de horario.
+ * @param idPerfil
+ * @param gestion
+ * @param mes
+ * @param tipoHorario
+ * @returns {Array}
+ */
+function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,fechaIni,fechaFin){
+    var arrHorariosRegistrados = [];
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var ctrlAllDay=false;
+    switch (tipoHorario){
+        case 1:
+        case 2:ctrlAllDay=true;break;
+    }
+    $.ajax({
+        url: '/calendariolaboral/listregistered',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id:idPerfil,fecha_ini:fechaIni,fecha_fin:fechaFin},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    var idHorarioLaboral = 0;
+                    var horaEnt = '00:00:00';
+                    var horaSal = '24:00:00';
+                    var color = '#000000';
+                    var horario_nombre = 'DESCANSO';
+                    if(val.id_horariolaboral!=null){
+                        idHorarioLaboral = val.id_horariolaboral;
+                        horario_nombre = val.horario_nombre;
+                        horaEnt = val.hora_entrada.split(":");
+                        horaSal = val.hora_salida.split(":");
+                        color = val.color;
+                    }else {
+                        horaEnt = horaEnt.split(":");
+                        horaSal = horaSal.split(":");
+                    }
+                    var fechaIni =  val.calendario_fecha_ini.split("-");
+                    var yi = fechaIni[0];
+                    var mi = fechaIni[1]-1;
+                    var di = fechaIni[2];
+
+                    var he = horaEnt[0];
+                    var me = horaEnt[1];
+                    var se = horaEnt[2];
+
+                    var fechaFin =  val.calendario_fecha_fin.split("-");
+                    var yf = fechaFin[0];
+                    var mf = fechaFin[1]-1;
+                    var df = fechaFin[2];
+
+                    var hs = horaSal[0];
+                    var ms = horaSal[1];
+                    var ss = horaSal[2];
+                    var prefijo = "r_";
+                    if(idHorarioLaboral==0) prefijo="d_";
+                    arrHorariosRegistrados.push( {
+                        id:val.id_calendariolaboral,
+                        className:prefijo+idHorarioLaboral,
+                        title: horario_nombre,
+                        start: new Date(yi, mi, di, he, me),
+                        end: new Date(yf, mf, df, hs, ms),
+                        allDay: ctrlAllDay,
+                        color: color
+                    });
+                });
+            }
+        }
+    });
+    return arrHorariosRegistrados;
+}
+/**
  * Función para el despliegue en el lado izquierdo de todos los horarios registrados, dando la posibilidad de su modificación.
  * @author JLM
  * @param arrHorarios
  */
-function cargarHorariosRegistradosParaModificar(arrHorarios){
+function cargarHorariosDisponibles(arrHorarios){
     $("#ulHorariosEnEspera").html("");
     if(arrHorarios.length>0){
         $.each(arrHorarios, function (key, val) {
@@ -277,11 +382,12 @@ function cargarHorariosRegistradosParaModificar(arrHorarios){
             var eventInput      = $('#txtNombreHorario');
             var eventInputVal   = '';
             //var valColor = $("#txtColorHorario").val();
+            var valId = val.id;
             var valColor = val.color;
             //eventInputVal = eventInput.prop('value');
             eventInputVal = val.title;
             var calendarEvents  = $('.calendar-events');
-            calendarEvents.append('<li style="background-color: '+valColor+'" class="ui-draggable">' + $('<div />').text(eventInputVal).html() + '</li>');
+            calendarEvents.append('<li style="background-color: '+valColor+'" class="ui-draggable '+val.class+'" id="'+valId+'">' + $('<div />').text(eventInputVal).html() + '</li>');
 
             // Clear input field
             /*eventInput.prop('value', '');*/
@@ -563,9 +669,63 @@ function guardaHorario(){
 /**
  * Función para la selección de la tolerancia a aplicarse para el calendario.
  */
-function iniciarSelectorTolerancias(){
+function iniciarSelectorTolerancias(idTolerancia){
     // prepare the data
-    var source =
+    var arrTolerancias=[];
+    var grilla = "";
+    $.ajax({
+        url: '/tolerancias/list',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data:{estado:1},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            $('#lstTolerancias').html("");
+            $('#lstTolerancias').append("<option value='0'>Seleccionar...</option>");
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    if (idTolerancia == val.id) {
+                        $selected = 'selected';
+                        grilla = "<td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
+                    } else {
+                        $selected = '';
+                    }
+                    $('#lstTolerancias').append("<option value=" + val.id + " " + $selected + ">" + val.id + "</option>");
+                    sw = 1;
+                    arrTolerancias.push( {
+                        id: val.id,
+                        tolerancia:val.tolerancia,
+                        tipo_acumulacion: val.tipo_acumulacion,
+                        acumulacion_descripcion:val.acumulacion_descripcion,
+                        consideracion_retraso:val.consideracion_retraso,
+                        consideracion_retraso_descripcion:val.consideracion_retraso_descripcion,
+                        descripcion:val.descripcion,
+                        fecha_ini:val.fecha_ini,
+                        fecha_fin:val.fecha_fin,
+                        observacion:val.observacion
+                    });
+                });
+                if (sw == 0)$('#lstTolerancias').prop("disabled", "disabled");
+            } else $('#lstTolerancias').prop("disabled", "disabled");
+        }
+    });
+    $("#tr_tolerancia").html("");
+    if(grilla!="")$("#tr_tolerancia").append(grilla);
+    $("#lstTolerancias").off();
+    $("#lstTolerancias").on("change",function(){
+        $("#tr_tolerancia").html("");
+        grilla ="";
+        $.each(arrTolerancias,function(key,val){
+            if(val.id==$("#lstTolerancias").val()){
+                grilla = "<td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
+            }
+        });
+        if(grilla!="")$("#tr_tolerancia").append(grilla);
+    });
+
+    /*var source =
     {
         datatype: "json",
         datafields: [
@@ -585,23 +745,14 @@ function iniciarSelectorTolerancias(){
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
-
-    $("#jqxdropdownbuttontolerancias").jqxDropDownButton({ width: 150, height: 25});
     var theme = prepareSimulator("grid");
     $("#jqxgridtolerancias").jqxGrid(
         {
             theme: theme,
             width: '100%',
-            height: '100%',
+            height: '10%',
             source: dataAdapter,
-            sortable: true,
-            altRows: true,
-            columnsresize: true,
             pageable: true,
-            pagerMode: 'advanced',
-            showfilterrow: true,
-            filterable: true,
-            showtoolbar: true,
             autorowheight: true,
             columns: [
                 {
@@ -614,20 +765,31 @@ function iniciarSelectorTolerancias(){
                     cellsrenderer: rownumberrenderer
                 },
                 {
-                    text: 'Estado',
-                    filtertype: 'checkedlist',
+                    text: 'Selecci&oacute;n',
                     datafield: 'estado_descripcion',
-                    width: 90,
+                    width: 70,
                     cellsalign: 'center',
                     align: 'center',
-                    hidden: false,
-                    cellclassname: cellclass
+                    sortable: false,
+                    showfilterrow: false,
+                    filterable: false,
+                    columntype: 'number',
+                    cellsrenderer: function (rowline) {
+                        ctrlrow = rowline
+                        var dataRecord = $("#jqxgridtolerancias").jqxGrid('getrowdata', ctrlrow);
+                        var checked="";
+                        if(idTolerancia==dataRecord.id){
+                            checked = "checked";
+                        }
+                        return "<div style='width: 100%' align='center'><input type='radio' id='rd_"+dataRecord.id+"' class='rdTolerancias' name='rdToleracias' "+checked+"/></div>";
+
+                    }
                 },
                 {
-                    text: 'Tolerancia',
+                    text: 'Minutos',
                     filtertype: 'checkedlist',
                     datafield: 'tolerancia',
-                    width: 100,
+                    width: 80,
                     cellsalign: 'center',
                     align: 'center',
                     hidden: false
@@ -653,7 +815,7 @@ function iniciarSelectorTolerancias(){
                     text: 'Descripci&oacute;n',
                     filtertype: 'checkedlist',
                     datafield: 'descripcion',
-                    width: 400,
+                    width: 350,
                     align: 'center',
                     hidden: false
                 },
@@ -666,24 +828,98 @@ function iniciarSelectorTolerancias(){
                     hidden: false
                 },
             ]
-        });
-    $("#jqxgridtolerancias").off();
-    $("#jqxgridtolerancias").on("cellclick", function (event) {
-        var rowindex = event.args.rowindex;
-        var columnindex = event.args.columnindex;
-        columnindex = parseInt(columnindex);
-        newrow = rowindex;
+        });*/
+
+    /*$("#jqxgridtolerancias").off();
+    $("#jqxgridtolerancias").on('rowselect', function (event) {
         var offset = $("#jqxgridtolerancias").offset();
+        var rowindex = event.args.rowindex;
+        newrow = rowindex;
         var dataRecord = $("#jqxgridtolerancias").jqxGrid('getrowdata', newrow);
-        if (dataRecord != undefined) {
-            dropDownContent = "<div style='position: relative; margin-left: 5px; margin-top: 5px;'>[Tolerancia:" + dataRecord.tolerancia + " Minutos] -  [Tipo Acumulaci&oacute;n:" + dataRecord.acumulacion_descripcion + "] - [Consideraci&oacute;n:" + dataRecord.consideracion_retraso_descripcion + "]</div>";
-            $("#jqxdropdownbuttontolerancias").jqxDropDownButton('setContent', dropDownContent);
-            $('#jqxdropdownbuttontolerancias').jqxDropDownButton({ width: '100%'});
-            $("#hdnIdTolerancia").val(dataRecord.id);
-        }
-    });
-    $("#jqxgridtolerancias").jqxGrid('selectrow', 0);
+        $(".rdTolerancias").prop("checked",false);
+        $("#rd_"+dataRecord.id).prop("checked",true);
+    });*/
+}
+/**
+ * Función para la carga de los datos correspondientes al horario en el modal respectivo.
+ * @param idHorario
+ */
+function cargarModalHorario(idHorario){
+    if(idHorario>0){
+        $.ajax({
+            url: '/horarioslaborales/getone',
+            type: 'POST',
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id: idHorario},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        $("#txtNombreHorario").val(val.nombre);
+                        $("#txtNombreAlternativoHorario").val(val.nombre_alternativo);
+                        $("#txtColorHorario").val(val.color);
+                        $("#txtColorHorario").css({'background-color':val.color,'color':val.color});
+                        $("#txtHoraEntHorario").val(val.hora_entrada);
+                        $("#txtHoraSalHorario").val(val.hora_salida);
+                        $("#txtHoraInicioRangoEnt").val(val.hora_inicio_rango_ent);
+                        $("#txtHoraFinalizacionRangoEnt").val(val.hora_final_rango_ent);
+                        $("#txtHoraInicioRangoSal").val(val.hora_inicio_rango_sal);
+                        $("#txtHoraFinalizacionRangoSal").val(val.hora_final_rango_sal);
+                        $("#txtObservacion").val(val.observacion);
+                    });
+                }
+            }
+        });
+        return true;
+    }else return false;
+}
+/**
+ * Función para la baja de un evento en el calendario
+ * @param idEvento
+ */
+function bajaTurnoEnCalendario(idEvento){
+    var ok=true;
+    if(idEvento>0){
+        var ok=$.ajax({
+            url:'/Calendariolaboral/down/',
+            type:'POST',
+            datatype: 'json',
+            async:false,
+            data:{id:idEvento},
+            success: function(data) {  //alert(data);
+                var res = jQuery.parseJSON(data);
+                /**
+                 * Si se ha realizado correctamente el registro de baja de la tolerancia.
+                 */
+                $(".msjes").hide();
+                if(res.result==1){
+                    ok=true;
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(res.msj);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                } else if(res.result==0){
+                    /**
+                     * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.
+                     */
+                    $("#divMsjePorWarning").html("");
+                    $("#divMsjePorWarning").append(res.msj);
+                    $("#divMsjeNotificacionWarning").jqxNotification("open");
+                }else{
+                    /**
+                     * En caso de haberse presentado un error crítico al momento de registrarse la baja (Error de conexión)
+                     */
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(res.msj);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
+                }
 
-
-
+            }, //mostramos el error
+            error: function() { alert('Se ha producido un error Inesperado'); }
+        }).responseText;
+    }else {
+        ok = false;
+    }
+    return ok;
 }

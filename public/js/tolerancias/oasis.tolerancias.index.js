@@ -153,6 +153,8 @@ function definirGrillaParaListaTolerancias() {
             {name: 'acumulacion_descripcion', type: 'time'},
             {name: 'consideracion_retraso', type: 'integer'},
             {name: 'consideracion_retraso_descripcion', type: 'numeric'},
+            {name: 'fecha_ini', type: 'date',formatstring:'dd-mm-yyyy'},
+            {name: 'fecha_fin', type: 'date'},
             {name: 'descripcion', type: 'string'},
             {name: 'observacion', type: 'string'},
             {name: 'estado', type: 'string'},
@@ -252,11 +254,18 @@ function definirGrillaParaListaTolerancias() {
                                     $('#jqxTabsTolerancias').jqxTabs({selectedItem: 2});
 
                                     limpiarMensajesErrorPorValidacionTolerancia("Editar");
-
                                     $("#txtToleranciaEditar").val(dataRecord.tolerancia);
                                     cargarTiposDeAcumulacion(dataRecord.tipo_acumulacion,"Editar");
                                     cargarOpcionesDeConsideracionEnRetraso(dataRecord.consideracion_retraso,"Editar");
                                     $("#txtDescripcionEditar").val(dataRecord.descripcion);
+                                    var fechaIni = "";
+                                    if(dataRecord.fecha_ini!=null)
+                                    fechaIni = $.jqx.dataFormat.formatdate(dataRecord.fecha_ini, 'dd-MM-yyyy');
+                                    var fechaFin = "";
+                                    if(dataRecord.fecha_fin!=null)
+                                        fechaFin = $.jqx.dataFormat.formatdate(dataRecord.fecha_fin, 'dd-MM-yyyy');
+                                    $("#txtFechaIniEditar").val(fechaIni);
+                                    $("#txtFechaFinEditar").val(fechaFin);
                                     $("#txtObservacionEditar").val(dataRecord.observacion);
                                     $("#txtToleranciaEditar").focus();
 
@@ -357,6 +366,26 @@ function definirGrillaParaListaTolerancias() {
                         hidden: false
                     },
                     {
+                        text: 'Fecha Inicio',
+                        datafield: 'fecha_ini',
+                        filtertype: 'range',
+                        width: 200,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Fin',
+                        datafield: 'fecha_fin',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
                         text: 'Observaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'observacion',
@@ -372,6 +401,8 @@ function definirGrillaParaListaTolerancias() {
             {label: 'Acumulaci&oacute;n', value: 'acumulacion_descripcion', checked: true},
             {label: 'Consideraci&oacute;n', value: 'consideracion_retraso_descripcion', checked: true},
             {label: 'Descripci&oacute;n', value: 'descripcion', checked: true},
+            {label: 'Fecha Ini', value: 'fecha_ini', checked: true},
+            {label: 'Fecha Fin', value: 'fecha_fin', checked: false},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#jqxlistbox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
