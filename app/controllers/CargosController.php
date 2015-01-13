@@ -65,18 +65,7 @@ class CargosController extends ControllerBase
                     ->addJs('/js/bootbox.js');
 
 		// $this->tag->setDefault("organigrama_id", 3);
-		$organigrama = $this->tag->select(
-			array(
-				'organigrama_id',
-				Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa DESC')),
-				'using' => array('id', "unidad_administrativa"),
-				'useEmpty' => true,
-				'emptyText' => '(Selecionar)',
-				'emptyValue' => '',
-				'class' => 'form-control select-chosen',
-				)
-			);
-		$this->view->setVar('organigrama',$organigrama);
+		
 
 		$model = new Cargos();
 		$resul = $model->listGerencias();
@@ -105,7 +94,6 @@ class CargosController extends ControllerBase
 				'class' => 'form-control',
 				)
 			);
-		
 		$this->view->setVar('organigrama_rep_pac',$organigrama_rep_pac);
 
 		$finpartida = $this->tag->select(
@@ -151,6 +139,36 @@ class CargosController extends ControllerBase
 			);
 		$this->view->setVar('condicion',$condicion);
 
+
+		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		$this->tag->setDefault("resolucion_ministerial_id", $resolucion_ministerial0->id);
+        $resolucion_ministerial = $this->tag->select(
+			array(
+				'resolucion_ministerial_id',
+				Resoluciones::find(array('uso=1 and baja_logica=1',"order"=>"id ASC","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
+				'using' => array('id', "fullname"),
+				'useEmpty' => FALSE,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+
+		$this->view->setVar('resolucion_ministerial',$resolucion_ministerial);
+
+		// $organigrama = $this->tag->select(
+		// 	array(
+		// 		'organigrama_id',
+		// 		Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$resolucion_ministerial0->id,'order' => 'unidad_administrativa DESC')),
+		// 		'using' => array('id', "unidad_administrativa"),
+		// 		'useEmpty' => true,
+		// 		'emptyText' => '(Selecionar)',
+		// 		'emptyValue' => '',
+		// 		'class' => 'form-control select-chosen',
+		// 		)
+		// 	);
+		// $this->view->setVar('organigrama',$organigrama);
+
 }
 
 public function listAction()
@@ -162,6 +180,8 @@ public function listAction()
 	foreach ($resul as $v) {
 		$customers[] = array(
 			'id' => $v->id,
+			'resolucion_ministerial_id' => $v->resolucion_ministerial_id,
+			'resolucion' => $v->resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
 			'codigo_nivel' => $v->codigo_nivel,
@@ -254,6 +274,7 @@ public function saveAction()
 			$resul->formacion_requerida=$_POST['formacion_requerida'];
 			$resul->asistente=$_POST['asistente'];
 			$resul->jefe=$_POST['jefe'];
+			$resul->resolucion_ministerial_id=$_POST['resolucion_ministerial_id'];
 			$resul->save();
 		}
 		else{
@@ -279,6 +300,7 @@ public function saveAction()
 			$resul->jefe=$_POST['jefe'];
 			$resul->poa_id=1;
 			$resul->formacion_requerida=$_POST['formacion_requerida'];
+			$resul->resolucion_ministerial_id=$_POST['resolucion_ministerial_id'];
 			if ($resul->save()) {
 				$msm = array('msm' => 'Exito: Se guardo correctamente' );
 			}else{
@@ -557,6 +579,30 @@ public function exportarPacPdfAction()
  * @param  string $id         [criterio de busqueda]
  * @param  string $depende_id [criterio de selected al editar]
  */
+	public function select_organigramaAction($id='',$organigrama_id='')
+	{
+		
+		
+		// $model = new Cargos();
+		// $resul = $model->dependientes($id);
+		$resul = Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$id,'order' => 'unidad_administrativa ASC'));
+
+		
+		$this->view->disable();
+		$options = '<option value="">(Seleccionar)</option>';
+		foreach ($resul as $v) {
+			$checked='';
+			if($organigrama_id==$v->id)
+			{
+				$checked='selected=selected';
+			}				
+			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->unidad_administrativa.'</option>';
+		}
+    
+        
+	echo $options; 
+	}
+
 	public function dependenciaAction($id='',$depende_id='')
 	{
 		

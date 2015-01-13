@@ -9,10 +9,24 @@ class OrganigramasController extends ControllerBase
 		parent::initialize();
 	}
 
-	public function indexAction()
+	public function indexAction($resolucion_ministerial_id=0)
 	{
-		$organigrama=  Organigramas::findFirst("padre_id = '0'");
-		$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla);
+		
+		$resolucion_ministerial = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		if ($resolucion_ministerial_id!=0) {
+			$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial_id));
+			$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
+		}else{
+			$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial->id));
+			$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
+                        $resolucion_ministerial_id=$resolucion_ministerial->id;
+		}
+
+			
+		
+		
+		//Organigramas::find(array('baja_logica=1','order' => 'unidad_administrativa ASC')),
+		
 		$this->lista.='</ul>';
 		$config = array();
 
@@ -23,6 +37,26 @@ class OrganigramasController extends ControllerBase
 		$this->assets->addJs('/js/jorgchart/jquery.jOrgChart.js');
 
 		$this->view->setVar('lista', $this->lista);
+
+		// $resul = Resolucionesministeriales::find(array('baja_logica=1','order' => 'id ASC'));
+
+		$this->tag->setDefault("resolucion_ministerial_id", $resolucion_ministerial_id);
+        $resolucion_ministerial = $this->tag->select(
+			array(
+				'resolucion_ministerial_id',
+				Resoluciones::find(array('baja_logica=1 and uso =1',"order"=>"id ASC","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
+				'using' => array('id', "fullname"),
+				'useEmpty' => FALSE,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control'
+				)
+			);
+
+		$this->view->setVar('resolucion_ministerial',$resolucion_ministerial);
+
+
+
 	}
 
 	public function addAction($id='')
@@ -50,6 +84,7 @@ class OrganigramasController extends ControllerBase
 			$resul->area_sustantiva = $this->request->getPost('area_sustantiva');
 			$resul->asistente = $this->request->getPost('asistente');
 			$resul->color = $this->request->getPost('color');
+			$resul->resolucion_ministerial_id = $this->request->getPost('resolucion_ministerial_id');
 			if ($resul->save()) {
 				$this->flashSession->success("Exito: Registro guardado correctamente...");
 			}else{
@@ -59,7 +94,8 @@ class OrganigramasController extends ControllerBase
 		}
 
 		$resul = Organigramas::findFirstById($id);
-		$this->view->setVar('sigla',$resul->sigla);		
+		$this->view->setVar('sigla',$resul->sigla);
+		$this->view->setVar('resolucion_ministerial_id',$resul->resolucion_ministerial_id);		
 		$this->tag->setDefault("padre_id", $id);
 		$padre = $this->tag->select(
 			array(
@@ -147,7 +183,7 @@ class OrganigramasController extends ControllerBase
 
 	}
 
-	public function listar($id, $oficina, $sigla) {
+	public function listar($id, $oficina, $sigla,$resolucion_ministerial_id) {
 		$h=  organigramas::count("padre_id='$id'");        
 		$this->lista.='<li id="org" style="display:none">
 		<a href="/organigramas/add/'.$id.'" title="adicionar"><i class="fa fa-plus-circle fa-lg"></i></a>
@@ -158,11 +194,11 @@ class OrganigramasController extends ControllerBase
 		if ($h > 0) {
             //echo '<ul>';
 			$this->lista.='<ul>';
-			$hijos=  Organigramas::find(array("padre_id='$id' and baja_logica=1 and visible=1"));
+			$hijos=  Organigramas::find(array("padre_id='$id' and baja_logica=1 and visible=1 and resolucion_ministerial_id='$resolucion_ministerial_id'"));
             //$hijos = ORM::factory('oficinas')->where('padre', '=', $id)->find_all();
 			foreach ($hijos as $hijo) {
 				$oficina = $hijo->unidad_administrativa;
-				$this->listar($hijo->id, $oficina, $hijo->sigla);
+				$this->listar($hijo->id, $oficina, $hijo->sigla,$hijo->resolucion_ministerial_id);
 			}
 			$this->lista.='</ul>';
             // echo '</ul>';

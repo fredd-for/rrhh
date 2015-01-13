@@ -23,6 +23,8 @@ function cargar(){
 		datatype: "json",
 		datafields: [
 		{ name: 'id',type: 'number'},
+		{ name: 'resolucion_ministerial_id',type: 'number'},
+		{ name: 'resolucion',type: 'string'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'organigrama_id',type: 'string'},
 		{ name: 'depende_id',type: 'number'},
@@ -48,7 +50,7 @@ function cargar(){
 	};
 	var dataAdapter = new $.jqx.dataAdapter(source);
 	$("#jqxgrid").jqxGrid({
-		width: '91%',
+		width: '100%',
 		height: '100%',
 		source: dataAdapter,
 		sortable: true,
@@ -72,6 +74,7 @@ function cargar(){
                 	}
                 },
                 { text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
+                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',width: '10%' },
                 { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
@@ -115,10 +118,12 @@ $("#jqxgrid").bind('rowselect', function (event) {
 
 	/*****Edita cargo*******/
 	$("#id").val(dataRecord.id);
-	$("#organigrama_id").val(dataRecord.organigrama_id);
-	$('#organigrama_id').trigger("chosen:updated");
+	$("#resolucion_ministerial_id").val(dataRecord.resolucion_ministerial_id);
+	// $("#organigrama_id").val(dataRecord.organigrama_id);
+	// $('#organigrama_id').trigger("chosen:updated");
 	$("#fin_partida_id").val(dataRecord.fin_partida_id);
-	dependencia(dataRecord.depende_id);
+	select_organigrama(dataRecord.organigrama_id);
+	select_dependencia(dataRecord.depende_id);
 	$("#depende_id").val(dataRecord.depende_id);
 	$("#codigo_nivel").val(dataRecord.codigo_nivel);
 	$("#codigo").val(dataRecord.codigo);
@@ -219,7 +224,7 @@ $("#add_pac").click(function(){
 
 var listSource = [{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Item', value: 'codigo', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true}, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
 
-$("#jqxlistbox").jqxListBox({ source: listSource, width: '7%', height: 380,  checkboxes: true });
+$("#jqxlistbox").jqxListBox({ source: listSource,   checkboxes: true });
 $("#jqxlistbox").on('checkChange', function (event) {
 	$("#jqxgrid").jqxGrid('beginupdate');
 	if (event.args.checked) {
@@ -339,13 +344,24 @@ $("#codigo_nivel").change(function(){
 });
 
 /*************Select Dependiente*****************/
-$("#organigrama_id").change(function(){
-	dependencia('');
-        // var id = $("#organigrama_id").find(':selected').val();
-        // $("#depende_id").load('/cargos/dependencia/'+id);
-    });
+$("#resolucion_ministerial_id").change(function(){
+	select_organigrama('');
+	select_dependencia('');
+});
 
-function dependencia(depende_id){
+$("#organigrama_id").change(function(){
+	select_dependencia('');
+});
+
+select_organigrama('');
+
+function select_organigrama(resolucion_ministerial_id){
+	var id = $("#resolucion_ministerial_id").find(':selected').val();
+	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+resolucion_ministerial_id);
+
+}
+
+function select_dependencia(depende_id){
 	var id = $("#organigrama_id").find(':selected').val();
 	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
 
@@ -394,7 +410,7 @@ $('#testForm').validate({
 			url:'/cargos/save/',
 			type:'POST',
 			datatype: 'json',
-			data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
+			data:{id:$("#id").val(),resolucion_ministerial_id:$('#resolucion_ministerial_id').val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
 					success: function(data) { cargar(); //alert(data.msm); 
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
@@ -483,34 +499,30 @@ $('#exportar_pac_pdf').click(function(){
 	</div>
 </div>
 
+
+
 <div class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			
-			<div class="form-group form-actions">
-				<div class="col-xs-12">
-					<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+    <div class="col-lg-12">
+        <div class="pull-left">
+            <button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
 					<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
 					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
 					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copear Cargo</button>
 					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte</button>
-				</div>
-			</div>
-
-			<?php //echo $this->flashSession->output() ?>
-			<br>
-			<div class="table-responsive">
-				<div style="float: left;" id="jqxlistbox"></div>
-				<div style="margin-left: 15px; float: left;" id="jqxgrid"></div>
-			</div>
-			
-
-		</div>
-	</div>
-
-	
+        </div>
+    </div>
 </div>
+	
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-xs-12">
+        <div style="width: 100%; height: 350px;  " id="jqxgrid"></div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-xs-12">
+        <div style="width: 100%;" id="jqxlistbox"></div>
+    </div>
+
+</div>			
 
 <div class="row">
 	<div class="col-lg-12">
@@ -548,9 +560,17 @@ $('#exportar_pac_pdf').click(function(){
 
 				<input id="id" name="id" type="hidden" />
 				<div class="form-group">
+					<label class="col-md-4 control-label" >Resolución</label>
+					<div class="col-md-8">
+						<?php echo $resolucion_ministerial ?>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-md-4 control-label" >Organigrama</label>
 					<div class="col-md-8">
-						<?php echo $organigrama ?>
+						<?php // echo $organigrama ?>
+						<select name="organigrama_id" id="organigrama_id" class="form-control">
+						</select>
 					</div>
 				</div>
 				<div class="form-group">

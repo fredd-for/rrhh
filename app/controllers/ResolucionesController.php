@@ -64,10 +64,45 @@ class ResolucionesController extends ControllerBase
                     ->addJs('/js/jqwidgets/jqxnotification.js')
                     ->addJs('/js/jqwidgets/jqxbuttongroup.js')
                     ->addJs('/js/bootbox.js');
+
+        $uso_array = array(
+                "1" => "Estructura Organizacional",
+                "2"   => "Nivel Salarial",
+                "3"   => "Otros",
+                );
+
+        $uso = $this->tag->selectStatic(
+        array(
+            "uso",
+            $uso_array,
+            'useEmpty' => true,
+            'emptyText' => '(Selecionar)',
+            'emptyValue' => 0,
+            'class' => 'form-control',
+            )
+        );
+        $this->view->setVar('uso',$uso);
+
+        $activo = $this->tag->selectStatic(
+        array(
+            "activo",
+            array(0=>'NO',1=>'SI'),
+            'useEmpty' => false,
+            'emptyText' => '(Selecionar)',
+            'emptyValue' => 0,
+            'class' => 'form-control',
+            )
+        );
+        $this->view->setVar('activo',$activo);
 	}
 
 	public function listAction()
 	{
+		$uso_array = array(
+                1 => "Estructura Organizacional",
+                2   => "Nivel Salarial",
+                3   => "Otros"
+                );
 		$resul = Resoluciones::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
 		$this->view->disable();
 		foreach ($resul as $v) {
@@ -77,6 +112,9 @@ class ResolucionesController extends ControllerBase
 				'numero_res' => $v->numero_res,
 				'fecha_emi' => $v->fecha_emi,
 				'fecha_apr' => $v->fecha_apr,
+				'activo' => $v->activo,
+				'uso_string' => $uso_array[$v->uso],
+				'uso'=>$v->uso
 				);
 		}
 		echo json_encode($customers);
@@ -89,12 +127,18 @@ class ResolucionesController extends ControllerBase
 			$fecha_emi = date("Y-m-d",strtotime($_POST['fecha_emi']));
 			$fecha_apr = date("Y-m-d",strtotime($_POST['fecha_apr']));
 
+			if ($_POST['activo']==1) {
+				$model = new Resoluciones();
+				$resul = $model->desactivar();
+			}	
 			if ($_POST['id']>0) {
 				$resul = Resoluciones::findFirstById($_POST['id']);
 				$resul->tipo_resolucion = $_POST['tipo_resolucion'];
 				$resul->numero_res = $_POST['numero_res'];
 				$resul->fecha_emi = $fecha_emi;
 				$resul->fecha_apr = $fecha_apr;
+				$resul->activo = $_POST['activo'];
+				$resul->uso = $_POST['uso'];
 				if ($resul->save()) {
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
 				}else{
@@ -111,6 +155,8 @@ class ResolucionesController extends ControllerBase
 				$resul->gestion_res = date("Y");
 				$resul->fecha_emi = $fecha_emi;
 				$resul->fecha_apr = $fecha_apr;
+				$resul->activo = $_POST['activo'];
+				$resul->uso = $_POST['uso'];
 				//$resul->fecha_fin = $fecha_emi;
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
@@ -120,8 +166,10 @@ class ResolucionesController extends ControllerBase
 					$msm = array('msm' => 'Error: No se guardo el registro' );
 				}
 				
-		}	
-	}
+			}
+
+			
+		}
 	$this->view->disable();
 	echo json_encode($msm);
 }

@@ -8,7 +8,10 @@ $(document).ready(function () {
 				{ name: 'tipo_resolucion',type: 'string'},
 				{ name: 'numero_res',type: 'number'},
 				{ name: 'fecha_emi',type:'date',format: 'dd-MM-yyyy'},
-				{ name: 'fecha_apr',type:'date'}
+				{ name: 'fecha_apr',type:'date'},
+				{ name: 'activo',type:'number'},
+				{ name: 'uso_string',type:'string'},
+				{ name: 'uso',type:'number'}
 			],
 			url: '/resoluciones/list',
 			cache: false
@@ -39,7 +42,8 @@ $(document).ready(function () {
 				{ text: 'Tipo Resolucion', datafield: 'tipo_resolucion', filtertype: 'input',width: '45%' },
 				{ text: 'Nro Resolucion', datafield: 'numero_res',filtertype: 'input', width: '10%' },
 				{ text: 'Fecha Emision', datafield: 'fecha_emi', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
-				{ text: 'Fecha Aprobación', datafield: 'fecha_apr', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'}
+				{ text: 'Fecha Aprobación', datafield: 'fecha_apr', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+				{ text: 'Uso Especifico', datafield: 'uso_string',filtertype: 'input', width: '20%' },
 				]
 			});
 
@@ -50,6 +54,10 @@ $(document).ready(function () {
             	$("#id").val(dataRecord.id);
             	$("#tipo_resolucion").val(dataRecord.tipo_resolucion);
                 $("#numero_res").val(dataRecord.numero_res);
+                $("#uso").val(dataRecord.uso);
+                $("#activo").val(dataRecord.activo);
+                if (dataRecord.activo==1) {$("#activo_id").show();}else{$("#activo_id").hide();}
+
                 var fe = $.jqx.dataFormat.formatdate(dataRecord.fecha_emi, 'dd-MM-yyyy');
                 var fa = $.jqx.dataFormat.formatdate(dataRecord.fecha_apr, 'dd-MM-yyyy');
                 $("#fecha_emi").val(fe);
@@ -61,9 +69,12 @@ $(document).ready(function () {
             	$("#id").val("");
             	$("#tipo_resolucion").val("");
             	$("#numero_res").val("");
+            	$("#uso").val('0');
+                $("#activo").val('0');
             	$("#fecha_emi").val("");
             	$("#fecha_apr").val("");
             	$('#myModal').modal('show');
+            	$("#activo_id").hide();
             });
 
             $("#edit").click(function(){
@@ -92,6 +103,14 @@ $(document).ready(function () {
             		});
             	}else{
             		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+            	}
+            });
+
+            $("#uso").change(function(){
+            	if($("#uso").val()==1){
+            		$("#activo_id").show();
+            	}else{
+            		$("#activo_id").hide();
             	}
             });
 
@@ -125,7 +144,7 @@ $('#testForm').validate({
             	url:'/resoluciones/save/',
             	type:'POST',
             	datatype: 'json',
-            	data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
+            	data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),uso:$("#uso").val(),activo:$("#activo").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
 						success: function(data) { cargar(); //alert(data); 
 												}, //mostramos el error
 												error: function() { alert('Se ha producido un error Inesperado'); }
@@ -199,6 +218,18 @@ $('#testForm').validate({
 					<label class="col-md-3 control-label">Fecha Aprobación</label>
 					<div class="col-md-9">
 						<input type="text" id="fecha_apr" name="fecha_apr" class="form-control input-datepicker-close" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">Uso</label>
+					<div class="col-md-9">
+						<?php echo $uso ?>
+					</div>
+				</div>
+				<div class="form-group" id="activo_id">
+					<label class="col-md-3 control-label">Activo</label>
+					<div class="col-md-9">
+						<?php echo $activo ?>
 					</div>
 				</div>
 			</div>

@@ -150,6 +150,12 @@ class Organigramas extends \Phalcon\Mvc\Model
     public $color;
 
     /**
+     *
+     * @var integer
+     */
+    public $resolucion_ministerial_id;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -185,7 +191,8 @@ class Organigramas extends \Phalcon\Mvc\Model
             'visible' => 'visible',
             'codigo' => 'codigo',
             'asistente' => 'asistente',
-            'color' => 'color'
+            'color' => 'color',
+            'resolucion_ministerial_id' => 'resolucion_ministerial_id'
         );
     }
 

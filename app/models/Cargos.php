@@ -113,6 +113,12 @@ class Cargos extends \Phalcon\Mvc\Model
     public $jefe;
 
     /**
+     *
+     * @var integer
+     */
+    public $resolucion_ministerial_id;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -143,7 +149,8 @@ class Cargos extends \Phalcon\Mvc\Model
             'depende_id' => 'depende_id',
             'formacion_requerida' => 'formacion_requerida',
             'asistente' => 'asistente',
-            'jefe' => 'jefe'
+            'jefe' => 'jefe',
+            'resolucion_ministerial_id' => 'resolucion_ministerial_id'
         );
     }
 
@@ -177,18 +184,20 @@ class Cargos extends \Phalcon\Mvc\Model
 // LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
 // LEFT JOIN personas p ON r.persona_id=p.id
 // WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel ASC";
-        $sql="SELECT c.id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
+        $sql="SELECT c.id,c.resolucion_ministerial_id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
 c.depende_id,c.codigo,c.cargo,n.categoria,c.asistente,c.jefe,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
 CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci,
 f.partida,
 cp.gestion,cp.programa,cp.proyecto,cp.actividad,
 org.codigo as organismo_codigo,org.organismo,
-fu.codigo as fuente_codigo,fu.fuente
+fu.codigo as fuente_codigo,fu.fuente,
+CONCAT(re.tipo_resolucion,' ',re.numero_res) as resolucion
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN nivelsalariales n ON c.codigo_nivel = n.nivel AND n.activo=1 
 INNER JOIN finpartidas f ON c.fin_partida_id = f.id
 INNER JOIN condiciones co ON f.condicion_id = co.id
+INNER JOIN resoluciones re ON c.resolucion_ministerial_id = re.id
 LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
 LEFT JOIN personas p ON r.persona_id=p.id
 LEFT JOIN financiamientos fi ON fi.id=f.financiamiento_id

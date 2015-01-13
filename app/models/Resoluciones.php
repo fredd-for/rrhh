@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 
 class Resoluciones extends \Phalcon\Mvc\Model
 {
@@ -76,6 +77,18 @@ class Resoluciones extends \Phalcon\Mvc\Model
     public $baja_logica;
 
     /**
+     *
+     * @var integer
+     */
+    public $activo;
+
+    /**
+     *
+     * @var integer
+     */
+    public $uso;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -100,8 +113,16 @@ class Resoluciones extends \Phalcon\Mvc\Model
             'fecha_apr' => 'fecha_apr', 
             'fecha_fin' => 'fecha_fin', 
             'estado' => 'estado', 
-            'baja_logica' => 'baja_logica'
+            'baja_logica' => 'baja_logica',
+            'activo' => 'activo',
+            'uso' => 'uso'
         );
     }
 
+    private $_db;
+    public function desactivar() {
+        $sql = "UPDATE resoluciones SET activo=0";
+        $this->_db = new Resoluciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }
