@@ -73,20 +73,19 @@ function cargar(){
                 		return "<div style='margin:3px;'>" + (value + 1) + "</div>";
                 	}
                 },
-                { text: 'Nro', datafield: 'id',filtertype: 'input', width: '5%', hidden: true},
-                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',width: '10%' },
+                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',width: '15%' },
                 { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
                 { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-                { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '5%', cellsalign: 'right', align: 'right'},
+                { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '8%', cellsalign: 'right', align: 'right'},
                 { text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
-                { text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '5%' },
+                { text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '10%' },
 
                 { text: 'Partida', datafield: 'partida', filtertype: 'number',width: '5%' },
-                { text: 'Fuente Codigo', datafield: 'fuente_codigo', filtertype: 'number',width: '5%' },
+                { text: 'Fuente Codigo', datafield: 'fuente_codigo', filtertype: 'number',width: '10%' },
                 { text: 'Fuente', datafield: 'fuente', filtertype: 'input',width: '10%', hidden: true},
-                { text: 'Organismo Codigo', datafield: 'organismo_codigo', filtertype: 'number',width: '5%' },
+                { text: 'Organismo Codigo', datafield: 'organismo_codigo', filtertype: 'number',width: '10%' },
                 { text: 'Organismo', datafield: 'organismo', filtertype: 'input',width: '10%', hidden: true},
       ]
   });
@@ -121,9 +120,10 @@ $("#jqxgrid").bind('rowselect', function (event) {
 	$("#resolucion_ministerial_id").val(dataRecord.resolucion_ministerial_id);
 	// $("#organigrama_id").val(dataRecord.organigrama_id);
 	// $('#organigrama_id').trigger("chosen:updated");
-	$("#fin_partida_id").val(dataRecord.fin_partida_id);
+	// $("#fin_partida_id").val(dataRecord.fin_partida_id);
 	select_organigrama(dataRecord.organigrama_id);
 	select_dependencia(dataRecord.depende_id);
+	select_fuentefinanciamiento(dataRecord.fin_partida_id);
 	$("#depende_id").val(dataRecord.depende_id);
 	$("#codigo_nivel").val(dataRecord.codigo_nivel);
 	$("#codigo").val(dataRecord.codigo);
@@ -347,6 +347,7 @@ $("#codigo_nivel").change(function(){
 $("#resolucion_ministerial_id").change(function(){
 	select_organigrama('');
 	select_dependencia('');
+	select_fuentefinanciamiento('');
 });
 
 $("#organigrama_id").change(function(){
@@ -354,16 +355,23 @@ $("#organigrama_id").change(function(){
 });
 
 select_organigrama('');
+select_fuentefinanciamiento('');
 
-function select_organigrama(resolucion_ministerial_id){
+function select_organigrama(organigrama_id){
 	var id = $("#resolucion_ministerial_id").find(':selected').val();
-	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+resolucion_ministerial_id);
+	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+organigrama_id);
 
 }
 
 function select_dependencia(depende_id){
 	var id = $("#organigrama_id").find(':selected').val();
 	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
+
+}
+
+function select_fuentefinanciamiento(fin_partida_id){
+	var id = $("#resolucion_ministerial_id").find(':selected').val();
+	$("#fin_partida_id").load('/cargos/select_fuentefinanciamiento/'+id+'/'+fin_partida_id);
 
 }
 
@@ -386,9 +394,9 @@ $('#testForm').validate({
 		codigo_nivel: {
 			required: true,
 		},
-		codigo: {
-			required: true,
-		},
+		// codigo: {
+		// 	required: true,
+		// },
 		cargo: {
 			required: true
 		},
@@ -581,7 +589,7 @@ $('#exportar_pac_pdf').click(function(){
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-4 control-label" >Nivel Salarial</label>
+					<label class="col-md-4 control-label" >Escala Salarial</label>
 					<div class="col-md-8">
 						<?php echo $nivelsalarial; ?>
 					</div>
@@ -593,9 +601,17 @@ $('#exportar_pac_pdf').click(function(){
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-md-4 control-label" >Fuente Financiamiento</label>
+					<div class="col-md-8">
+						<?php //echo $finpartida; ?>
+						<select name="fin_partida_id" id="fin_partida_id" class="form-control">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-md-4 control-label" >Item / Codigo</label>
 					<div class="col-md-8">
-						<input id="codigo" name="codigo" type="text" class="form-control" placeholder='Nro item, nro contrato para eventuales y consultorias'/>
+						<input id="codigo" name="codigo" type="text" class="form-control" placeholder='Nro item'/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -618,12 +634,7 @@ $('#exportar_pac_pdf').click(function(){
 						<input type="radio" name="asistente" id="asistente0" value="0" checked="checked"/> No
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-md-4 control-label" >Fuente Financiamiento</label>
-					<div class="col-md-8">
-						<?php echo $finpartida; ?>
-					</div>
-				</div>
+				
 				<div class="form-group">
 					<label class="col-md-4 control-label" >Formación y Experiencia Laboral</label>
 					<div class="col-md-8">

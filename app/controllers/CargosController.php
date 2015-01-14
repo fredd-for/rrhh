@@ -112,8 +112,9 @@ class CargosController extends ControllerBase
 		$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
-				Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "denominacion"),
+				Nivelsalariales::find(array('baja_logica=1',"order"=>"id ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname")),
+				//Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
+				'using' => array('id', "fullname"),
 				'useEmpty' => tue,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
@@ -145,8 +146,8 @@ class CargosController extends ControllerBase
         $resolucion_ministerial = $this->tag->select(
 			array(
 				'resolucion_ministerial_id',
-				Resoluciones::find(array('uso=1 and baja_logica=1',"order"=>"id ASC","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
-				'using' => array('id', "fullname"),
+				Resoluciones::find(array('uso=1 and baja_logica=1',"order"=>"id ASC")),
+				'using' => array('id', "tipo_resolucion"),
 				'useEmpty' => FALSE,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
@@ -181,7 +182,7 @@ public function listAction()
 		$customers[] = array(
 			'id' => $v->id,
 			'resolucion_ministerial_id' => $v->resolucion_ministerial_id,
-			'resolucion' => $v->resolucion,
+			'resolucion' => $v->tipo_resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
 			'codigo_nivel' => $v->codigo_nivel,
@@ -581,13 +582,7 @@ public function exportarPacPdfAction()
  */
 	public function select_organigramaAction($id='',$organigrama_id='')
 	{
-		
-		
-		// $model = new Cargos();
-		// $resul = $model->dependientes($id);
 		$resul = Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$id,'order' => 'unidad_administrativa ASC'));
-
-		
 		$this->view->disable();
 		$options = '<option value="">(Seleccionar)</option>';
 		foreach ($resul as $v) {
@@ -600,6 +595,29 @@ public function exportarPacPdfAction()
 		}
     
         
+	echo $options; 
+	}
+
+
+	public function select_fuentefinanciamientoAction($id='',$fin_partida_id='')
+	{
+		if ($id>16) {
+			$resul = Finpartidas::find(array('baja_logica=1 and agrupador=1','order' => 'id ASC'));	
+		}else{
+			$resul = Finpartidas::find(array('baja_logica=1 and agrupador=0','order' => 'id ASC'));	
+		}
+
+		
+		$this->view->disable();
+		$options = '<option value="">(Seleccionar)</option>';
+		foreach ($resul as $v) {
+			$checked='';
+			if($fin_partida_id==$v->id)
+			{
+				$checked='selected=selected';
+			}				
+			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->denominacion.'</option>';
+		}
 	echo $options; 
 	}
 

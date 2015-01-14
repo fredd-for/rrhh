@@ -67,7 +67,7 @@ class ResolucionesController extends ControllerBase
 
         $uso_array = array(
                 "1" => "Estructura Organizacional",
-                "2"   => "Nivel Salarial",
+                "2"   => "Escala Salarial",
                 "3"   => "Otros",
                 );
 
@@ -100,7 +100,7 @@ class ResolucionesController extends ControllerBase
 	{
 		$uso_array = array(
                 1 => "Estructura Organizacional",
-                2   => "Nivel Salarial",
+                2   => "Escala Salarial",
                 3   => "Otros"
                 );
 		$resul = Resoluciones::find(array('baja_logica=:activo1:','bind'=>array('activo1'=>'1'),'order' => 'id ASC'));
@@ -109,7 +109,7 @@ class ResolucionesController extends ControllerBase
 			$customers[] = array(
 				'id' => $v->id,
 				'tipo_resolucion' => $v->tipo_resolucion,
-				'numero_res' => $v->numero_res,
+				//'numero_res' => $v->numero_res,
 				'fecha_emi' => $v->fecha_emi,
 				'fecha_apr' => $v->fecha_apr,
 				'activo' => $v->activo,
@@ -126,6 +126,7 @@ class ResolucionesController extends ControllerBase
 
 			$fecha_emi = date("Y-m-d",strtotime($_POST['fecha_emi']));
 			$fecha_apr = date("Y-m-d",strtotime($_POST['fecha_apr']));
+			$auth = $this->session->get('auth');
 
 			if ($_POST['activo']==1) {
 				$model = new Resoluciones();
@@ -134,7 +135,7 @@ class ResolucionesController extends ControllerBase
 			if ($_POST['id']>0) {
 				$resul = Resoluciones::findFirstById($_POST['id']);
 				$resul->tipo_resolucion = $_POST['tipo_resolucion'];
-				$resul->numero_res = $_POST['numero_res'];
+				$resul->numero_res =0; // $_POST['numero_res'];
 				$resul->fecha_emi = $fecha_emi;
 				$resul->fecha_apr = $fecha_apr;
 				$resul->activo = $_POST['activo'];
@@ -148,7 +149,7 @@ class ResolucionesController extends ControllerBase
 			else{
 				$resul = new Resoluciones();
 				$resul->tipo_resolucion = $_POST['tipo_resolucion'];
-				$resul->numero_res = $_POST['numero_res'];
+				$resul->numero_res = 0; // $_POST['numero_res'];
 				$resul->institucion_sector_id = 1;
 				$resul->institucion_rectora_id = 2;
 				//$resul->instituciones_otras = "otra";
@@ -161,6 +162,29 @@ class ResolucionesController extends ControllerBase
 				$resul->estado = 1;
 				$resul->baja_logica = 1;
 				if ($resul->save()) {
+					$organigrama = Organigramas::findFirstById('1');
+					
+					$resul2 = new Organigramas();
+					$resul2->padre_id = 0;
+					$resul2->gestion = date("Y");
+					$resul2->da_id = $organigrama->da_id;
+					$resul2->regional_id = 1;
+					$resul2->unidad_administrativa = $organigrama->unidad_administrativa;
+					$resul2->nivel_estructural_id = $organigrama->nivel_estructural_id;
+					$resul2->sigla = $organigrama->sigla;
+					$resul2->fecha_ini = date("Y-m-d");
+					$resul2->fecha_fin = date("Y-m-d");
+					$resul2->codigo = $organigrama->codigo;
+					$resul2->estado = 1;
+					$resul2->baja_logica = 1;
+					$resul2->user_reg_id = $auth['id'];
+					$resul2->visible = 1;
+					$resul2->fecha_reg = date("Y-m-d H:i:s");
+					$resul2->area_sustantiva = $organigrama->area_sustantiva;
+					$resul2->asistente = $organigrama->asistente;
+					$resul2->color = $organigrama->color;
+					$resul2->resolucion_ministerial_id = $resul->id;
+					$resul2->save();
 					$msm = array('msm' => 'Exito: Se guardo correctamente' );
 				}else{
 					$msm = array('msm' => 'Error: No se guardo el registro' );

@@ -11,15 +11,25 @@ class OrganigramasController extends ControllerBase
 
 	public function indexAction($resolucion_ministerial_id=0)
 	{
-		
-		$resolucion_ministerial = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
 		if ($resolucion_ministerial_id!=0) {
 			$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial_id));
 			$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
 		}else{
-			$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial->id));
-			$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
-                        $resolucion_ministerial_id=$resolucion_ministerial->id;
+
+			$resolucion_ministerial = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+			if ($resolucion_ministerial!=FALSE) {
+				$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial->id));	
+				$resolucion_ministerial_id=$resolucion_ministerial->id;
+				$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
+			}else{
+				$resolucion_ministerial = Resoluciones::findFirst(array("uso=1 and baja_logica=1", 'order'=>' id DESC', 'limit'=>'1'));
+				
+					$organigrama=  Organigramas::findFirst(array("padre_id = '0' and baja_logica = 1 and resolucion_ministerial_id=".$resolucion_ministerial->id));	
+					$resolucion_ministerial_id=$resolucion_ministerial->id;
+					$this->listar($organigrama->id,$organigrama->unidad_administrativa, $organigrama->sigla,$organigrama->resolucion_ministerial_id);
+				
+			}
+                        
 		}
 
 			
@@ -44,8 +54,8 @@ class OrganigramasController extends ControllerBase
         $resolucion_ministerial = $this->tag->select(
 			array(
 				'resolucion_ministerial_id',
-				Resoluciones::find(array('baja_logica=1 and uso =1',"order"=>"id ASC","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
-				'using' => array('id', "fullname"),
+				Resoluciones::find(array('baja_logica=1 and uso =1',"order"=>"id ASC")),
+				'using' => array('id', "tipo_resolucion"),
 				'useEmpty' => FALSE,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
@@ -301,9 +311,10 @@ class OrganigramasController extends ControllerBase
 
 	public function personalAction($organigrama_id)
 	{
-		//$model=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and depende_id='0' and baja_logica='1'" ));
+ 		$primer_dependiente=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and baja_logica='1'",'order'=>'id ASC','limit'=> 1 ));
+
 		$model=  new Cargos();
-		$cargo = $model->listPersonal($organigrama_id,0);
+		$cargo = $model->listPersonal($organigrama_id,$primer_dependiente->depende_id);
 		$cont = count($cargo);
 		if ($cont>0) {
 			foreach ($cargo as $v) {

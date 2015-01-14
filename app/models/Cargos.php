@@ -191,7 +191,7 @@ f.partida,
 cp.gestion,cp.programa,cp.proyecto,cp.actividad,
 org.codigo as organismo_codigo,org.organismo,
 fu.codigo as fuente_codigo,fu.fuente,
-CONCAT(re.tipo_resolucion,' ',re.numero_res) as resolucion
+re.tipo_resolucion
 FROM cargos c 
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN nivelsalariales n ON c.codigo_nivel = n.nivel AND n.activo=1 

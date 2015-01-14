@@ -68,8 +68,9 @@ class NivelsalarialesController extends ControllerBase
 		$resolucion = $this->tag->select(
 			array(
 				'resolucion_id',
-				Resoluciones::find(array('baja_logica=1',"order"=>"tipo_resolucion","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
-				'using' => array('id', "fullname"),
+				//Resoluciones::find(array('baja_logica=1',"order"=>"tipo_resolucion","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
+				Resoluciones::find(array('baja_logica=1 and uso=2',"order"=>"tipo_resolucion")),
+				'using' => array('id', "tipo_resolucion"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
