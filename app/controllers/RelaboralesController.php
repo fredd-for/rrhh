@@ -421,7 +421,7 @@ class RelaboralesController extends ControllerBase
                 /**
                  * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
                  */
-                if ($id_condicion == 2 || $id_condicion == 3) {
+                if ($id_condicion == 2 || $id_condicion == 3||$id_condicion==7) {
                     $fecha_fin = $date3->format('Y-m-d');
                 } else {
                     $fecha_fin = $objRelaboral->fecha_fin;
@@ -602,7 +602,7 @@ class RelaboralesController extends ControllerBase
                     /**
                      * Si la condición es consultoría se debe considerar la fecha enviada en el formulario.
                      */
-                    if ($id_condicion == 2 || $id_condicion == 3) {
+                    if ($id_condicion == 2 || $id_condicion == 3||$id_condicion==7) {
                         $fecha_fin = $date3->format('Y-m-d');
                     }
                     if ($id_persona > 0 && $id_cargo > 0) {
@@ -1077,9 +1077,12 @@ class RelaboralesController extends ControllerBase
                         'id_cargo' => $v->id_cargo,
                         'cargo_codigo' => $v->cargo_codigo,
                         'cargo' => $v->cargo,
+                        'cargo_resolucion_ministerial_id' => $v->cargo_resolucion_ministerial_id,
+                        'cargo_resolucion_ministerial' => $v->cargo_resolucion_ministerial,
                         'id_nivelessalarial' => $v->id_nivelessalarial,
                         'nivelsalarial' => $v->nivelsalarial,
                         'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
+                        'nivelsalarial_resolucion' => $v->nivelsalarial_resolucion,
                         'numero_escala' => $v->numero_escala,
                         'gestion_escala' => $v->gestion_escala,
                         'sueldo' => $v->sueldo,
@@ -1092,6 +1095,7 @@ class RelaboralesController extends ControllerBase
                         'fin_partida' => $v->fin_partida,
                         'id_condicion' => $v->id_condicion,
                         'condicion' => $v->condicion,
+                        'tiene_item' => $v->tiene_item,
                         'categoria_relaboral' => $v->categoria_relaboral,
                         'id_da' => $v->id_da,
                         'direccion_administrativa' => $v->direccion_administrativa,
@@ -1616,7 +1620,7 @@ class RelaboralesController extends ControllerBase
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllWithPersonsOneRecord($where, $groups);
+            $resul = $obj->getAllWithPersons($where, $groups);
 
             $relaboral = array();
             foreach ($resul as $v) {
@@ -2156,7 +2160,7 @@ class RelaboralesController extends ControllerBase
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllWithPersonsOneRecord($where, $groups);
+            $resul = $obj->getAllWithPersons($where, $groups);
 
             $relaboral = array();
             foreach ($resul as $v) {

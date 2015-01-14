@@ -29,7 +29,9 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
             { name: 'asistente', type: 'integer' },
             { name: 'jefe', type: 'integer' },
             { name: 'id_resolucion_ministerial', type: 'integer' },
-            { name: 'resolucion_ministerial', type: 'string' }
+            { name: 'resolucion_ministerial', type: 'string' },
+            { name: 'nivelsalarial_resolucion_id', type: 'integer' },
+            { name: 'nivelsalarial_resolucion', type: 'string' }
         ],
         url: '/relaborales/listcargos',
         cache: false
@@ -63,18 +65,19 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
                         editrow = row;
                         var offset = $("#divGrillaParaSeleccionarCargo").offset();
                         var dataRecord = $("#divGrillaParaSeleccionarCargo").jqxGrid('getrowdata', editrow);
-                        agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_resolucion_ministerial,dataRecord.resolucion_ministerial,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
+                        agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_resolucion_ministerial,dataRecord.resolucion_ministerial,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo,dataRecord.nivelsalarial_resolucion_id,dataRecord.nivelsalarial_resolucion);
                         }
                     },
-                    { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', width: 100},
+                    { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', cellsalign: 'center',align: 'center',width: 100},
                     /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
-                    { text: 'Resoluci&oacute;n', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', width: 100},
-                    { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', width: 100},
-                    { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', width: 150},
-                    { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', width: 150},
-                    { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', width: 150},
-                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', width: 150 },
-                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', width: 150},
+                    { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 300},
+                    { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', align: 'center',width: 100},
+                    { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 400},
+                    { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', align: 'center',width: 300},
+                    { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', align: 'center',width: 200},
+                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 400 },
+                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',width: 150},
+                    { text: 'Resoluci&oacute;n Escala', filtertype: 'checkedlist', datafield: 'nivelsalarial_resolucion', align: 'center',width: 300},
                 ]
             });
     }
@@ -195,11 +198,11 @@ function defineFechas(){
  * @param cargo Nombre del cargo.
  * @param haber Haber mensual para el cargo.
  */
-function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finpartida,id_resolucion_ministerial,resolucion_ministerial,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
+function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finpartida,id_resolucion_ministerial,resolucion_ministerial,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber,nivelsalarial_resolucion_id,nivelsalarial_resolucion){
     $("#tr_cargo_seleccionado").html("");
     var btnDescartar = "<td  class='text-center'><a class='btn btn-danger btnDescartarCargoSeleccionado' title='Descartar cargo seleccionado.' data-toggle='tooltip' data-original-title='Descartar' id='btn_"+id_cargo+"' alt='Descartar cargo para el contrato'>";
     btnDescartar += "<i class='fa fa-times'></i></a></td>";
-    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+resolucion_ministerial+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+
+    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+resolucion_ministerial+"</td><td class='text-center'>"+nivelsalarial_resolucion+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+
         "</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td  class='text-right'>"+haber+"</td>";
     $("#tr_cargo_seleccionado").append(btnDescartar+grilla);
     $("#hdnIdCargoNuevoSeleccionado").val(id_cargo);
@@ -211,9 +214,9 @@ function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finparti
     $("#popupWindowCargo").jqxWindow('close');
     id_condicion = parseInt(id_condicion);
     /**
-     * Un número de contrato es requerido si es eventual o consultor
+     * Un número de contrato es requerido si es eventual o consultor o contrato a plazo fijo.
      */
-    if(id_condicion==2||id_condicion==3){
+    if(id_condicion==2||id_condicion==3||id_condicion==7){
         $("#divNumContratos").show();
         if(!okArea)$("#txtNumContrato").focus();
         else $("#lstAreas").focus();
@@ -280,7 +283,7 @@ function validaFormularioPorNuevoRegistro(){
     /**
      * Sólo para el caso de condición consultor será necesario registrar la fecha de finalización
      */
-    if(id_condicion==2||id_condicion==3){
+    if(id_condicion==2||id_condicion==3||id_condicion==7){
         var fechaFin = $("#FechaFin").jqxDateTimeInput('getText');
     }
     var idCargo = $("#hdnIdCargoNuevoSeleccionado").val();
@@ -316,7 +319,7 @@ function validaFormularioPorNuevoRegistro(){
         $("#helpErrorFechasIncor").html(msje);
         if(enfoque==null)enfoque =$("#FechaIni");
     }
-    if(id_condicion==2||id_condicion==3){
+    if(id_condicion==2||id_condicion==3||id_condicion==7){
         if(fechaFin==""||fechaFin==null){
             ok=false;
             msje = "Debe introducir la fecha de finalizaci&oacute;n del contrato.";
@@ -352,7 +355,7 @@ function validaFormularioPorNuevoRegistro(){
     /**
      * Se procede al control del número de contrato para personal eventual y consultor de línea.
      */
-    if(id_condicion==2||id_condicion==3){
+    if(id_condicion==2||id_condicion==3||id_condicion==7){
         if($("#txtNumContrato").val()==null||$("#txtNumContrato").val()==""){
             ok=false;
             msje = "Debe introducir en n&uacute;mero de contrato necesariamente.";

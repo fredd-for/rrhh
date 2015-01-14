@@ -26,12 +26,16 @@ function cargarMotivosBajas(idMotivoBajaPredeterminada,idCondicion){
                 $.each( res, function( key, val ) {
                     switch (idCondicion){
                         case 1:
+                        case 4:
+                        case 5:
+                        case 6:
                             if(val.permanente==1){
                                 if(idMotivoBajaPredeterminada==val.id){$selected='selected';}else{ $selected='';}
                                 $('#lstMotivosBajas').append("<option value='"+val.id+"_"+val.fecha_ren+"_"+val.fecha_acepta_ren+"_"+val.fecha_agra_serv+"' "+$selected+">"+val.motivo_baja+"</option>");
                             }
                             break;
                         case 2:
+                        case 7:
                             if(val.eventual==1){
                                 if(idMotivoBajaPredeterminada==val.id){$selected='selected';}else{ $selected='';}
                                 $('#lstMotivosBajas').append("<option value='"+val.id+"_"+val.fecha_ren+"_"+val.fecha_acepta_ren+"_"+val.fecha_agra_serv+"'  optFechaRen='"+val.fecha_ren+"' optFechaAceptaRen='"+val.fecha_acepta_ren+"' optFechaAgraServ='"+val.fecha_ren+"' "+$selected+">"+val.motivo_baja+"</option>");
@@ -89,6 +93,8 @@ function defineFechasBajas(fecha_ren,fecha_acepta_ren,fecha_agra_Serv){
  * Función para agregar un cargo registrado a la grilla correspondiente para determinar donde trabajará la persona.
  * @param id_cargo Identificador del cargo.
  * @param codigo Código del cargo seleccionado.
+ * @param cargo_resolucion_ministerial_id
+ * @param cargo_resolucion_ministerial
  * @param finpartida Financiamiento por partida.
  * @param condicion Condición de contrato / relación laboral.
  * @param gerencia_administrativa Gerencia Administrativa a la cual corresponde el cargo.
@@ -96,11 +102,13 @@ function defineFechasBajas(fecha_ren,fecha_acepta_ren,fecha_agra_Serv){
  * @param nivelsalarial Nivel salarial correspondiente para el cargo.
  * @param cargo Nombre del cargo.
  * @param haber Haber mensual para el cargo.
+ * @param nivelsalarial_resolucion_id
+ * @param nivelsalarial_resolucion
  */
-function agregarCargoSeleccionadoEnGrillaParaBaja(id_cargo,codigo,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
+function agregarCargoSeleccionadoEnGrillaParaBaja(id_cargo,codigo,cargo_resolucion_ministerial_id,cargo_resolucion_ministerial,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber,nivelsalarial_resolucion_id,nivelsalarial_resolucion){
     $("#tr_cargo_seleccionado").html("");
     $("#tr_cargo_seleccionado_editar").html("");
-    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+"</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td class='text-center'>"+haber+"</td>";
+    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+cargo_resolucion_ministerial+"</td><td class='text-center'>"+nivelsalarial_resolucion+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+"</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td class='text-center'>"+haber+"</td>";
     $("#tr_cargo_seleccionado_baja").append(grilla);
     $("#hdnIdCargoSeleccionadoBaja").val(id_cargo);
     $("#hdnIdCondicionSeleccionadaBaja").val(id_condicion);
@@ -283,7 +291,7 @@ function guardarRegistroBaja(){
     var observacion = $("#txtObservacionesBaja").val();
     if(idRelaboral>0&&idMotivoBaja>0&&fechaBaja!=""){
         var ok=$.ajax({
-            url:'../../relaborales/down/',
+            url:'/relaborales/down/',
             type:'POST',
             datatype: 'json',
             async:false,

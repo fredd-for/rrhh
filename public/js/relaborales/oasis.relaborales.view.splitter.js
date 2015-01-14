@@ -138,12 +138,17 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     if (val.departamento_administrativo != "")historial += "<dt id='dtDepartamento_" + val.id_relaboral + "'>Departamento:</dt><dd id='ddDepartamento_" + val.id_relaboral + "'>" + val.departamento_administrativo + "</dd>";
                     if(val.id_area>0)historial += "<dt id='dtArea_" + val.id_relaboral + "'>&Aacute;rea:</dt><dd id='ddArea_" + val.id_relaboral + "'>" + val.area + "</dd>";
                     historial += "<dt id='dtUbicacion_" + val.id_relaboral + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacion_" + val.id_relaboral + "'>" + val.ubicacion + "</dd>";
-                    switch (val.condicion){
-                        case 'PERMANENTE':
+                    switch (val.tiene_item){
+                        /*case 'PERMANENTE':
+                        case 'CONTRATO INDEFINIDO':
+                        case 'DESIGNACION':
+                        case 'LIBRENOMBRAMIENTO':*/
+                        case 1:
                             historial += "<dt id='dtItem_" + val.id_relaboral + "'>&Iacute;tem:</dt><dd id='ddItem_" + val.id_relaboral + "'>" + val.cargo_codigo + "</dd>";
                             break;
-                        case 'EVENTUAL':
-                        case 'CONSULTOR':
+                        /*case 'EVENTUAL':
+                        case 'CONSULTOR':*/
+                        case 0:
                             var numContrato = '&nbsp;';
                             if(val.num_contrato!=null)numContrato = val.num_contrato;
                             historial += "<dt id='dtNumContrato_" + val.id_relaboral + "'>Nro. de Contrato:</dt><dd id='ddNumContrato_" + val.id_relaboral + "'>" + numContrato + "</dd>";
@@ -154,12 +159,17 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtHaber_" + val.id_relaboral + "'>Haber:</dt><dd id='ddHaber_" + val.id_relaboral + "'>" + val.sueldo + "</dd>";
                     historial += "<dt id='dtFechaIni_" + val.id_relaboral + "'>Fecha Inicio:</dt><dd id='ddFechaIni_" + val.id_relaboral + "'>" + val.fecha_ini + "</dd>";
                     historial += "<dt id='dtFechaIncor_" + val.id_relaboral + "'>Fecha Incor:</dt><dd id='ddFechaIncor_" + val.id_relaboral + "'>" + val.fecha_incor + "</dd>";
-                    switch (val.condicion){
-                        case 'PERMANENTE':break;
+                    switch (val.tiene_item){
+                         case 1:break;
+                         case 0:
+                         historial += "<dt id='dtFechaFin_" + val.id_relaboral + "'>Fecha Fin:</dt><dd id='ddFechaFin_" + val.id_relaboral + "'>" + val.fecha_fin + "</dd>";
+                         break;
+
+                        /*case 'PERMANENTE':break;
                         case 'EVENTUAL':
                         case 'CONSULTOR':
                             historial += "<dt id='dtFechaFin_" + val.id_relaboral + "'>Fecha Fin:</dt><dd id='ddFechaFin_" + val.id_relaboral + "'>" + val.fecha_fin + "</dd>";
-                            break;
+                            break;*/
                     }
                     if(val.estado == 0){
                         historial += "<dt id='dtFechaBaja_" + val.id_relaboral + "'>Fecha Baja:</dt><dd id='ddFechaBaja_" + val.id_relaboral + "'>" + val.fecha_baja + "</dd>";

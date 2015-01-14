@@ -71,6 +71,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $fin_partida;
     public $id_condicion;
     public $condicion;
+    public $tiene_item;
     public $categoria_relaboral;
     public $id_da;
     public $direccion_administrativa;
@@ -197,6 +198,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             'fin_partida'=>'fin_partida',
             'id_condicion'=>'id_condicion',
             'condicion'=>'condicion',
+            'tiene_item'=>'tiene_item',
             'categoria_relaboral'=>'categoria_relaboral',
             'id_da'=>'id_da',
             'direccion_administrativa'=>'direccion_administrativa',
