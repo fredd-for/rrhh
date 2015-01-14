@@ -308,9 +308,6 @@
             <div class="block block-alt-noborder full">
                 <div class="row">
                     <div class="col-md-2">
-                        <!--<div class="block-section">
-                            <button type="submit" id="add-event-btn" class="btn btn-primary">Asignar Tolerancia</button>
-                        </div>-->
                         <div class="block-section">
                             <div class="block-section text-center text-muted">
                                 <small><em><i class="fa fa-arrows"></i> Arrastre y suelte horarios en el calendario</em></small>
@@ -321,7 +318,7 @@
                         <h6>Tipo de Tolerancia:</h6>
                         <select id="lstTolerancias" class="form-control"></select>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <div id="calendar"></div><br>
                         <div id="divDatosTolerancia">
                             <table id="tblGrillaTolerancia" class="table table-vcenter table-condensed table-bordered">
@@ -341,7 +338,75 @@
                             </table>
                         </div>
                     </div>
-
+                    <div class="col-md-2">
+                        <div class="block-section">
+                            <div class="block-section text-center text-muted">
+                                <small><em><i class="fa fa-plus-square"></i> Total de horas por semana en el mes</em></small>
+                            </div>
+                            <div id="divSumaHorasPorSemana">
+                            <table class="fc-border-separate" style="width:100%" cellspacing="0">
+                            <thead>
+                            <tr class="fc-first fc-last">
+                                <th style="width: 87px;"
+                                    class="fc-day-header fc-widget-header fc-first fc-last">Total
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="fc-week fc-first">
+                                <td class="fc-day fc-mon fc-widget-content fc-other-month fc-future fc-first  fc-last">
+                                    <div style="min-height: 67px;">
+                                        <div class="fc-day-number"><span id="spSumaSemana1" class="spSumaSemana">0</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week">
+                                <td class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last"
+                                    data-date="2015-02-02">
+                                    <div style="min-height: 66px;">
+                                        <div class="fc-day-number"><span id="spSumaSemana2" class="spSumaSemana">0</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week">
+                                <td class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last"
+                                    data-date="2015-02-09">
+                                    <div style="min-height: 66px;">
+                                        <div class="fc-day-number"><span id="spSumaSemana3" class="spSumaSemana">0</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week">
+                                <td class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last"
+                                    data-date="2015-02-16">
+                                    <div style="min-height: 66px;">
+                                        <div class="fc-day-number"><span id="4">12</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week">
+                                <td class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last"
+                                    data-date="2015-02-23">
+                                    <div style="min-height: 66px;">
+                                        <div class="fc-day-number"><span id="spSumaSemana5" class="spSumaSemana">0</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week fc-last">
+                                <td class="fc-day fc-mon fc-widget-content fc-other-month fc-future fc-first fc-last"
+                                    data-date="2015-03-02">
+                                    <div style="min-height: 69px;">
+                                        <div class="fc-day-number"><span id="spSumaSemana6" class="spSumaSemana">0</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+                    </div>
+                    </div>
+                    </div>
+                    <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
+                    <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
                     <input type="hidden" id="hdnIdTolerancia" value="0">
                     <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
                     <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
@@ -392,7 +457,7 @@
             <div>
                 <fieldset>
                     <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n del Horario</legend><div class="row div-calendario-laboral" id="divNombreHorario">
-                        <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre:</label>
+                        <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre Horario:</label>
                         <div class="col-md-6" form-group>
                             <input type="text" id="txtNombreHorario" class="form-control" readonly>
                         </div>
@@ -411,19 +476,23 @@
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend><i class="fa fa-angle-right"></i> Horario Marcaci&oacute;n V&aacute;lida</legend>
+                    <legend><i class="fa fa-angle-right"></i> Horario Entrada / Salida</legend>
                     <div class="form-group">
                         <div class="div-calendario-laboral" id="divHoraEntHorario">
-                            <label class="col-sm-3 control-label" for="txtHoraEntHorario">Entrada:</label>
-                            <div class="col-md-3"  form-group>
+                            <label class="col-sm-2 control-label" for="txtHoraEntHorario">Entrada:</label>
+                            <div class="col-md-2"  form-group>
                                 <input id="txtHoraEntHorario" name="txtHoraEntHorario" placeholder="Hora de entrada." class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="div-calendario-laboral" id="divHoraSalHorario">
-                            <label class="col-sm-3 control-label" for="txtHoraSalHorario">Salida:</label>
-                            <div class="col-md-3"  form-group>
+                            <label class="col-sm-2 control-label" for="txtHoraSalHorario">Salida:</label>
+                            <div class="col-md-2"  form-group>
                                 <input id="txtHoraSalHorario" name="txtHoraSalHorario" class="form-control" type="text" readonly>
                             </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="txtHorasLaborales">Horas Laborales:</label>
+                        <div class="col-md-2">
+                            <input id="txtHorasLaborales" name="txtHorasLaborales" placeholder="Horas Laborales." type="text" class="form-control" readonly>
                         </div>
                     </div>
                 </fieldset>

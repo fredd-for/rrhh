@@ -100,8 +100,33 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             defaultMes = arrFechaIni[0].mes-1;
                             defaultGestion = arrFechaIni[0].gestion;
                         }
+                        var arrHorariosPreviosRegistrados = [];
+                        var arrHorariosSiguientesRegistrados = [];
+                        /**
+                         * Se establecen los rangos para las fechas
+                         */
+                        $("#hdnFechaIniParaCalendario").val(arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion);
+                        if(tipoHorario==3){
+                            var fechaFin = obtenerUltimoDiaMes(arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion);
+                            $("#hdnFechaFinParaCalendario").val(fechaFin);
+                            var dafaultFechaInicio = arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion;
+                            var fechaIniSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,10);
+                            var fechaFinSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,1);
+                            arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
+                            var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFin,1);
+                            var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFin,10);
+                            arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
+                        }else{
+                            $("#hdnFechaFinParaCalendario").val("00-00-0000");
+                        }
                         cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
                         iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                        /**
+                         * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
+                         */
+                        $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
+                        $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
+                        sumarTotalHorasPorSemana(0);
                         iniciarSelectorTolerancias();
                     });
 
@@ -146,7 +171,6 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     m += 1;  // Los meses en JavaScript son 0-11
                                     var y = formattedDate.getFullYear();
                                     var fechaIni = d+"-"+m+"-"+y;
-
                                     var defaultDay=d;
                                     var defaultMonth = m-1;
                                     var defaultYear = y;
@@ -158,12 +182,36 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     }
                                     var fechaFin = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
                                     var tipoHorario = dataRecord.tipo_horario;
+                                    $("#hdnTipoHorarioParaCalendario").val(tipoHorario);
                                     $("#hdnIdPerfilLaboralParaCalendario").val(idPerfilLaboral);
-                                    arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,fechaIni,fechaFin);
+                                    var arrHorariosPreviosRegistrados = [];
+                                    var arrHorariosSiguientesRegistrados = [];
+                                    if(tipoHorario==3){
+                                        var arrFechaIni = fechaIni.split("-");
+                                        var fechaIniRango ="01-"+arrFechaIni[1]+"-"+arrFechaIni[2];
+                                        $("#hdnFechaIniParaCalendario").val(fechaIniRango);
+                                        var fechaFinRango = obtenerUltimoDiaMes(fechaIniRango);
+                                        $("#hdnFechaFinParaCalendario").val(fechaFinRango);
+                                        var fechaIniSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,10);
+                                        var fechaFinSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,1);
+                                        arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
+                                        var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,1);
+                                        var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,10);
+                                        arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
+                                    }else{
+                                        $("#hdnFechaIniParaCalendario").val("00-00-0000");
+                                        $("#hdnFechaFinParaCalendario").val("00-00-0000");
+                                    }
+                                    var arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,true,fechaIni,fechaFin);
                                     cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
                                     iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
+                                    /**
+                                     * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
+                                     */
+                                    $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
+                                    $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
                                     iniciarSelectorTolerancias(dataRecord.id_tolerancia);
-
+                                    sumarTotalHorasPorSemana(0);
                                 } else {
                                     var msj = "Debe seleccionar un registro en estado EN PROCESO para posibilitar la modificaci&oacute;n de los registros correspondientes.";
                                     $("#divMsjePorError").html("");
@@ -512,4 +560,66 @@ function obtenerFechaDeInicioProximo(idPerfil){
         }
     });
     return arrFecha;
+}
+/**
+ * Función para obtener la fecha del último día de un determinado mes en una determinada gestión.
+ * @param fecha
+ * @returns {Array}
+ */
+function obtenerUltimoDiaMes(fecha){
+    var fecha = $.ajax({
+        url: '/perfileslaborales/getultimafechames/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {fecha: fecha},
+        success: function (data) {
+        }
+    }).responseText;
+    return fecha;
+}
+/**
+ * Función para obtener la fecha a la cual se le restan una cantidad determinada de días.
+ * @param fecha
+ * @param dias
+ * @returns {*}
+ */
+function obtenerFechaMenosDias(fecha,dias){
+    var fechaRes = fecha;
+    if(dias>0){
+        var fechaRes = $.ajax({
+            url: '/perfileslaborales/getfechamenosdias/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {fecha: fecha,dias:dias},
+            success: function (data) {
+            }
+        }).responseText;
+    }
+    return fechaRes;
+}
+/**
+ * Función para obtener la fecha a la cual se le suman una cantidad determinada de días.
+ * @param fecha
+ * @param dias
+ * @returns {*}
+ */
+function obtenerFechaMasDias(fecha,dias){
+    var fechaRes = fecha;
+    if(dias>0){
+        var fechaRes = $.ajax({
+            url: '/perfileslaborales/getfechamasdias/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {fecha: fecha,dias:dias},
+            success: function (data) {
+            }
+        }).responseText;
+    }
+    return fechaRes;
 }

@@ -46,6 +46,8 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
     var optEditable = true;
     var optDroppable = true;
     var optSelectable = true;
+    var optVerFinesDeSemana= true;
+    //weekends
     switch (accion){
         case 1://Nuevo
             switch (tipoHorario){
@@ -62,6 +64,11 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             }
             break;
     }
+    switch (tipoHorario){
+        case 1:
+        case 2:optVerFinesDeSemana=false;break;
+        case 3:break;
+    }
     $('#calendar').fullCalendar({
         header: {
             left: optLeft,
@@ -72,6 +79,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
         month:defaultMes,
         date:defaultDia,
         firstDay: 1,
+        weekends:optVerFinesDeSemana,
         editable: optEditable,
         droppable: optDroppable,
         selectable: optSelectable,
@@ -123,6 +131,12 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
 
 
         },*/
+        /**
+         * Controlando el evento de clik sobre el horario.
+         * @param calEvent
+         * @param jsEvent
+         * @param view
+         */
         eventClick: function(calEvent, jsEvent, view) {
 
             var clase = calEvent.className+"";
@@ -136,6 +150,12 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             if(idTipoHorario>0){
                 var ok = cargarModalHorario(idTipoHorario);
                 if(ok) {
+                    /**
+                     * Si la clase del horario esta bloqueada no se la puede eliminar
+                     */
+                    if(clase=="b"){
+                        $("#btnDescartarHorario").hide();
+                    } else {$("#btnDescartarHorario").show();}
                     $('#popupDescripcionHorario').modal('show');
                     $("#btnDescartarHorario").off();
                     $("#btnDescartarHorario").on("click", function () {
@@ -158,7 +178,96 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             }else {
                 alert("El registro corresponde a un periodo de descanso");
             }
-        }
+        },
+        eventRender: function(event, element, view){
+            //alert(event.start);
+            // Get appropriate date formats
+            var inicio = "2014--12-29";
+            cellDate = $.fullCalendar.formatDate( inicio, 'yyyy-MM-dd'); // this one will be used to find cell
+            //linkDate = $.fullCalendar.formatDate( event.start, 'yyyy/MM/dd'); // this one will be used to create link
+            alert(cellDate);
+            // Find a day cell for current event
+            day = $('#fullcalendar').find("[data-date='" + cellDate + "']").find('.fc-day-number');
+            /*$(day).html(function( index, oldHtml ) {
+                alert('<a href="/news/' + linkDate + '/">' + oldHtml + '</a>');
+            });*/
+            /*alert(day);
+            $.each(day,function(val){
+                alert(":::>"+val);
+            });*/
+            // Construct the link
+            /*if (! day.find('a').length) { // if there is no link to events page, add it
+                $(day).html(function( index, oldHtml ) {
+                    return '<a href="/news/' + linkDate + '/">' + oldHtml + '</a>'
+                });
+            }*/
+        },
+        //eventRender: function(event, element) {
+            //alert(event.className+"->"+event.start+"-"+event.end);
+            /**
+             * Controlando cuando se carga la primera vez
+             */
+        //},
+        eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+            /**
+             * Controlando cuando un horario es movido
+             */
+            /*alert(
+                event.title + " was moved " +
+                dayDelta + " days and " +
+                minuteDelta + " minutes."
+            );
+
+            if (!confirm("Are you sure about this change?")) {
+                revertFunc();
+            }
+            else {
+
+            }*/
+        }//,
+        //viewDisplay: function(view) {
+            /*if (view.name == 'month') {
+                $.each(view.attributes, function (k, v) {
+                    //alert("-->" + k + ":" + v);
+                });
+            }*/
+            /*if (view.name == 'agendaDay') {
+                //alert(view.name);
+
+            }
+
+            if (view.name == 'month') {
+
+
+                var start_day = view.start
+
+                var end_day = view.end
+
+                count = 1;
+
+                while (count < 7) {
+
+                    var start_day = $.fullCalendar.formatDate(start_day, "yyyy-MM-dd");
+
+                    console.log(start_day);
+                    console.log(count);
+
+                    $("[data-date=" + start_day + "]").css("background-color", "red");
+
+
+                    start_day = start_day.split('-');
+                    start_day[2] = parseInt(start_day[2]) + 2;
+                    if (start_day[2] < 10) {
+                        start_day[2] = "0" + start_day[2];
+                    }
+                    start_day = start_day.join('-');
+
+                    count++;
+                }
+
+
+            }*/
+        //}
         /*eventClick: function(event) {
             *//*alert("id:"+event.id);*//*
             $('#popupDescripcionHorario').modal('show');
@@ -297,7 +406,7 @@ function obtenerHorariosDisponibles(tipoHorario){
  * @param tipoHorario
  * @returns {Array}
  */
-function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,fechaIni,fechaFin){
+function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,editable,fechaIni,fechaFin){
     var arrHorariosRegistrados = [];
     var date = new Date();
     var d = date.getDate();
@@ -352,7 +461,12 @@ function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,fe
                     var ms = horaSal[1];
                     var ss = horaSal[2];
                     var prefijo = "r_";
-                    if(idHorarioLaboral==0) prefijo="d_";
+                    if(idHorarioLaboral==0){ prefijo="d_";}
+                    var borde = color;
+                    if(!editable){
+                        borde = "#000000";
+                        prefijo="b_";//Se modifica para que d: represente a los horarios bloqueados
+                    }
                     arrHorariosRegistrados.push( {
                         id:val.id_calendariolaboral,
                         className:prefijo+idHorarioLaboral,
@@ -360,7 +474,9 @@ function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,fe
                         start: new Date(yi, mi, di, he, me),
                         end: new Date(yf, mf, df, hs, ms),
                         allDay: ctrlAllDay,
-                        color: color
+                        color: color,
+                        editable:editable,
+                        borderColor:borde
                     });
                 });
             }
@@ -868,6 +984,11 @@ function cargarModalHorario(idHorario){
                         $("#txtHoraInicioRangoSal").val(val.hora_inicio_rango_sal);
                         $("#txtHoraFinalizacionRangoSal").val(val.hora_final_rango_sal);
                         $("#txtObservacion").val(val.observacion);
+                        var hEnt = val.hora_entrada;
+                        var hSal = val.hora_salida;
+                        if(hEnt=="")hEnt = "00:00:00";
+                        if(hSal=="")hSal = "00:00:00";
+                        $("#txtHorasLaborales").val(calcularCantidadHorasLaborales(hEnt,hSal));
                     });
                 }
             }
@@ -922,4 +1043,86 @@ function bajaTurnoEnCalendario(idEvento){
         ok = false;
     }
     return ok;
+}
+/**
+ * Función para calcular la cantidad de horas laborales transcurridas entre la hora de entrada y la hora de salida, el resultado se expresa en términos numéricos.
+ * @param horaEntrada
+ * @param horaSalida
+ * @returns {number}
+ */
+function calcularCantidadHorasLaborales(horaEntrada,horaSalida){
+    if(horaEntrada!=""&&horaSalida!=""){
+        var horaEnt = numeroHoras(horaEntrada);
+        var horaSal = numeroHoras(horaSalida);
+        var calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        return calculo.toFixed(2);
+    }else return 0;
+}
+/**
+ * Función para calcular el número de horas que representa la hora.
+ * @param hora
+ * @returns {*}
+ */
+function numeroHoras(hora){
+    if(hora!=""){
+        var arrHora = hora.split(":");
+        var hEnt = parseFloat(arrHora[0]);
+        var mEnt = parseFloat(arrHora[1]);
+        var sEnt = parseFloat(arrHora[2]);
+        var sEnMin = 0;
+        var mEnHor = 0;
+        if(sEnt>0){
+            sEnMin = sEnt/60;
+        }
+        mEnt = mEnt + sEnMin;
+        if(mEnt>0){
+            mEnHor = mEnt/60;
+        }
+        hEnt = hEnt +mEnHor;
+        return hEnt;
+    }
+    else return 0;
+}
+/**
+ * Función para calcular el total de horas por semana.
+ */
+function sumarTotalHorasPorSemana(semana){
+    /*$.each(".fc-first", function () {
+        alert(this.data-date);
+    });*/
+    //properties
+    //getAttribute();
+    // innerHTML;
+    //outerHTML
+    //children
+    //firstElementChild
+    //lastElementChild
+    //childElementCount=7
+    //contains()
+    //firstChild
+    //lastChild
+    /*var moment = $('#calendar').fullCalendar('getDate');
+    alert("The current date of the calendar is " + moment);*/
+    /**
+     *
+     * @type {Array}
+     */
+    //var ids = [];
+    /*$('.fc-first').each(function(key, element){
+
+        $.each(element.data-date,function(clave,val){
+            alert(clave+"-->"+val);
+         });
+    });*/
+    /**
+     * Si la semana es igual a cero, se suman todos los campos,
+     * en caso de que sea igual a un número determinado, se realiza sólo en esa fila
+     */
+    if(semana==0){
+
+        $("#spSumaSemana1").html("50");
+        $("#spSumaSemana2").html("50");
+        $("#spSumaSemana3").html("50");
+    }
+
 }

@@ -111,7 +111,22 @@ $().ready(function () {
     $('#btnDesagrupartodo').click(function () {
         $('#jqxgridhorarios').jqxGrid('cleargroups');
     });
-
+    $(".hora-entrada-salida").on("change",function (){
+        var horaEntrada = $("#txtHoraEntHorario").val();
+        var horaSalida = $("#txtHoraSalHorario").val();
+        if(horaEntrada=="")horaEntrada="00:00:00";
+        if(horaSalida=="")horaSalida="00:00:00";
+        var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
+        $("#txtHorasLaborales").val(cantidadHorasLaborales);
+    });
+    $(".hora-entrada-salida-editar").on("change",function (){
+        var horaEntrada = $("#txtHoraEntHorarioEditar").val();
+        var horaSalida = $("#txtHoraSalHorarioEditar").val();
+        if(horaEntrada=="")horaEntrada="00:00:00";
+        if(horaSalida=="")horaSalida="00:00:00";
+        var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
+        $("#txtHorasLaboralesEditar").val(cantidadHorasLaborales);
+    });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
      */
@@ -286,6 +301,12 @@ function definirGrillaParaListaHorarios() {
                                     $("#txtHoraFinalizacionRangoSalEditar").val(dataRecord.hora_final_rango_sal);
                                     $("#txtObservacionEditar").val(dataRecord.observacion);
                                     inicializarPaleta(2);
+                                    var horaEntrada = dataRecord.hora_entrada;
+                                    var horaSalida = dataRecord.hora_salida;
+                                    if(horaEntrada=="")horaEntrada="00:00:00";
+                                    if(horaSalida=="")horaSalida="00:00:00";
+                                    var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
+                                    $("#txtHorasLaboralesEditar").val(cantidadHorasLaborales);
                                 }else {
                                     var msje = "Debe seleccionar un registro en estado EN PROCESO o ACTIVO necesariamente.";
                                     $("#divMsjePorError").html("");
@@ -526,8 +547,45 @@ function procesaTextoAFecha(date, sep) {
     var date = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
     return date.getTime();
 }
-
-
+/**
+ * Función para calcular la cantidad de horas laborales transcurridas entre la hora de entrada y la hora de salida, el resultado se expresa en términos numéricos.
+ * @param horaEntrada
+ * @param horaSalida
+ * @returns {number}
+ */
+function calcularCantidadHorasLaborales(horaEntrada,horaSalida){
+    if(horaEntrada!=""&&horaSalida!=""){
+        var horaEnt = numeroHoras(horaEntrada);
+        var horaSal = numeroHoras(horaSalida);
+        var calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        return calculo.toFixed(2);
+    }else return 0;
+}
+/**
+ * Función para calcular el número de horas que representa la hora.
+ * @param hora
+ * @returns {*}
+ */
+function numeroHoras(hora){
+    if(hora!=""){
+        var arrHora = hora.split(":");
+        var hEnt = parseFloat(arrHora[0]);
+        var mEnt = parseFloat(arrHora[1]);
+        var sEnt = parseFloat(arrHora[2]);
+        var sEnMin = 0;
+        var mEnHor = 0;
+        if(sEnt>0){
+            sEnMin = sEnt/60;
+        }
+        mEnt = mEnt + sEnMin;
+        if(mEnt>0){
+            mEnHor = mEnt/60;
+        }
+        hEnt = hEnt +mEnHor;
+        return hEnt;
+    }
+ else return 0;
+}
 /**
  * Función anónima para la aplicación de clases a celdas en particular dentro de las grillas.
  * @param row

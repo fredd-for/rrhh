@@ -131,7 +131,10 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
     public function getAllRegisteredByPerfilLaboralRangoFechas($idPerfilLaboral,$fechaIni,$fechaFin)
     {
         $sql = "SELECT * FROM f_calendario_laboral_registrado($idPerfilLaboral)";
-        if($fechaIni!=""&&$fechaFin!="")$sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        }
         $this->_db = new Fcalendariolaboral();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

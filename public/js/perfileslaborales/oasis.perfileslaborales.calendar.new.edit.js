@@ -5,19 +5,19 @@
  *   Usuario Creador: Lic. Javier Loza
  *   Fecha Creación:  06-01-2015
  */
-function validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin) {
+function validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIniRango,fechaFinRango) {
     var ok = true;
     var msje = "";
     $(".msjs-alert").hide();
     var idTolerancia = $("#lstTolerancias").val();
     var arr = $("#calendar").fullCalendar( 'clientEvents');
-    var arrMeses=('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
     var contadorEventos = 0;
     var mesIni = 0;
     var mesFin = 0;
     var arrMeses = [];
     var cruce = true;
-        $.each(arr,function(key,evento){
+    var dentroRango = 1;
+    $.each(arr,function(key,evento){
         var valClass = evento.className+"";
         var arrClass = valClass.split("_");
         var clase = arrClass[0];
@@ -37,15 +37,33 @@ function validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni
                 var arrfechaFin = fechaFin.split("-");
                 mesFin = arrfechaFin[1];
                 cruce = prevenirCruceDeHorarios(idPerfilLaboral,fechaIni,fechaFin);
-      //          alert(mesIni+"---"+mesFin);
                 arrMeses.push(mesIni);
                 arrMeses.push(mesFin);
+                if(tipoHorario==3){
+                    if(fechaIniRango!=""&&fechaFinRango!=""){
+                        /**
+                         * Si aún no se ha encontrado una fecha fuera del rango se sigue haciendo la consulta, caso contrario basta un horario
+                         */
+                        if(dentroRango==1){
+                            /**
+                             * En caso de que el tipo de horario sea multiple, es necesario que existan los rangos caso contrario existe un error.
+                             * Además, las fechas de cada turno o evento deben estar dentro del rango.
+                             */
+                            dentroRango = verificaSiFechaEstaEnRango(fechaIni,fechaIniRango,fechaFinRango);
+                        }
+                        if(dentroRango==1){
+                            /**
+                             * En caso de que el tipo de horario sea multiple, es necesario que existan los rangos caso contrario existe un error.
+                             * Además, las fechas de cada turno o evento deben estar dentro del rango.
+                             */
+                            dentroRango = verificaSiFechaEstaEnRango(fechaFin,fechaIniRango,fechaFinRango);
+                        }
+                    }else dentroRango=0;
+                }
                 break;
             case "d":break;
         }
     });
-    var mesesInvolucrados = calculamesesInvolucrados(arrMeses);
-    //alert("el calendario tiene "+mesesInvolucrados+" meses");
     if(contadorEventos==0){
         ok = false;
         var msje = "Debe registrar al menos un evento en el calendario necesariamente.";
@@ -57,19 +75,29 @@ function validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni
          * Si el tipo de horario corresponde a un múltiple y el mes de la fecha de inicio y el mes de la fecha de finalización son distintos
          */
         if(tipoHorario==3){
-            if(arrMeses.length>0){
-                var mesSeleccionado = arrMeses[0];
-                var sw=true;
-                $.each(arrMeses,function(key,val){
-                    if(mesSeleccionado!=val&&sw==true)sw=false;
-                });
-            }
-            if(sw==false){
+            if(dentroRango==0){
                 ok = false;
-                var msje = "Debe seleccionar sólo un mes para la asignaci&oacute;n del calendario debido a que el tipo de Horario es Multiple.";
+                var msje = "Existen horarios fuera del rango admitido de registro. Verifique que todos los horarios esten entre el "+fechaIniRango+" al "+fechaFinRango+".";
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(msje);
                 $("#divMsjeNotificacionError").jqxNotification("open");
+            }else {
+                var mesesInvolucrados = obtieneMesesInvolucrados(arrMeses);
+                if(mesesInvolucrados.length>1){
+                    ok = false;
+                    var msje = "Registro "+mesesInvolucrados.length+" meses en el calendario. El registro de horarios s&oacute;lo debe contemplar la asignaci&oacute;n dentro de un mes.";
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(msje);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
+                }else{
+                    if(mesesInvolucrados.length==0){
+                        ok = false;
+                        var msje = "Debe seleccionar al menos un horario para su registro.";
+                        $("#divMsjePorError").html("");
+                        $("#divMsjePorError").append(msje);
+                        $("#divMsjeNotificacionError").jqxNotification("open");
+                    }
+                }
             }
         }
         if(cruce==false){
@@ -167,7 +195,7 @@ function prevenirCruceDeHorarios(idPerfilLaboral,fechaIni,fechaFin){
 function guardarTurnoEnCalendario(idCalendarioLaboral,idPerfilLaboral,idTipoHorario,idTolerancia,fechaIni,fechaFin,observacion){
     var ok = false;
     if(idPerfilLaboral>0&&idTipoHorario>0&&fechaIni!=''&&fechaFin!=''){
-        ok = $.ajax({
+        $.ajax({
             url: '/calendariolaboral/saveturno/',
             type: "POST",
             datatype: 'json',
@@ -196,16 +224,46 @@ function guardarTurnoEnCalendario(idCalendarioLaboral,idPerfilLaboral,idTipoHora
     }
     return ok;
 }
-function calculamesesInvolucrados(arrMeses){
-    var cantidad = 0;
-    var sw=true;
+/**
+ * Función para devolver en un array los meses involucrados en el calendario.
+ * @param arrMeses
+ * @returns {Array}
+ */
+function obtieneMesesInvolucrados(arrMeses){
+    var arr = [];
+    var result = 0;
     if(arrMeses.length>0){
-        var mes = arrMeses[0];
         $.each(arrMeses,function (clave,elemento){
-            if(mes!=elemento){
-                sw=false;
+            result = jQuery.inArray(elemento,arr);
+            if(result<0){
+                arr.push(elemento);
             }
         });
     }
-    return cantidad;
+    return arr;
+}
+/**
+ * Función para evaluar si una fecha está dentro del rango.
+ * @param fechaEval
+ * @param fechaIniRango
+ * @param fechaFinRango
+ * @returns 1: Si Esta; 0: No esta
+ */
+function verificaSiFechaEstaEnRango(fechaEval,fechaIniRango,fechaFinRango){
+    var ok= 0;
+    ok = $.ajax({
+        url: '/perfileslaborales/checkinrange/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {
+            fecha_eval: fechaEval,
+            fecha_ini:fechaIniRango,
+            fecha_fin:fechaFinRango
+        },
+        success: function (data) {
+        }
+    }).responseText;
+    return ok;
 }

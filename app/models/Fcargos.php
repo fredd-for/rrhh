@@ -27,6 +27,11 @@ class Fcargos  extends \Phalcon\Mvc\Model {
     public $nivelsalarial;
     public $cargo;
     public $sueldo;
+    public $asistente;
+    public $jefe;
+    public $id_resolucion_ministerial;
+    public $resolucion_ministerial;
+
     /**
      * Initialize method for model.
      */
@@ -59,6 +64,10 @@ class Fcargos  extends \Phalcon\Mvc\Model {
             'nivelsalarial'=>'nivelsalarial',
             'cargo'=>'cargo',
             'sueldo'=>'sueldo',
+            'asistente'=>'asistente',
+            'jefe'=>'jefe',
+            'id_resolucion_ministerial'=>'id_resolucion_ministerial',
+            'resolucion_ministerial'=>'resolucion_ministerial',
         );
     }
     /**

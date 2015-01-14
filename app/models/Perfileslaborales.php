@@ -27,4 +27,17 @@ class Perfileslaborales  extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_primer_dia_siguiente_mes_para_calendario(".$idPerfil.")";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
-} 
+    /**
+     * Verifica que una fecha esté dentro del rango de fechas establecidas
+     * @param $start_date fecha de inicio
+     * @param $end_date fecha final
+     * @param $evaluame fecha a comparar
+     * @return true si esta en el rango, false si no lo está
+     */
+    function checkInRange($start_date, $end_date, $evaluame) {
+        $start_ts = strtotime($start_date);
+        $end_ts = strtotime($end_date);
+        $user_ts = strtotime($evaluame);
+        return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
+}

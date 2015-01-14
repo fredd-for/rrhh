@@ -40,9 +40,6 @@ $().ready(function () {
         var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
         var fechaIni = $("#hdnFechaIniParaCalendario").val();
         var fechaFin = $("#hdnFechaFinParaCalendario").val();
-
-        fechaIni = '01-01-2015';
-        fechaFin = '31-01-2015';
         var ok = validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
         if (ok) {
             var okk = guardaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
@@ -81,6 +78,7 @@ $().ready(function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
         $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+        $("#jqxgridturnos").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
     });
 
@@ -183,6 +181,7 @@ $().ready(function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
         $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+        $("#jqxgridturnos").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
     });
     $('#btnDesfiltrartodo').click(function () {
@@ -197,7 +196,6 @@ $().ready(function () {
     $('#btnDesagruparTodoMovilidad').click(function () {
         $('#divGridPerfilesLaboralesmovilidad').jqxGrid('cleargroups');
     });
-
 
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.

@@ -160,7 +160,65 @@ class PerfileslaboralesController extends ControllerBase
         echo json_encode($fechaIniProximo);
     }
 
-
+    /**
+     * Función para la obtención de la última fecha de un determinado mes en una determinada gestión.
+     */
+    public function getultimafechamesAction(){
+        $this->view->disable();
+        $fechaResultado = "";
+        if(isset($_POST["fecha"])){
+            $fecha = new DateTime($_POST["fecha"]);
+            $fecha->modify('last day of this month');
+            $fechaResultado=$fecha->format('d-m-Y');
+        }
+        echo $fechaResultado;
+    }
+    /**
+     * Función para restar una determinada cantidad de días a una fecha
+     */
+    public function getfechamasdiasAction(){
+        $this->view->disable();
+        $fechaResultado = "";
+        if(isset($_POST["fecha"])&&isset($_POST["dias"])){
+            $dias = $_POST["dias"];
+            $fecha = new DateTime($_POST["fecha"]);
+            $fecha->add(new DateInterval("P".$dias."D"));
+            $fechaResultado=$fecha->format("d-m-Y");
+        }
+        echo $fechaResultado;
+    }
+    /**
+     * Función para sumar una determinada cantidad de días a una fecha
+     */
+    public function getfechamenosdiasAction(){
+        $this->view->disable();
+        $fechaResultado = "";
+        if(isset($_POST["fecha"])&&isset($_POST["dias"])){
+            $dias = $_POST["dias"];
+            $fecha = new DateTime($_POST["fecha"]);
+            $fecha->sub(new DateInterval("P".$dias."D"));
+            $fechaResultado=$fecha->format("d-m-Y");
+        }
+        echo $fechaResultado;
+    }
+    /**
+     * Función para la determinación de si las fechas enviadas están dentro del parámetro.
+     * @return 1:Si esta; 0: No esta
+     */
+    function checkinrangeAction() {
+        $result = 0;
+        $this->view->disable();
+        if(isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])&&isset($_POST["fecha_eval"])){
+            $fecha_ini=$_POST["fecha_ini"];
+            $fecha_fin=$_POST["fecha_fin"];
+            $fecha_eval=$_POST["fecha_eval"];
+            $start_ts = strtotime($fecha_ini);
+            $end_ts = strtotime($fecha_fin);
+            $user_ts = strtotime($fecha_eval);
+            $result = (($user_ts >= $start_ts) && ($user_ts <= $end_ts))==true?1:0;
+        }
+        echo $result;
+    }
     /**
      * Función para listar los nombres de cargos
      */

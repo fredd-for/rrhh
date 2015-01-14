@@ -26,6 +26,10 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
             { name: 'nivelsalarial', type: 'string' },
             { name: 'cargo', type: 'string' },
             { name: 'sueldo', type: 'numeric' },
+            { name: 'asistente', type: 'integer' },
+            { name: 'jefe', type: 'integer' },
+            { name: 'id_resolucion_ministerial', type: 'integer' },
+            { name: 'resolucion_ministerial', type: 'string' }
         ],
         url: '/relaborales/listcargos',
         cache: false
@@ -59,11 +63,12 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
                         editrow = row;
                         var offset = $("#divGrillaParaSeleccionarCargo").offset();
                         var dataRecord = $("#divGrillaParaSeleccionarCargo").jqxGrid('getrowdata', editrow);
-                        agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
+                        agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_resolucion_ministerial,dataRecord.resolucion_ministerial,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo);
                         }
                     },
                     { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', width: 100},
                     /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
+                    { text: 'Resoluci&oacute;n', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', width: 100},
                     { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', width: 100},
                     { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', width: 150},
                     { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', width: 150},
@@ -190,12 +195,11 @@ function defineFechas(){
  * @param cargo Nombre del cargo.
  * @param haber Haber mensual para el cargo.
  */
-function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
+function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finpartida,id_resolucion_ministerial,resolucion_ministerial,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
     $("#tr_cargo_seleccionado").html("");
     var btnDescartar = "<td  class='text-center'><a class='btn btn-danger btnDescartarCargoSeleccionado' title='Descartar cargo seleccionado.' data-toggle='tooltip' data-original-title='Descartar' id='btn_"+id_cargo+"' alt='Descartar cargo para el contrato'>";
     btnDescartar += "<i class='fa fa-times'></i></a></td>";
-    //var grilla = "<td>"+codigo+"</td><td>"+finpartida+"</td><td>"+condicion+"</td><td>"+gerencia_administrativa+"</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td>"+haber+"</td>";
-    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+
+    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+resolucion_ministerial+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+
         "</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td  class='text-right'>"+haber+"</td>";
     $("#tr_cargo_seleccionado").append(btnDescartar+grilla);
     $("#hdnIdCargoNuevoSeleccionado").val(id_cargo);

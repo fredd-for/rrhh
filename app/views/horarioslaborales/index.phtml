@@ -1,4 +1,5 @@
 </head>
+</head>
 <body>
 <style>
     .verde {
@@ -114,7 +115,7 @@
 <div class="form-horizontal col-sm-12">
 <fieldset>
     <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n del Horario</legend><div class="row div-calendario-laboral" id="divNombreHorario">
-        <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre *:</label>
+        <label class="col-sm-3 control-label" for="txtNombreHorario">Nombre Horario *:</label>
         <div class="col-md-6">
             <input type="text" id="txtNombreHorario" class="form-control">
             <span class="help-block" id="helpErrorNombreHorario"></span>
@@ -142,11 +143,11 @@
     </div>
 </fieldset>
 <fieldset>
-    <legend><i class="fa fa-angle-right"></i> Horario Marcaci&oacute;n V&aacute;lida</legend>
+    <legend><i class="fa fa-angle-right"></i> Horario Entrada / Salida</legend>
     <div class="form-group">
         <div class="div-calendario-laboral" id="divHoraEntHorario">
-            <label class="col-sm-3 control-label" for="txtHoraEntHorario">Entrada *:</label>
-            <div class="col-md-3">
+            <label class="col-sm-2 control-label" for="txtHoraEntHorario">Entrada *:</label>
+            <div class="col-md-2">
                 <div class="input-group bootstrap-timepicker">
                     <div class="bootstrap-timepicker-widget dropdown-menu">
                         <table>
@@ -186,7 +187,7 @@
                     </div>
                     <input id="txtHoraEntHorario" name="txtHoraEntHorario"
                            placeholder="Hora de entrada."
-                           class="form-control input-timepicker24" type="text">
+                           class="hora-entrada-salida form-control input-timepicker24" type="text">
                                                     <span class="input-group-btn">
                                                         <a href="javascript:void(0)" class="btn btn-primary"><i
                                                                 class="fa fa-clock-o"></i></a>
@@ -197,9 +198,9 @@
 
         </div>
         <div class="div-calendario-laboral" id="divHoraSalHorario">
-            <label class="col-sm-3 control-label" for="txtHoraSalHorario">Salida *:</label>
+            <label class="col-sm-2 control-label" for="txtHoraSalHorario">Salida *:</label>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="input-group bootstrap-timepicker">
                     <div class="bootstrap-timepicker-widget dropdown-menu">
                         <table>
@@ -239,12 +240,16 @@
                     </div>
                     <input id="txtHoraSalHorario" name="txtHoraSalHorario"
                            placeholder="Hora de salida."
-                           class="form-control input-timepicker24" type="text">
+                           class="hora-entrada-salida form-control input-timepicker24" type="text">
 <span class="input-group-btn">
     <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
 </span>
                 </div>
                 <span class="help-block" id="helpErrorHoraSalHorario"></span>
+            </div>
+            <label class="col-sm-2 control-label" for="txtHorasLaborales">Horas Laborales:</label>
+            <div class="col-md-2">
+            <input id="txtHorasLaborales" name="txtHorasLaborales" placeholder="Horas Laborales." type="text" class="form-control" readonly>
             </div>
         </div>
     </div>
@@ -487,7 +492,7 @@
 <fieldset>
 <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n del Horario</legend>
 <div class="row div-calendario-laboral" id="divNombreHorarioEditar">
-    <label class="col-sm-3 control-label" for="txtNombreHorarioEditar">Nombre *:</label>
+    <label class="col-sm-3 control-label" for="txtNombreHorarioEditar">Nombre Horario *:</label>
     <div class="col-md-6">
         <input type="text" id="txtNombreHorarioEditar" class="form-control">
         <span class="help-block" id="helpErrorNombreHorarioEditar"></span>
@@ -515,11 +520,11 @@
 </div>
 </fieldset>
 <fieldset>
-    <legend><i class="fa fa-angle-right"></i> Horario Marcaci&oacute;n V&aacute;lida</legend>
+    <legend><i class="fa fa-angle-right"></i> Horario Marcaci&oacute;n Entrada / Salida</legend>
     <div class="form-group">
         <div class="div-calendario-laboral" id="divHoraEntHorarioEditar">
-            <label class="col-sm-3 control-label" for="txtHoraEntHorarioEditar">Entrada *:</label>
-            <div class="col-md-3">
+            <label class="col-sm-2 control-label" for="txtHoraEntHorarioEditar">Entrada *:</label>
+            <div class="col-md-2">
                 <div class="input-group bootstrap-timepicker">
                     <div class="bootstrap-timepicker-widget dropdown-menu">
                         <table>
@@ -559,7 +564,7 @@
                     </div>
                     <input id="txtHoraEntHorarioEditar" name="txtHoraEntHorarioEditar"
                            placeholder="Hora de entrada."
-                           class="form-control input-timepicker24" type="text">
+                           class="hora-entrada-salida-editar form-control input-timepicker24" type="text">
                                                     <span class="input-group-btn">
                                                         <a href="javascript:void(0)" class="btn btn-primary"><i
                                                                 class="fa fa-clock-o"></i></a>
@@ -570,9 +575,9 @@
 
         </div>
         <div class="div-calendario-laboral" id="divHoraSalHorarioEditar">
-            <label class="col-sm-3 control-label" for="txtHoraSalHorarioEditar">Salida *:</label>
+            <label class="col-sm-2 control-label" for="txtHoraSalHorarioEditar">Salida *:</label>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="input-group bootstrap-timepicker">
                     <div class="bootstrap-timepicker-widget dropdown-menu">
                         <table>
@@ -612,12 +617,16 @@
                     </div>
                     <input id="txtHoraSalHorarioEditar" name="txtHoraSalHorarioEditar"
                            placeholder="Hora de salida."
-                           class="form-control input-timepicker24" type="text">
+                           class="hora-entrada-salida-editar form-control input-timepicker24" type="text">
 <span class="input-group-btn">
     <a href="javascript:void(0)" class="btn btn-primary"><i class="fa fa-clock-o"></i></a>
 </span>
                 </div>
                 <span class="help-block" id="helpErrorHoraSalHorarioEditar"></span>
+            </div>
+            <label class="col-sm-2 control-label" for="txtHorasLaboralesEditar">Horas Laborales:</label>
+            <div class="col-md-2">
+                <input id="txtHorasLaboralesEditar" name="txtHorasLaborales" placeholder="Horas Laborales." type="text" class="form-control" readonly>
             </div>
         </div>
     </div>
