@@ -126,7 +126,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                          */
                         $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
                         $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+                        sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-nuevo");
                         iniciarSelectorTolerancias();
                     });
 
@@ -211,7 +211,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
                                     $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
                                     iniciarSelectorTolerancias(dataRecord.id_tolerancia);
-                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio");
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-modificacion");
                                 } else {
                                     var msj = "Debe seleccionar un registro en estado EN PROCESO para posibilitar la modificaci&oacute;n de los registros correspondientes.";
                                     $("#divMsjePorError").html("");

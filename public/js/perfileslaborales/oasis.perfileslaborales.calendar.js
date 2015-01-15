@@ -13,35 +13,6 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
     /* Inicializa la funcionalidad de eventos: arrastrar y soltar */
     //initEvents();
 
-    /* Add new event in the events list */
-    //var eventInput      = $('#add-event');
-    //var eventInputVal   = '';
-    /*$('#add-event-btn').off();*/
-    // Cuando el botón adicionar es  seleccionado
-    /*$('#add-event-btn').on('click', function(){
-        // Obteniendo el valor del input
-        eventInputVal = eventInput.prop('value');
-        limpiarMensajesErrorPorValidacionHorario();
-        $("#popupWindowHorario").jqxWindow('open');
-        $("#txtColorHorario").css({'background-color' : "#FFFFFF",'color' : "#FFFFFF"});
-        $("#txtNombreHorario").focus();
-        // Check if the user entered something
-        if ( eventInputVal ) {
-
-            // Add it to the events list
-            calendarEvents.append('<li class="animation-slideDown">' + $('<div />').text(eventInputVal).html() + '</li>');
-
-            // Clear input field
-            eventInput.prop('value', '');
-
-            // Init Events
-            initEvents();
-        }
-
-        // Don't let the form submit
-        return false;
-    });*/
-
     /* Initialize FullCalendar */
     var optLeft = 'prev,next';
     var optRight = 'year,month,agendaWeek,agendaDay';
@@ -107,14 +78,6 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             // El último argumento `true` determina si el evento "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
             $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
-            // remove the element from the "Draggable Events" list
-            /**
-             * Se anula la eliminación del horario arrastrado
-             */
-            //$(this).remove();
-            /*$.each(arrFechasPorSemana,function(k,v){
-
-            });*/
             /**
              * Si se introduce un nuevo horario en el calendario se recalcula los totales por semana.
              */
@@ -127,51 +90,11 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
         ,
         eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
             /**
-             * Controlando cuando un horario es movido
-             */
-            /*alert(
-             event.title + " was moved " +
-             dayDelta + " days and " +
-             minuteDelta + " minutes."
-             );
-
-             if (!confirm("Are you sure about this change?")) {
-             revertFunc();
-             }
-             else {
-
-             }*/
-            /**
              * Si un horario se ha movido, es necesario calcular los totales de horas por semana
              */
             sumarTotalHorasPorSemana(arrFechasPorSemana,"eventDrop");
         },
         events: arrHorariosRegistrados,
-        /*eventClick: function(calEvent, jsEvent, view) {
-
-
-            var idHorario = calEvent.class;
-            idHorario = idHorario.replace("h_","");
-            var ok = cargarModalHorario(idHorario);
-            if(ok)
-            {   var horario =$(this);
-                $(this).remove();
-                //$('#popupDescripcionHorario').modal('show');
-                $("#btnDescartarHorario").on("click",function(){
-                    horario.remove();
-
-                    //$('#popupDescripcionHorario').modal('hide');
-
-                });
-            }
-            else alert("Error al determinar los datos del horario.")
-
-            alert('Event: ' + calEvent.title);
-            alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-            alert('View: ' + view.name);
-
-
-        },*/
         /**
          * Controlando el evento de clik sobre el horario.
          * @param calEvent
@@ -228,10 +151,13 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             /**
              * Si algun horario se modifica en cuanto a su rango se vuelve a calcular la sumatoria de horas
              */
-            //alert(element);
-            sumarTotalHorasPorSemana(arrFechasPorSemana,"eventRender");
+            //sumarTotalHorasPorSemana(arrFechasPorSemana,"eventRender");
         },
+        eventResize: function(event, delta, revertFunc) {
 
+            sumarTotalHorasPorSemana(arrFechasPorSemana,"eventResize");
+
+        },
         dayRender: function (date, cell) {
             var dia = $.fullCalendar.formatDate(date,'dd-MM-yyyy');
             var check = $.fullCalendar.formatDate(date,'yyyy-MM-dd');
