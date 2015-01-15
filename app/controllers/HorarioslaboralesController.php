@@ -93,7 +93,7 @@ class HorarioslaboralesController extends ControllerBase
      * Función para la carga del listado de horarios laborales disponibles para su uso en los calendarios laborales.
      * Se inhabilita la vista para el uso de jqwidgets,
      */
-    public function listDisponiblesAction()
+    public function listdisponiblesAction()
     {
         $this->view->disable();
         $horariolaboral = Array();
