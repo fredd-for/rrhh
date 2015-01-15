@@ -312,13 +312,13 @@ class OrganigramasController extends ControllerBase
 	public function personalAction($organigrama_id)
 	{
  		$primer_dependiente=  Cargos::findFirst(array("organigrama_id='$organigrama_id' and baja_logica='1'",'order'=>'id ASC','limit'=> 1 ));
-
-		$model=  new Cargos();
+                if($primer_dependiente!=FALSE){
+                    $model=  new Cargos();
 		$cargo = $model->listPersonal($organigrama_id,$primer_dependiente->depende_id);
 		$cont = count($cargo);
 		if ($cont>0) {
 			foreach ($cargo as $v) {
-			$this->listarPersonal($v->id,$v->cargo, $v->codigo,$v->estado1);
+			$this->listarPersonal($v->id,$v->cargo, $v->codigo,$v->estado1,$v->organigrama_id);
 			$this->lista.='</ul>';
 			$config = array();
 			}
@@ -332,9 +332,14 @@ class OrganigramasController extends ControllerBase
 		$this->assets->addJs('/js/jorgchart/jquery.jOrgChart.js');
 
 		$this->view->setVar('lista', $this->lista);
+                }  else {
+                    echo "No existe cargos dentro de la oficina..";
+                }
+                    
+		
 	}
 
-	public function listarPersonal($id, $cargo, $codigo,$estado) {
+	public function listarPersonal($id, $cargo, $codigo,$estado,$organigrama_id) {
 		$h=  Cargos::count("depende_id='$id'");
 		$datos_usuario="";
 		$nombre="";
@@ -363,10 +368,10 @@ class OrganigramasController extends ControllerBase
 			$this->lista.='<ul>';
 			//$hijos=  Cargos::find(array("depende_id='$id' and baja_logica=1"));
             $model=  new Cargos();
-            $hijos = $model->listPersonal(0,$id);
+            $hijos = $model->listPersonal($organigrama_id,$id);
 			foreach ($hijos as $hijo) {
 				$cargo = $hijo->cargo;
-				$this->listarPersonal($hijo->id, $cargo, $hijo->codigo,$hijo->estado1);
+				$this->listarPersonal($hijo->id, $cargo, $hijo->codigo,$hijo->estado1,$organigrama_id);
 			}
 			$this->lista.='</ul>';
             // echo '</ul>';

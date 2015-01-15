@@ -49,6 +49,17 @@ function cargar(){
 		cache: false
 	};
 	var dataAdapter = new $.jqx.dataAdapter(source);
+
+	 var firstNameColumnFilter = function () {
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = '<?php echo $tipo_resolucion ?>';
+                var filtercondition = 'equal';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                filtergroup.addfilter(filter_or_operator, filter);
+                return filtergroup;
+            }();
+
 	$("#jqxgrid").jqxGrid({
 		width: '100%',
 		height: '100%',
@@ -63,7 +74,6 @@ function cargar(){
                 filterable: true,
                 //showtoolbar: true,
                 autorowheight: true,
-
                 columns: [
                 {
                 	text: '#', sortable: false, filterable: false, editable: false,
@@ -73,7 +83,7 @@ function cargar(){
                 		return "<div style='margin:3px;'>" + (value + 1) + "</div>";
                 	}
                 },
-                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',width: '15%' },
+                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '15%' },
                 { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
@@ -89,6 +99,7 @@ function cargar(){
                 { text: 'Organismo', datafield: 'organismo', filtertype: 'input',width: '10%', hidden: true},
       ]
   });
+
 
 }
 
@@ -529,7 +540,6 @@ $('#exportar_pac_pdf').click(function(){
     <div class="col-lg-2 col-md-2 col-xs-12">
         <div style="width: 100%;" id="jqxlistbox"></div>
     </div>
-
 </div>			
 
 <div class="row">

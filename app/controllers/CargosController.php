@@ -142,6 +142,8 @@ class CargosController extends ControllerBase
 
 
 		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
+		
 		$this->tag->setDefault("resolucion_ministerial_id", $resolucion_ministerial0->id);
         $resolucion_ministerial = $this->tag->select(
 			array(
@@ -156,6 +158,7 @@ class CargosController extends ControllerBase
 			);
 
 		$this->view->setVar('resolucion_ministerial',$resolucion_ministerial);
+
 
 		// $organigrama = $this->tag->select(
 		// 	array(
