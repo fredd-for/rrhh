@@ -1,6 +1,12 @@
 </head>
 <body>
 <style>
+    .fc-today{
+        background-color: #0097D6;
+    }
+    .fc-sat, .fc-sun{
+        background-color: yellow;
+    }
     .verde {
         color: black \9;
         background-color: #b6ff00 \9;
@@ -341,15 +347,14 @@
                     <div class="col-md-2">
                         <div class="block-section">
                             <div class="block-section text-center text-muted">
-                                <small><em><i class="fa fa-plus-square"></i> Total de horas por semana en el mes</em></small>
+                                <!--<small><em>--><i class="gi gi-clock fa-3x text-info"></i><!-- Total de horas por semana en el mes</em></small>-->
                             </div>
                             <div id="divSumaHorasPorSemana">
                             <table class="fc-border-separate" style="width:100%" cellspacing="0">
                             <thead>
                             <tr class="fc-first fc-last">
                                 <th style="width: 87px;"
-                                    class="fc-day-header fc-widget-header fc-first fc-last">Total
-                                </th>
+                                    class="fc-day-header fc-widget-header fc-first fc-last"> Horas </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -380,7 +385,7 @@
                                 <td class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last"
                                     data-date="2015-02-16">
                                     <div style="min-height: 66px;">
-                                        <div class="fc-day-number"><span id="4">12</span></div>
+                                        <div class="fc-day-number"><span id="spSumaSemana4" class="spSumaSemana">0</span></div>
                                     </div>
                                 </td>
                             </tr>

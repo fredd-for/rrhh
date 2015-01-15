@@ -120,13 +120,13 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             $("#hdnFechaFinParaCalendario").val("00-00-0000");
                         }
                         cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
-                        iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                        var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                         /**
                          * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
                          */
                         $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
                         $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                        sumarTotalHorasPorSemana(0);
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                         iniciarSelectorTolerancias();
                     });
 
@@ -204,14 +204,14 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     }
                                     var arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,true,fechaIni,fechaFin);
                                     cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
-                                    iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
+                                    var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
                                     /**
                                      * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
                                      */
                                     $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
                                     $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
                                     iniciarSelectorTolerancias(dataRecord.id_tolerancia);
-                                    sumarTotalHorasPorSemana(0);
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio");
                                 } else {
                                     var msj = "Debe seleccionar un registro en estado EN PROCESO para posibilitar la modificaci&oacute;n de los registros correspondientes.";
                                     $("#divMsjePorError").html("");
