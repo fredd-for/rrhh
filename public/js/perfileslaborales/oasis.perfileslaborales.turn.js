@@ -126,7 +126,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                          */
                         $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
                         $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                        sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-nuevo");
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                         iniciarSelectorTolerancias();
                     });
 

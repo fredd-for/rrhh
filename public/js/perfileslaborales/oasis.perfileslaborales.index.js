@@ -196,7 +196,9 @@ $().ready(function () {
     $('#btnDesagruparTodoMovilidad').click(function () {
         $('#divGridPerfilesLaboralesmovilidad').jqxGrid('cleargroups');
     });
-
+    $(".fc-button").on("click",function(){
+        alert(this.class);
+    });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
      */

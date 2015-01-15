@@ -20,6 +20,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
     var optDroppable = true;
     var optSelectable = true;
     var optVerFinesDeSemana= true;
+    var optVerTotalizadorHorasPorSemana=true;
     //weekends
     switch (accion){
         case 1://Nuevo
@@ -39,7 +40,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
     }
     switch (tipoHorario){
         case 1:
-        case 2:optVerFinesDeSemana=false;diasSemana=5;break;
+        case 2:optVerFinesDeSemana=false;diasSemana=5;optVerTotalizadorHorasPorSemana=false;break;
         case 3:break;
     }
     $('#calendar').fullCalendar({
@@ -81,18 +82,15 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             /**
              * Si se introduce un nuevo horario en el calendario se recalcula los totales por semana.
              */
-            sumarTotalHorasPorSemana(arrFechasPorSemana,"drop");
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
 
-        }/*,
-        viewRender: function (view, element) {
-            sumarTotalHorasPorSemana(arrFechasPorSemana,"view");
-        }*/
+        }
         ,
         eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
             /**
              * Si un horario se ha movido, es necesario calcular los totales de horas por semana
              */
-            sumarTotalHorasPorSemana(arrFechasPorSemana,"eventDrop");
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
         },
         events: arrHorariosRegistrados,
         /**
@@ -140,22 +138,18 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                         /**
                          * Si se ha eliminado un horario, es necesario recalcular las horas por semana
                          */
-                        sumarTotalHorasPorSemana(arrFechasPorSemana,"click");
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                     });
                 }else alert("Error al determinar los datos del horario.");
             }else {
                 alert("El registro corresponde a un periodo de descanso");
             }
         },
-        eventRender: function(event, element) {
-            /**
-             * Si algun horario se modifica en cuanto a su rango se vuelve a calcular la sumatoria de horas
-             */
-            //sumarTotalHorasPorSemana(arrFechasPorSemana,"eventRender");
-        },
         eventResize: function(event, delta, revertFunc) {
-
-            sumarTotalHorasPorSemana(arrFechasPorSemana,"eventResize");
+            /**
+             * Cuando un horario es modificado en cuanto a su duración, se debe calcular nuevamente los totales de horas por semana
+             */
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
 
         },
         dayRender: function (date, cell) {
@@ -885,8 +879,7 @@ function numeroHoras(hora){
 /**
  * Función para calcular el total de horas por semana.
  */
-function sumarTotalHorasPorSemana(arrFechasPorSemana,entro){
-    //alert("entro por:"+entro);
+function sumarTotalHorasPorSemana(arrFechasPorSemana){
     var arr = $("#calendar").fullCalendar( 'clientEvents');
     var horasSemana1=0;
     var horasSemana2=0;
