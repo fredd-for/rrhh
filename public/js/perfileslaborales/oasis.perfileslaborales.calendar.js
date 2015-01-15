@@ -956,3 +956,32 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
     $("#spSumaSemana5").html(horasSemana5);
     $("#spSumaSemana6").html(horasSemana6);
 }
+/**
+ * Función para cargar el selector de tipos de jornadas laborales disponibles.
+ * @param idJornadaLaboral
+ */
+function cargarJornadasLaborales(idJornadaLaboral){
+    $.ajax({
+        url: '/calendariolaboral/listjornadaslaborales',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data:{estado:1},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            $('#lstJornadasLaborales').html("");
+            $('#lstJornadasLaborales').append("<option value='0'>Seleccionar...</option>");
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    if (idJornadaLaboral == val.id) {
+                        $selected = 'selected';
+                    } else {
+                        $selected = '';
+                    }
+                    $('#lstJornadasLaborales').append("<option value=" + val.id + " " + $selected + ">" + val.jornada_laboral + "</option>");
+                });
+            } else $('#lstJornadasLaborales').prop("disabled", "disabled");
+        }
+    });
+}

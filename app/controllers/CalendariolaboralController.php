@@ -267,4 +267,30 @@ class CalendariolaboralController extends ControllerBase
         }
         echo json_encode($msj);
     }
+
+    /**
+     * Función para obtener el listado de tipos de jornadas laborales disponibles.
+     */
+    public function listjornadaslaboralesAction(){
+        $this->view->disable();
+        $jornadasLaborales = Array();
+        $obj = new parametros();
+        if(isset($_POST["id"])&&$_POST["id"]>0){
+            $idJornadaLaboral = $_POST["id"];
+            $resul = parametros::find(array("parametro='JORNADA_TRABAJO' AND estado=1 AND baja_logica=1"));
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $jornadasLaborales[] = array(
+                        'id'=>$v->nivel,
+                        'tipo'=>$v->valor_1,
+                        'horas_semana'=>$v->valor_2,
+                        'horas_dia'=>$v->valor_3,
+                        'horas_noche'=>$v->valor_4
+                    );
+                }
+            }
+        }
+        echo json_encode($jornadasLaborales);
+    }
 }
