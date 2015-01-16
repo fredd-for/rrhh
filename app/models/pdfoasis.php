@@ -471,6 +471,43 @@ class pdfoasis extends fpdf{
     return $arrRes;
     }
     #endregion nuevas funciones
+    /*
+     * Función para obtener la cantidad de veces que se considera una misma columna en el filtrado.
+     * @param $columna
+     * @param $array
+     * @return int
+     */
+    function obtieneCantidadVecesConsideracionPorColumnaEnFiltros($columna, $array)
+    {
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $cont++;
+                }
+            }
+        }
+        return $cont;
+    }
 
+    /**
+     * Función para la obtención de los valores considerados en el filtro enviado.
+     * @param $columna Nombre de la columna
+     * @param $array Array con los registro de busquedas.
+     * @return array Array con los valores considerados en el filtrado enviado.
+     */
+    function obtieneValoresConsideradosPorColumnaEnFiltros($columna, $array)
+    {
+        $arr_col = array();
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $arr_col[] = $val["valor"];
+                }
+            }
+        }
+        return $arr_col;
+    }
 
 }

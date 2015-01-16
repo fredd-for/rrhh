@@ -156,22 +156,23 @@ class Cargos extends \Phalcon\Mvc\Model
 
     private $_db;
 
-    public function lista($organigrama_id = '', $estado2 = '', $condicion = '')
+    //public function lista($organigrama_id = '', $estado2 = '', $condicion = '')
+    public function lista($where='')
     {
-        $where = '';
-        if ($organigrama_id > 0) {
-            $where .= ' AND c.organigrama_id=' . $organigrama_id;
-        }
-        if ($condicion > 0) {
-            $where .= ' AND f.condicion_id=' . $condicion;
-        }
-        if ($estado2 > 0) {
-            if ($estado2 == 1) {
-                $where .= ' AND r.estado is NOT NULL';
-            } else {
-                $where .= ' AND r.estado is NULL';
-            }
-        }
+        // $where = '';
+        // if ($organigrama_id > 0) {
+        //     $where .= ' AND c.organigrama_id=' . $organigrama_id;
+        // }
+        // if ($condicion > 0) {
+        //     $where .= ' AND f.condicion_id=' . $condicion;
+        // }
+        // if ($estado2 > 0) {
+        //     if ($estado2 == 1) {
+        //         $where .= ' AND r.estado is NOT NULL';
+        //     } else {
+        //         $where .= ' AND r.estado is NULL';
+        //     }
+        // }
 
 // $sql="SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.codigo_nivel ASC) AS nro,c.id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
 // c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
@@ -348,4 +349,14 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+     public function getAll($where='',$group='')
+    {
+        $sql = "SELECT * FROM cargos";
+        if($where!='')$sql .= $where;
+        if($group!='')$sql .= $group;
+        $this->_db = new Frelaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
 }

@@ -49,11 +49,14 @@ function cargar(){
 		cache: false
 	};
 	var dataAdapter = new $.jqx.dataAdapter(source);
-
+	
+	$("#jqxgrid").jqxGrid('applyfilters');
+	//$("#jqxgrid").jqxGrid('applyfilters', 'resolucion', filtergroup);
 	 var firstNameColumnFilter = function () {
+	 	//alert(tipo_resolucion);
                 var filtergroup = new $.jqx.filter();
                 var filter_or_operator = 1;
-                var filtervalue = '<?php echo $tipo_resolucion ?>';
+                var filtervalue = $("#tipo_resolucion").val();
                 var filtercondition = 'equal';
                 var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
                 filtergroup.addfilter(filter_or_operator, filter);
@@ -66,6 +69,7 @@ function cargar(){
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
+		
                 //groupable: true,
                 columnsresize: true,
                 pageable: true,
@@ -74,6 +78,7 @@ function cargar(){
                 filterable: true,
                 //showtoolbar: true,
                 autorowheight: true,
+
                 columns: [
                 {
                 	text: '#', sortable: false, filterable: false, editable: false,
@@ -100,7 +105,7 @@ function cargar(){
       ]
   });
 
-
+	
 }
 
 $("#jqxgrid").bind('rowselect', function (event) {
@@ -382,38 +387,6 @@ function select_dependencia(organigrama_id,depende_id){
 		});            
 	
 }
-// $("#resolucion_ministerial_id").change(function(){
-// 	select_organigrama('');
-// 	select_dependencia('');
-// 	select_fuentefinanciamiento('');
-// });
-
-// $("#organigrama_id").change(function(){
-// 	select_dependencia('');
-// });
-
-// select_organigrama('');
-// select_dependencia('');
-// select_fuentefinanciamiento('');
-
-// function select_organigrama(organigrama_id){
-// 	var id = $("#resolucion_ministerial_id").find(':selected').val();
-// 	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+organigrama_id);
-// 	select_dependencia();
-// }
-
-// function select_dependencia(depende_id){
-// 	var id = $("#organigrama_id").find(':selected').val();
-// 	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
-
-// }
-
-// function select_fuentefinanciamiento(fin_partida_id){
-// 	var id = $("#resolucion_ministerial_id").find(':selected').val();
-// 	$("#fin_partida_id").load('/cargos/select_fuentefinanciamiento/'+id+'/'+fin_partida_id);
-
-// }
-
 /***********************************************/
 
 
@@ -450,7 +423,10 @@ $('#testForm').validate({
 			type:'POST',
 			datatype: 'json',
 			data:{id:$("#id").val(),resolucion_ministerial_id:$('#resolucion_ministerial_id').val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
-					success: function(data) { cargar(); //alert(data.msm); 
+					success: function(data) { 
+												//cargar();
+												location.href="/cargos";	 //alert(data.msm); 
+												
 											}, //mostramos el error
 											error: function() { alert('Se ha producido un error Inesperado'); }
 										});
@@ -500,10 +476,164 @@ $('#testForm').validate({
 
 
 /***********Reporte PDF**************/
-$("#rep_pdf").click(function(){
-	$('#myModal_rep').modal('show');	
+// $("#rep_pdf").click(function(){
+// 	$('#myModal_rep').modal('show');	
 	
+// });
+
+$("#rep_pdf").click(function () {
+        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
+        if (numColumnas > 0) exportarReporte(2);
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#jqxlistbox").focus();
+        }
 });
+
+
+function exportarReporte(option){
+	columna = new Object();
+    filtros = new Object();
+    agrupados = new Object();
+    ordenados = new Object();
+    resolucion = $('#jqxgrid').jqxGrid('getcolumn','resolucion');
+    unidad_administrativa = $('#jqxgrid').jqxGrid('getcolumn','unidad_administrativa');
+    denominacion = $('#jqxgrid').jqxGrid('getcolumn','denominacion');
+    codigo = $('#jqxgrid').jqxGrid('getcolumn','codigo');
+    cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
+    sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
+    estado = $('#jqxgrid').jqxGrid('getcolumn','estado');
+    condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
+    partida = $('#jqxgrid').jqxGrid('getcolumn','partida');
+    fuente_codigo = $('#jqxgrid').jqxGrid('getcolumn','fuente_codigo');
+    fuente = $('#jqxgrid').jqxGrid('getcolumn','fuente');
+    organismo_codigo = $('#jqxgrid').jqxGrid('getcolumn','organismo_codigo');
+    organismo = $('#jqxgrid').jqxGrid('getcolumn','organismo');
+
+    columna[resolucion.datafield] = {text: resolucion.text, hidden: resolucion.hidden};
+    columna[unidad_administrativa.datafield] = {text: unidad_administrativa.text, hidden: unidad_administrativa.hidden};
+    columna[denominacion.datafield] = {text: denominacion.text, hidden: denominacion.hidden};
+    columna[codigo.datafield] = {text: codigo.text, hidden: codigo.hidden};
+    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
+    columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
+    columna[estado.datafield] = {text: estado.text, hidden: estado.hidden};
+    columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
+    columna[partida.datafield] = {text: partida.text, hidden: partida.hidden};
+    columna[fuente_codigo.datafield] = {text: fuente_codigo.text, hidden: fuente_codigo.hidden};
+    columna[fuente.datafield] = {text: fuente.text, hidden: fuente.hidden};
+    columna[organismo_codigo.datafield] = {text: organismo_codigo.text, hidden: organismo_codigo.hidden};
+    columna[organismo.datafield] = {text: organismo.text, hidden: organismo.hidden};
+
+    var groups = $('#jqxgrid').jqxGrid('groups');
+    if(groups==null||groups=='')groups='null';
+    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
+
+    var sortinformation = $('#jqxgrid').jqxGrid('getsortinformation');
+    if(sortinformation.sortcolumn!=undefined){
+        // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
+        var sortcolumn = sortinformation.sortcolumn;
+        // The sortdirection is an object with two fields: 'ascending' and 'descending'. Ex: { 'ascending': true, 'descending': false }
+        var sortdirection = sortinformation.sortdirection;
+        ordenados[sortcolumn] = {asc: sortdirection.ascending, desc: sortdirection.descending};
+    }else ordenados='';
+
+
+    var rows = $('#jqxgrid').jqxGrid('getrows');
+    var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
+    var counter = 0;
+    for (var i = 0; i < filterGroups.length; i++) {
+        var filterGroup = filterGroups[i];
+        var filters = filterGroup.filter.getfilters();
+        for (var j = 0; j < filters.length; j++) {
+            if (j>0){
+                counter++;
+            }
+            var indice = i+counter;
+            filtros[indice] = {columna: filterGroup.filtercolumn, valor: filters[j].value,
+                condicion: filters[j].condition, tipo: filters[j].type};
+        }
+    }
+    var n_rows = rows.length;
+    var json_filter = JSON.stringify(filtros);
+    var json_columns = JSON.stringify(columna);
+    var json_sorteds = JSON.stringify(ordenados);
+    json_columns = btoa(utf8_encode(json_columns));
+    json_filter = btoa(utf8_encode(json_filter));
+    json_sorteds = btoa(utf8_encode(json_sorteds));
+    var json_groups =  btoa(utf8_encode(groups));
+
+    json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    var ruta='';
+    switch (option){
+        case 1: ruta="/cargos/exportarExcel/";break;
+        case 2: ruta="/cargos/exportarPdf/";break;
+    }
+    /*if(option==1)ruta="/relaborales/print/";
+    elseif(option==2)ruta="/relaborales/print/";*/
+    if(ruta!='')
+        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+}
+function utf8_encode(argString) {
+    if (argString === null || typeof argString === 'undefined') {
+        return '';
+    }
+
+    var string = (argString + ''); // .replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    var utftext = '',
+        start, end, stringl = 0;
+
+    start = end = 0;
+    stringl = string.length;
+    for (var n = 0; n < stringl; n++) {
+        var c1 = string.charCodeAt(n);
+        var enc = null;
+
+        if (c1 < 128) {
+            end++;
+        } else if (c1 > 127 && c1 < 2048) {
+            enc = String.fromCharCode(
+                (c1 >> 6) | 192, (c1 & 63) | 128
+            );
+        } else if ((c1 & 0xF800) != 0xD800) {
+            enc = String.fromCharCode(
+                (c1 >> 12) | 224, ((c1 >> 6) & 63) | 128, (c1 & 63) | 128
+            );
+        } else { // surrogate pairs
+            if ((c1 & 0xFC00) != 0xD800) {
+                throw new RangeError('Unmatched trail surrogate at ' + n);
+            }
+            var c2 = string.charCodeAt(++n);
+            if ((c2 & 0xFC00) != 0xDC00) {
+                throw new RangeError('Unmatched lead surrogate at ' + (n - 1));
+            }
+            c1 = ((c1 & 0x3FF) << 10) + (c2 & 0x3FF) + 0x10000;
+            enc = String.fromCharCode(
+                (c1 >> 18) | 240, ((c1 >> 12) & 63) | 128, ((c1 >> 6) & 63) | 128, (c1 & 63) | 128
+            );
+        }
+        if (enc !== null) {
+            if (end > start) {
+                utftext += string.slice(start, end);
+            }
+            utftext += enc;
+            start = end = n + 1;
+        }
+    }
+
+    if (end > start) {
+        utftext += string.slice(start, stringl);
+    }
+
+    return utftext;
+};
+
 
 $('#exportar_excel').click(function(){
 	$('#testForm_rep').attr('action', '/cargos/exportarExcel/');
@@ -556,6 +686,7 @@ $('#exportar_pac_pdf').click(function(){
 <div class="row">
     <div class="col-lg-10 col-md-10 col-xs-12">
         <div style="width: 100%; height: 350px;  " id="jqxgrid"></div>
+        <input type="hidden" name="tipo_resolucion" id="tipo_resolucion" value="<?php echo $tipo_resolucion ?>">
     </div>
     <div class="col-lg-2 col-md-2 col-xs-12">
         <div style="width: 100%;" id="jqxlistbox"></div>
