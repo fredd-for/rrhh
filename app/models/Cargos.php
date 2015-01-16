@@ -308,7 +308,7 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
     {
         $sql="SELECT id,cargo FROM cargos WHERE organigrama_id=(SELECT padre_id FROM organigramas WHERE id=".$organigrama_id.") AND jefe=1 AND baja_logica = 1
         UNION ALL
-        SELECT id,cargo FROM cargos WHERE organigrama_id=".$organigrama_id." AND baja_logica = 1";
+        SELECT id,cargo FROM cargos WHERE organigrama_id=".$organigrama_id." AND baja_logica = 1 ORDER BY cargo ASC";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));   
     }

@@ -126,15 +126,17 @@ $("#jqxgrid").bind('rowselect', function (event) {
 
 
 
-	/*****Edita cargo*******/
+	
 	$("#id").val(dataRecord.id);
 	$("#resolucion_ministerial_id").val(dataRecord.resolucion_ministerial_id);
-	// $("#organigrama_id").val(dataRecord.organigrama_id);
+	//$("#depende_id").val(dataRecord.depende_id);
 	// $('#organigrama_id').trigger("chosen:updated");
 	// $("#fin_partida_id").val(dataRecord.fin_partida_id);
 	select_organigrama(dataRecord.organigrama_id);
-	select_dependencia(dataRecord.depende_id);
 	select_fuentefinanciamiento(dataRecord.fin_partida_id);
+	//$("#organigrama_id").val(dataRecord.organigrama_id);
+	select_dependencia(dataRecord.organigrama_id,dataRecord.depende_id);
+	// select_fuentefinanciamiento(dataRecord.fin_partida_id);
 	$("#depende_id").val(dataRecord.depende_id);
 	$("#codigo_nivel").val(dataRecord.codigo_nivel);
 	$("#codigo").val(dataRecord.codigo);
@@ -159,6 +161,8 @@ $("#add").click(function(){
 	// $("#popupWindow").jqxWindow('open');
 	$('#myModal').modal('show');
 });
+
+
 
 $("#edit").click(function(){
 	if($("#id").val()!=""){
@@ -330,24 +334,6 @@ $("#delete_pac").click(function(){
 
 /*******end segungo grid*********/
 
-// $("#Save").click(function () {
-// 	if ($('#testForm').jqxValidator('validate')){
-// 		//var cargo_estado_id = $('input[name="cargo_estado_id"]:checked').val();        
-// 				//alert(cargo_estado_id); 
-// 				var v=$.ajax({
-// 					url:'/cargos/save/',
-// 					type:'POST',
-// 					datatype: 'json',
-// 					data:{id:$("#id").val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val()},
-// 					success: function(data) { cargar(); //alert(data.msm); 
-// 											}, //mostramos el error
-// 											error: function() { alert('Se ha producido un error Inesperado'); }
-// 										});
-// 				//$("#popupWindow").jqxWindow('hide');
-// 				$('#myModal_pac').modal('hide');
-// 			}
-// 		});
-
 $("#codigo_nivel").change(function(){
 	var element = $(this).find('option:selected'); 
 	var myTag = element.attr("sueldo"); 
@@ -355,44 +341,78 @@ $("#codigo_nivel").change(function(){
 });
 
 /*************Select Dependiente*****************/
-$("#resolucion_ministerial_id").change(function(){
-	select_organigrama('');
-	select_dependencia('');
-	select_fuentefinanciamiento('');
+$("#resolucion_ministerial_id").change(function () {
+	select_organigrama();
+	$("#depende_id").html("");
+	select_fuentefinanciamiento();
 });
 
-$("#organigrama_id").change(function(){
-	select_dependencia('');
+$("#organigrama_id").change(function () {
+	select_dependencia($("#organigrama_id").val());
 });
 
-select_organigrama('');
-select_fuentefinanciamiento('');
-
-function select_organigrama(organigrama_id){
-	var id = $("#resolucion_ministerial_id").find(':selected').val();
-	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+organigrama_id);
-
-}
-
-function select_dependencia(depende_id){
-	var id = $("#organigrama_id").find(':selected').val();
-	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
-
-}
+select_organigrama();
+select_fuentefinanciamiento();
 
 function select_fuentefinanciamiento(fin_partida_id){
-	var id = $("#resolucion_ministerial_id").find(':selected').val();
-	$("#fin_partida_id").load('/cargos/select_fuentefinanciamiento/'+id+'/'+fin_partida_id);
-
+	$("#resolucion_ministerial_id option:selected").each(function () {
+		elegido=$(this).val();
+		$.post("/cargos/select_fuentefinanciamiento/", { elegido: elegido }, function(data){
+			$("#fin_partida_id").html(data);
+			$("#fin_partida_id").val(fin_partida_id);
+		});
+	});
+}
+function select_organigrama(organigrama_id){
+	$("#resolucion_ministerial_id option:selected").each(function () {
+		elegido=$(this).val();
+		$.post("/cargos/select_organigrama/", { elegido: elegido }, function(data){
+			$("#organigrama_id").html(data);
+			$("#organigrama_id").val(organigrama_id);
+		});
+	});
 }
 
-/***********************************************/
+function select_dependencia(organigrama_id,depende_id){
+	
+		//elegido=organigrama_id;
+		$.post("/cargos/select_dependencia/", { elegido: organigrama_id }, function(data){
+			$("#depende_id").html(data);
+			$("#depende_id").val(depende_id);
+		});            
+	
+}
+// $("#resolucion_ministerial_id").change(function(){
+// 	select_organigrama('');
+// 	select_dependencia('');
+// 	select_fuentefinanciamiento('');
+// });
 
-/*************Select Dependiente*****************/
-$("#gerencia_id").change(function(){
-	var id = $("#gerencia_id").find(':selected').val();
-	$("#depende_id").load('/cargos/dependencia_gerencia/'+id);
-});
+// $("#organigrama_id").change(function(){
+// 	select_dependencia('');
+// });
+
+// select_organigrama('');
+// select_dependencia('');
+// select_fuentefinanciamiento('');
+
+// function select_organigrama(organigrama_id){
+// 	var id = $("#resolucion_ministerial_id").find(':selected').val();
+// 	$("#organigrama_id").load('/cargos/select_organigrama/'+id+'/'+organigrama_id);
+// 	select_dependencia();
+// }
+
+// function select_dependencia(depende_id){
+// 	var id = $("#organigrama_id").find(':selected').val();
+// 	$("#depende_id").load('/cargos/dependencia/'+id+'/'+depende_id);
+
+// }
+
+// function select_fuentefinanciamiento(fin_partida_id){
+// 	var id = $("#resolucion_ministerial_id").find(':selected').val();
+// 	$("#fin_partida_id").load('/cargos/select_fuentefinanciamiento/'+id+'/'+fin_partida_id);
+
+// }
 
 /***********************************************/
 

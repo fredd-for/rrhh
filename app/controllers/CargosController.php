@@ -143,7 +143,7 @@ class CargosController extends ControllerBase
 
 		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
 		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
-		
+
 		$this->tag->setDefault("resolucion_ministerial_id", $resolucion_ministerial0->id);
         $resolucion_ministerial = $this->tag->select(
 			array(
@@ -583,69 +583,118 @@ public function exportarPacPdfAction()
  * @param  string $id         [criterio de busqueda]
  * @param  string $depende_id [criterio de selected al editar]
  */
-	public function select_organigramaAction($id='',$organigrama_id='')
+	// public function select_organigramaAction($id='',$organigrama_id='')
+	// {
+	// 	$resul = Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$id,'order' => 'unidad_administrativa ASC'));
+	// 	$this->view->disable();
+	// 	$options = '<option value="">(Seleccionar)</option>';
+	// 	foreach ($resul as $v) {
+	// 		$checked='';
+	// 		if($organigrama_id==$v->id)
+	// 		{
+	// 			$checked='selected=selected';
+	// 		}				
+	// 		$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->unidad_administrativa.'</option>';
+	// 	}
+    
+        
+	// echo $options; 
+	// }
+
+
+	// public function select_fuentefinanciamientoAction($id='',$fin_partida_id='')
+	// {
+	// 	if ($id>16) {
+	// 		$resul = Finpartidas::find(array('baja_logica=1 and agrupador=1','order' => 'id ASC'));	
+	// 	}else{
+	// 		$resul = Finpartidas::find(array('baja_logica=1 and agrupador=0','order' => 'id ASC'));	
+	// 	}
+
+		
+	// 	$this->view->disable();
+	// 	$options = '<option value="">(Seleccionar)</option>';
+	// 	foreach ($resul as $v) {
+	// 		$checked='';
+	// 		if($fin_partida_id==$v->id)
+	// 		{
+	// 			$checked='selected=selected';
+	// 		}				
+	// 		$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->denominacion.'</option>';
+	// 	}
+	// echo $options; 
+	// }
+
+	// public function dependenciaAction($id='',$depende_id='')
+	// {
+		
+	// 	//$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
+	// 	$model = new Cargos();
+	// 	$resul = $model->dependientes($id);
+		
+	// 	$this->view->disable();
+	// 	$options = '<option value="">(Seleccionar)</option>';
+	// 	foreach ($resul as $v) {
+	// 		$checked='';
+	// 		if($depende_id==$v->id)
+	// 		{
+	// 			$checked='selected=selected';
+	// 		}				
+	// 		$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->cargo.'</option>';
+	// 	}
+    
+        
+	// echo $options; 
+	// }
+	// 
+	// 
+	public function select_organigramaAction()
 	{
-		$resul = Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$id,'order' => 'unidad_administrativa ASC'));
+		$resul = Organigramas::find(array('baja_logica=1 and resolucion_ministerial_id='.$_POST["elegido"],'order' => 'unidad_administrativa ASC'));
 		$this->view->disable();
 		$options = '<option value="">(Seleccionar)</option>';
 		foreach ($resul as $v) {
 			$checked='';
-			if($organigrama_id==$v->id)
-			{
-				$checked='selected=selected';
-			}				
+			// if($organigrama_id==$v->id)
+			// {
+			// 	$checked='selected=selected';
+			// }				
 			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->unidad_administrativa.'</option>';
 		}
-    
-        
-	echo $options; 
+                echo $options; 
 	}
 
-
-	public function select_fuentefinanciamientoAction($id='',$fin_partida_id='')
+	public function select_fuentefinanciamientoAction()
 	{
-		if ($id>16) {
+		if ($_POST['elegido']>16) {
 			$resul = Finpartidas::find(array('baja_logica=1 and agrupador=1','order' => 'id ASC'));	
 		}else{
 			$resul = Finpartidas::find(array('baja_logica=1 and agrupador=0','order' => 'id ASC'));	
 		}
-
-		
 		$this->view->disable();
 		$options = '<option value="">(Seleccionar)</option>';
 		foreach ($resul as $v) {
 			$checked='';
-			if($fin_partida_id==$v->id)
-			{
-				$checked='selected=selected';
-			}				
 			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->denominacion.'</option>';
 		}
-	echo $options; 
+		echo $options; 
 	}
 
-	public function dependenciaAction($id='',$depende_id='')
+	public function select_dependenciaAction()
 	{
-		
-		//$resul = Cargos::find(array('baja_logica=1 and organigrama_id='.$id,'order' => 'id ASC'));
 		$model = new Cargos();
-		$resul = $model->dependientes($id);
-		
+	 	$resul = $model->dependientes($_POST["elegido"]);
 		$this->view->disable();
 		$options = '<option value="">(Seleccionar)</option>';
 		foreach ($resul as $v) {
 			$checked='';
-			if($depende_id==$v->id)
-			{
-				$checked='selected=selected';
-			}				
+			// if($organigrama_id==$v->id)
+			// {
+			// 	$checked='selected=selected';
+			// }				
 			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->cargo.'</option>';
 		}
-    
-        
-	echo $options; 
+                echo $options; 
 	}
-
 	
 }
 ?>
