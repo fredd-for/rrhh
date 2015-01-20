@@ -24,7 +24,7 @@ function cargar(){
 		datafields: [
 		{ name: 'id',type: 'number'},
 		{ name: 'resolucion_ministerial_id',type: 'number'},
-		{ name: 'resolucion',type: 'string'},
+		{ name: 'tipo_resolucion',type: 'string'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'organigrama_id',type: 'string'},
 		{ name: 'depende_id',type: 'number'},
@@ -52,16 +52,16 @@ function cargar(){
 	
 	$("#jqxgrid").jqxGrid('applyfilters');
 	//$("#jqxgrid").jqxGrid('applyfilters', 'resolucion', filtergroup);
-	 var firstNameColumnFilter = function () {
+	var firstNameColumnFilter = function () {
 	 	//alert(tipo_resolucion);
-                var filtergroup = new $.jqx.filter();
-                var filter_or_operator = 1;
-                var filtervalue = $("#tipo_resolucion").val();
-                var filtercondition = 'equal';
-                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
-                filtergroup.addfilter(filter_or_operator, filter);
-                return filtergroup;
-            }();
+	 	var filtergroup = new $.jqx.filter();
+	 	var filter_or_operator = 1;
+	 	var filtervalue = $("#tipo_resolucion").val();
+	 	var filtercondition = 'equal';
+	 	var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+	 	filtergroup.addfilter(filter_or_operator, filter);
+	 	return filtergroup;
+	 }();
 
 	$("#jqxgrid").jqxGrid({
 		width: '100%',
@@ -88,7 +88,7 @@ function cargar(){
                 		return "<div style='margin:3px;'>" + (value + 1) + "</div>";
                 	}
                 },
-                { text: 'Resolución', datafield: 'resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '15%' },
+                { text: 'Resolución', datafield: 'tipo_resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '15%' },
                 { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
@@ -242,7 +242,7 @@ $("#add_pac").click(function(){
 
 
 
-var listSource = [{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Item', value: 'codigo', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true}, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
+var listSource = [{ label: 'Resolución', value: 'tipo_resolucion', checked: true },{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Item', value: 'codigo', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true}, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
 
 $("#jqxlistbox").jqxListBox({ source: listSource,   checkboxes: true });
 $("#jqxlistbox").on('checkChange', function (event) {
@@ -265,6 +265,7 @@ function cargar2(){
 		datafields: [
 		{ name: 'nro',type: 'number'},
 		{ name: 'id',type: 'number'},
+		{ name: 'tipo_resolucion',type: 'string'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'codigo',type: 'string'},
 		{ name: 'cargo',type: 'string'},
@@ -278,6 +279,20 @@ function cargar2(){
 	};
 
 	var dataAdapter = new $.jqx.dataAdapter(source);
+
+	$("#jqxgrid2").jqxGrid('applyfilters');
+	//$("#jqxgrid").jqxGrid('applyfilters', 'resolucion', filtergroup);
+	var firstNameColumnFilter = function () {
+	 	//alert(tipo_resolucion);
+	 	var filtergroup = new $.jqx.filter();
+	 	var filter_or_operator = 1;
+	 	var filtervalue = $("#tipo_resolucion").val();
+	 	var filtercondition = 'equal';
+	 	var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+	 	filtergroup.addfilter(filter_or_operator, filter);
+	 	return filtergroup;
+	 }();
+
 	$("#jqxgrid2").jqxGrid({
 		width: '100%',
 		height: '100%',
@@ -301,12 +316,13 @@ function cargar2(){
         		return "<div style='margin:4px;'>" + (value + 1) + "</div>";
         	}
         },
-        { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
+        { text: 'Resolución', datafield: 'tipo_resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '20%' },
+        { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
         { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
-        { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '33%' },
+        { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '27%' },
         { text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
-        { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
-        { text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '8%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Fecha Finalización', datafield: 'fecha_fin', filtertype: 'range', width: '8%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
         { text: 'Estado', datafield: 'estado', filtertype: 'input',width: '5%' }
     ]
 });
@@ -500,7 +516,7 @@ function exportarReporte(option){
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
-    resolucion = $('#jqxgrid').jqxGrid('getcolumn','resolucion');
+    tipo_resolucion = $('#jqxgrid').jqxGrid('getcolumn','tipo_resolucion');
     unidad_administrativa = $('#jqxgrid').jqxGrid('getcolumn','unidad_administrativa');
     denominacion = $('#jqxgrid').jqxGrid('getcolumn','denominacion');
     codigo = $('#jqxgrid').jqxGrid('getcolumn','codigo');
@@ -514,7 +530,7 @@ function exportarReporte(option){
     organismo_codigo = $('#jqxgrid').jqxGrid('getcolumn','organismo_codigo');
     organismo = $('#jqxgrid').jqxGrid('getcolumn','organismo');
 
-    columna[resolucion.datafield] = {text: resolucion.text, hidden: resolucion.hidden};
+    columna[tipo_resolucion.datafield] = {text: tipo_resolucion.text, hidden: tipo_resolucion.hidden};
     columna[unidad_administrativa.datafield] = {text: unidad_administrativa.text, hidden: unidad_administrativa.hidden};
     columna[denominacion.datafield] = {text: denominacion.text, hidden: denominacion.hidden};
     columna[codigo.datafield] = {text: codigo.text, hidden: codigo.hidden};
@@ -635,26 +651,118 @@ function utf8_encode(argString) {
 };
 
 
-$('#exportar_excel').click(function(){
-	$('#testForm_rep').attr('action', '/cargos/exportarExcel/');
-});
-$('#exportar_pdf').click(function(){
-	$('#testForm_rep').attr('action', '/cargos/exportarPdf/');
-});
+// $('#exportar_excel').click(function(){
+// 	$('#testForm_rep').attr('action', '/cargos/exportarExcel/');
+// });
+// $('#exportar_pdf').click(function(){
+// 	$('#testForm_rep').attr('action', '/cargos/exportarPdf/');
+// });
 /**************************/
 
 /***********Reporte PDF PACP**************/
-$("#rep_pdf_pac").click(function(){
-	$('#myModal_rep_pac').modal('show');	
+// $("#rep_pdf_pac").click(function(){
+// 	$('#myModal_rep_pac').modal('show');	
 	
+// });
+
+$("#rep_pdf_pac").click(function () {
+        // var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        // var numColumnas = 0;
+        // $.each(items, function (index, value) {
+        //     numColumnas++;
+        // });
+        // if (numColumnas > 0) exportarReporte(2);
+        // else {
+        //     alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+        //     $("#jqxlistbox").focus();
+        // }
+        exportarPacReporte(2);
 });
 
-$('#exportar_pac_excel').click(function(){
-	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacExcel/');
-});
-$('#exportar_pac_pdf').click(function(){
-	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacPdf/');
-});
+
+function exportarPacReporte(option){
+	columna = new Object();
+    filtros = new Object();
+    agrupados = new Object();
+    ordenados = new Object();
+
+    tipo_resolucion = $('#jqxgrid2').jqxGrid('getcolumn','tipo_resolucion');
+    unidad_administrativa = $('#jqxgrid2').jqxGrid('getcolumn','unidad_administrativa');
+    codigo = $('#jqxgrid2').jqxGrid('getcolumn','codigo');
+    cargo = $('#jqxgrid2').jqxGrid('getcolumn','cargo');
+    gestion = $('#jqxgrid2').jqxGrid('getcolumn','gestion');
+    fecha_ini = $('#jqxgrid2').jqxGrid('getcolumn','fecha_ini');
+    fecha_fin = $('#jqxgrid2').jqxGrid('getcolumn','fecha_fin');
+    estado  = $('#jqxgrid2').jqxGrid('getcolumn','estado');
+
+    columna[tipo_resolucion.datafield] = {text: tipo_resolucion.text, hidden: tipo_resolucion.hidden};
+    columna[unidad_administrativa.datafield] = {text: unidad_administrativa.text, hidden: unidad_administrativa.hidden};
+    columna[codigo.datafield] = {text: codigo.text, hidden: codigo.hidden};
+    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
+    columna[gestion.datafield] = {text: gestion.text, hidden: gestion.hidden};
+    columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};
+    columna[fecha_fin.datafield] = {text: fecha_fin.text, hidden: fecha_fin.hidden};
+    columna[estado.datafield] = {text: estado.text, hidden: estado.hidden};
+    
+    var groups = $('#jqxgrid2').jqxGrid('groups');
+    if(groups==null||groups=='')groups='null';
+    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
+
+    var sortinformation = $('#jqxgrid2').jqxGrid('getsortinformation');
+    if(sortinformation.sortcolumn!=undefined){
+        // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
+        var sortcolumn = sortinformation.sortcolumn;
+        // The sortdirection is an object with two fields: 'ascending' and 'descending'. Ex: { 'ascending': true, 'descending': false }
+        var sortdirection = sortinformation.sortdirection;
+        ordenados[sortcolumn] = {asc: sortdirection.ascending, desc: sortdirection.descending};
+    }else ordenados='';
+
+
+    var rows = $('#jqxgrid2').jqxGrid('getrows');
+    var filterGroups = $('#jqxgrid2').jqxGrid('getfilterinformation');
+    var counter = 0;
+    for (var i = 0; i < filterGroups.length; i++) {
+        var filterGroup = filterGroups[i];
+        var filters = filterGroup.filter.getfilters();
+        for (var j = 0; j < filters.length; j++) {
+            if (j>0){
+                counter++;
+            }
+            var indice = i+counter;
+            filtros[indice] = {columna: filterGroup.filtercolumn, valor: filters[j].value,
+                condicion: filters[j].condition, tipo: filters[j].type};
+        }
+    }
+    var n_rows = rows.length;
+    var json_filter = JSON.stringify(filtros);
+    var json_columns = JSON.stringify(columna);
+    var json_sorteds = JSON.stringify(ordenados);
+    json_columns = btoa(utf8_encode(json_columns));
+    json_filter = btoa(utf8_encode(json_filter));
+    json_sorteds = btoa(utf8_encode(json_sorteds));
+    var json_groups =  btoa(utf8_encode(groups));
+
+    json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    var ruta='';
+    switch (option){
+        case 1: ruta="/cargos/exportarPacExcel/";break;
+        case 2: ruta="/cargos/exportarPacPdf/";break;
+    }
+    /*if(option==1)ruta="/relaborales/print/";
+    elseif(option==2)ruta="/relaborales/print/";*/
+    if(ruta!='')
+        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+}
+
+// $('#exportar_pac_excel').click(function(){
+// 	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacExcel/');
+// });
+// $('#exportar_pac_pdf').click(function(){
+// 	$('#testForm_rep_pac').attr('action', '/cargos/exportarPacPdf/');
+// });
 /**************************/
 
 

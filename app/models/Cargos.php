@@ -157,7 +157,7 @@ class Cargos extends \Phalcon\Mvc\Model
     private $_db;
 
     //public function lista($organigrama_id = '', $estado2 = '', $condicion = '')
-    public function lista($where='')
+    public function lista($where='',$group='')
     {
         // $where = '';
         // if ($organigrama_id > 0) {
@@ -174,65 +174,40 @@ class Cargos extends \Phalcon\Mvc\Model
         //     }
         // }
 
-// $sql="SELECT ROW_NUMBER() OVER(order by c.organigrama_id asc, c.codigo_nivel ASC) AS nro,c.id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
-// c.depende_id,c.codigo,c.cargo,n.categoria,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
-// CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci
-// FROM cargos c 
-// INNER JOIN organigramas o ON c.organigrama_id=o.id
-// INNER JOIN nivelsalariales n ON c.codigo_nivel = n.nivel AND n.activo=1 
-// INNER JOIN finpartidas f ON c.fin_partida_id = f.id
-// INNER JOIN condiciones co ON f.condicion_id = co.id
-// LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
-// LEFT JOIN personas p ON r.persona_id=p.id
-// WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel ASC";
-        $sql="SELECT c.id,c.resolucion_ministerial_id,c.organigrama_id,c.fin_partida_id,o.unidad_administrativa,c.codigo_nivel,
-c.depende_id,c.codigo,c.cargo,n.categoria,c.asistente,c.jefe,n.clase,n.nivel,n.denominacion,n.sueldo,co.condicion,
-CASE WHEN r.estado>0  THEN 'ADJUDICADO' ELSE 'ACEFALO'  END as estado1,CONCAT(p.p_nombre,' ',p.s_nombre,' ',p.p_apellido,' ',p.s_apellido) as nombre, CONCAT(p.ci,' ',p.expd) as ci,
-f.partida,
-cp.gestion,cp.programa,cp.proyecto,cp.actividad,
-org.codigo as organismo_codigo,org.organismo,
-fu.codigo as fuente_codigo,fu.fuente,
-re.tipo_resolucion
-FROM cargos c 
-INNER JOIN organigramas o ON c.organigrama_id=o.id
-INNER JOIN nivelsalariales n ON c.codigo_nivel = n.nivel AND n.activo=1 
-INNER JOIN finpartidas f ON c.fin_partida_id = f.id
-INNER JOIN condiciones co ON f.condicion_id = co.id
-INNER JOIN resoluciones re ON c.resolucion_ministerial_id = re.id
-LEFT JOIN relaborales r ON r.cargo_id=c.id AND r.estado>0 AND r.baja_logica=1
-LEFT JOIN personas p ON r.persona_id=p.id
-LEFT JOIN financiamientos fi ON fi.id=f.financiamiento_id
-LEFT JOIN categoriasprog cp ON cp.id = fi.categoriaprog_id
-LEFT JOIN organismos org ON org.id = fi.organismo_id
-LEFT JOIN fuentes fu ON fu.id = fi.fuente_id
-WHERE c.baja_logica=1 ". $where ." order by c.organigrama_id asc, c.codigo_nivel ASC ";
+// $sql = "SELECT * FROM cargos";
+//         if($where!='')$sql .= $where;
+//         if($group!='')$sql .= $group;
+
+        $sql="SELECT * FROM f_listado_cargos() ".$where." ORDER BY organigrama_id asc, codigo_nivel ASC". $group;
 
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
 
-    public function listapac($estado = '', $organigrama_id = '',$fecha_ini='',$fecha_fin='')
+    //public function listapac($estado = '', $organigrama_id = '',$fecha_ini='',$fecha_fin='')
+    public function listapac($estado = '', $where='')
     {
-        $where = '';
+        //$where = '';
         if ($estado == 1) {
             $where.= " AND se.estado is NULL ";
         }
-        if ($organigrama_id>0) {
-            $where.= " AND c.organigrama_id =".$organigrama_id;   
-        }
-        if ($fecha_ini!='' && $fecha_fin!='') {
-            $where.= " AND p.fecha_ini BETWEEN '$fecha_ini' AND '$fecha_fin'";   
-        }
+        // if ($organigrama_id>0) {
+        //     $where.= " AND c.organigrama_id =".$organigrama_id;   
+        // }
+        // if ($fecha_ini!='' && $fecha_fin!='') {
+        //     $where.= " AND p.fecha_ini BETWEEN '$fecha_ini' AND '$fecha_fin'";   
+        // }
 
-        $sql = "SELECT  p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1
+        $sql = "SELECT  p.id,p.cargo_id,p.fecha_ini,p.fecha_fin, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado,re.tipo_resolucion
 FROM pacs p
 INNER JOIN cargos c ON p.cargo_id=c.id
+INNER JOIN resoluciones re ON c.resolucion_ministerial_id=re.id
 INNER JOIN organigramas o ON c.organigrama_id=o.id
 INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
 LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
 LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
-WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
+WHERE p.baja_logica=1  ".$where."  order by p.fecha_ini asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -350,13 +325,13 @@ WHERE p.baja_logica=1 " . $where . " order by p.fecha_ini asc";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
-     public function getAll($where='',$group='')
-    {
-        $sql = "SELECT * FROM cargos";
-        if($where!='')$sql .= $where;
-        if($group!='')$sql .= $group;
-        $this->_db = new Frelaborales();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }
+    //  public function getAll($where='',$group='')
+    // {
+    //     $sql = "SELECT * FROM cargos";
+    //     if($where!='')$sql .= $where;
+    //     if($group!='')$sql .= $group;
+    //     $this->_db = new Cargos();
+    //     return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    // }
 
 }

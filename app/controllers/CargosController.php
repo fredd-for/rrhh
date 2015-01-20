@@ -185,7 +185,7 @@ public function listAction()
 		$customers[] = array(
 			'id' => $v->id,
 			'resolucion_ministerial_id' => $v->resolucion_ministerial_id,
-			'resolucion' => $v->tipo_resolucion,
+			'tipo_resolucion' => $v->tipo_resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
 			'codigo_nivel' => $v->codigo_nivel,
@@ -194,7 +194,7 @@ public function listAction()
 			'denominacion' => $v->denominacion,
 			'sueldo' => intval($v->sueldo),
 			'depende_id' => $v->depende_id,
-			'estado' => $v->estado1,
+			'estado' => $v->estado,
 			'condicion' => $v->condicion,
 			'fin_partida_id' => $v->fin_partida_id,
 			'partida' => $v->partida,
@@ -372,11 +372,12 @@ public function listpacAction()
 		$customers[] = array(
 			'nro' => $v->nro,
 			'id' => $v->id,
+			'tipo_resolucion' => $v->tipo_resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
 			'gestion' => $v->gestion,
-			'estado' => $v->estado1,
+			'estado' => $v->estado,
 			'fecha_ini' => date("d-m-Y",strtotime($v->fecha_ini)),
 			'fecha_fin' => date("d-m-Y",strtotime($v->fecha_fin))
 			);
@@ -505,20 +506,20 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
          * Especificando la configuración de las columnas
          */
         $generalConfigForAllColumns = array(
-            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'resolucion' => array('title' => 'Resolución', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
-            'unidad_administrativa' => array('title' => 'Organigrama', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
-            'denominacion' => array('title' => 'Denominación', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'codigo' => array('title' => 'Item', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'cargo' => array('title' => 'Cargo', 'width' => 12, 'align' => 'C', 'type' => 'varchar'),
-            'sueldo' => array('title' => 'Sueldo Bs.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
-            'estado' => array('title' => 'Estado', 'width' => 18, 'align' => 'C', 'type' => 'bpchar'),
-            'condicion' => array('title' => 'Tipo Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'partida' => array('title' => 'Partida', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'fuente_codigo' => array('title' => 'Fuente Codigo', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
-            'fuente' => array('title' => 'Fuente', 'Codigo' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'organismo_codigo' => array('title' => 'Organismo Codigo', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'organismo' => array('title' => 'Nivel', 'Organismo' => 15, 'align' => 'C', 'type' => 'varchar')
+            'nro_row' => array('title' => 'Nro.', 'width' => 7, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
+            'tipo_resolucion' => array('title' => 'Resolución', 'width' => 40, 'align' => 'C', 'type' => 'varchar'),
+            'unidad_administrativa' => array('title' => 'Organigrama', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
+            'denominacion' => array('title' => 'Denominación', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
+            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
+            'cargo' => array('title' => 'Cargo', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
+            'sueldo' => array('title' => 'Sueldo Bs.', 'width' => 18, 'align' => 'C', 'type' => 'int4'),
+            'estado' => array('title' => 'Estado', 'width' => 20, 'align' => 'C', 'type' => 'bpchar'),
+            'condicion' => array('title' => 'Tipo Cargo', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'partida' => array('title' => 'Partida', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
+            'fuente_codigo' => array('title' => 'Fuente Codigo', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
+            'fuente' => array('title' => 'Fuente', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'organismo_codigo' => array('title' => 'Organismo Codigo', 'width' => 20, 'align' => 'C', 'type' => 'int4'),
+            'organismo' => array('title' => 'Organismo', 'width' => 20, 'align' => 'C', 'type' => 'varchar')
         );
 
 		$agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -760,8 +761,9 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
                 }
 
             }
-            $obj = new cargos();
+            $obj = new Cargos();
             if ($where != "") $where = " WHERE " . $where;
+            //if ($where != "") $where = " AND " . $where;
             $groups_aux = "";
             if ($groups != "") {
                 /**
@@ -814,12 +816,13 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAll($where, $groups);
+            //$resul = $obj->getAll($where, $groups);
+            $resul = $obj->lista($where, $groups);
 
             $cargos = array();
             foreach ($resul as $v) {
             	$cargos[] = array(
-            		'resolucion'=>$v->resolucion,
+            		'tipo_resolucion'=>$v->tipo_resolucion,
             		'unidad_administrativa'=>$v->unidad_administrativa,
             		'denominacion'=>$v->denominacion,
             		'codigo'=>$v->codigo,
@@ -854,8 +857,8 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
             $dondeCambio = array();
             $queCambio = array();
 
-            if (count($relaboral) > 0){
-                foreach ($relaboral as $i => $val) {
+            if (count($cargos) > 0){
+                foreach ($cargos as $i => $val) {
                     if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
                     if (count($agrupadores) > 0) {
                         if ($pdf->debug == 1) {
@@ -889,7 +892,7 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
                         $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
                         if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
-                        $rowData = $pdf->DefineRows($j + 1, $relaboral[$j], $colSelecteds);
+                        $rowData = $pdf->DefineRows($j + 1, $cargos[$j], $colSelecteds);
                         $pdf->Row($rowData);
 
                     } else {
@@ -909,7 +912,25 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
         }
     }
 
+    public function exportarPacPdfAction($n_rows, $columns, $filtros,$groups,$sorteds) {   
+    	
+    	
+    	
+    }    
 
+ function DefineWidths($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        $arrRes[]=8;
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$widthAlignAll[$key]['width'];
+                }
+            }
+        }
+        return $arrRes;
+    }
 
     
 // 	}
@@ -944,60 +965,60 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
 	// }
 
 
-public function exportarPacPdfAction()
-{
-		//$pdf = new fpdf();
-	$pdf = new pdfoasis('L','mm','Letter');
-	$pdf->pageWidth=280;
-	$pdf->AddPage();
-	//$title = utf8_decode('Reporte de Cargos');
-	$pdf->debug=0;
-	$pdf->title_rpt = utf8_decode('Reporte de Plan Anual de Contratacion de Personal');
-	$pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
-	$pdf->SetFont('Arial','B',14);
-	$pdf->SetXY(50, 28);
-	$pdf->Cell(0,0,"REPORTE DE PLAN ANUAL DE CONTRATACIONES DE PERSONAL");
-	// $miCabecera = array('Nro', 'Organigrama', 'Item', 'Cargo','Sueldo','Estado','Tipo Cargo');
+// public function exportarPacPdfAction()
+// {
+// 		//$pdf = new fpdf();
+// 	$pdf = new pdfoasis('L','mm','Letter');
+// 	$pdf->pageWidth=280;
+// 	$pdf->AddPage();
+// 	//$title = utf8_decode('Reporte de Cargos');
+// 	$pdf->debug=0;
+// 	$pdf->title_rpt = utf8_decode('Reporte de Plan Anual de Contratacion de Personal');
+// 	$pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+// 	$pdf->SetFont('Arial','B',14);
+// 	$pdf->SetXY(50, 28);
+// 	$pdf->Cell(0,0,"REPORTE DE PLAN ANUAL DE CONTRATACIONES DE PERSONAL");
+// 	// $miCabecera = array('Nro', 'Organigrama', 'Item', 'Cargo','Sueldo','Estado','Tipo Cargo');
 
-	$pdf->SetXY(10, 35);
-	$pdf->SetFont('Arial','B',10);
-	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
-	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
-	$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
-	$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
-	$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
-	$pdf->Cell(20,7, 'Fecha Inicio',1, 0 , 'L', true );
-	$pdf->Cell(20,7, 'Fecha Finalizacion',1, 0 , 'L', true );
-	$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
-	// foreach($miCabecera as $fila)
-	// 	{
-	// 	    //Atención!! el parámetro true rellena la celda con el color elegido
-	// 		$pdf->Cell(24,7, utf8_decode($fila),1, 0 , 'L', true);
-	// 	}
-	$pdf->SetXY(10,42);
-	$pdf->SetFont('Arial','',7);
-			$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
-		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
-		$bandera = false; //Para alternar el relleno
-		$model = new Cargos();
-		$fecha_ini=date("Y-m-d", strtotime($_POST['fecha_ini_rep_pac']));
-		$fecha_fin=date("Y-m-d", strtotime($_POST['fecha_fin_rep_pac']));
-		$resul = $model->listapac('',$_POST['organigrama_id_rep_pac'],$fecha_ini,$fecha_fin);
-		foreach ($resul as $v) {
-			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
-			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
-			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_ini)),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_fin)),1, 0 , 'L', $bandera );
-			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
-		    $pdf->Ln();//Salto de línea para generar otra fila
-		    $bandera = !$bandera;//Alterna el valor de la bandera
-		}
-		$pdf->Output();
-		$this->view->disable();
+// 	$pdf->SetXY(10, 35);
+// 	$pdf->SetFont('Arial','B',10);
+// 	$pdf->SetFillColor(52, 151, 219);//Fondo verde de celda
+// 	$pdf->SetTextColor(240, 255, 240); //Letra color blanco
+// 	$pdf->Cell(10,7, 'Nro',1, 0 , 'L', true );
+// 	$pdf->Cell(80,7, 'Organigrama',1, 0 , 'L', true );
+// 	$pdf->Cell(80,7, 'Cargo',1, 0 , 'L', true );
+// 	$pdf->Cell(20,7, 'Fecha Inicio',1, 0 , 'L', true );
+// 	$pdf->Cell(20,7, 'Fecha Finalizacion',1, 0 , 'L', true );
+// 	$pdf->Cell(20,7, 'Estado',1, 0 , 'L', true );
+// 	// foreach($miCabecera as $fila)
+// 	// 	{
+// 	// 	    //Atención!! el parámetro true rellena la celda con el color elegido
+// 	// 		$pdf->Cell(24,7, utf8_decode($fila),1, 0 , 'L', true);
+// 	// 	}
+// 	$pdf->SetXY(10,42);
+// 	$pdf->SetFont('Arial','',7);
+// 			$pdf->SetFillColor(229, 229, 229); //Gris tenue de cada fila
+// 		$pdf->SetTextColor(3, 3, 3); //Color del texto: Negro
+// 		$bandera = false; //Para alternar el relleno
+// 		$model = new Cargos();
+// 		$fecha_ini=date("Y-m-d", strtotime($_POST['fecha_ini_rep_pac']));
+// 		$fecha_fin=date("Y-m-d", strtotime($_POST['fecha_fin_rep_pac']));
+// 		$resul = $model->listapac('',$_POST['organigrama_id_rep_pac'],$fecha_ini,$fecha_fin);
+// 		foreach ($resul as $v) {
+// 			$pdf->Cell(10,7, utf8_decode($v->nro),1, 0 , 'L', $bandera );
+// 			$pdf->Cell(80,7, utf8_decode($v->unidad_administrativa),1, 0 , 'L', $bandera );
+// 			$pdf->Cell(80,7, utf8_decode($v->cargo),1, 0 , 'L', $bandera );
+// 			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_ini)),1, 0 , 'L', $bandera );
+// 			$pdf->Cell(20,7, date("d-m-Y",strtotime($v->fecha_fin)),1, 0 , 'L', $bandera );
+// 			$pdf->Cell(20,7, utf8_decode($v->estado1),1, 0 , 'L', $bandera );
+// 		    $pdf->Ln();//Salto de línea para generar otra fila
+// 		    $bandera = !$bandera;//Alterna el valor de la bandera
+// 		}
+// 		$pdf->Output();
+// 		$this->view->disable();
 
 
-	}
+// 	}
 
 /**
  * [dependenciaAction selecciona los cargos dependientes de un organigrama]
