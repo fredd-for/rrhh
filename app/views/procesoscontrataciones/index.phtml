@@ -326,12 +326,39 @@ function lista_criterios(id_seg){
     success: function(data) { 
       datos = JSON.parse(data);//alert(datos); 
       $("#formacion_academica_text").text(datos.formacion_academica);
-      $("#exp_general_lic_text").text('A nivel Licenciatura '+' '+datos.exp_general_lic);
-      $("#exp_general_tec_text").text('A nivel tecnico '+' '+datos.exp_general_tec);
-      $("#exp_profesional_lic_text").text('A nivel Licenciatura '+' '+datos.exp_profesional_lic);
-      $("#exp_profesional_tec_text").text('A nivel tecnico '+' '+datos.exp_profesional_tec);
-      $("#exp_relacionado_lic_text").text('A nivel Licenciatura '+' '+datos.exp_relacionado_lic);
-      $("#exp_relacionado_tec_text").text('A nivel tecnico '+' '+datos.exp_relacionado_tec);
+      var msm = '';
+      if (datos.exp_general_lic_anio!=null) { msm +=' - '+datos.exp_general_lic_anio+' años ';}
+      if (datos.exp_general_lic_mes!=null) { msm +=' - '+datos.exp_general_lic_mes+' meses ';}
+      $("#exp_general_lic_text").text('A nivel Licenciatura '+msm);
+      var msm = '';
+      if (datos.exp_general_tec_anio!=null) { msm +=' - '+datos.exp_general_tec_anio+' años ';}
+      if (datos.exp_general_tec_mes!=null) { msm +=' - '+datos.exp_general_tec_mes+' meses ';}
+      $("#exp_general_tec_text").text('A nivel Tecnico '+msm);
+
+
+      var msm = '';
+      if (datos.exp_profesional_lic_anio!=null) { msm +=' - '+datos.exp_profesional_lic_anio+' años ';}
+      if (datos.exp_profesional_lic_mes!=null) { msm +=' - '+datos.exp_profesional_lic_mes+' meses ';}
+      $("#exp_profesional_lic_text").text('A nivel Licenciatura '+msm);
+      var msm = '';
+      if (datos.exp_profesional_tec_anio!=null) { msm +=' - '+datos.exp_profesional_tec_anio+' años ';}
+      if (datos.exp_profesional_tec_mes!=null) { msm +=' - '+datos.exp_profesional_tec_mes+' meses ';}
+      $("#exp_profesional_tec_text").text('A nivel Tecnico '+msm);
+
+      var msm = '';
+      if (datos.exp_relacionado_lic_anio!=null) { msm +=' - '+datos.exp_relacionado_lic_anio+' años ';}
+      if (datos.exp_relacionado_lic_mes!=null) { msm +=' - '+datos.exp_relacionado_lic_mes+' meses ';}
+      $("#exp_relacionado_lic_text").text('A nivel Licenciatura '+msm);
+      var msm = '';
+      if (datos.exp_relacionado_tec_anio!=null) { msm +=' - '+datos.exp_relacionado_tec_anio+' años ';}
+      if (datos.exp_relacionado_tec_mes!=null) { msm +=' - '+datos.exp_relacionado_tec_mes+' meses ';}
+      $("#exp_relacionado_tec_text").text('A nivel Tecnico '+msm);
+
+      // $("#exp_general_tec_text").text('A nivel tecnico '+' '+datos.exp_general_tec);
+      // $("#exp_profesional_lic_text").text('A nivel Licenciatura '+' '+datos.exp_profesional_lic);
+      // $("#exp_profesional_tec_text").text('A nivel tecnico '+' '+datos.exp_profesional_tec);
+      // $("#exp_relacionado_lic_text").text('A nivel Licenciatura '+' '+datos.exp_relacionado_lic);
+      // $("#exp_relacionado_tec_text").text('A nivel tecnico '+' '+datos.exp_relacionado_tec);
       
                       }, //mostramos el error
                       error: function() { alert('Se ha producido un error Inesperado'); 

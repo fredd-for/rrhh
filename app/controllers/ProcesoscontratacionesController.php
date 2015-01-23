@@ -91,6 +91,9 @@ class ProcesoscontratacionesController extends ControllerBase
 		$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
 		$this->view->setVar('normativamod',$resul);
 
+		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
+
 		if ($this->request->isPost()) {
 			$resul = new Procesoscontrataciones();
 				$resul->normativamod_id = $_POST['normativamod_id'];
@@ -142,7 +145,9 @@ class ProcesoscontratacionesController extends ControllerBase
 
 		$resul= Procesoscontrataciones::findFirstById($id);
 		$this->view->setVar('procesocontratacion',$resul);
-		
+
+		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
 
 		if ($this->request->isPost()) {
 			$resul = Procesoscontrataciones::findFirstById($id);
@@ -281,6 +286,7 @@ public function listpacAction()
 	foreach ($resul as $v) {
 		$customers[] = array(
 			'id' => $v->id,
+			'tipo_resolucion' => $v->tipo_resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
@@ -303,6 +309,7 @@ public function listpaceditAction($proceso_contratacion_id)
 	foreach ($resul as $v) {
 		$customers[] = array(
 			'id' => $v->id,
+			'tipo_resolucion' => $v->tipo_resolucion,
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'codigo' => $v->codigo,
 			'cargo' => $v->cargo,
@@ -486,24 +493,36 @@ public function listpaceditAction($proceso_contratacion_id)
 			$customers = array(
 			'id_seguimiento' => $v->id,
 			'formacion_academica' => $v->formacion_academica,
-			'exp_general_lic' => $v->exp_general_lic,
-			'exp_general_tec' => $v->exp_general_tec,
-			'exp_profesional_lic' => $v->exp_profesional_lic,
-			'exp_profesional_tec' => $v->exp_profesional_tec,
-			'exp_relacionado_lic' => $v->exp_relacionado_lic,
-			'exp_relacionado_tec' => $v->exp_relacionado_tec
+			'exp_general_lic_anio' => $v->exp_general_lic_anio,
+			'exp_general_lic_mes' => $v->exp_general_lic_mes,
+			'exp_general_tec_anio' => $v->exp_general_tec_anio,
+			'exp_general_tec_mes' => $v->exp_general_tec_mes,
+			'exp_profesional_lic_anio' => $v->exp_profesional_lic_anio,
+			'exp_profesional_lic_mes' => $v->exp_profesional_lic_mes,
+			'exp_profesional_tec_anio' => $v->exp_profesional_tec_anio,
+			'exp_profesional_tec_mes' => $v->exp_profesional_tec_mes,
+			'exp_relacionado_lic_anio' => $v->exp_relacionado_lic_anio,
+			'exp_relacionado_lic_mes' => $v->exp_relacionado_lic_mes,
+			'exp_relacionado_tec_anio' => $v->exp_relacionado_tec_anio,
+			'exp_relacionado_tec_mes' => $v->exp_relacionado_tec_mes
 
 			);
 		}else{
 			$customers = array(
 			'id_seguimiento' => $v->id,
 			'formacion_academica' => $v->formacion_academica0,
-			'exp_general_lic' => $v->exp_general_lic0,
-			'exp_general_tec' => $v->exp_general_tec0,
-			'exp_profesional_lic' => $v->exp_profesional_lic0,
-			'exp_profesional_tec' => $v->exp_profesional_tec0,
-			'exp_relacionado_lic' => $v->exp_relacionado_lic0,
-			'exp_relacionado_tec' => $v->exp_relacionado_tec0
+			'exp_general_lic_anio' => $v->exp_general_lic0_anio,
+			'exp_general_lic_mes' => $v->exp_general_lic0_mes,
+			'exp_general_tec_anio' => $v->exp_general_tec0_anio,
+			'exp_general_tec_mes' => $v->exp_general_tec0_mes,
+			'exp_profesional_lic_anio' => $v->exp_profesional_lic0_anio,
+			'exp_profesional_lic_mes' => $v->exp_profesional_lic0_mes,
+			'exp_profesional_tec_anio' => $v->exp_profesional_tec0_anio,
+			'exp_profesional_tec_mes' => $v->exp_profesional_tec0_mes,
+			'exp_relacionado_lic_anio' => $v->exp_relacionado_lic0_anio,
+			'exp_relacionado_lic_mes' => $v->exp_relacionado_lic0_mes,
+			'exp_relacionado_tec_anio' => $v->exp_relacionado_tec0_anio,
+			'exp_relacionado_tec_mes' => $v->exp_relacionado_tec0_mes
 			);	
 		}
 	}

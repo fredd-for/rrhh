@@ -190,7 +190,7 @@ class Cargos extends \Phalcon\Mvc\Model
     {
         //$where = '';
         if ($estado == 1) {
-            $where.= " AND se.estado is NULL ";
+            $where.= " and estado is NULL ";
         }
         // if ($organigrama_id>0) {
         //     $where.= " AND c.organigrama_id =".$organigrama_id;   
@@ -199,24 +199,17 @@ class Cargos extends \Phalcon\Mvc\Model
         //     $where.= " AND p.fecha_ini BETWEEN '$fecha_ini' AND '$fecha_fin'";   
         // }
 
-        $sql = "SELECT  p.id,p.cargo_id,p.fecha_ini,p.fecha_fin, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado,re.tipo_resolucion
-FROM pacs p
-INNER JOIN cargos c ON p.cargo_id=c.id
-INNER JOIN resoluciones re ON c.resolucion_ministerial_id=re.id
-INNER JOIN organigramas o ON c.organigrama_id=o.id
-INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
-LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
-LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
-WHERE p.baja_logica=1  ".$where."  order by p.fecha_ini asc";
+        $sql = "select * from f_listado_pacs() where baja_logica=1 ".$where."  order by fecha_ini asc";
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
     public function listaeditpac($proceso_contratacion_id)
     {
-        $sql="SELECT  p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1, s.proceso_contratacion_id
+        $sql="SELECT  p.*, c.cargo,c.codigo,n.sueldo,o.unidad_administrativa, se.estado as estado1, s.proceso_contratacion_id,re.tipo_resolucion
         FROM pacs p
         INNER JOIN cargos c ON p.cargo_id=c.id
+        INNER JOIN resoluciones re ON c.resolucion_ministerial_id=re.id
         INNER JOIN organigramas o ON c.organigrama_id=o.id
         INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
         LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1

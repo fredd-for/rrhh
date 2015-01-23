@@ -12,6 +12,7 @@ function cargar2(){
 		//{ name: 'seleccionar',type: 'bool'},
 		{ name: 'id',type: 'number'},
 		{ name: 'proceso_contratacion_id',type: 'number'},
+		{ name: 'tipo_resolucion',type: 'string'},
 		{ name: 'unidad_administrativa',type: 'string'},
 		{ name: 'codigo',type: 'string'},
 		{ name: 'cargo',type: 'string'},
@@ -26,15 +27,27 @@ function cargar2(){
 	};
 
 	var dataAdapter = new $.jqx.dataAdapter(source);
+	var firstNameColumnFilter = function () {
+	 	//alert(tipo_resolucion);
+	 	var filtergroup = new $.jqx.filter();
+	 	var filter_or_operator = 1;
+	 	var filtervalue = $("#tipo_resolucion").val();
+	 	var filtercondition = 'equal';
+	 	var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+	 	filtergroup.addfilter(filter_or_operator, filter);
+	 	return filtergroup;
+	 }();
 	$("#jqxgrid").jqxGrid({
 		width: '100%',
 		source: dataAdapter,
 		sortable: true,
 		altRows: true,
+		columnsresize: true,
 		pageable: true,
 		pagerMode: 'advanced',
 		showfilterrow: true,
 		filterable: true,
+		autorowheight: true,
 		// selectionmode: 'checkbox',
 		ready:function(){
 			$(".chkOne").click(function(){
@@ -67,9 +80,10 @@ function cargar2(){
 			return "<div style='margin:3px;'>" + (value + 1) + "</div>";
 		}
 	},
-	{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'input',width: '30%' },
-	{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
-	{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
+	{ text: 'Resolución', datafield: 'tipo_resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '15%' },
+	{ text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '24%' },
+	{ text: 'Item', datafield: 'codigo', filtertype: 'input',width: '4%' },
+	{ text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '25%' },
 	{ text: 'Sueldo Bs.', datafield: 'sueldo', filtertype: 'number',width: '5%' },
 	{ text: 'Gestion', datafield: 'gestion', filtertype: 'number',width: '5%' },
 	{ text: 'Fecha Inicio', datafield: 'fecha_ini', filtertype: 'range', width: '8%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
@@ -224,6 +238,7 @@ $("#normativamod_id").val(<?php echo $procesocontratacion->normativamod_id ?>);
 				<div class="panel-heading">
 					PLAN ANUAL DE CONTRATACIONES DE PERSONAL
 				</div>
+				<input type="hidden" name="tipo_resolucion" id="tipo_resolucion" value="<?php echo $tipo_resolucion ?>">
 				<div class="panel-body">
 					<div id="jqxgrid"></div>
 				</div>    

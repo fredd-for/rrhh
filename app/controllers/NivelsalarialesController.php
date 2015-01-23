@@ -271,7 +271,8 @@ public function savePerfilAction()
 			}
 			else{
 				$resul = new Cargosperfiles();
-				$resul->nivelsalarial_id = $nivelsalarial_id;
+                                
+                                $resul->nivelsalarial_id = $_POST['nivelsalarial_id'];
 				$resul->formacion_academica0 =$_POST['formacion_academica0'];
 				$resul->exp_general_lic0_anio = $exp_general_lic0_anio;
 				$resul->exp_general_lic0_mes = $exp_general_lic0_mes;
@@ -302,9 +303,9 @@ public function savePerfilAction()
 				$resul->baja_logica = 1;
 				//$resul->save();
 				if ($resul->save()) {
-					$msm = array('msm' => 'Exito: Se guardo correctamente' );
+					$msm = 'Exito: Se guardo correctamente';
 				}else{
-					$msm = array('msm' => 'Error: No se guardo el registro' );
+					$msm = 'Error: No se guardo el registro';
 				}
 				
 			}	
