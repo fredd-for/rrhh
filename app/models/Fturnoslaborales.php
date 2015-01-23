@@ -24,6 +24,9 @@ class Fturnoslaborales extends \Phalcon\Mvc\Model {
     public $estado;
     public $estado_descripcion;
     public $id_tolerancia;
+    public $tipo_tolerancia;
+    public $id_jornada_laboral;
+    public $jornada_laboral;
     /**
      * Initialize method for model.
      */
@@ -50,7 +53,10 @@ class Fturnoslaborales extends \Phalcon\Mvc\Model {
             'tipo_horario_descripcion'=>'tipo_horario_descripcion',
             'estado'=>'estado',
             'estado_descripcion'=>'estado_descripcion',
-            'id_tolerancia'=>'id_tolerancia'
+            'id_tolerancia'=>'id_tolerancia',
+            'tipo_tolerancia'=>'tipo_tolerancia',
+            'id_jornada_laboral'=>'id_jornada_laboral',
+            'jornada_laboral'=>'jornada_laboral'
         );
     }
     private $_db;

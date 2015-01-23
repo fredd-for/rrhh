@@ -557,7 +557,14 @@ function calcularCantidadHorasLaborales(horaEntrada,horaSalida){
     if(horaEntrada!=""&&horaSalida!=""){
         var horaEnt = numeroHoras(horaEntrada);
         var horaSal = numeroHoras(horaSalida);
-        var calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        var calculo = 0;
+        if(parseFloat(horaSal) >= parseFloat(horaEnt)){
+            calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        }
+        else{
+            var aux = 24-parseFloat(horaEnt);
+            calculo = aux + parseFloat(horaSal);
+        }
         return calculo.toFixed(2);
     }else return 0;
 }

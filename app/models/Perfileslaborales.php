@@ -27,6 +27,19 @@ class Perfileslaborales  extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_primer_dia_siguiente_mes_para_calendario(".$idPerfil.")";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención a través de un procedimiento almacenado del listado de fechas dentro de un rango establecido por los parámetros.
+     * @param $fechaIni
+     * @param $fechaFin
+     * @param $finDeSemana
+     * @return Resultset
+     */
+    public function getRangoDeFechas($fechaIni,$fechaFin,$finDeSemana){
+        $sql = "SELECT * FROM f_rango_fechas(".$fechaIni.",".$fechaFin.",".$finDeSemana.")";
+        if($finDeSemana>=0)$sql .= " WHERE o_fin_de_semana=".$finDeSemana;
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
     /**
      * Verifica que una fecha esté dentro del rango de fechas establecidas
      * @param $start_date fecha de inicio

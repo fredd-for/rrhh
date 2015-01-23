@@ -683,7 +683,10 @@ class PerfileslaboralesController extends ControllerBase
                         'tipo_horario_descripcion'=>$v->tipo_horario_descripcion,
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
-                        'id_tolerancia'=>$v->id_tolerancia
+                        'id_tolerancia'=>$v->id_tolerancia,
+                        'tipo_tolerancia'=>$v->tipo_tolerancia,
+                        'id_jornada_laboral'=>$v->id_jornada_laboral,
+                        'jornada_laboral'=>$v->jornada_laboral
                     );
                 }
             }
@@ -2801,5 +2804,31 @@ class PerfileslaboralesController extends ControllerBase
         }
         echo json_encode($horariolaboral);
     }
+
+    /**
+     * Función para la obtención del listado de fechas de acuerdo al rango solicitado.
+     * Considerando el día de la semana al cual corresponde.
+     */
+    public function getrangofechasAction(){
+        $this->view->disable();
+        $rangoFechas = [];
+        if(isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])&&isset($_POST["fin_de_semana"])){
+            $objPerfil = new Perfileslaborales();
+            $resul = $objPerfil->getRangoDeFechas($_POST["fecha_ini"],$_POST["fecha_fin"],$_POST["fin_de_semana"]);
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    if($v->o_gestion>0){
+                        $rangoFechas[] = array(
+                            'fecha' => $v->o_fecha,
+                            'dia' => $v->o_dia,
+                            'fin_de_semana' => $v->o_fin_de_semana
+                        );
+                    }
+                }
+            }
+        }
+        echo json_encode($rangoFechas);
+    }
+
     #endregion Funciones referentes a la gestión de Calendario y Horarios Laborales
 }

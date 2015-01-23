@@ -23,14 +23,32 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
     var optVerTotalizadorHorasPorSemana=true;
     //weekends
     switch (accion){
-        case 1://Nuevo
+        case 1:/*Nuevo*/
             switch (tipoHorario){
                 case 1:
                 case 2:break;
                 case 3:optLeft='';optRight='year';break;
             }
             break;
-        case 2://Edición
+        case 2:/*Edición*/
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 3:/*Aprobación*/
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 4:/*Eliminación*/break;
+        case 5:/*Vista*/
+            optEditable=false;
+            optDroppable=false;
+            optSelectable=false;
             switch (tipoHorario){
                 case 1:
                 case 2:break;
@@ -109,6 +127,47 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             if(calEvent.id!=undefined){
                 idTurno = calEvent.id;
             }
+            var fechaIni = fechaConvertirAFormato(calEvent.start,'-');
+            var fechaFin =  fechaIni;
+            var calEventEnd = calEvent.start;
+            if(calEvent.end!=null&&calEvent.end!=""){
+                fechaFin = fechaConvertirAFormato(calEvent.end,'-');
+                calEventEnd = calEvent.end;
+            }
+            var startDate = calEvent.start;
+            var FromEndDate = calEventEnd;
+            var ToEndDate = calEventEnd;
+            //ToEndDate.setDate(ToEndDate.getDate()+900);
+
+            $("#txtHorarioFechaIni").datepicker('setDate', calEvent.start);
+            //$('#txtHorarioFechaIni').datepicker('setStartDate', calEvent.start);
+            $("#txtHorarioFechaFin").datepicker('setDate', calEventEnd);
+            //$('#txtHorarioFechaFin').datepicker('setEndDate', calEventEnd);
+            $('#txtHorarioFechaIni').datepicker({
+                format:'dd-mm-yyyy',
+                default:calEvent.start,
+                weekStart: 1,
+                startDate: startDate,
+                endDate: FromEndDate,
+                autoclose: true
+            })
+                .on('changeDate', function(selected){
+                    startDate = new Date(selected.date.valueOf());
+                    startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+                    $('#txtHorarioFechaFin').datepicker('setStartDate', startDate);
+                });
+            $('#txtHorarioFechaFin').datepicker({
+                    default:calEventEnd,
+                    weekStart: 1,
+                    startDate: startDate,
+                    endDate: ToEndDate,
+                    autoclose: true
+                })
+                .on('changeDate', function(selected){
+                    FromEndDate = new Date(selected.date.valueOf());
+                    FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+                    $('#txtHorarioFechaIni').datepicker('setEndDate', FromEndDate);
+                });
             if(idTipoHorario>0){
                 var ok = cargarModalHorario(idTipoHorario);
                 if(ok) {
@@ -117,7 +176,14 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                      */
                     if(clase=="b"){
                         $("#btnDescartarHorario").hide();
-                    } else {$("#btnDescartarHorario").show();}
+                        $("#btnGuardarModificacionHorario").hide();
+                        $("#txtHorarioFechaIni").prop("disabled","disabled");
+                        $("#txtHorarioFechaFin").prop("disabled","disabled");
+                    } else {
+                        $("#btnDescartarHorario").show();
+                        $("#txtHorarioFechaIni").prop("disabled",false);
+                        $("#txtHorarioFechaFin").prop("disabled",false);
+                    }
                     $('#popupDescripcionHorario').modal('show');
                     $("#btnDescartarHorario").off();
                     $("#btnDescartarHorario").on("click", function () {
@@ -140,6 +206,47 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                          */
                         sumarTotalHorasPorSemana(arrFechasPorSemana);
                     });
+                    /**
+                     * Acción efectuada cuando se hace click sobre el botón para Guardar Modifificación de Fechas.
+                     */
+                    $("#btnGuardarModificacionHorario").off();
+                    $("#btnGuardarModificacionHorario").on("click", function () {
+                        switch (clase){
+                            case "r":
+                            case "n":
+                                if(fechaIni!=$("#txtHorarioFechaIni").val()||fechaFin!=$("#txtHorarioFechaFin").val()){
+                                    /*Inicialmente borramos el evento y lo reingresamos*/
+                                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                    $('#popupDescripcionHorario').modal('hide');
+                                    var fechaInicio = $("#txtHorarioFechaIni").val();
+                                    var fechaFinalizacion = $("#txtHorarioFechaFin").val();
+                                    var arrFechaInicio =fechaInicio.split("-");
+                                    var arrFechaFinalicacion = fechaFinalizacion.split("-");
+                                    fechaInicio = arrFechaInicio[2]+"-"+arrFechaInicio[1]+"-"+arrFechaInicio[0];
+                                    fechaFinalizacion = arrFechaFinalicacion[2]+"-"+arrFechaFinalicacion[1]+"-"+arrFechaFinalicacion[0];
+                                    addEvent = {
+                                        id:calEvent.id,
+                                        title:calEvent.title,
+                                        className:calEvent.className,
+                                        start:fechaInicio,
+                                        end:fechaFinalizacion,
+                                        color:calEvent.color,
+                                        editable: true,
+                                        hora_entrada:calEvent.hora_entrada,
+                                        hora_salida:calEvent.hora_salida
+
+                                    }
+                                    $('#calendar').fullCalendar( 'renderEvent', addEvent, true );
+                                }
+                                $('#popupDescripcionHorario').modal('hide');
+                                break;
+                            case "d":break;
+                        }
+                        /**
+                         * Si se ha eliminado un horario, es necesario recalcular las horas por semana
+                         */
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+                    });
                 }else alert("Error al determinar los datos del horario.");
             }else {
                 alert("El registro corresponde a un periodo de descanso");
@@ -152,49 +259,41 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             sumarTotalHorasPorSemana(arrFechasPorSemana);
 
         },
-        dayRender: function (date, cell) {
-            var dia = $.fullCalendar.formatDate(date,'dd-MM-yyyy');
-            var check = $.fullCalendar.formatDate(date,'yyyy-MM-dd');
-            var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
-            if (check < today) {
-                cell.css("background-color", "silver");
-            }
-            contadorPorSemana++;
-            if(contadorPorSemana>=1&&contadorPorSemana<=diasSemana){
-                arrFechasPorSemana.push( {
-                    semana:1,
-                    fecha:dia
+        /*dayRender: function (date, cell) {},*/
+        viewRender: function(view) {
+            if(view.name=="month")
+            {   $("#divSumatorias").show();
+                arrFechasPorSemana= [];
+                var contP=0;
+                var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
+                $.each(arrDias,function(k,dia){
+                    contP=0;
+                    $("td.fc-"+dia).map(function (index, elem) {
+                        contP++;
+                        var fecha = $(this).data("date");
+                        var fechaAux = $(this).data("date");
+                        if(fecha!=undefined){
+                            var arrFecha = fecha.split("-");
+                            fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                            switch (contP){
+                             case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
+                             case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
+                             case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
+                             case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
+                             case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
+                             case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+                             }
+                            var check = fechaAux;
+                            var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
+                            if (check < today) {
+                               $(this).css("background-color", "silver");
+                            }
+                        }
+                    });
                 });
-            }
-            if(contadorPorSemana>=(diasSemana+1)&&contadorPorSemana<=diasSemana*2){
-                arrFechasPorSemana.push( {
-                    semana:2,
-                    fecha:dia
-                });
-            }
-            if(contadorPorSemana>=((diasSemana*2)+1)&&contadorPorSemana<=diasSemana*3){
-                arrFechasPorSemana.push( {
-                    semana:3,
-                    fecha:dia
-                });
-            }
-            if(contadorPorSemana>=((diasSemana*3)+1)&&contadorPorSemana<=diasSemana*4){
-                arrFechasPorSemana.push( {
-                    semana:4,
-                    fecha:dia
-                });
-            }
-            if(contadorPorSemana>=((diasSemana*4)+1)&&contadorPorSemana<=diasSemana*5){
-                arrFechasPorSemana.push( {
-                    semana:5,
-                    fecha:dia
-                });
-            }
-            if(contadorPorSemana>=((diasSemana*5)+1)&&contadorPorSemana<=diasSemana*6){
-                arrFechasPorSemana.push( {
-                    semana:6,
-                    fecha:dia
-                });
+                sumarTotalHorasPorSemana(arrFechasPorSemana);
+            }else{
+                $("#divSumatorias").hide();
             }
         }
     });
@@ -210,7 +309,9 @@ var initEvents = function() {
         /*Creando un nuevo objeto con los datos necesarios (Se usa HTML5 para almacenar otro datos*/
         var horasLaborales = $(this).data("horas_laborales");
         var diasLaborales = $(this).data("dias_laborales");
-        var eventObject = { className:'n_'+this.id,title: $.trim($(this).text()), color: $(this).css('background-color'),horas_laborales: horasLaborales,dias_laborales:diasLaborales};
+        var horaEntrada = $(this).data("hora_entrada");
+        var horaSalida = $(this).data("hora_salida");
+        var eventObject = { className:'n_'+this.id,title: $.trim($(this).text()), color: $(this).css('background-color'),horas_laborales: horasLaborales,dias_laborales:diasLaborales,hora_entrada:horaEntrada,hora_salida:horaSalida};
 
         /* Almacenar el objeto de evento en el elemento DOM para que podamos llegar a ella más tarde */
         $(this).data('eventObject', eventObject);
@@ -269,7 +370,9 @@ function obtenerHorariosDisponibles(tipoHorario){
                         allDay: ctrlAllDay,
                         color: val.color,
                         horas_laborales:val.horas_laborales,
-                        dias_laborales:val.dias_laborales
+                        dias_laborales:val.dias_laborales,
+                        hora_entrada:val.hora_entrada,
+                        hora_salida:val.hora_salida
                     });
                 });
             }
@@ -357,7 +460,9 @@ function obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,ed
                         editable:editable,
                         borderColor:borde,
                         horas_laborales:val.horas_laborales,
-                        dias_laborales:val.dias_laborales
+                        dias_laborales:val.dias_laborales,
+                        hora_entrada:val.hora_entrada,
+                        hora_salida:val.hora_salida
                     });
                 });
             }
@@ -381,7 +486,9 @@ function cargarHorariosDisponibles(arrHorarios){
             var calendarEvents  = $('.calendar-events');
             var horasLaborales = val.horas_laborales;
             var diasLaborales = val.dias_laborales;
-            calendarEvents.append('<li style="background-color: '+valColor+'" class="ui-draggable '+val.class+'" id="'+valId+'" data-horas_laborales="'+horasLaborales+'" data-dias_laborales="'+diasLaborales+'">' + $('<div />').text(eventInputVal).html() + '</li>');
+            var hora_entrada = val.hora_entrada;
+            var hora_salida = val.hora_salida;
+            calendarEvents.append('<li style="background-color: '+valColor+'" class="ui-draggable '+val.class+'" id="'+valId+'" data-horas_laborales="'+horasLaborales+'" data-dias_laborales="'+diasLaborales+'" data-hora_entrada="'+hora_entrada+'" data-hora_salida="'+hora_salida+'">' + $('<div />').text(eventInputVal).html() + '</li>');
 
             // Init Events
             initEvents();
@@ -651,8 +758,10 @@ function guardaHorario(){
 }
 /**
  * Función para la selección de la tolerancia a aplicarse para el calendario.
+ * @param accion
+ * @param idTolerancia
  */
-function iniciarSelectorTolerancias(idTolerancia){
+function cargarTolerancias(accion,idTolerancia){
     // prepare the data
     var arrTolerancias=[];
     var grilla = "";
@@ -666,6 +775,7 @@ function iniciarSelectorTolerancias(idTolerancia){
         success: function (data) {
             var res = jQuery.parseJSON(data);
             $('#lstTolerancias').html("");
+            $('#lstTolerancias').prop("disabled", false);
             $('#lstTolerancias').append("<option value='0'>Seleccionar...</option>");
             if (res.length > 0) {
                 $.each(res, function (key, val) {
@@ -690,7 +800,7 @@ function iniciarSelectorTolerancias(idTolerancia){
                         observacion:val.observacion
                     });
                 });
-                if (sw == 0)$('#lstTolerancias').prop("disabled", "disabled");
+                if (sw == 0||accion==5)$('#lstTolerancias').prop("disabled", "disabled");
             } else $('#lstTolerancias').prop("disabled", "disabled");
         }
     });
@@ -740,7 +850,7 @@ function cargarModalHorario(idHorario){
                         var hSal = val.hora_salida;
                         if(hEnt=="")hEnt = "00:00:00";
                         if(hSal=="")hSal = "00:00:00";
-                        $("#txtHorasLaborales").val(calcularCantidadHorasLaborales(hEnt,hSal));
+                        $("#txtHorasLaborales").val(val.horas_laborales);
                     });
                 }
             }
@@ -847,7 +957,14 @@ function calcularCantidadHorasLaborales(horaEntrada,horaSalida){
     if(horaEntrada!=""&&horaSalida!=""){
         var horaEnt = numeroHoras(horaEntrada);
         var horaSal = numeroHoras(horaSalida);
-        var calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        var calculo = 0;
+        if(parseFloat(horaSal) >= parseFloat(horaEnt)){
+            calculo = parseFloat(horaSal) - parseFloat(horaEnt);
+        }
+        else{
+            var aux = 24-parseFloat(horaEnt);
+            calculo = aux + parseFloat(horaSal);
+        }
         return calculo.toFixed(2);
     }else return 0;
 }
@@ -893,17 +1010,25 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
     $("#spSumaSemana4").html(0);
     $("#spSumaSemana5").html(0);
     $("#spSumaSemana6").html(0);
+    $("#tdSumaSemana1").css("background-color", "white");
+    $("#tdSumaSemana2").css("background-color", "white");
+    $("#tdSumaSemana3").css("background-color", "white");
+    $("#tdSumaSemana4").css("background-color", "white");
+    $("#tdSumaSemana5").css("background-color", "white");
+    $("#tdSumaSemana6").css("background-color", "white");
+
     $.each(arr,function(key,turno){
         var fechaIni = $.fullCalendar.formatDate(turno.start,'dd-MM-yyyy');
         var fechaFin = $.fullCalendar.formatDate(turno.end,'dd-MM-yyyy');
+        if(fechaFin=="")fechaFin=fechaIni;
         var sep='-';
         $.each(arrFechasPorSemana,function(clave,valor){
+
+            //alert(fechaIni+"<= "+valor.semana+"::"+valor.fecha+"<="+fechaFin);
             /**
              * Esto porque en algunos casos el horario no tiene fecha de finalización debido a que
              * su existencia es producto de haber jalado de la lista de horarios disponibles sobre el calendario
              */
-            //alert(valor.fecha);
-            if(fechaFin=="")fechaFin=fechaIni;
             if(valor.semana==1){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
@@ -949,28 +1074,67 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
             }
         });
     });
+
     $("#spSumaSemana1").html(horasSemana1);
     $("#spSumaSemana2").html(horasSemana2);
     $("#spSumaSemana3").html(horasSemana3);
     $("#spSumaSemana4").html(horasSemana4);
     $("#spSumaSemana5").html(horasSemana5);
     $("#spSumaSemana6").html(horasSemana6);
+    var tipoJornadaLaboral = $("#lstJornadasLaborales").val();
+    var horasSemanalesPermitidas = 0;
+    var horasDiaPermitidas = 0;
+    var horasNochePermitidas = 0;
+    var idJornadaLaboral = 0;
+    if(tipoJornadaLaboral!=null&&tipoJornadaLaboral!=0){
+        var arrJornadaLaboral = tipoJornadaLaboral.split("::");
+        idJornadaLaboral = arrJornadaLaboral[0];
+        horasSemanalesPermitidas = arrJornadaLaboral[1];
+        horasDiaPermitidas = arrJornadaLaboral[2];
+        horasNochePermitidas = arrJornadaLaboral[3];
+        /**
+         * Control de exceso de horas en la semana
+         */
+        if(horasSemana1>horasSemanalesPermitidas){
+            $("#tdSumaSemana1").css("background-color", "red");
+        }
+        if(horasSemana2>horasSemanalesPermitidas){
+            $("#tdSumaSemana2").css("background-color", "red");
+        }
+        if(horasSemana3>horasSemanalesPermitidas){
+            $("#tdSumaSemana3").css("background-color", "red");
+        }
+        if(horasSemana4>horasSemanalesPermitidas){
+            $("#tdSumaSemana4").css("background-color", "red");
+        }
+        if(horasSemana5>horasSemanalesPermitidas){
+            $("#tdSumaSemana5").css("background-color", "red");
+        }
+        if(horasSemana6>horasSemanalesPermitidas){
+            $("#tdSumaSemana6").css("background-color", "red");
+        }
+        /**
+         * Control de exceso de horas nocturnas por día
+         */
+
+    }
+
 }
 /**
  * Función para cargar el selector de tipos de jornadas laborales disponibles.
  * @param idJornadaLaboral
  */
-function cargarJornadasLaborales(idJornadaLaboral){
+function cargarJornadasLaborales(accion,idJornadaLaboral){
     $.ajax({
         url: '/calendariolaboral/listjornadaslaborales',
         type: 'POST',
         datatype: 'json',
         async: false,
         cache: false,
-        data:{estado:1},
         success: function (data) {
             var res = jQuery.parseJSON(data);
             $('#lstJornadasLaborales').html("");
+            $('#lstJornadasLaborales').prop("disabled", false);
             $('#lstJornadasLaborales').append("<option value='0'>Seleccionar...</option>");
             if (res.length > 0) {
                 $.each(res, function (key, val) {
@@ -979,9 +1143,42 @@ function cargarJornadasLaborales(idJornadaLaboral){
                     } else {
                         $selected = '';
                     }
-                    $('#lstJornadasLaborales').append("<option value=" + val.id + " " + $selected + ">" + val.jornada_laboral + "</option>");
+                    $('#lstJornadasLaborales').append("<option value='" + val.id + "::"+val.horas_semanales+"::"+val.horas_dia+"::"+val.horas_noche+"' " + $selected + ">" + val.jornada_laboral + " - (<=" + val.horas_semanales + " HRS.)</option>");
                 });
+                if(accion==5)$('#lstJornadasLaborales').prop("disabled", "disabled");
             } else $('#lstJornadasLaborales').prop("disabled", "disabled");
         }
     });
+}
+/**
+ * Función para la obtención del listado de fechas considerando el día de la semana
+ * y si son de fin de semana dentro de un rango de fechas establecidas en el rango de los parámetros.
+ * @param finDeSemana
+ * @param fecha_ini
+ * @param fecha_fin
+ * @returns {Array}
+ */
+function obtenerFechasDeCalendario(fecha_ini,fecha_fin,finDeSemana){
+    var arrRangoFechas = [];
+    $.ajax({
+        url: '/calendariolaboral/getrangofechas',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data:{fin_de_semana:finDeSemana},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    arrRangoFechas.push( {
+                        fecha:val.fecha,
+                        dia:'d_'+val.dia,
+                        fin_de_semana: val.fin_de_semana
+                    });
+                });
+            }
+        }
+    });
+    return arrRangoFechas;
 }

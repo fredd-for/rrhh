@@ -113,17 +113,45 @@ class CalendariolaboralController extends ControllerBase
             $idPerfilLaboral = $_POST['id_perfillaboral'];
             $idHorario = $_POST['id_horario'];
             $idTolerancia = $_POST['id_tolerancia'];
-            if($idCalendarioLaboral>0&&$idPerfilLaboral>0&&$idHorario>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$idTolerancia>0){
+            $idJornadaLaboral = $_POST['id_jornada_laboral'];
+            $opcion = $_POST['opcion'];
+            if($opcion>=1&&$idCalendarioLaboral>0&&$idPerfilLaboral>0&&$idHorario>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$idJornadaLaboral>0){
                 $objCalendarioLaboral = Calendarioslaborales::findFirst(array("id=".$idCalendarioLaboral));
                 $objCalendarioLaboral->perfillaboral_id=$idPerfilLaboral;
                 $objCalendarioLaboral->horariolaboral_id=$idHorario;
-                $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                $objCalendarioLaboral->jornada_laboral_id=$idJornadaLaboral;
+                if($idTolerancia>0){
+                    $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                }
                 $date1 = new DateTime($_POST['fecha_ini']);
                 $date2 = new DateTime($_POST['fecha_fin']);
                 $fechaIni = $date1->format('Y-m-d');
                 $fechaFin = $date2->format('Y-m-d');
                 $objCalendarioLaboral->fecha_ini=$fechaIni;
                 $objCalendarioLaboral->fecha_fin=$fechaFin;
+                switch($opcion){
+                    case 1:
+                        $objCalendarioLaboral->tolerancia_id=null;
+                        break;
+                    case 2:
+                        if($idTolerancia>0){
+                            $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                        }
+                        //Si se envía la opción 2, quiere decir que se desea concluir la elaboración del calendario.
+                        $objCalendarioLaboral->estado=2;
+                        $objCalendarioLaboral->user_elab_id=$user_mod_id;
+                        $objCalendarioLaboral->fecha_elab=$hoy;
+                        break;
+                    case 3:
+                        if($idTolerancia>0){
+                            $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                        }
+                        //Si se envía la opción 2, quiere decir que se desea concluir la elaboración del calendario.
+                        $objCalendarioLaboral->estado=3;
+                        $objCalendarioLaboral->user_apr_id=$user_mod_id;
+                        $objCalendarioLaboral->fecha_apr=$hoy;
+                        break;
+                }
                 $objCalendarioLaboral->user_mod_id=$user_mod_id;
                 $objCalendarioLaboral->fecha_mod=$hoy;
                 try{
@@ -150,18 +178,22 @@ class CalendariolaboralController extends ControllerBase
             $idPerfilLaboral = $_POST['id_perfillaboral'];
             $idHorario = $_POST['id_horario'];
             $idTolerancia = $_POST['id_tolerancia'];
-            if($idPerfilLaboral>0&&$idHorario>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$idTolerancia>0){
+            $idJornadaLaboral = $_POST['id_jornada_laboral'];
+            if($idPerfilLaboral>0&&$idHorario>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$idJornadaLaboral>0){
                 $objCalendarioLaboral = new Calendarioslaborales();
                 $objCalendarioLaboral->perfillaboral_id=$idPerfilLaboral;
                 $objCalendarioLaboral->horariolaboral_id=$idHorario;
-                $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                if($idTolerancia>0){
+                    $objCalendarioLaboral->tolerancia_id=$idTolerancia;
+                }
+                $objCalendarioLaboral->jornada_laboral_id=$idJornadaLaboral;
                 $date1 = new DateTime($_POST['fecha_ini']);
                 $date2 = new DateTime($_POST['fecha_fin']);
                 $fechaIni = $date1->format('Y-m-d');
                 $fechaFin = $date2->format('Y-m-d');
                 $objCalendarioLaboral->fecha_ini=$fechaIni;
                 $objCalendarioLaboral->fecha_fin=$fechaFin;
-                $objCalendarioLaboral->estado=2;
+                $objCalendarioLaboral->estado=1;//La primera vez se registra como "EN ELABORACIÓN"
                 $objCalendarioLaboral->baja_logica=1;
                 $objCalendarioLaboral->agrupador=0;
                 $objCalendarioLaboral->user_reg_id=$user_reg_id;
@@ -247,6 +279,7 @@ class CalendariolaboralController extends ControllerBase
                  */
                 $objCalendarioLaboral = Calendarioslaborales::findFirstById($_POST["id"]);
                 $objCalendarioLaboral->estado = 0;
+                $objCalendarioLaboral->baja_logica = 0;
                 $objCalendarioLaboral->user_mod_id = $user_mod_id;
                 $objCalendarioLaboral->fecha_mod = $hoy;
                 if ($objCalendarioLaboral->save()) {
@@ -274,23 +307,76 @@ class CalendariolaboralController extends ControllerBase
     public function listjornadaslaboralesAction(){
         $this->view->disable();
         $jornadasLaborales = Array();
-        $obj = new parametros();
-        if(isset($_POST["id"])&&$_POST["id"]>0){
-            $idJornadaLaboral = $_POST["id"];
-            $resul = parametros::find(array("parametro='JORNADA_TRABAJO' AND estado=1 AND baja_logica=1"));
-            //comprobamos si hay filas
-            if ($resul->count() > 0) {
-                foreach ($resul as $v) {
-                    $jornadasLaborales[] = array(
-                        'id'=>$v->nivel,
-                        'tipo'=>$v->valor_1,
-                        'horas_semana'=>$v->valor_2,
-                        'horas_dia'=>$v->valor_3,
-                        'horas_noche'=>$v->valor_4
-                    );
-                }
+        $resul = parametros::find(array("parametro='TIPO_JORNADA_LABORAL' AND estado=1 AND baja_logica=1", 'order' => 'valor_1'));
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $jornadasLaborales[] = array(
+                    'id'=>$v->nivel,
+                    'jornada_laboral'=>$v->valor_1,
+                    'horas_semanales'=>$v->valor_2,
+                    'horas_dia'=>$v->valor_3,
+                    'horas_noche'=>$v->valor_4
+                );
             }
         }
         echo json_encode($jornadasLaborales);
+    }
+
+    /**
+     * Función para la modificación del estado de los registros de turnos de un calendario al estado EN ELABORACIÓN, de acuerdo a los parámetros enviados.
+     */
+    public function retornaestadoelaboracionAction(){
+        $this->view->disable();
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $idPerfilLaboral = $_POST["id_perfillaboral"];
+        $tipo_horario = $_POST["tipo_horario"];
+        $id_horarios="";
+        if($tipo_horario==1){
+            $id_horarios = $_POST["id_horarios"];
+        }
+        $fechaIni = $_POST["fecha_ini"];
+        $fechaFin = $_POST["fecha_fin"];
+        $obj = new Calendarioslaborales();
+        try {
+            if($tipo_horario==3){
+                $result = $obj->retornaEstadoElaboracion($user_mod_id, $idPerfilLaboral, $fechaIni, $fechaFin,$id_horarios);
+            }else {
+                $result = $obj->retornaEstadoElaboracionPorIdsCalendarios($user_mod_id, $idPerfilLaboral, $id_horarios);
+            }
+            $msj = array('result' => 1, 'msj' => 'Exito: Registro exitoso de la modificaci&oacute;n a estado EN ELABORACI&Oacute;N.');
+        } catch (\Exception $e) {
+            echo get_class($e), ": ", $e->getMessage(), "\n";
+            echo " File=", $e->getFile(), "\n";
+            echo " Line=", $e->getLine(), "\n";
+            echo $e->getTraceAsString();
+            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de turno en el calendario laboral.');
+        }
+        echo json_encode($msj);
+    }
+
+    /**
+     * Función para verificar si una hora se encuentra dentro de un rango de horas.
+     */
+    public function verificahoraenrangoAction(){
+        $this->view->disable();
+        $msj = array();
+        if(isset($_POST["hora"])&&isset($_POST["hora_ini"])&&isset($_POST["hora_fin"])){
+            try {
+                $obj = new Calendarioslaborales();
+                $result = $obj->verificaHoraEnRango($_POST["hora"],$_POST["hora_ini"],$_POST["hora_fin"]);
+                foreach ($result as $valor) {
+                    $msj = array('result' => $valor->resultado, 'msj' => $valor->msj);
+                }
+            } catch (\Exception $e) {
+                echo get_class($e), ": ", $e->getMessage(), "\n";
+                echo " File=", $e->getFile(), "\n";
+                echo " Line=", $e->getLine(), "\n";
+                echo $e->getTraceAsString();
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de turno en el calendario laboral.');
+            }
+        }
+        echo json_encode($msj);
     }
 }

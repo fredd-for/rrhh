@@ -93,7 +93,7 @@ $.fn.calendar = function(options) {
                 
                 
             //next/previous month controls
-            var btnNextMonth = $('<td><i class="fa fa-arrow-right"></i></td>');
+            var btnNextMonth = $('<td><i class="fa fa-arrow-right" id="btnNextMonth"></i></td>');
             btnNextMonth.click(function(e){
                 e.stopPropagation();
                 e.preventDefault();
@@ -102,7 +102,7 @@ $.fn.calendar = function(options) {
                     year++;
                 change_month(month, year);
             });
-            var btnPrevMonth = $('<td><i class="fa fa-arrow-left"></i></td>');
+            var btnPrevMonth = $('<td><i class="fa fa-arrow-left" id="btnPrevMonth"></i></td>');
             btnPrevMonth.click(function(e){
                 e.stopPropagation();
                 e.preventDefault();

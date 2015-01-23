@@ -17,42 +17,113 @@ $().ready(function () {
     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
 
     definirGrillaParaListaPerfilesLaborales();
-    $("#btnGuardarNuevo").click(function () {
+    $("#btnGuardarNuevo").on("click",function () {
         var ok = validaFormularioPorNuevoRegistroPerfilLaboral();
         if (ok) {
             guardarNuevoRegistroPerfilLaboral();
         }
     });
-    $("#btnGuardarEditar").click(function () {
+    $("#btnGuardarEditar").on("click",function () {
         var ok = validaFormularioPorEditarRegistroPerfilLaboral();
         if (ok) {
             guardarRegistroEditadoPerfilLaboral();
         }
     });
-    $("#btnGuardarBaja").click(function () {
+    $("#btnGuardarBaja").on("click",function () {
         var ok = validaFormularioPorBajaRegistro();
         if (ok) {
             guardarRegistroBajaPerfilLaboral();
         }
     });
-    $("#btnGuardarCalendario").click(function () {
+    $("#btnGuardarElaboracionCalendario").on("click",function () {
         var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
         var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
         var fechaIni = $("#hdnFechaIniParaCalendario").val();
         var fechaFin = $("#hdnFechaFinParaCalendario").val();
-        var ok = validaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+        var ok = validaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
         if (ok) {
-            var okk = guardaFormularioRegistroCalendario(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+            var okk = guardaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
             if(okk){
                 $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
                 $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
                 $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
                 $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
                 $("#jqxgridturnos").jqxGrid("updatebounddata");
+                var msje = "Registro exitoso del calendario laboral.";
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
             }
         }
     });
-    $("#btnCancelarNuevo").click(function () {
+    $("#btnConcluirElaboracion").on("click",function(){
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
+        var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
+        var fechaIni = $("#hdnFechaIniParaCalendario").val();
+        var fechaFin = $("#hdnFechaFinParaCalendario").val();
+        var ok = validaFormularioRegistroCalendario(2,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+        if (ok) {
+            if(confirm("¿Esta seguro de concluir la elaboración del calendario laboral? Consedere que ya no podrá realizar modificaciones.")){
+                var okk = guardaFormularioRegistroCalendario(2,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+                if(okk){
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    $("#jqxgridturnos").jqxGrid("updatebounddata");
+                    var msje = "Conclusi&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(msje);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                }
+            }
+        }
+    });
+    $("#btnGuardarAprobacionCalendario").on("click",function () {
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
+        var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
+        var fechaIni = $("#hdnFechaIniParaCalendario").val();
+        var fechaFin = $("#hdnFechaFinParaCalendario").val();
+        var ok = validaFormularioRegistroCalendario(3,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+        if (ok) {
+            if(confirm("¿Esta segur@ de aprobar la elaboración del calendario laboral?")){
+                var okk = guardaFormularioRegistroCalendario(3,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+                if(okk){
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    $("#jqxgridturnos").jqxGrid("updatebounddata");
+                    var msje = "Aprobaci&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(msje);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                }
+            }
+        }
+    });
+    $("#btnVolverAElaboracionCalendario").off();
+    $("#btnVolverAElaboracionCalendario").on("click",function() {
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
+        var tipoHorario = $("#hdnTipoHorarioParaCalendario").val();
+        var fechaIni = $("#hdnFechaIniParaCalendario").val();
+        var fechaFin = $("#hdnFechaFinParaCalendario").val();
+        if(confirm("¿Esta segur@ de retornar el estado de este calendario a 'EN ELABORACIÓN'?")){
+            var ok = retornaEstadoElaboracion(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+            if (ok) {
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                $("#jqxgridturnos").jqxGrid("updatebounddata");
+                var msje = "Se retorn&oacute; los registros del turno al estado EN ELABORACI&Oacute;N de manera exitosa.";
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+            }
+        }
+    });
+    $("#btnCancelarNuevo").on("click",function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
@@ -61,7 +132,7 @@ $().ready(function () {
         
         $("#msjs-alert").hide();
     });
-    $("#btnCancelarEditar").click(function () {
+    $("#btnCancelarEditar").on("click",function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
@@ -71,7 +142,7 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
 
-    $("#btnCancelarCalendario").click(function () {
+    $("#btnCancelarCalendario,#btnCancelarAprobacionCalendario").on("click",function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
@@ -82,7 +153,7 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
 
-    $("#btnCancelarTurno").click(function () {
+    $("#btnCancelarTurno").on("click",function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
@@ -92,15 +163,15 @@ $().ready(function () {
         $("#msjs-alert").hide();
         /*$("#lstTipoMemorandum").off();*/
     });
-    $("#btnBuscarCargo").click(function () {
+    $("#btnBuscarCargo").on("click",function () {
         $("#popupWindowCargo").jqxWindow('open');
         definirGrillaParaSeleccionarCargoAcefalo(0, '');
     });
-    $("#btnBuscarCargoEditar").click(function () {
+    $("#btnBuscarCargoEditar").on("click",function () {
         $("#popupWindowCargo").jqxWindow('open');
         definirGrillaParaSeleccionarCargoAcefaloParaEditar(0, '');
     });
-    $("#btnExportarExcel").click(function () {
+    $("#btnExportarExcel").on("click",function () {
         var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
@@ -112,7 +183,7 @@ $().ready(function () {
             $("#jqxlistbox").focus();
         }
     });
-    $("#btnExportarPDF").click(function () {
+    $("#btnExportarPDF").on("click",function () {
         var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
@@ -124,7 +195,7 @@ $().ready(function () {
             $("#jqxlistbox").focus();
         }
     });
-    $("#chkAllCols").click(function () {
+    $("#chkAllCols").on("click",function () {
         if (this.checked == true) {
             $("#jqxlistbox").jqxListBox('checkAll');
         } else {
@@ -171,33 +242,30 @@ $().ready(function () {
         }
     });
 
-    $("#liList").click(function () {
+    $("#liList").on("click",function () {
         $("#btnCancelarNuevo").click();
         $("#btnCancelarEditar").click();
         $("#btnCancelarBaja").click();
         $("#hdnIdPerfilLaboralParaCalendario").val(0);
     });
-    $("#liTurn").click(function () {
+    $("#liTurn").on("click",function () {
         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
         $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
         $("#jqxgridturnos").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
     });
-    $('#btnDesfiltrartodo').click(function () {
+    $('#btnDesfiltrartodo').on("click",function () {
         $("#divGridPerfilesLaborales").jqxGrid('clearfilters');
     });
-    $('#btnDesfiltrarTodoMovilidad').click(function () {
+    $('#btnDesfiltrarTodoMovilidad').on("click",function () {
         $("#divGridPerfilesLaboralesmovilidad").jqxGrid('clearfilters');
     });
-    $('#btnDesagrupartodo').click(function () {
+    $('#btnDesagrupartodo').on("click",function () {
         $('#divGridPerfilesLaborales').jqxGrid('cleargroups');
     });
-    $('#btnDesagruparTodoMovilidad').click(function () {
+    $('#btnDesagruparTodoMovilidad').on("click",function () {
         $('#divGridPerfilesLaboralesmovilidad').jqxGrid('cleargroups');
-    });
-    $(".fc-button").on("click",function(){
-        alert(this.class);
     });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
@@ -626,6 +694,10 @@ function fechaConvertirAFormato(fecha,separador){
     var m =  formattedDate.getMonth();
     m += 1;  // Los meses en JavaScript son 0-11
     var y = formattedDate.getFullYear();
-    var fechaResultado = d+separador+m+separador+y;
+    var ceroDia="";
+    var ceroMes="";
+    if(d<10)ceroDia="0";
+    if(m<10)ceroMes="0";
+    var fechaResultado = ceroDia+d+separador+ceroMes+m+separador+y;
     return fechaResultado;
 }

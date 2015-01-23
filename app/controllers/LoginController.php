@@ -52,7 +52,7 @@ class LoginController extends \Phalcon\Mvc\Controller {
                 $this->flashSession->success('Bienvenido <i>' . $user->nombre . '</i>');
                 $this->response->redirect('/dashboard');
             }
-            $this->flashSession->error('Email inexsitente en el sistema, o usuario No habilitado');
+            $this->flashSession->error('Email inexistente en el sistema, o usuario No habilitado');
         }
     }
 //registro de la session
