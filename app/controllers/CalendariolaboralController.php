@@ -23,6 +23,8 @@ class CalendariolaboralController extends ControllerBase
         $this->assets->addJs('/js/jquery.kolorpicker.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
+        $this->assets->addJs('/js/jquery.PrintArea.js');
+        $this->assets->addCss('/assets/css/PrintArea.css');
         //$this->assets->addJs('/js/calendariolaboral/language/language/es-MX.js');
     }
 

@@ -20,6 +20,10 @@ $().ready(function () {
         width: '100%', position: "bottom-right", opacity: 0.9,
         autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 7000, template: "success"
     });
+    $("#btnImprimirCalendario").on("click",function(){
+        var opciones = {mode:"popup",popClose: false};
+        $("#page-content").printArea(opciones);
+    });
     $("#popupWindowHorario").jqxWindow({
         width: '100%',
         height: '100%',
