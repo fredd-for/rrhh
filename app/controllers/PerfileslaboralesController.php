@@ -31,8 +31,11 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.new.edit.js');
         $this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addJs('/js/jquery.PrintArea.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');
+        $this->assets->addCss('/assets/css/PrintArea.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
+
 
 
 
@@ -219,98 +222,6 @@ class PerfileslaboralesController extends ControllerBase
         }
         echo $result;
     }
-    /**
-     * Función para listar los nombres de cargos
-     */
-    public function listnombrecargosAction()
-    {
-        $this->view->disable();
-        $obj = new cargos();
-        $resul = $obj->listNombresCargos();
-        //comprobamos si hay filas
-        if ($resul->count() > 0) {
-            foreach ($resul as $v) {
-                $cargos[] = array('cargo' => $v->cargo);
-            }
-        }
-        echo json_encode($cargos);
-    }
-
-    /**
-     * Función para la obtención del listado de procesos disponibles.
-     */
-    public function listprocesosAction()
-    {
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
-        $this->view->disable();
-        $id_condicion = $_POST["id_condicion"];
-        $obj = new Procesoscontrataciones();
-        $objProcesosContrataciones = $obj->listaProcesosPorCondicion($id_condicion);
-        if ($objProcesosContrataciones->count() > 0) {
-            foreach ($objProcesosContrataciones as $v) {
-                $procesos[] = array(
-                    'id' => $v->id,
-                    'codigo_proceso' => $v->codigo_proceso
-                );
-            }
-        }
-        echo json_encode($procesos);
-    }
-
-    /**
-     * Función para la obtención del ubicaciones disponibles.
-     */
-    public function listubicacionesAction()
-    {
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
-        $this->view->disable();
-        $resul = Ubicaciones::find(array('order' => 'id ASC'));
-        if ($resul->count() > 0) {
-            foreach ($resul as $v) {
-                $ubicaciones[] = array(
-                    'id' => $v->id,
-                    'ubicacion' => $v->ubicacion
-                );
-            }
-        }
-        echo json_encode($ubicaciones);
-    }
-
-    /**
-     * Función para la obtención del listado de motivos de baja disponibles.
-     */
-    public function listmotivosbajasAction()
-    {
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
-        $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
-        $this->view->disable();
-        $resul = Motivosbajas::find(array('estado=1', 'order' => 'id ASC'));
-        if ($resul->count() > 0) {
-            foreach ($resul as $v) {
-                $motivosbajas[] = array(
-                    'id' => $v->id,
-                    'motivo_baja' => $v->motivo_baja,
-                    'permanente' => $v->permanente,
-                    'eventual' => $v->eventual,
-                    'consultor' => $v->consultor,
-                    'fecha_ren' => $v->fecha_ren,
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren,
-                    'fecha_agra_serv' => $v->fecha_agra_serv
-                );
-            }
-        }
-        echo json_encode($motivosbajas);
-    }
-
     /**
      * Función para el almacenamiento y actualización de un registro de perfil laboral.
      * return array(EstadoResultado,Mensaje)

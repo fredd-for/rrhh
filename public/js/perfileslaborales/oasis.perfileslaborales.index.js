@@ -195,6 +195,10 @@ $().ready(function () {
             $("#jqxlistbox").focus();
         }
     });
+    $("#btnImprimirCalendario").on("click",function(){
+        var opciones = {mode:"popup",popClose: false};
+        $("#divCalendar").printArea(opciones);
+    });
     $("#chkAllCols").on("click",function () {
         if (this.checked == true) {
             $("#jqxlistbox").jqxListBox('checkAll');

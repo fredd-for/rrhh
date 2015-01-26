@@ -31,6 +31,8 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.print.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
         $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
+        $this->assets->addJs('/js/jquery.PrintArea.js');
+        $this->assets->addCss('/assets/css/PrintArea.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $ubicaciones = $this->tag->select(
             array(

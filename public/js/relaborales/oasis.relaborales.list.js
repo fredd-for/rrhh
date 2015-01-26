@@ -169,6 +169,10 @@ $().ready(function () {
             $("#jqxlistbox").jqxListBox('uncheckAll');
         }
     });
+    $("#btnImprimirHistorial").on("click",function(){
+        var opciones = {mode:"popup",popClose: false};
+        $("#HistorialSplitter").printArea(opciones);
+    });
     /**
      * Control sobre el cambio en el listado de motivos de baja
      */
