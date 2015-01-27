@@ -138,4 +138,41 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
         $this->_db = new Fcalendariolaboral();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de horarios laborales registrados en el calendario laboral,
+     * considerando el tipo de horario como parámetro de distinción.
+     * @param $tipoHorario
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllRegisteredByTipoHorario($tipoHorario,$fechaIni,$fechaFin)
+    {
+        $sql = "SELECT * FROM f_calendario_laboral_registrado_por_tipo_horario($tipoHorario)";
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        }
+        $this->_db = new Fcalendariolaboral();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+    /**
+     * Función para la obtención del listado de los distintos perfiles laborales de acuerdo al tipo de horario seleccionado.
+     * @param $tipoHorario
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllPerfilesRegisteredByTipoHorario($tipoHorario,$fechaIni,$fechaFin)
+    {
+        $sql = "SELECT distinct id_perfillaboral,perfil_laboral,perfil_laboral_grupo FROM f_calendario_laboral_registrado_por_tipo_horario($tipoHorario)";
+        //echo "<p>-->".$sql;
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        }
+        $this->_db = new Fcalendariolaboral();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 } 

@@ -6,6 +6,7 @@
  *   Fecha Creación:  18-12-2014
  */
 function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
+    tipoHorario = parseInt(tipoHorario);
     var arrFechasPorSemana = [];
     var contadorPorSemana = 0;
     var diasSemana=7;

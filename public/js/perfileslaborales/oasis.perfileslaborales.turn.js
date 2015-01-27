@@ -159,6 +159,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         });
                         $("#divEstadoCalendario").html("");
                         $("#btnImprimirCalendario").hide();
+                        $("#divArrastre").show();
                     });
 
                     /**
@@ -283,6 +284,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                         $("#btnImprimirCalendario").hide();
+                        $("#divArrastre").show();
                     });
                     $("#approverowbuttonturn").off();
                     $("#approverowbuttonturn").on('click', function () {
@@ -398,6 +400,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                         $("#btnImprimirCalendario").hide();
+                        $("#divArrastre").show();
                     });
                     /* Dar de baja un registro de movilidad de personal.*/
                     /*$("#deleterowbuttonturn").off();
@@ -519,6 +522,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                         $("#btnImprimirCalendario").show();
+                        $("#divArrastre").hide();
                     });
                 },
                 columns: [
