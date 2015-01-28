@@ -1122,15 +1122,19 @@ var initEvents = function() {
  * @param gestion
  * @param mes
  * @param tipoHorario
+ * @param contadorPerfiles
  * @returns {Array}
  */
-function obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,editable,fechaIni,fechaFin){
+function obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorario,editable,fechaIni,fechaFin,contadorPerfiles){
+    //alert(contadorPerfiles);
     var arrHorariosRegistrados = [];
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
     var ctrlAllDay=false;
+    var colors = ['#9b59b6','#1abc9c','#f39c12','#d35400','#3498db','#e74c3c','#9b59b6','#cc80b3','#b3408c','#b34040','#bfd9d9','#2020a6','#a6a620','#e74c3c','#e74c3c','#cc80b3'];
+    //alert (colors[contadorPerfiles]);
     switch (tipoHorario){
         case 1:
         case 2:ctrlAllDay=true;break;
@@ -1151,9 +1155,13 @@ function obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorar
                     var horaSal = '24:00:00';
                     var color = '#000000';
                     var horario_nombre = 'DESCANSO';
+                    var perfil_laboral = val.perfil_laboral;
+                    var grupo = val.perfil_laboral_grupo;
+                    if(grupo!='') perfil_laboral += " - "+grupo;
                     if(val.id_horariolaboral!=null){
                         idHorarioLaboral = val.id_horariolaboral;
-                        horario_nombre = val.horario_nombre;
+                        if(val.grupo!="")
+                            horario_nombre = val.horario_nombre +" ("+perfil_laboral+")";
                         horaEnt = val.hora_entrada.split(":");
                         horaSal = val.hora_salida.split(":");
                         color = val.color;
@@ -1161,6 +1169,7 @@ function obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(idPerfil,tipoHorar
                         horaEnt = horaEnt.split(":");
                         horaSal = horaSal.split(":");
                     }
+                    color  = colors[contadorPerfiles];
                     var fechaIni =  val.calendario_fecha_ini.split("-");
                     var yi = fechaIni[0];
                     var mi = fechaIni[1]-1;
@@ -1447,7 +1456,7 @@ function cargarPerfilesLaboralesDisponiblesPorTipoHorario(tipoHorario,fechaIni,f
         };
         var dataAdapter = new $.jqx.dataAdapter(source);
         // Create a jqxListBox
-        $("#lstPerfilesLaboralesDisponibles").jqxListBox({width: 200, source: dataAdapter, displayMember:'perfil_laboral',valueMember:'id_perfillaboral',checkboxes: true, height: 600});
+        $("#lstPerfilesLaboralesDisponibles").jqxListBox({width: 500, source: dataAdapter, displayMember:'perfil_laboral',valueMember:'id_perfillaboral',checkboxes: true, height: 600});
 
         // Check several items.
         $("#lstPerfilesLaboralesDisponibles").off();
@@ -1460,8 +1469,10 @@ function cargarPerfilesLaboralesDisponiblesPorTipoHorario(tipoHorario,fechaIni,f
             $("#calendar").html("");
             var arrHorariosRegistradosAux = [];
             var arrHorariosRegistrados = [];
+            var contadorPerfiles = 0;
             $.each(items, function (index) {
-                arrHorariosRegistradosAux = obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(this.value,$("#lstTiposDeHorario").val(),false,fechaIni,fechaFin);
+                contadorPerfiles++;
+                arrHorariosRegistradosAux = obtenerTodosHorariosRegistradosEnCalendarioPorPerfil(this.value,$("#lstTiposDeHorario").val(),false,fechaIni,fechaFin,contadorPerfiles);
                 arrHorariosRegistrados = $.merge(arrHorariosRegistrados, arrHorariosRegistradosAux);
             });
             iniciarCalendarioLaboralPorTipoHorario(5,$("#lstTiposDeHorario").val(),arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);

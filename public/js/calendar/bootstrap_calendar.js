@@ -118,7 +118,7 @@ $.fn.calendar = function(options) {
 
             //current year & month label
             var lblDate = $('<table class="table header"><tr></tr></table>');
-            var lblDateControl = $('<td colspan=5 class="year span6"></td>');
+            var lblDateControl = $('<td colspan="5" class="year span6"></td>');
             lblDate.append(btnPrevMonth);
             lblDate.append(lblDateControl);
             lblDate.append(btnNextMonth);

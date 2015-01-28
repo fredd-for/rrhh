@@ -181,6 +181,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                         $("#txtHorarioFechaIni").prop("disabled","disabled");
                         $("#txtHorarioFechaFin").prop("disabled","disabled");
                     } else {
+                        $("#btnGuardarModificacionHorario").show();
                         $("#btnDescartarHorario").show();
                         $("#txtHorarioFechaIni").prop("disabled",false);
                         $("#txtHorarioFechaFin").prop("disabled",false);
@@ -263,7 +264,9 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
         /*dayRender: function (date, cell) {},*/
         viewRender: function(view) {
             if(view.name=="month")
-            {   $("#divSumatorias").show();
+            {   //$("#divSumatorias").show();
+                removerColumnaSumaTotales();
+                agregarColumnaSumaTotales();
                 arrFechasPorSemana= [];
                 var contP=0;
                 var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
@@ -294,7 +297,8 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                 });
                 sumarTotalHorasPorSemana(arrFechasPorSemana);
             }else{
-                $("#divSumatorias").hide();
+                //$("#divSumatorias").hide();
+                //ocultarColumnaSumaTotales();
             }
         }
     });
@@ -1082,17 +1086,17 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
     $("#spSumaSemana4").html(horasSemana4);
     $("#spSumaSemana5").html(horasSemana5);
     $("#spSumaSemana6").html(horasSemana6);
-    var tipoJornadaLaboral = $("#lstJornadasLaborales").val();
-    var horasSemanalesPermitidas = 0;
-    var horasDiaPermitidas = 0;
-    var horasNochePermitidas = 0;
-    var idJornadaLaboral = 0;
-    if(tipoJornadaLaboral!=null&&tipoJornadaLaboral!=0){
-        var arrJornadaLaboral = tipoJornadaLaboral.split("::");
+    //var tipoJornadaLaboral = $("#lstJornadasLaborales").val();
+    var horasSemanalesPermitidas = 48;
+    var horasDiaPermitidas = 8;
+    var horasNochePermitidas = 7;
+    var idJornadaLaboral = 1;
+    if(idJornadaLaboral!=0){
+        /*var arrJornadaLaboral = tipoJornadaLaboral.split("::");
         idJornadaLaboral = arrJornadaLaboral[0];
         horasSemanalesPermitidas = arrJornadaLaboral[1];
         horasDiaPermitidas = arrJornadaLaboral[2];
-        horasNochePermitidas = arrJornadaLaboral[3];
+        horasNochePermitidas = arrJornadaLaboral[3];*/
         /**
          * Control de exceso de horas en la semana
          */
@@ -1182,4 +1186,29 @@ function obtenerFechasDeCalendario(fecha_ini,fecha_fin,finDeSemana){
         }
     });
     return arrRangoFechas;
+}
+/**
+ * Función para agregar la columna de totales al calendario.
+ */
+function agregarColumnaSumaTotales(){
+    //$(".fc-header-right").html("<div class='block-section text-right text-muted'><i class='gi gi-clock fa-3x text-info'></i></div>");
+    $(".fc-border-separate tr:first").append("<th style='width: 87px;' id='thColumnaTotales' class='thColumnaTotales'> Hrs Semana </th>");
+    var sufijo = 0;
+    $(".fc-border-separate tr.fc-week").each(function(key,val){
+        sufijo++;
+        //.fc-day-suma-horas-semana{float:center;padding:0 2px}
+        $(this).append("<td id='tdSumaSemana"+sufijo+"' class='tdSumaSemana fc-last'><div style='min-height: 67px;align-content: center;'><div id='divSumaSemana"+sufijo+"' class='fc-day-suma-horas-semana'><span id='spSumaSemana"+sufijo+"' class='spSumaSemana'>0</span></div></div></td>");
+    });
+}
+/**
+ * Funcion para remover la columna de suma de totales al calendario.
+ */
+function removerColumnaSumaTotales(){
+    $("#thColumnaTotales").remove();
+    $("#tdSumaSemana1").remove();
+    $("#tdSumaSemana2").remove();
+    $("#tdSumaSemana3").remove();
+    $("#tdSumaSemana4").remove();
+    $("#tdSumaSemana5").remove();
+    $("#tdSumaSemana6").remove();
 }

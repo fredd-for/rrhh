@@ -19,9 +19,10 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var msje = "";
     $(".msjs-alert").hide();
     var idTolerancia = $("#lstTolerancias").val();
-    var lstIdJornadaLaboral = $("#lstJornadasLaborales").val();
+    /*var lstIdJornadaLaboral = $("#lstJornadasLaborales").val();
     var arrIdJornadaLaboral =lstIdJornadaLaboral.split("::");
-    var idJornadaLaboral = arrIdJornadaLaboral[0];
+    var idJornadaLaboral = arrIdJornadaLaboral[0];*/
+    var idJornadaLaboral = 1;
     var arr = $("#calendar").fullCalendar( 'clientEvents');
     var contadorEventos = 0;
     var mesIni = 0;
@@ -29,12 +30,13 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var arrMeses = [];
     var cruce = true;
     var dentroRango = 1;
+    var excesoHorasSemana = true;
     if(tipoHorario==3){
         cruce = verificaCruceDeHorariosEnMes();
     }
     else cruce = prevenirCruceDeHorariosEnVariosMeses(idPerfilLaboral,fechaIniRango,fechaFinRango);
-
-    if(cruce){
+    excesoHorasSemana = verificaExcesoHorasSemanales();
+    if(cruce&&excesoHorasSemana){
         $.each(arr,function(key,evento){
             var valClass = evento.className+"";
             var arrClass = valClass.split("_");
@@ -120,10 +122,12 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
         }
     }else{
         ok = false;
-        /*var msje = "No se puede registrar el calendario debido a que existe cruce de horarios en el calendario.";
-        $("#divMsjePorError").html("");
-        $("#divMsjePorError").append(msje);
-        $("#divMsjeNotificacionError").jqxNotification("open");*/
+        if(!excesoHorasSemana){
+            var msje = "No se puede registrar el calendario debido a que existe carga horaria semanal que excede las 48 horas admitidas.";
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append(msje);
+            $("#divMsjeNotificacionError").jqxNotification("open");
+        }
     }
     if(idJornadaLaboral==0||idJornadaLaboral==undefined){
         ok = false;
@@ -161,9 +165,10 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var idTolerancia = 0;
     if(opcion>=3&&$("#lstTolerancias").val()!=undefined&&$("#lstTolerancias").val()>0)
         idTolerancia = $("#lstTolerancias").val();
-    var lstIdJornadaLaboral = $("#lstJornadasLaborales").val();
+    /*var lstIdJornadaLaboral = $("#lstJornadasLaborales").val();
     var arrIdJornadaLaboral =lstIdJornadaLaboral.split("::");
-    var idJornadaLaboral = arrIdJornadaLaboral[0];
+    var idJornadaLaboral = arrIdJornadaLaboral[0];*/
+    var idJornadaLaboral = 1;
     var ok = true;
     var okk= true;
     $.each(arr,function(key,turno){
@@ -276,12 +281,12 @@ function verificaCruceDeHorariosEnMes(){
                 }
             });
         });
-        var valJornadaLaboral = $("#lstJornadasLaborales").val();
-        var arrJornadaLaboral = valJornadaLaboral.split("::");
-        var idJornadaLaboral = arrJornadaLaboral[0];
-        var horasSemana = arrJornadaLaboral[1];
-        var horasDia = arrJornadaLaboral[2];
-        var horasNoche = arrJornadaLaboral[3];
+        /*var valJornadaLaboral = $("#lstJornadasLaborales").val();
+        var arrJornadaLaboral = valJornadaLaboral.split("::");*/
+        var idJornadaLaboral = 1;
+        var horasSemana = 48;
+        var horasDia = 8;
+        var horasNoche = 7;
         $.each(fechasUnicasPorCantidades,function(fecha,cantidad){
             /**
              * Sólo se consideran aquellas fechas que tienen más de un horario.
@@ -550,4 +555,26 @@ function retornaEstadoElaboracion(idPerfilLaboral,tipoHorario,fechaIni,fechaFin)
         }
     });
     return ok;
+}
+/**
+ * Verificar que no se excedan las horas semanales permitidas.
+ * @param tipoHorario
+ */
+function verificaExcesoHorasSemanales(){
+    var ok=true;
+    var horasSemanales = parseFloat($("#hdnJornadaLaboralSemanal").val());
+    var sumaSemana1 = parseFloat($("#spSumaSemana1").text());
+    var sumaSemana2 = parseFloat($("#spSumaSemana2").text());
+    var sumaSemana3 = parseFloat($("#spSumaSemana3").text());
+    var sumaSemana4 = parseFloat($("#spSumaSemana4").text());
+    var sumaSemana5 = parseFloat($("#spSumaSemana5").text());
+    var sumaSemana6 = parseFloat($("#spSumaSemana6").text());
+    if(sumaSemana1>horasSemanales)ok=false;
+    if(sumaSemana2>horasSemanales)ok=false;
+    if(sumaSemana3>horasSemanales)ok=false;
+    if(sumaSemana4>horasSemanales)ok=false;
+    if(sumaSemana5>horasSemanales)ok=false;
+    if(sumaSemana6>horasSemanales)ok=false;
+    return ok;
+
 }

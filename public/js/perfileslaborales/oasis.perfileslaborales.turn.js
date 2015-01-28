@@ -161,7 +161,6 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         $("#btnImprimirCalendario").hide();
                         $("#divArrastre").show();
                     });
-
                     /**
                      * Modificar registro de turno laboral.
                      */
@@ -402,11 +401,6 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         $("#btnImprimirCalendario").hide();
                         $("#divArrastre").show();
                     });
-                    /* Dar de baja un registro de movilidad de personal.*/
-                    /*$("#deleterowbuttonturn").off();
-                    $("#deleterowbuttonturn").on('click', function () {
-                    });*/
-                    //
                     /* Ver el calendario registrado.*/
                     $("#viewrowbuttonturn").off();
                     $("#viewrowbuttonturn").on('click', function () {

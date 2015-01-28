@@ -331,9 +331,9 @@
                             <ul class="calendar-events" id="ulHorariosEnEspera">
                             </ul>
                         </div>
-                        <h6>Jornada Laboral:</h6>
+                        <!--<h6>Jornada Laboral:</h6>
                         <select id="lstJornadasLaborales" class="form-control">
-                        </select>
+                        </select>-->
                         <div id="divLstTolerancias"><h6>Tipo de Tolerancia:</h6><select id="lstTolerancias" class="form-control"></select></div>
                         <div id="divEstadoCalendario"></div><br>
                     </div>
@@ -370,7 +370,7 @@
                             <button id="btnCancelarAprobacionCalendario" class="btnCancelarCalendario btn btn-warning" type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
                         </div>
                     </div>
-                    <div class="col-md-2" id="divSumatorias">
+                    <!--<div class="col-md-2" id="divSumatorias">
                         <div class="block-section">
                             <div class="block-section text-center text-muted">
                                 <i class="gi gi-clock fa-3x text-info"></i>
@@ -429,12 +429,16 @@
                             </table>
                     </div>
                     </div>
-                    </div>
+                    </div>-->
                     <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
                     <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
                     <input type="hidden" id="hdnIdTolerancia" value="0">
                     <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
                     <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
+                    <input type="hidden" id="hdnIdJornadaLaboral" value="1">
+                    <input type="hidden" id="hdnJornadaLaboralDiurna" value="8">
+                    <input type="hidden" id="hdnJornadaLaboralNocturna" value="7">
+                    <input type="hidden" id="hdnJornadaLaboralSemanal" value="48">
                     </div>
                 </div>
             </div>
