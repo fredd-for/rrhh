@@ -11,6 +11,7 @@ class Ubicaciones  extends \Phalcon\Mvc\Model {
     public $id;
     public $padre_id;
     public $ubicacion;
+    public $color;
     public $observacion;
     public $estado;
     public $baja_logica;
@@ -32,6 +33,7 @@ class Ubicaciones  extends \Phalcon\Mvc\Model {
             'id' => 'id',
             'padre_id' => 'padre_id',
             'ubicacion' => 'ubicacion',
+            'color' => 'color',
             'observacion' => 'observacion',
             'estado' => 'estado',
             'baja_logica' => 'baja_logica',
