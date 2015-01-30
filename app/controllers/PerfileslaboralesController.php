@@ -30,6 +30,9 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.turn.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.new.edit.js');
+        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.cupos.js');
+        $this->assets->addJs('/js/slider/bootstrap-slider.js');
+        $this->assets->addCss('/js/slider/bootstrap-slider.css');
         $this->assets->addJs('/js/jquery.kolorpicker.js');
         $this->assets->addJs('/js/jquery.PrintArea.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');

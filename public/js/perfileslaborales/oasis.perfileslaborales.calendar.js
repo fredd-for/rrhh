@@ -76,6 +76,9 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
         editable: optEditable,
         droppable: optDroppable,
         selectable: optSelectable,
+        weekNumbers:true,
+        weekNumberTitle:"#S",
+        //fixedWeekCount:true,
         timeFormat: 'H(:mm)', // Mayusculas H de 24-horas
         drop: function(date, allDay) {
 
@@ -266,7 +269,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             if(view.name=="month")
             {   //$("#divSumatorias").show();
                 removerColumnaSumaTotales();
-                agregarColumnaSumaTotales();
+                agregarColumnaSumaTotales(diasSemana);
                 arrFechasPorSemana= [];
                 var contP=0;
                 var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
@@ -1080,12 +1083,14 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
         });
     });
 
-    $("#spSumaSemana1").html(horasSemana1);
-    $("#spSumaSemana2").html(horasSemana2);
-    $("#spSumaSemana3").html(horasSemana3);
-    $("#spSumaSemana4").html(horasSemana4);
-    $("#spSumaSemana5").html(horasSemana5);
-    $("#spSumaSemana6").html(horasSemana6);
+    $("#spSumaSemana1").html(horasSemana1.toFixed(2));
+    $("#spSumaSemana2").html(horasSemana2.toFixed(2));
+    $("#spSumaSemana3").html(horasSemana3.toFixed(2));
+    $("#spSumaSemana4").html(horasSemana4.toFixed(2));
+    $("#spSumaSemana5").html(horasSemana5.toFixed(2));
+    $("#spSumaSemana6").html(horasSemana6.toFixed(2));
+    var promedioSumaTresSemanas = (horasSemana2+horasSemana3+horasSemana4)/3;
+    $("#spSumaPromedioTresSemanas").html(promedioSumaTresSemanas.toFixed(2));
     //var tipoJornadaLaboral = $("#lstJornadasLaborales").val();
     var horasSemanalesPermitidas = 48;
     var horasDiaPermitidas = 8;
@@ -1101,29 +1106,31 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
          * Control de exceso de horas en la semana
          */
         if(horasSemana1>horasSemanalesPermitidas){
-            $("#tdSumaSemana1").css("background-color", "red");
-        }
+            $("#tdSumaSemana1").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana1").css("background-color", "white");
         if(horasSemana2>horasSemanalesPermitidas){
-            $("#tdSumaSemana2").css("background-color", "red");
-        }
+            $("#tdSumaSemana2").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana2").css("background-color", "silver");
         if(horasSemana3>horasSemanalesPermitidas){
-            $("#tdSumaSemana3").css("background-color", "red");
-        }
+            $("#tdSumaSemana3").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana3").css("background-color", "silver");
         if(horasSemana4>horasSemanalesPermitidas){
-            $("#tdSumaSemana4").css("background-color", "red");
-        }
+            $("#tdSumaSemana4").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana4").css("background-color", "silver");
         if(horasSemana5>horasSemanalesPermitidas){
-            $("#tdSumaSemana5").css("background-color", "red");
-        }
+            $("#tdSumaSemana5").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana5").css("background-color", "white");
         if(horasSemana6>horasSemanalesPermitidas){
-            $("#tdSumaSemana6").css("background-color", "red");
-        }
+            $("#tdSumaSemana6").css("background-color", "#FF4000");
+        }else $("#tdSumaSemana6").css("background-color", "white");
         /**
-         * Control de exceso de horas nocturnas por día
+         * Control del promedio de horas en tres semanas del mes
          */
+        if(promedioSumaTresSemanas>horasSemanalesPermitidas){
+          $("#tdSumaPromedioTresSemanas").css("background-color", "red");
+        }else $("#tdSumaPromedioTresSemanas").css("background-color", "white");
 
     }
-
 }
 /**
  * Función para cargar el selector de tipos de jornadas laborales disponibles.
@@ -1188,17 +1195,18 @@ function obtenerFechasDeCalendario(fecha_ini,fecha_fin,finDeSemana){
     return arrRangoFechas;
 }
 /**
- * Función para agregar la columna de totales al calendario.
+ *  Función para agregar la columna de totales al calendario.
+ * @param diasSemana
  */
-function agregarColumnaSumaTotales(){
-    //$(".fc-header-right").html("<div class='block-section text-right text-muted'><i class='gi gi-clock fa-3x text-info'></i></div>");
+function agregarColumnaSumaTotales(diasSemana){
     $(".fc-border-separate tr:first").append("<th style='width: 87px;' id='thColumnaTotales' class='thColumnaTotales'> Hrs Semana </th>");
     var sufijo = 0;
     $(".fc-border-separate tr.fc-week").each(function(key,val){
         sufijo++;
-        //.fc-day-suma-horas-semana{float:center;padding:0 2px}
-        $(this).append("<td id='tdSumaSemana"+sufijo+"' class='tdSumaSemana fc-last'><div style='min-height: 67px;align-content: center;'><div id='divSumaSemana"+sufijo+"' class='fc-day-suma-horas-semana'><span id='spSumaSemana"+sufijo+"' class='spSumaSemana'>0</span></div></div></td>");
+        $(this).append("<td id='tdSumaSemana"+sufijo+"' class='tdSumaSemana fc-last'><div style='min-height: 67px;align-content: center;'><div id='divSumaSemana"+sufijo+"' class='fc-day-suma-horas-semana'><span id='spSumaSemana"+sufijo+"' class='spSumaSemana'>100</span></div></div></td>");
     });
+    var diasSemanaMasContadorSemanas = diasSemana+1;
+    $(".fc-border-separate tr:last").after("<tr id=''><td style='text-align: right;' colspan='"+diasSemanaMasContadorSemanas+"' class=''><b>Promedio semanal de horas (3 Semanas marcadas):</b></td><td id='tdSumaPromedioTresSemanas' class='tdSumaPromedioTresSemanas fc-first fc-day fc-last'><div style='min-height: 67px;align-content: center;'><div id='divSumaPromedioTresSemanas' class='fc-suma-promedio-horas-3-semanas'><span id='spSumaPromedioTresSemanas'>0</span></div></div></td></tr>");
 }
 /**
  * Funcion para remover la columna de suma de totales al calendario.
@@ -1211,4 +1219,5 @@ function removerColumnaSumaTotales(){
     $("#tdSumaSemana4").remove();
     $("#tdSumaSemana5").remove();
     $("#tdSumaSemana6").remove();
+    $("#trSumaPromedioTresSemanas").remove();
 }

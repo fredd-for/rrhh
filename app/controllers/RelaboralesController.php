@@ -37,7 +37,7 @@ class RelaboralesController extends ControllerBase
         $ubicaciones = $this->tag->select(
             array(
                 'lstUbicaciones',
-                Ubicaciones::find(array('baja_logica=1', 'order' => 'id ASC')),
+                Ubicaciones::find(array('baja_logica=1 AND (agrupador=0 OR agrupador=1)', 'order' => 'id ASC')),
                 'using' => array('id', "ubicacion"),
                 'useEmpty' => true,
                 'emptyText' => 'Seleccionar..',
@@ -321,7 +321,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
-        $resul = Ubicaciones::find(array('order' => 'id ASC'));
+        $resul = Ubicaciones::find(array('baja_logica=1 AND (agrupador=0 OR agrupador=1)', 'order' => 'id ASC'));
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $ubicaciones[] = array(
@@ -374,8 +374,9 @@ class RelaboralesController extends ControllerBase
      */
     public function saveAction()
     {
-        $user_reg_id = 1;
-        $user_mod_id = 1;
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $user_reg_id = $auth['id'];
         $msj = Array();
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");

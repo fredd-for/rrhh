@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: JLOZA
- * Date: 24/10/2014
- * Time: 10:17 AM
- */
+/*
+*   Oasis - Sistema de Gestión para Recursos Humanos
+*   Empresa Estatal de Transporte por Cable "Mi Teleférico"
+*   Versión:  1.0.0
+*   Usuario Creador: Lic. Javier Loza
+*   Fecha Creación:  24-10-2014
+*/
 
 class Ubicaciones  extends \Phalcon\Mvc\Model {
     public $id;
+    public $padre_id;
     public $ubicacion;
     public $observacion;
     public $estado;
@@ -28,6 +30,7 @@ class Ubicaciones  extends \Phalcon\Mvc\Model {
     {
         return array(
             'id' => 'id',
+            'padre_id' => 'padre_id',
             'ubicacion' => 'ubicacion',
             'observacion' => 'observacion',
             'estado' => 'estado',

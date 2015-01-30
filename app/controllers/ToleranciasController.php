@@ -1,5 +1,4 @@
 <?php
-
 /*
 *   Oasis - Sistema de Gestión para Recursos Humanos
 *   Empresa Estatal de Transporte por Cable "Mi Teleférico"

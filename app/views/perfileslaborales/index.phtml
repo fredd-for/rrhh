@@ -59,7 +59,7 @@
     }
 
 </style>
-<h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Perfiles Laborales / Turnos / Calendarios</b></h2>
+<h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Perfiles Laborales / Turnos / Calendarios / Cupos</b></h2>
 
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
     <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
@@ -104,6 +104,7 @@
     <li id="liEdit">Modificaci&oacute;n</li>
     <li id="liTurn">Turnos</li>
     <li id="liCalendar">Calendarios</li>
+    <li id="liQuotas">Cupos</li>
 </ul>
 <div class="section" id="divList">
     <form class="navbar-form" id="formNew">
@@ -287,7 +288,6 @@
     </form>
 </div>
 <div class="section" id="divCalendar">
-
     <form class="navbar-form" id="formCalendar" onsubmit="return false;">
         <br>
         <div class="widget">
@@ -302,6 +302,8 @@
                             <dd id="ddGrupoCalendario"></dd>
                             <dt id="dtTipoHorarioCalendario">Tipo de Horario:</dt>
                             <dd id="ddTipoHorarioCalendario"></dd>
+                            <dt id="dtRangoFechasCalendario">Rango Fechas:</dt>
+                            <dd id="ddRangoFechasCalendario"></dd>
                         </dl>
                     </div>
                 </h4>
@@ -358,11 +360,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr id="tr_tolerancia">
-                                </tr>
+                                <tr id="tr_tolerancia"></tr>
                                 </tbody>
                             </table>
                         </div>
+                        <br>
                         <br>
                         <div id="divGrupoBotonesAprobacion" class="btn-group">
                             <button id="btnGuardarAprobacionCalendario" class="btn btn-success" type="button"><i class="fa fa-check"></i> Aprobar Elaboraci&oacute;n</button>
@@ -370,66 +372,6 @@
                             <button id="btnCancelarAprobacionCalendario" class="btnCancelarCalendario btn btn-warning" type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
                         </div>
                     </div>
-                    <!--<div class="col-md-2" id="divSumatorias">
-                        <div class="block-section">
-                            <div class="block-section text-center text-muted">
-                                <i class="gi gi-clock fa-3x text-info"></i>
-                            </div>
-                            <div id="divSumaHorasPorSemana">
-                            <table class="fc-border-separate" style="width:100%" cellspacing="0">
-                            <thead>
-                            <tr class="fc-first fc-last">
-                                <th style="width: 87px;" class="fc-day-header fc-widget-header fc-first fc-last"> Hrs Semana </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="fc-week fc-first">
-                                <td id="tdSumaSemana1" class="fc-day fc-mon fc-widget-content fc-other-month fc-future fc-first  fc-last">
-                                    <div style="min-height: 67px;">
-                                        <div id="divSumaSemana1" class="fc-day-number"><span id="spSumaSemana1" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="fc-week">
-                                <td id="tdSumaSemana2" class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last">
-                                    <div style="min-height: 66px;">
-                                        <div id="divSumaSemana2" class="fc-day-number"><span id="spSumaSemana2" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="fc-week">
-                                <td id="tdSumaSemana3" class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last">
-                                    <div style="min-height: 66px;">
-                                        <div id="divSumaSemana3" class="fc-day-number"><span id="spSumaSemana3" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="fc-week">
-                                <td id="tdSumaSemana4" class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last">
-                                    <div style="min-height: 66px;">
-                                        <div id="divSumaSemana4" class="fc-day-number"><span id="spSumaSemana4" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="fc-week">
-                                <td id="tdSumaSemana5" class="fc-day fc-mon fc-widget-content fc-future fc-first fc-last">
-                                    <div style="min-height: 66px;">
-                                        <div id="divSumaSemana5" class="fc-day-number"><span id="spSumaSemana5" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="fc-week fc-last">
-                                <td id="tdSumaSemana6" class="fc-day fc-mon fc-widget-content fc-other-month fc-future fc-first fc-last">
-                                    <div style="min-height: 69px;">
-                                        <div id="divSumaSemana6" class="fc-day-number"><span id="spSumaSemana6" class="spSumaSemana">0</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                            </table>
-                    </div>
-                    </div>
-                    </div>-->
                     <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
                     <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
                     <input type="hidden" id="hdnIdTolerancia" value="0">
@@ -444,11 +386,69 @@
             </div>
             <!-- END FullCalendar Block -->
             <!-- END FullCalendar Content -->
-        </div>
-        <!-- END Contenido referente al calendario laboral y gestión de horarios -->
-
-
     </form>
+</div>
+<div class="section" id="divQuotas">
+    <form class="navbar-form" id="formQuotas" onsubmit="return false;">
+        <div class="widget">
+            <div class="widget-simple themed-background-dark">
+                <h2 style="color: white">Gesti&oacute;n de Calendarios</h2>
+                <h4 class="widget-content">
+                    <div>
+                        <dl class="dl-horizontal" STYLE="color: white;font-size: 13px;">
+                            <dt id="dtPerfilLaboralCupos">Perfil Laboral:</dt>
+                            <dd id="ddPerfilLaboralCupos"></dd>
+                            <dt id="dtGrupoCupos">Grupo:</dt>
+                            <dd id="ddGrupoCupos"></dd>
+                            <dt id="dtTipoHorarioCupos">Tipo de Horario:</dt>
+                            <dd id="ddTipoHorarioCupos"></dd>
+                            <dt id="dtRangoFechas">Rango Fechas:</dt>
+                            <dd id="ddRangoFechas"></dd>
+                        </dl>
+                    </div>
+                </h4>
+            </div>
+        </div>
+        <div class="block block-alt-noborder full">
+            <div class="block-title">
+                <div class="block-options pull-right">
+                    <a id="btnImprimirCuposCalendario" class="btn btn-alt btn-sm btn-default" title="Imprimir Cupos por Calendario" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Imprimir">
+                        <i class="fa fa-print"></i>
+                    </a>
+                </div>
+                <h2>
+                    <strong><span id="spanPrefijoCuposCalendarioLaboral"></span></strong>
+                    Calendario Laboral
+                </h2>
+            </div>
+        <div id="divCuposLaborales">
+            <table id="tblGrillaCuposLaborales" class="table table-vcenter table-condensed table-bordered">
+                <thead>
+                <tr>
+                    <th class='text-center'>Nro.</th>
+                    <th class='text-center'>Ubicaci&oacute;n / L&iacute;nea</th>
+                    <th class='text-center'>Estaci&oacute;n</th>
+                    <th class='text-center' width="50%">Cantidad</th>
+                    <th class='text-center'>#</th>
+                </tr>
+                </thead>
+                <tbody id="tbody_cupos"></tbody>
+            </table>
+        </div>
+        </div>
+        <br>
+        <br>
+        <div id="divGrupoBotonesCupos" class="btn-group">
+            <button id="btnGuardarCupoCalendario" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
+            <button id="btnCancelarCupoCalendario" class="btnCancelarCupoCalendario btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+        </div>
+        <input type="hidden" id="hdnIdPerfilLaboralParaCuposCalendario" value="0">
+        <input type="hidden" id="hdnTipoHorarioParaCuposCalendario" value="0">
+        <input type="hidden" id="hdnFechaIniParaCuposCalendario" value="0">
+        <input type="hidden" id="hdnFechaFinParaCuposCalendario" value="0">
+    </form>
+</div>
+        <!-- END Contenido referente al calendario laboral y gestión de horarios -->
 </div>
 </div>
 <!--</form></div>-->

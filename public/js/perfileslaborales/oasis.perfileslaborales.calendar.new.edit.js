@@ -31,12 +31,14 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var cruce = true;
     var dentroRango = 1;
     var excesoHorasSemana = true;
+    var excesoPromedioTresSemanas = true;
     if(tipoHorario==3){
         cruce = verificaCruceDeHorariosEnMes();
     }
     else cruce = prevenirCruceDeHorariosEnVariosMeses(idPerfilLaboral,fechaIniRango,fechaFinRango);
-    excesoHorasSemana = verificaExcesoHorasSemanales();
-    if(cruce&&excesoHorasSemana){
+    //excesoHorasSemana = verificaExcesoHorasSemanales();
+    excesoPromedioTresSemanas = calculaExcesoPromedioTresSemanas();
+    if(cruce&&excesoPromedioTresSemanas){
         $.each(arr,function(key,evento){
             var valClass = evento.className+"";
             var arrClass = valClass.split("_");
@@ -124,6 +126,12 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
         ok = false;
         if(!excesoHorasSemana){
             var msje = "No se puede registrar el calendario debido a que existe carga horaria semanal que excede las 48 horas admitidas.";
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append(msje);
+            $("#divMsjeNotificacionError").jqxNotification("open");
+        }
+        if(!excesoPromedioTresSemanas){
+            var msje = "No se puede registrar el calendario debido a que existe carga horaria semanal que excede las 48 horas admitidas en promedio de tres semanas (Segunda, tercera y cuarta semana del mes en el calendario).";
             $("#divMsjePorError").html("");
             $("#divMsjePorError").append(msje);
             $("#divMsjeNotificacionError").jqxNotification("open");
@@ -557,7 +565,7 @@ function retornaEstadoElaboracion(idPerfilLaboral,tipoHorario,fechaIni,fechaFin)
     return ok;
 }
 /**
- * Verificar que no se excedan las horas semanales permitidas.
+ * Función para verificar que no se excedan las horas semanales permitidas.
  * @param tipoHorario
  */
 function verificaExcesoHorasSemanales(){
@@ -576,5 +584,23 @@ function verificaExcesoHorasSemanales(){
     if(sumaSemana5>horasSemanales)ok=false;
     if(sumaSemana6>horasSemanales)ok=false;
     return ok;
-
+}
+/**
+ * Función para verificar que no el promedio semanal de tres semanas no exceda las horas semanales válidas.
+ * @returns {boolean}
+ */
+function calculaExcesoPromedioTresSemanas(){
+    var ok=true;
+    var horasSemanales = parseFloat($("#hdnJornadaLaboralSemanal").val());
+    var sumaSemana1 = parseFloat($("#spSumaSemana1").text());
+    var sumaSemana2 = parseFloat($("#spSumaSemana2").text());
+    var sumaSemana3 = parseFloat($("#spSumaSemana3").text());
+    var sumaSemana4 = parseFloat($("#spSumaSemana4").text());
+    var sumaSemana5 = parseFloat($("#spSumaSemana5").text());
+    var sumaSemana6 = parseFloat($("#spSumaSemana6").text());
+    var sumaTresSemanas = parseFloat(sumaSemana2+sumaSemana3+sumaSemana4)/3;
+    if(sumaTresSemanas>horasSemanales){
+        ok=false;
+    }
+    return ok;
 }

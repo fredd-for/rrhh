@@ -56,16 +56,18 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    container.append("<button id='addrowbuttonturn' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button id='updaterowbuttonturn'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
-                    container.append("<button id='approverowbuttonturn'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
+                    container.append("<button id='addrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Nuevo Calendario'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
+                    container.append("<button id='updaterowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Modificar Calendario'><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
+                    container.append("<button id='approverowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Aprobar Calendario'><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     /*container.append("<button id='deleterowbuttonturn' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
-                    container.append("<button id='viewrowbuttonturn' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Calendarios Laborales por Perfil.'/></i></button>");
+                    container.append("<button id='viewrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Vista Calendario'><i class='fa fa-calendar fa-2x text-info' title='Vista Calendarios Laborales por Perfil.'/></i></button>");
+                    container.append("<button id='quotasrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Asignar cupos'><i class='fa fa fa-users fa-2x text-info' title='Asignar Cupos'></i></button>");
                     $("#addrowbuttonturn").jqxButton();
                     $("#updaterowbuttonturn").jqxButton();
                     $("#approverowbuttonturn").jqxButton();
                     //$("#deleterowbuttonturn").jqxButton();
                     $("#viewrowbuttonturn").jqxButton();
+                    $("#quotasrowbuttonturn").jqxButton();
 
                     // Registrar nuevo turno laboral.
                     $("#addrowbuttonturn").off();
@@ -79,12 +81,15 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
                         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
                         $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
                         $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                         if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                         else $("#ddGrupoCalendario").html("&nbsp;");
                         $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                        $("#spanPrefijoCalendarioLaboral").text("Nuevo ");
+                        $("#dtRangoFechasCalendario").hide();
+                        $("#ddRangoFechasCalendario").hide();
+                        $("#spanPrefijoCalendarioLaboral").html("Nuevo ");
                         $("#calendar").html("");
                         var date = new Date();
                         var defaultDia = date.getDate();
@@ -160,6 +165,10 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         $("#divEstadoCalendario").html("");
                         $("#btnImprimirCalendario").hide();
                         $("#divArrastre").show();
+                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
+                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
+                        $("#hdnFechaIniParaCuposCalendario").val(0);
+                        $("#hdnFechaFinParaCuposCalendario").val(0);
                     });
                     /**
                      * Modificar registro de turno laboral.
@@ -183,12 +192,15 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
                                     $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                                     else $("#ddGrupoCalendario").html("&nbsp;");
                                     $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                                    $("#spanPrefijoCalendarioLaboral").text("Modificar ");
+                                    $("#dtRangoFechasCalendario").hide();
+                                    $("#ddRangoFechasCalendario").hide();
+                                    $("#spanPrefijoCalendarioLaboral").html("Modificaci&oacute;n ");
                                     $("#calendar").html("");
                                     var date = new Date();
                                     var d = date.getDate();
@@ -284,6 +296,10 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         }
                         $("#btnImprimirCalendario").hide();
                         $("#divArrastre").show();
+                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
+                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
+                        $("#hdnFechaIniParaCuposCalendario").val(0);
+                        $("#hdnFechaFinParaCuposCalendario").val(0);
                     });
                     $("#approverowbuttonturn").off();
                     $("#approverowbuttonturn").on('click', function () {
@@ -304,12 +320,15 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
                                     $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                                     else $("#ddGrupoCalendario").html("&nbsp;");
                                     $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                                    $("#spanPrefijoCalendarioLaboral").text("Aprobar ");
+                                    $("#dtRangoFechasCalendario").hide();
+                                    $("#ddRangoFechasCalendario").hide();
+                                    $("#spanPrefijoCalendarioLaboral").html("Aprobaci&oacute;n ");
                                     $("#calendar").html("");
                                     var date = new Date();
                                     var d = date.getDate();
@@ -400,6 +419,10 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         }
                         $("#btnImprimirCalendario").hide();
                         $("#divArrastre").show();
+                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
+                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
+                        $("#hdnFechaIniParaCuposCalendario").val(0);
+                        $("#hdnFechaFinParaCuposCalendario").val(0);
                     });
                     /* Ver el calendario registrado.*/
                     $("#viewrowbuttonturn").off();
@@ -421,12 +444,18 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
                                     $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                                     else $("#ddGrupoCalendario").html("&nbsp;");
                                     $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                                    $("#spanPrefijoCalendarioLaboral").text("Aprobar ");
+                                    var fechaIniRango = fechaConvertirAFormato(dataRecord.fecha_ini,'-');
+                                    var fechaFinRango = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
+                                    $("#dtRangoFechasCalendario").show();
+                                    $("#ddRangoFechasCalendario").show();
+                                    $("#ddRangoFechasCalendario").text(fechaIniRango+" AL "+fechaFinRango);
+                                    $("#spanPrefijoCalendarioLaboral").html("Vista ");
                                     $("#calendar").html("");
                                     var date = new Date();
                                     var d = date.getDate();
@@ -517,6 +546,53 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         }
                         $("#btnImprimirCalendario").show();
                         $("#divArrastre").hide();
+                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
+                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
+                        $("#hdnFechaIniParaCuposCalendario").val(0);
+                        $("#hdnFechaFinParaCuposCalendario").val(0);
+                    });
+                    $("#quotasrowbuttonturn").off();
+                    $("#quotasrowbuttonturn").on('click', function () {
+                        var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            $("#spanPrefijoCalendarioLaboral").html("Cupos por ");
+                            var dataRecord = $('#jqxgridturnos').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                /**
+                                 * Para el caso cuando el estado del turno esté ELABORADO, de otro modo no es admisible.
+                                 */
+                                if (dataRecord.estado == 3) {
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 5);
+                                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 5});
+
+                                    $("#spanPrefijoCuposCalendarioLaboral").html("Cupos por ");
+                                    $("#ddPerfilLaboralCupos").text(perfilLaboral);
+                                    if(grupo!=''&&grupo!=null)$("#ddGrupoCupos").text(grupo);
+                                    else $("#ddGrupoCupos").html("&nbsp;");
+                                    $("#ddTipoHorarioCupos").text(tipoHorarioDescripcion);
+                                    var fechaIniRango = fechaConvertirAFormato(dataRecord.fecha_ini,'-');
+                                    var fechaFinRango = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
+                                    $("#ddRangoFechas").text(fechaIniRango+" AL "+fechaFinRango);
+                                    $("#calendar").html("");
+                                    cargarCupos(0,idPerfilLaboral,fechaIniRango,fechaFinRango);
+                                    $("#hdnIdPerfilLaboralParaCuposCalendario").val(dataRecord.id_perfillaboral);
+                                    $("#hdnTipoHorarioParaCuposCalendario").val(dataRecord.tipo_horario);
+                                    $("#hdnFechaIniParaCuposCalendario").val(dataRecord.fecha_ini);
+                                    $("#hdnFechaFinParaCuposCalendario").val(dataRecord.fecha_fin);
+                                }
+                                else {
+                                    var msj = "Debe seleccionar un registro en estado APROBADO para posibilitar la asignaci&oacute;n de cupos correspondientes.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msj);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
+                            }
+                        }
                     });
                 },
                 columns: [
