@@ -9,25 +9,51 @@ $().ready(function () {
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
-    $('#jqxTabsPerfilesLaborales').jqxTabs('theme', 'oasis');
-    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 1);
-    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('theme', 'oasis');
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
 
     definirGrillaParaListaPerfilesLaborales();
-    $("#btnGuardarNuevo").on("click",function () {
-        var ok = validaFormularioPorNuevoRegistroPerfilLaboral();
+    $("#btnGuardarNew").on("click",function () {
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralNew").val();
+        var ok = validaFormularioPorNuevoRegistroAsignacionPerfilLaboral(1);
         if (ok) {
-            guardarNuevoRegistroPerfilLaboral();
+            var okk = guardaFormularioRegistroAsignacionPerfilLaboral(1,idPerfilLaboral);
+            if(okk){
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+                $("#divGridAsignaciones").jqxGrid("updatebounddata");
+                var msje = "Registro exitoso de la asignaci&oacute;n de Perfil Laboral.";
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+            }
         }
     });
-    $("#btnGuardarEditar").on("click",function () {
-        var ok = validaFormularioPorEditarRegistroPerfilLaboral();
+    $("#btnGuardarEdit").on("click",function () {
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralEdit").val();
+        var ok = validaFormularioPorNuevoRegistroAsignacionPerfilLaboral(2);
         if (ok) {
-            guardarRegistroEditadoPerfilLaboral();
+            var okk = guardaFormularioRegistroAsignacionPerfilLaboral(2,idPerfilLaboral);
+            if(okk){
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+                $("#divGridAsignaciones").jqxGrid("updatebounddata");
+                var msje = "Edici&oacute;n exitosa de la asignaci&oacute;n de Perfil Laboral.";
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+            }
         }
     });
     $("#btnGuardarBaja").on("click",function () {
@@ -45,10 +71,10 @@ $().ready(function () {
         if (ok) {
             var okk = guardaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
             if(okk){
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                 $("#jqxgridturnos").jqxGrid("updatebounddata");
                 var msje = "Registro exitoso del calendario laboral.";
                 $("#divMsjePorSuccess").html("");
@@ -67,10 +93,10 @@ $().ready(function () {
             if(confirm("¿Esta seguro de concluir la elaboración del calendario laboral? Considere que ya no podrá realizar modificaciones.")){
                 var okk = guardaFormularioRegistroCalendario(2,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
                 if(okk){
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                     $("#jqxgridturnos").jqxGrid("updatebounddata");
                     var msje = "Conclusi&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
                     $("#divMsjePorSuccess").html("");
@@ -90,10 +116,10 @@ $().ready(function () {
             if(confirm("¿Esta segur@ de aprobar la elaboración del calendario laboral?")){
                 var okk = guardaFormularioRegistroCalendario(3,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
                 if(okk){
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                     $("#jqxgridturnos").jqxGrid("updatebounddata");
                     var msje = "Aprobaci&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
                     $("#divMsjePorSuccess").html("");
@@ -112,10 +138,10 @@ $().ready(function () {
             var fechaFin = $("#hdnFechaFinParaCuposCalendario").val();
             var okk = guardaFormularioCupos(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
             if(okk){
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                 $("#jqxgridturnos").jqxGrid("updatebounddata");
                 var msje = "Aprobaci&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
                 $("#divMsjePorSuccess").html("");
@@ -133,10 +159,10 @@ $().ready(function () {
         if(confirm("¿Esta segur@ de retornar el estado de este calendario a 'EN ELABORACIÓN'?")){
             var ok = retornaEstadoElaboracion(idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
             if (ok) {
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                 $("#jqxgridturnos").jqxGrid("updatebounddata");
                 var msje = "Se retorn&oacute; los registros del turno al estado EN ELABORACI&Oacute;N de manera exitosa.";
                 $("#divMsjePorSuccess").html("");
@@ -145,47 +171,38 @@ $().ready(function () {
             }
         }
     });
-    $("#btnCancelarNuevo").on("click",function () {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
-
-        $("#msjs-alert").hide();
-    });
-    $("#btnCancelarEditar").on("click",function () {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
+    $("#btnCancelarNew,#btnCancelarEdit").on("click",function () {
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
 
         $("#msjs-alert").hide();
     });
 
     $("#btnCancelarCalendario,#btnCancelarAprobacionCalendario").on("click",function () {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
         $("#jqxgridturnos").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
     });
 
     $("#btnCancelarTurno").on("click",function () {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
-        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 0});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 0});
         $("#msjs-alert").hide();
         /*$("#lstTipoMemorandum").off();*/
     });
@@ -277,17 +294,26 @@ $().ready(function () {
     });
 
     $("#liList").on("click",function () {
-        $("#btnCancelarNuevo").click();
-        $("#btnCancelarEditar").click();
-        $("#btnCancelarBaja").click();
-        $("#hdnIdPerfilLaboralParaCalendario").val(0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+
+        $("#msjs-alert").hide();
+        $("#hdnIdPerfilLaboralNew").val(0);
+        $("#hdnIdPerfilLaboraleDIT").val(0);
     });
-    $("#liTurn").on("click",function () {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
-        $("#jqxgridturnos").jqxGrid("updatebounddata");
+    $("#liAssign").on("click",function () {
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+        $("#divGridAsignaciones").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
     });
     $('#btnDesfiltrartodo').on("click",function () {
@@ -353,7 +379,7 @@ function definirGrillaParaListaPerfilesLaborales() {
             {name: 'estado_descripcion', type: 'string'},
             {name: 'observacion', type: 'string'},
         ],
-        url: '/perfileslaborales/list',
+        url: '/perfileslaborales/listactivos',
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -380,35 +406,63 @@ function definirGrillaParaListaPerfilesLaborales() {
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
-                    container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
-                    container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button id='assignmultiplerowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
+                    container.append("<button id='assignsinglerowbutton'  class='btn btn-sm btn-primary' type='button' title='Asignaciones Individuales'><i class='fa fa-user fa-2x text-info' title='Asignaciones Individuales'></i></button>");
+                    /*container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
+                    container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar-o fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
-                    $("#addrowbutton").jqxButton();
-                    $("#approverowbutton").jqxButton();
-                    $("#updaterowbutton").jqxButton();
-                    $("#deleterowbutton").jqxButton();
+                    $("#assignmultiplerowbutton").jqxButton();
+                    $("#assignsinglerowbutton").jqxButton();
+                    /*$("#updaterowbutton").jqxButton();
+                    $("#deleterowbutton").jqxButton();*/
                     $("#turnrowbutton").jqxButton();
 
-                    /* Registrar nueva relación laboral.*/
-                    $("#addrowbutton").on('click', function () {
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 1);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                        
-                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 1});
-                        $('#txtPerfilLaboralNuevo').val("");
-                        $('#txtObservacionPerfilLaboralNuevo').val("");
-                        $('#txtPerfilLaboralNuevo').val("");
-                        $('#txtGrupoPerfilLaboralNuevo').val("");
-                        $('#txtPerfilLaboralNuevo').focus();
-                        listarTiposHorarios(0,1);
+                    /* Listar las asignaciones realizadas por Perfil Laboral.*/
+                    $("#assignmultiplerowbutton").on('click', function () {
+                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+
+                                /*
+                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
+                                 */
+                                if (dataRecord.estado >=1) {
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+
+                                    $("#ddPerfilLaboral").text(dataRecord.perfil_laboral);
+                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupo").text(dataRecord.grupo);
+                                    else $("#ddGrupo").html("&nbsp;");
+                                    $("#ddTipoHorario").text(dataRecord.tipo_horario_descripcion);
+
+                                    cargarGrillaAsignaciones(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+
+                                }else{
+                                    var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
+                            }else{
+                                var msje = "El registro presenta informaci&oacute;n erronea que impide su selecci&oacute;n.";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
+                            }
+                        }else{
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
                     });
                     /*Aprobar registro.*/
-                    $("#approverowbutton").on('click', function () {
+                    $("#assignsinglerowbutton").on('click', function () {
                          var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
                          if (selectedrowindex >= 0) {
                          var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
@@ -435,27 +489,20 @@ function definirGrillaParaListaPerfilesLaborales() {
                          $("#divMsjeNotificacionError").jqxNotification("open");
                          }
                      });
-                    /* Modificar registro.*/
-                    $("#updaterowbutton").on('click', function () {
+                    /*$("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
 
                                 var id_perfillaboral = dataRecord.id;
-                                /**
-                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO o ACTIVO.
-                                 */
                                 if (dataRecord.estado >= 1) {
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 2);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de modificación
-                                     */
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 2});
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
 
                                     $("#hdnIdPerfilLaboralEditar").val(id_perfillaboral);
 
@@ -477,35 +524,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                             $("#divMsjePorError").append(msje);
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
-                    });
-                    /* Dar de baja un registro.*/
-                    $("#deleterowbutton").on('click', function () {
-                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                var id_perfillaboral = dataRecord.id;
-                                /*
-                                 *  Para dar de baja un registro, este debe estar inicialmente en estado ACTIVO
-                                 */
-                                if (dataRecord.estado == 1) {
-                                    if(confirm("Esta seguro de dar de baja este perfil?")){
-                                        guardarRegistroBajaPerfilLaboral(id_perfillaboral);
-                                    }
-                                } else {
-                                    var msje = "Para dar de baja un registro, este debe estar en estado ACTIVO inicialmente.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msje);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                            }
-                        } else {
-                            var msje = "Debe seleccionar un registro necesariamente.";
-                            $("#divMsjePorError").html("");
-                            $("#divMsjePorError").append(msje);
-                            $("#divMsjeNotificacionError").jqxNotification("open");
-                        }
-                    });
+                    });*/
                     /* Ver registro de temporalidades por perfil.*/
                     $("#turnrowbutton").on('click', function () {
 
@@ -519,16 +538,16 @@ function definirGrillaParaListaPerfilesLaborales() {
                                  */
                                 $(".msjs-alert").hide();
                                 if (dataRecord.estado != 2) {
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
 
                                     /**
                                      * Trasladamos el item seleccionado al que corresponde, el de vistas.
                                      */
-                                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                                     cargarGrillaTurnos(id_perfillaboral,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
                                     $("#ddPerfilLaboralTurnos").text(dataRecord.perfil_laboral);
                                     if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoTurnos").text(dataRecord.grupo);
@@ -569,7 +588,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         align: 'center',
                         cellsrenderer: rownumberrenderer
                     },
-                    {
+                    /*{
                         text: 'Estado',
                         filtertype: 'checkedlist',
                         datafield: 'estado_descripcion',
@@ -578,7 +597,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         align: 'center',
                         hidden: false,
                         cellclassname: cellclass
-                    },
+                    },*/
                     {
                         text: 'Perfil',
                         columntype: 'textbox',
@@ -621,17 +640,17 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
  */
 function OperaEvento(evento) {
     if ((evento.type == "keyup" || evento.type == "keydown") && evento.which == "27") {
-        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
 
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */
-        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 0});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 0});
         /*$("#popupWindowHorario").jqxWindow('close');*/
     }
 }

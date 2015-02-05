@@ -61,7 +61,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     container.append("<button id='approverowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Aprobar Calendario'><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     /*container.append("<button id='deleterowbuttonturn' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button id='viewrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Vista Calendario'><i class='fa fa-calendar fa-2x text-info' title='Vista Calendarios Laborales por Perfil.'/></i></button>");
-                    container.append("<button id='quotasrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Asignar cupos'><i class='fa fa-tasks fa-2x text-info' title='Asignar Cupos'></i></button>");
+                    container.append("<button id='quotasrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Asignar cupos'><i class='fa fa fa-users fa-2x text-info' title='Asignar Cupos'></i></button>");
                     $("#addrowbuttonturn").jqxButton();
                     $("#updaterowbuttonturn").jqxButton();
                     $("#approverowbuttonturn").jqxButton();

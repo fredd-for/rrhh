@@ -54,6 +54,56 @@ class UbicacionesController extends ControllerBase{
     }
 
     /**
+     * Función para listar las ubicaciones principales (Sin considerar líneas).
+     */
+    public function listprincipalesAction()
+    {
+        $this->view->disable();
+        $obj = new Ubicaciones();
+        $resul = $obj->getAllWithSon();
+        $ubicaciones = Array();
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $ubicaciones[] = array(
+                    'id'=>$v->id,
+                    'padre_id' => $v->padre_id,
+                    'ubicacion' => $v->ubicacion,
+                    'color'=> $v->color!=null?$v->color:"",
+                    'observacion'=> $v->observacion,
+                    'estado'=>$v->estado,
+                    'cant_nodos_hijos'=>$v->cant_nodos_hijos
+                );
+            }
+        }
+        echo json_encode($ubicaciones);
+    }
+    /**
+     * Función para listar las estaciones por línea correspondiente a una ubicación principal.
+     */
+    public function listestacionesAction()
+    {   $this->view->disable();
+        $ubicaciones = Array();
+        if(isset($_POST["id"])&&$_POST["id"]>0){
+            $resul = Ubicaciones::find(array("padre_id = ".$_POST["id"]." AND agrupador=2 AND estado=1 AND baja_logica=1"));
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $ubicaciones[] = array(
+                        'id'=>$v->id,
+                        'padre_id' => $v->padre_id,
+                        'ubicacion' => $v->ubicacion,
+                        'color'=> $v->color!=null?$v->color:"",
+                        'observacion'=> $v->observacion,
+                        'estado'=>$v->estado
+                    );
+                }
+            }
+        }
+        echo json_encode($ubicaciones);
+    }
+
+    /**
      * Función para la obtención del listado de ubicaciones con la relación de cupos de acuerdo
      * al identificador del perfil y rango de fechas del calendario seleccionado.
      */

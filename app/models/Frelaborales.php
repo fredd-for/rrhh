@@ -123,6 +123,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $persona_fecha_reg;
     public $persona_user_mod_id;
     public $persona_fecha_mod;
+    public $agrupador;//Dato adicionado para efectos de conocer si pertenece a un perfil laboral o no
 
     /**
      * Initialize method for model.
@@ -250,6 +251,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             'persona_fecha_reg'=>'persona_fecha_reg',
             'persona_user_mod_id'=>'persona_user_mod_id',
             'persona_fecha_mod'=>'persona_fecha_mod',
+            'agrupador'=>'agrupador'
         );
     }
     private $_db;
@@ -257,9 +259,11 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      * Función para la obtención de la totalidad de los registros de relaciones laborales.
      * @return Resultset
      */
-    public function getAll()
+    public function getAll($where='',$group='')
     {
         $sql = "SELECT * FROM f_relaborales()";
+        if($where!='')$sql .= $where;
+        if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -320,6 +324,25 @@ class Frelaborales extends \Phalcon\Mvc\Model {
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para listar los registros laborales considerando quienes cumplen los criterios enviados como parámetros.
+     * Se adiciona una columna agrupador para este propósito. Es decir, si un registro cumple el criterio su agrupador
+     * será 1 y si no 0.
+     * @param $idPerfilLaboral
+     * @param $idUbicacion
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getListGroupedByPerfil($idPerfilLaboral,$idUbicacion,$fechaIni,$fechaFin)
+    {
+        if($idPerfilLaboral>0&&$idUbicacion>0&&$fechaIni!=''&&$fechaFin!=''){
+            $sql = "select * from f_relaborales_agrupados_por_asignacion(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
     }
 
 } 

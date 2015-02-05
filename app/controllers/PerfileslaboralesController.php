@@ -20,7 +20,17 @@ class PerfileslaboralesController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->assets->addJs('/js/jqwidgets/jqxdropdownbutton.js');
+        $this->assets->addJs('/js/jquery.PrintArea.js');
+        $this->assets->addCss('/assets/css/PrintArea.css');
+
+        $this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addCss('/assets/css/kolorpicker.css');
+
+        $this->assets->addJs('/js/slider/bootstrap-slider.js');
+        $this->assets->addCss('/js/slider/bootstrap-slider.css');
+
+        $this->assets->addCss('/assets/css/oasis.principal.css');
+
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.tab.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.index.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.approve.js');
@@ -31,22 +41,6 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.calendar.new.edit.js');
         $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.cupos.js');
-        $this->assets->addJs('/js/slider/bootstrap-slider.js');
-        $this->assets->addCss('/js/slider/bootstrap-slider.css');
-        $this->assets->addJs('/js/jquery.kolorpicker.js');
-        $this->assets->addJs('/js/jquery.PrintArea.js');
-        $this->assets->addCss('/assets/css/kolorpicker.css');
-        $this->assets->addCss('/assets/css/PrintArea.css');
-        $this->assets->addCss('/assets/css/oasis.principal.css');
-
-
-
-
-        /*$this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.view.js');
-        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.print.js');
-        $this->assets->addJs('/js/perfileslaborales/oasis.perfileslaborales.view.splitter.js');*/
-        //$this->assets->addJs('/js/perfileslaborales/oasis.localizacion.js');
-        //$this->assets->addCss('/assets/css/oasis.principal.css');
     }
 
     /**
@@ -124,6 +118,79 @@ class PerfileslaboralesController extends ControllerBase
         echo json_encode($perfillaboral);
     }
 
+    /**
+     * Función para la obtención del listado de perfiles disponibles para su asignación correspondiente.
+     */
+    public function listactivosAction()
+    {
+        $this->view->disable();
+        $perfillaboral = Array();
+        $resul = Perfileslaborales::find(array('estado=:estado1: AND baja_logica=:baja_logica1:','bind'=>array('baja_logica1'=>1,'estado1'=>1),'order' => 'id ASC'));
+        $permisoC = true;
+        $permisoR = true;
+        $permisoU = true;
+        $permisoD = true;
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $chk = '';
+                $new = '';
+                $edit = '';
+                $down = '';
+                $view = '';
+                $chk = '<input type="checkbox" id="chk_' . $v->id . '">';
+                // Se evalua el permiso de creación de nuevo registro
+                if ($permisoC) {
+                    $new = '<input type="button" id="btn_new_' . $v->id . '" value=Nuevo class=btn_new>';
+
+                }
+                //Se evalua el permiso de edición de registro
+                if ($permisoU) {
+                    if ($v->estado == 2) {
+                        $edit = '<input type="button" id="btn_edit_' . $v->id . '" value=Editar class=btn_edit>';
+                    }
+                }
+                //Se evalua
+                $aprobar = '<input type="button" id="btn_appr_' . $v->id . '" value="Aprobar" class="btn_approve">';
+                $down = '<input type="button" id="btn_del_' . $v->id . '" value="Baja" class="btn_del">';
+                $view = '<input type="button" id="btn_view_' . $v->id . '" value="Ver" class="btn_view">';
+                $estado_descripcion='';
+                switch($v->estado){
+                    case 0:$estado_descripcion='PASIVO';break;
+                    case 1:$estado_descripcion='ACTIVO';break;
+                    case 2:$estado_descripcion='EN PROCESO';break;
+                }
+                switch($v->tipo_horario){
+                    case 1:$tipo_horario_descripcion='DISCONTINUO (LUN A VIE)';break;
+                    case 2:$tipo_horario_descripcion='CONTINUO (LUN A VIE)';break;
+                    case 3:$tipo_horario_descripcion='MULTIPLE (LUN A DOM)';break;
+                }
+                $perfillaboral[] = array(
+                    'chk' => $chk,
+                    'nro_row' => 0,
+                    'nuevo' => $new,
+                    'aprobar' => $aprobar,
+                    'editar' => $edit,
+                    'eliminar' => $down,
+                    'ver' => $view,
+                    'id' => $v->id,
+                    'perfil_laboral' => $v->perfil_laboral,
+                    'grupo' => $v->grupo,
+                    'tipo_horario' => $v->tipo_horario,
+                    'tipo_horario_descripcion' => $tipo_horario_descripcion,
+                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
+                    'estado' => $v->estado,
+                    'estado_descripcion' => $estado_descripcion,
+                    'user_reg_id' => $v->user_reg_id,
+                    'fecha_reg' => $v->fecha_reg,
+                    'user_mod_id' => $v->user_mod_id,
+                    'fecha_mod' => $v->fecha_mod
+
+                );
+            }
+        }
+        echo json_encode($perfillaboral);
+    }
     /**
      * Función para la obtención del listado de tipos de horarios disponibles en el sistema.
      */
@@ -237,8 +304,9 @@ class PerfileslaboralesController extends ControllerBase
      */
     public function saveAction()
     {
-        $user_reg_id = 1;
-        $user_mod_id = 1;
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $user_reg_id = $auth['id'];
         $msj = Array();
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");
@@ -342,7 +410,9 @@ class PerfileslaboralesController extends ControllerBase
      */
     public function approveAction()
     {
-        $user_mod_id = 1;
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $user_reg_id = $auth['id'];
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
@@ -392,7 +462,9 @@ class PerfileslaboralesController extends ControllerBase
     public function downAction()
     {
         $msj = Array();
-        $user_mod_id = 1;
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $user_reg_id = $auth['id'];
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
         try {
@@ -428,7 +500,6 @@ class PerfileslaboralesController extends ControllerBase
         }
         echo json_encode($msj);
     }
-
     /**
      * Función para la obtención de los datos referentes a una persona en especifico.
      */
