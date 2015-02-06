@@ -58,8 +58,6 @@
         text-align: center
     }
 
-</style>
-<style type="text/css">
     .draggable-demo-cart
     {
         border: 2px dashed #aaa;
@@ -196,11 +194,11 @@
 <div id='jqxTabsAsignacionPerfiles'>
 <ul>
     <li id="liList">Listado</li>
-    <li id="liAssign">Agrupadas</li>
+    <li id="liAssignGroup">Agrupadas</li>
+    <li id="liAssignSingle">Individuales</li>
     <li id="liNew">Nueva</li>
     <li id="liEdit">Modificaci&oacute;n</li>
-    <li id="liCalendar">Calendarios</li>
-    <li id="liQuotas">Cupos</li>
+    <li id="liTurnPerfil">Turnos</li>
 </ul>
 <div class="section" id="divList">
     <form class="navbar-form" id="formNew">
@@ -230,11 +228,11 @@
     </div>
     </form>
 </div>
-<div class="section" id="divAssign">
+<div class="section" id="divAssignGroup">
     <!--<div class="form-horizontal">
         <h2>Nuevo Perfil Laboral</h2>
     </div>-->
-    <form class="navbar-form" id="formAssing">
+    <form class="navbar-form" id="formAssingGroup">
         <br>
         <div class="widget">
             <div class="widget-simple themed-background-dark">
@@ -259,6 +257,51 @@
         <div id="divGrupoBotonesAssign" class="btn-group">
             <button id="btnCancelarAssign" class="btnCancelarAssing btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Perfiles</button>
         </div>
+    </form>
+</div>
+<div class="section" id="divAssignSingle">
+    <form class="navbar-form" id="formAssignSingle" onsubmit="return false;">
+        <div class="widget">
+            <div class="widget-simple themed-background-dark">
+                <h2 style="color: white">Gesti&oacute;n de Asignaciones Individuales</h2>
+                <h4 class="widget-content">
+                    <div>
+                        <dl class="dl-horizontal" STYLE="color: white;font-size: 13px;">
+                            <dt id="dtPerfilLaboralSingle">Perfil Laboral:</dt>
+                            <dd id="ddPerfilLaboralSingle"></dd>
+                            <dt id="dtGrupoSingle">Grupo:</dt>
+                            <dd id="ddGrupoSingle"></dd>
+                            <dt id="dtTipoHorarioSingle">Tipo de Horario:</dt>
+                            <dd id="ddTipoHorarioSingle"></dd>
+                        </dl>
+                    </div>
+                </h4>
+            </div>
+        </div>
+        <div class="block block-alt-noborder full">
+            <div class="block-title">
+                <div class="block-options pull-right">
+                    <a id="btnImprimirCuposCalendario" class="btn btn-alt btn-sm btn-default" title="Imprimir Cupos por Calendario" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Imprimir">
+                        <i class="fa fa-print"></i>
+                    </a>
+                </div>
+                <h2>
+                    <strong><span id="spanPrefijoCuposCalendarioLaboral"></span></strong>
+                    Calendario Laboral
+                </h2>
+            </div>
+
+        </div>
+        <br>
+        <br>
+        <div id="divGrupoBotonesSingle" class="btn-group">
+            <button id="btnGuardarSingle" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
+            <button id="btnCancelarSingle" class="btnCancelarSingle btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+        </div>
+        <input type="hidden" id="hdnIdPerfilLaboralSingle" value="0">
+        <input type="hidden" id="hdnTipoHorarioSingle" value="0">
+        <input type="hidden" id="hdnFechaIniSingle" value="">
+        <input type="hidden" id="hdnFechaFinSingle" value="">
     </form>
 </div>
 <div class="section" id="divNew">
@@ -294,7 +337,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6" id="divEstacionesNew">
-                        <label class="col-sm-3 control-label" for="lstEstacionesNew">Linea<span id="spanAsteriscoEstaciones"></span>:</label>
+                        <label class="col-sm-3 control-label" for="lstEstacionesNew">Estaci&oacute;n<span id="spanAsteriscoEstaciones"></span>:</label>
                         <div class="col-sm-6">
                             <select id="lstEstacionesNew" class="form-control new-asignacion-perfil" disabled><option value="0">Seleccionar...</option></select>
                             <span class="help-block" id="helpErrorEstacionesNew"></span>
@@ -433,10 +476,26 @@
         <input type="hidden" id="hdnIdPerfilLaboralEdit" value="0">
     </form>
 </div>
-<div class="section" id="divCalendar">
-    <form class="navbar-form" id="formCalendar" onsubmit="return false;">
+<div class="section" id="divTurnPerfil">
+    <form class="navbar-form" id="formTurnPerfil" onsubmit="return false;">
         <br>
-
+        <div class="widget">
+            <div class="widget-simple themed-background-dark">
+                <h2 style="color: white">Turnos por Asignaci&oacute;n de Perfil</h2>
+                <h4 class="widget-content">
+                    <div>
+                        <dl class="dl-horizontal" STYLE="color: white;font-size: 13px;">
+                            <dt id="dtPerfilLaboralTurn">Perfil Laboral:</dt>
+                            <dd id="ddPerfilLaboralTurn"></dd>
+                            <dt id="dtGrupoTurn">Grupo:</dt>
+                            <dd id="ddGrupoTurn"></dd>
+                            <dt id="dtTipoHorarioTurn">Tipo de Horario:</dt>
+                            <dd id="ddTipoHorarioTurn"></dd>
+                        </dl>
+                    </div>
+                </h4>
+            </div>
+        </div>
         <!-- Contenido referente al calendario laboral y gestión de horarios -->
         <div id="page-content">
             <!-- FullCalendar Content -->
@@ -454,126 +513,22 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2">
+                        Personal Asignado:
                         <div class="block-section">
-                            <div id="divArrastre" class="block-section text-center text-muted">
-                                <small><em><i class="fa fa-arrows"></i> Arrastre y suelte horarios en el calendario</em></small>
-                            </div>
-                            <ul class="calendar-events" id="ulHorariosEnEspera">
-                            </ul>
-                        </div>
-                        <!--<h6>Jornada Laboral:</h6>
-                        <select id="lstJornadasLaborales" class="form-control">
-                        </select>-->
-                        <div id="divLstTolerancias"><h6>Tipo de Tolerancia:</h6><select id="lstTolerancias" class="form-control"></select></div>
-                        <div id="divEstadoCalendario"></div><br>
-                    </div>
-                    <div class="col-md-8">
-                        <div id="calendar"></div><br>
-                        <div id="divGrupoBotonesElaboracion" class="btn-group">
-                            <button id="btnGuardarElaboracionCalendario" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar Elaboraci&oacute;n</button>
-                            <button id="btnConcluirElaboracion" class="btn btn-info" type="button"><i class="fa fa-thumbs-o-up"></i> Concluir Elaboraci&oacute;n</button>
-                            <button id="btnCancelarCalendario" class="btnCancelarCalendario btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
-                        </div>
-                        </br>
-                        </br>
-                        <div id="divDatosTolerancia">
-                            <table id="tblGrillaTolerancia" class="table table-vcenter table-condensed table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class='text-center'>Minutos</th>
-                                    <th class='text-center'>Acumulaci&oacute;n</th>
-                                    <th class='text-center'>Consideraci&oacute;n</th>
-                                    <th class='text-center'>Descripci&oacute;n</th>
-                                    <th class='text-center'>Observaci&oacute;n</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr id="tr_tolerancia"></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <br>
-                        <br>
-                        <div id="divGrupoBotonesAprobacion" class="btn-group">
-                            <button id="btnGuardarAprobacionCalendario" class="btn btn-success" type="button"><i class="fa fa-check"></i> Aprobar Elaboraci&oacute;n</button>
-                            <button id="btnVolverAElaboracionCalendario" class="btn btn-warning" type="button"><i class="fa fa-reply"></i> Volver a Elaboraci&oacute;n</button>
-                            <button id="btnCancelarAprobacionCalendario" class="btnCancelarCalendario btn btn-warning" type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+                            <!--<div id="lstPerfilesLaboralesDisponibles" class="form-control"></div>
+                            <ul class="calendar-events" id="ulHorariosEnEspera"></ul>-->
                         </div>
                     </div>
-                    <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
-                    <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
-                    <input type="hidden" id="hdnIdTolerancia" value="0">
-                    <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
-                    <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
-                    <input type="hidden" id="hdnIdJornadaLaboral" value="1">
-                    <input type="hidden" id="hdnJornadaLaboralDiurna" value="8">
-                    <input type="hidden" id="hdnJornadaLaboralNocturna" value="7">
-                    <input type="hidden" id="hdnJornadaLaboralSemanal" value="48">
+                    <div class="col-md-10">
+                        <!-- FullCalendar (initialized in js/pages/compCalendar.js), for more info and examples you can check out http://arshaw.com/fullcalendar/ -->
+                        <div id="calendar"></div>
                     </div>
                 </div>
+
             </div>
+        </div>
             <!-- END FullCalendar Block -->
             <!-- END FullCalendar Content -->
-    </form>
-</div>
-<div class="section" id="divQuotas">
-    <form class="navbar-form" id="formQuotas" onsubmit="return false;">
-        <div class="widget">
-            <div class="widget-simple themed-background-dark">
-                <h2 style="color: white">Gesti&oacute;n de Calendarios</h2>
-                <h4 class="widget-content">
-                    <div>
-                        <dl class="dl-horizontal" STYLE="color: white;font-size: 13px;">
-                            <dt id="dtPerfilLaboralCupos">Perfil Laboral:</dt>
-                            <dd id="ddPerfilLaboralCupos"></dd>
-                            <dt id="dtGrupoCupos">Grupo:</dt>
-                            <dd id="ddGrupoCupos"></dd>
-                            <dt id="dtTipoHorarioCupos">Tipo de Horario:</dt>
-                            <dd id="ddTipoHorarioCupos"></dd>
-                            <dt id="dtRangoFechas">Rango Fechas:</dt>
-                            <dd id="ddRangoFechas"></dd>
-                        </dl>
-                    </div>
-                </h4>
-            </div>
-        </div>
-        <div class="block block-alt-noborder full">
-            <div class="block-title">
-                <div class="block-options pull-right">
-                    <a id="btnImprimirCuposCalendario" class="btn btn-alt btn-sm btn-default" title="Imprimir Cupos por Calendario" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Imprimir">
-                        <i class="fa fa-print"></i>
-                    </a>
-                </div>
-                <h2>
-                    <strong><span id="spanPrefijoCuposCalendarioLaboral"></span></strong>
-                    Calendario Laboral
-                </h2>
-            </div>
-        <div id="divCuposLaborales">
-            <table id="tblGrillaCuposLaborales" class="table table-vcenter table-condensed table-bordered">
-                <thead>
-                <tr>
-                    <th class='text-center'>Nro.</th>
-                    <th class='text-center'>Ubicaci&oacute;n / L&iacute;nea</th>
-                    <th class='text-center'>Estaci&oacute;n</th>
-                    <th class='text-center' width="50%">Cantidad</th>
-                    <th class='text-center'>#</th>
-                </tr>
-                </thead>
-                <tbody id="tbody_cupos"></tbody>
-            </table>
-        </div>
-        </div>
-        <br>
-        <br>
-        <div id="divGrupoBotonesCupos" class="btn-group">
-            <button id="btnGuardarCupoCalendario" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-            <button id="btnCancelarCupoCalendario" class="btnCancelarCupoCalendario btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
-        </div>
-        <input type="hidden" id="hdnIdPerfilLaboralParaCuposCalendario" value="0">
-        <input type="hidden" id="hdnTipoHorarioParaCuposCalendario" value="0">
-        <input type="hidden" id="hdnFechaIniParaCuposCalendario" value="0">
-        <input type="hidden" id="hdnFechaFinParaCuposCalendario" value="0">
     </form>
 </div>
         <!-- END Contenido referente al calendario laboral y gestión de horarios -->

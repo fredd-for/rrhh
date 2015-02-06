@@ -65,17 +65,10 @@ function cargarGrillaAsignaciones(idPerfilLaboral,perfilLaboral,grupo,tipoHorari
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Grupal'><i class='fa fa-plus-square fa-2x text-info' title='Nueva Asignaci&oacute;n Grupal.'/></i></button>");
-                    container.append("<button id='editrowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Individual'><i class='fa fa-pencil-square fa-2x text-info' title='Nueva Asignaci&oacute;n Individual.'/></button>");
-                    container.append("<button id='approverowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Aprobar Calendario'><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
-                    /*container.append("<button id='deleterowbuttonturn' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
-                    container.append("<button id='viewrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Vista Calendario'><i class='fa fa-calendar fa-2x text-info' title='Vista Calendarios Laborales por Perfil.'/></i></button>");
-                    container.append("<button id='quotasrowbuttonturn' class='btn btn-sm btn-primary' type='button' title='Asignar cupos'><i class='fa fa fa-users fa-2x text-info' title='Asignar Cupos'></i></button>");
+                    container.append("<button id='updaterowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Individual'><i class='fa fa-pencil-square fa-2x text-info' title='Nueva Asignaci&oacute;n Individual.'/></button>");
+
                     $("#addrowbutton").jqxButton();
-                    $("#editrowbutton").jqxButton();
-                    $("#approverowbuttonturn").jqxButton();
-                    //$("#deleterowbuttonturn").jqxButton();
-                    $("#viewrowbuttonturn").jqxButton();
-                    $("#quotasrowbuttonturn").jqxButton();
+                    $("#updaterowbutton").jqxButton();
 
                     $("#hdnIdPerfilLaboralNueva").val(0);
                     // Registrar nuevo turno laboral.
@@ -84,13 +77,12 @@ function cargarGrillaAsignaciones(idPerfilLaboral,perfilLaboral,grupo,tipoHorari
                         /**
                          * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
                          */
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
+                        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
                         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+                        
 
                         $("#ddPerfilLaboralNew").text(perfilLaboral);
                         if(grupo!=''&&grupo!=null)$("#ddGrupoNew").text(grupo);
@@ -114,8 +106,8 @@ function cargarGrillaAsignaciones(idPerfilLaboral,perfilLaboral,grupo,tipoHorari
                     /**
                      * Modificar registro de asignación de Perfil Laboral.
                      */
-                    $("#editrowbutton").off();
-                    $("#editrowbutton").on('click', function () {
+                    $("#updaterowbutton").off();
+                    $("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridAsignaciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridAsignaciones').jqxGrid('getrowdata', selectedrowindex);
@@ -130,11 +122,11 @@ function cargarGrillaAsignaciones(idPerfilLaboral,perfilLaboral,grupo,tipoHorari
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 4});
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+                                    
 
                                     $("#ddPerfilLaboralEdit").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoEdit").text(grupo);
@@ -180,299 +172,7 @@ function cargarGrillaAsignaciones(idPerfilLaboral,perfilLaboral,grupo,tipoHorari
                         $("#hdnFechaIniParaCuposCalendario").val(0);
                         $("#hdnFechaFinParaCuposCalendario").val(0);
                     });
-                    $("#approverowbuttonturn").off();
-                    $("#approverowbuttonturn").on('click', function () {
-                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                /**
-                                 * Para el caso cuando el estado del turno esté EN ELABORACIÓN, de otro modo no es admisible.
-                                 */
-                                if (dataRecord.estado == 2) {
-                                    /**
-                                     * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
-                                     */
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 4);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 4});
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
 
-                                    $("#ddPerfilLaboralCalendario").text(perfilLaboral);
-                                    if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
-                                    else $("#ddGrupoCalendario").html("&nbsp;");
-                                    $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                                    $("#dtRangoFechasCalendario").hide();
-                                    $("#ddRangoFechasCalendario").hide();
-                                    $("#spanPrefijoCalendarioLaboral").html("Aprobaci&oacute;n ");
-                                    $("#calendar").html("");
-                                    var date = new Date();
-                                    var d = date.getDate();
-                                    var m = date.getMonth();
-                                    var y = date.getFullYear();
-                                    var accion = 3;
-                                    var fechaActual = fechaConvertirAFormato(new Date(),'-');
-                                    var formattedDate = dataRecord.fecha_ini;
-                                    var d = formattedDate.getDate();
-                                    var m =  formattedDate.getMonth();
-                                    m += 1;  // Los meses en JavaScript son 0-11
-                                    var y = formattedDate.getFullYear();
-                                    var fechaIni = d+"-"+m+"-"+y;
-                                    var defaultDay=d;
-                                    var defaultMonth = m-1;
-                                    var defaultYear = y;
-                                    if(dataRecord.tipo_horario==1||dataRecord.tipo_horario==2){
-                                        var arrFechaActual  = fechaActual.split("-");
-                                        defaultDay=arrFechaActual[0];
-                                        defaultMonth = arrFechaActual[1]-1;
-                                        defaultYear = arrFechaActual[2];
-                                    }
-                                    var fechaFin = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
-                                    var tipoHorario = dataRecord.tipo_horario;
-                                    $("#hdnTipoHorarioParaCalendario").val(tipoHorario);
-                                    $("#hdnIdPerfilLaboralParaCalendario").val(idPerfilLaboral);
-                                    var arrHorariosPreviosRegistrados = [];
-                                    var arrHorariosSiguientesRegistrados = [];
-                                    if(tipoHorario==3){
-                                        var arrFechaIni = fechaIni.split("-");
-                                        var fechaIniRango ="01-"+arrFechaIni[1]+"-"+arrFechaIni[2];
-                                        $("#hdnFechaIniParaCalendario").val(fechaIniRango);
-                                        var fechaFinRango = obtenerUltimoDiaMes(fechaIniRango);
-                                        $("#hdnFechaFinParaCalendario").val(fechaFinRango);
-                                        var fechaIniSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,10);
-                                        var fechaFinSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,1);
-                                        arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
-                                        var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,1);
-                                        var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,10);
-                                        arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
-                                    }else{
-                                        $("#hdnFechaIniParaCalendario").val("00-00-0000");
-                                        $("#hdnFechaFinParaCalendario").val("00-00-0000");
-                                    }
-                                    var arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,true,fechaIni,fechaFin);
-                                    cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
-                                    var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
-                                    /**
-                                     * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
-                                     */
-                                    $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
-                                    $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                                    cargarJornadasLaborales(accion,dataRecord.id_jornada_laboral);
-                                    cargarTolerancias(accion,dataRecord.id_tolerancia);
-                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-modificacion");
-                                    $("#lstJornadasLaborales").off();
-                                    $("#lstJornadasLaborales").on("change",function(){
-                                        sumarTotalHorasPorSemana(arrFechasPorSemana);
-                                    });
-                                    $("#divEstadoCalendario").html("");
-                                    var spanEstadoCalendario = "Estado: ";
-                                    switch (dataRecord.estado){
-                                        case 0:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-thumbs-o-down'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 1:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-cogs'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 2:spanEstadoCalendario+="<span class='label label-primary'><i class='hi hi-thumbs-up'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 3:spanEstadoCalendario+="<span class='label label-success'><i class='gi gi-ok_2'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 4:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-lock'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                    }
-                                    if(dataRecord.estado>=0){
-                                        $("#divEstadoCalendario").html(spanEstadoCalendario);
-                                    }
-                                } else {
-                                    var msj = "Debe seleccionar un registro en estado ELABORADO para posibilitar la APROBACI&Oacute;N de los registros correspondientes.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msj);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                                $("#divLstTolerancias").show();
-                                $("#divDatosTolerancia").show();
-                                $("#divGrupoBotonesAprobacion").show();
-                                $("#divGrupoBotonesElaboracion").hide();
-                            }
-                        } else {
-                            var msj = "Debe seleccionar un registro necesariamente.";
-                            $("#divMsjePorError").html("");
-                            $("#divMsjePorError").append(msj);
-                            $("#divMsjeNotificacionError").jqxNotification("open");
-                        }
-                        $("#btnImprimirCalendario").hide();
-                        $("#divArrastre").show();
-                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
-                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
-                        $("#hdnFechaIniParaCuposCalendario").val(0);
-                        $("#hdnFechaFinParaCuposCalendario").val(0);
-                    });
-                    /* Ver el calendario registrado.*/
-                    $("#viewrowbuttonturn").off();
-                    $("#viewrowbuttonturn").on('click', function () {
-                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                /**
-                                 * Para el caso cuando el estado del turno esté minimamente EN ELABORACIÓN, de otro modo no es admisible.
-                                 */
-                                if (dataRecord.estado >= 1) {
-                                    /**
-                                     * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
-                                     */
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 4);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 4});
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-
-                                    $("#ddPerfilLaboralCalendario").text(perfilLaboral);
-                                    if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
-                                    else $("#ddGrupoCalendario").html("&nbsp;");
-                                    $("#ddTipoHorarioCalendario").text(tipoHorarioDescripcion);
-                                    var fechaIniRango = fechaConvertirAFormato(dataRecord.fecha_ini,'-');
-                                    var fechaFinRango = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
-                                    $("#dtRangoFechasCalendario").show();
-                                    $("#ddRangoFechasCalendario").show();
-                                    $("#ddRangoFechasCalendario").text(fechaIniRango+" AL "+fechaFinRango);
-                                    $("#spanPrefijoCalendarioLaboral").html("Vista ");
-                                    $("#calendar").html("");
-                                    var date = new Date();
-                                    var d = date.getDate();
-                                    var m = date.getMonth();
-                                    var y = date.getFullYear();
-                                    var accion = 5;
-                                    var fechaActual = fechaConvertirAFormato(new Date(),'-');
-                                    var formattedDate = dataRecord.fecha_ini;
-                                    var d = formattedDate.getDate();
-                                    var m =  formattedDate.getMonth();
-                                    m += 1;  // Los meses en JavaScript son 0-11
-                                    var y = formattedDate.getFullYear();
-                                    var fechaIni = d+"-"+m+"-"+y;
-                                    var defaultDay=d;
-                                    var defaultMonth = m-1;
-                                    var defaultYear = y;
-                                    if(dataRecord.tipo_horario==1||dataRecord.tipo_horario==2){
-                                        var arrFechaActual  = fechaActual.split("-");
-                                        defaultDay=arrFechaActual[0];
-                                        defaultMonth = arrFechaActual[1]-1;
-                                        defaultYear = arrFechaActual[2];
-                                    }
-                                    var fechaFin = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
-                                    var tipoHorario = dataRecord.tipo_horario;
-                                    $("#hdnTipoHorarioParaCalendario").val(tipoHorario);
-                                    $("#hdnIdPerfilLaboralParaCalendario").val(idPerfilLaboral);
-                                    var arrHorariosPreviosRegistrados = [];
-                                    var arrHorariosSiguientesRegistrados = [];
-                                    if(tipoHorario==3){
-                                        var arrFechaIni = fechaIni.split("-");
-                                        var fechaIniRango ="01-"+arrFechaIni[1]+"-"+arrFechaIni[2];
-                                        $("#hdnFechaIniParaCalendario").val(fechaIniRango);
-                                        var fechaFinRango = obtenerUltimoDiaMes(fechaIniRango);
-                                        $("#hdnFechaFinParaCalendario").val(fechaFinRango);
-                                        var fechaIniSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,10);
-                                        var fechaFinSemanaPrevia = obtenerFechaMenosDias(fechaIniRango,1);
-                                        arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
-                                        var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,1);
-                                        var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFinRango,10);
-                                        arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
-                                    }else{
-                                        $("#hdnFechaIniParaCalendario").val("00-00-0000");
-                                        $("#hdnFechaFinParaCalendario").val("00-00-0000");
-                                    }
-                                    var arrHorariosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(dataRecord.id_perfillaboral,tipoHorario,false,fechaIni,fechaFin);
-                                    cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
-                                    var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultYear,defaultMonth,defaultDay);
-                                    /**
-                                     * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
-                                     */
-                                    $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
-                                    $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                                    cargarJornadasLaborales(accion,dataRecord.id_jornada_laboral);
-                                    cargarTolerancias(accion,dataRecord.id_tolerancia);
-                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-modificacion");
-                                    $("#lstJornadasLaborales").off();
-                                    $("#lstJornadasLaborales").on("change",function(){
-                                        sumarTotalHorasPorSemana(arrFechasPorSemana);
-                                    });
-                                    $("#divEstadoCalendario").html("");
-                                    var spanEstadoCalendario = "Estado: ";
-                                    switch (dataRecord.estado){
-                                        case 0:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-thumbs-o-down'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 1:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-cogs'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 2:spanEstadoCalendario+="<span class='label label-primary'><i class='hi hi-thumbs-up'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 3:spanEstadoCalendario+="<span class='label label-success'><i class='gi gi-ok_2'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                        case 4:spanEstadoCalendario+="<span class='label label-primary'><i class='fa fa-lock'></i> "+dataRecord.estado_descripcion+"</span>";break;
-                                    }
-                                    if(dataRecord.estado>=0){
-                                        $("#divEstadoCalendario").html(spanEstadoCalendario);
-                                    }
-                                } else {
-                                    var msj = "Debe seleccionar un registro en estado ELABORADO para posibilitar la APROBACI&Oacute;N de los registros correspondientes.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msj);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                                $("#divLstTolerancias").show();
-                                $("#divDatosTolerancia").show();
-                                $("#divGrupoBotonesAprobacion").hide();
-                                $("#divGrupoBotonesElaboracion").hide();
-                            }
-                        } else {
-                            var msj = "Debe seleccionar un registro necesariamente.";
-                            $("#divMsjePorError").html("");
-                            $("#divMsjePorError").append(msj);
-                            $("#divMsjeNotificacionError").jqxNotification("open");
-                        }
-                        $("#btnImprimirCalendario").show();
-                        $("#divArrastre").hide();
-                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
-                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
-                        $("#hdnFechaIniParaCuposCalendario").val(0);
-                        $("#hdnFechaFinParaCuposCalendario").val(0);
-                    });
-                    $("#quotasrowbuttonturn").off();
-                    $("#quotasrowbuttonturn").on('click', function () {
-                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            $("#spanPrefijoCalendarioLaboral").html("Cupos por ");
-                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                /**
-                                 * Para el caso cuando el estado del turno esté ELABORADO, de otro modo no es admisible.
-                                 */
-                                if (dataRecord.estado == 3) {
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 5);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 5});
-
-                                    $("#spanPrefijoCuposCalendarioLaboral").html("Cupos por ");
-                                    $("#ddPerfilLaboralCupos").text(perfilLaboral);
-                                    if(grupo!=''&&grupo!=null)$("#ddGrupoCupos").text(grupo);
-                                    else $("#ddGrupoCupos").html("&nbsp;");
-                                    $("#ddTipoHorarioCupos").text(tipoHorarioDescripcion);
-                                    var fechaIniRango = fechaConvertirAFormato(dataRecord.fecha_ini,'-');
-                                    var fechaFinRango = fechaConvertirAFormato(dataRecord.fecha_fin,'-');
-                                    $("#ddRangoFechas").text(fechaIniRango+" AL "+fechaFinRango);
-                                    $("#calendar").html("");
-                                    cargarCupos(0,idPerfilLaboral,fechaIniRango,fechaFinRango);
-                                    $("#hdnIdPerfilLaboralParaCuposCalendario").val(dataRecord.id_perfillaboral);
-                                    $("#hdnTipoHorarioParaCuposCalendario").val(dataRecord.tipo_horario);
-                                    $("#hdnFechaIniParaCuposCalendario").val(dataRecord.fecha_ini);
-                                    $("#hdnFechaFinParaCuposCalendario").val(dataRecord.fecha_fin);
-                                }
-                                else {
-                                    var msj = "Debe seleccionar un registro en estado APROBADO para posibilitar la asignaci&oacute;n de cupos correspondientes.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msj);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                            }
-                        }
-                    });
                 },
                 columns: [
                     {

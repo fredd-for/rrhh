@@ -510,7 +510,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
                                     cargarJornadasLaborales(accion,dataRecord.id_jornada_laboral);
                                     cargarTolerancias(accion,dataRecord.id_tolerancia);
-                                    sumarTotalHorasPorSemana(arrFechasPorSemana,"inicio-modificacion");
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana);
                                     $("#lstJornadasLaborales").off();
                                     $("#lstJornadasLaborales").on("change",function(){
                                         sumarTotalHorasPorSemana(arrFechasPorSemana);

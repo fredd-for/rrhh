@@ -240,7 +240,7 @@ $().ready(function () {
     });
     $("#btnImprimirCalendario").on("click",function(){
         var opciones = {mode:"popup",popClose: false};
-        $("#divCalendar").printArea(opciones);
+        $("#divTurnPerfil").printArea(opciones);
     });
     $("#btnImprimirCuposCalendario").on("click",function(){
         var opciones = {mode:"popup",popClose: false};
@@ -305,7 +305,7 @@ $().ready(function () {
         $("#hdnIdPerfilLaboralNew").val(0);
         $("#hdnIdPerfilLaboraleDIT").val(0);
     });
-    $("#liAssign").on("click",function () {
+    $("#liAssignGroup").on("click",function () {
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
         $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
@@ -406,20 +406,20 @@ function definirGrillaParaListaPerfilesLaborales() {
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    container.append("<button id='assignmultiplerowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
+                    container.append("<button id='assigngrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
                     container.append("<button id='assignsinglerowbutton'  class='btn btn-sm btn-primary' type='button' title='Asignaciones Individuales'><i class='fa fa-user fa-2x text-info' title='Asignaciones Individuales'></i></button>");
                     /*container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar-o fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
-                    $("#assignmultiplerowbutton").jqxButton();
+                    $("#assigngrouprowbutton").jqxButton();
                     $("#assignsinglerowbutton").jqxButton();
                     /*$("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();*/
                     $("#turnrowbutton").jqxButton();
 
                     /* Listar las asignaciones realizadas por Perfil Laboral.*/
-                    $("#assignmultiplerowbutton").on('click', function () {
+                    $("#assigngrouprowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
@@ -433,6 +433,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
 
                                     $("#ddPerfilLaboral").text(dataRecord.perfil_laboral);
@@ -463,68 +464,49 @@ function definirGrillaParaListaPerfilesLaborales() {
                     });
                     /*Aprobar registro.*/
                     $("#assignsinglerowbutton").on('click', function () {
-                         var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                         if (selectedrowindex >= 0) {
-                         var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                         if (dataRecord != undefined) {
-                        /*
-                         * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
-                         */
-    
-                         if (dataRecord.estado == 2) {
-                         if(confirm("¿Esta seguro de aprobar este registro?")){
-                            aprobarRegistroPerfilLaboral(dataRecord.id);
-                         }
-                         }else {
-                         var msje = "Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro";
-                         $("#divMsjePorError").html("");
-                         $("#divMsjePorError").append(msje);
-                         $("#divMsjeNotificacionError").jqxNotification("open");
-                         }
-                         }
-                         }else{
-                         var msje = "Debe seleccionar un registro necesariamente.";
-                         $("#divMsjePorError").html("");
-                         $("#divMsjePorError").append(msje);
-                         $("#divMsjeNotificacionError").jqxNotification("open");
-                         }
-                     });
-                    /*$("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
 
-                                var id_perfillaboral = dataRecord.id;
-                                if (dataRecord.estado >= 1) {
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+                                /*
+                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
+                                 */
+                                if (dataRecord.estado >=1) {
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
 
-                                    $("#hdnIdPerfilLaboralEditar").val(id_perfillaboral);
+                                    $("#ddPerfilLaboralSingle").text(dataRecord.perfil_laboral);
+                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoSingle").text(dataRecord.grupo);
+                                    else $("#ddGrupoSingle").html("&nbsp;");
+                                    $("#ddTipoHorarioSingle").text(dataRecord.tipo_horario_descripcion);
 
-                                    $("#txtPerfilLaboralEditar").val(dataRecord.perfil_laboral);
-                                    $("#txtGrupoPerfilLaboralEditar").val(dataRecord.grupo);
-                                    if (dataRecord.observacion != null)$("#txtObservacionPerfilLaboralEditar").text(dataRecord.observacion);
-                                    else $("#txtObservacionPerfilLaboralEditar").text('');
-                                } else {
-                                    var msje = "Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro";
+                                    cargarGrillaAsignaciones(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+
+                                }else{
+                                    var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
                                 }
-                                listarTiposHorarios(dataRecord.tipo_horario,2);
+                            }else{
+                                var msje = "El registro presenta informaci&oacute;n erronea que impide su selecci&oacute;n.";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
                             }
-                        } else {
+                        }else{
                             var msje = "Debe seleccionar un registro necesariamente.";
                             $("#divMsjePorError").html("");
                             $("#divMsjePorError").append(msje);
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
-                    });*/
+                     });
+
                     /* Ver registro de temporalidades por perfil.*/
                     $("#turnrowbutton").on('click', function () {
 
@@ -532,27 +514,37 @@ function definirGrillaParaListaPerfilesLaborales() {
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var id_perfillaboral = dataRecord.id;
                                 /*
-                                 *  Vista de la temporalidad de los turnos asignadios
+                                 *  Vista de la temporalidad de los turnos asignados
                                  */
                                 $(".msjs-alert").hide();
                                 if (dataRecord.estado != 2) {
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 5);
                                     /**
                                      * Trasladamos el item seleccionado al que corresponde, el de vistas.
                                      */
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
-                                    cargarGrillaTurnos(id_perfillaboral,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
-                                    $("#ddPerfilLaboralTurnos").text(dataRecord.perfil_laboral);
-                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoTurnos").text(dataRecord.grupo);
-                                    else $("#ddGrupoTurnos").html("&nbsp;");
-                                    $("#ddTipoHorarioTurnos").text(dataRecord.tipo_horario_descripcion);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 5});
+                                    $("#ddPerfilLaboralTurn").text(dataRecord.perfil_laboral);
+                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoTurn").text(dataRecord.grupo);
+                                    else $("#ddGrupoTurn").html("&nbsp;");
+                                    $("#ddTipoHorarioTurn").text(dataRecord.tipo_horario_descripcion);
+
+                                    var date = new Date();
+                                    var defaultDia = date.getDate();
+                                    var defaultMes = date.getMonth();
+                                    var defaultGestion = date.getFullYear();
+                                    var fechaIni = "";
+                                    var fechaFin = "";
+                                    var contadorPerfiles = 0;
+                                    var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones(dataRecord.id,dataRecord.tipo_horario,false,fechaIni,fechaFin,contadorPerfiles);
+                                    $("#calendar").html("");
+                                    var arrFechasPorSemana = iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(5,dataRecord.tipo_horario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana);
+
                                 } else {
                                     var msje = "Para acceder a la Gesti&oacute;n de Turnos, el perfil debe estar en estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");

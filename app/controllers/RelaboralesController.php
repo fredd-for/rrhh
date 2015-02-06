@@ -240,7 +240,7 @@ class RelaboralesController extends ControllerBase
         $idUbicacion = 0;
         if(isset($_POST["id_ubicacion"])&&$_POST["id_ubicacion"]>0){
             $idUbicacion = $_POST["id_ubicacion"];
-            $resul = $obj->getAll(" WHERE estado>=0 AND id_ubicacion=".$idUbicacion);
+            $resul = $obj->getAll(" WHERE estado>=1 AND id_ubicacion=".$idUbicacion);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
