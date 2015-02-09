@@ -184,11 +184,22 @@ WHERE s.id='$id'";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }
 
+
     public function getPerfilCargo($id)
     {
-        $sql = "SELECT o.area_sustantiva,ca.* 
-FROM seguimientos s, pacs p, cargos c, organigramas o, nivelsalariales n, cargosperfiles ca
-WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id AND c.codigo_nivel=n.nivel AND n.baja_logica=1 AND n.activo=1  AND ca.nivelsalarial_id = n.id AND ca.baja_logica=1";
+//         $sql = "SELECT o.area_sustantiva,ca.* 
+// FROM seguimientos s, pacs p, cargos c, organigramas o, nivelsalariales n, cargosperfiles ca
+// WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id AND c.codigo_nivel=n.nivel AND n.baja_logica=1 AND n.activo=1  AND ca.nivelsalarial_id = n.id AND ca.baja_logica=1";
+        $sql="SELECT cp.*, concat(pr.valor_1,' - ',pr2.valor_1, ' - ( ',cp.detalle,' )') as formacion_academica
+FROM seguimientos se 
+INNER JOIN pacs pa ON se.pac_id = pa.id
+INNER JOIN cargos ca ON pa.cargo_id = ca.id
+INNER JOIN organigramas o ON ca.organigrama_id = o.id
+INNER JOIN nivelsalariales ns ON ca.codigo_nivel = ns.nivel AND ns.activo = 1 
+INNER JOIN cargosperfiles cp ON ns.id = cp.nivelsalarial_id AND cp.baja_logica = 1 AND o.area_sustantiva=cp.area_sustantiva
+INNER JOIN parametros pr ON cp.formacion_academica_id = pr.id
+LEFT JOIN parametros pr2 ON cp.documento_id = pr2.id
+WHERE se.id ='$id' ORDER BY cp.prioridad ASC ";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));     
     }
@@ -228,6 +239,44 @@ WHERE s.id='$id' AND s.pac_id=p.id AND p.cargo_id=c.id AND c.organigrama_id=o.id
     public function seguimientoCero($proceso_contratacion_id='')
     {
         $sql="UPDATE seguimientos SET baja_logica = 0 WHERE proceso_contratacion_id='$proceso_contratacion_id' AND baja_logica = 1";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function filtrarPostulantes($id='')
+    {
+        $sql="DELETE  from pcalificaciones WHERE proceso_contratacion_id=".$id;
+        $this->_db = new Procesoscontrataciones();
+        new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+
+        $sql="select f_postulacion_consolidacion($id)";
+        $this->_db = new Procesoscontrataciones();
+        new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+
+        $sql="select f_postulacion_requerimiento($id)";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        
+    }
+
+    public function listaCalificados($seguimiento_id)
+    {
+        $sql="SELECT po.*, pc.id as pcalificacion_id
+        FROM pcalificaciones pc
+        INNER JOIN ppostulantes po ON pc.postulante_id=po.id
+        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =1";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    public function getcargopostula($seguimiento_id='')
+    {
+        $sql="SELECT s.id,CONCAT(p.codigo_proceso,' ',c.cargo) AS cargo
+        FROM procesoscontrataciones p
+        INNER JOIN seguimientos s ON p.id = s.proceso_contratacion_id AND s.baja_logica=1
+        INNER JOIN pacs pa ON s.pac_id= pa.id
+        INNER JOIN cargos c ON pa.cargo_id=c.id
+        WHERE s.id='$seguimiento_id'";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
