@@ -20,6 +20,7 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
     public $fecha_ini;
     public $fecha_fin;
     public $cupo;
+    public $cant_nodos_hijos;
 
     /**
      * Initialize method for model.
@@ -45,7 +46,9 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
             'id_cupoturno' => 'id_cupoturno',
             'perfillaboral_id' => 'perfillaboral_id',
             'fecha_ini' => 'fecha_ini',
-            'fecha_fin' => 'fecha_fin'
+            'fecha_fin' => 'fecha_fin',
+            'cupo' => 'cupo',
+            'cant_nodos_hijos' => 'cant_nodos_hijos'
         );
     }
     private $_db;
@@ -80,6 +83,34 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
         if($fechaIni!='')$sql.=" AND ct.fecha_ini = CAST('".$fechaIni."' AS DATE)";
         if($fechaFin!='')$sql.=" AND ct.fecha_fin = CAST('".$fechaFin."' AS DATE)";
         //echo "<p>--->".$sql;
+        $this->_db = new Fubicaciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de ubicaciones principales de acuerdo a un identificador de perfil.
+     * @param $idPerfilLaboral
+     * @return Resultset
+     */
+    public function obtenerUbicacionesPrincipalesPorPerfil($idPerfilLaboral){
+        $sql = "SELECT DISTINCT fu.padre_id,0 as id,fu.id_ubicacion,fu.ubicacion,0 as id_estacion,null as estacion,fu.color,";
+        $sql .= "(SELECT COUNT(*) FROM ubicaciones a WHERE fu.id_ubicacion = a.padre_id AND a.estado=1 AND a.baja_logica=1) AS cant_nodos_hijos FROM relaboralesperfiles rp";
+        $sql .= " INNER JOIN f_ubicaciones() fu ON fu.id = rp.ubicacion_id";
+        $sql .= " WHERE rp.perfillaboral_id=".$idPerfilLaboral;
+        $this->_db = new Fubicaciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de estaciones registradas para una determinada ubicación principal y perfil laboral.
+     * @param $idPerfilLaboral
+     * @param $idUbicacion
+     * @return Resultset
+     */
+    public function obtenerEstacionesPorUbicacionPorPerfil($idPerfilLaboral,$idUbicacion){
+        $sql = "SELECT DISTINCT fu.* FROM relaboralesperfiles rp";
+        $sql .= " INNER JOIN f_ubicaciones() fu ON fu.id = rp.ubicacion_id";
+        $sql .= " WHERE rp.perfillaboral_id=".$idPerfilLaboral." AND  fu.id_ubicacion=".$idUbicacion;
         $this->_db = new Fubicaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

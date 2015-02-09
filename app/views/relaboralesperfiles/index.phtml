@@ -254,8 +254,8 @@
         <div class="block full col-sm-12">
             <div id="divGridAsignaciones"></div>
         </div>
-        <div id="divGrupoBotonesAssign" class="btn-group">
-            <button id="btnCancelarAssign" class="btnCancelarAssing btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Perfiles</button>
+        <div id="divGrupoBotonesAssignGroup" class="btn-group">
+            <button id="btnCancelarAssignGroup" class="btnCancelarAssignGroup btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Perfiles</button>
         </div>
     </form>
 </div>
@@ -296,7 +296,7 @@
         <br>
         <div id="divGrupoBotonesSingle" class="btn-group">
             <button id="btnGuardarSingle" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-            <button id="btnCancelarSingle" class="btnCancelarSingle btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+            <button id="btnCancelarSingle" class="btnCancelarSingle btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Perfiles</button>
         </div>
         <input type="hidden" id="hdnIdPerfilLaboralSingle" value="0">
         <input type="hidden" id="hdnTipoHorarioSingle" value="0">
@@ -477,7 +477,7 @@
     </form>
 </div>
 <div class="section" id="divTurnPerfil">
-    <form class="navbar-form" id="formTurnPerfil" onsubmit="return false;">
+    <form class="navbar-form" id="form" onsubmit="return false;">
         <br>
         <div class="widget">
             <div class="widget-simple themed-background-dark">
@@ -513,11 +513,24 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        Personal Asignado:
                         <div class="block-section">
-                            <!--<div id="lstPerfilesLaboralesDisponibles" class="form-control"></div>
-                            <ul class="calendar-events" id="ulHorariosEnEspera"></ul>-->
+                            <div id="divUbicacionesAsignadas">
+                                Ubicaci&oacute;n:
+                            <select id="lstUbicacionesPrincipales" class="form-control"><option value="0">Seleccionar...</option></select>
+                            </div>
+                            <div id="divEstacionesAsignadas">
+                                Estaci&oacute;n:
+                            <select id="lstEstacionesAsignadas" class="form-control" disabled><option value="0">Seleccionar...</option></select>
+                            </div>
+                            <div id="divPersonasAsignadas" hidden="hidden">
+                                Personal Asignado:
+                            <select id="lstBoxRegistrados" class="form-control" disabled><option value="0">Seleccionar...</option></select>
+                                <button id="clearFilterRegistrados" class="btn btn-sm btn-primary" type="button"><i class="fa fa-exchange"></i> Desfiltrar</button>
+                                <div id="divContadorLstBoxRegistrados" style="text-align: right"><b>Total:</b> <span id="spanContadorLstBoxRegistrados"></span></div>
+                            </div>
                         </div>
+                        <input type="hidden" id="hdnFechaInicialCalendario" value="">
+                        <input type="hidden" id="hdnFechaFinalCalendario" value="">
                     </div>
                     <div class="col-md-10">
                         <!-- FullCalendar (initialized in js/pages/compCalendar.js), for more info and examples you can check out http://arshaw.com/fullcalendar/ -->

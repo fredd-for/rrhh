@@ -183,26 +183,27 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
 
-    $("#btnCancelarCalendario,#btnCancelarAprobacionCalendario").on("click",function () {
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-        $("#jqxgridturnos").jqxGrid("updatebounddata");
-        $("#msjs-alert").hide();
-    });
-
-    $("#btnCancelarTurno").on("click",function () {
+    $("#btnCancelarAssignGroup,#btnCancelarSingle").on("click",function () {
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 0});
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+        $("#divGridPerfilesLaborales").jqxGrid("updatebounddata");
+        $("#msjs-alert").hide();
+    });
+
+    $("#btnCancelarTurno").on("click",function () {
         $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 0});
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+        $("#divGridPerfilesLaborales").jqxGrid("updatebounddata");
         $("#msjs-alert").hide();
         /*$("#lstTipoMemorandum").off();*/
     });
@@ -542,9 +543,25 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     var contadorPerfiles = 0;
                                     var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones(dataRecord.id,dataRecord.tipo_horario,false,fechaIni,fechaFin,contadorPerfiles);
                                     $("#calendar").html("");
-                                    var arrFechasPorSemana = iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(5,dataRecord.tipo_horario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                    var arrFechasPorSemana = iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(5,dataRecord.id,dataRecord.tipo_horario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
-
+                                    cargarUbicacionesPrincipalesRegistradasParaPerfil(dataRecord.id);
+                                    $("#lstUbicacionesPrincipales").off();
+                                    $("#lstUbicacionesPrincipales").on("change",function(){
+                                        cargarEstacionesRegistradasPorUbicacionParaPerfil(dataRecord.id,this.value);
+                                        if($("#lstUbicacionesPrincipales option:selected").data("cant-nodos-hijos")==0)
+                                        {   definirListaAsignados(dataRecord.id,this.value,0,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
+                                        }else{
+                                            $("#divPersonasAsignadas").hide();
+                                        }
+                                    });
+                                    $("#lstEstacionesAsignadas").off();
+                                    $("#lstEstacionesAsignadas").on("change",function(){
+                                        if(this.value>0){
+                                            definirListaAsignados(dataRecord.id,$("#lstUbicacionesPrincipales").val(),this.value,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
+                                        }
+                                        else $("#divPersonasAsignadas").hide();
+                                    });
                                 } else {
                                     var msje = "Para acceder a la Gesti&oacute;n de Turnos, el perfil debe estar en estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");

@@ -247,7 +247,7 @@ class PerfileslaboralesController extends ControllerBase
         echo $fechaResultado;
     }
     /**
-     * Función para restar una determinada cantidad de días a una fecha
+     * Función para sumar una determinada cantidad de días a una fecha
      */
     public function getfechamasdiasAction(){
         $this->view->disable();
@@ -261,7 +261,7 @@ class PerfileslaboralesController extends ControllerBase
         echo $fechaResultado;
     }
     /**
-     * Función para sumar una determinada cantidad de días a una fecha
+     * Función para restar una determinada cantidad de días a una fecha
      */
     public function getfechamenosdiasAction(){
         $this->view->disable();

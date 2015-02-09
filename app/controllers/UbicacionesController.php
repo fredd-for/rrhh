@@ -142,4 +142,62 @@ class UbicacionesController extends ControllerBase{
         }
         echo json_encode($ubicaciones);
     }
+    /**
+     * Función para la obtención del listado de ubicaciones con la relación de cupos de acuerdo
+     * al identificador del perfil y rango de fechas del calendario seleccionado.
+     */
+    public function listubicacionespricipalesporperfilAction(){
+        $this->view->disable();
+        if(isset($_POST["id_perfillaboral"])){
+            $idPerfilLaboral = $_POST["id_perfillaboral"];
+            $obj = new Fubicaciones();
+            $resul = $obj->obtenerUbicacionesPrincipalesPorPerfil($idPerfilLaboral);
+            $ubicaciones = Array();
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $ubicaciones[] = array(
+                        'id'=>$v->id,
+                        'padre_id' => $v->padre_id,
+                        'id_ubicacion' => $v->id_ubicacion,
+                        'ubicacion' => $v->ubicacion,
+                        'id_estacion'=> $v->id_estacion,
+                        'estacion'=> $v->id_estacion!=null?$v->estacion:"",
+                        'color'=> $v->color!=null?$v->color:"",
+                        'cant_nodos_hijos'=>$v->cant_nodos_hijos
+                    );
+                }
+            }
+        }
+        echo json_encode($ubicaciones);
+    }
+
+    /**
+     * Función para la obtención de las estaciones relacionadas con un perfil y ubicación registrados.
+     */
+    public function listestacionesporubicacionparaperfilAction(){
+        $this->view->disable();
+        $ubicaciones = Array();
+        if(isset($_POST["id_perfillaboral"])&&isset($_POST["id_ubicacion"])){
+            $idPerfilLaboral = $_POST["id_perfillaboral"];
+            $idUbicacion = $_POST["id_ubicacion"];
+            $obj = new Fubicaciones();
+            $resul = $obj->obtenerEstacionesPorUbicacionPorPerfil($idPerfilLaboral,$idUbicacion);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $ubicaciones[] = array(
+                        'id'=>$v->id,
+                        'padre_id' => $v->padre_id,
+                        'id_ubicacion' => $v->id_ubicacion,
+                        'ubicacion' => $v->ubicacion,
+                        'id_estacion'=> $v->id_estacion,
+                        'estacion'=> $v->id_estacion!=null?$v->estacion:"",
+                        'color'=> $v->color!=null?$v->color:""
+                    );
+                }
+            }
+        }
+        echo json_encode($ubicaciones);
+    }
 }

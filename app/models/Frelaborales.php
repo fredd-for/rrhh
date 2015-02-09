@@ -339,7 +339,24 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public function getListGroupedByPerfil($idPerfilLaboral,$idUbicacion,$fechaIni,$fechaFin)
     {
         if($idPerfilLaboral>0&&$idUbicacion>0&&$fechaIni!=''&&$fechaFin!=''){
-            $sql = "select * from f_relaborales_agrupados_por_asignacion(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
+            $sql = "SELECT * FROM f_relaborales_agrupados_por_asignacion(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
+    }
+
+    /**
+     * Función para la obtención de los registros de relación laboral
+     * @param $idPerfilLaboral
+     * @param $idUbicacion
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getListAssignedByPerfil($idPerfilLaboral,$idUbicacion,$fechaIni,$fechaFin)
+    {
+        if($idPerfilLaboral>0&&$idUbicacion>0&&$fechaIni!=''&&$fechaFin!=''){
+            $sql = "SELECT * FROM f_relaborales_asignados_a_perfil(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         } else return new Resultset();

@@ -16,7 +16,7 @@
  * @param defaultDia
  * @returns {Array}
  */
-function iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
+function iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(accion,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
     tipoHorario = parseInt(tipoHorario);
     var arrFechasPorSemana = [];
     var contadorPorSemana = 0;
@@ -235,9 +235,9 @@ function iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(accion,tipo
                                     var fechaInicio = $("#txtHorarioFechaIni").val();
                                     var fechaFinalizacion = $("#txtHorarioFechaFin").val();
                                     var arrFechaInicio =fechaInicio.split("-");
-                                    var arrFechaFinalicacion = fechaFinalizacion.split("-");
+                                    var arrFechaFinalizacion= fechaFinalizacion.split("-");
                                     fechaInicio = arrFechaInicio[2]+"-"+arrFechaInicio[1]+"-"+arrFechaInicio[0];
-                                    fechaFinalizacion = arrFechaFinalicacion[2]+"-"+arrFechaFinalicacion[1]+"-"+arrFechaFinalicacion[0];
+                                    fechaFinalizacion = arrFechaFinalizacion[2]+"-"+arrFechaFinalizacion[1]+"-"+arrFechaFinalizacion[0];
                                     addEvent = {
                                         id:calEvent.id,
                                         title:calEvent.title,
@@ -276,43 +276,85 @@ function iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(accion,tipo
     },
     /*dayRender: function (date, cell) {},*/
     viewRender: function(view) {
-        if(view.name=="month")
-        {   //$("#divSumatorias").show();
-            removerColumnaSumaTotales();
-            agregarColumnaSumaTotales(diasSemana);
-            arrFechasPorSemana= [];
-            var contP=0;
-            var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
-            $.each(arrDias,function(k,dia){
-                contP=0;
-                $("td.fc-"+dia).map(function (index, elem) {
-                    contP++;
-                    var fecha = $(this).data("date");
-                    var fechaAux = $(this).data("date");
-                    if(fecha!=undefined){
-                        var arrFecha = fecha.split("-");
-                        fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
-                        switch (contP){
-                            case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
-                            case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
-                            case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
-                            case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
-                            case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
-                            case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+
+        switch (view.name){
+            case "month":
+            {   //$("#divSumatorias").show();
+                removerColumnaSumaTotales();
+                agregarColumnaSumaTotales(diasSemana);
+                arrFechasPorSemana= [];
+                var contP=0;
+                var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
+                $.each(arrDias,function(k,dia){
+                    contP=0;
+                    $("td.fc-"+dia).map(function (index, elem) {
+                        contP++;
+                        var fecha = $(this).data("date");
+                        var fechaAux = $(this).data("date");
+                        if(fecha!=undefined){
+                            var arrFecha = fecha.split("-");
+                            fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                            switch (contP){
+                                case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
+                                case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
+                                case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
+                                case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
+                                case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
+                                case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+                            }
+                            var check = fechaAux;
+                            var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
+                            if (check < today) {
+                                $(this).css("background-color", "silver");
+                            }
                         }
-                        var check = fechaAux;
-                        var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
-                        if (check < today) {
-                            $(this).css("background-color", "silver");
-                        }
-                    }
+                    });
                 });
-            });
-            sumarTotalHorasPorSemana(arrFechasPorSemana);
-        }else{
-            //$("#divSumatorias").hide();
-            //ocultarColumnaSumaTotales();
+                sumarTotalHorasPorSemana(arrFechasPorSemana);
+                var fechaInicialCalendario = "";
+                var fechaFinalCalendario = "";
+                /*if(tipoHorario==3){
+                    $("td.fc-mon").map(function (index, elem) {
+                        if(fechaInicialCalendario=="")
+                            fechaInicialCalendario = $(this).data("date");
+                    });
+                    $("td.fc-sun").map(function (index, elem) {
+                        fechaFinalCalendario = $(this).data("date");
+                    });
+                }else{
+                    $("td.fc-mon").map(function (index, elem) {
+                        if(fechaInicialCalendario=="")
+                            fechaInicialCalendario = $(this).data("date");
+                    });
+                    $("td.fc-fri").map(function (index, elem) {
+                        fechaFinalCalendario = $(this).data("date");
+                    });
+                }*/
+                var moment = $('#calendar').fullCalendar('getDate');
+                fechaInicialCalendario = fechaConvertirAFormato(moment,'-');
+                var arrFechaInicial = fechaInicialCalendario.split("-");
+                fechaInicialCalendario = "01-"+arrFechaInicial[1]+"-"+arrFechaInicial[2];
+                fechaFinalCalendario =  obtenerUltimoDiaMes(fechaInicialCalendario);
+                $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+            }
+                break;
+            case "agendaWeek":
+                fechaInicialCalendario = $('#calendar').fullCalendar('getView').start;
+                fechaInicialCalendario = fechaConvertirAFormato(fechaInicialCalendario,"-");
+                fechaFinalCalendario = obtenerFechaMasDias(fechaInicialCalendario,diasSemana-1);
+                $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+                break;
+            case "agendaDay":
+                var moment = $('#calendar').fullCalendar('getDate');
+                var fechaInicialCalendario = fechaConvertirAFormato(moment,'-');
+                fechaFinalCalendario = fechaInicialCalendario;
+                $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+                break;
         }
+        definirListaAsignados(idPerfilLaboral,$("#lstUbicacionesPrincipales").val(),$("#lstEstacionesAsignadas").val(),fechaInicialCalendario,fechaFinalCalendario);
     }
     });
     return arrFechasPorSemana;
@@ -334,7 +376,7 @@ function obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    var ctrlAllDay=false;
+    var ctrlAllDay=true;
     switch (tipoHorario){
         case 1:
         case 2:ctrlAllDay=true;break;
@@ -697,4 +739,177 @@ function numeroHoras(hora){
         return hEnt;
     }
     else return 0;
+}
+/**
+ * Función para la obtención del listado de ubicaciones principales que se hubieran asignado a un determinado perfil.
+ * @param idPerfilLaboral
+ */
+function cargarUbicacionesPrincipalesRegistradasParaPerfil(idPerfilLaboral){
+    $("#lstUbicacionesPrincipales").html("");
+    $("#lstUbicacionesPrincipales").append("<option value='0' data-cant-nodos-hijos='-1'>Seleccionar...</option>");
+    $("#lstUbicacionesPrincipales").prop("disabled","disabled");
+    var selected = "";
+    if(idPerfilLaboral>0){
+        $.ajax({
+            url: '/ubicaciones/listubicacionespricipalesporperfil/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id_perfillaboral:idPerfilLaboral},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                //if(res.length==1)selected="selected";
+                if (res.length > 0) {
+                    $("#lstUbicacionesPrincipales").prop("disabled",false);
+                    $.each(res, function (key, val) {
+                        $("#lstUbicacionesPrincipales").append("<option value='"+val.id_ubicacion+"' "+selected+" data-cant-nodos-hijos='"+val.cant_nodos_hijos+"'>"+val.ubicacion+"</option>");
+                    });
+                }else $("#lstUbicacionesPrincipales").prop("disabled","disabled");
+            }
+        });
+    }
+}
+/**
+ * Función para la obtención del listado de estaciones registradas para un perfil y ubicación principal determinada.
+ * @param idPerfilLaboral
+ * @param idUbicacion
+ */
+function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbicacion){
+    $("#lstEstacionesAsignadas").html("");
+    $("#lstEstacionesAsignadas").append("<option value='0'>Seleccionar...</option>");
+    $("#lstEstacionesAsignadas").prop("disabled","disabled");
+    var selected = "";
+    if(idPerfilLaboral>0){
+        $.ajax({
+            url: '/ubicaciones/listestacionesporubicacionparaperfil/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id_perfillaboral:idPerfilLaboral,id_ubicacion:idUbicacion},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if(res.length==1)selected="selected";
+                if (res.length > 0) {
+                    $("#lstEstacionesAsignadas").prop("disabled",false);
+                    $.each(res, function (key, val) {
+                        $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"' "+selected+">"+val.estacion+"</option>");
+                    });
+                }else $("#lstEstacionesAsignadas").prop("disabled","disabled");
+            }
+        });
+    }
+}
+/**
+ * Función para la obtención del listado de personal asignado por perfil.
+ * @param idPerfilRelaboral
+ * @param idUbicacion
+ * @param idEstacion
+ * @param fechaIni
+ * @param fechaFin
+ */
+function definirListaAsignados(idPerfilRelaboral,idUbicacion,idEstacion,fechaIni,fechaFin){
+    $("#lstBoxRegistrados").html("");
+    $("#lstBoxRegistrados").jqxListBox('render');
+    $("#lstBoxRegistrados").prop("disabled",true);
+    if(idUbicacion>0&&idUbicacion>0){
+        var arrPersonal = [];
+        var source = [];
+        var data = [];
+        var dataAdapter = [];
+        var sufijo = "New";
+        var sourceB = [];
+        var soloRegistrados = 1;
+        $("#divPersonasAsignadas").show();
+        if(idEstacion>0){
+            idUbicacion = idEstacion;
+        }
+        $.ajax({
+            url : '/relaborales/listasignadas/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data:{id_perfillaboral:idPerfilRelaboral,id_ubicacion:idUbicacion,fecha_ini:fechaIni,fecha_fin:fechaFin },
+            success: function (data) {
+                arrPersonal = jQuery.parseJSON(data);
+            }
+        });
+        if(arrPersonal.length>0){
+            source = {
+                localdata: arrPersonal,
+                datatype: "array"
+            };
+            dataAdapter = new $.jqx.dataAdapter(source);
+            $("#lstBoxRegistrados").prop("disabled",false);
+            $("#divPersonasAsignadas").show();
+            $("#lstBoxRegistrados").jqxListBox({ filterable: true,allowDrop: false, allowDrag: false, source: dataAdapter, width:  "100%", height: 500,
+                renderer: function (index, label, value) {
+                    var datarecord = arrPersonal[index];
+                        var ci = datarecord.ci;
+                        var expd = datarecord.expd;
+                        var imgurl = '/images/personal/'+ci+'.jpg';
+                        if(!ImageExist(imgurl))imgurl = '/images/perfil-profesional.jpg';
+                        var cargo = datarecord.cargo;
+                        var fechas = datarecord.fecha_ini;
+                        if(datarecord.fecha_fin!=null){
+                            fechas = "Fechas: "+fechas + " AL "+datarecord.fecha_fin;
+                        }else fechas = "Fecha Inicio: "+fechas;
+                        var img = '<img height="70" width="70" src="' + imgurl + '"/>';
+                        $("#tbl_"+datarecord.id_relaboral).remove();
+                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                        return table;
+                },
+                ready:function(){
+                    var itemsB = $("#lstBoxRegistrados").jqxListBox('getItems');
+                    $("#spanContadorLstBoxRegistrados").text(itemsB.length);
+                }
+            });
+            $("#clearFilterRegistrados").jqxButton();
+            $("#clearFilterRegistrados").click(function () {
+                $("#lstBoxRegistrados").jqxListBox('clearFilter');
+            });
+        }else{
+            $("#lstBoxRegistrados").prop("disabled","disabled");
+            $("#divPersonasAsignadas").hide();
+        }
+
+    }
+}
+/**
+ * Función para obtener la fecha del último día de un determinado mes en una determinada gestión.
+ * @param fecha
+ * @returns {Array}
+ */
+function obtenerUltimoDiaMes(fecha){
+    var fecha = $.ajax({
+        url: '/perfileslaborales/getultimafechames/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {fecha: fecha},
+        success: function (data) {
+        }
+    }).responseText;
+    return fecha;
+}
+/**
+ * Función para obtener una fecha en consideración a la adición de una cantidad concreta de días a la fecha enviada como parámetro.
+ * @param fecha
+ * @returns {Array}
+ */
+function obtenerFechaMasDias(fecha,dias){
+    var fecha = $.ajax({
+        url: '/perfileslaborales/getfechamasdias/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {fecha: fecha,dias:dias},
+        success: function (data) {
+        }
+    }).responseText;
+    return fecha;
 }
