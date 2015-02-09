@@ -97,6 +97,7 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
         $sql .= "(SELECT COUNT(*) FROM ubicaciones a WHERE fu.id_ubicacion = a.padre_id AND a.estado=1 AND a.baja_logica=1) AS cant_nodos_hijos FROM relaboralesperfiles rp";
         $sql .= " INNER JOIN f_ubicaciones() fu ON fu.id = rp.ubicacion_id";
         $sql .= " WHERE rp.perfillaboral_id=".$idPerfilLaboral;
+        $sql .= " AND rp.estado>=1 AND rp.baja_logica=1";
         $this->_db = new Fubicaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -111,6 +112,7 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
         $sql = "SELECT DISTINCT fu.* FROM relaboralesperfiles rp";
         $sql .= " INNER JOIN f_ubicaciones() fu ON fu.id = rp.ubicacion_id";
         $sql .= " WHERE rp.perfillaboral_id=".$idPerfilLaboral." AND  fu.id_ubicacion=".$idUbicacion;
+        $sql .= " AND rp.estado>=1 AND rp.baja_logica=1";
         $this->_db = new Fubicaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

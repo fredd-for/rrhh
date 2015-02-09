@@ -178,7 +178,7 @@ class UbicacionesController extends ControllerBase{
     public function listestacionesporubicacionparaperfilAction(){
         $this->view->disable();
         $ubicaciones = Array();
-        if(isset($_POST["id_perfillaboral"])&&isset($_POST["id_ubicacion"])){
+        if(isset($_POST["id_perfillaboral"])&&$_POST["id_perfillaboral"]>0&&isset($_POST["id_ubicacion"])&&$_POST["id_ubicacion"]>0){
             $idPerfilLaboral = $_POST["id_perfillaboral"];
             $idUbicacion = $_POST["id_ubicacion"];
             $obj = new Fubicaciones();

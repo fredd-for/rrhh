@@ -762,10 +762,15 @@ function cargarUbicacionesPrincipalesRegistradasParaPerfil(idPerfilLaboral){
                 //if(res.length==1)selected="selected";
                 if (res.length > 0) {
                     $("#lstUbicacionesPrincipales").prop("disabled",false);
+                    $("#divUbicacionesPrincipales").show();
                     $.each(res, function (key, val) {
                         $("#lstUbicacionesPrincipales").append("<option value='"+val.id_ubicacion+"' "+selected+" data-cant-nodos-hijos='"+val.cant_nodos_hijos+"'>"+val.ubicacion+"</option>");
                     });
-                }else $("#lstUbicacionesPrincipales").prop("disabled","disabled");
+                }else {
+                    $("#lstUbicacionesPrincipales").prop("disabled","disabled");
+                    $("#divUbicacionesPrincipales").hide();
+                    $("#divEstacionesAsignadas").hide();
+                }
             }
         });
     }
@@ -778,7 +783,7 @@ function cargarUbicacionesPrincipalesRegistradasParaPerfil(idPerfilLaboral){
 function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbicacion){
     $("#lstEstacionesAsignadas").html("");
     $("#lstEstacionesAsignadas").append("<option value='0'>Seleccionar...</option>");
-    $("#lstEstacionesAsignadas").prop("disabled","disabled");
+    $("#lstEstacionesAsignadas").prop("disabled",true);
     var selected = "";
     if(idPerfilLaboral>0){
         $.ajax({
@@ -790,13 +795,13 @@ function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbi
             data: {id_perfillaboral:idPerfilLaboral,id_ubicacion:idUbicacion},
             success: function (data) {
                 var res = jQuery.parseJSON(data);
-                if(res.length==1)selected="selected";
+                $("#divEstacionesAsignadas").show();
                 if (res.length > 0) {
                     $("#lstEstacionesAsignadas").prop("disabled",false);
                     $.each(res, function (key, val) {
                         $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"' "+selected+">"+val.estacion+"</option>");
                     });
-                }else $("#lstEstacionesAsignadas").prop("disabled","disabled");
+                }
             }
         });
     }
