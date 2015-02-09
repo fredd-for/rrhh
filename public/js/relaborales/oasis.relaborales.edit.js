@@ -69,6 +69,8 @@ function definirGrillaParaSeleccionarCargoAcefaloParaEditar(numCertificacion,cod
                     },
                     { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo',cellsalign: 'center',align: 'center', width: 100},
                     /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
+                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 150 },
+                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',width: 150},
                     { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 100},
                     { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', align: 'center',width: 100},
                     { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 150},

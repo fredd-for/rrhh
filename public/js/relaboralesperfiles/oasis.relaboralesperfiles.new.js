@@ -68,7 +68,7 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
         }
         // Create a jqxListBox
 
-        $("#lstBox"+sufijo+"A").jqxListBox({ filterable: true,allowDrop: true, allowDrag: true, source: dataAdapter, width: "100%", height: 250,
+        $("#lstBox"+sufijo+"A").jqxListBox({multiple: true, filterable: true,allowDrop: true, allowDrag: true, source: dataAdapter, width: "100%", height: 250,
             displayMember: 'nombres',
             valueMember: 'id_relaboral',
             renderer: function (index, label, value) {
@@ -130,7 +130,7 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                 $("#spanContadorLstBox"+sufijo+"A").text(itemsA.length);
             }
         });
-        $("#lstBox"+sufijo+"B").jqxListBox({ filterable: true,allowDrop: true, allowDrag: true, source: data, width:  "100%", height: 250,
+        $("#lstBox"+sufijo+"B").jqxListBox({ multiple: true,filterable: true,allowDrop: true, allowDrag: true, source: data, width:  "100%", height: 250,
             renderer: function (index, label, value) {
                     var datarecord = arrPersonal[index];
                     if(datarecord!=undefined&&accion==1){
@@ -195,7 +195,6 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
             $("#spanContadorLstBox"+sufijo+"A").text(itemsA.length);
             $("#spanContadorLstBox"+sufijo+"B").text(itemsB.length);
         });
-
         $("#clearFilter"+sufijo+"A").jqxButton();
         $("#clearFilter"+sufijo+"A").click(function () {
             $("#lstBox"+sufijo+"A").jqxListBox('clearFilter');

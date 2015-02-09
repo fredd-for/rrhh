@@ -442,7 +442,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     else $("#ddGrupo").html("&nbsp;");
                                     $("#ddTipoHorario").text(dataRecord.tipo_horario_descripcion);
 
-                                    cargarGrillaAsignaciones(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+                                    cargarGrillaAsignacionesGrupales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
 
                                 }else{
                                     var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
@@ -486,7 +486,8 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     else $("#ddGrupoSingle").html("&nbsp;");
                                     $("#ddTipoHorarioSingle").text(dataRecord.tipo_horario_descripcion);
 
-                                    cargarGrillaAsignaciones(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+                                    //cargarGrillaAsignacionesGrupales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+                                    cargarGrillaAsignacionesIndividuales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
 
                                 }else{
                                     var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
@@ -547,7 +548,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
                                     cargarUbicacionesPrincipalesRegistradasParaPerfil(dataRecord.id);
                                     cargarEstacionesRegistradasPorUbicacionParaPerfil(dataRecord.id,0);
-                                    definirListaAsignados(dataRecord.id,0,this.value,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
+                                    definirListaAsignados(dataRecord.id,0,this.value,"","");
                                     $("#lstUbicacionesPrincipales").off();
                                     $("#lstUbicacionesPrincipales").on("change",function(){
                                         cargarEstacionesRegistradasPorUbicacionParaPerfil(dataRecord.id,this.value);

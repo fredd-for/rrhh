@@ -29,7 +29,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $genero;
     public $e_civil;
     public $item;
-    public $carrera_amd;
+    public $carrera_adm;
     public $num_contrato;
     public $contrato_numerador_estado;
     public $id_solelabcontrato;
@@ -357,10 +357,8 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     {
         if($idPerfilLaboral>0&&$idUbicacion>0&&$fechaIni!=''&&$fechaFin!=''){
             $sql = "SELECT * FROM f_relaborales_asignados_a_perfil(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
-            //echo "<p>".$sql."<p>";
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         } else return new Resultset();
     }
-
 } 

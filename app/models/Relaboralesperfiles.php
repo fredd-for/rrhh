@@ -29,4 +29,16 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
+
+    /**
+     * Función para la obtención del listado de relaciones laborales registradas en un determinado perfil laboral.
+     * @param $idPerfilLaboral
+     * @return Resultset
+     */
+    public function getListRelaboralesByPerfil($idPerfilLaboral){
+        if($idPerfilLaboral>0){
+            $sql = "select * from f_relaborales_asignados_a_perfil(".$idPerfilLaboral.", 0, null, null)";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
 } 

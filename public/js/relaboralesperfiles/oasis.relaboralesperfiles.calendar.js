@@ -818,7 +818,7 @@ function definirListaAsignados(idPerfilRelaboral,idUbicacion,idEstacion,fechaIni
     $("#lstBoxRegistrados").html("");
     $("#lstBoxRegistrados").jqxListBox('render');
     $("#lstBoxRegistrados").prop("disabled",true);
-    if(idUbicacion>0&&idUbicacion>0){
+    if(idUbicacion>0&&idUbicacion>0&&fechaIni!=""&&fechaFin!=""){
         var arrPersonal = [];
         var source = [];
         var data = [];
@@ -871,15 +871,17 @@ function definirListaAsignados(idPerfilRelaboral,idUbicacion,idEstacion,fechaIni
                     $("#spanContadorLstBoxRegistrados").text(itemsB.length);
                 }
             });
+
             $("#clearFilterRegistrados").jqxButton();
             $("#clearFilterRegistrados").click(function () {
                 $("#lstBoxRegistrados").jqxListBox('clearFilter');
             });
         }else{
-            $("#lstBoxRegistrados").prop("disabled","disabled");
             $("#divPersonasAsignadas").hide();
         }
 
+    }else{
+        $("#divPersonasAsignadas").hide();
     }
 }
 /**
