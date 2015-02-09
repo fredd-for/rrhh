@@ -546,6 +546,8 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     var arrFechasPorSemana = iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(5,dataRecord.id,dataRecord.tipo_horario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
                                     cargarUbicacionesPrincipalesRegistradasParaPerfil(dataRecord.id);
+                                    cargarEstacionesRegistradasPorUbicacionParaPerfil(dataRecord.id,0);
+                                    definirListaAsignados(dataRecord.id,0,this.value,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
                                     $("#lstUbicacionesPrincipales").off();
                                     $("#lstUbicacionesPrincipales").on("change",function(){
                                         cargarEstacionesRegistradasPorUbicacionParaPerfil(dataRecord.id,this.value);

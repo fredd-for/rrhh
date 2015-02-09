@@ -402,8 +402,9 @@ function obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones
                     if(grupo!='') perfil_laboral += " - "+grupo;
                     if(val.id_horariolaboral!=null){
                         idHorarioLaboral = val.id_horariolaboral;
-                        if(val.grupo!="")
-                            horario_nombre = val.horario_nombre +" ("+perfil_laboral+")";
+                        /*if(val.grupo!="")
+                            horario_nombre = val.horario_nombre +" ("+perfil_laboral+")";*/
+                        horario_nombre = val.horario_nombre
                         horaEnt = val.hora_entrada.split(":");
                         horaSal = val.hora_salida.split(":");
                         color = val.color;
@@ -784,8 +785,7 @@ function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbi
     $("#lstEstacionesAsignadas").html("");
     $("#lstEstacionesAsignadas").append("<option value='0'>Seleccionar...</option>");
     $("#lstEstacionesAsignadas").prop("disabled",true);
-    var selected = "";
-    if(idPerfilLaboral>0){
+    if(idPerfilLaboral>0&&idUbicacion>0){
         $.ajax({
             url: '/ubicaciones/listestacionesporubicacionparaperfil/',
             type: "POST",
@@ -799,7 +799,7 @@ function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbi
                 if (res.length > 0) {
                     $("#lstEstacionesAsignadas").prop("disabled",false);
                     $.each(res, function (key, val) {
-                        $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"' "+selected+">"+val.estacion+"</option>");
+                        $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"'>"+val.estacion+"</option>");
                     });
                 }
             }
