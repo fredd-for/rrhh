@@ -37,7 +37,7 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
      */
     public function getListRelaboralesByPerfil($idPerfilLaboral){
         if($idPerfilLaboral>0){
-            $sql = "select * from f_relaborales_asignados_a_perfil(".$idPerfilLaboral.", 0, null, null)";
+            $sql = "select * from f_relaborales_asignados_y_no_asignados_a_perfil(".$idPerfilLaboral.", 0, null, null)";
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

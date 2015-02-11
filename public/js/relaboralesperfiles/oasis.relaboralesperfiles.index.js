@@ -18,16 +18,55 @@ $().ready(function () {
     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
 
     definirGrillaParaListaPerfilesLaborales();
+
+    $("#btnGuardarAsignacionSinglePerfil").off();
+    $("#btnGuardarAsignacionSinglePerfil").on("click",function(){
+        var accion = $("#hdnAccionAsignacionSinglePerfil").val();
+        var idRelaboralPerfil = 0;
+        var idRelaboral = $("#hdnIdRelaboralAsignacionSinglePerfil").val();
+        var idPerfilLaboral = $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val();
+        if(accion==2){
+            idRelaboralPerfil = $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val();
+        }
+        var idUbicacion = $("#lstUbicacionesAsignacionSingle").val();
+        var idEstacion = $("#lstEstacionesAsignacionSingle").val();
+        var fechaIni = $("#txtFechaIniAsignacionSingle").val();
+        var fechaFin = $("#txtFechaFinAsignacionSingle").val();
+        var observacion = $("#txtObservacionAsignacionSingle").val();
+        var ok = validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
+        if(ok){
+            var okk = guardaRegistroAsignacionPerfilLaboral(1,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion);
+            if(okk){
+                $('#popupAsignacionPerfilLaboral').modal('hide');
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+
+                $("#divGrillaAsignacionesIndividuales").jqxGrid("updatebounddata");
+                var msje = "";
+                if(accion==1) msje = "Registro de exitoso de la asignaci&oacute;n de Perfil.";
+                else msje = "Modificaci&oacute;n exitosa del registro de Perfil.";
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+            }
+        }
+    });
+
     $("#btnGuardarNew").on("click",function () {
         var idPerfilLaboral = $("#hdnIdPerfilLaboralNew").val();
         var ok = validaFormularioPorNuevoRegistroAsignacionPerfilLaboral(1);
         if (ok) {
-            var okk = guardaFormularioRegistroAsignacionPerfilLaboral(1,idPerfilLaboral);
+            var okk = guardaFormularioRegistroAsignacionGroupPerfilLaboral(1,idPerfilLaboral);
             if(okk){
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
                 $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
                 $("#divGridAsignaciones").jqxGrid("updatebounddata");
                 var msje = "Registro exitoso de la asignaci&oacute;n de Perfil Laboral.";
                 $("#divMsjePorSuccess").html("");
@@ -40,11 +79,11 @@ $().ready(function () {
         var idPerfilLaboral = $("#hdnIdPerfilLaboralEdit").val();
         var ok = validaFormularioPorNuevoRegistroAsignacionPerfilLaboral(2);
         if (ok) {
-            var okk = guardaFormularioRegistroAsignacionPerfilLaboral(2,idPerfilLaboral);
+            var okk = guardaFormularioRegistroAsignacionGroupPerfilLaboral(2,idPerfilLaboral);
             if(okk){
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
                 $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                 $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
                 $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
@@ -173,9 +212,9 @@ $().ready(function () {
     });
     $("#btnCancelarNew,#btnCancelarEdit").on("click",function () {
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
-        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
@@ -306,11 +345,22 @@ $().ready(function () {
         $("#hdnIdPerfilLaboralNew").val(0);
         $("#hdnIdPerfilLaboraleDIT").val(0);
     });
-    $("#liAssignGroup").on("click",function () {
+    $("#liAssignSingle").on("click",function () {
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
         $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+        $("#divGridAsignaciones").jqxGrid("updatebounddata");
+        $("#msjs-alert").hide();
+    });
+    $("#liAssignGroup").on("click",function () {
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+        $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
@@ -407,17 +457,61 @@ function definirGrillaParaListaPerfilesLaborales() {
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    container.append("<button id='assigngrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
                     container.append("<button id='assignsinglerowbutton'  class='btn btn-sm btn-primary' type='button' title='Asignaciones Individuales'><i class='fa fa-user fa-2x text-info' title='Asignaciones Individuales'></i></button>");
+                    container.append("<button id='assigngrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
                     /*container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
-                    container.append("<button id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar-o fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
-
-                    $("#assigngrouprowbutton").jqxButton();
+                    container.append("<button id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
                     $("#assignsinglerowbutton").jqxButton();
+                    $("#assigngrouprowbutton").jqxButton();
+
                     /*$("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();*/
                     $("#turnrowbutton").jqxButton();
+
+                    /*Aprobar registro.*/
+                    $("#assignsinglerowbutton").on('click', function () {
+                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+
+                                /*
+                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
+                                 */
+                                if (dataRecord.estado >=1) {
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
+
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
+
+                                    $("#ddPerfilLaboralSingle").text(dataRecord.perfil_laboral);
+                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoSingle").text(dataRecord.grupo);
+                                    else $("#ddGrupoSingle").html("&nbsp;");
+                                    $("#ddTipoHorarioSingle").text(dataRecord.tipo_horario_descripcion);
+                                    cargarGrillaAsignacionesIndividuales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
+                                }else{
+                                    var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
+                            }else{
+                                var msje = "El registro presenta informaci&oacute;n erronea que impide su selecci&oacute;n.";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
+                            }
+                        }else{
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                     });
 
                     /* Listar las asignaciones realizadas por Perfil Laboral.*/
                     $("#assigngrouprowbutton").on('click', function () {
@@ -430,12 +524,12 @@ function definirGrillaParaListaPerfilesLaborales() {
                                  * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
                                  */
                                 if (dataRecord.estado >=1) {
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
 
                                     $("#ddPerfilLaboral").text(dataRecord.perfil_laboral);
                                     if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupo").text(dataRecord.grupo);
@@ -463,51 +557,6 @@ function definirGrillaParaListaPerfilesLaborales() {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
-                    /*Aprobar registro.*/
-                    $("#assignsinglerowbutton").on('click', function () {
-                        var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPerfilesLaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-
-                                /*
-                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
-                                 */
-                                if (dataRecord.estado >=1) {
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 2});
-
-                                    $("#ddPerfilLaboralSingle").text(dataRecord.perfil_laboral);
-                                    if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoSingle").text(dataRecord.grupo);
-                                    else $("#ddGrupoSingle").html("&nbsp;");
-                                    $("#ddTipoHorarioSingle").text(dataRecord.tipo_horario_descripcion);
-
-                                    //cargarGrillaAsignacionesGrupales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
-                                    cargarGrillaAsignacionesIndividuales(dataRecord.id,dataRecord.perfil_laboral,dataRecord.grupo,dataRecord.tipo_horario,dataRecord.tipo_horario_descripcion);
-
-                                }else{
-                                    var msje = "El estado del registro imposibilita la respectiva selecci&oacute;n.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msje);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                            }else{
-                                var msje = "El registro presenta informaci&oacute;n erronea que impide su selecci&oacute;n.";
-                                $("#divMsjePorError").html("");
-                                $("#divMsjePorError").append(msje);
-                                $("#divMsjeNotificacionError").jqxNotification("open");
-                            }
-                        }else{
-                            var msje = "Debe seleccionar un registro necesariamente.";
-                            $("#divMsjePorError").html("");
-                            $("#divMsjePorError").append(msje);
-                            $("#divMsjeNotificacionError").jqxNotification("open");
-                        }
-                     });
 
                     /* Ver registro de temporalidades por perfil.*/
                     $("#turnrowbutton").on('click', function () {

@@ -228,8 +228,11 @@ class RelaboralesperfilesController extends ControllerBase{
                         'relaboralperfil_ubicacion' => $v->relaboralperfil_ubicacion,
                         'relaboralperfil_estacion_id' => $v->relaboralperfil_estacion_id,
                         'relaboralperfil_estacion' => $v->relaboralperfil_estacion,
-                        'relaboralperfil_fecha_ini' => $v->relaboralperfil_fecha_ini,
-                        'relaboralperfil_fecha_fin' => $v->relaboralperfil_fecha_fin
+                        'relaboralperfil_fecha_ini' => $v->relaboralperfil_fecha_ini != "" ? date("d-m-Y", strtotime($v->relaboralperfil_fecha_ini)) : "",
+                        'relaboralperfil_fecha_fin' => $v->relaboralperfil_fecha_fin != "" ? date("d-m-Y", strtotime($v->relaboralperfil_fecha_fin)) : "",
+                        'relaboralperfil_observacion' => $v->relaboralperfil_observacion,
+                        'relaboralperfil_estado' => $v->relaboralperfil_estado,
+                        'relaboralperfil_estado_descripcion' => ($v->relaboralperfil_id==null)?"SIN ASIGNACION":$v->relaboralperfil_estado_descripcion,
                     );
                 }
             }
@@ -248,6 +251,7 @@ class RelaboralesperfilesController extends ControllerBase{
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");
         $this->view->disable();
+        $opcion = $_POST["opcion"];
         if (isset($_POST["id"]) && $_POST["id"] > 0) {
             /**
              * Edición de Asignación de Perfil Laboral
@@ -256,6 +260,7 @@ class RelaboralesperfilesController extends ControllerBase{
             $idRelaboral = $_POST["id_relaboral"];
             $idPerfilLaboral = $_POST['id_perfillaboral'];
             $idUbicacion = $_POST['id_ubicacion'];
+            $observacion = $_POST['observacion'];
             if($idRelaboralPerfil>0&&$idPerfilLaboral>0&&$idRelaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''){
                 $objRelaboralPerfil = Relaboralesperfiles::findFirst(array("id=".$idRelaboralPerfil));
                 $objRelaboralPerfil->relaboral_id=$idRelaboral;
@@ -269,6 +274,9 @@ class RelaboralesperfilesController extends ControllerBase{
                 $objRelaboralPerfil->fecha_fin=$fechaFin;
                 $objRelaboralPerfil->user_mod_id=$user_mod_id;
                 $objRelaboralPerfil->fecha_mod=$hoy;
+                if($opcion==1){
+                    $objRelaboralPerfil->observacion = $observacion;
+                }
                 try{
                     $ok = $objRelaboralPerfil->save();
                     if ($ok)  {
@@ -295,6 +303,7 @@ class RelaboralesperfilesController extends ControllerBase{
             $idUbicacion = $_POST["id_ubicacion"];
             $fechaIni = $_POST['fecha_ini'];
             $fechaFin = $_POST['fecha_fin'];
+            $observacion = $_POST['observacion'];
             if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''){
 
                 $objAuxRelaboralPerfil = Relaboralesperfiles::findFirst(array("relaboral_id=".$idRelaboral." AND perfillaboral_id=".$idPerfilLaboral." AND ubicacion_id=".$idUbicacion." AND fecha_ini='".$fechaIni."' AND fecha_fin='".$fechaFin."' AND estado>=1 AND baja_logica=1"));
@@ -310,6 +319,9 @@ class RelaboralesperfilesController extends ControllerBase{
                     $objRelaboralPerfil = Relaboralesperfiles::findFirstById($idRelaboralPerfil);
                     $objRelaboralPerfil->user_mod_id=$user_mod_id;
                     $objRelaboralPerfil->fecha_mod=$hoy;
+                }
+                if($opcion==1){
+                    $objRelaboralPerfil->observacion = $observacion;
                 }
                 $objRelaboralPerfil->relaboral_id = $idRelaboral;
                 $objRelaboralPerfil->perfillaboral_id=$idPerfilLaboral;

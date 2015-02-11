@@ -11,7 +11,7 @@
 function guardarRegistroBajaPerfilLaboral(idPerfilLaboral){
     if(idPerfilLaboral>0){
         var ok=$.ajax({
-            url:'../../perfileslaborales/down/',
+            url:'/perfileslaborales/down/',
             type:'POST',
             datatype: 'json',
             async:false,

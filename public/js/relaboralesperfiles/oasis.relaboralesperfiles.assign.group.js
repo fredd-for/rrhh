@@ -64,25 +64,25 @@ function cargarGrillaAsignacionesGrupales(idPerfilLaboral,perfilLaboral,grupo,ti
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    container.append("<button id='addrowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Grupal'><i class='fa fa-plus-square fa-2x text-info' title='Nueva Asignaci&oacute;n Grupal.'/></i></button>");
-                    container.append("<button id='updaterowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Individual'><i class='fa fa-pencil-square fa-2x text-info' title='Nueva Asignaci&oacute;n Individual.'/></button>");
+                    container.append("<button id='addgrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Grupal'><i class='fa fa-plus-square fa-2x text-info' title='Nueva Asignaci&oacute;n Grupal.'/></i></button>");
+                    container.append("<button id='updategrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Nueva Asignaci&oacute;n Individual'><i class='fa fa-pencil-square fa-2x text-info' title='Nueva Asignaci&oacute;n Individual.'/></button>");
 
-                    $("#addrowbutton").jqxButton();
-                    $("#updaterowbutton").jqxButton();
+                    $("#addgrouprowbutton").jqxButton();
+                    $("#updategrouprowbutton").jqxButton();
 
                     $("#hdnIdPerfilLaboralNueva").val(0);
                     // Registrar nuevo turno laboral.
-                    $("#addrowbutton").off();
-                    $("#addrowbutton").on('click', function () {
+                    $("#addgrouprowbutton").off();
+                    $("#addgrouprowbutton").on('click', function () {
                         /**
                          * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
                          */
-                        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                        $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                        $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
                         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 3);
                         $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 3});
                         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
                         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-                        
 
                         $("#ddPerfilLaboralNew").text(perfilLaboral);
                         if(grupo!=''&&grupo!=null)$("#ddGrupoNew").text(grupo);
@@ -106,8 +106,8 @@ function cargarGrillaAsignacionesGrupales(idPerfilLaboral,perfilLaboral,grupo,ti
                     /**
                      * Modificar registro de asignación de Perfil Laboral.
                      */
-                    $("#updaterowbutton").off();
-                    $("#updaterowbutton").on('click', function () {
+                    $("#updategrouprowbutton").off();
+                    $("#updategrouprowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridAsignaciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridAsignaciones').jqxGrid('getrowdata', selectedrowindex);
@@ -119,14 +119,12 @@ function cargarGrillaAsignacionesGrupales(idPerfilLaboral,perfilLaboral,grupo,ti
                                     /**
                                      * Se habilita la vista del formulario para la modificación de asignación grupal de perfil laboral.
                                      */
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 2);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 4);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 4});
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 5);
-                                    
 
                                     $("#ddPerfilLaboralEdit").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoEdit").text(grupo);

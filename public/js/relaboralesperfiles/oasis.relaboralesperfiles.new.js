@@ -86,7 +86,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                         var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                         //var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '-"'+datarecord.agrupador+'"</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                         $("#tbl_"+datarecord.id_relaboral).remove();
-                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                        var fechaIni = datarecord.fecha_incor;
+                        var fechaFin = datarecord.fecha_fin;
+                        if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                         return table;
                     }else{
                         if(jQuery.type( value )==="number"){
@@ -102,7 +105,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                             }else fechas = "Fecha Inicio: "+fechas;
                             var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                             $("#tbl_"+datarecord.id_relaboral).remove();
-                            var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                            var fechaIni = datarecord.fecha_incor;
+                            var fechaFin = datarecord.fecha_fin;
+                            if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                            var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                             return table;
                         }else{
                             if(jQuery.type( value )==="object"){
@@ -118,7 +124,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                                 }else fechas = "Fecha Inicio: "+fechas;
                                 var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                                 $("#tbl_"+datarecord.id_relaboral).remove();
-                                var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                                var fechaIni = datarecord.fecha_incor;
+                                var fechaFin = datarecord.fecha_fin;
+                                if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                                var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                                 return table;
                             }
                         }
@@ -145,7 +154,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                         }else fechas = "Fecha Inicio: "+fechas;
                         var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                         $("#tbl_"+datarecord.id_relaboral).remove();
-                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                        var fechaIni = datarecord.fecha_incor;
+                        var fechaFin = datarecord.fecha_fin;
+                        if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                         return table;
                     }else {
                         if(jQuery.type( value )==="number"){
@@ -161,7 +173,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                             }else fechas = "Fecha Inicio: "+fechas;
                             var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                             $("#tbl_"+datarecord.id_relaboral).remove();
-                            var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                            var fechaIni = datarecord.fecha_incor;
+                            var fechaFin = datarecord.fecha_fin;
+                            if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                            var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                             return table;
                         }else{
                             if(jQuery.type( value )==="object"){
@@ -177,7 +192,10 @@ function definirListaDualNueva(accion,idPerfilRelaboral,idUbicacion,fechaIni,fec
                                 }else fechas = "Fecha Inicio: "+fechas;
                                 var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                                 $("#tbl_"+datarecord.id_relaboral).remove();
-                                var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                                var fechaIni = datarecord.fecha_incor;
+                                var fechaFin = datarecord.fecha_fin;
+                                if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                                var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
                                 return table;
                             }
                         }
@@ -297,10 +315,30 @@ function validaFormularioPorNuevoRegistroAsignacionPerfilLaboral(accion){
                 idRelaboralPerfil=$("#tbl_"+idRelaboral).data("agrupador");
             }
             var nombres = $("#tbl_"+idRelaboral).data("nombres");
-            var ok3 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
-            if(ok3){
+            if(nombres==undefined){
+                nombres = " una persona."
+            }
+            var ok2 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
+            if(ok2){
                 ok=false;
-                var msje = "Existe ya un registro de perfil con sobreposici&oacute;n con el perfil que intenta registrar para "+nombres;
+                var msje = "Existe ya un registro de perfil con sobreposici&oacute;n con el perfil que intenta registrar para "+nombres+".";
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(msje);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
+            var fechaMin = $("#tbl_"+idRelaboral).data("date-min");
+            var fechaMax = $("#tbl_"+idRelaboral).data("date-max");
+            var sep='-';
+            if(procesaTextoAFecha(fechaMin,sep)>procesaTextoAFecha(fechaIni,sep)){
+                ok=false;
+                var msje = "La fechas establecidas para la asignaci&oacute;n: ("+fechaIni+" al "+fechaFin+"), tienen conflicto con las fechas de relaci&oacute;n laboral para "+nombres+" cuyas fechas v&aacute;lidas deben estar entre: ("+fechaMin+" al "+fechaMax+").";
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(msje);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
+            if(procesaTextoAFecha(fechaMax,sep)<procesaTextoAFecha(fechaFin,sep)){
+                ok=false;
+                var msje = "La fechas establecidas para la asignaci&oacute;n: ("+fechaIni+" al "+fechaFin+"), tienen conflicto con las fechas de relaci&oacute;n laboral para "+nombres+" cuyas fechas v&aacute;lidas deben estar entre: ("+fechaMin+" al "+fechaMax+").";
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(msje);
                 $("#divMsjeNotificacionError").jqxNotification("open");
@@ -375,10 +413,10 @@ function getOneByIdRelaboralInArray(arrPersonal,idRelaboral){
     else return persona;
 }
 /**
- * Función para el registro de una nueva asignación de perfil laboral de acuerdo a los elementos dentro del formulario.
+ * Función para el registro de una nueva asignación de perfil laboral de acuerdo a los elementos dentro del formulario de manera grupal.
  * @returns {boolean}
  */
-function guardaFormularioRegistroAsignacionPerfilLaboral(accion,idPerfilLaboral){
+function guardaFormularioRegistroAsignacionGroupPerfilLaboral(accion,idPerfilLaboral){
     var ok = true;
     var okk = true;
     var msje = "";
@@ -408,7 +446,7 @@ function guardaFormularioRegistroAsignacionPerfilLaboral(accion,idPerfilLaboral)
 
                     idRelaboralperfil=$("#tbl_"+idRelaboral).data("agrupador");
                 }
-                okk = guardaRegistroAsignacionPerfilLaboral(idRelaboralperfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion);
+                okk = guardaRegistroAsignacionPerfilLaboral(2,idRelaboralperfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion);
                 if(!okk)ok=false;
             });
         }
@@ -446,6 +484,7 @@ function guardaFormularioRegistroAsignacionPerfilLaboral(accion,idPerfilLaboral)
 }
 /**
  * Función para el registro individual de la asignación de perfil laboral para un registro de relación laboral.
+ * @param opcion
  * @param idRelaboralPerfil
  * @param idRelaboral
  * @param idPerfilLaboral
@@ -455,7 +494,7 @@ function guardaFormularioRegistroAsignacionPerfilLaboral(accion,idPerfilLaboral)
  * @param fechaFin
  * @param observacion
  */
-function guardaRegistroAsignacionPerfilLaboral(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion){
+function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion){
     var ok = false;
     if(idEstacion>0){
         idUbicacion = idEstacion;
@@ -474,7 +513,8 @@ function guardaRegistroAsignacionPerfilLaboral(idRelaboralPerfil,idRelaboral,idP
                 id_ubicacion:idUbicacion,
                 fecha_ini:fechaIni,
                 fecha_fin:fechaFin,
-                observacion:observacion
+                observacion:observacion,
+                opcion:opcion
             },
             success: function (data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
@@ -542,9 +582,7 @@ function bajaRegistroAsignacionPerfilLaboral(idRelaboralperfil){
  */
 function verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin){
     var ok = false;
-    //alert("entro a verificar:"+idRelaboral+">0&&"+idPerfilLaboral+">0&&"+idUbicacion+">0&&"+fechaIni+"!=''&&"+fechaFin+"!=''");
     if(idRelaboral>0&&idPerfilLaboral>0&&idUbicacion>0&&fechaIni!=''&&fechaFin!=''){
-        //alert("entro a verificar y se envio");
         $.ajax({
             url: '/relaboralesperfiles/verifyoverlaydates/',
             type: "POST",

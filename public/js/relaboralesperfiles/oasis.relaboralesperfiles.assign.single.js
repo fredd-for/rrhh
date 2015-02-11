@@ -28,7 +28,8 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
             {name: 'id_persona', type: 'integer'},
             {name: 'tiene_contrato_vigente', type: 'integer'},
             {name: 'id_fin_partida', type: 'integer'},
-            {name: 'finpartida', type: 'string'},
+            {name: 'finpartida', type: 'integer'},
+            {name: 'id_ubicacion', type: 'string'},
             {name: 'ubicacion', type: 'string'},
             {name: 'id_condicion', type: 'integer'},
             {name: 'condicion', type: 'string'},
@@ -63,9 +64,17 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
             {name: 'fecha_baja', type: 'date'},
             {name: 'motivo_baja', type: 'string'},
             {name: 'observacion', type: 'string'},
+            {name: 'relaboralperfil_id', type: 'integer'},
+            {name: 'asignacion_estado', type: 'string'},
+            {name: 'relaboralperfil_ubicacion_id', type: 'integer'},
+            {name: 'relaboralperfil_ubicacion', type: 'string'},
+            {name: 'relaboralperfil_estacion_id', type: 'integer'},
             {name: 'relaboralperfil_estacion', type: 'string'},
             {name: 'relaboralperfil_fecha_ini', type: 'date'},
-            {name: 'relaboralperfil_fecha_fin', type: 'date'}
+            {name: 'relaboralperfil_fecha_fin', type: 'date'},
+            {name: 'relaboralperfil_observacion', type: 'string'},
+            {name: 'relaboralperfil_estado', type: 'integer'},
+            {name: 'relaboralperfil_estado_descripcion', type: 'string'}
         ],
         url: '/relaboralesperfiles/listsingle?id='+idPerfilLaboral,
         cache: false
@@ -98,54 +107,47 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                     /*container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");*/
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
-                    container.append("<button id='moverowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-tag fa-2x text-info' title='Movilidad de Personal.'/></i></button>");
-                    container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-nameplate_alt fa-2x text-info' title='Vista Historial.'/></i></button>");
+                    container.append("<button id='viewrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-calendar fa-2x text-info' title='Vista Historial.'/></i></button>");
 
                     $("#addrowbutton").jqxButton();
                     /*$("#approverowbutton").jqxButton();*/
                     $("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();
-                    $("#moverowbutton").jqxButton();
                     $("#viewrowbutton").jqxButton();
 
+                    $("#hdnAccionAsignacionSinglePerfil").val(0);
+                    $("#hdnIdRelaboralAsignacionSinglePerfil").val(0);
+                    $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(0);
+                    $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val(0);
 
                     /* Registrar nueva relación laboral.*/
+                    $("#addrowbutton").off();
                     $("#addrowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGrillaAsignacionesIndividuales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 /**
-                                 * Para el caso cuando la persona no tenga ninguna relación laboral vigente con la entidad se da la opción de registro de nueva relación laboral.
+                                 * El registro de una nueva asignación de Perfil Laboral es posible para toda relación laboral
+                                 * vigente, siempre y cuando las fechas de asignación no tengan conflicto con otras fechas
+                                 * registradas.
                                  */
-                                if (dataRecord.tiene_contrato_vigente == 0 || dataRecord.tiene_contrato_vigente == -1) {
-                                    $('#btnBuscarCargo').click();
-                                    $('#jqxTabs').jqxTabs('enableAt', 1);
-                                    $('#jqxTabs').jqxTabs('disableAt', 2);
-                                    $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('disableAt', 4);
-                                    $('#jqxTabs').jqxTabs('disableAt', 5);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de nuevo registro.
-                                     */
-                                    $('#jqxTabs').jqxTabs({selectedItem: 1});
-
-                                    $("#hdnIdRelaboralEditar").val(dataRecord.id_relaboral);
-                                    $("#hdnIdPersonaSeleccionada").val(dataRecord.id_persona);
-                                    $("#NombreParaNuevoRegistro").html(dataRecord.nombres);
-                                    $("#CorreoPersonal").html("");
-                                    $("#hdnIdCondicionNuevaSeleccionada").val(0)
-                                    $("#divAreas").hide();
-                                    $("#divItems").hide();
-                                    $("#divFechasFin").hide();
-                                    $("#divNumContratos").hide();
-                                    $(".msjs-alert").hide();
-                                    $("#divProcesos").hide();
-                                    limpiarMensajesErrorPorValidacionNuevoRegistro();
-                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
-                                    $("#imgFotoPerfilNuevo").attr("src", rutaImagen);
+                                if (dataRecord.estado>=1) {
+                                    $("#hdnAccionAsignacionSinglePerfil").val(1);
+                                    $("#spanPrefijoFormularioAsignacionSingle").html("Nueva ");
+                                    var fechaMin = fechaConvertirAFormato(dataRecord.fecha_ini,"-");
+                                    if(dataRecord.fecha_incor!=null)
+                                        fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
+                                    var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(1,dataRecord.id_ubicacion,0,"","",fechaMin,fechaMax,"");
+                                    $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
+                                    $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
                                 } else {
-                                    var msje = "La persona seleccionada tiene actualmente un registro en estado " + dataRecord.estado_descripcion + " de relaci&oacute;n laboral por lo que no se le puede asignar otro.";
+                                    var msje = "";
+                                    if(dataRecord.relaboralperfil_id!=null)
+                                    msje = "El registro seleccionado ya tiene una asignaci&oacute;n de Perfil. ";
+                                    if(dataRecord.estado==0)
+                                    msje += "Debe seleccionar un registro en estado ACTIVO o EN PROCESO para poder asignar un Perfil.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -158,118 +160,29 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
-                    /*Aprobar registro.*/
-                    /*$("#approverowbutton").on('click', function () {
-                     var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
-                     if (selectedrowindex >= 0) {
-                     var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
-                     if (dataRecord != undefined) {
-                     */
-                    /*
-                     * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO.
-                     */
-                    /*
-                     if (dataRecord.estado == 2) {
-                     if(confirm("¿Esta seguro de aprobar este registro?")){
-                     aprobarRegistroRelabolar(dataRecord.id_relaboral);
-                     }
-                     }else {
-                     var msje = "Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro";
-                     $("#divMsjePorError").html("");
-                     $("#divMsjePorError").append(msje);
-                     $("#divMsjeNotificacionError").jqxNotification("open");
-                     }
-                     }
-                     }else{
-                     var msje = "Debe seleccionar un registro necesariamente.";
-                     $("#divMsjePorError").html("");
-                     $("#divMsjePorError").append(msje);
-                     $("#divMsjeNotificacionError").jqxNotification("open");
-                     }
-                     });*/
                     /* Modificar registro.*/
+                    $("#updaterowbutton").off();
                     $("#updaterowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGrillaAsignacionesIndividuales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var id_relaboral = dataRecord.id_relaboral;
-                                /**
-                                 * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO o ACTIVO.
-                                 */
-                                if (dataRecord.estado!=null&&dataRecord.estado >= 0) {//Modificado eventualmente
-                                    $('#jqxTabs').jqxTabs('enableAt', 0);
-                                    $('#jqxTabs').jqxTabs('disableAt', 1);
-                                    $('#jqxTabs').jqxTabs('enableAt', 2);
-                                    $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('disableAt', 4);
-                                    $('#jqxTabs').jqxTabs('disableAt', 5);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de modificación
-                                     */
-                                    $('#jqxTabs').jqxTabs({selectedItem: 2});
-
-                                    $("#hdnIdRelaboralEditar").val(id_relaboral);
-                                    $("#hdnIdPersonaSeleccionadaEditar").val(dataRecord.id_persona);
-                                    $("#NombreParaEditarRegistro").html(dataRecord.nombres);
-                                    $("#hdnIdCondicionEditableSeleccionada").val(dataRecord.id_condicion);
-                                    $("#hdnIdUbicacionEditar").val(dataRecord.id_ubicacion);
-                                    $("#hdnIdProcesoEditar").val(dataRecord.id_procesocontratacion);
-                                    $("#FechaIniEditar").jqxDateTimeInput({
-                                        value: dataRecord.fecha_ini,
-                                        enableBrowserBoundsDetection: false,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#FechaIncorEditar").jqxDateTimeInput({
-                                        value: dataRecord.fecha_incor,
-                                        enableBrowserBoundsDetection: false,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    switch (dataRecord.tiene_item) {
-                                        case 1:
-                                            $("#divFechasFinEditar").hide();
-                                            break;
-                                        case 0:
-                                            $("#FechaFinEditar").jqxDateTimeInput({
-                                                value: dataRecord.fecha_fin,
-                                                enableBrowserBoundsDetection: false,
-                                                height: 24,
-                                                formatString: 'dd-MM-yyyy'
-                                            });
-                                            break;
-                                    }
-                                    $("#hdnFechaFinEditar").val(dataRecord.fecha_fin);
-                                    $("#txtNumContratoEditar").val(dataRecord.num_contrato);
-                                    $("#divItemsEditar").hide();
-                                    $("#divNumContratosEditar").hide();
-                                    $(".msjs-alert").hide();
-                                    $("#helpErrorUbicacionesEditar").html("");
-                                    $("#helpErrorProcesosEditar").html("");
-                                    $("#helpErrorCategoriasEditar").html("");
-                                    $("#helpErrorFechasIniEditar").html("");
-                                    $("#helpErrorFechasIncorEditar").html("");
-                                    $("#helpErrorFechasFinEditar").html("");
-                                    $("#divUbicacionesEditar").removeClass("has-error");
-                                    $("#divProcesosEditar").removeClass("has-error");
-                                    $("#divCategoriasEditar").removeClass("has-error");
-                                    $("#divAreas").hide();
-                                    $("#divFechasIniEditar").removeClass("has-error");
-                                    $("#divFechasIncorEditar").removeClass("has-error");
-                                    $("#divFechasFinEditar").removeClass("has-error");
-                                    $("#tr_cargo_seleccionado_editar").html("");
-                                    if (dataRecord.observacion != null)$("#txtObservacionEditar").text(dataRecord.observacion);
-                                    else $("#txtObservacionEditar").text('');
-                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
-                                    $("#imgFotoPerfilEditar").attr("src", rutaImagen);
-                                    cargarProcesosParaEditar(dataRecord.id_condicion, dataRecord.id_procesocontratacion);
-                                    var idUbicacionPrederminada = 0;
-                                    if (dataRecord.id_ubicacion != null)idUbicacionPrederminada = dataRecord.id_ubicacion;
-                                    cargarUbicacionesParaEditar(idUbicacionPrederminada);
-                                    agregarCargoSeleccionadoEnGrillaParaEditar(dataRecord.id_cargo, dataRecord.cargo_codigo, dataRecord.id_finpartida, dataRecord.finpartida, dataRecord.cargo_resolucion_ministerial_id,dataRecord.cargo_resolucion_ministerial,dataRecord.id_condicion, dataRecord.condicion, dataRecord.id_organigrama, dataRecord.gerencia_administrativa, dataRecord.departamento_administrativo, dataRecord.id_area, dataRecord.nivelsalarial, dataRecord.cargo, dataRecord.sueldo,dataRecord.nivelsalarial_resolucion_id,dataRecord.nivelsalarial_resolucion);
-                                } else {
-                                    var msje = "Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro";
+                                if(dataRecord.relaboralperfil_estado==1){
+                                    $("#hdnAccionAsignacionSinglePerfil").val(2);
+                                    $("#spanPrefijoFormularioAsignacionSingle").html("Modificaci&oacute;n ");
+                                    var fechaIni = fechaConvertirAFormato(dataRecord.relaboralperfil_fecha_ini,'-');
+                                    var fechaFin = fechaConvertirAFormato(dataRecord.relaboralperfil_fecha_fin,'-');
+                                    var fechaMin = fechaConvertirAFormato(dataRecord.fecha_ini,"-");
+                                    if(dataRecord.fecha_incor!=null)
+                                        fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
+                                    var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(2,dataRecord.relaboralperfil_ubicacion_id,dataRecord.relaboralperfil_estacion_id,fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
+                                    $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
+                                    $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
+                                    $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val(dataRecord.relaboralperfil_id);
+                                }else
+                                {
+                                    var msje = "Debe seleccionar un registro que se encuentre 'ASIGNADO' para realizar la modificaci&oacute;n.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -283,138 +196,29 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         }
                     });
                     /* Dar de baja un registro.*/
+                    $("#deleterowbutton").off();
                     $("#deleterowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGrillaAsignacionesIndividuales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var id_relaboral = dataRecord.id_relaboral;
+
                                 /*
-                                 *  Para dar de baja un registro, este debe estar inicialmente en estado ACTIVO
+                                 *  Para dar de baja un registro, este debe estar inicialmente en estado ASIGNADO
                                  */
-                                if (dataRecord.estado == 1) {
-                                    $('#jqxTabs').jqxTabs('enableAt', 0);
-                                    $('#jqxTabs').jqxTabs('disableAt', 1);
-                                    $('#jqxTabs').jqxTabs('disableAt', 2);
-                                    $('#jqxTabs').jqxTabs('enableAt', 3);
-                                    $('#jqxTabs').jqxTabs('disableAt', 4);
-                                    $('#jqxTabs').jqxTabs('disableAt', 5);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de bajas.
-                                     */
-                                    $('#jqxTabs').jqxTabs({selectedItem: 3});
-
-                                    //alert(dataRecord.fecha_incor.toString());
-                                    $("#hdnIdRelaboralBaja").val(id_relaboral);
-                                    $("#NombreParaBajaRegistro").html(dataRecord.nombres);
-                                    $("#hdnIdCondicionSeleccionadaBaja").val(dataRecord.id_condicion);
-                                    $("#txtFechaIniBaja").jqxDateTimeInput({
-                                        disabled: true,
-                                        value: dataRecord.fecha_ini,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaIncorBaja").jqxDateTimeInput({
-                                        disabled: true,
-                                        value: dataRecord.fecha_incor,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaFinBaja").jqxDateTimeInput({
-                                        disabled: true,
-                                        value: dataRecord.fecha_fin,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaRenBaja").jqxDateTimeInput({
-                                        value: dataRecord.fecha_fin,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaAceptaRenBaja").jqxDateTimeInput({
-                                        value: dataRecord.fecha_fin,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaAgraServBaja").jqxDateTimeInput({
-                                        value: dataRecord.fecha_fin,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $("#txtFechaBaja").jqxDateTimeInput({
-                                        value: dataRecord.fecha_fin,
-                                        enableBrowserBoundsDetection: true,
-                                        height: 24,
-                                        formatString: 'dd-MM-yyyy'
-                                    });
-                                    $(".msjs-alert").hide();
-                                    $("#divFechasRenBaja").hide();
-                                    $("#divFechasAceptaRenBaja").hide();
-                                    $("#divFechasAgraServBaja").hide();
-                                    $("#txtObservacionBaja").val(dataRecord.observacion);
-                                    $("#divMsjeError").hide();
-                                    $("#tr_cargo_seleccionado_baja").html("");
-                                    $("#lstMotivosBajas").focus();
-                                    $("#hdnFechaRenBaja").val(0);
-                                    $("#hdnFechaAceptaRenBaja").val(0);
-                                    $("#hdnFechaAgraServBaja").val(0);
-                                    agregarCargoSeleccionadoEnGrillaParaBaja(dataRecord.id_cargo, dataRecord.cargo_codigo, dataRecord.cargo_resolucion_ministerial_id, dataRecord.cargo_resolucion_ministerial,dataRecord.id_finpartida, dataRecord.finpartida, dataRecord.id_condicion, dataRecord.condicion, dataRecord.id_organigrama, dataRecord.gerencia_administrativa, dataRecord.departamento_administrativo, dataRecord.nivelsalarial, dataRecord.cargo, dataRecord.sueldo,dataRecord.nivelsalarial_resolucion_id,dataRecord.nivelsalarial_resolucion);
-                                    cargarMotivosBajas(0, dataRecord.id_condicion);
-                                    //habilitarCamposParaBajaRegistroDeRelacionLaboral(dataRecord.id_organigrama,dataRecord.id_fin_partida,dataRecord.id_condicion);
-                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
-                                    $("#imgFotoPerfilBaja").attr("src", rutaImagen);
+                                if(dataRecord.relaboralperfil_estado==1){
+                                    if(confirm("¿Esta seguro de que desea dar de baja el registro de asignación de Perfil?")){
+                                        var ok = bajaRegistroAsignacionPerfilLaboral(dataRecord.relaboralperfil_id);
+                                        if(ok){
+                                            $("#divGrillaAsignacionesIndividuales").jqxGrid("updatebounddata");
+                                            var msje = "Baja exitosa del registro.";
+                                            $("#divMsjeNotificacionSuccess").html("");
+                                            $("#divMsjeNotificacionSuccess").append(msje);
+                                            $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                                        }
+                                    }
                                 } else {
-                                    var msje = "Para dar de baja un registro, este debe estar en estado ACTIVO inicialmente.";
-                                    $("#divMsjePorError").html("");
-                                    $("#divMsjePorError").append(msje);
-                                    $("#divMsjeNotificacionError").jqxNotification("open");
-                                }
-                            }
-                        } else {
-                            var msje = "Debe seleccionar un registro necesariamente.";
-                            $("#divMsjePorError").html("");
-                            $("#divMsjePorError").append(msje);
-                            $("#divMsjeNotificacionError").jqxNotification("open");
-                        }
-                    });
-                    /* Movilidad de Personal.*/
-                    $("#moverowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                var id_relaboral = dataRecord.id_relaboral;
-                                /*
-                                 *  La vista del historial se habilita para personas que tengan al menos un registro de relación sin importar su estado, ACTIVO, EN PROCESO o PASIVO.
-                                 *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
-                                 */
-                                $(".msjs-alert").hide();
-                                $("#hdnIdPersonaHistorialMovimiento").val(dataRecord.id_persona);
-                                $("#NombreParaMoverRegistro").html(dataRecord.nombres);
-                                if (dataRecord.tiene_contrato_vigente >= 1) {
-                                    $('#jqxTabs').jqxTabs('enableAt', 0);
-                                    $('#jqxTabs').jqxTabs('disableAt', 1);
-                                    $('#jqxTabs').jqxTabs('disableAt', 2);
-                                    $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('enableAt', 4);
-                                    $('#jqxTabs').jqxTabs('disableAt', 5);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de vistas.
-                                     */
-                                    $('#jqxTabs').jqxTabs({selectedItem: 4});
-
-                                    cargarGrillaMovilidad(dataRecord.id_relaboral);
-                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
-                                    $("#imgFotoPerfilMover").attr("src", rutaImagen);
-
-                                } else {
-                                    var msje = "Para acceder a la asignación de Movilidad Funcionaria, el estado de registro de Relación Laboral debe tener un estado ACTIVO.";
+                                    var msje = "Debe seleccionar un registro que se encuentre 'ASIGNADO' para realizar la modificaci&oacute;n.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -430,51 +234,13 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                     /* Ver registro.*/
                     $("#viewrowbutton").on('click', function () {
 
-                        var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGrillaAsignacionesIndividuales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgrid').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var id_relaboral = dataRecord.id_relaboral;
-                                /*
-                                 *  La vista del historial se habilita para personas que tengan al menos un registro de relación sin importar su estado, ACTIVO, EN PROCESO o PASIVO.
-                                 *  De esta vista se excluyen a personas que no tengan ningún registro de relación laboral.
-                                 */
-                                $(".msjs-alert").hide();
-                                $("#hdnIdPersonaHistorial").val(dataRecord.id_persona);
-                                if (dataRecord.tiene_contrato_vigente >= 0) {
-                                    $('#jqxTabs').jqxTabs('enableAt', 0);
-                                    $('#jqxTabs').jqxTabs('disableAt', 1);
-                                    $('#jqxTabs').jqxTabs('disableAt', 2);
-                                    $('#jqxTabs').jqxTabs('disableAt', 3);
-                                    $('#jqxTabs').jqxTabs('disableAt', 4);
-                                    $('#jqxTabs').jqxTabs('enableAt', 5);
-                                    /**
-                                     * Trasladamos el item seleccionado al que corresponde, el de vistas.
-                                     */
-                                    $('#jqxTabs').jqxTabs({selectedItem: 5});
-                                    // Create jqxTabs.
-                                    $('#tabFichaPersonal').jqxTabs({
-                                        theme: 'oasis',
-                                        width: '100%',
-                                        height: '100%',
-                                        position: 'top'
-                                    });
-                                    $('#tabFichaPersonal').jqxTabs({selectedItem: 0});
-                                    $("#ddNombres").html(dataRecord.nombres);
-                                    var rutaImagen = obtenerRutaFoto(dataRecord.ci, dataRecord.num_complemento);
-                                    $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
-                                    $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
-                                    $("#imgFotoPerfil").attr("src", rutaImagen);
-                                    cargarPersonasContactos(dataRecord.id_persona);
-                                    $("#hdnIdRelaboralVista").val(id_relaboral);
-                                    $("#hdnSwPrimeraVistaHistorial").val(0);
-                                    cargarGestionesHistorialRelaboral(dataRecord.id_persona);
-                                    /**
-                                     * Para la primera cargada el valor para el parámetro gestión es 0 debido a que mostrará el historial completo.
-                                     * Para el valor del parámetro sw el valor es 1 porque se desea que se limpie lo que haya y se cargue algo nuevo
-                                     */
-                                    cargarHistorialRelacionLaboral(dataRecord.id_persona, 0, 1);
-                                    $("#divContent_" + dataRecord.id_relaboral).focus().select();
+                                if (dataRecord.relaboralperfil_id >= 0) {
+                                    alert("Vista de todos los calendarios para esta relación laboral.")
+
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");
@@ -511,16 +277,25 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         cellsrenderer: rownumberrenderer
                     },
                     {
-                        text: 'Ubicaci&oacute;n',
+                        text: 'Asignaci&oacute;n',
                         filtertype: 'checkedlist',
-                        datafield: 'ubicacion',
+                        datafield: 'relaboralperfil_estado_descripcion',
                         width: 120,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
                     },
                     {
-                        text: 'Estaci&oacute;n',
+                        text: 'Asig. Ubicaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'relaboralperfil_ubicacion',
+                        width: 120,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Asig. Estaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'relaboralperfil_estacion',
                         width: 100,
@@ -529,7 +304,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         hidden: false
                     },
                     {
-                        text: 'Fecha Ini Perfil',
+                        text: 'Asig. Fecha Ini',
                         datafield: 'relaboralperfil_fecha_ini',
                         filtertype: 'range',
                         width: 110,
@@ -539,7 +314,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         hidden: false
                     },
                     {
-                        text: 'Fecha Fin Perfil',
+                        text: 'Asig. Fecha Fin',
                         datafield: 'relaboralperfil_fecha_fin',
                         filtertype: 'range',
                         width: 110,
@@ -547,25 +322,6 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         cellsformat: 'dd-MM-yyyy',
                         align: 'center',
                         hidden: false
-                    },
-                    {
-                        text: 'Condici&oacute;n',
-                        filtertype: 'checkedlist',
-                        datafield: 'condicion',
-                        width: 150,
-                        cellsalign: 'center',
-                        align: 'center',
-                        hidden: false
-                    },
-                    {
-                        text: 'Estado',
-                        filtertype: 'checkedlist',
-                        datafield: 'estado_descripcion',
-                        width: 100,
-                        cellsalign: 'center',
-                        align: 'center',
-                        hidden: false,
-                        cellclassname: cellclass
                     },
                     {
                         text: 'Nombres y Apellidos',
@@ -594,6 +350,25 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
+                    },
+                    {
+                        text: 'Condici&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'condicion',
+                        width: 150,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Estado',
+                        filtertype: 'checkedlist',
+                        datafield: 'estado_descripcion',
+                        width: 100,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false,
+                        cellclassname: cellclass
                     },
                     /*{
                      text: 'N/C',
@@ -718,15 +493,15 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                 ]
             });
         var listSource = [
-            {label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: true},
+            {label: 'Ubicaci&oacute;n', value: 'relaboralperfil_ubicacion', checked: true},
             {label: 'Estaci&oacute;n', value: 'relaboralperfil_estacion', checked: true},
             {label: 'Fecha Ini Perfil', value: 'relaboralperfil_fecha_ini', checked: true},
             {label: 'Fecha Fin Perfil', value: 'relaboralperfil_fecha_fin', checked: true},
-            {label: 'Condici&oacute;n', value: 'condicion', checked: true},
-            {label: 'Estado', value: 'estado_descripcion', checked: true},
             {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
             {label: 'CI', value: 'ci', checked: true},
             {label: 'Exp', value: 'expd', checked: true},
+            {label: 'Condici&oacute;n', value: 'condicion', checked: true},
+            {label: 'Estado', value: 'estado_descripcion', checked: true},
             /*{label: 'N/C', value: 'num_complemento', checked: false},*/
             {label: 'Gerencia', value: 'gerencia_administrativa', checked: true},
             {label: 'Departamento', value: 'departamento_administrativo', checked: true},
@@ -861,35 +636,39 @@ function obtenerFechaMasDias(fecha,dias){
     return fechaRes;
 }
 /**
- * Función para cargar la lista de ubicaciones principales
+ * Función para cargar la lista de ubicaciones principales.
+ * La particularidad de esta función es que sólo muestra la ubicación preestablecida
  * @param accion
  * @param idUbicacion
  */
-function cargarUbicacionesPrincipales(accion,idUbicacion){
+function cargarUbicacionesPrincipalesAsignacionIndividual(accion,idUbicacion){
     var selected = "";
-    var sufijo = "New";
-    if(accion==2)sufijo="Edit";
-    $.ajax({
-        url: '/ubicaciones/listprincipales/',
-        type: "POST",
-        datatype: 'json',
-        async: false,
-        cache: false,
-        success: function (data) {
-            $("#lstUbicaciones"+sufijo).html("");
-            $("#lstUbicaciones"+sufijo).append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
-            var res = jQuery.parseJSON(data);
-            if (res.length > 0) {
-                $("#lstUbicaciones"+sufijo).prop("disabled",false);
-                $.each(res, function (key, val) {
-                    if(idUbicacion==val.id){
-                        selected = "selected";
-                    }else selected = "";
-                    $("#lstUbicaciones"+sufijo).append("<option value='"+val.id+"' data-cant-nodos-hijos='"+val.cant_nodos_hijos+"' "+selected+">"+val.ubicacion+"</option>");
-                });
-            }else $("#lstUbicaciones"+sufijo).prop("disabled",true);
-        }
-    });
+    var sufijo = "";
+    if(accion==2)sufijo="";
+    $("#lstUbicacionesAsignacionSingle"+sufijo).html("");
+    $("#lstUbicacionesAsignacionSingle"+sufijo).append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
+    $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",true);
+    if(idUbicacion>0){
+        $.ajax({
+            url: '/ubicaciones/listprincipales/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",false);
+                    $.each(res, function (key, val) {
+                        if(idUbicacion==val.id){
+                            selected = "selected";
+                        }else selected="";
+                        $("#lstUbicacionesAsignacionSingle"+sufijo).append("<option value='"+val.id+"' data-cant-nodos-hijos='"+val.cant_nodos_hijos+"' "+selected+">"+val.ubicacion+"</option>");
+                    });
+                }else $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",true);
+            }
+        });
+    }
 }
 /**
  * Función para cargar la lista correspondiente a las estaciones por línea.
@@ -897,13 +676,13 @@ function cargarUbicacionesPrincipales(accion,idUbicacion){
  * @param idUbicacion
  * @param idLinea
  */
-function cargarEstaciones(accion,idUbicacion,idEstacion){
-    var sufijo = "New";
-    if(accion==2) sufijo="Edit";
-    $("#lstEstaciones"+sufijo).html("");
-    $("#lstEstaciones"+sufijo).append("<option value='0'>Seleccionar...</option>");
-    $("#lstEstaciones"+sufijo).prop("disabled","disabled");
-    $("#spanAsteriscoEstaciones"+sufijo).html("");
+function cargarEstacionesAsignacionIndividual(accion,idUbicacion,idEstacion){
+    var sufijo = "";
+    if(accion==2) sufijo="";
+    $("#lstEstacionesAsignacionSingle"+sufijo).html("");
+    $("#lstEstacionesAsignacionSingle"+sufijo).append("<option value='0'>Seleccionar...</option>");
+    $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled","disabled");
+    $("#spanAsteriscoEstacionesAsignacionSingle"+sufijo).html("");
     var selected = "";
     if(idUbicacion>0){
         $.ajax({
@@ -916,16 +695,176 @@ function cargarEstaciones(accion,idUbicacion,idEstacion){
             success: function (data) {
                 var res = jQuery.parseJSON(data);
                 if (res.length > 0) {
-                    $("#lstEstaciones"+sufijo).prop("disabled",false);
-                    $("#spanAsteriscoEstaciones"+sufijo).text(" *");
+                    $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled",false);
+                    $("#spanAsteriscoEstacionesAsignacionSingle"+sufijo).text(" *");
                     $.each(res, function (key, val) {
                         if(idEstacion==val.id){
                             selected = "selected";
                         }else selected = "";
-                        $("#lstEstaciones"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.ubicacion+"</option>");
+                        $("#lstEstacionesAsignacionSingle"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.ubicacion+"</option>");
                     });
-                }else $("#lstEstaciones"+sufijo).prop("disabled","disabled");
+                }else $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled","disabled");
             }
         });
     }
+}
+/**
+ * Función para la generación de la ventana modal para el registro de una nueva asignación de perfil laboral de manera individual.
+ * @param accion
+ * @param idUbicacion
+ * @param idEstacion
+ * @param fechaIni
+ * @param fechaFin
+ * @param observacion
+ */
+function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEstacion,fechaIni,fechaFin,fechaMin,fechaMax,observacion){
+
+    $('#txtFechaIniAsignacionSingle').datepicker('remove');
+    $('#txtFechaIniAsignacionSingle').datepicker({
+        startDate: fechaMin,
+        endDate: fechaMax
+    });
+    $('#txtFechaFinAsignacionSingle').datepicker('remove');
+    $('#txtFechaFinAsignacionSingle').datepicker({
+        startDate: fechaMin,
+        endDate: fechaMax
+    });
+
+    $('#txtFechaIniAsignacionSingle').data("date-min",fechaMin);
+    $('#txtFechaIniAsignacionSingle').data("date-max",fechaMax);
+    $('#txtFechaFinAsignacionSingle').data("date-min",fechaMin);
+    $('#txtFechaFinAsignacionSingle').data("date-max",fechaMax);
+
+    if(accion==1){
+        $("#lstEstacionesAsignacionSingle").html("");
+        $("#lstEstacionesAsignacionSingle").append("<option value='0'>Seleccionar...</option>");
+        $("#lstEstacionesAsignacionSingle").prop("disabled",true);
+        limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(1);
+        cargarUbicacionesPrincipalesAsignacionIndividual(1,idUbicacion);
+        cargarEstacionesAsignacionIndividual(1,idUbicacion,0);
+        $("#lstUbicacionesAsignacionSingle").off();
+        $("#lstUbicacionesAsignacionSingle").on("change",function(){
+            cargarEstacionesAsignacionIndividual(1,$(this).val(),0);
+        });
+        $("#txtFechaIniAsignacionSingle").val(fechaMin);
+        $("#txtFechaFinAsignacionSingle").val(fechaMax);
+        $("#txtObservacionAsignacionSingle").val("");
+    }else{
+        limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(2);
+        cargarUbicacionesPrincipalesAsignacionIndividual(2,idUbicacion);
+        cargarEstacionesAsignacionIndividual(2,idUbicacion,idEstacion);
+        $("#lstUbicacionesAsignacionSingle").off();
+        $("#lstUbicacionesAsignacionSingle").on("change",function(){
+            cargarEstacionesAsignacionIndividual(2,$(this).val(),0);
+        });
+        $("#txtFechaIniAsignacionSingle").val(fechaIni);
+        $("#txtFechaFinAsignacionSingle").val(fechaFin);
+        $("#txtObservacionAsignacionSingle").val(observacion);
+    }
+    $('#popupAsignacionPerfilLaboral').modal('show');
+    $("#lstUbicacionesAsignacionSingle").focus();
+}
+/**
+ * Función para la validación del formulario de asignación de perfil laboral.
+ * @param accion
+ */
+function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin){
+    var ok = true;
+    var idUbicacion = $("#lstUbicacionesAsignacionSingle").val();
+    var ctrlEstacion = $("#lstUbicacionesAsignacionSingle option:selected").data("cant-nodos-hijos");
+    var idEstacion = $("#lstEstacionesAsignacionSingle").val();
+    var fechaIni = $("#txtFechaIniAsignacionSingle").val();
+    var fechaFin = $("#txtFechaFinAsignacionSingle").val();
+    limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion);
+    var enfoque = "";
+    if(idUbicacion<=0){
+        ok = false;
+        var msje = "Debe seleccionar la Ubicaci&oacute;n para la asignaci&oacute;n necesariamente.";
+        $("#divUbicacionesAsignacionSingle").addClass("has-error");
+        $("#helpErrorUbicacionesAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#LstUbicacionesAsignacionSingle");
+    }else{
+        if(ctrlEstacion>0){
+            if(idEstacion<=0){
+                ok = false;
+                var msje = "Debe seleccionar la Estaci&oacute;n para la asignaci&oacute;n necesariamente.";
+                $("#divEstacionesAsignacionSingle").addClass("has-error");
+                $("#helpErrorEstacionesAsignacionSingle").html(msje);
+                if(enfoque==null)enfoque =$("#LstEstacionesAsignacionSingle");
+            }
+        }
+    }
+    if(fechaIni==""){
+        ok = false;
+        var msje = "Debe seleccionar la Fecha de Inicio para la asignaci&oacute;n necesariamente.";
+        $("#divFechaIniAsignacionSingle").addClass("has-error");
+        $("#helpErrorFechaIniAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#TxtFechaIniAsignacionSingle");
+    }
+    if(fechaFin==""){
+        ok = false;
+        var msje = "Debe seleccionar la Fecha de Finalizaci&oacute;n para la asignaci&oacute;n necesariamente.";
+        $("#divFechaFinAsignacionSingle").addClass("has-error");
+        $("#helpErrorFechaFinAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#TxtFechaFinAsignacionSingle");
+    }
+    if(fechaIni!=""&&fechaFin!=""){
+        var sep='-';
+        if(procesaTextoAFecha(fechaIni,sep)>procesaTextoAFecha(fechaFin,sep)){
+            ok = false;
+            var msje = "La Fecha de Finalizaci&oacute;n debe ser igual o mayor a la Fecha de Inicio.";
+            $("#divFechaIniAsignacionSingle").addClass("has-error");
+            $("#helpErrorFechaIniAsignacionSingle").html(msje);
+            $("#divFechaFinAsignacionSingle").addClass("has-error");
+            $("#helpErrorFechaFinAsignacionSingle").html(msje);
+            if(enfoque==null)enfoque =$("#TxtFechaFinAsignacionSingle");
+        }else{
+            var fechaMin = $('#txtFechaIniAsignacionSingle').data("date-min");
+            var fechaMax = $('#txtFechaIniAsignacionSingle').data("date-max");
+            if(procesaTextoAFecha(fechaMin,sep)>procesaTextoAFecha(fechaIni,sep)){
+                ok = false;
+                var msje = "La Fecha de Inicio no puede ser superior a "+fechaMin+".";
+                $("#divFechaIniAsignacionSingle").addClass("has-error");
+                $("#helpErrorFechaIniAsignacionSingle").html(msje);
+                if(enfoque==null)enfoque =$("#TxtFechaIniAsignacionSingle");
+            }
+            if(procesaTextoAFecha(fechaMax,sep)<procesaTextoAFecha(fechaFin,sep)){
+                ok = false;
+                var msje = "La Fecha de Finalizaci&oacute;n no puede ser superior a "+fechaMax+".";
+                $("#divFechaFinAsignacionSingle").addClass("has-error");
+                $("#helpErrorFechaFinAsignacionSingle").html(msje);
+                if(enfoque==null)enfoque =$("#TxtFechaFinAsignacionSingle");
+            }
+
+        }
+    }
+    var ok2 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
+    if(ok2){
+        ok=false;
+        var msje = "Existe ya un registro de perfil con sobreposici&oacute;n de fechas con el perfil que intenta registrar para esta persona.";
+        $("#divMsjePorError").html("");
+        $("#divMsjePorError").append(msje);
+        $("#divMsjeNotificacionError").jqxNotification("open");
+    }
+    return ok;
+}
+/**
+ * Función para limpiar el formulario de mensajes de errores.
+ * @param accion
+ */
+function limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion){
+    var sufijo = "";
+    if(accion==2)sufijo="";
+
+    $("#divUbicacionesAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorUbicacionesAsignacionSingle"+sufijo).html("");
+
+    $("#divEstacionesAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorEstacionesAsignacionSingle"+sufijo).html("");
+
+    $("#divFechaIniAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorFechaIniAsignacionSingle"+sufijo).html("");
+
+    $("#divFechaFinAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorFechaFinAsignacionSingle"+sufijo).html("");
 }
