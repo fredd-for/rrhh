@@ -232,6 +232,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         }
                     });
                     /* Ver registro.*/
+                    $("#viewrowbutton").off();
                     $("#viewrowbutton").on('click', function () {
 
                         var selectedrowindex = $("#divGrillaAsignacionesIndividuales").jqxGrid('getselectedrowindex');

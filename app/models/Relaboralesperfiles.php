@@ -41,4 +41,17 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
+    /**
+     * Función para la verificación de que las fechas enviadas como parámetros no tienen conflicto con las fechas del registro de relación laboral.
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function verificaDentroRangoFechasRelaborales($idRelaboral,$fechaIni,$fechaFin){
+        if($fechaIni!=''&&$fechaFin!=''){
+            $sql = "SELECT * FROM f_verifica_dentro_rango_fechas(".$idRelaboral.",'".$fechaIni."','".$fechaFin."')";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
 } 
