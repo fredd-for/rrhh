@@ -379,6 +379,18 @@ $().ready(function () {
     $('#btnDesagruparTodoMovilidad').on("click",function () {
         $('#divGridPerfilesLaboralesmovilidad').jqxGrid('cleargroups');
     });
+    $('#btnDesagruparTodoAsignacionSingle').on("click",function () {
+        $('#divGrillaAsignacionesIndividuales').jqxGrid('cleargroups');
+    });
+    $('#btnDesfiltrarTodoAsignacionSingle').on("click",function () {
+        $("#divGrillaAsignacionesIndividuales").jqxGrid('clearfilters');
+    });
+    $('#btnDesagruparTodoAsignacionGroup').on("click",function () {
+        $('#divGridAsignaciones').jqxGrid('cleargroups');
+    });
+    $('#btnDesfiltrarTodoAsignacionGroup').on("click",function () {
+        $("#divGridAsignaciones").jqxGrid('clearfilters');
+    });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
      */
