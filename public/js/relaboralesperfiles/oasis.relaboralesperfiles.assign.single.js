@@ -239,7 +239,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                if (dataRecord.relaboralperfil_id >= 0) {
+                                if (dataRecord.relaboralperfil_id >= 0 && dataRecord.relaboralperfil_id != null) {
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('enable', 1);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
                                     $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
@@ -295,7 +295,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
                                 } else {
-                                    var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
+                                    var msje = "Para acceder a la vista de la asignaci&oacute;n de turnos de forma individual el registro debe estar ASIGNADO al menos.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
