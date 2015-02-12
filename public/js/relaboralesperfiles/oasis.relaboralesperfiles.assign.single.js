@@ -294,26 +294,6 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
 
                                     var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
-                                    //cargarUbicacionesPrincipalesRegistradasParaPerfil(idPerfilLaboral);
-                                    //cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,0);
-                                    /*definirListaAsignados(dataRecord.id,0,this.value,"","");
-                                    $("#lstUbicacionesPrincipales").off();
-                                    $("#lstUbicacionesPrincipales").on("change",function(){
-                                        cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,this.value);
-                                        if($("#lstUbicacionesPrincipales option:selected").data("cant-nodos-hijos")==0)
-                                        {   definirListaAsignados(idPerfilLaboral,this.value,0,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
-                                        }else{
-                                            $("#divPersonasAsignadas").hide();
-                                        }
-                                    });
-*/                                   /* $("#lstEstacionesAsignadas").off();
-                                    $("#lstEstacionesAsignadas").on("change",function(){
-                                        if(this.value>0){
-                                            definirListaAsignados(idPerfilLaboral,$("#lstUbicacionesPrincipales").val(),this.value,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
-                                        }
-                                        else $("#divPersonasAsignadas").hide();
-                                    });*/
-
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");
