@@ -8,7 +8,9 @@
 */
 use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 class Relaboralesperfiles extends \Phalcon\Mvc\Model {
+
     private $_db;
+
     public function initialize() {
         $this->_db = new Relaboralesperfiles();
         //   parent::initialize();
@@ -29,18 +31,6 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
-
-    /**
-     * Función para la obtención del listado de relaciones laborales registradas en un determinado perfil laboral.
-     * @param $idPerfilLaboral
-     * @return Resultset
-     */
-    public function getListRelaboralesByPerfil($idPerfilLaboral){
-        if($idPerfilLaboral>0){
-            $sql = "select * from f_relaborales_asignados_y_no_asignados_a_perfil(".$idPerfilLaboral.", 0, null, null)";
-            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-        }
-    }
     /**
      * Función para la verificación de que las fechas enviadas como parámetros no tienen conflicto con las fechas del registro de relación laboral.
      * @param $idRelaboral
@@ -51,6 +41,17 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
     public function verificaDentroRangoFechasRelaborales($idRelaboral,$fechaIni,$fechaFin){
         if($fechaIni!=''&&$fechaFin!=''){
             $sql = "SELECT * FROM f_verifica_dentro_rango_fechas(".$idRelaboral.",'".$fechaIni."','".$fechaFin."')";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+    /**
+     * Función para la obtención del listado de relaciones laborales registradas en un determinado perfil laboral.
+     * @param $idPerfilLaboral
+     * @return Resultset
+     */
+    public function getListRelaboralesByPerfil($idPerfilLaboral){
+        if($idPerfilLaboral>0){
+            $sql = "select * from f_relaborales_asignados_y_no_asignados_a_perfil(".$idPerfilLaboral.", 0, null, null)";
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

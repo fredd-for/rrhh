@@ -459,6 +459,106 @@ function obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones
     return arrHorariosRegistrados;
 }
 /**
+ * Función para la obtención del listado de horarios laborales registrados en el calendario laboral para un determinado registro de relación laboral y perfil laboral.
+ * @param idRelaboral
+ * @param idPerfilLaboral
+ * @param tipoHorario
+ * @param editable
+ * @param fechaIni
+ * @param fechaFin
+ * @param contadorPerfiles
+ * @returns {Array}
+ */
+function obtenerTodosHorariosRegistradosEnCalendarioPorPerfilYRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,editable,fechaIni,fechaFin,contadorPerfiles){
+
+    var arrHorariosRegistrados = [];
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var ctrlAllDay=true;
+    switch (tipoHorario){
+        case 1:
+        case 2:ctrlAllDay=true;break;
+    }
+    $.ajax({
+        url: '/calendariolaboral/listregisteredbyperfilyrelaboral',
+        type: 'POST',
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id:idRelaboral,id_perfillaboral:idPerfilLaboral,fecha_ini:fechaIni,fecha_fin:fechaFin},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, val) {
+                    var idHorarioLaboral = 0;
+                    var horaEnt = '00:00:00';
+                    var horaSal = '24:00:00';
+                    var color = '#000000';
+                    var horario_nombre = 'DESCANSO';
+                    var perfil_laboral = val.perfil_laboral;
+                    var grupo = val.perfil_laboral_grupo;
+                    if(grupo!='') perfil_laboral += " - "+grupo;
+                    if(val.id_horariolaboral!=null){
+                        idHorarioLaboral = val.id_horariolaboral;
+                        /*if(val.grupo!="")
+                         horario_nombre = val.horario_nombre +" ("+perfil_laboral+")";*/
+                        horario_nombre = val.horario_nombre
+                        horaEnt = val.hora_entrada.split(":");
+                        horaSal = val.hora_salida.split(":");
+                        color = val.color;
+                    }else {
+                        horaEnt = horaEnt.split(":");
+                        horaSal = horaSal.split(":");
+                    }
+                    //color  = colors[contadorPerfiles];
+                    var fechaIni =  val.calendario_fecha_ini.split("-");
+                    var yi = fechaIni[0];
+                    var mi = fechaIni[1]-1;
+                    var di = fechaIni[2];
+
+                    var he = horaEnt[0];
+                    var me = horaEnt[1];
+                    var se = horaEnt[2];
+
+                    var fechaFin =  val.calendario_fecha_fin.split("-");
+                    var yf = fechaFin[0];
+                    var mf = fechaFin[1]-1;
+                    var df = fechaFin[2];
+
+                    var hs = horaSal[0];
+                    var ms = horaSal[1];
+                    var ss = horaSal[2];
+                    var prefijo = "r_";
+                    if(idHorarioLaboral==0){ prefijo="d_";}
+                    var borde = color;
+                    if(!editable){
+                        borde = "#000000";
+                        prefijo="b_";//Se modifica para que d: represente a los horarios bloqueados
+                    }
+                    arrHorariosRegistrados.push( {
+                        id:val.id_calendariolaboral,
+                        className:prefijo+idHorarioLaboral,
+                        title: horario_nombre,
+                        start: new Date(yi, mi, di, he, me),
+                        end: new Date(yf, mf, df, hs, ms),
+                        allDay: ctrlAllDay,
+                        color: color,
+                        editable:editable,
+                        borderColor:borde,
+                        horas_laborales:val.horas_laborales,
+                        dias_laborales:val.dias_laborales,
+                        hora_entrada:val.hora_entrada,
+                        hora_salida:val.hora_salida
+                    });
+                });
+            }
+        }
+    });
+    return arrHorariosRegistrados;
+}
+/**
  * Función para calcular el total de horas por semana.
  */
 function sumarTotalHorasPorSemana(arrFechasPorSemana){

@@ -140,6 +140,25 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
     }
 
     /**
+     * Función para la obtención del listado de horarios laborales registrados en el calendario laboral para un determinado registro de relación laboral.
+     * @param $idPerfilLaboral
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllRegisteredByPerfilAndRelaboralRangoFechas($idPerfilRelaboral,$idRelaboral,$fechaIni,$fechaFin)
+    {
+        $sql = "SELECT * FROM f_calendario_laboral_registrado_por_relaboral($idPerfilRelaboral,$idRelaboral)";
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        }
+        $this->_db = new Fcalendariolaboral();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
      * Función para la obtención del listado de horarios laborales registrados en el calendario laboral,
      * considerando el tipo de horario como parámetro de distinción.
      * @param $tipoHorario

@@ -119,7 +119,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(0);
                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(0);
                     $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val(0);
-
+                    $("#spanSufijoCalendarioLaboral").html("");
                     /* Registrar nueva relación laboral.*/
                     $("#addrowbutton").off();
                     $("#addrowbutton").on('click', function () {
@@ -240,7 +240,79 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                             var dataRecord = $('#divGrillaAsignacionesIndividuales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 if (dataRecord.relaboralperfil_id >= 0) {
-                                    alert("Vista de todos los calendarios para esta relación laboral.")
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enable', 1);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 5);
+                                    /**
+                                     * Trasladamos el item seleccionado al que corresponde, el de vistas.
+                                     */
+                                    $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 5});
+                                    $("#ddPerfilLaboralTurn").text(perfilLaboral);
+                                    if(grupo!=''&&grupo!=null)$("#ddGrupoTurn").text(grupo);
+                                    else $("#ddGrupoTurn").html("&nbsp;");
+                                    $("#ddTipoHorarioTurn").text(tipoHorarioDescripcion);
+                                    $("#spanPrefijoCalendarioLaboral").html("");
+                                    $("#spanSufijoCalendarioLaboral").html(" Individual");
+                                    var date = new Date();
+                                    var defaultDia = date.getDate();
+                                    var defaultMes = date.getMonth();
+                                    var defaultGestion = date.getFullYear();
+                                    var fechaIni = "";
+                                    var fechaFin = "";
+                                    var contadorPerfiles = 0;
+                                    var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioPorPerfilYRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                                    $("#calendar").html("");
+                                    var ci = dataRecord.ci;
+                                    var imgurl = '/images/personal/'+ci+'.jpg';
+                                    if(!ImageExist(imgurl))imgurl = '/images/perfil-profesional.jpg';
+                                    var img = '<img height="100" width="100" src="' + imgurl + '"/>';
+                                    $("#spanFotoAsignacionSingle").html(img);
+                                    $("#divAsignacionGroup").hide();
+                                    $("#divAsignacionSingle").show();
+                                    $("#divDatosAsignacionSingle").show();
+                                    $("#spanNombreAsignacionSingle").text(dataRecord.nombres);
+                                    $("#spanCargoAsignacionSingle").text(dataRecord.cargo);
+                                    $("#spanGerenciaAsignacionSingle").text(dataRecord.gerencia_administrativa);
+                                    if(dataRecord.departamento_administrativa!=""&&dataRecord.departamento_administrativa!=null){
+                                        $("#hDepartamentoAsignacionSingle").show();
+                                        $("#spanDepartamentoAsignacionSingle").text(dataRecord.departamento_administrativa);
+                                    }
+                                    else $("#hDepartamentoAsignacionSingle").hide();
+                                    $("#spanCondicionAsignacionSingle").text(dataRecord.condicion);
+                                    fechaIni = "";
+                                    fechaFin = "";
+                                    if(dataRecord.fecha_incor!=""){
+                                        fechaIni = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
+                                    }else fechaIni = fechaConvertirAFormato(dataRecord.fecha_ini,"-");
+                                    if(dataRecord.fecha_baja!=""){
+                                        fechaFin = fechaConvertirAFormato(dataRecord.fecha_baja,"-");
+                                    }else fechaFin = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
+                                    var fechas = fechaIni+" AL "+fechaFin;
+                                    $("#spanFechasRelaboralAsignacionSingle").text(fechas);
+
+                                    var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana);
+                                    //cargarUbicacionesPrincipalesRegistradasParaPerfil(idPerfilLaboral);
+                                    //cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,0);
+                                    /*definirListaAsignados(dataRecord.id,0,this.value,"","");
+                                    $("#lstUbicacionesPrincipales").off();
+                                    $("#lstUbicacionesPrincipales").on("change",function(){
+                                        cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,this.value);
+                                        if($("#lstUbicacionesPrincipales option:selected").data("cant-nodos-hijos")==0)
+                                        {   definirListaAsignados(idPerfilLaboral,this.value,0,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
+                                        }else{
+                                            $("#divPersonasAsignadas").hide();
+                                        }
+                                    });
+*/                                   /* $("#lstEstacionesAsignadas").off();
+                                    $("#lstEstacionesAsignadas").on("change",function(){
+                                        if(this.value>0){
+                                            definirListaAsignados(idPerfilLaboral,$("#lstUbicacionesPrincipales").val(),this.value,$("#hdnFechaInicialCalendario").val(),$("#hdnFechaFinalCalendario").val());
+                                        }
+                                        else $("#divPersonasAsignadas").hide();
+                                    });*/
 
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
@@ -868,4 +940,378 @@ function limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion){
 
     $("#divFechaFinAsignacionSingle"+sufijo).removeClass("has-error");
     $("#helpErrorFechaFinAsignacionSingle"+sufijo).html("");
+}
+
+/**
+ * Función para iniciar el calendario laboral de acuerdo al registro de relación laboral, perfil laboral y rango de fechas seleccionado.
+ * Se despliega la totalidad de horarios para el registro de relación laboral por lo que se muestran los botones de navegación del calendario.
+ * @param idRelaboral
+ * @param accion
+ * @param tipoHorario
+ * @param arrHorariosRegistrados
+ * @param defaultGestion
+ * @param defaultMes
+ * @param defaultDia
+ * @returns {Array}
+ */
+function iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(idRelaboral,accion,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
+    tipoHorario = parseInt(tipoHorario);
+    var arrFechasPorSemana = [];
+    var contadorPorSemana = 0;
+    var diasSemana=7;
+    var calendarEvents  = $('.calendar-events');
+    /* Inicializa la funcionalidad de eventos: arrastrar y soltar */
+    //initEvents();
+
+    /* Initialize FullCalendar */
+    var optLeft = 'prev,next';
+    var optRight = 'year,month,agendaWeek,agendaDay';
+    var optEditable = true;
+    var optDroppable = true;
+    var optSelectable = true;
+    var optVerFinesDeSemana= true;
+    var optVerTotalizadorHorasPorSemana=true;
+    //weekends
+    switch (accion){
+        case 1:/*Nuevo*/
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 2:/*Edición*/
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 3:/*Aprobación*/
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:optLeft='';optRight='year';break;
+            }
+            break;
+        case 4:/*Eliminación*/break;
+        case 5:/*Vista*/
+            optEditable=false;
+            optDroppable=false;
+            optSelectable=false;
+            switch (tipoHorario){
+                case 1:
+                case 2:break;
+                case 3:break;
+            }
+            break;
+    }
+    switch (tipoHorario){
+        case 1:
+        case 2:optVerFinesDeSemana=false;diasSemana=5;optVerTotalizadorHorasPorSemana=false;break;
+        case 3:break;
+    }
+    $('#calendar').fullCalendar({
+        header: {
+            left: optLeft,
+            center: 'title',
+            right: optRight
+        },
+        year:defaultGestion,
+        month:defaultMes,
+        date:defaultDia,
+        firstDay: 1,
+        weekends:optVerFinesDeSemana,
+        editable: optEditable,
+        droppable: optDroppable,
+        selectable: optSelectable,
+        weekNumbers:true,
+        weekNumberTitle:"#S",
+        timeFormat: 'H(:mm)', // Mayusculas H de 24-horas
+        drop: function(date, allDay) {
+
+            /**
+             * Controlando cuando se introduce un nuevo evento u horario en el calendario
+             * @type {*|jQuery}
+             */
+
+            // Recuperar almacenado de objeto del evento del elemento caído
+            var originalEventObject = $(this).data('eventObject');
+
+            // Tenemos que copiarlo, de modo que múltiples eventos no tienen una referencia al mismo objeto
+            var copiedEventObject = $.extend({}, originalEventObject);
+
+            // Asignarle la fecha que fue reportado
+            copiedEventObject.start = date;
+
+
+            // Hacer que el evento en el calendario
+            // El último argumento `true` determina si el evento "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+            /**
+             * Si se introduce un nuevo horario en el calendario se recalcula los totales por semana.
+             */
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
+
+        }
+        ,
+        eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+            /**
+             * Si un horario se ha movido, es necesario calcular los totales de horas por semana
+             */
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
+        },
+        events: arrHorariosRegistrados,
+        /**
+         * Controlando el evento de clik sobre el horario.
+         * @param calEvent
+         * @param jsEvent
+         * @param view
+         */
+        eventClick: function(calEvent, jsEvent, view) {
+
+            var clase = calEvent.className+"";
+            var arrClass = clase.split("_");
+            var idTipoHorario = arrClass[1];
+            clase = arrClass[0];
+            var idTurno = 0;
+            if(calEvent.id!=undefined){
+                idTurno = calEvent.id;
+            }
+            var fechaIni = fechaConvertirAFormato(calEvent.start,'-');
+            var fechaFin =  fechaIni;
+            var calEventEnd = calEvent.start;
+            if(calEvent.end!=null&&calEvent.end!=""){
+                fechaFin = fechaConvertirAFormato(calEvent.end,'-');
+                calEventEnd = calEvent.end;
+            }
+            var startDate = calEvent.start;
+            var FromEndDate = calEventEnd;
+            var ToEndDate = calEventEnd;
+            //ToEndDate.setDate(ToEndDate.getDate()+900);
+
+            $("#txtHorarioFechaIni").datepicker('setDate', calEvent.start);
+            //$('#txtHorarioFechaIni').datepicker('setStartDate', calEvent.start);
+            $("#txtHorarioFechaFin").datepicker('setDate', calEventEnd);
+            //$('#txtHorarioFechaFin').datepicker('setEndDate', calEventEnd);
+            $('#txtHorarioFechaIni').datepicker({
+                format:'dd-mm-yyyy',
+                default:calEvent.start,
+                weekStart: 1,
+                startDate: startDate,
+                endDate: FromEndDate,
+                autoclose: true
+            })
+                .on('changeDate', function(selected){
+                    startDate = new Date(selected.date.valueOf());
+                    startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+                    $('#txtHorarioFechaFin').datepicker('setStartDate', startDate);
+                });
+            $('#txtHorarioFechaFin').datepicker({
+                default:calEventEnd,
+                weekStart: 1,
+                startDate: startDate,
+                endDate: ToEndDate,
+                autoclose: true
+            })
+                .on('changeDate', function(selected){
+                    FromEndDate = new Date(selected.date.valueOf());
+                    FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+                    $('#txtHorarioFechaIni').datepicker('setEndDate', FromEndDate);
+                });
+            if(idTipoHorario>0){
+                var ok = cargarModalHorario(idTipoHorario);
+                if(ok) {
+                    /**
+                     * Si la clase del horario esta bloqueada no se la puede eliminar
+                     */
+                    if(clase=="b"){
+                        $("#btnDescartarHorario").hide();
+                        $("#btnGuardarModificacionHorario").hide();
+                        $("#txtHorarioFechaIni").prop("disabled","disabled");
+                        $("#txtHorarioFechaFin").prop("disabled","disabled");
+                    } else {
+                        $("#btnDescartarHorario").show();
+                        $("#txtHorarioFechaIni").prop("disabled",false);
+                        $("#txtHorarioFechaFin").prop("disabled",false);
+                    }
+                    $('#popupDescripcionHorario').modal('show');
+                    $("#btnDescartarHorario").off();
+                    $("#btnDescartarHorario").on("click", function () {
+                        switch (clase){
+                            case "r":
+                            case "d":
+                                var okBaja = bajaTurnoEnCalendario(idTurno);
+                                if(okBaja){
+                                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                    $('#popupDescripcionHorario').modal('hide');
+                                }
+                                break;
+                            case "n":
+                                $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                $('#popupDescripcionHorario').modal('hide');
+                                break;
+                        }
+                        /**
+                         * Si se ha eliminado un horario, es necesario recalcular las horas por semana
+                         */
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+                    });
+                    /**
+                     * Acción efectuada cuando se hace click sobre el botón para Guardar Modifificación de Fechas.
+                     */
+                    $("#btnGuardarModificacionHorario").off();
+                    $("#btnGuardarModificacionHorario").on("click", function () {
+                        switch (clase){
+                            case "r":
+                            case "n":
+                                if(fechaIni!=$("#txtHorarioFechaIni").val()||fechaFin!=$("#txtHorarioFechaFin").val()){
+                                    /*Inicialmente borramos el evento y lo reingresamos*/
+                                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                                    $('#popupDescripcionHorario').modal('hide');
+                                    var fechaInicio = $("#txtHorarioFechaIni").val();
+                                    var fechaFinalizacion = $("#txtHorarioFechaFin").val();
+                                    var arrFechaInicio =fechaInicio.split("-");
+                                    var arrFechaFinalizacion= fechaFinalizacion.split("-");
+                                    fechaInicio = arrFechaInicio[2]+"-"+arrFechaInicio[1]+"-"+arrFechaInicio[0];
+                                    fechaFinalizacion = arrFechaFinalizacion[2]+"-"+arrFechaFinalizacion[1]+"-"+arrFechaFinalizacion[0];
+                                    addEvent = {
+                                        id:calEvent.id,
+                                        title:calEvent.title,
+                                        className:calEvent.className,
+                                        start:fechaInicio,
+                                        end:fechaFinalizacion,
+                                        color:calEvent.color,
+                                        editable: true,
+                                        hora_entrada:calEvent.hora_entrada,
+                                        hora_salida:calEvent.hora_salida
+
+                                    }
+                                    $('#calendar').fullCalendar( 'renderEvent', addEvent, true );
+                                }
+                                $('#popupDescripcionHorario').modal('hide');
+                                break;
+                            case "d":break;
+                        }
+                        /**
+                         * Si se ha eliminado un horario, es necesario recalcular las horas por semana
+                         */
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+                    });
+                }else alert("Error al determinar los datos del horario.");
+            }else {
+                alert("El registro corresponde a un periodo de descanso");
+            }
+        }
+        ,
+        eventResize: function(event, delta, revertFunc) {
+            /**
+             * Cuando un horario es modificado en cuanto a su duración, se debe calcular nuevamente los totales de horas por semana
+             */
+            sumarTotalHorasPorSemana(arrFechasPorSemana);
+
+        },
+        /*dayRender: function (date, cell) {},*/
+        viewRender: function(view) {
+
+            switch (view.name){
+                case "month":
+                {   //$("#divSumatorias").show();
+                    removerColumnaSumaTotales();
+                    agregarColumnaSumaTotales(diasSemana);
+                    arrFechasPorSemana= [];
+                    var contP=0;
+                    var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
+                    $.each(arrDias,function(k,dia){
+                        contP=0;
+                        $("td.fc-"+dia).map(function (index, elem) {
+                            contP++;
+                            var fecha = $(this).data("date");
+                            var fechaAux = $(this).data("date");
+                            if(fecha!=undefined){
+                                var arrFecha = fecha.split("-");
+                                fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                                switch (contP){
+                                    case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
+                                    case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
+                                    case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
+                                    case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
+                                    case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
+                                    case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+                                }
+                                var check = fechaAux;
+                                var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
+                                if (check < today) {
+                                    $(this).css("background-color", "silver");
+                                }
+                            }
+                        });
+                    });
+                    sumarTotalHorasPorSemana(arrFechasPorSemana);
+                    var fechaInicialCalendario = "";
+                    var fechaFinalCalendario = "";
+                    var moment = $('#calendar').fullCalendar('getDate');
+                    fechaInicialCalendario = fechaConvertirAFormato(moment,'-');
+                    var arrFechaInicial = fechaInicialCalendario.split("-");
+                    fechaInicialCalendario = "01-"+arrFechaInicial[1]+"-"+arrFechaInicial[2];
+                    fechaFinalCalendario =  obtenerUltimoDiaMes(fechaInicialCalendario);
+                    $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                    $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+                    cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,fechaInicialCalendario,fechaFinalCalendario);
+                }
+                    break;
+                case "agendaWeek":
+                    fechaInicialCalendario = $('#calendar').fullCalendar('getView').start;
+                    fechaInicialCalendario = fechaConvertirAFormato(fechaInicialCalendario,"-");
+                    fechaFinalCalendario = obtenerFechaMasDias(fechaInicialCalendario,diasSemana-1);
+                    $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                    $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+                    cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,fechaInicialCalendario,fechaFinalCalendario);
+                    break;
+                case "agendaDay":
+                    var moment = $('#calendar').fullCalendar('getDate');
+                    var fechaInicialCalendario = fechaConvertirAFormato(moment,'-');
+                    fechaFinalCalendario = fechaInicialCalendario;
+                    $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
+                    $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
+                    cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,fechaInicialCalendario,fechaFinalCalendario);
+                    break;
+            }
+            definirListaAsignados(idPerfilLaboral,$("#lstUbicacionesPrincipales").val(),$("#lstEstacionesAsignadas").val(),fechaInicialCalendario,fechaFinalCalendario);
+        }
+    });
+    return arrFechasPorSemana;
+}
+/**
+ * Función para la carga de la grilla de asignación individual para un registro de relación laboral, un perfil y una rango de fechas.
+ * @param idPerfilLaboral
+ * @param dataRecord
+ */
+function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,fechaIni,fechaFin){
+    if(idPerfilLaboral>0&&idRelaboral>0&&fechaIni!=""&&fechaFin!=""){
+        $("#tbody_asignacion_single").html("");
+        $.ajax({
+            url: '/calendariolaboral/listregisteredbyperfilyrelaboral',
+            type: 'POST',
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id:idRelaboral,id_perfillaboral:idPerfilLaboral,fecha_ini:fechaIni,fecha_fin:fechaFin},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                var contador = 1;
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        var arrFechaIni = val.calendario_fecha_ini.split("-");
+                        var fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
+                        var arrFechaFin = val.calendario_fecha_fin.split("-");
+                        var fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
+                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+fechaIni+"</td><td style='text-align: center'>"+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+val.relaboralperfil_estacion+"</td><td>"+val.hora_entrada+"</td><td>"+val.hora_salida+"</td><td>"+val.relaboralperfil_observacion+"</td></tr>");
+                        contador++;
+                    });
+                }
+            }
+        });
+    }
 }

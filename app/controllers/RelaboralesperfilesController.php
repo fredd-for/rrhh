@@ -277,8 +277,22 @@ class RelaboralesperfilesController extends ControllerBase{
                 if($opcion==1){
                     $objRelaboralPerfil->observacion = $observacion;
                 }
-                $objRelaboralesperfiles = new Relaboralesperfiles();
-                $verif = $objRelaboralesperfiles->verificaDentroRangoFechasRelaborales($idRelaboral,$fechaIni,$fechaFin);
+                try{
+                    $ok = $objRelaboralPerfil->save();
+                    if ($ok)  {
+                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                    } else {
+                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
+                    }
+                }catch (\Exception $e) {
+                    echo get_class($e), ": ", $e->getMessage(), "\n";
+                    echo " File=", $e->getFile(), "\n";
+                    echo " Line=", $e->getLine(), "\n";
+                    echo $e->getTraceAsString();
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n del Perfil Laboral.');
+                }
+                /*$objRelaboralesperfiles = new Relaboralesperfiles();
+                $verif = $objRelaboralesperfiles->verificaDentroRangoFechasRelaborales($idRelaboral,$_POST['fecha_ini'],$_POST['fecha_fin']);
                 if ($verif->count() > 0) {
                     $valor = $verif[0];
                     if($valor->o_resultado==1){
@@ -301,7 +315,7 @@ class RelaboralesperfilesController extends ControllerBase{
                     }
                 }else{
                     $msj = array('result' => -1, 'msj' => 'La verificaci&oacute;n sobre las fechas enviadas tuvo un conflicto en la consulta.');
-                }
+                }*/
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
             }
@@ -344,7 +358,6 @@ class RelaboralesperfilesController extends ControllerBase{
                 $objRelaboralPerfil->fecha_ini=$fechaIni;
                 $objRelaboralPerfil->fecha_fin=$fechaFin;
                 try{
-                    //$ok = false;
                     $ok = $objRelaboralPerfil->save();
                     if ($ok)  {
                         $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
@@ -358,6 +371,31 @@ class RelaboralesperfilesController extends ControllerBase{
                     echo $e->getTraceAsString();
                     $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n de Perfil Laboral.');
                 }
+                /*$objRelaboralesperfiles = new Relaboralesperfiles();
+                $verif = $objRelaboralesperfiles->verificaDentroRangoFechasRelaborales($idRelaboral,$_POST['fecha_ini'],$_POST['fecha_fin']);
+                if ($verif->count() > 0) {
+                    $valor = $verif[0];
+                    if($valor->o_resultado==1){
+                        try{
+                            $ok = $objRelaboralPerfil->save();
+                            if ($ok)  {
+                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                            } else {
+                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
+                            }
+                        }catch (\Exception $e) {
+                            echo get_class($e), ": ", $e->getMessage(), "\n";
+                            echo " File=", $e->getFile(), "\n";
+                            echo " Line=", $e->getLine(), "\n";
+                            echo $e->getTraceAsString();
+                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n de Perfil Laboral.');
+                        }
+                    }else{
+                        $msj = array('result' => -1, 'msj' => 'Las fechas enviadas tienen conflicto con las fechas referentes al registro de la relaci&oacute;n laboral.');
+                    }
+                }else{
+                    $msj = array('result' => -1, 'msj' => 'La verificaci&oacute;n sobre las fechas enviadas tuvo un conflicto en la consulta.');
+                }*/
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
             }

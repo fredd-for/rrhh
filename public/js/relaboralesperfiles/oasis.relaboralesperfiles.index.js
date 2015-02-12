@@ -468,7 +468,8 @@ function definirGrillaParaListaPerfilesLaborales() {
                     /*$("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();*/
                     $("#turnrowbutton").jqxButton();
-
+                    $("#spanPrefijoCalendarioLaboral").html("");
+                    $("#spanSufijoCalendarioLaboral").html("");
                     /*Aprobar registro.*/
                     $("#assignsinglerowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridPerfilesLaborales").jqxGrid('getselectedrowindex');
@@ -583,6 +584,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     if(dataRecord.grupo!=''&&dataRecord.grupo!=null)$("#ddGrupoTurn").text(dataRecord.grupo);
                                     else $("#ddGrupoTurn").html("&nbsp;");
                                     $("#ddTipoHorarioTurn").text(dataRecord.tipo_horario_descripcion);
+                                    $("#spanSufijoCalendarioLaboral").html(" Grupal");
 
                                     var date = new Date();
                                     var defaultDia = date.getDate();
@@ -593,6 +595,9 @@ function definirGrillaParaListaPerfilesLaborales() {
                                     var contadorPerfiles = 0;
                                     var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioPorPerfilParaVerAsignaciones(dataRecord.id,dataRecord.tipo_horario,false,fechaIni,fechaFin,contadorPerfiles);
                                     $("#calendar").html("");
+                                    $("#divAsignacionGroup").show();
+                                    $("#divAsignacionSingle").hide();
+                                    $("#divDatosAsignacionSingle").hide();
                                     var arrFechasPorSemana = iniciarCalendarioLaboralPorPerfilLaboralParaVerAsignaciones(5,dataRecord.id,dataRecord.tipo_horario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                     sumarTotalHorasPorSemana(arrFechasPorSemana);
                                     cargarUbicacionesPrincipalesRegistradasParaPerfil(dataRecord.id);
