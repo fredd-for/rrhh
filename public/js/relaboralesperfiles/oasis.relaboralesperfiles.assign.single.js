@@ -1200,6 +1200,8 @@ function iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(id
                 {   //$("#divSumatorias").show();
                     removerColumnaSumaTotales();
                     agregarColumnaSumaTotales(diasSemana);
+                    var primeraFechaCalendario = "";
+                    var segundaFechaCalendario = "";
                     arrFechasPorSemana= [];
                     var contP=0;
                     var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
@@ -1213,12 +1215,18 @@ function iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(id
                                 var arrFecha = fecha.split("-");
                                 fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
                                 switch (contP){
-                                    case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
+                                    case 1:{
+                                        if(primeraFechaCalendario=="")primeraFechaCalendario = fecha;
+                                        arrFechasPorSemana.push( {semana:1,fecha:fecha});}
+                                        break;
                                     case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
                                     case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
                                     case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
                                     case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
-                                    case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+                                    case 6:{
+                                        segundaFechaCalendario = fecha;
+                                        arrFechasPorSemana.push( {semana:6,fecha:fecha});
+                                    }break;
                                 }
                                 var check = fechaAux;
                                 var today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
@@ -1238,7 +1246,7 @@ function iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(id
                     fechaFinalCalendario =  obtenerUltimoDiaMes(fechaInicialCalendario);
                     $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
                     $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
-                    cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,fechaInicialCalendario,fechaFinalCalendario);
+                    cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,primeraFechaCalendario,segundaFechaCalendario);
                 }
                     break;
                 case "agendaWeek":
@@ -1287,7 +1295,9 @@ function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral
                         var fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
                         var arrFechaFin = val.calendario_fecha_fin.split("-");
                         var fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
-                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+fechaIni+"</td><td style='text-align: center'>"+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+val.relaboralperfil_estacion+"</td><td>"+val.hora_entrada+"</td><td>"+val.hora_salida+"</td><td>"+val.relaboralperfil_observacion+"</td></tr>");
+                        var estacion = "";
+                        if(val.relaboralperfil_estacion!=null)estacion=val.relaboralperfil_estacion;
+                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+fechaIni+"</td><td style='text-align: center'>"+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+estacion+"</td><td style='text-align: center'>"+val.hora_entrada+"</td><td style='text-align: center'>"+val.hora_salida+"</td><td>"+val.relaboralperfil_observacion+"</td></tr>");
                         contador++;
                     });
                 }
