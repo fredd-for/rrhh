@@ -330,6 +330,16 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         cellsrenderer: rownumberrenderer
                     },
                     {
+                        text: 'Estado',
+                        filtertype: 'checkedlist',
+                        datafield: 'estado_descripcion',
+                        width: 100,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false,
+                        cellclassname: cellclass
+                    },
+                    {
                         text: 'Asignaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'relaboralperfil_estado_descripcion',
@@ -412,16 +422,6 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
-                    },
-                    {
-                        text: 'Estado',
-                        filtertype: 'checkedlist',
-                        datafield: 'estado_descripcion',
-                        width: 100,
-                        cellsalign: 'center',
-                        align: 'center',
-                        hidden: false,
-                        cellclassname: cellclass
                     },
                     /*{
                      text: 'N/C',

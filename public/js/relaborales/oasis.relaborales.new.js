@@ -83,24 +83,24 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
                     });
                 },
                     columns: [
-                    {
-                        text: '#', sortable: false, filterable: false, editable: false,align:'center',cellsalign:'center',
-                        groupable: false, draggable: false, resizable: false,
-                        datafield: '', columntype: 'number', width: 50
-                    },
-                    { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', cellsalign: 'center',align: 'center',width: 100},
-                    /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
-                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 200 },
-                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',cellsalign:'center',width: 70},
-                    { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 200},
-                    { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', align: 'center',width: 100},
-                    { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 200},
-                    { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', align: 'center',width: 200},
-                    { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', align: 'center',width: 200},
-                    { text: 'Resoluci&oacute;n Escala', filtertype: 'checkedlist', datafield: 'nivelsalarial_resolucion', align: 'center',width: 200},
+                        { text: 'Nro.',sortable: false,filterable: false,editable: false,groupable: false,draggable: false,resizable: false,columntype: 'number',width: 50,cellsalign: 'center',align: 'center',cellsrenderer: rownumberrenderer},
+                        { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', cellsalign: 'center',align: 'center',width: 100},
+                        /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
+                        { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 200 },
+                        { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',cellsalign:'center',width: 70},
+                        { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 200},
+                        { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', align: 'center',width: 200},
+                        { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 200},
+                        { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', align: 'center',width: 100},
+                        { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', align: 'center',width: 200},
+                        { text: 'Resoluci&oacute;n Escala', filtertype: 'checkedlist', datafield: 'nivelsalarial_resolucion', align: 'center',width: 200},
                 ]
             });
     }
+}
+var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+    var nro = row + 1;
+    return "<div align='center'>" + nro + "</div>";
 }
 /**
  * Función para la carga del combo de ubicaciones de trabajo (Oficinas o Paradas de Línea).
