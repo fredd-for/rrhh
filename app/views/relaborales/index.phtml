@@ -1129,6 +1129,34 @@
 </div>
 <!--</form></div>-->
 </body>
+<div class="modal fade bs-example-modal-lg" id="popupGrillaCargo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="testForm_perfil" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="tituloModal"><span id="spanPrefijoFormularioAsignacionSingle"></span>Seleccionar Cargo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel-body form-horizontal">
+                            <h6><b>NOTA: </b>Debe seleccionar un registro para poder asignar el cargo.</h6>
+                            <div>
+                                <div id="divGrillaParaSeleccionarCargo"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarListadoCargos" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i> Cerrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div id="divMsjeNotificacionError">
     <div id="divMsjePorError">
     </div>
@@ -1142,8 +1170,8 @@
     </div>
 </div>
 <div id="popupWindowCargo">
-    <div id="titulo">Seleccionar Cargo</div>
+    <!--<div id="titulo">Seleccionar Cargo</div>
     <div>
         <div id="divGrillaParaSeleccionarCargo"></div>
-    </div>
+    </div>-->
 </div>

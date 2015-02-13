@@ -41,43 +41,63 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
     function cargarRegistrosDeCargos(){
         $("#divGrillaParaSeleccionarCargo").jqxGrid(
             {
-                //theme:'oasis',
+                //theme: theme,
                 width: '100%',
-                height:250,
+                height: '100%',
                 source: dataAdapterCargo,
                 sortable: true,
                 altRows: true,
                 groupable: true,
                 columnsresize: true,
-                pageable: false,
+                pageable: true,
                 pagerMode: 'advanced',
                 showfilterrow: true,
                 filterable: true,
-                columns: [
+                showtoolbar: true,
+                autorowheight: true,
+                rendertoolbar: function (toolbar) {
+                    var me = this;
+                    var container = $("<div></div>");
+                    toolbar.append(container);
+                    container.append("<button id='selectrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Seleccionar Cargo'> Seleccionar Cargo</i></button>");
+                    $("#selectrowbutton").jqxButton();
+                    $("#selectrowbutton").off();
+                    $("#selectrowbutton").on('click', function () {
+                        var selectedrowindex = $("#divGrillaParaSeleccionarCargo").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGrillaParaSeleccionarCargo').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_resolucion_ministerial,dataRecord.resolucion_ministerial,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo,dataRecord.nivelsalarial_resolucion_id,dataRecord.nivelsalarial_resolucion);
+                            }else{
+                                var msje = "Debe seleccionar un cargo necesariamente.";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
+                            }
+                        } else {
+                            var msje = "Debe seleccionar un cargo necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                    });
+                },
+                    columns: [
                     {
-                        text: '#', sortable: false, filterable: false, editable: false,
+                        text: '#', sortable: false, filterable: false, editable: false,align:'center',cellsalign:'center',
                         groupable: false, draggable: false, resizable: false,
                         datafield: '', columntype: 'number', width: 50
                     },
-                    { text: 'Opción', datafield: 'seleccionable', width: 100,sortable:false, showfilterrow:false, filterable:false, columntype: 'button', cellsrenderer: function () {
-                        return "Seleccionar";
-                    }, buttonclick: function (row) {
-                        editrow = row;
-                        var offset = $("#divGrillaParaSeleccionarCargo").offset();
-                        var dataRecord = $("#divGrillaParaSeleccionarCargo").jqxGrid('getrowdata', editrow);
-                        agregarCargoSeleccionadoEnGrilla(dataRecord.id_cargo,dataRecord.codigo,dataRecord.id_finpartida,dataRecord.finpartida,dataRecord.id_resolucion_ministerial,dataRecord.resolucion_ministerial,dataRecord.id_condicion,dataRecord.condicion,dataRecord.id_organigrama,dataRecord.gerencia_administrativa,dataRecord.departamento_administrativo,dataRecord.nivelsalarial,dataRecord.cargo,dataRecord.sueldo,dataRecord.nivelsalarial_resolucion_id,dataRecord.nivelsalarial_resolucion);
-                        }
-                    },
                     { text: '&Iacute;tem/C&oacute;digo', filtertype: 'input', datafield: 'codigo', cellsalign: 'center',align: 'center',width: 100},
                     /*{ text: 'Fuente', filtertype: 'checkedlist', datafield: 'finpartida', width: 200},*/
-                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 400 },
-                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',width: 150},
-                    { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 300},
+                    { text: 'Cargo', columntype: 'textbox', filtertype: 'input', datafield: 'cargo', align: 'center',width: 200 },
+                    { text: 'Haber', filtertype: 'checkedlist', datafield: 'sueldo', align: 'center',cellsalign:'center',width: 70},
+                    { text: 'Resoluci&oacute;n Organigrama', filtertype: 'checkedlist', datafield: 'resolucion_ministerial', align: 'center',width: 200},
                     { text: 'Condici&oacute;n', filtertype: 'checkedlist', datafield: 'condicion', align: 'center',width: 100},
-                    { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 400},
-                    { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', align: 'center',width: 300},
+                    { text: 'Gerencia', filtertype: 'checkedlist', datafield: 'gerencia_administrativa', align: 'center',width: 200},
+                    { text: 'Departamento', filtertype: 'checkedlist', datafield: 'departamento_administrativo', align: 'center',width: 200},
                     { text: 'Nivel Salarial', filtertype: 'checkedlist', datafield: 'nivelsalarial', align: 'center',width: 200},
-                    { text: 'Resoluci&oacute;n Escala', filtertype: 'checkedlist', datafield: 'nivelsalarial_resolucion', align: 'center',width: 300},
+                    { text: 'Resoluci&oacute;n Escala', filtertype: 'checkedlist', datafield: 'nivelsalarial_resolucion', align: 'center',width: 200},
                 ]
             });
     }
@@ -211,7 +231,8 @@ function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finparti
     $("#divProcesos").show();
     var okArea = cargarAreasAdministrativas(id_organigrama,0);
     cargarProcesos(id_condicion);
-    $("#popupWindowCargo").jqxWindow('close');
+    /*$("#popupWindowCargo").jqxWindow('close');*/
+    $('#popupGrillaCargo').modal('hide');
     id_condicion = parseInt(id_condicion);
     /**
      * Un número de contrato es requerido si es eventual o consultor o contrato a plazo fijo.

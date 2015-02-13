@@ -130,13 +130,24 @@ $().ready(function () {
          */
         $("#lstTipoMemorandum").off();
     });
-    $("#btnBuscarCargo").click(function () {
-        $("#popupWindowCargo").jqxWindow('open');
+    $("#btnBuscarCargo").off();
+    $("#btnBuscarCargo").on("click",function () {
+        $("#divGrillaParaSeleccionarCargo").jqxGrid("clear");
+        $('#popupGrillaCargo').modal('show');
         definirGrillaParaSeleccionarCargoAcefalo(0, '');
     });
-    $("#btnBuscarCargoEditar").click(function () {
-        $("#popupWindowCargo").jqxWindow('open');
+    $("#btnBuscarCargoEditar").off();
+    $("#btnBuscarCargoEditar").on("click",function () {
+        $("#divGrillaParaSeleccionarCargo").jqxGrid("clear");
+        $('#popupGrillaCargo').modal('show');
         definirGrillaParaSeleccionarCargoAcefaloParaEditar(0, '');
+    });
+    $('#popupGrillaCargo').on('show', function () {
+        $(this).find('.modal-body').css({
+            width:'auto', //probably not needed
+            height:'auto', //probably not needed
+            'max-height':'100%'
+        });
     });
     $("#btnExportarExcel").click(function () {
         var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
@@ -217,15 +228,6 @@ $().ready(function () {
         $("#btnCancelarNuevo").click();
         $("#btnCancelarEditar").click();
         $("#btnCancelarBaja").click();
-    });
-    $("#popupWindowCargo").jqxWindow({
-        width: '100%',
-        height: 300,
-        resizable: true,
-        isModal: true,
-        autoOpen: false,
-        cancelButton: $("#btnCancelar"),
-        modalOpacity: 0.01
     });
     $("#popupWindowNuevaMovilidad").jqxWindow({
         position: {x: 300, y: 200},
@@ -408,7 +410,6 @@ function definirGrillaParaListaRelaborales() {
                                  * Para el caso cuando la persona no tenga ninguna relación laboral vigente con la entidad se da la opción de registro de nueva relación laboral.
                                  */
                                 if (dataRecord.tiene_contrato_vigente == 0 || dataRecord.tiene_contrato_vigente == -1) {
-                                    $('#btnBuscarCargo').click();
                                     $('#jqxTabs').jqxTabs('enableAt', 1);
                                     $('#jqxTabs').jqxTabs('disableAt', 2);
                                     $('#jqxTabs').jqxTabs('disableAt', 3);
@@ -418,6 +419,8 @@ function definirGrillaParaListaRelaborales() {
                                      * Trasladamos el item seleccionado al que corresponde, el de nuevo registro.
                                      */
                                     $('#jqxTabs').jqxTabs({selectedItem: 1});
+
+                                    $('#btnBuscarCargo').click();
 
                                     $("#hdnIdRelaboralEditar").val(dataRecord.id_relaboral);
                                     $("#hdnIdPersonaSeleccionada").val(dataRecord.id_persona);

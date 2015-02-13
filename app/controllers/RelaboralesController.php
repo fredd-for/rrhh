@@ -817,7 +817,9 @@ class RelaboralesController extends ControllerBase
         //comprobamos si hay filas
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
+                $sueldo = str_replace(".00","",$v->sueldo);
                 $relaboral[] = array(
+                    'nro_row' => 0,
                     'seleccionable' => 'seleccionable',
                     'codigo' => $v->codigo,
                     'finpartida' => $v->finpartida,
@@ -826,7 +828,7 @@ class RelaboralesController extends ControllerBase
                     'cargo' => $v->cargo,
                     'id_cargo' => $v->id_cargo,
                     'nivelsalarial' => $v->nivelsalarial,
-                    'sueldo' => $v->sueldo,
+                    'sueldo' => $sueldo,
                     'jefe'=>$v->jefe,
                     'asistente'=>$v->asistente,
                     'id_resolucion_ministerial'=>$v->id_resolucion_ministerial,
