@@ -1244,7 +1244,6 @@ function iniciarCalendarioLaboralPorRelaboralPerfilLaboralParaVerAsignaciones(id
                     var arrFechaInicial = fechaInicialCalendario.split("-");
                     fechaInicialCalendario = "01-"+arrFechaInicial[1]+"-"+arrFechaInicial[2];
                     fechaFinalCalendario =  obtenerUltimoDiaMes(fechaInicialCalendario);
-                    //alert("-->"+primeraFechaCalendario+".."+segundaFechaCalendario);
                     $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
                     $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
                     cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,primeraFechaCalendario,segundaFechaCalendario);
