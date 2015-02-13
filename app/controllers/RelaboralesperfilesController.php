@@ -32,21 +32,16 @@ class RelaboralesperfilesController extends ControllerBase{
 
         $this->assets->addJs('/js/jqwidgets/jqxdragdrop.js');
 
-
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.tab.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.index.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.assign.group.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.assign.single.js');
 
-
-        $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.approve.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.new.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.edit.js');
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.down.js');
 
         $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.calendar.js');
-        $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.calendar.new.edit.js');
-        $this->assets->addJs('/js/relaboralesperfiles/oasis.relaboralesperfiles.cupos.js');
 
     }
     /**

@@ -885,6 +885,7 @@ function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbi
     $("#lstEstacionesAsignadas").html("");
     $("#lstEstacionesAsignadas").append("<option value='0'>Seleccionar...</option>");
     $("#lstEstacionesAsignadas").prop("disabled",true);
+    var sw = 0;
     if(idPerfilLaboral>0&&idUbicacion>0){
         $.ajax({
             url: '/ubicaciones/listestacionesporubicacionparaperfil/',
@@ -899,8 +900,14 @@ function cargarEstacionesRegistradasPorUbicacionParaPerfil(idPerfilLaboral,idUbi
                 if (res.length > 0) {
                     $("#lstEstacionesAsignadas").prop("disabled",false);
                     $.each(res, function (key, val) {
-                        $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"'>"+val.estacion+"</option>");
+                        if(val.id_estacion>0){
+                            sw = 1;
+                            $("#lstEstacionesAsignadas").append("<option value='"+val.id_estacion+"'>"+val.estacion+"</option>");
+                        }
                     });
+                    if(sw==0){
+                        $("#divEstacionesAsignadas").hide();
+                    }
                 }
             }
         });
@@ -952,6 +959,7 @@ function definirListaAsignados(idPerfilRelaboral,idUbicacion,idEstacion,fechaIni
             $("#lstBoxRegistrados").jqxListBox({ filterable: true,allowDrop: false, allowDrag: false, source: dataAdapter, width:  "100%", height: 500,
                 renderer: function (index, label, value) {
                     var datarecord = arrPersonal[index];
+                    if(datarecord!=undefined){
                         var ci = datarecord.ci;
                         var expd = datarecord.expd;
                         var imgurl = '/images/personal/'+ci+'.jpg';
@@ -959,12 +967,71 @@ function definirListaAsignados(idPerfilRelaboral,idUbicacion,idEstacion,fechaIni
                         var cargo = datarecord.cargo;
                         var fechas = datarecord.fecha_ini;
                         if(datarecord.fecha_fin!=null){
-                            fechas = "Fechas: "+fechas + " AL "+datarecord.fecha_fin;
+                            fechas = fechas + " AL "+datarecord.fecha_fin;
                         }else fechas = "Fecha Inicio: "+fechas;
                         var img = '<img height="70" width="70" src="' + imgurl + '"/>';
                         $("#tbl_"+datarecord.id_relaboral).remove();
-                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" style="min-width: 130px;"><tr><td style="width: 80px;" rowspan="4">' + img + '</td><td>Nombres: ' + datarecord.nombres + '</td></tr><tr><td>CI: '+ci+' '+expd+'</td></tr><tr><td>Cargo: '+cargo+'</td></tr><tr><td>'+fechas+'<input type="hidden" id="hdn_'+datarecord.id_relaboral+'" value="'+datarecord.agrupador+'"></td></tr></table>';
+                        var fechaIni = datarecord.fecha_incor;
+                        var fechaFin = datarecord.fecha_fin;
+                        if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                        var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'">';
+                        table += '<tr><td>' + img + '</td></tr>';
+                        table += '<tr><td>' + datarecord.nombres + '</td></tr>';
+                        table += '<tr><td>'+cargo+'</td></tr>';
+                        table += '<tr><td>'+fechas+'</td></tr>';
+                        table += '</table>';
                         return table;
+                    }else{
+                        if(jQuery.type( value )==="number"){
+                            var datarecord = getOneByIdRelaboralInArray(arrPersonal,value);
+                            var ci = datarecord.ci;
+                            var expd = datarecord.expd;
+                            var imgurl = '/images/personal/'+ci+'.jpg';
+                            if(!ImageExist(imgurl))imgurl = '/images/perfil-profesional.jpg';
+                            var cargo = datarecord.cargo;
+                            var fechas = datarecord.fecha_ini;
+                            if(datarecord.fecha_fin!=null){
+                                fechas = "Fechas: "+fechas + " AL "+datarecord.fecha_fin;
+                            }else fechas = "Fecha Inicio: "+fechas;
+                            var img = '<img height="70" width="70" src="' + imgurl + '"/>';
+                            $("#tbl_"+datarecord.id_relaboral).remove();
+                            var fechaIni = datarecord.fecha_incor;
+                            var fechaFin = datarecord.fecha_fin;
+                            if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                            var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'">';
+                            table += '<tr><td>' + img + '</td></tr>';
+                            table += '<tr><td>' + datarecord.nombres + '</td></tr>';
+                            table += '<tr><td>'+cargo+'</td></tr>';
+                            table += '<tr><td>'+fechas+'</td></tr>';
+                            table += '</table>';
+                            return table;
+                        }else{
+                            if(jQuery.type( value )==="object"){
+                                var datarecord = value;
+                                var ci = datarecord.ci;
+                                var expd = datarecord.expd;
+                                var imgurl = '/images/personal/'+ci+'.jpg';
+                                if(!ImageExist(imgurl))imgurl = '/images/perfil-profesional.jpg';
+                                var cargo = datarecord.cargo;
+                                var fechas = datarecord.fecha_ini;
+                                if(datarecord.fecha_fin!=null){
+                                    fechas = "Fechas: "+fechas + " AL "+datarecord.fecha_fin;
+                                }else fechas = "Fecha Inicio: "+fechas;
+                                var img = '<img height="70" width="70" src="' + imgurl + '"/>';
+                                $("#tbl_"+datarecord.id_relaboral).remove();
+                                var fechaIni = datarecord.fecha_incor;
+                                var fechaFin = datarecord.fecha_fin;
+                                if(datarecord.fecha_baja!="")fechaFin = datarecord.fecha_baja;
+                                var table = '<table id="tbl_'+datarecord.id_relaboral+'" data-agrupador="'+datarecord.agrupador+'" data-nombres="'+datarecord.nombres+'" data-date-min="'+fechaIni+'" data-date-max="'+fechaFin+'">';
+                                table += '<tr><td>' + img + '</td></tr>';
+                                table += '<tr><td>' + datarecord.nombres + '</td></tr>';
+                                table += '<tr><td>'+cargo+'</td></tr>';
+                                table += '<tr><td>'+fechas+'</td></tr>';
+                                table += '</table>';
+                                return table;
+                            }
+                        }
+                    }
                 },
                 ready:function(){
                     var itemsB = $("#lstBoxRegistrados").jqxListBox('getItems');

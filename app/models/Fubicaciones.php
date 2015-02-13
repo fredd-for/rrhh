@@ -114,6 +114,7 @@ class Fubicaciones  extends \Phalcon\Mvc\Model {
         $sql .= " WHERE rp.perfillaboral_id=".$idPerfilLaboral." AND  fu.id_ubicacion=".$idUbicacion;
         $sql .= " AND rp.estado>=1 AND rp.baja_logica=1";
         $this->_db = new Fubicaciones();
+        //echo "<p>--->".$sql;
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 } 
