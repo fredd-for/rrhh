@@ -545,7 +545,7 @@ class exceloasis extends PHPExcel{
         $callEndTime = microtime(true);
         $callTime = $callEndTime - $callStartTime;
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="relaboralesexcel.xlsx"');
+        header('Content-Disposition: attachment;filename="reporte_excel.xlsx"');
         header('Cache-Control: max-age=0');
         $objWriter = PHPExcel_IOFactory::createWriter($this, 'Excel2007');
         $objWriter->save('php://output');

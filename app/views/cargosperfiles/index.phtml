@@ -105,38 +105,38 @@ $("#add").click(function(){
 });
 
 $("#edit").click(function() {
-        var rowindex = $('#jqxgrid').jqxGrid('getselectedrowindex');
-        if (rowindex > -1)
-        {
-            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', rowindex);
-            $("#titulo").text("Editar");
-            $("#id").val(dataRecord.id);
-            $("#formacion_academica_id").val(dataRecord.formacion_academica_id);
-            $("#documento_id").val(dataRecord.documento_id);
-            $("#exp_general").val(dataRecord.exp_general);
-            $("#exp_general_aniomes").val(dataRecord.exp_general_aniomes);
-            $("#exp_profesional").val(dataRecord.exp_profesional);
-            $("#exp_profesional_aniomes").val(dataRecord.exp_profesional_aniomes);
-            $("#exp_relacionado").val(dataRecord.exp_relacionado);
-            $("#exp_relacionado_aniomes").val(dataRecord.exp_relacionado_aniomes);
-            $("#prioridad").val(dataRecord.prioridad);
-            $("#detalle").val(dataRecord.detalle);
-            
-            $('#myModal').modal('show');
-        }
-        else
-        {
-            bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
-        }
-        
+	var rowindex = $('#jqxgrid').jqxGrid('getselectedrowindex');
+	if (rowindex > -1)
+	{
+		var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', rowindex);
+		$("#titulo").text("Editar");
+		$("#id").val(dataRecord.id);
+		$("#formacion_academica_id").val(dataRecord.formacion_academica_id);
+		$("#documento_id").val(dataRecord.documento_id);
+		$("#exp_general").val(dataRecord.exp_general);
+		$("#exp_general_aniomes").val(dataRecord.exp_general_aniomes);
+		$("#exp_profesional").val(dataRecord.exp_profesional);
+		$("#exp_profesional_aniomes").val(dataRecord.exp_profesional_aniomes);
+		$("#exp_relacionado").val(dataRecord.exp_relacionado);
+		$("#exp_relacionado_aniomes").val(dataRecord.exp_relacionado_aniomes);
+		$("#prioridad").val(dataRecord.prioridad);
+		$("#detalle").val(dataRecord.detalle);
+
+		$('#myModal').modal('show');
+	}
+	else
+	{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para editar.");
+	}
+
 });
 
 $("#delete").click(function(){
 	var rowindex = $('#jqxgrid').jqxGrid('getselectedrowindex');
-        if (rowindex > -1)
-        {
-            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', rowindex);
-            bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+	if (rowindex > -1)
+	{
+		var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', rowindex);
+		bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
 			if (result==true) {
 				var v=$.ajax({
 					url:'/cargosperfiles/delete/',
@@ -149,12 +149,12 @@ $("#delete").click(function(){
 											});
 			}
 		});
-            
-        }
-        else
-        {
-            bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
-        }
+
+	}
+	else
+	{
+		bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+	}
 	
 });
 
@@ -220,7 +220,7 @@ $('#testForm').validate({
 
 });
 </script>
-
+<?php $estado = array('INACTIVO','ACTIVO') ?>
 <div class="row">
 	<div class="col-lg-12">
 		<h1>Perfil Generico de Cargos</h1>		
@@ -228,25 +228,56 @@ $('#testForm').validate({
 </div>
 
 <div class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<a href="/nivelsalariales"> << Volver</a>
-				<div class="form-group form-actions">
-					<div class="col-xs-12">
-						<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
-						<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
-						<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+	<div class="col-md-4">
+					<div class="block">
+						<dl class="dl-horizontal">
+							<dt>Categoria: </dt>
+							<dd><?php echo $nivelsalarial->categoria ?></dd>
+							<dt>Denominación: </dt>
+							<dd><?php echo $nivelsalarial->denominacion ?></dd>
+						</dl>
 					</div>
-				</div>
-				<br>
-				<div class="table-responsive">
-					<div id="jqxgrid"></div>
-				</div>
+	</div>
+	<div class="col-md-4">
+					<div class="block">
+						<dl class="dl-horizontal">
+							<dt>Clase: </dt>
+							<dd><?php echo $nivelsalarial->clase ?></dd>
+							<dt>Sueldo Bs.</dt>
+							<dd><?php echo $nivelsalarial->sueldo ?></dd>
+						</dl>
+					</div>
+	</div>
+	<div class="col-md-4">
+					<div class="block">
+						<dl class="dl-horizontal">
+							<dt>Nivel: </dt>
+							<dd><?php echo $nivelsalarial->nivel ?></dd>
+							<dt>Estado</dt>
+							<dd><?php echo $estado[$nivelsalarial->activo] ?></dd>
+						</dl>
+					</div>
+	</div>
+	
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<a href="/nivelsalariales"> << Volver</a>
+		<div class="form-group form-actions">
+			<div class="col-xs-12">
+				<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+				<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+				<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 			</div>
 		</div>
 	</div>
-
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="table-responsive">
+			<div id="jqxgrid"></div>
+		</div>
+	</div>
 </div>
 </div>
 
@@ -255,7 +286,7 @@ $('#testForm').validate({
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form class="form-horizontal" id="testForm" data-toggle="validator"/>
-			<input type="hidden" id="nivelsalarial_id" name="nivelsalarial_id" value="<?php echo $nivelsalarial_id ?>">
+			<input type="hidden" id="nivelsalarial_id" name="nivelsalarial_id" value="<?php echo $nivelsalarial->id ?>">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title" id="titulo">Editar</h4>
@@ -317,7 +348,7 @@ $('#testForm').validate({
 				<div class="form-group">
 					<label class="col-md-3 control-label">Prioridad</label>
 					<div class="col-md-9">
-						<input type="number" name="prioridad" id="prioridad" class="form-control">
+						<input type="number" name="prioridad" id="prioridad" class="form-control" value="1">
 					</div>
 				</div>
 			</div>

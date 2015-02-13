@@ -490,6 +490,452 @@ public function getEstadoSeguimientoAction()
 // 		}
 // 		$pdf->Output();
 // 		$this->view->disable();
+    public function exportarExcelAction($n_rows, $columns, $filtros,$groups,$sorteds)
+    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
+        if($groups=='null'||$groups==null)$groups="";
+        $sorteds = base64_decode(str_pad(strtr($sorteds, '-_', '+/'), strlen($sorteds) % 4, '=', STR_PAD_RIGHT));
+        $columns = json_decode($columns, true);
+        $filtros = json_decode($filtros, true);
+        $sub_keys = array_keys($columns);//echo $sub_keys[0];
+        $n_col = count($columns);//echo$keys[1];
+        $sorteds = json_decode($sorteds, true);
+        /**
+         * Especificando la configuración de las columnas
+         */
+        $generalConfigForAllColumns = array(
+            'nro_row' => array('title' => 'Nro.', 'width' => 7, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
+            'tipo_resolucion' => array('title' => 'Resolución', 'width' => 40, 'align' => 'C', 'type' => 'varchar'),
+            'unidad_administrativa' => array('title' => 'Organigrama', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
+            'denominacion' => array('title' => 'Denominación', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
+            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
+            'cargo' => array('title' => 'Cargo', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
+            'sueldo' => array('title' => 'Sueldo Bs.', 'width' => 18, 'align' => 'C', 'type' => 'int4'),
+            'estado' => array('title' => 'Estado', 'width' => 20, 'align' => 'C', 'type' => 'bpchar'),
+            'condicion' => array('title' => 'Tipo Cargo', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'partida' => array('title' => 'Partida', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
+            'fuente_codigo' => array('title' => 'Fuente Codigo', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
+            'fuente' => array('title' => 'Fuente', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
+            'organismo_codigo' => array('title' => 'Organismo Codigo', 'width' => 20, 'align' => 'C', 'type' => 'int4'),
+            'organismo' => array('title' => 'Organismo', 'width' => 20, 'align' => 'C', 'type' => 'varchar')
+        );
+
+        $agruparPor = ($groups!="")?explode(",",$groups):array();
+        $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
+        $ancho = 0;
+        if(count($widthsSelecteds)>0) {
+            foreach ($widthsSelecteds as $w) {
+                $ancho = $ancho + $w;
+            }
+            $excel = new exceloasis();
+            $excel->tableWidth = $ancho;
+            #region Proceso de generación del documento Excel
+            $excel->debug = 0;
+            $excel->title_rpt = utf8_decode('Reporte de Cargos');
+            $excel->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+            $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
+            $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTitleSelecteds = $excel->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $alignTitleSelecteds = $excel->DefineTitleAligns(count($colTitleSelecteds));
+            $formatTypes = $excel->DefineTypeCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $gruposSeleccionadosActuales = $excel->DefineDefaultValuesForGroups($groups);
+            $excel->generalConfigForAllColumns = $generalConfigForAllColumns;
+            $excel->colTitleSelecteds = $colTitleSelecteds;
+            $excel->widthsSelecteds = $widthsSelecteds;
+            $excel->alignSelecteds = $alignSelecteds;
+            $excel->alignTitleSelecteds = $alignTitleSelecteds;
+
+            $cantCol = count($colTitleSelecteds);
+            $excel->ultimaLetraCabeceraTabla = $excel->columnasExcel[$cantCol-1];
+            $excel->penultimaLetraCabeceraTabla = $excel->columnasExcel[$cantCol-2];
+            $excel->numFilaCabeceraTabla = 4;
+            $excel->primeraLetraCabeceraTabla = "A";
+            $excel->segundaLetraCabeceraTabla = "B";
+            $excel->celdaInicial = $excel->primeraLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
+            $excel->celdaFinal = $excel->ultimaLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
+            if($cantCol<=9){
+                $excel->defineOrientation("V");
+                $excel->defineSize("C");
+            }elseif($cantCol<=13){
+                $excel->defineOrientation("H");
+                $excel->defineSize("C");
+            }else{
+                $excel->defineOrientation("H");
+                $excel->defineSize("O");
+            }
+            if ($excel->debug == 1) {
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>" . $groups;
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($sorteds);
+                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
+            }
+            $where = '';
+            $yaConsiderados = array();
+            for ($k = 0; $k < count($filtros); $k++) {
+                $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+                $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+
+                for ($j = 0; $j < $n_col; $j++) {
+                    if ($sub_keys[$j] == $filtros[$k]['columna']) {
+                        $col_fil = $columns[$sub_keys[$j]]['text'];
+                    }
+                }
+                if ($filtros[$k]['tipo'] == 'datefilter') {
+                    $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
+                }
+                $cond_fil = ' ' . $col_fil;
+                if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+
+                    if (strlen($where) > 0) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'NOT_EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'CONTAINS':
+                                $where .= ' AND ';
+                                break;
+                            case 'EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                        }
+                    }
+                }
+                if ($cant > 1) {
+                    if ($excel->debug == 1) {
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                        print_r($yaConsiderados);
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                    }
+                    if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $cond_fil .= utf8_encode(" que sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                                break;
+                            case 'NOT_EMPTY':
+                                $cond_fil .= utf8_encode(" que no sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                                break;
+                            case 'CONTAINS':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                if ($filtros[$k]['columna'] == "nombres") {
+                                    $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                                } else {
+                                    $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                                }
+                                break;
+                            case 'EQUAL':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    if ($excel->debug == 1) {
+
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                        echo $filtros[$k]['columna'] . "-->" . $col;
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                    }
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        } else $where .= " OR ";
+                                    }
+                                }
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    //$fecha = date("Y-m-d", $col);
+                                    $fecha = $col;
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                                $where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";
+                                                break;
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                if ($ini == 0) {
+                                                    $where .= $filtros[$k]['columna'] . " BETWEEN ";
+                                                } else {
+                                                    $where .= " AND ";
+                                                }
+                                                $where .= "'" . $fecha . "'";
+
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                                $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                                break;
+                        }
+                        $yaConsiderados[] = $filtros[$k]['columna'];
+                    }
+                } else {
+                    switch ($filtros[$k]['condicion']) {
+                        case 'EMPTY':
+                            $cond_fil .= utf8_encode(" que sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                            break;
+                        case 'NOT_EMPTY':
+                            $cond_fil .= utf8_encode(" que no sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                            break;
+                        case 'CONTAINS':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if ($filtros[$k]['columna'] == "nombres") {
+                                $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                            } else {
+                                $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                            }
+                            break;
+                        case 'EQUAL':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                    case 'int4':
+                                    case 'numeric':
+                                    case 'date':
+                                        //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                    case 'varchar':
+                                    case 'bpchar':
+                                        //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                }
+                            }
+                            break;
+                        case 'GREATER_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                        case 'LESS_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                    }
+                }
+
+            }
+            $obj = new Cargos();
+            if ($where != "") $where = " WHERE " . $where;
+            $groups_aux = "";
+            if ($groups != "") {
+                /**
+                 * Se verifica que no se considere la columna nombres debido a que contenido ya esta ordenado por las
+                 * columnas p_apellido, s_apellido, c_apellido, p_anombre, s_nombre, t_nombre
+                 */
+                if (strrpos($groups, "nombres")) {
+                    if (strrpos($groups, ",")) {
+                        $arr = explode(",", $groups);
+                        foreach ($arr as $val) {
+                            if ($val != "nombres")
+                                $groups_aux[] = $val;
+                        }
+                        $groups = implode(",", $groups_aux);
+                    } else $groups = "";
+                }
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    if ($groups != "") $groups .= ",";
+                    $coma = "";
+                    if ($excel->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                }
+                if ($groups != "")
+                    $groups = " ORDER BY " . $groups . ",p_apellido,s_apellido,c_apellido,p_nombre,s_nombre,t_nombre,id_da,fecha_ini";
+                if ($excel->debug == 1) echo "<p>La consulta es: " . $groups . "<p>";
+            } else {
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    $coma = "";
+                    if ($excel->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                    $groups = " ORDER BY " . $groups;
+                }
+
+            }
+            if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
+            if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
+            $resul = $obj->lista($where, $groups);
+
+            $cargos = array();
+            foreach ($resul as $v) {
+            	$cargos[] = array(
+            		'tipo_resolucion'=>$v->tipo_resolucion,
+            		'unidad_administrativa'=>$v->unidad_administrativa,
+            		'denominacion'=>$v->denominacion,
+            		'codigo'=>$v->codigo,
+            		'cargo'=>$v->cargo,
+            		'sueldo'=>$v->sueldo,
+            		'estado'=>$v->estado,
+            		'condicion'=>$v->condicion,
+            		'partida'=>$v->partida,
+            		'fuente_codigo'=>$v->fuente_codigo,
+            		'fuente'=>$v->fuente,
+            		'organismo_codigo'=>$v->organismo_codigo,
+            		'organismo'=>$v->organismo
+            		);
+            }
+
+            #region Espacio para la definición de valores para la cabecera de la tabla
+            $excel->FechaHoraReporte = date("d-m-Y H:i:s");
+            $j = 0;
+            $agrupadores = array();
+            if ($groups != "")
+                $agrupadores = explode(",", $groups);
+
+            $dondeCambio = array();
+            $queCambio = array();
+            $excel->header();
+            $fila=$excel->numFilaCabeceraTabla;
+            if (count($cargos) > 0){
+                $excel->RowTitle($colTitleSelecteds,$fila);
+                $celdaInicial=$excel->primeraLetraCabeceraTabla.$fila;
+                $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                if ($excel->debug == 1) {
+                    echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                    print_r($cargos);
+                    echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                }
+                foreach ($cargos as $i => $val) {
+                    if (count($agrupadores) > 0) {
+                        if ($excel->debug == 1) {
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                            print_r($gruposSeleccionadosActuales);
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                        }
+                        $agregarAgrupador = 0;
+                        $aux = array();
+                        $dondeCambio = array();
+                        foreach ($gruposSeleccionadosActuales as $key => $valor) {
+                            if ($valor != $val[$key]) {
+                                $agregarAgrupador = 1;
+                                $aux[$key] = $val[$key];
+                                $dondeCambio[] = $key;
+                                $queCambio[$key] = $val[$key];
+                            } else {
+                                $aux[$key] = $val[$key];
+                            }
+                        }
+                        $gruposSeleccionadosActuales = $aux;
+                        if ($agregarAgrupador == 1) {
+                            $agr = $excel->DefineTitleColsByGroups($generalConfigForAllColumns, $dondeCambio, $queCambio);
+                            if($excel->debug==1){
+                                echo "<p>+++++++++++++++++++++++++++AGRUPADO POR++++++++++++++++++++++++++++++++++++++++<p></p>";
+                                print_r($agr);
+                                echo "<p>+++++++++++++++++++++++++++AGRUPADO POR++++++++++++++++++++++++++++++++++++++++<p></p>";
+                            }
+                            $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
+                            $fila++;
+                            /*
+                             * Si es que hay agrupadores, se inicia el conteo desde donde empieza el agrupador
+                             */
+                            $celdaInicial=$excel->primeraLetraCabeceraTabla.$fila;
+                            $excel->Agrupador($agr,$fila);
+                            $excel->RowTitle($colTitleSelecteds,$fila);
+                        }
+                        $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                        $rowData = $excel->DefineRows($j + 1, $cargos[$j], $colSelecteds);
+                        if ($excel->debug == 1) {
+                            echo "<p>···································FILA·················································<p></p>";
+                            print_r($rowData);
+                            echo "<p>···································FILA·················································<p></p>";
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $fila++;
+
+                    } else {
+                        $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                        $rowData = $excel->DefineRows($j + 1, $val, $colSelecteds);
+                        if ($excel->debug == 1) {
+                            echo "<p>···································FILA·················································<p></p>";
+                            print_r($rowData);
+                            echo "<p>···································FILA·················································<p></p>";
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $fila++;
+                    }
+                    $j++;
+                }
+                $fila--;
+                $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
+            }
+            $excel->ShowLeftFooter = true;
+            //$excel->secondPage();
+            if ($excel->debug == 0) {
+                $excel->display("reporte_cargos.xls","I");
+            }
+            #endregion Proceso de generación del documento PDF
+        }
+    }
 
 public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
@@ -1339,7 +1785,44 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
         }
         return $arrRes;
     }
+/*
+     * Función para obtener la cantidad de veces que se considera una misma columna en el filtrado.
+     * @param $columna
+     * @param $array
+     * @return int
+     */
+    function obtieneCantidadVecesConsideracionPorColumnaEnFiltros($columna, $array)
+    {
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $cont++;
+                }
+            }
+        }
+        return $cont;
+    }
 
+    /**
+     * Función para la obtención de los valores considerados en el filtro enviado.
+     * @param $columna Nombre de la columna
+     * @param $array Array con los registro de busquedas.
+     * @return array Array con los valores considerados en el filtrado enviado.
+     */
+    function obtieneValoresConsideradosPorColumnaEnFiltros($columna, $array)
+    {
+        $arr_col = array();
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $arr_col[] = $val["valor"];
+                }
+            }
+        }
+        return $arr_col;
+    }
     
 // 	}
 

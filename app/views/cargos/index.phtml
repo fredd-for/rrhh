@@ -497,6 +497,19 @@ $('#testForm').validate({
 	
 // });
 
+$("#rep_excel").click(function () {
+        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
+        if (numColumnas > 0) exportarReporte(1);
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#jqxlistbox").focus();
+        }
+});
+
 $("#rep_pdf").click(function () {
         var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
         var numColumnas = 0;
@@ -786,7 +799,8 @@ function exportarPacReporte(option){
 					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
 					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copear Cargo</button>
-					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte</button>
+					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte PDF</button>
+					<button class="btn btn-sm btn-primary" type="button" id="rep_excel"><i class="fa fa-book fa-fw"></i> Reporte Excel</button>
         </div>
     </div>
 </div>

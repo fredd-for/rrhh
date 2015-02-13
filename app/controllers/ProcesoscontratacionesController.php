@@ -557,7 +557,6 @@ if ($this->request->isPost()) {
    			$formacion_html.='<tr>
 							<td class="caja">'.$v->valor_1.'</td>
 							<td class="caja">'.$v->documento_text.'</td>
-							<td class="caja">'.$v->gestion.'</td>
 							<td class="caja">'.$v->institucion.'</td>
 							<td class="caja">'.$v->grado.'</td>
 							<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
@@ -626,13 +625,22 @@ if ($this->request->isPost()) {
 							<td class="caja">'.$v->duracion.'</td>
 							</tr>';
    		}
-   		$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$this->_user->id,'order' => 'id ASC'));
+   		$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
    		$referencia_html='';
    		foreach ($referencia as $v) {
    			$referencia_html.='<tr>
 							<td class="caja">'.$v->nombres_y_apps.'</td>
 							<td class="caja">'.$v->institucion.'</td>
 							<td class="caja">'.$v->cargo.'</td>
+							<td class="caja">'.$v->telefono.'</td>
+							</tr>';
+   		}
+   		$referenciapersonal = Preferenciaspersonales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+   		$referenciapersonal_html='';
+   		foreach ($referenciapersonal as $v) {
+   			$referenciapersonal_html.='<tr>
+							<td class="caja">'.$v->nombres_y_apps.'</td>
+							<td class="caja">'.$v->parentesco.'</td>
 							<td class="caja">'.$v->telefono.'</td>
 							</tr>';
    		}
@@ -697,15 +705,11 @@ if ($this->request->isPost()) {
 				<table class="table table-vcenter table-striped tabla1">
 						<tr>
 							<th>CORREO ELECTRÓNICO</th>
-							<th>FAX</th>
-							<th>CASILLA DE CORREO</th>
 							<th>LUGAR DE POSTULACIÓN</th>
 							<th>FECHA DE REGISTRO</th>
 						</tr>
 						<tr>
 							<td class="caja">'.$resul->correo.'</td>
-							<td class="caja">'.$resul->fax.'</td>
-							<td class="caja">'.$resul->casilla.'</td>
 							<td class="caja">'.$resul->lugar_postulacion.'</td>
 							<td class="caja">'.date("d-m-Y",strtotime($resul->fecha_registro)).'</td>
 						</tr>
@@ -715,7 +719,6 @@ if ($this->request->isPost()) {
 						<tr>
 							<th>FORMACIÓN ACADEMICA</th>
 							<th>DOCUMENTO</th>
-							<th>AÑO</th>
 							<th>INSTITUCIÓN</th>
 							<th>GRADO O TITULO OBTENIDO</th>
 							<th>FECHA EMISIÓN</th>
@@ -787,7 +790,7 @@ if ($this->request->isPost()) {
 						</tr>
 						'.$docencia_html.'
 				</table>
-				<h4><strong>Referencias Personales</strong></h4>
+				<h4><strong>Referencias Laborales</strong></h4>
 				<table class="table table-vcenter table-striped tabla1">
 						<tr>
 							<th>NOMBRE(S) Y APELLIDO(S)</th>
@@ -796,6 +799,15 @@ if ($this->request->isPost()) {
 							<th>TELEFONO(S)</th>
 						</tr>
 						'.$referencia_html.'
+				</table>
+				<h4><strong>Referencias Personales</strong></h4>
+				<table class="table table-vcenter table-striped tabla1">
+						<tr>
+							<th>NOMBRE(S) Y APELLIDO(S)</th>
+							<th>PARENTESCO</th>
+							<th>TELEFONO(S)</th>
+						</tr>
+						'.$referenciapersonal_html.'
 				</table>
 				<br><br><br><br>
 				<div style="margin: auto;text-align:center;width:200px;border-top-color:black;border-top-style:dotted;border-top-width:1px; ">FIRMA DEL POSTULANTE</div>

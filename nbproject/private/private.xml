@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/rrhh/app/controllers/CargosperfilesController.php</file>
             <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
-            <file>file:/var/www/html/rrhh/app/controllers/ProcesoscontratacionesController.php</file>
+            <file>file:/var/www/html/rrhh/app/models/Cargos.php</file>
+            <file>file:/var/www/html/rrhh/app/controllers/CargosController.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
         </group>
     </open-files>
 </project-private>

@@ -178,7 +178,7 @@ class Cargos extends \Phalcon\Mvc\Model
 //         if($where!='')$sql .= $where;
 //         if($group!='')$sql .= $group;
 
-        $sql="SELECT * FROM f_listado_cargos() ".$where." ORDER BY organigrama_id asc, codigo_nivel ASC". $group;
+        $sql="SELECT * FROM f_listado_cargos() ".$where." ". $group;
 
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));

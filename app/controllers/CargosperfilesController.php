@@ -69,7 +69,7 @@ class CargosperfilesController extends ControllerBase
 			array(
 				'formacion_academica_id',
 				//Resoluciones::find(array('baja_logica=1',"order"=>"tipo_resolucion","columns" => "id,CONCAT(tipo_resolucion, ' - ', numero_res) as fullname")),
-				Parametros::find(array("baja_logica=1 and parametro='formacion_academica'","order"=>"nivel ASC")),
+				Parametros::find(array("baja_logica=1 and parametro='formacion_academica' and agrupador=0","order"=>"nivel ASC")),
 				'using' => array('id', "valor_1"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
@@ -146,8 +146,9 @@ class CargosperfilesController extends ControllerBase
             )
         );
 		$this->view->setVar('area_sustantiva',$area_sustantiva);        
-
-		$this->view->setVar('nivelsalarial_id',$nivelsalarial_id);
+		//$this->view->setVar('nivelsalarial_id',$nivelsalarial_id);
+		$resul = Nivelsalariales::findFirstById($nivelsalarial_id);
+		$this->view->setVar('nivelsalarial',$resul);
 
 	}
 
