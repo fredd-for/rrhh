@@ -121,7 +121,7 @@ $().ready(function () {
         e.stopPropagation();
         inputEntradaNew.clockpicker('show');
     });
-    var inputSalidaEditar = $('#txtHoraSalHorarioEditar').clockpicker({
+    var inputSalidaNew = $('#txtHoraSalHorario').clockpicker({
         placement: 'bottom',
         align: 'left',
         autoclose: true,
@@ -129,7 +129,7 @@ $().ready(function () {
     });
     $("#aHoraSalidaEditar").on("click",function(e){
         e.stopPropagation();
-        inputSalidaEditar.clockpicker('show');
+        inputSalidaNew.clockpicker('show');
     });
     var inputEntradaEditar = $('#txtHoraEntHorarioEditar').clockpicker({
         placement: 'bottom',
