@@ -222,7 +222,7 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
 
-    $("#btnCancelarAssignGroup,#btnCancelarSingle").on("click",function () {
+    $("#btnCancelarAssignGroup,#btnCancelarSingle,#btnCancelarTurnPerfil").on("click",function () {
         $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 0});
         $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 0);
         $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 1);

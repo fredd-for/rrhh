@@ -22,12 +22,15 @@ class PerfileslaboralesController extends ControllerBase
     {
         $this->assets->addJs('/js/jquery.PrintArea.js');
         $this->assets->addCss('/assets/css/PrintArea.css');
+        $this->assets->addCss('/css/oasis.grillas.css');
 
         $this->assets->addJs('/js/jquery.kolorpicker.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');
 
         $this->assets->addJs('/js/slider/bootstrap-slider.js');
         $this->assets->addCss('/js/slider/bootstrap-slider.css');
+
+        $this->assets->addJs('/js/enscroll/enscroll.js');
 
         $this->assets->addCss('/assets/css/oasis.principal.css');
 

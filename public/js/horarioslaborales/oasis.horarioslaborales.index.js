@@ -111,21 +111,84 @@ $().ready(function () {
     $('#btnDesagrupartodo').click(function () {
         $('#jqxgridhorarios').jqxGrid('cleargroups');
     });
+    var inputEntradaNew = $('#txtHoraEntHorario').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $("#aHoraEntrada").on("click",function(e){
+        e.stopPropagation();
+        inputEntradaNew.clockpicker('show');
+    });
+    var inputSalidaEditar = $('#txtHoraSalHorarioEditar').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $("#aHoraSalidaEditar").on("click",function(e){
+        e.stopPropagation();
+        inputSalidaEditar.clockpicker('show');
+    });
+    var inputEntradaEditar = $('#txtHoraEntHorarioEditar').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $("#aHoraEntradaEditar").on("click",function(e){
+        e.stopPropagation();
+        inputEntradaEditar.clockpicker('show');
+    });
+    var inputSalidaEditar = $('#txtHoraSalHorarioEditar').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $("#aHoraSalidaEditar").on("click",function(e){
+        e.stopPropagation();
+        inputSalidaEditar.clockpicker('show');
+    });
+
     $(".hora-entrada-salida").on("change",function (){
-        var horaEntrada = $("#txtHoraEntHorario").val();
+        determinaNombreHorario(1);
+        aplicarCalculosParaRangoMarcaciones(1);
+
+        /*var horaEntrada = $("#txtHoraEntHorario").val();
         var horaSalida = $("#txtHoraSalHorario").val();
         if(horaEntrada=="")horaEntrada="00:00:00";
         if(horaSalida=="")horaSalida="00:00:00";
         var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
         $("#txtHorasLaborales").val(cantidadHorasLaborales);
+        determinaNombreHorario(1);
+        var horaInicioEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario").val(),-60,0);
+        if(horaInicioEntrada!=''){
+            $("#txtHoraInicioRangoEnt").val(horaInicioEntrada);
+        }
+        var auxCantidadHorasLaborales = parseFloat(cantidadHorasLaborales);
+        if(auxCantidadHorasLaborales>0){
+            var mitadCantidadHorasLaborales = parseFloat(auxCantidadHorasLaborales/2);
+            var mitadCantidadMinutosLaborales = parseFloat(mitadCantidadHorasLaborales*60);
+            var horaFinEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario").val(),mitadCantidadMinutosLaborales,0);
+            $("#txtHoraFinalizacionRangoEnt").val(horaFinEntrada);
+            var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEnt").val(),0,1);
+            $("#txtHoraInicioRangoSal").val(horaInicioSalida);
+        }
+        $("#txtHoraFinalizacionRangoSal").val("23:59:59");*/
+    });
+    $("#txtHoraFinalizacionRangoEnt").on("change",function(){
+        var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEnt").val(),0,1);
+        $("#txtHoraInicioRangoSal").val(horaInicioSalida);
     });
     $(".hora-entrada-salida-editar").on("change",function (){
-        var horaEntrada = $("#txtHoraEntHorarioEditar").val();
-        var horaSalida = $("#txtHoraSalHorarioEditar").val();
-        if(horaEntrada=="")horaEntrada="00:00:00";
-        if(horaSalida=="")horaSalida="00:00:00";
-        var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
-        $("#txtHorasLaboralesEditar").val(cantidadHorasLaborales);
+        determinaNombreHorario(2);
+        aplicarCalculosParaRangoMarcaciones(2);
+    });
+    $("#txtHoraFinalizacionRangoEntEditar").on("change",function(){
+        var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEntEditar").val(),0,1);
+        $("#txtHoraInicioRangoSalEditar").val(horaInicioSalida);
     });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
@@ -399,7 +462,7 @@ function definirGrillaParaListaHorarios() {
                     {
                         text: 'Nombre',
                         columntype: 'textbox',
-                        filtertype: 'checkedlist',
+                        filtertype: 'input',
                         datafield: 'nombre',
                         width: 100,
                         align: 'center',
@@ -626,4 +689,76 @@ var cellsrenderer = function(row, column, value, defaultHtml) {
     element.css({'background-color': value});
     return element[0].outerHTML;
     return defaultHtml;
+}
+/**
+ * Función para determinar el nombre del horario en base a la Hora de Entrada y Hora de Salida.
+ */
+function determinaNombreHorario(opcion){
+    var sufijo = "";
+    if(opcion==2)sufijo="Editar";
+    var nombre = "";
+    var horaEntrada = $("#txtHoraEntHorario"+sufijo).val();
+    var horaSalida = $("#txtHoraSalHorario"+sufijo).val();
+    if(horaEntrada!=""&&horaSalida!=""){
+        var arrHoraEntrada = horaEntrada.split(":");
+        horaEntrada = arrHoraEntrada[0]+":"+arrHoraEntrada[1];
+        var arrHoraSalida = horaSalida.split(":");
+        horaSalida = arrHoraSalida[0]+":"+arrHoraSalida[1];
+        nombre = horaEntrada+" A "+horaSalida;
+    }
+    $("#txtNombreHorario"+sufijo).val(nombre);
+}
+/**
+ * Función para sumar una determinada cantidad de minutos y/o segundos a una hora en específico.
+ * @param horaInicial Hora a la cual se hara la suma de minutos.
+ * @param minutosSumar Valor que determina la cantidad de minutos que se debe adicionar a la Hora Inicial.
+ * @param segundosSumar Valor que determina la cantidad de segundos que se debe adicionar a la hora Inicial.
+ * @param segundosAlFinal Número de segundos que se desea ver en el retorno del resultado.
+ */
+function sumarMinutosSegundosAHora(horaInicial,minutosSumar,segundosSumar){
+    var nuevaHora="";
+    $.ajax({
+        url:'/horarioslaborales/sumarminutosahora/',
+        type:'POST',
+        datatype: 'html',
+        async:false,
+        data:{hora_inicial:horaInicial,
+            minutos_sumar:minutosSumar,
+            segundos_sumar:segundosSumar
+        },
+        success: function(data) {
+            if(data!=''){
+                nuevaHora = data;
+            }
+        }
+    });
+    return nuevaHora;
+}
+/**
+ * Función para efectuar los cálculos para los rangos de marcación.
+ * @param opcion
+ */
+function aplicarCalculosParaRangoMarcaciones(opcion){
+    var sufijo="";
+    if(opcion==2)sufijo ="Editar";
+    var horaEntrada = $("#txtHoraEntHorario"+sufijo).val();
+    var horaSalida = $("#txtHoraSalHorario"+sufijo).val();
+    if(horaEntrada=="")horaEntrada="00:00:00";
+    if(horaSalida=="")horaSalida="00:00:00";
+    var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
+    $("#txtHorasLaborales"+sufijo).val(cantidadHorasLaborales);
+    var horaInicioEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario"+sufijo).val(),-60,0);
+    if(horaInicioEntrada!=''){
+        $("#txtHoraInicioRangoEnt"+sufijo).val(horaInicioEntrada);
+    }
+    var auxCantidadHorasLaborales = parseFloat(cantidadHorasLaborales);
+    if(auxCantidadHorasLaborales>0){
+        var mitadCantidadHorasLaborales = parseFloat(auxCantidadHorasLaborales/2);
+        var mitadCantidadMinutosLaborales = parseFloat(mitadCantidadHorasLaborales*60);
+        var horaFinEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario"+sufijo).val(),mitadCantidadMinutosLaborales,0);
+        $("#txtHoraFinalizacionRangoEnt"+sufijo).val(horaFinEntrada);
+        var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEnt"+sufijo).val(),0,1);
+        $("#txtHoraInicioRangoSal"+sufijo).val(horaInicioSalida);
+    }
+    $("#txtHoraFinalizacionRangoSal"+sufijo).val("23:59:59");
 }

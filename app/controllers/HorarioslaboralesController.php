@@ -22,8 +22,12 @@ class HorarioslaboralesController extends ControllerBase
     {
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $this->assets->addJs('/js/jquery.kolorpicker.js');
+        $this->assets->addJs('/js/clockpicker/clockpicker.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');
+        $this->assets->addCss('/assets/css/clockpicker.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
+        $this->assets->addCss('/css/oasis.grillas.css');
+
         $this->assets->addJs('/js/horarioslaborales/oasis.horarioslaborales.tab.js');
         $this->assets->addJs('/js/horarioslaborales/oasis.horarioslaborales.index.js');
         $this->assets->addJs('/js/horarioslaborales/oasis.horarioslaborales.new.js');
@@ -1546,9 +1550,9 @@ class HorarioslaboralesController extends ControllerBase
      */
     function getoneAction(){
         $horariolaboral = Array();
+        $this->view->disable();
         if(isset($_POST["id"])&&$_POST["id"]>0){
             $id = $_POST["id"];
-            $this->view->disable();
             $obj = new Fhorarioslaborales();
             $resul = $obj->getOne($id);
             //comprobamos si hay filas
@@ -1599,5 +1603,25 @@ class HorarioslaboralesController extends ControllerBase
 
         }
         echo json_encode($horariolaboral);
+    }
+
+    /**
+     * Función para la suma de una cantidad determinada de minutos y/o segundos a una hora en especifico.
+     * Si se envía un valor negativo como parámetros para minutos_sumar y segundos_sumar se efectua la resta de los minutos y/o segundos.
+     */
+    function sumarminutosahoraAction(){
+        $this->view->disable();
+        $nuevaHora = "";
+        if(isset($_POST["hora_inicial"])&&isset($_POST["minutos_sumar"])){
+            $horaInicial = $_POST["hora_inicial"];
+            $minutosSumar = $_POST["minutos_sumar"];
+            $segundos_horaInicial=strtotime($horaInicial);
+            $segundos_minutosSumar=$minutosSumar*60;
+            if(isset($_POST["segundos_sumar"])&&$_POST["segundos_sumar"]>0){
+                $segundos_minutosSumar += $_POST["segundos_sumar"];
+            }
+            $nuevaHora=date("H:i:s",$segundos_horaInicial+$segundos_minutosSumar);
+        }
+        echo $nuevaHora;
     }
 }

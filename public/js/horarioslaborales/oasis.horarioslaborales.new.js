@@ -68,10 +68,10 @@ function validaFormularioHorarioLaboral() {
 
     if (nombre == '') {
         ok = false;
-        var msje = "Debe introducir un nombre para el horario necesariamente.";
+        var msje = "Debe introducir la Hora de Entrada y Hora de Salida para posibilitar la generación del nombre para el horario.";
         divNombreHorario.addClass("has-error");
         helpErrorNombreHorario.html(msje);
-        if (enfoque == null)enfoque = txtNombreHorario;
+        //if (enfoque == null)enfoque = txtNombreHorario;
     }
     if(color==''){
         ok = false;
