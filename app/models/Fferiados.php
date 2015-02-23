@@ -14,7 +14,12 @@ class Fferiados extends \Phalcon\Mvc\Model {
     public $descripcion;
     public $regional_id;
     public $regional;
-    public $aplicacion;
+    public $horario_discontinuo;
+    public $horario_discontinuo_descripcion;
+    public $horario_continuo;
+    public $horario_continuo_descripcion;
+    public $horario_multiple;
+    public $horario_multiple_descripcion;
     public $cantidad_dias;
     public $repetitivo;
     public $repetitivo_descripcion;
@@ -50,7 +55,12 @@ class Fferiados extends \Phalcon\Mvc\Model {
             'descripcion'=>'descripcion',
             'regional_id'=>'regional_id',
             'regional'=>'regional',
-            'aplicacion'=>'aplicacion',
+            'horario_discontinuo'=>'horario_discontinuo',
+            'horario_discontinuo_descripcion'=>'horario_discontinuo_descripcion',
+            'horario_continuo'=>'horario_continuo',
+            'horario_continuo_descripcion'=>'horario_continuo_descripcion',
+            'horario_multiple'=>'horario_multiple',
+            'horario_multiple_descripcion'=>'horario_multiple_descripcion',
             'cantidad_dias'=>'cantidad_dias',
             'repetitivo'=>'repetitivo',
             'repetitivo_descripcion'=>'repetitivo_descripcion',

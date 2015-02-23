@@ -156,8 +156,12 @@ function definirGrillaParaListaTolerancias() {
             {name: 'descripcion', type: 'string'},
             {name: 'regional_id', type: 'integer'},
             {name: 'regional', type: 'string'},
-            {name: 'aplicacion', type: 'integer'},
-            {name: 'aplicacion_descripcion', type: 'string'},
+            {name: 'horario_discontinuo', type: 'integer'},
+            {name: 'horario_discontinuo_descripcion', type: 'string'},
+            {name: 'horario_continuo', type: 'integer'},
+            {name: 'horario_continuo_descripcion', type: 'string'},
+            {name: 'horario_multiple', type: 'integer'},
+            {name: 'horario_multiple_descripcion', type: 'string'},
             {name: 'cantidad_dias', type: 'integer'},
             {name: 'repetitivo', type: 'integer'},
             {name: 'repetitivo_descripcion', type: 'string'},
@@ -211,6 +215,7 @@ function definirGrillaParaListaTolerancias() {
                         $('#divTabFeriados').jqxTabs('disableAt', 2);
                         $('#divTabFeriados').jqxTabs('disableAt', 3);
                         $('#divTabFeriados').jqxTabs({selectedItem: 1});
+                        listarCantidadDias(1,0);
                         inicializarCamposParaNuevoRegistroTolerancia();
                         limpiarMensajesErrorPorValidacionTolerancia("");
                         cargarTiposDeAcumulacion(-1,"");
@@ -345,12 +350,31 @@ function definirGrillaParaListaTolerancias() {
                         datafield: 'feriado',
                         width: 200,
                         align: 'center',
+                        cellsalign: 'center',
                         hidden: false
                     },
                     {
-                        text: 'Aplicaci&oacute;n',
+                        text: 'H. Discontinuos',
                         filtertype: 'checkedlist',
-                        datafield: 'aplicacion_descripcion',
+                        datafield: 'horario_discontinuo_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'H. Continuos',
+                        filtertype: 'checkedlist',
+                        datafield: 'horario_continuo_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'H. Multiples',
+                        filtertype: 'checkedlist',
+                        datafield: 'horario_multiple_descripcion',
                         width: 100,
                         align: 'center',
                         cellsalign: 'center',
@@ -414,7 +438,9 @@ function definirGrillaParaListaTolerancias() {
         var listSource = [
             /*{label: 'Estado', value: 'estado_descripcion', checked: true},*/
             {label: 'Feriado', value: 'feriado', checked: true},
-            {label: 'Aplicaci&oacute;n', value: 'aplicacion_descripcion', checked: true},
+            {label: 'H. Discontinuos', value: 'horario_discontinuo_descripcion', checked: true},
+            {label: 'H. Continuos', value: 'horario_continuo_descripcion', checked: true},
+            {label: 'H. Multiples', value: 'horario_multiple_descripcion', checked: true},
             {label: 'Cantidad D&iacute;as', value: 'cantidad_dias', checked: true},
             {label: 'Repetitivo', value: 'repetitivo_descripcion', checked: true},
 
@@ -488,12 +514,19 @@ var cellclass = function (row, columnfield, value) {
  * @param opcion
  * @param cantidad
  */
-function cantidadDias(opcion,cantidad){
+function listarCantidadDias(opcion,cantidad){
     var sufijo = "New";
     if(opcion==2){
         sufijo = "Edit";
     }
-    if(cantidad>0){
-
+    var selected="";
+    $("#lstCantidadDias"+sufijo).html("");
+    $("#lstCantidadDias"+sufijo).append("<option value='0'>Seleccionar...</option>");
+    if(cantidad>=0){
+        for (i=1;i<=10;i++){
+            if(i==cantidad)selected="selected";
+            else selected="";
+            $("#lstCantidadDias"+sufijo).append("<option value='"+i+"'>"+i+" D&iacute;a (s)</option>");
+        }
     }
 }

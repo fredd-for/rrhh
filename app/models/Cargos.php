@@ -123,6 +123,8 @@ class Cargos extends \Phalcon\Mvc\Model
      */
     public $ordenador;
 
+    public $ordenador;
+
     /**
      * Initialize method for model.
      */
