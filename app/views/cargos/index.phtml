@@ -31,6 +31,7 @@ function cargar(){
 		{ name: 'codigo_nivel',type: 'string'},
 		{ name: 'denominacion',type: 'string'},
 		{ name: 'codigo',type: 'string'},
+		{ name: 'ordenador',type: 'number'},
 		{ name: 'cargo',type: 'string'},
 		{ name: 'sueldo'},
 		{ name: 'fin_partida_id'},
@@ -91,9 +92,10 @@ function cargar(){
                 { text: 'Resolución', datafield: 'tipo_resolucion', filtertype: 'checkedlist',filter: firstNameColumnFilter,width: '15%' },
                 { text: 'Organigrama', datafield: 'unidad_administrativa', filtertype: 'checkedlist',width: '20%' },
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
-                { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
+                { text: 'Ordenador', datafield: 'ordenador', filtertype: 'number',width: '5%' },
                 { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
                 { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '8%', cellsalign: 'right', align: 'right'},
+                { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
                 { text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
                 { text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '10%' },
 
@@ -145,6 +147,7 @@ $("#jqxgrid").bind('rowselect', function (event) {
 	$("#depende_id").val(dataRecord.depende_id);
 	$("#codigo_nivel").val(dataRecord.codigo_nivel);
 	$("#codigo").val(dataRecord.codigo);
+	$("#ordenador").val(dataRecord.ordenador);
 	$("#cargo").val(dataRecord.cargo);
 	$("#formacion_requerida").val(dataRecord.formacion_requerida);
 	$("#sueldotxt").text(dataRecord.sueldo);
@@ -155,6 +158,7 @@ $("#add").click(function(){
 	$("#titulo").text("Adicionar");
 	$("#id").val("");
 	$("#codigo").val("");
+	$("#ordenador").val("");
 	$("#organigrama_id").val("");
 	$("#depende_id").val("");
 	$("#fin_partida_id").val("");
@@ -242,7 +246,7 @@ $("#add_pac").click(function(){
 
 
 
-var listSource = [{ label: 'Resolución', value: 'tipo_resolucion', checked: true },{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Item', value: 'codigo', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true}, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
+var listSource = [{ label: 'Resolución', value: 'tipo_resolucion', checked: true },{ label: 'Organigrama', value: 'unidad_administrativa', checked: true }, { label: 'Denominacion', value: 'denominacion', checked: true }, { label: 'Ordenador', value: 'ordenador', checked: true }, { label: 'Cargo', value: 'cargo', checked: true }, { label: 'Salario Mensual', value: 'sueldo', checked: true},{ label: 'Item', value: 'codigo', checked: true }, { label: 'Tipo Cargo', value: 'condicion', checked: true}, { label: 'Estado', value: 'estado', checked: true},{label:'Partida', value: 'partida', checked: true},{label:'Fuente Codigo', value: 'fuente_codigo', checked: true},{label:'Fuente', value: 'fuente', checked: false},{label:'Organismo Codigo', value: 'organismo_codigo', checked: true},{label:'Organismo', value: 'organismo', checked: false}];
 
 $("#jqxlistbox").jqxListBox({ source: listSource,   checkboxes: true });
 $("#jqxlistbox").on('checkChange', function (event) {
@@ -438,7 +442,7 @@ $('#testForm').validate({
 			url:'/cargos/save/',
 			type:'POST',
 			datatype: 'json',
-			data:{id:$("#id").val(),resolucion_ministerial_id:$('#resolucion_ministerial_id').val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
+			data:{id:$("#id").val(),resolucion_ministerial_id:$('#resolucion_ministerial_id').val(),organigrama_id:$('#organigrama_id').val(),fin_partida_id:$('#fin_partida_id').val(),depende_id:$('#depende_id').val(),cargo:$("#cargo").val(),codigo_nivel:$("#codigo_nivel").val(),codigo:$('#codigo').val(),ordenador:$('#ordenador').val(),formacion_requerida:$("#formacion_requerida").val(),asistente:asistente,jefe:jefe},
 					success: function(data) { 
 												//cargar();
 												location.href="/cargos";	 //alert(data.msm); 
@@ -532,9 +536,10 @@ function exportarReporte(option){
     tipo_resolucion = $('#jqxgrid').jqxGrid('getcolumn','tipo_resolucion');
     unidad_administrativa = $('#jqxgrid').jqxGrid('getcolumn','unidad_administrativa');
     denominacion = $('#jqxgrid').jqxGrid('getcolumn','denominacion');
-    codigo = $('#jqxgrid').jqxGrid('getcolumn','codigo');
+    ordenador = $('#jqxgrid').jqxGrid('getcolumn','ordenador');
     cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
+    codigo = $('#jqxgrid').jqxGrid('getcolumn','codigo');
     estado = $('#jqxgrid').jqxGrid('getcolumn','estado');
     condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
     partida = $('#jqxgrid').jqxGrid('getcolumn','partida');
@@ -546,9 +551,10 @@ function exportarReporte(option){
     columna[tipo_resolucion.datafield] = {text: tipo_resolucion.text, hidden: tipo_resolucion.hidden};
     columna[unidad_administrativa.datafield] = {text: unidad_administrativa.text, hidden: unidad_administrativa.hidden};
     columna[denominacion.datafield] = {text: denominacion.text, hidden: denominacion.hidden};
-    columna[codigo.datafield] = {text: codigo.text, hidden: codigo.hidden};
+    columna[ordenador.datafield] = {text: ordenador.text, hidden: ordenador.hidden};
     columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
+    columna[codigo.datafield] = {text: codigo.text, hidden: codigo.hidden};
     columna[estado.datafield] = {text: estado.text, hidden: estado.hidden};
     columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
     columna[partida.datafield] = {text: partida.text, hidden: partida.hidden};
@@ -567,7 +573,7 @@ function exportarReporte(option){
         var sortcolumn = sortinformation.sortcolumn;
         // The sortdirection is an object with two fields: 'ascending' and 'descending'. Ex: { 'ascending': true, 'descending': false }
         var sortdirection = sortinformation.sortdirection;
-        ordenados[sortcolumn] = {asc: sortdirection.ascending, desc: sortdirection.descending};
+        ordenados[sortcolumn] = {desc: sortdirection.ascending, asc: sortdirection.descending};
     }else ordenados='';
 
 
@@ -892,15 +898,21 @@ function exportarPacReporte(option){
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-4 control-label" >Item / Codigo</label>
+					<label class="col-md-4 control-label" >Ordenador</label>
 					<div class="col-md-8">
-						<input id="codigo" name="codigo" type="text" class="form-control" placeholder='Nro item'/>
+						<input id="ordenador" name="ordenador" type="number" class="form-control" placeholder='Nro ordenador'/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-md-4 control-label" >Cargo</label>
 					<div class="col-md-8">
 						<input id="cargo" name="cargo" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" >Item / Codigo</label>
+					<div class="col-md-8">
+						<input id="codigo" name="codigo" type="text" class="form-control" placeholder='Nro item'/>
 					</div>
 				</div>
 				<div class="form-group">

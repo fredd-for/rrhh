@@ -30,61 +30,79 @@
             $('input').css('margin-top', '5px');
             // create countries array for the Countries ComboBox.
             var nacionalidad = [
-                { value: "AR", label: "Argentina(0)" },
-                { value: "BO", label: "Boliviana(o)" },
-                { value: "BR", label: "Brazileña(o)" },
-                { value: "CL", label: "Chilena(o)" },
-                { value: "EC", label: "Ecuatoriana(o)" },
-                { value: "PY", label: "Paraguaya(o)" },
-                { value: "PE", label: "Peruana(o)" }
+                { value: "ARGENTINA", label: "Argentina(0)" },
+                { value: "BOLIVIANA", label: "Boliviana(o)" },
+                { value: "BRASILERA", label: "Brazileña(o)" },
+                { value: "CHILENA", label: "Chilena(o)" },
+                { value: "ECUATORIANA", label: "Ecuatoriana(o)" },
+                { value: "PARAGUAYA", label: "Paraguaya(o)" },
+                { value: "PERUANA", label: "Peruana(o)" }
             ];
             var ciudades = [
-                { value: 0, label: "La Paz" },
-                { value: 1, label: "Cochabamba" },
-                { value: 2, label: "Sucre" },
-                { value: 3, label: "Oruro" },
-                { value: 4, label: "Potosí" },
-                { value: 5, label: "Santa Cruz" },
-                { value: 6, label: "Tarija" },
-                { value: 7, label: "Trinidad" },
-                { value: 8, label: "Cobija" }
+                { value: "LA PAZ", label: "La Paz" },
+                { value: "COCHABAMBA", label: "Cochabamba" },
+                { value: "SUCRE", label: "Sucre" },
+                { value: "ORURO", label: "Oruro" },
+                { value: "POTOSI", label: "Potosí" },
+                { value: "SANTA CRUZ", label: "Santa Cruz" },
+                { value: "CERCADO TARIJA", label: "Cercado Tarija" },
+                { value: "TRINIDAD", label: "Trinidad" },
+                { value: "COBIJA", label: "Cobija" },
+                { value: "MONTERO", label: "Montero" },
+                { value: "OPLOCA", label: "Oploca" },
+                { value: "GUATEMALA", label: "Ciudad de Guatemala" }
             ];
             // create Countries ComboBox.
             $("#nacionalidad").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una nacionalidad", source: nacionalidad, height: 22, width: '100%' });
             // create ciudades ComboBox.
             $("#l_nacimiento").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una ciudad", source: ciudades, height: 22, width: '100%' });
+            var expedido = [
+                { value: 'LP', label: "LP"},
+                { value: 'OR', label: "OR"},
+                { value: 'PT', label: "PT"},
+                { value: 'CB', label: "CB"},
+                { value: 'CH', label: "CH"},
+                { value: 'TJ', label: "TJ"},
+                { value: 'SC', label: "SC"},
+                { value: 'BN', label: "BN"},
+                { value: 'PD', label: "PD"},
+                { value: 'NN', label: "Sin Dato"}
+            ];
+            // create expedido ComboBox
+            $("#expedido").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0, autoDropDownHeight: true, promptText: "Tipo Documento:", source: expedido, width: '100%', height: 22 });
             var estado_civil = [
-                { value: 0, label: "Soltera(o)" },
-                { value: 1, label: "Casada(o)" },
-                { value: 2, label: "Divorciada(o)" },
-                { value: 3, label: "Viuda(o)" },
+                { value: "SOLTER@", label: "Soltera(o)" },
+                { value: "CASAD@", label: "Casada(o)" },
+                { value: "DIVORCIAD@", label: "Divorciada(o)" },
+                { value: "VIUD@", label: "Viuda(o)" }
             ];
             // create estado_civil ComboBox.
             $("#estado_civil").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: estado_civil, height: 22, width: '100%' });
             var grupo_sanguineo = [
-                { value: 0, label: "ORH+"},
-                { value: 1, label: "A+"},
-                { value: 2, label: "B+"},
-                { value: 3, label: "AB+"},
-                { value: 4, label: "ORH-"},
-                { value: 5, label: "A-"},
-                { value: 6, label: "B-"},
-                { value: 7, label: "AB-"},
+                { value: "NN", label: "Sin Datos"},
+                { value: "ORH+", label: "ORH+"},
+                { value: "A+", label: "A+"},
+                { value: "B+", label: "B+"},
+                { value: "AB+", label: "AB+"},
+                { value: "ORH-", label: "ORH-"},
+                { value: "A-", label: "A-"},
+                { value: "B-", label: "B-"},
+                { value: "AB-", label: "AB-"},
             ];
             // create grupo_sanguineo ComboBox.
-            $("#grupo_sanguineo").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: grupo_sanguineo, height: 22, width: '100%' });
+            $("#grupo_sanguineo").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0,autoDropDownHeight: true, promptText: "Seleccione una opción", source: grupo_sanguineo, height: 22, width: '100%' });
             var sexo = [
-                {value: 0, label: "femenino"},
-                {value: 1, label: "masculino"}
+                {value: "F", label: "femenino"},
+                {value: "M", label: "masculino"}
             ];
             // create grupo_sanguineo ComboBox.
             $("#sexo").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una opción", source: sexo, height: 22, width: '100%' });
             // create Accept Terms Checkbox.
             //$("#acceptTerms").jqxCheckBox({ width: '100%' });
             // create the Birth Date Calendar.
-            $("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'yyyy-MM-dd' });
+            $("#f_nacimiento").jqxDateTimeInput({ enableBrowserBoundsDetection: true, width: '100%', height: 24, formatString:'dd-MM-yyyy' });
             // create the Cart Type ComboBox.
-            var tipoDocs = [{ value: "1", label: "Carnet de Identidad" }, { value: "2", label: "RUN" }, { value: "3", label: "Pasaporte" }, { value: "4", label: "Carnet de Extranjero" }];
+            var tipoDocs = [{ value: "CI", label: "Carnet de Identidad" }, { value: "RUN", label: "RUN" }, { value: "PASAPORTE", label: "Pasaporte" }, { value: "C_EXT", label: "Carnet de Extranjero" }];
             $("#tipoDoc").jqxComboBox({ enableBrowserBoundsDetection: true, selectedIndex: 0, autoDropDownHeight: true, promptText: "Tipo Documento:", source: tipoDocs, width: '100%', height: 22 });
             /*var months = [
                { value: "01", label: "01 - January" },
@@ -119,9 +137,9 @@
                 rules: [
                        { input: '#p_nombre', message: 'El primer nombre es un campo requerido!', action: 'keyup, blur', rule: 'required' },
                        { input: '#p_apellido', message: 'El primer apellido es un campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       { input: '#ci', message: 'El número de documento es un campo requerido!', action: 'keyup, blur', rule: 'required' },
+                       { input: '#ci', message: 'El número de documento es un campo requerido!', action: 'keyup, blur', rule: 'required' }/*,
                        { input: '#nacionalidad', message: 'La nacionalidad es un campo requerido!', action: 'keyup, blur', rule: 'required' },
-                       { input: '#observaciones', message: 'Prueba!', action: 'keyup, blur', rule: 'required' }
+                       { input: '#observaciones', message: 'Prueba!', action: 'keyup, blur', rule: 'required' }*/
                 ]
             });
             // Validate form.
@@ -132,16 +150,66 @@
                     }
                 }
                 $('#form').jqxValidator('validate', validationResult);
-                var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
-            	var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
+                if(!$("#p_nombre").val()){
+                    alert('Debe ingresar el primer nombre.');
+                    return false;
+                }
+                if(!$("#p_apellido").val()){
+                    alert('Debe ingresar el primer apellido.');
+                    return false;
+                }
+                if(!$("#ci").val()){
+                    alert('Debe ingresar el documento de identidad.');
+                    return false;
+                }
+                var tipo_doc = $("#tipoDoc").jqxComboBox('getSelectedItem');
+                var expedido = $("#expedido").jqxComboBox('getSelectedItem');
+                var nacionalidad = $("#nacionalidad").jqxComboBox('getSelectedItem');
+                if (nacionalidad == null){
+                    alert ('Debe seleccionar una nacionalidad.');
+                    return false;
+                }
+                var l_nacimiento = $("#l_nacimiento").jqxComboBox('getSelectedItem');
+                if (l_nacimiento == null){
+                    alert ('Debe seleccionar un lugar de nacimiento.');
+                    return false;
+                }
+                var fecha_nac = $('#f_nacimiento').jqxDateTimeInput('getDate');
+                var e_civil = $('#estado_civil').jqxComboBox('getSelectedItem');
+                if (e_civil == null){
+                    alert ('Debe seleccionar un estado civil.');
+                    return false;
+                }
+                var grupo_sanguineo = $('#grupo_sanguineo').jqxComboBox('getSelectedItem');
+                var genero = $('#sexo').jqxComboBox('getSelectedItem');//alert(expedido);
+            	if (genero == null){
+                    alert ('Debe seleccionar sexo de la persona.');
+                    return false;
+                }
+                //var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
             	var v=$.ajax({
-                    	url:'../../personal/save/',
+                    	url:'../../personal/save',
                     	type:'POST',
                     	datatype: 'json',
-			data:{id:$("#id").val(),tipo_resolucion:$("#tipo_resolucion").val(),numero_res:$("#numero_res").val(),fecha_apr:fecha_apr,fecha_emi:fecha_emi},
-			success: function(data) { cargar(); //alert(data); 
+			data:{id:$("#id").val(),p_nombre:$("#p_nombre").val(),s_nombre:$("#s_nombre").val(),t_nombre:$("#t_nombre").val()
+                              ,p_apellido:$("#p_apellido").val(),s_apellido:$("#s_apellido").val(),c_apellido:$("#c_apellido").val()
+                              ,tipo_doc:tipo_doc.value,ci:$("#ci").val(),expd:expedido.value,num_complemento:$("#num_complemento").val()
+                              ,nacionalidad:nacionalidad.value,lugar_nac:l_nacimiento.value,fecha_nac:fecha_nac,e_civil:e_civil.value
+                              ,grupo_sanguineo:grupo_sanguineo.value,sexo:genero.value
+                              ,id_personas_contacto:$("#id_personas_contactos").val(),direccion_dom:$("#direccion").val()
+                              ,telefono_fijo:$("#telefono").val(),celular_per:$("#celular").val(),e_mail_per:$("#email_p").val()
+                              ,telefono_inst:$("#tel_inst").val(),telefono_fax:$("#fax").val(),interno_inst:$('#n_interno').val()
+                              ,celular_inst:$("#cel_inst").val(),e_mail_inst:$("#email_inst").val(),nit:$("#nit").val()
+                              ,num_func_sigma:$("#n_sigma").val(),num_lib_ser_militar:$("#libreta_militar").val(),num_reg_profesional:$("registro_prof").val()
+                              ,observacion:$("#observaciones").val(),estado:"0",baja_logica:"0",user_reg_id:"1"},
+			success: function(data) { alert (data);
+                            var res = jQuery.parseJSON(data);
+                            alert(res.msm); 
+                            document.location.href = '../../login';
 			}, //mostramos el error
-			error: function() { alert('Se ha producido un error Inesperado'); }
+			error: function() { 
+                            alert('Se ha producido un error Inesperado');
+                        }
 		});
                 //$('#form').jqxValidator('validate');
             });
@@ -292,6 +360,7 @@
                 <div class="form-horizontal">
                     <h2>Detalles de Identificaci&oacute;n:</h2>
                 </div>
+                <input id="id" name="id" value="0" hidden="hidden">
                 <div class="form-horizontal col-sm-6">
                     <div class="row">
                         <label class="col-sm-3 control-label" for="p_nombre">Nombres *:</label>
@@ -328,14 +397,17 @@
                     </div>
                     <div class="row">
                         <label class="col-sm-3 control-label" for="ci">N&uacute;mero de Documento *:</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <input placeholder="Número Documento" id="ci" name="ci" value="" />
+                        </div>
+                        <div class="col-sm-3">
+                            <div style="margin-top: 5px;" id="expedido"></div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="expd">N&uacute;mero Complemento :</label>
+                        <label class="col-sm-3 control-label" for="num_complemento">N&uacute;mero Complemento :</label>
                         <div class="col-sm-6">
-                            <input placeholder="123" id="expd" name="expd" value="" />
+                            <input placeholder="123" id="expd" name="num_complemento" value="" />
                         </div>
                     </div>
                     <!--<div>
@@ -374,7 +446,7 @@
                     <div class="row">
                         <label class="col-sm-3 control-label" for="estado_civil">Estado Civil *:   </label>
                         <div class="col-sm-6">
-                            <div style="margin-top: 5px;" id="estado_civil" on></div>
+                            <div style="margin-top: 5px;" id="estado_civil" ></div>
                         </div>
                     </div>
                     <div class="row">
@@ -396,6 +468,7 @@
             <!--<div style="border: none;" id='dataTable'></div>-->
             <!--<form class="navbar-form" id="form">-->
                 <div class="form-horizontal col-sm-6">
+                    <input id="id_personas_contactos" name="id_personas_contactos" value="0" hidden="hidden">
                     <div class="form-horizontal">
                         <h2>Datos de Contacto Personal:</h2>
                     </div>
@@ -474,7 +547,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-3 control-label" for="nit">Funcionario SIGMA :</label>
+                        <label class="col-sm-3 control-label" for="n_sigma">Funcionario SIGMA :</label>
                         <div class="col-sm-6">
                             <input placeholder="C&oacute;digo funcionario SIGMA" id="n_sigma" name="n_sigma" value="" />
                         </div>

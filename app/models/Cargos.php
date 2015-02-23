@@ -117,6 +117,11 @@ class Cargos extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $resolucion_ministerial_id;
+    /**
+     *
+     * @var integer
+     */
+    public $ordenador;
 
     public $ordenador;
 
