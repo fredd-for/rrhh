@@ -95,7 +95,7 @@ class ToleranciasController extends ControllerBase
 
 
     /**
-     * Función para el almacenamiento y actualización de un registro de horario laboral.
+     * Función para el almacenamiento y actualización de un registro de Tolerancia.
      * return array(EstadoResultado,Mensaje)
      * Los valores posibles para la variable EstadoResultado son:
      *  0: Error

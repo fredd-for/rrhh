@@ -6,10 +6,7 @@
  *   Fecha Creación:  18-02-2015
  */
 $().ready(function () {
-    $("#chkHorariosDiscontinuos").bootstrapSwitch();
-    $("#chkHorariosContinuos").bootstrapSwitch();
-    $("#chkHorariosMultiples").bootstrapSwitch();
-    $("#chkHorariosTodos").bootstrapSwitch();
+
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
@@ -19,14 +16,15 @@ $().ready(function () {
     $('#divTabFeriados').jqxTabs('disableAt', 2);
     $('#divTabFeriados').jqxTabs('disableAt', 3);
 
-    definirGrillaParaListaTolerancias();
+    definirGrillaParaListaFeriados();
     /**
-     * Control del evento de solicitud de guardar el registro del horario.
+     * Control del evento de solicitud de guardar el registro del feriado.
      */
-    $("#btnGuardarToleranciaNuevo").click(function () {
-        var ok = validaFormularioTolerancia()
+    $("#btnGuardarFeriadoNew").off();
+    $("#btnGuardarFeriadoNew").on("click",function () {
+        var ok = validaFormularioFeriado(1)
         if (ok) {
-            var okk = guardaTolerancia();
+            var okk = guardaFeriado(1);
             if (okk) {
                 $('#divTabFeriados').jqxTabs('enableAt', 0);
                 $('#divTabFeriados').jqxTabs('disableAt', 1);
@@ -36,10 +34,11 @@ $().ready(function () {
             }
         }
     });
-    $("#btnGuardarToleranciaEditar").click(function () {
-        var ok = validaFormularioTolerancia();
+    $("#btnGuardarFeriadoEditar").off();
+    $("#btnGuardarFeriadoEditar").on("click",function () {
+        var ok = validaFormularioFeriado(2);
         if (ok) {
-            var okk = guardaTolerancia();
+            var okk = guardaFeriado(2);
             if (okk) {
                 $('#divTabFeriados').jqxTabs('enableAt', 0);
                 $('#divTabFeriados').jqxTabs('disableAt', 1);
@@ -49,15 +48,7 @@ $().ready(function () {
             }
         }
     });
-    $("#btnCancelarToleranciaNuevo").click(function () {
-        $('#divTabFeriados').jqxTabs('enableAt', 0);
-        $('#divTabFeriados').jqxTabs('disableAt', 1);
-        $('#divTabFeriados').jqxTabs('disableAt', 2);
-        $('#divTabFeriados').jqxTabs('disableAt', 3);
-        $("#msjs-alert").hide();
-
-    });
-    $("#btnCancelarToleranciaEditar").click(function () {
+    $("#btnCancelarFeriadoEditar,#btnCancelarFeriadoNew").click(function () {
         $('#divTabFeriados').jqxTabs('enableAt', 0);
         $('#divTabFeriados').jqxTabs('disableAt', 1);
         $('#divTabFeriados').jqxTabs('disableAt', 2);
@@ -96,17 +87,14 @@ $().ready(function () {
         }
     });
     $("#liList").click(function () {
-        $("#btnCancelarToleranciaNuevo").click();
-        $("#btnCancelarToleranciaEditar").click();
+        $("#btnCancelarFeriadoNuevo").click();
+        $("#btnCancelarFeriadoEditar").click();
     });
     $('#btnDesfiltrartodo').click(function () {
         $("#divGridFeriados").jqxGrid('clearfilters');
     });
     $('#btnDesagrupartodo').click(function () {
         $('#divGridFeriados').jqxGrid('cleargroups');
-    });
-    $('#btnDesagruparTodoMovilidad').click(function () {
-        $('#divGridFeriadosmovilidad').jqxGrid('cleargroups');
     });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
@@ -143,9 +131,9 @@ $().ready(function () {
     $(document).keyup(OperaEvento);
 });
 /**
- * Función para definir la grilla principal (listado) para la gestión de tolerancias de ingreso.
+ * Función para definir la grilla principal (listado) para la gestión de feriados.
  */
-function definirGrillaParaListaTolerancias() {
+function definirGrillaParaListaFeriados() {
     var source =
     {
         datatype: "json",
@@ -167,6 +155,7 @@ function definirGrillaParaListaTolerancias() {
             {name: 'repetitivo_descripcion', type: 'string'},
             {name: 'dia', type: 'integer'},
             {name: 'mes', type: 'integer'},
+            {name: 'mes_nombre', type: 'string'},
             {name: 'gestion', type: 'integer'},
             {name: 'observacion', type: 'string'},
             {name: 'estado', type: 'integer'},
@@ -209,20 +198,27 @@ function definirGrillaParaListaTolerancias() {
                     $("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();
 
-                    /* Registrar nueva tolerancia.*/
+                    /* Registrar nuevo feriado.*/
+                    $("#addrowbutton").off();
                     $("#addrowbutton").on('click', function () {
                         $('#divTabFeriados').jqxTabs('enableAt', 1);
                         $('#divTabFeriados').jqxTabs('disableAt', 2);
                         $('#divTabFeriados').jqxTabs('disableAt', 3);
                         $('#divTabFeriados').jqxTabs({selectedItem: 1});
+                        inicializaFormularioNuevoEditar(1,0);
                         listarCantidadDias(1,0);
-                        inicializarCamposParaNuevoRegistroTolerancia();
-                        limpiarMensajesErrorPorValidacionTolerancia("");
-                        cargarTiposDeAcumulacion(-1,"");
-                        cargarOpcionesDeConsideracionEnRetraso(-1,"");
-                        $("#txtTolerancia").focus();
+                        listaMesesEnCadaGestion(1,0);
+
+                        $("#lstMesNew").off();
+                        $("#lstMesNew").on("change",function(){
+                            listaDiasEnCadaMes(1,$(this).val(),0);
+                        });
+                        inicializarCamposParaNuevoRegistroFeriado();
+                        limpiarMensajesErrorPorValidacionFeriado("New");
+                        $("#txtFeriadoNew").focus();
                     });
                     /*Aprobar registro.*/
+                    $("#approverowbutton").off();
                     $("#approverowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridFeriados").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
@@ -232,8 +228,8 @@ function definirGrillaParaListaTolerancias() {
                                  * La aprobación de un registro es admisible si el estado del registro es EN PROCESO.
                                  */
                                 if (dataRecord.estado == 2) {
-                                    if (confirm("¿Esta seguro de aprobar este registro de tolerancia?")) {
-                                        aprobarRegistroTolerancia(dataRecord.id);
+                                    if (confirm("¿Esta seguro de aprobar este registro de feriado?")) {
+                                        aprobarRegistroFeriado(dataRecord.id);
                                     }
                                 } else {
                                     var msje = "Debe seleccionar un registro con estado EN PROCESO para posibilitar la aprobaci&oacute;n del registro";
@@ -250,12 +246,13 @@ function definirGrillaParaListaTolerancias() {
                         }
                     });
                     /* Modificar registro.*/
+                    $("#updaterowbutton").off();
                     $("#updaterowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridFeriados").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridFeriados').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                $("#hdnIdToleranciaEditar").val(dataRecord.id);
+                                $("#hdnIdFeriadoEditar").val(dataRecord.id);
                                 /**
                                  * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
                                  */
@@ -266,21 +263,42 @@ function definirGrillaParaListaTolerancias() {
                                     $('#divTabFeriados').jqxTabs('disableAt', 3);
                                     $('#divTabFeriados').jqxTabs({selectedItem: 2});
 
-                                    limpiarMensajesErrorPorValidacionTolerancia("Editar");
-                                    $("#txtToleranciaEditar").val(dataRecord.tolerancia);
-                                    cargarTiposDeAcumulacion(dataRecord.tipo_acumulacion,"Editar");
-                                    cargarOpcionesDeConsideracionEnRetraso(dataRecord.consideracion_retraso,"Editar");
+                                    limpiarMensajesErrorPorValidacionFeriado("Editar");
+                                    inicializaFormularioNuevoEditar(2,dataRecord.repetitivo);
+                                    $("#txtFeriadoEditar").val(dataRecord.feriado);
                                     $("#txtDescripcionEditar").val(dataRecord.descripcion);
-                                    var fechaIni = "";
-                                    if(dataRecord.fecha_ini!=null)
-                                    fechaIni = $.jqx.dataFormat.formatdate(dataRecord.fecha_ini, 'dd-MM-yyyy');
-                                    var fechaFin = "";
-                                    if(dataRecord.fecha_fin!=null)
-                                        fechaFin = $.jqx.dataFormat.formatdate(dataRecord.fecha_fin, 'dd-MM-yyyy');
-                                    $("#txtFechaIniEditar").val(fechaIni);
-                                    $("#txtFechaFinEditar").val(fechaFin);
-                                    $("#txtObservacionEditar").val(dataRecord.observacion);
-                                    $("#txtToleranciaEditar").focus();
+                                    if(dataRecord.horario_discontinuo==1)$("#chkHorariosDiscontinuosEditar").bootstrapSwitch("state",true);
+                                    else $("#chkHorariosDiscontinuosEditar").bootstrapSwitch("state",false);
+
+                                    if(dataRecord.horario_continuo==1)$("#chkHorariosContinuosEditar").bootstrapSwitch("state",true);
+                                    else $("#chkHorariosContinuosEditar").bootstrapSwitch("state",false);
+
+                                    if(dataRecord.horario_multiple==1)$("#chkHorariosMultiplesEditar").bootstrapSwitch("state",true);
+                                    else $("#chkHorariosMultiplesEditar").bootstrapSwitch("state",false);
+
+                                    listarCantidadDias(2,dataRecord.cantidad_dias);
+
+                                    if(dataRecord.repetitivo==1){
+                                        listaMesesEnCadaGestion(2,dataRecord.mes);
+                                        listaDiasEnCadaMes(2,dataRecord.mes,dataRecord.dia);
+                                    }else{
+                                        listaMesesEnCadaGestion(2,0);
+                                        listaDiasEnCadaMes(2,0,0);
+
+                                        var dia = dataRecord.dia;
+                                        var mes = dataRecord.mes;
+                                        var gestion = dataRecord.gestion;
+                                        if(dia.length==1)dia="0"+dia;
+                                        if(mes.length==1)mes="0"+mes;
+                                        var fecha = dia+"-"+mes+"-"+gestion;
+                                        $("#txtFechaEspecificaEditar").val(fecha);
+                                    }
+                                    $("#lstMesEditar").off();
+                                    $("#lstMesEditar").on("change",function(){
+                                        listaDiasEnCadaMes(2,$(this).val(),dataRecord.dia);
+                                    });
+
+                                    $("#txtFeriadoEditar").focus();
 
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado EN PROCESO o ACTIVO necesariamente.";
@@ -297,18 +315,18 @@ function definirGrillaParaListaTolerancias() {
                         }
                     });
                     /* Dar de baja un registro.*/
+                    $("#deleterowbutton").off();
                     $("#deleterowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridFeriados").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridFeriados').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var id_tolerancia = dataRecord.id;
                                 /*
                                  *  Para dar de baja un registro, este debe estar inicialmente en estado ACTIVO
                                  */
                                 if (dataRecord.estado >= 1) {
-                                    if (confirm("Esta seguro de dar de baja registro de tolerancia?"))
-                                        darDeBajaTolerancia(id_tolerancia);
+                                    if (confirm("Esta seguro de dar de baja registro de feriado?"))
+                                        darDeBajaFeriado(dataRecord.id);
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado ACTIVO o EN PROCESO inicialmente.";
                                     $("#divMsjePorError").html("");
@@ -334,7 +352,7 @@ function definirGrillaParaListaTolerancias() {
                         align: 'center',
                         cellsrenderer: rownumberrenderer
                     },
-                    /*{
+                    {
                         text: 'Estado',
                         filtertype: 'checkedlist',
                         datafield: 'estado_descripcion',
@@ -343,39 +361,42 @@ function definirGrillaParaListaTolerancias() {
                         align: 'center',
                         hidden: false,
                         cellclassname: cellclass
-                    },*/
+                    },
                     {
                         text: 'Feriado',
                         filtertype: 'checkedlist',
                         datafield: 'feriado',
-                        width: 200,
+                        width: 150,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
-                        text: 'H. Discontinuos',
+                        text: 'Discontinuos',
                         filtertype: 'checkedlist',
                         datafield: 'horario_discontinuo_descripcion',
-                        width: 100,
+                        width: 90,
+                        columngroup: 'TiposHorarios',
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
-                        text: 'H. Continuos',
+                        text: 'Continuos',
                         filtertype: 'checkedlist',
                         datafield: 'horario_continuo_descripcion',
-                        width: 100,
+                        width: 80,
+                        columngroup: 'TiposHorarios',
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
-                        text: 'H. Multiples',
+                        text: 'Multiples',
                         filtertype: 'checkedlist',
                         datafield: 'horario_multiple_descripcion',
-                        width: 100,
+                        width: 80,
+                        columngroup: 'TiposHorarios',
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
@@ -403,6 +424,7 @@ function definirGrillaParaListaTolerancias() {
                         filtertype: 'checkedlist',
                         datafield: 'dia',
                         width: 50,
+                        columngroup: 'Temporalidad',
                         cellsalign:'center',
                         align: 'center',
                         hidden: false
@@ -410,8 +432,9 @@ function definirGrillaParaListaTolerancias() {
                     {
                         text: 'Mes',
                         filtertype: 'checkedlist',
-                        datafield: 'mes',
-                        width: 50,
+                        datafield: 'mes_nombre',
+                        width: 100,
+                        columngroup: 'Temporalidad',
                         cellsalign:'center',
                         align: 'center',
                         hidden: false
@@ -421,6 +444,7 @@ function definirGrillaParaListaTolerancias() {
                         filtertype: 'checkedlist',
                         datafield: 'gestion',
                         width: 50,
+                        columngroup: 'Temporalidad',
                         cellsalign:'center',
                         align: 'center',
                         hidden: false
@@ -433,10 +457,15 @@ function definirGrillaParaListaTolerancias() {
                         align: 'center',
                         hidden: false
                     },
-                ]
+                ],
+            columngroups:
+            [
+                { text: 'Tipos de Horario', align: 'center', name: 'TiposHorarios' },
+                { text: 'Temporalidad', align: 'center', name: 'Temporalidad' }
+            ]
             });
         var listSource = [
-            /*{label: 'Estado', value: 'estado_descripcion', checked: true},*/
+            {label: 'Estado', value: 'estado_descripcion', checked: true},
             {label: 'Feriado', value: 'feriado', checked: true},
             {label: 'H. Discontinuos', value: 'horario_discontinuo_descripcion', checked: true},
             {label: 'H. Continuos', value: 'horario_continuo_descripcion', checked: true},
@@ -510,6 +539,61 @@ var cellclass = function (row, columnfield, value) {
     else return ''
 }
 /**
+ * Función para la inicialización de los valores correspondientes dentro del formulario de nuevo registro y edición de registro.
+ * @param opcion
+ * @param repetitivo
+ */
+function inicializaFormularioNuevoEditar(opcion,repetitivo){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Editar";
+    $("#chkHorariosDiscontinuos"+sufijo).bootstrapSwitch();
+    $("#chkHorariosContinuos"+sufijo).bootstrapSwitch();
+    $("#chkHorariosMultiples"+sufijo).bootstrapSwitch();
+
+    $("#chkRepetitivo"+sufijo).bootstrapSwitch("destroy");
+    $("#chkRepetitivo"+sufijo).off();
+    $("#chkRepetitivo"+sufijo).bootstrapSwitch();
+
+    $("#txtDia"+sufijo).val("");
+    $("#txtMes"+sufijo).val("");
+    $("#txtFechaEspecifica"+sufijo).val("");
+
+    if(repetitivo==0){
+        $("#chkRepetitivo"+sufijo).bootstrapSwitch("state",false);
+        $("#divDia"+sufijo).hide();
+        $("#divMes"+sufijo).hide();
+        $("#divFecha"+sufijo).show();
+        $("#divFechaEspecifica"+sufijo).show();
+        $("#txtFechaEspecifica"+sufijo).focus();
+    }else {
+        $("#chkRepetitivo"+sufijo).bootstrapSwitch("state",true);
+        $("#divDia"+sufijo).show();
+        $("#divMes"+sufijo).show();
+        $("#divFecha"+sufijo).hide();
+        $("#divFechaEspecifica"+sufijo).hide();
+        $("#txtDia"+sufijo).focus();
+    }
+    $("#chkRepetitivo"+sufijo).on('switchChange.bootstrapSwitch', function(event, state) {
+        /**
+         * Si el feriado se repite cada año en la misma fecha sólo se requiere registrar el mes y el día.
+         * En caso contrario se requiere el día, mes y año.
+         */
+        if(state){
+            $("#divDia"+sufijo).show();
+            $("#divMes"+sufijo).show();
+            $("#divFechaEspecifica"+sufijo).hide();
+            $("#txtFechaEspecifica"+sufijo).focusout();
+            $("#txtDia"+sufijo).focus();
+        }else{
+            $("#divDia"+sufijo).hide();
+            $("#divMes"+sufijo).hide();
+            $("#divFechaEspecifica"+sufijo).show();
+            $("#txtDia"+sufijo).focusout();
+            $("#txtFechaEspecifica"+sufijo).focus();
+        }
+    });
+}
+/**
  * Función anónima para la obtención del listado de posibilidades de cantidades de días por feriado.
  * @param opcion
  * @param cantidad
@@ -517,16 +601,70 @@ var cellclass = function (row, columnfield, value) {
 function listarCantidadDias(opcion,cantidad){
     var sufijo = "New";
     if(opcion==2){
-        sufijo = "Edit";
+        sufijo = "Editar";
     }
     var selected="";
     $("#lstCantidadDias"+sufijo).html("");
-    $("#lstCantidadDias"+sufijo).append("<option value='0'>Seleccionar...</option>");
+    $("#lstCantidadDias"+sufijo).append("<option value='0'>Cantidad de D&iacute;as...</option>");
     if(cantidad>=0){
         for (i=1;i<=10;i++){
             if(i==cantidad)selected="selected";
             else selected="";
-            $("#lstCantidadDias"+sufijo).append("<option value='"+i+"'>"+i+" D&iacute;a (s)</option>");
+            $("#lstCantidadDias"+sufijo).append("<option value='"+i+"' "+selected+">"+i+" D&iacute;a (s)</option>");
+        }
+    }
+}
+/**
+ * Función para listar los meses dispuestos en la gestión.
+ * @param opcion Variable que indica en que formulario se hace el despliegue (Nuevo o Edición)
+ * @param mes Valor prefijado para el mes
+ */
+function listaMesesEnCadaGestion(opcion,mes){
+    var sufijo = "New";
+    if(opcion==2){
+        sufijo = "Editar";
+    }
+    var selected="";
+    var arrMeses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+    $("#lstMes"+sufijo).html("");
+    $("#lstMes"+sufijo).append("<option value='0'>Mes en cada a&ntilde;o</option>");
+    if(mes>=0){
+        $.each(arrMeses, function( index, value ) {
+            var numMes = index+1;
+            if(numMes==mes)selected="selected";
+            else selected="";
+            $("#lstMes"+sufijo).append("<option value='"+numMes+"' "+selected+">"+value+"</option>");
+        });
+    }
+}
+/**
+ * Función para listar los días dispuestos en cada mes.
+ * @param opcion Variable que indica en que formulario se hace el despliegue (Nuevo o Edición)
+ * @param mes Mes seleccionado
+ * @param dia dia prefijado
+ */
+function listaDiasEnCadaMes(opcion,mes,dia){
+    var sufijo = "New";
+    if(opcion==2){
+        sufijo = "Editar";
+    }
+    var selected="";
+    var arrMeses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+    var arrDiasPorMeses = [31,28,31,30,31,30,31,31,30,31,30,31];
+    var nombreMes = "";
+    if(mes>0){
+        nombreMes = "de "+arrMeses[mes-1];
+    }
+    $("#lstDia"+sufijo).html("");
+    $("#lstDia"+sufijo).append("<option value='0'>D&iacute;as en el mes "+nombreMes+"</option>");
+    $("#lstDia"+sufijo).prop("disabled",true);
+    if(mes>0&&dia>=0){
+        $("#lstDia"+sufijo).prop("disabled",false);
+        var cantidadDias = arrDiasPorMeses[mes-1];
+        for (i=1;i<=cantidadDias;i++){
+            if(i==dia)selected="selected";
+            else selected="";
+            $("#lstDia"+sufijo).append("<option value='"+i+"' "+selected+">"+i+"</option>");
         }
     }
 }

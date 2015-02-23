@@ -99,7 +99,7 @@
         <div class="row div-feriados" id="divFeriadoNew">
             <label class="col-sm-3 control-label" for="txtFeriadoNew">Feriado *:</label>
             <div class="col-md-6">
-                <input type="text" id="txtFeriadoNew" class="form-control numeral" placeholder="Nombre del Feriado">
+                <input type="text" id="txtFeriadoNew" class="form-control" placeholder="Nombre del Feriado">
                 <span class="help-block" id="helpErrorFeriadoNew"></span>
             </div>
         </div>
@@ -113,74 +113,63 @@
             </fieldset>
             <fieldset>
             <legend><i class="fa fa-angle-right"></i> Aplicable sobre Tipos de Horario:</legend>
-            <div class="form-group">
-            <div class="col-sm-3">
+            <div class="form-group" id="divTiposHorariosNew">
+            <div class="col-sm-4">
                 Discontinuos:
-                <input type="checkbox" name="chkHorariosDiscontinuos" id="chkHorariosDiscontinuos" data-on-text="SI" data-off-text="NO">
+                <input type="checkbox" name="chkHorariosDiscontinuosNew" id="chkHorariosDiscontinuosNew" data-on-text="SI" data-off-text="NO">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 Continuos:
-                <input type="checkbox" name="chkHorariosContinuos" id="chkHorariosContinuos" data-on-text="SI" data-off-text="NO">
+                <input type="checkbox" name="chkHorariosContinuosNew" id="chkHorariosContinuosNew" data-on-text="SI" data-off-text="NO">
             </div>
-            <div class="col-sm-3">
-                Multiples:
-                <input type="checkbox" name="chkHorariosMultiples" id="chkHorariosMultiples" data-on-text="SI" data-off-text="NO">
+            <div class="col-sm-4">
+                M&uacute;ltiples:
+                <input type="checkbox" name="chkHorariosMultiplesNew" id="chkHorariosMultiplesNew" data-on-text="SI" data-off-text="NO">
             </div>
-            <div class="col-sm-3">
-                Todos:
-                <input type="checkbox" name="chkHorariosTodos" id="chkHorariosTodos" data-on-text="SI" data-off-text="NO">
+                <span class="help-block" id="helpErrorTiposHorariosNew"></span>
             </div>
-                </div>
              </fieldset>
             <fieldset>
-                <legend><i class="fa fa-angle-right"></i> Cantidad de D&iacute;as:</legend>
-            <div class="row div-feriados" id="divCantidadDiasNew">
-            <label class="col-sm-3 control-label" for="lstCantidadDiasNew">Cantidad D&iacute;as *:</label>
-            <div class="col-md-6" form-group>
-                <select id="lstCantidadDiasNew" class="form-control"></select>
-                <span class="help-block" id="helpErrorCantidadDiasNew"></span>
-            </div>
-        </div>
-        </fieldset>
+                <legend><i class="fa fa-angle-right"></i> Cantidad de D&iacute;as / Temporalidad:</legend>
+                <div class="form-group">
+                    <div class="col-sm-3" id="divCantidadDiasNew">
+                        <select id="lstCantidadDiasNew" class="form-control" style="width: 150px;"></select>
+                        <span class="help-block" id="helpErrorCantidadDiasNew"></span>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="checkbox" name="chkRepetitivoNew" id="chkRepetitivoNew" data-on-text="Cada a&ntilde;o" data-off-text="Fecha">
+                    </div>
+                    <div class="col-sm-3" id="divMesNew">
+                        <select id="lstMesNew" class="form-control"></select>
+                        <span class="help-block" id="helpErrorMesNew"></span>
+                    </div>
+                    <div class="col-sm-3" id="divDiaNew">
+                        <select id="lstDiaNew" class="form-control" disabled><option value="0">D&iacute;as en cada mes</option></select>
+                        <span class="help-block" id="helpErrorDiaNew"></span>
+                    </div>
+                    <div class="col-sm-3" id="divFechaEspecificaNew">
+                        <input id="txtFechaEspecificaNew" name="txtFechaEspecificaNew" class="form-control input-datepicker" placeholder="Fecha Espec&iacute;fica" data-date-format="dd-mm-yyyy" type="text">
+                        <span class="help-block" id="helpErrorFechaEspecificaNew"></span>
+                    </div>
+                </div>
+            </fieldset>
         <fieldset>
-        <legend><i class="fa fa-angle-right"></i> Se aplica todo a&ntilde;o:</legend>
-        <div class="row div-feriados" id="divRepetitivoNew">
-            <label class="col-sm-3 control-label" for="lstRepetitivoNew">Repetitivo *:</label>
-            <div class="col-md-6" form-group>
-                <select id="lstRepetitivoNew" class="form-control"></select>
-                <span class="help-block" id="helpErrorRepetitivoNew"></span>
-            </div>
-        </div>
-
-            <div class="form-group div-feriados" id="divFechaIni">
-                <label class="col-md-3 control-label" for="txtFechaIni">Fecha Inicio *:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaIni" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaIni">
-                    <span class="help-block" id="helpErrorFechaIni"></span>
-                </div>
-            </div>
-            <div class="form-group div-feriados" id="divFechaFin">
-                <label class="col-md-3 control-label" for="txtFechaFin">Fecha Fin:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaFin" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaFin">
-                    <span class="help-block" id="helpErrorFechaFin"></span>
-                </div>
-            </div>
-        <div class="form-group div-feriados" id="divObservacion">
-            <label class="col-md-3 control-label" for="txtObservacion">Observaciones:</label>
+            <legend><i class="fa fa-angle-right"></i>&nbsp;</legend>
+        <div class="form-group div-feriados" id="divObservacionNew">
+            <label class="col-md-3 control-label" for="txtObservacionNew">Observaciones:</label>
             <div class="col-md-6">
-                <textarea id="txtObservacion" name="txtObservacion" class="form-control" placeholder="Observaciones.."></textarea>
+                <textarea id="txtObservacionNew" name="txtObservacionNew" class="form-control" placeholder="Observaciones.."></textarea>
             </div>
-            <span class="help-block" id="helpErrorObservacion"></span>
+            <span class="help-block" id="helpErrorObservacionNew"></span>
         </div>
         </fieldset>
         <div class="form-group form-actions">
             <div class="col-md-8 col-md-offset-4">
-                <button id="btnGuardarToleranciaNuevo" class="btn btn-sm btn-primary" type="button">
+                <button id="btnGuardarFeriadoNew" class="btn btn-sm btn-primary" type="button">
                     <i class="fa fa-floppy-o"></i>
                     Guardar
                 </button>
-                <button id="btnCancelarToleranciaNuevo" class="btn btn-sm btn-warning" type="button">
+                <button id="btnCancelarFeriadoNew" class="btn btn-sm btn-warning" type="button">
                     <i class="fa fa-repeat"></i>
                     Cancelar
                 </button>
@@ -193,25 +182,11 @@
     <div class="form-horizontal col-sm-12">
         <fieldset>
             <legend><i class="fa fa-angle-right"></i> Datos del Feriado</legend>
-            <div class="row div-feriados" id="divToleranciaEditar">
-                <label class="col-sm-3 control-label" for="txtToleranciaEditar">Minutos Tolerancia *:</label>
+            <div class="row div-feriados" id="divFeriadoEditar">
+                <label class="col-sm-3 control-label" for="txtFeriadoEditar">Feriado *:</label>
                 <div class="col-md-6">
-                    <input type="text" id="txtToleranciaEditar" class="form-control numeral" placeholder="Minutos de Tolerancia">
-                    <span class="help-block" id="helpErrorToleranciaEditar"></span>
-                </div>
-            </div>
-            <div class="row div-feriados" id="divTipoAcumulacionEditar">
-                <label class="col-sm-3 control-label" for="lstTipoAcumulacionEditar">Tipo Acumulaci&oacute;n *:</label>
-                <div class="col-md-6" form-group>
-                    <select id="lstTipoAcumulacionEditar" class="form-control"></select>
-                    <span class="help-block" id="helpErrorTipoAcumulacionEditar"></span>
-                </div>
-            </div>
-            <div class="row div-feriados" id="divConsideracionRetrasoEditar">
-                <label class="col-sm-3 control-label" for="lstConsideracionRetrasoEditar">Consideraci&oacute;n Retraso *:</label>
-                <div class="col-md-6" form-group>
-                    <select id="lstConsideracionRetrasoEditar" class="form-control"></select>
-                    <span class="help-block" id="helpErrorConsideracionRetrasoEditar"></span>
+                    <input type="text" id="txtFeriadoEditar" class="form-control" placeholder="Nombre del Feriado">
+                    <span class="help-block" id="helpErrorFeriadoEditar"></span>
                 </div>
             </div>
             <div class="form-group div-feriados" id="divDescripcionEditar">
@@ -221,20 +196,51 @@
                 </div>
                 <span class="help-block" id="helpErrorDescripcionEditar"></span>
             </div>
-            <div class="form-group div-feriados" id="divFechaIniEditar">
-                <label class="col-md-3 control-label" for="txtFechaIniEditar">Fecha Inicio *:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaIniEditar" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaIniEditar">
-                    <span class="help-block" id="helpErrorFechaIniEditar"></span>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-angle-right"></i> Aplicable sobre Tipos de Horario:</legend>
+            <div class="form-group" id="divTiposHorariosEditar">
+                <div class="col-sm-4">
+                    Discontinuos:
+                    <input type="checkbox" name="chkHorariosDiscontinuosEditar" id="chkHorariosDiscontinuosEditar" data-on-text="SI" data-off-text="NO">
+                </div>
+                <div class="col-sm-4">
+                    Continuos:
+                    <input type="checkbox" name="chkHorariosContinuosEditar" id="chkHorariosContinuosEditar" data-on-text="SI" data-off-text="NO">
+                </div>
+                <div class="col-sm-4">
+                    M&uacute;ltiples:
+                    <input type="checkbox" name="chkHorariosMultiplesEditar" id="chkHorariosMultiplesEditar" data-on-text="SI" data-off-text="NO">
+                </div>
+                <span class="help-block" id="helpErrorTiposHorariosEditar"></span>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-angle-right"></i> Cantidad de D&iacute;as / Temporalidad:</legend>
+            <div class="form-group">
+                <div class="col-sm-3" id="divCantidadDiasEditar">
+                    <select id="lstCantidadDiasEditar" class="form-control" style="width: 150px;"></select>
+                    <span class="help-block" id="helpErrorCantidadDiasEditar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <input type="checkbox" name="chkRepetitivoEditar" id="chkRepetitivoEditar" data-on-text="Cada a&ntilde;o" data-off-text="Fecha">
+                </div>
+                <div class="col-sm-3" id="divMesEditar">
+                    <select id="lstMesEditar" class="form-control"></select>
+                    <span class="help-block" id="helpErrorMesEditar"></span>
+                </div>
+                <div class="col-sm-3" id="divDiaEditar">
+                    <select id="lstDiaEditar" class="form-control" disabled><option value="0">D&iacute;as en el mes</option></select>
+                    <span class="help-block" id="helpErrorDiaEditar"></span>
+                </div>
+                <div class="col-sm-3" id="divFechaEspecificaEditar">
+                    <input id="txtFechaEspecificaEditar" name="txtFechaEspecificaEditar" class="form-control input-datepicker" placeholder="Fecha Espec&iacute;fica" data-date-format="dd-mm-yyyy" type="text">
+                    <span class="help-block" id="helpErrorFechaEspecificaEditar"></span>
                 </div>
             </div>
-            <div class="form-group div-feriados" id="divFechaFinEditar">
-                <label class="col-md-3 control-label" for="txtFechaFinEditar">Fecha Fin:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaFinEditar" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaFinEditar">
-                    <span class="help-block" id="helpErrorFechaFinEditar"></span>
-                </div>
-            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-angle-right"></i>&nbsp;</legend>
             <div class="form-group div-feriados" id="divObservacionEditar">
                 <label class="col-md-3 control-label" for="txtObservacionEditar">Observaciones:</label>
                 <div class="col-md-6">
@@ -243,20 +249,20 @@
                 <span class="help-block" id="helpErrorObservacionEditar"></span>
             </div>
         </fieldset>
-        <input type="hidden" id="hdnIdToleranciaEditar" value="0">
         <div class="form-group form-actions">
             <div class="col-md-8 col-md-offset-4">
-                <button id="btnGuardarToleranciaEditar" class="btn btn-sm btn-primary" type="button">
+                <button id="btnGuardarFeriadoEditar" class="btn btn-sm btn-primary" type="button">
                     <i class="fa fa-floppy-o"></i>
                     Guardar
                 </button>
-                <button id="btnCancelarToleranciaEditar" class="btn btn-sm btn-warning" type="button">
+                <button id="btnCancelarFeriadoEditar" class="btn btn-sm btn-warning" type="button">
                     <i class="fa fa-repeat"></i>
                     Cancelar
                 </button>
             </div>
         </div>
     </div>
+    <input type="hidden" id="hdnIdFeriadoEditar" value="0">
 </div>
 <div class="section" id="divView">
 </div>

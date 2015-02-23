@@ -20,7 +20,7 @@ function aprobarRegistroTolerancia(idTolerancia){
 
             var res = jQuery.parseJSON(data);
             /**
-             * Si se ha realizado correctamentela aprobación del registro de la relación laboral
+             * Si se ha realizado correctamentela aprobación del registro de la tolerancia
              */
             $(".msjes").hide();
             if(res.result==1){
@@ -32,14 +32,14 @@ function aprobarRegistroTolerancia(idTolerancia){
                 ok=true;
             } else if(res.result==0){
                 /**
-                 * En caso de haberse presentado un error al momento de modificar el estado del registro de relación laboral, siendo que su estado no haya estado EN PROCESO.
+                 * En caso de haberse presentado un error al momento de modificar el estado del registro de tolerancia, siendo que su estado no haya estado EN PROCESO.
                  */
                 $("#divMsjePorWarning").html("");
                 $("#divMsjePorWarning").append(res.msj);
                 $("#divMsjeNotificacionWarning").jqxNotification("open");
             }else{
                 /**
-                 * En caso de haberse presentado un error crítico al momento de modificar el estado el registro de la relación laboral
+                 * En caso de haberse presentado un error crítico al momento de modificar el estado el registro de la tolerancia.
                  */
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(res.msj);

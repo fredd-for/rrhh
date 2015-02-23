@@ -66,6 +66,7 @@ class Fferiados extends \Phalcon\Mvc\Model {
             'repetitivo_descripcion'=>'repetitivo_descripcion',
             'dia'=>'dia',
             'mes'=>'mes',
+            'mes_nombre'=>'mes_nombre',
             'gestion'=>'gestion',
             'observacion'=>'observacion',
             'estado'=>'estado',

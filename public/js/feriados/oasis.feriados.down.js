@@ -3,25 +3,25 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-12-2014
+ *   Fecha Creación:  23-02-2015
  */
 /**
- * Función registrar la baja de un registro de tolerancia.
+ * Función registrar la baja de un registro de feriado.
  */
-function darDeBajaTolerancia(idTolerancia){
+function darDeBajaFeriado(idFeriado){
     var ok=true;
-    if(idTolerancia>0){
+    if(idFeriado>0){
         var ok=$.ajax({
-            url:'/tolerancias/down/',
+            url:'/feriados/down/',
             type:'POST',
             datatype: 'json',
             async:false,
-            data:{id:idTolerancia},
+            data:{id:idFeriado},
             success: function(data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 //alert(data);
                 /**
-                 * Si se ha realizado correctamente el registro de baja de la tolerancia.
+                 * Si se ha realizado correctamente el registro de baja del feriado.
                  */
                 $(".msjes").hide();
                 if(res.result==1){

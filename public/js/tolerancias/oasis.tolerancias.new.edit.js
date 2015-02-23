@@ -189,7 +189,7 @@ function guardaTolerancia(){
             success: function (data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
-                 * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
+                 * Si se ha realizado correctamente el registro de la tolerancia
                  */
                 $(".msjes").hide();
                 if (res.result == 1) {
@@ -207,7 +207,7 @@ function guardaTolerancia(){
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 } else {
                     /**
-                     * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
+                     * En caso de haberse presentado un error crítico al momento de registrarse la tolerancia
                      */
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(res.msj);

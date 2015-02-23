@@ -2944,7 +2944,7 @@ class RelaboralesController extends ControllerBase
             $excel->ShowLeftFooter = true;
             //$excel->secondPage();
             if ($excel->debug == 0) {
-                $excel->display("reporte_relaboral.xls","I");
+                $excel->display("AppData/reporte_relaboral.xls","I");
             }
             #endregion Proceso de generación del documento PDF
         }

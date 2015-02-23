@@ -17,7 +17,7 @@ $().ready(function () {
 
     definirGrillaParaListaTolerancias();
     /**
-     * Control del evento de solicitud de guardar el registro del horario.
+     * Control del evento de solicitud de guardar el registro de la tolerancia.
      */
     $("#btnGuardarToleranciaNuevo").click(function () {
         var ok = validaFormularioTolerancia()
