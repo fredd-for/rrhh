@@ -47,11 +47,11 @@ class ControllerBase extends Controller {
                     ->addCss('/js/jqwidgets/styles/jqx.android.css')
 
                     /*Adicionado por Javier*/
-                    ->addCss('/assets/css/jquery-ui.css')
-                    
-
+                    //->addCss('/assets/css/jquery-ui.css')
             ;
-            $this->assets
+             $this->assets
+
+
                     ->addJs('/js/jqwidgets/scripts/jquery-1.11.1.min.js')
                     //->addJs('/js/bootstrap.min.js')
                     ->addJs('/js/wizard/jquery-latest.js')
@@ -61,10 +61,8 @@ class ControllerBase extends Controller {
                     ->addJs('/assets/js/vendor/bootstrap.min.js')
                     ->addJs('/assets//js/plugins.js')
                     ->addJs('/assets/js/app.js')
-                    //  ->addJs('/assets/js/helpers/gmaps.min.js')
                     ->addJs('/js/app.plugin.js')
-                    //  ->addJs('/js/jquery-ui-1.9.0.custom.min.js')
-                    //->addJs('/js/bootstrap.min.js')
+
                     //JS ingresado por Freddy
                     
                     ->addJs('/js/jqwidgets/simulator.js')

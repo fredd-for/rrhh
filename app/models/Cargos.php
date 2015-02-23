@@ -117,6 +117,11 @@ class Cargos extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $resolucion_ministerial_id;
+    /**
+     *
+     * @var integer
+     */
+    public $ordenador;
 
     /**
      * Initialize method for model.
@@ -150,7 +155,8 @@ class Cargos extends \Phalcon\Mvc\Model
             'formacion_requerida' => 'formacion_requerida',
             'asistente' => 'asistente',
             'jefe' => 'jefe',
-            'resolucion_ministerial_id' => 'resolucion_ministerial_id'
+            'resolucion_ministerial_id' => 'resolucion_ministerial_id',
+            'ordenador' => 'ordenador'
         );
     }
 

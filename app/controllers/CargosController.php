@@ -190,6 +190,7 @@ public function listAction()
 			'organigrama_id' => $v->organigrama_id,
 			'codigo_nivel' => $v->codigo_nivel,
 			'codigo' => $v->codigo,
+			'ordenador' => $v->ordenador,
 			'cargo' => $v->cargo,
 			'denominacion' => $v->denominacion,
 			'sueldo' => intval($v->sueldo),
@@ -270,6 +271,7 @@ public function saveAction()
 				$resul->depende_id = 0;
 			}
 			$resul->codigo = $_POST['codigo'];
+			$resul->ordenador = $_POST['ordenador'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->codigo_nivel = $_POST['codigo_nivel'];
 			$resul->fin_partida_id=$_POST['fin_partida_id'];
@@ -292,6 +294,7 @@ public function saveAction()
 
 			$resul->ejecutora_id = 1;
 			$resul->codigo = $_POST['codigo'];
+			$resul->ordenador = $_POST['ordenador'];
 			$resul->cargo = $_POST['cargo'];
 			$resul->codigo_nivel = $_POST['codigo_nivel'];
 			$resul->cargo_estado_id = 1;
@@ -509,9 +512,10 @@ public function getEstadoSeguimientoAction()
             'tipo_resolucion' => array('title' => 'Resolución', 'width' => 40, 'align' => 'C', 'type' => 'varchar'),
             'unidad_administrativa' => array('title' => 'Organigrama', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
             'denominacion' => array('title' => 'Denominación', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
+            'ordenador' => array('title' => 'Ordenador', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Sueldo Bs.', 'width' => 18, 'align' => 'C', 'type' => 'int4'),
+            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
             'estado' => array('title' => 'Estado', 'width' => 20, 'align' => 'C', 'type' => 'bpchar'),
             'condicion' => array('title' => 'Tipo Cargo', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
             'partida' => array('title' => 'Partida', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
@@ -831,9 +835,10 @@ public function getEstadoSeguimientoAction()
             		'tipo_resolucion'=>$v->tipo_resolucion,
             		'unidad_administrativa'=>$v->unidad_administrativa,
             		'denominacion'=>$v->denominacion,
-            		'codigo'=>$v->codigo,
+            		'ordenador'=>$v->ordenador,
             		'cargo'=>$v->cargo,
             		'sueldo'=>$v->sueldo,
+            		'codigo'=>$v->codigo,
             		'estado'=>$v->estado,
             		'condicion'=>$v->condicion,
             		'partida'=>$v->partida,
@@ -931,7 +936,7 @@ public function getEstadoSeguimientoAction()
             $excel->ShowLeftFooter = true;
             //$excel->secondPage();
             if ($excel->debug == 0) {
-                $excel->display("reporte_cargos.xls","I");
+                $excel->display("AppData/reporte_cargos.xls","I");
             }
             #endregion Proceso de generación del documento PDF
         }
@@ -956,9 +961,10 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
             'tipo_resolucion' => array('title' => 'Resolución', 'width' => 40, 'align' => 'C', 'type' => 'varchar'),
             'unidad_administrativa' => array('title' => 'Organigrama', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
             'denominacion' => array('title' => 'Denominación', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
+            'ordenador' => array('title' => 'Ordenador', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 35, 'align' => 'C', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Sueldo Bs.', 'width' => 18, 'align' => 'C', 'type' => 'int4'),
+            'codigo' => array('title' => 'Item', 'width' => 10, 'align' => 'L', 'type' => 'varchar'),
             'estado' => array('title' => 'Estado', 'width' => 20, 'align' => 'C', 'type' => 'bpchar'),
             'condicion' => array('title' => 'Tipo Cargo', 'width' => 20, 'align' => 'L', 'type' => 'varchar'),
             'partida' => array('title' => 'Partida', 'width' => 15, 'align' => 'L', 'type' => 'int4'),
@@ -1271,9 +1277,10 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
             		'tipo_resolucion'=>$v->tipo_resolucion,
             		'unidad_administrativa'=>$v->unidad_administrativa,
             		'denominacion'=>$v->denominacion,
-            		'codigo'=>$v->codigo,
+            		'ordenador'=>$v->ordenador,
             		'cargo'=>$v->cargo,
             		'sueldo'=>$v->sueldo,
+            		'codigo'=>$v->codigo,
             		'estado'=>$v->estado,
             		'condicion'=>$v->condicion,
             		'partida'=>$v->partida,
@@ -1353,7 +1360,7 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
                 }
             }
             $pdf->ShowLeftFooter = true;
-            if($pdf->debug==0)$pdf->Output('reporte_cargos.pdf','I');
+            if($pdf->debug==0)$pdf->Output('AppData/reporte_cargos.pdf','I');
             #endregion Proceso de generación del documento PDF
         }
     }
