@@ -46,6 +46,8 @@ $(document).ready(function () {
         EnableCrop : true,
         CropWindowStyle : "Bootstrap"
     });
+
+    
 });
 
 

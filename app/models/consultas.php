@@ -72,12 +72,16 @@ class Consultas extends \Phalcon\Mvc\Model {
     }
 
     public static function personasActivo() {
-        $sql = "SELECT p.id,CONCAT(p.p_nombre,' ',p.s_nombre) as nombres,CONCAT(p.p_apellido,' ',p.s_apellido) as apellidos,to_char(p.fecha_nac, 'DD-mm-YYYY') as fecha_nac,p.ci,p.expd,p.nacionalidad
-                ,foto,genero,nacionalidad FROM personas p
-                WHERE p.id not in 
-                (
-                select distinct persona_id FROM relaborales  WHERE baja_logica='1'
-                ) ORDER BY p.p_apellido ASC";
+        // $sql = "SELECT p.id,CONCAT(p.p_nombre,' ',p.s_nombre) as nombres,CONCAT(p.p_apellido,' ',p.s_apellido) as apellidos,to_char(p.fecha_nac, 'DD-mm-YYYY') as fecha_nac,p.ci,p.expd,p.nacionalidad
+        //         ,foto,genero,nacionalidad FROM personas p
+        //         WHERE p.id not in 
+        //         (
+        //         select distinct persona_id FROM relaborales  WHERE baja_logica='1'
+        //         ) ORDER BY p.p_apellido ASC";
+        $sql="SELECT p.id,CONCAT(p.p_nombre,' ',p.s_nombre) as nombres,CONCAT(p.p_apellido,' ',p.s_apellido) as apellidos,to_char(p.fecha_nac, 'DD-mm-YYYY') as fecha_nac,p.ci,p.expd,p.nacionalidad
+                ,foto,genero,nacionalidad,(select case when estado=1 then 'ACTIVO' WHEN estado=2 then 'EN PROCESO' WHEN estado=0 then 'PASIVO' else NULL END from relaborales where persona_id = p.id  order by fecha_ini DESC, estado LIMIT 1) as estado_actual
+FROM personas p WHERE p.baja_logica = 1 ORDER BY p.p_apellido, s_apellido ASC"; 
+
         $db = new personas();
         return new Resultset(null, $db, $db->getReadConnection()->query($sql));
     }
@@ -113,6 +117,12 @@ class Consultas extends \Phalcon\Mvc\Model {
     }
     public static function personigrama($id){
         $sql="select id,organigrama_id,depende_id,cargo from cargos where organigrama_id='$id'  and baja_logica='1'";
+         $db = new personas();
+        return new Resultset(null, $db, $db->getReadConnection()->query($sql));
+    }
+    public static function deletePersona($id)
+    {
+        $sql="update personas set baja_logica=0 where id=".$id;
          $db = new personas();
         return new Resultset(null, $db, $db->getReadConnection()->query($sql));
     }

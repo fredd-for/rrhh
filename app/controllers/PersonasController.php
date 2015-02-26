@@ -118,13 +118,15 @@ class PersonasController extends ControllerBase {
         }
         $this->assets->addCss('/media/plugins/form-stepy/jquery.stepy.css');
         $this->assets
+
         ->addJs('/media/plugins/form-validation/jquery.validate.min.js')
         ->addJs('/media/plugins/form-stepy/jquery.stepy.js')
         ->addJs('/media/plugins/bootbox/bootbox.min.js')
         ->addJs('/media/demo/demo-formwizard.js')
+        
+        ->addJs('/js/jquery-ui.js')
         ->addJs('/scripts/personal/nuevo.js')
         ->addJs('/jquery.picture.cut/src/jquery.picture.cut.js')
-        ->addJs('/js/jquery-ui.js')
         ;
     }
 
@@ -397,6 +399,7 @@ class PersonasController extends ControllerBase {
                 'tipo_doc' => $v->tipo_doc,
                 'foto' => $this->foto($v->foto, $v->genero),
                 'expd' => $v->expd,
+                'estado_actual' => $v->estado_actual,
                 'suma' => 1,
             );
         }
@@ -438,12 +441,19 @@ class PersonasController extends ControllerBase {
     }
 
     public function deleteAction() {
-        $resul = personas::findFirstById($_POST['id']);
-        $resul->baja_logica = 0;
-        $resul->save();
-        $this->view->disable();
-        echo json_encode();
-    }
+     //$resul = personas::findFirstById($_POST['id']);
+     $resul = consultas::deletePersona($_POST['id']);
+    // $resul->user_mod_id = $auth['id'];
+    // $resul->fecha_mod = date("Y-m-d H:i:s");
+    //  $resul->baja_logica = 0;
+    //  if ($resul->save()) {
+    //     $msm = 'Exito: Se guardo correctamente';
+    // }else{
+    //     $msm = 'Error: No se guardo el registro';
+    // }
+    $this->view->disable();
+    echo json_encode();
+}
 
     public function saveAction() {
         if (isset($_POST['id'])) {
