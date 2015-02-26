@@ -163,6 +163,11 @@ class Relaborales  extends \Phalcon\Mvc\Model {
      */
     public $solampliacioncontrato_id;
     /**
+     * Identificador del registro de relación laboral previo.
+     * @var integer
+     */
+    public $relaboral_previo_id;
+    /**
      * Observación sobre el registro de la relación laboral.
      * @var string
      */
@@ -218,12 +223,9 @@ class Relaborales  extends \Phalcon\Mvc\Model {
      */
     public $fecha_baja_log;
 
-    /**
-     * Initialize method for model.
-     */
-    public function initialize()
-    {
-        $this->setSchema("");
+
+    public function initialize() {
+        $this->_db = new Relaborales();
     }
 
     /**
@@ -259,6 +261,7 @@ class Relaborales  extends \Phalcon\Mvc\Model {
             'descripcion_anu' =>'descripcion_anu',
             'solelabcontrato_id' =>'solelabcontrato_id',
             'solampliacioncontrato_id' =>'solampliacioncontrato_id',
+            'relaboral_previo_id' => 'relaboral_previo_id',
             'observacion' => 'observacion',
             'pagado'=> 'pagado',
             'estado' => 'estado',
@@ -289,5 +292,19 @@ class Relaborales  extends \Phalcon\Mvc\Model {
         $sql = "select distinct gestion from f_listado_gestiones(".$id_persona.")";
         $this->_db = new Gestiones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del identificador del registro de relación laboral ampliado considerando
+     * una persona con una fecha de inicio de relación laboral.
+     * @param $idPersona
+     * @param $fechaIni
+     * @return Resultset
+     */
+    public function getIdRelaboralAmpliado($idPersona,$fechaIni){
+        if($idPersona>0&&$fechaIni!=''){
+            $sql = "SELECT * FROM f_id_relaboral_ampliado(".$idPersona.",'".$fechaIni."')";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
     }
 }

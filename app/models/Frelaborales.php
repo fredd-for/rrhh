@@ -124,6 +124,8 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public $persona_user_mod_id;
     public $persona_fecha_mod;
     public $agrupador;//Dato adicionado para efectos de conocer si pertenece a un perfil laboral o no
+    public $fecha_ing;//Fecha del primer ingreso dentro del grupo de registros laborales.
+    public $relaboral_previo_id;//Identificador del registro de relación laboral previo
 
     /**
      * Initialize method for model.
@@ -251,7 +253,9 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             'persona_fecha_reg'=>'persona_fecha_reg',
             'persona_user_mod_id'=>'persona_user_mod_id',
             'persona_fecha_mod'=>'persona_fecha_mod',
-            'agrupador'=>'agrupador'
+            'agrupador'=>'agrupador',
+            'fecha_ing'=>'fecha_ing',
+            'relaboral_previo_id'=>'relaboral_previo_id'
         );
     }
     private $_db;
@@ -305,7 +309,8 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllWithPersons($where='',$group='')
     {
-        $sql = "SELECT * FROM f_relaborales_y_personas_nuevas()";
+        $sql = "SELECT f.*,c.agrupador as tiene_item FROM f_relaborales_y_personas_nuevas() f ";
+        $sql .= "LEFT JOIN condiciones c ON c.id = f.id_condicion";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();

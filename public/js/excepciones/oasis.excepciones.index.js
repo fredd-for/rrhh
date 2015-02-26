@@ -9,11 +9,11 @@ $().ready(function () {
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
-    $('#jqxTabsTolerancias').jqxTabs('theme', 'oasis');
-    $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-    $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-    $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-    $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+    $('#divTabExcepciones').jqxTabs('theme', 'oasis');
+    $('#divTabExcepciones').jqxTabs('enableAt', 0);
+    $('#divTabExcepciones').jqxTabs('disableAt', 1);
+    $('#divTabExcepciones').jqxTabs('disableAt', 2);
+    $('#divTabExcepciones').jqxTabs('disableAt', 3);
 
     definirGrillaParaListaTolerancias();
     /**
@@ -24,10 +24,10 @@ $().ready(function () {
         if (ok) {
             var okk = guardaTolerancia();
             if (okk) {
-                $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+                $('#divTabExcepciones').jqxTabs('enableAt', 0);
+                $('#divTabExcepciones').jqxTabs('disableAt', 1);
+                $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                $('#divTabExcepciones').jqxTabs('disableAt', 3);
                 $("#msjs-alert").hide();
             }
         }
@@ -37,31 +37,31 @@ $().ready(function () {
         if (ok) {
             var okk = guardaTolerancia();
             if (okk) {
-                $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-                $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+                $('#divTabExcepciones').jqxTabs('enableAt', 0);
+                $('#divTabExcepciones').jqxTabs('disableAt', 1);
+                $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                $('#divTabExcepciones').jqxTabs('disableAt', 3);
                 $("#msjs-alert").hide();
             }
         }
     });
     $("#btnCancelarToleranciaNuevo").click(function () {
-        $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+        $('#divTabExcepciones').jqxTabs('enableAt', 0);
+        $('#divTabExcepciones').jqxTabs('disableAt', 1);
+        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabExcepciones').jqxTabs('disableAt', 3);
         $("#msjs-alert").hide();
 
     });
     $("#btnCancelarToleranciaEditar").click(function () {
-        $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+        $('#divTabExcepciones').jqxTabs('enableAt', 0);
+        $('#divTabExcepciones').jqxTabs('disableAt', 1);
+        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabExcepciones').jqxTabs('disableAt', 3);
         $("#msjs-alert").hide();
     });
     $("#btnExportarExcel").click(function () {
-        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var items = $("#listBoxExcepciones").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
             numColumnas++;
@@ -69,11 +69,11 @@ $().ready(function () {
         if (numColumnas > 0) exportarReporte(1);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#jqxlistbox").focus();
+            $("#listBoxExcepciones").focus();
         }
     });
     $("#btnExportarPDF").click(function () {
-        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+        var items = $("#listBoxExcepciones").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
             numColumnas++;
@@ -81,14 +81,14 @@ $().ready(function () {
         if (numColumnas > 0) exportarReporte(2);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#jqxlistbox").focus();
+            $("#listBoxExcepciones").focus();
         }
     });
     $("#chkAllCols").click(function () {
         if (this.checked == true) {
-            $("#jqxlistbox").jqxListBox('checkAll');
+            $("#listBoxExcepciones").jqxListBox('checkAll');
         } else {
-            $("#jqxlistbox").jqxListBox('uncheckAll');
+            $("#listBoxExcepciones").jqxListBox('uncheckAll');
         }
     });
     $("#liList").click(function () {
@@ -96,13 +96,13 @@ $().ready(function () {
         $("#btnCancelarToleranciaEditar").click();
     });
     $('#btnDesfiltrartodo').click(function () {
-        $("#jqxgridtolerancias").jqxGrid('clearfilters');
+        $("#divGridExcepciones").jqxGrid('clearfilters');
     });
     $('#btnDesagrupartodo').click(function () {
-        $('#jqxgridtolerancias').jqxGrid('cleargroups');
+        $('#divGridExcepciones').jqxGrid('cleargroups');
     });
     $('#btnDesagruparTodoMovilidad').click(function () {
-        $('#jqxgridtoleranciasmovilidad').jqxGrid('cleargroups');
+        $('#divGridExcepcionesmovilidad').jqxGrid('cleargroups');
     });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
@@ -167,7 +167,7 @@ function definirGrillaParaListaTolerancias() {
     cargarRegistrosDeTolerancias();
     function cargarRegistrosDeTolerancias() {
         var theme = prepareSimulator("grid");
-        $("#jqxgridtolerancias").jqxGrid(
+        $("#divGridExcepciones").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -200,10 +200,10 @@ function definirGrillaParaListaTolerancias() {
                     /* Registrar nueva tolerancia.*/
                     $("#addrowbutton").off();
                     $("#addrowbutton").on('click', function () {
-                        $('#jqxTabsTolerancias').jqxTabs('enableAt', 1);
-                        $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-                        $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
-                        $('#jqxTabsTolerancias').jqxTabs({selectedItem: 1});
+                        $('#divTabExcepciones').jqxTabs('enableAt', 1);
+                        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                        $('#divTabExcepciones').jqxTabs('disableAt', 3);
+                        $('#divTabExcepciones').jqxTabs({selectedItem: 1});
                         inicializarCamposParaNuevoRegistroTolerancia();
                         limpiarMensajesErrorPorValidacionTolerancia("");
                         cargarTiposDeAcumulacion(-1,"");
@@ -212,9 +212,9 @@ function definirGrillaParaListaTolerancias() {
                     });
                     /*Aprobar registro.*/
                     $("#approverowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgridtolerancias").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridExcepciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgridtolerancias').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridExcepciones').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 /*
                                  * La aprobación de un registro es admisible si el estado del registro es EN PROCESO.
@@ -240,20 +240,20 @@ function definirGrillaParaListaTolerancias() {
                     /* Modificar registro.*/
                     $("#approverowbutton").off();
                     $("#updaterowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgridtolerancias").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridExcepciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgridtolerancias').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridExcepciones').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 $("#hdnIdToleranciaEditar").val(dataRecord.id);
                                 /**
                                  * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
                                  */
                                 if (dataRecord.estado >= 1) {
-                                    $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-                                    $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-                                    $('#jqxTabsTolerancias').jqxTabs('enableAt', 2);
-                                    $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
-                                    $('#jqxTabsTolerancias').jqxTabs({selectedItem: 2});
+                                    $('#divTabExcepciones').jqxTabs('enableAt', 0);
+                                    $('#divTabExcepciones').jqxTabs('disableAt', 1);
+                                    $('#divTabExcepciones').jqxTabs('enableAt', 2);
+                                    $('#divTabExcepciones').jqxTabs('disableAt', 3);
+                                    $('#divTabExcepciones').jqxTabs({selectedItem: 2});
 
                                     limpiarMensajesErrorPorValidacionTolerancia("Editar");
                                     $("#txtToleranciaEditar").val(dataRecord.tolerancia);
@@ -287,9 +287,9 @@ function definirGrillaParaListaTolerancias() {
                     });
                     /* Dar de baja un registro.*/
                     $("#deleterowbutton").on('click', function () {
-                        var selectedrowindex = $("#jqxgridtolerancias").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridExcepciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#jqxgridtolerancias').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridExcepciones').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 var id_tolerancia = dataRecord.id;
                                 /*
@@ -407,16 +407,16 @@ function definirGrillaParaListaTolerancias() {
             {label: 'Fecha Fin', value: 'fecha_fin', checked: false},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
-        $("#jqxlistbox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
-        $("#jqxlistbox").on('checkChange', function (event) {
-            $("#jqxgridtolerancias").jqxGrid('beginupdate');
+        $("#listBoxExcepciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#listBoxExcepciones").on('checkChange', function (event) {
+            $("#divGridExcepciones").jqxGrid('beginupdate');
             if (event.args.checked) {
-                $("#jqxgridtolerancias").jqxGrid('showcolumn', event.args.value);
+                $("#divGridExcepciones").jqxGrid('showcolumn', event.args.value);
             }
             else {
-                $("#jqxgridtolerancias").jqxGrid('hidecolumn', event.args.value);
+                $("#divGridExcepciones").jqxGrid('hidecolumn', event.args.value);
             }
-            $("#jqxgridtolerancias").jqxGrid('endupdate');
+            $("#divGridExcepciones").jqxGrid('endupdate');
         });
     }
 }
@@ -439,14 +439,14 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
  */
 function OperaEvento(evento) {
     if ((evento.type == "keyup" || evento.type == "keydown") && evento.which == "27") {
-        $('#jqxTabsTolerancias').jqxTabs('enableAt', 0);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 1);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 2);
-        $('#jqxTabsTolerancias').jqxTabs('disableAt', 3);
+        $('#divTabExcepciones').jqxTabs('enableAt', 0);
+        $('#divTabExcepciones').jqxTabs('disableAt', 1);
+        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabExcepciones').jqxTabs('disableAt', 3);
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */
-        $('#jqxTabsTolerancias').jqxTabs({selectedItem: 0});
+        $('#divTabExcepciones').jqxTabs({selectedItem: 0});
     }
 }
 

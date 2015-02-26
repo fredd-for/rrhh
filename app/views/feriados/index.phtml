@@ -1,5 +1,27 @@
 </head>
 <body>
+<style>
+    .fc-annotation {
+        border-style: solid;
+        border-width: 0;
+        font-size: .85em;
+        cursor: default;
+    }
+
+    .fc-annotation-skin {
+        border-color: #999; /* default BORDER color */
+        background-color: #edb; /* default BACKGROUND color */
+        color: #777; /* default TEXT color */
+        text-align: center;
+        opacity: 0.8;
+        filter: alpha(opacity=80); /* for IE */
+    }
+
+    .fc-annotation.closed {
+        background-color: #f1f1f1;
+    }
+
+</style>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n de Feriados</b></h2>
 
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
@@ -43,7 +65,7 @@
     <li id="liList">Listado</li>
     <li id="liNew">Nuevo</li>
     <li id="liEdit">Modificaci&oacute;n</li>
-    <li id="liView">Vista</li>
+    <li id="liView">Calendario</li>
 </ul>
 <br>
 <div class="row section" id="divList">
@@ -265,6 +287,21 @@
     <input type="hidden" id="hdnIdFeriadoEditar" value="0">
 </div>
 <div class="section" id="divView">
+    <div class="block block-alt-noborder full">
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a id="btnImprimirCalendario" class="btn btn-alt btn-sm btn-default" title="Imprimir Calendario" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Imprimir">
+                    <i class="fa fa-print"></i>
+                </a>
+            </div>
+            <h2><strong>Calendario de Feriados</strong></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <!--</form></div>-->

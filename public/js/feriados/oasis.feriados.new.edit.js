@@ -249,8 +249,9 @@ function guardaFeriado(opcion){
 /**
  * Función para limpiar los campos correspondientes para el registro de un nuevo feriado.
  */
-function inicializarCamposParaNuevoRegistroFeriado(){
-    var sufijo ="Editar";
+function inicializarCamposParaNuevoRegistroFeriado(opcion){
+    var sufijo ="New";
+    if(opcion==2)sufijo ="Editar";
     $("#hdnIdFeriadoEditar").val(0);
     $("#txtFeriado"+sufijo).val("");
     $("#txtDescripcion"+sufijo).val("");

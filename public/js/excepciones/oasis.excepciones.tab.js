@@ -8,6 +8,6 @@
 $(document).ready(function () {
     $.jqx.theme = "bootstrap";
     var theme = prepareSimulator("tabs");
-    $('#jqxTabsTolerancias').jqxTabs({ theme:theme,height: '100%', width: '100%',  keyboardNavigation: false });
+    $('#divTabExcepciones').jqxTabs({ theme:theme,height: '100%', width: '100%',  keyboardNavigation: false });
 });
 

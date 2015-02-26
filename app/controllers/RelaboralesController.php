@@ -26,14 +26,15 @@ class RelaboralesController extends ControllerBase
         $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
 
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.approve.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.edit.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.move.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.print.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.export.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.export.old.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.view.splitter.js');
 
         $ubicaciones = $this->tag->select(
@@ -128,6 +129,7 @@ class RelaboralesController extends ControllerBase
                     'lugar_nac' => $v->lugar_nac,
                     'genero' => $v->genero,
                     'e_civil' => $v->e_civil,
+                    'tiene_item' => $v->tiene_item,
                     'item' => $v->item,
                     'carrera_adm' => $v->carrera_adm,
                     'num_contrato' => $v->num_contrato,
@@ -139,6 +141,7 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
                     'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
                     'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
                     'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
@@ -208,6 +211,7 @@ class RelaboralesController extends ControllerBase
                     'fuente' => $v->fuente,
                     'organismo_codigo' => $v->organismo_codigo,
                     'organismo' => $v->organismo,
+                    'relaboral_previo_id' => $v->relaboral_previo_id,
                     'observacion' => ($v->observacion != null) ? $v->observacion : "",
                     'estado' => $v->estado,
                     'estado_descripcion' => $v->estado_descripcion,
@@ -264,6 +268,7 @@ class RelaboralesController extends ControllerBase
                         'lugar_nac' => $v->lugar_nac,
                         'genero' => $v->genero,
                         'e_civil' => $v->e_civil,
+                        'tiene_item' => $v->tiene_item,
                         'item' => $v->item,
                         'carrera_adm' => $v->carrera_adm,
                         'num_contrato' => $v->num_contrato,
@@ -808,7 +813,7 @@ class RelaboralesController extends ControllerBase
     public function listcargosAction()
     {
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
@@ -870,7 +875,7 @@ class RelaboralesController extends ControllerBase
     public function listprocesosAction()
     {
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
@@ -894,7 +899,7 @@ class RelaboralesController extends ControllerBase
     public function listubicacionesAction()
     {
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
@@ -916,12 +921,12 @@ class RelaboralesController extends ControllerBase
     public function listmotivosbajasAction()
     {
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
-        $this->assets->addJs('/js/relaborales/oasis.relaborales.list.js');
+        $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.new.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.down.js');
         $this->assets->addCss('/js/css/oasis.tabla.incrementable.css');
         $this->view->disable();
-        $resul = Motivosbajas::find(array('estado=1', 'order' => 'id ASC'));
+        $resul = Motivosbajas::find(array('estado=1 AND baja_logica=1', 'order' => 'id ASC'));
         if ($resul->count() > 0) {
             foreach ($resul as $v) {
                 $motivosbajas[] = array(
@@ -1008,7 +1013,21 @@ class RelaboralesController extends ControllerBase
                 }
                 if ($id_persona > 0 && $id_cargo > 0) {
                     try {
+                        #region Control del identificador de relación laboral previo
+                        $rp = Procesoscontrataciones::findFirst(array('id='.$id_procesocontratacion));
+                        if ($rp->tipoconvocatoria_id ==2) {
 
+                            $resul=$objRelaboral->getIdRelaboralAmpliado($id_persona,$fecha_incor);
+                            if ($resul->count() > 0) {
+                                $valor = $resul[0];
+                                if($valor->o_resultado>0){
+                                    $objRelaboral->relaboral_previo_id = $valor->o_resultado;
+                                }else{
+                                    $objRelaboral->relaboral_previo_id = null;
+                                }
+                            }
+                        }
+                        #endregion Control del identificador de relación laboral previo
                         $objRelaboral->cargo_id = $id_cargo;
                         $objRelaboral->num_contrato = $num_contrato == '' ? null : $num_contrato;
                         $objRelaboral->da_id = 1;
@@ -1188,6 +1207,19 @@ class RelaboralesController extends ControllerBase
                     if ($id_persona > 0 && $id_cargo > 0) {
                         try {
                             $objRelaboral = new Relaborales();
+                            #region Control del identificador de relación laboral previo
+                            $rp = Procesoscontrataciones::findFirst(array('id='.$id_procesocontratacion));
+                            if ($rp->tipoconvocatoria_id ==2) {
+
+                                $resul=$objRelaboral->getIdRelaboralAmpliado($id_persona,$fecha_incor);
+                                if ($resul->count() > 0) {
+                                    $valor = $resul[0];
+                                    if($valor->o_resultado>0){
+                                        $objRelaboral->relaboral_previo_id = $valor->o_resultado;
+                                    }
+                                }
+                            }
+                            #endregion Control del identificador de relación laboral previo
                             $objRelaboral->id = null;
                             $objRelaboral->persona_id = $id_persona;
                             $objRelaboral->cargo_id = $id_cargo;
@@ -1900,6 +1932,7 @@ class RelaboralesController extends ControllerBase
             'nivelsalarial' => array('title' => 'Nivel', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric'),
+            'fecha_ing' => array('title' => 'Fecha Ing', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_incor' => array('title' => 'Fecha Inc', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 18, 'align' => 'C', 'type' => 'date'),
@@ -2234,6 +2267,7 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
                     'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
                     'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
                     'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
@@ -2314,7 +2348,8 @@ class RelaboralesController extends ControllerBase
                     'persona_user_reg_id' => $v->persona_user_reg_id,
                     'persona_fecha_reg' => $v->persona_fecha_reg,
                     'persona_user_mod_id' => $v->persona_user_mod_id,
-                    'persona_fecha_mod' => $v->persona_fecha_mod
+                    'persona_fecha_mod' => $v->persona_fecha_mod,
+                    'relaboral_previo_id' => $v->relaboral_previo_id
                 );
             }
             //$pdf->Open("L");
@@ -2431,6 +2466,7 @@ class RelaboralesController extends ControllerBase
             'nivelsalarial' => array('title' => 'Nivel', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
             'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric'),
+            'fecha_ing' => array('title' => 'Fecha Ing', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_ini' => array('title' => 'Fecha Ini', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_incor' => array('title' => 'Fecha Inc', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             'fecha_fin' => array('title' => 'Fecha Fin', 'width' => 18, 'align' => 'C', 'type' => 'date'),
@@ -2774,6 +2810,7 @@ class RelaboralesController extends ControllerBase
                     'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
                     'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
                     'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
+                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
                     'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
                     'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
                     'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
@@ -2854,7 +2891,8 @@ class RelaboralesController extends ControllerBase
                     'persona_user_reg_id' => $v->persona_user_reg_id,
                     'persona_fecha_reg' => $v->persona_fecha_reg,
                     'persona_user_mod_id' => $v->persona_user_mod_id,
-                    'persona_fecha_mod' => $v->persona_fecha_mod
+                    'persona_fecha_mod' => $v->persona_fecha_mod,
+                    'relaboral_previo_id' => $v->relaboral_previo_id
                 );
             }
             #region Espacio para la definición de valores para la cabecera de la tabla
