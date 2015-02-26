@@ -192,11 +192,13 @@ function definirGrillaParaListaFeriados() {
                     container.append("<button id='approverowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button id='calendarrowbutton' class='btn btn-sm btn-primary' type='button'><i class='gi gi-calendar fa-2x text-info' title='Vista Historial.'/></i></button>");
 
                     $("#addrowbutton").jqxButton();
                     $("#approverowbutton").jqxButton();
                     $("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();
+                    $("#calendarrowbutton").jqxButton();
 
                     /* Registrar nuevo feriado.*/
                     $("#addrowbutton").off();
@@ -213,7 +215,7 @@ function definirGrillaParaListaFeriados() {
                         $("#lstMesNew").on("change",function(){
                             listaDiasEnCadaMes(1,$(this).val(),0);
                         });
-                        inicializarCamposParaNuevoRegistroFeriado();
+                        inicializarCamposParaNuevoRegistroFeriado(1);
                         limpiarMensajesErrorPorValidacionFeriado("New");
                         $("#txtFeriadoNew").focus();
                     });
@@ -264,9 +266,11 @@ function definirGrillaParaListaFeriados() {
                                     $('#divTabFeriados').jqxTabs({selectedItem: 2});
 
                                     limpiarMensajesErrorPorValidacionFeriado("Editar");
+                                    inicializarCamposParaNuevoRegistroFeriado(2);
                                     inicializaFormularioNuevoEditar(2,dataRecord.repetitivo);
                                     $("#txtFeriadoEditar").val(dataRecord.feriado);
                                     $("#txtDescripcionEditar").val(dataRecord.descripcion);
+                                    $("#hdnIdFeriadoEditar").val(dataRecord.id);
                                     if(dataRecord.horario_discontinuo==1)$("#chkHorariosDiscontinuosEditar").bootstrapSwitch("state",true);
                                     else $("#chkHorariosDiscontinuosEditar").bootstrapSwitch("state",false);
 
@@ -340,6 +344,22 @@ function definirGrillaParaListaFeriados() {
                             $("#divMsjePorError").append(msje);
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
+                    });
+                    /* Ver registro de temporalidades por perfil.*/
+                    $("#calendarrowbutton").off();
+                    $("#calendarrowbutton").on('click', function () {
+                        var date = new Date();
+                        var defaultDia = date.getDate();
+                        var defaultMes = date.getMonth();
+                        var defaultGestion = date.getFullYear();
+                        $("#calendar").html("");
+                        var arrFeriados = [];
+                        $('#divTabFeriados').jqxTabs('enableAt', 0);
+                        $('#divTabFeriados').jqxTabs('disableAt', 1);
+                        $('#divTabFeriados').jqxTabs('disableAt', 2);
+                        $('#divTabFeriados').jqxTabs('enableAt', 3);
+                        $('#divTabFeriados').jqxTabs({selectedItem: 3});
+                        iniciarCalendarioLaboralConFeriados(arrFeriados,defaultGestion, defaultMes, defaultDia);
                     });
                 },
                 columns: [

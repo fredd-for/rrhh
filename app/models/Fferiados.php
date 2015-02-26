@@ -35,6 +35,8 @@ class Fferiados extends \Phalcon\Mvc\Model {
     public $fecha_reg;
     public $user_mod_id;
     public $fecha_mod;
+    public $fecha_ini;
+    public $fecha_fin;
 
     /**
      * Initialize method for model.
@@ -76,7 +78,9 @@ class Fferiados extends \Phalcon\Mvc\Model {
             'user_reg_id'=>'user_reg_id',
             'fecha_reg'=>'fecha_reg',
             'user_mod_id'=>'user_mod_id',
-            'fecha_mod'=>'fecha_mod'
+            'fecha_mod'=>'fecha_mod',
+            'fecha_ini'=>'fecha_ini',
+            'fecha_fin'=>'fecha_fin'
         );
     }
     /**
@@ -91,4 +95,24 @@ class Fferiados extends \Phalcon\Mvc\Model {
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    /**
+     * Función para la obtención de un rango de feriados de acuerdo a un día, mes y/o gestión.
+     * @param $dia
+     * @param $mes
+     * @param $gestion
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllRange($dia,$mes,$gestion,$fechaIni,$fechaFin)
+    {   if($gestion>0&&$fechaIni!=""&&$fechaFin!=""){
+        $sql = "SELECT * FROM f_feriados_rango($dia,$mes,$gestion)";
+        $sql .= " WHERE '".$fechaIni."' BETWEEN fecha_ini AND fecha_fin";
+        $sql .= " OR '".$fechaFin."' BETWEEN fecha_ini AND fecha_fin";
+        $sql .= " OR fecha_ini BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        $sql .= " OR fecha_fin BETWEEN '".$fechaIni."' AND '".$fechaFin."'";
+        $this->_db = new Fferiados();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
 } 

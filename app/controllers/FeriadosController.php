@@ -30,6 +30,7 @@ class FeriadosController extends ControllerBase
         $this->assets->addJs('/js/feriados/oasis.feriados.approve.js');
         $this->assets->addJs('/js/feriados/oasis.feriados.new.edit.js');
         $this->assets->addJs('/js/feriados/oasis.feriados.down.js');
+        $this->assets->addJs('/js/feriados/oasis.feriados.calendar.js');
     }
     /**
      * Función para la carga del primer listado sobre la página de gestión de tolerancias de ingreso.
@@ -113,7 +114,7 @@ class FeriadosController extends ControllerBase
             if($feriado!=""&&$mes>0&&$dia>0){
                 $objFeriado = Feriados::findFirst(array("id=".$_POST["id"]));
                 if(count($objFeriado)>0){
-                    $cantMismosDatos = Feriados::count(array("id!=".$_POST["id"]." AND feriado LIKE '".$feriado."' AND baja_logica=1"));
+                    $cantMismosDatos = Feriados::count(array("id!=".$_POST["id"]." AND feriado LIKE '".$feriado."' AND dia!=".$dia." AND mes!=".$mes." AND gestion!=".$gestion." AND baja_logica=1"));
                     if($cantMismosDatos==0){
                         $objFeriado->feriado = $feriado;
                         $objFeriado->descripcion = $descripcion;
@@ -165,7 +166,7 @@ class FeriadosController extends ControllerBase
             $gestion = $_POST["gestion"];
             $observacion = $_POST['observacion'];
             if($feriado!=""&&$mes>0&&$dia>0){
-                $cantMismosDatos = Feriados::count(array("feriado LIKE '".$feriado."' AND estado>=0 AND baja_logica=1"));
+                $cantMismosDatos = Feriados::count(array("feriado LIKE '".$feriado."' AND dia!=".$dia." AND mes!=".$mes." AND gestion!=".$gestion." AND baja_logica=1 AND estado>=0"));
                 if($cantMismosDatos==0){
                     $objFeriado = new Feriados();
                     $objFeriado->feriado = $feriado;
@@ -292,5 +293,68 @@ class FeriadosController extends ControllerBase
             $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro del feriado.');
         }
         echo json_encode($msj);
+    }
+
+    /**
+     * Función para la obtención de la lista de feriados de acuerdo a un rango especificado de fechas.
+     */
+    public function listrangeAction()
+    {
+        $this->view->disable();
+        $obj = new Fferiados();
+        $horariolaboral = Array();
+        $dia = 0;
+        $mes = 0;
+        $gestion = 0;
+        if(isset($_POST["gestion"])&&isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])){
+            $gestion = $_POST["gestion"];
+            if(isset($_POST["mes"])&&$_POST["gestion"]>0){
+                $mes = $_POST["mes"];
+            }
+            if(isset($_POST["dia"])&&$_POST["dia"]>0){
+                $dia = $_POST["dia"];
+            }
+            $fechaIni = $_POST["fecha_ini"];
+            $fechaFin = $_POST["fecha_fin"];
+            $resul = $obj->getAllRange($dia,$mes,$gestion,$fechaIni,$fechaFin);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $horariolaboral[] = array(
+                        'nro_row' => 0,
+                        'id'=>$v->id,
+                        'feriado'=>$v->feriado,
+                        'descripcion'=>$v->descripcion,
+                        'regional_id'=>$v->regional_id,
+                        'regional'=>$v->regional,
+                        'horario_discontinuo'=>$v->horario_discontinuo,
+                        'horario_discontinuo_descripcion'=>$v->horario_discontinuo_descripcion,
+                        'horario_continuo'=>$v->horario_continuo,
+                        'horario_continuo_descripcion'=>$v->horario_continuo_descripcion,
+                        'horario_multiple'=>$v->horario_multiple,
+                        'horario_multiple_descripcion'=>$v->horario_multiple_descripcion,
+                        'cantidad_dias'=>$v->cantidad_dias,
+                        'repetitivo'=>$v->repetitivo,
+                        'repetitivo_descripcion'=>$v->repetitivo_descripcion,
+                        'dia'=>$v->dia,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'gestion'=>$v->gestion,
+                        'observacion'=>$v->observacion!=null?$v->observacion:'',
+                        'estado'=> $v->estado,
+                        'estado_descripcion'=> $v->estado_descripcion,
+                        'baja_logica'=> $v->baja_logica,
+                        'agrupador'=> $v->agrupador,
+                        'user_reg_id'=> $v->user_reg_id,
+                        'fecha_reg'=> $v->fecha_reg,
+                        'user_mod_id'=> $v->user_mod_id,
+                        'fecha_mod'=> $v->fecha_mod,
+                        'fecha_ini'=> $v->fecha_ini,
+                        'fecha_fin'=> $v->fecha_fin
+                    );
+                }
+            }
+        }
+        echo json_encode($horariolaboral);
     }
 } 

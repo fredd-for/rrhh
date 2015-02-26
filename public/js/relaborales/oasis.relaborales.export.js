@@ -3,9 +3,9 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  10-11-2014
+ *   Fecha Creación:  09-11-2014
  */
-function exportarExcel(){
+function exportarReporte(option){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
@@ -16,7 +16,7 @@ function exportarExcel(){
     nombres = $('#jqxgrid').jqxGrid('getcolumn','nombres');
     ci = $('#jqxgrid').jqxGrid('getcolumn','ci');
     expd = $('#jqxgrid').jqxGrid('getcolumn','expd');
-    num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');
+    /*num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');*/
     gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
     cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
     sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
@@ -25,10 +25,11 @@ function exportarExcel(){
     fin_partida = $('#jqxgrid').jqxGrid('getcolumn','fin_partida');
     proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
     nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
+    fecha_ing = $('#jqxgrid').jqxGrid('getcolumn','fecha_ing');
     fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
     fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
     fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
-        fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
+    fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
     motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
     observacion = $('#jqxgrid').jqxGrid('getcolumn','observacion');
 
@@ -38,7 +39,7 @@ function exportarExcel(){
     columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
     columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
     columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
-    columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};
+    /*columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};*/
     columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
     columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
     columna[area.datafield] = {text: area.text, hidden: area.hidden};
@@ -46,6 +47,7 @@ function exportarExcel(){
     columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
     columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
+    columna[fecha_ing.datafield] = {text: fecha_ing.text, hidden: fecha_ing.hidden};
     columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};
     columna[fecha_incor.datafield] = {text: fecha_incor.text, hidden: fecha_incor.hidden};
     columna[nivelsalarial.datafield] = {text: nivelsalarial.text, hidden: nivelsalarial.hidden};
@@ -96,7 +98,15 @@ function exportarExcel(){
     json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    window.open("/relaborales/print/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+    var ruta='';
+    switch (option){
+        case 1: ruta="/relaborales/exportexcel/";break;
+        case 2: ruta="/relaborales/exportpdf/";break;
+    }
+    /*if(option==1)ruta="/relaborales/print/";
+    elseif(option==2)ruta="/relaborales/print/";*/
+    if(ruta!='')
+        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/
@@ -165,6 +175,4 @@ function utf8_encode(argString) {
     }
 
     return utftext;
-};/**
- * Created by Javier on 10/12/2014.
- */
+};
