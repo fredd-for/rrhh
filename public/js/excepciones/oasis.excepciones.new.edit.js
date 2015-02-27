@@ -3,29 +3,62 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-12-2014
+ *   Fecha Creación:  26-02-2015
  */
 /**
- * Función para cargar el listado de tipos de acumulación para los horarios.
- * @param tipoAcumulacionPrefijada
+ * Función para la inicialización del formulario para el registro y edición de excepciones.
+ * @param opcion
  */
-function cargarTiposDeAcumulacion(tipoAcumulacionPrefijada,sufijoEditar){
+function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,diariamente,idGenero){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    $("#txtColor"+sufijo).colorpicker({color:'#8db3e2'})
+        .on('change.color', function(evt, color){
+            $(this).css("background",color);
+            $(this).css("color",color);
+            $(".evo-pointer").hide();
+        });
+    $(".evo-pointer").hide();
+
+    $("#chkDiariamente"+sufijo).bootstrapSwitch();
+    $("#txtCantidad"+sufijo).numeric();
+
+    $("#txtExcepcion"+sufijo).val(excepcion);
+    cargarTiposExcepciones(opcion,idTipoExcepcion);
+
+    $("#txtCodigo"+sufijo).val(codigo);
+    $("#txtColor"+sufijo).css({'background-color': color,'color':color});
+
+    if(diariamente==1){
+        $("#chkDiariamente"+sufijo).bootstrapSwitch("state",true)
+    }else $("#chkDiariamente"+sufijo).bootstrapSwitch("state",false)
+
+    cargarTiposGeneros(opcion,idGenero);
+}
+/**
+ * Función para la obtención del listado de tipos de excepción.
+ * @param opcion
+ * @param idTipoExcepcion
+ */
+function cargarTiposExcepciones(opcion,idTipoExcepcion){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
     var selected="";
-    $("#lstTipoAcumulacion"+sufijoEditar).html("");
+    $("#lstTipoExcepcion"+sufijo).html("");
+    $("#lstTipoExcepcion"+sufijo).append("<option value='0'>Seleccionar..</option>");
     $.ajax({
-        url:'/tolerancias/listtiposacumulaciones/',
+        url:'/excepciones/listtiposexcepciones/',
         type:'POST',
         datatype: 'json',
         async:false,
         success: function(data) {  //alert(data);
             var res = jQuery.parseJSON(data);
             if(res.length>0){
-                $("#lstTipoAcumulacion"+sufijoEditar).append("<option value='0'>Seleccionar..</option>");
                 $.each( res, function( key, val ) {
-                    if(tipoAcumulacionPrefijada==val.tipo_acumulacion){
+                    if(idTipoExcepcion==val.id_tipo_excepcion){
                         selected="selected";
                     }else selected="";
-                    $("#lstTipoAcumulacion"+sufijoEditar).append("<option value='"+val.tipo_acumulacion+"' "+selected+">"+val.tipo_acumulacion_descripcion+"</option>");
+                    $("#lstTipoExcepcion"+sufijo).append("<option value='"+val.id_tipo_excepcion+"' "+selected+">"+val.tipo_excepcion+"</option>");
                 });
             }
         }, //mostramos el error
@@ -33,26 +66,29 @@ function cargarTiposDeAcumulacion(tipoAcumulacionPrefijada,sufijoEditar){
     });
 }
 /**
- * Función para cargar el listado de opciones para la consideración de la tolerancia al retraso.
- * @param consideracionEnRetrasoPrefijada
+ * Función para la obtención del listado de géneros disponibles en el sistema.
+ * @param opcion
+ * @param idGenero
  */
-function cargarOpcionesDeConsideracionEnRetraso(consideracionEnRetrasoPrefijada,sufijoEditar){
+function cargarTiposGeneros(opcion,idGenero){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
     var selected="";
-    $("#lstConsideracionRetraso"+sufijoEditar).html("");
+    $("#lstGenero"+sufijo).html("");
+    $("#lstGenero"+sufijo).append("<option value='-1'>Seleccionar..</option>");
     $.ajax({
-        url:'/tolerancias/listconsideracionretraso/',
+        url:'/excepciones/listgeneros/',
         type:'POST',
         datatype: 'json',
         async:false,
         success: function(data) {  //alert(data);
             var res = jQuery.parseJSON(data);
             if(res.length>0){
-                $("#lstConsideracionRetraso"+sufijoEditar).append("<option value='0'>Seleccionar..</option>");
                 $.each( res, function( key, val ) {
-                    if(consideracionEnRetrasoPrefijada==val.consideracion_retraso){
+                    if(idGenero==val.id_genero){
                         selected="selected";
                     }else selected="";
-                    $("#lstConsideracionRetraso"+sufijoEditar).append("<option value='"+val.consideracion_retraso+"' "+selected+">"+val.consideracion_retraso_descripcion+"</option>");
+                    $("#lstGenero"+sufijo).append("<option value='"+val.id_genero+"' "+selected+">"+val.genero+"</option>");
                 });
             }
         }, //mostramos el error
@@ -60,136 +96,314 @@ function cargarOpcionesDeConsideracionEnRetraso(consideracionEnRetrasoPrefijada,
     });
 }
 /**
- * Formulario para la validación de lo datos enviados para el registro de tolerancias en horarios laborales.
+ * Función para el registro de tipos de unidades de medida para el registro de excepciones.
+ * @param opcion
+ * @param unidad
+ */
+function cargarTiposUnidades(opcion,unidad){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    var selected="";
+    $("#lstUnidad"+sufijo).html("");
+    $("#lstUnidad"+sufijo).append("<option value='' data-id-unidad='0'>Seleccionar..</option>");
+    $("#lstUnidad"+sufijo).prop("disabled",true);
+    $.ajax({
+        url:'/excepciones/listunidades/',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        success: function(data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            if(res.length>0){
+                $("#lstUnidad"+sufijo).prop("disabled",false);
+                $.each( res, function( key, val ) {
+                    if(unidad==val.unidad&&unidad!=""){
+                        selected="selected";
+                    }else selected="";
+                    $("#lstUnidad"+sufijo).append("<option value='"+val.unidad+"' data-id-unidad='"+val.id_unidad+"' "+selected+">"+val.unidad+"</option>");
+                });
+            }
+        }, //mostramos el error
+        error: function() { alert('Se ha producido un error Inesperado'); }
+    });
+}
+/**
+ * Función para la obtención del listado de tipos de fraccionamientos disponibles en el sistema.
+ * @param opcion
+ * @param fraccionamiento
+ */
+function cargarTiposFraccionamientos(opcion,idMinima,fraccionamiento){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    var selected="";
+    $("#lstFraccionamiento"+sufijo).html("");
+    $("#lstFraccionamiento"+sufijo).append("<option value=''>Seleccionar..</option>");
+    if(idMinima>0){
+        $("#lstFraccionamiento"+sufijo).prop("disabled",true);
+        $.ajax({
+            url:'/excepciones/listfraccionamientos/',
+            type:'POST',
+            datatype: 'json',
+            async:false,
+            data:{id_minima:idMinima},
+            success: function(data) {
+                $("#lstFraccionamiento"+sufijo).prop("disabled",false);
+                var res = jQuery.parseJSON(data);
+                if(res.length>0){
+                    $.each( res, function( key, val ) {
+
+                        if(fraccionamiento==val.fraccionamiento&&fraccionamiento!=""){
+                            selected="selected";
+                        }else selected="";
+                        $("#lstFraccionamiento"+sufijo).append("<option value='"+val.fraccionamiento+"' "+selected+">"+val.fraccionamiento+"</option>");
+                    });
+                }
+            }, //mostramos el error
+            error: function() { alert('Se ha producido un error Inesperado'); }
+        });
+    }else{
+        $("#lstFraccionamiento"+sufijo).prop("disabled",true);
+    }
+}
+/**
+ * Función para la obtención de la duración de la excepción en formato de texto. El texto es formado a través de la combinación de la cantidad, unidad y fraccionamiento.
+ * @param opcion
+ */
+function defineDuracionEnTexto(opcion){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    $("#spanDuracion"+sufijo).html("");
+    var cantidad = parseFloat($("#txtCantidad"+sufijo).val());
+    var unidad = $("#lstUnidad"+sufijo).val();
+    var fraccionamiento = $("#lstFraccionamiento"+sufijo).val();
+    var duracion = "";
+    if(cantidad!=''&&cantidad>0&&unidad!=''){
+        duracion = cantidad+" "+unidad;
+        if(cantidad>1){
+            if(unidad=='MES')duracion+="ES";
+            else duracion+="S";
+        }
+        if(fraccionamiento!=''){
+           if(fraccionamiento!='SEMANA') duracion += ' AL '+fraccionamiento;
+            else  duracion += ' A LA '+fraccionamiento;
+        }
+    }
+    $("#spanDuracion"+sufijo).html(duracion);
+}
+
+/**
+ * Formulario para la validación de lo datos enviados para el registro de excepciones en el sistema.
  * @author JLM
  * @returns {boolean}
  */
-function validaFormularioTolerancia() {
+function validaFormularioExcepcion(opcion) {
     var ok = true;
     var msje = "";
     $(".msjs-alert").hide();
-    var idTolerancia = $("#hdnIdToleranciaEditar").val();
-    var sufijoEditar="";
-    if(idTolerancia>0){
-        sufijoEditar="Editar";
+    var sufijo="New";
+    if(opcion==2){
+        sufijo="Edit";
     }
-    limpiarMensajesErrorPorValidacionTolerancia(sufijoEditar);
+    limpiarMensajesErrorPorValidacionExcepcion(opcion);
     var enfoque = null;
 
-    var tolerancia = $("#txtTolerancia"+sufijoEditar).val();
-    var tipoAcumulacion = $("#lstTipoAcumulacion"+sufijoEditar).val();
-    var consideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar).val();
-    var fechaIni = $("#txtFechaIni"+sufijoEditar).val();
-    var fechaFin = $("#txtFechaFin"+sufijoEditar).val();
+    var txtExcepcion =$("#txtExcepcion"+sufijo);
+    var divExcepcion = $("#divExcepcion"+sufijo);
+    var helpErrorExcepcion = $("#helpErrorExcepcion"+sufijo);
+    var excepcion = $("#txtExcepcion"+sufijo).val();
 
-    var divTolerancia = $("#divTolerancia"+sufijoEditar);
-    var helpErrorTolerancia = $("#helpErrorTolerancia"+sufijoEditar);
-    var txtTolerancia = $("#txtTolerancia"+sufijoEditar);
+    var lstTipoExcepcion = $("#lstTipoExcepcion"+sufijo);
+    var divTipoExcepcion = $("#divTipoExcepcion"+sufijo);
+    var helpErrorTipoExcepcion = $("#helpErrorTipoExcepcion"+sufijo);
+    var tipoExcepcion = $("#lstTipoExcepcion"+sufijo).val();
 
-    var divTipoAcumulacion=$("#divTipoAcumulacion"+sufijoEditar);
-    var helpErrorTipoAcumulacion=$("#helpErrorTipoAcumulacion"+sufijoEditar);
-    var lstTipoAcumulacion = $("#lstTipoAcumulacion"+sufijoEditar);
+    var txtCodigo = $("#txtCodigo"+sufijo);
+    var divCodigo = $("#divCodigo"+sufijo);
+    var helpErrorCodigo = $("#helpErrorCodigo"+sufijo);
+    var codigo = $("#txtCodigo"+sufijo).val();
 
-    var divConsideracionRetraso=$("#divConsideracionRetraso"+sufijoEditar);
-    var helpErrorConsideracionRetraso=$("#helpErrorConsideracionRetraso"+sufijoEditar);
-    var lstConsideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar);
+    var txtColor = $("#txtColor"+sufijo);
+    var divColor = $("#divColor"+sufijo);
+    var helpErrorColor = $("#helpErrorColor"+sufijo);
+    var color = $("#txtColor"+sufijo).val();
 
-    var divFechaIni=$("#divFechaIni"+sufijoEditar);
-    var helpErrorFechaIni=$("#helpErrorFechaIni"+sufijoEditar);
-    var txtFechaIni = $("#txtFechaIni"+sufijoEditar);
-
-    var divFechaFin=$("#divFechaFin"+sufijoEditar);
-    var helpErrorFechaFin=$("#helpErrorFechaFin"+sufijoEditar);
-    var txtFechaFin = $("#txtFechaFin"+sufijoEditar);
-
-    if (tolerancia == '') {
-        ok = false;
-        var msje = "Debe introducir los minutos de tolerancia necesariamente.";
-        divTolerancia.addClass("has-error");
-        helpErrorTolerancia.html(msje);
-        if (enfoque == null)enfoque = txtTolerancia;
+    var diariamente = 0;
+    if($("#chkDiariamente"+sufijo).bootstrapSwitch("state")){
+        diariamente = 1;
     }
-    if(tipoAcumulacion==''){
+    var divDiariamente = $("#divDiariamente"+sufijo);
+    var helpErrorDiariamente = $("#helpErrorDiariamente"+sufijo);
+    var diariamente = $("#chkDiariamente"+sufijo).val();
+
+    var lstGenero = $("#lstGenero"+sufijo);
+    var divGenero = $("#divGenero"+sufijo);
+    var helpErrorGenero = $("#helpErrorGenero"+sufijo);
+    var genero = $("#lstGenero"+sufijo).val();
+
+    var txtCantidad = $("#txtCantidad"+sufijo);
+    var divCantidad = $("#divCantidad"+sufijo);
+    var helpErrorCantidad = $("#helpErrorCantidad"+sufijo);
+    var cantidad = $("#txtCantidad"+sufijo).val();
+
+    var lstUnidad = $("#lstUnidad"+sufijo);
+    var divUnidad = $("#divUnidad"+sufijo);
+    var helpErrorUnidad = $("#helpErrorUnidad"+sufijo);
+    var unidad = $("#lstUnidad"+sufijo).val();
+
+    var lstFraccionamiento = $("#lstFraccionamiento"+sufijo);
+    var divFraccionamiento = $("#divFraccionamiento"+sufijo);
+    var helpErrorFraccionamiento = $("#helpErrorFraccionamiento"+sufijo);
+    var fraccionamiento = $("#lstFraccionamiento"+sufijo).val();
+
+    var txtObservacion = $("#txtObservacion"+sufijo);
+    var divObservacion = $("#divObservacion"+sufijo);
+    var helpErrorObservacion = $("#helpErrorObservacion"+sufijo);
+    var observacion = $("#txtObservacion"+sufijo).val();
+
+    if (excepcion == '') {
         ok = false;
-        var msje = "Debe seleccionar el tipo de acumulaci&oacute;n necesariamente.";
-        divTipoAcumulacion.addClass("has-error");
-        helpErrorTipoAcumulacion.html(msje);
-        if (enfoque == null)enfoque = lstTipoAcumulacion;
+        var msje = "Debe introducir el nombre de la excepci&oacute;n.";
+        divExcepcion.addClass("has-error");
+        helpErrorExcepcion.html(msje);
+        if (enfoque == null)enfoque = txtExcepcion;
     }
-    if(consideracionRetraso==''){
+    if(tipoExcepcion==''||tipoExcepcion==0){
         ok = false;
-        var msje = "Debe seleccionar la consideraci&oacute;n de la tolerancia dentro del retraso.";
-        divConsideracionRetraso.addClass("has-error");
-        helpErrorConsideracionRetraso.html(msje);
-        if (enfoque == null)enfoque = lstConsideracionRetraso;
+        var msje = "Debe seleccionar el tipo de excepci&oacute;n necesariamente.";
+        divTipoExcepcion.addClass("has-error");
+        helpErrorTipoExcepcion.html(msje);
+        if (enfoque == null)enfoque = lstTipoExcepcion;
     }
-    if(fechaIni==''){
+    if(codigo==''){
         ok = false;
-        var msje = "Debe introducir la fecha de inicio de aplicaci&oacute;n de la tolerancia.";
-        divFechaIni.addClass("has-error");
-        helpErrorFechaIni.html(msje);
-        if (enfoque == null)enfoque = txtFechaIni;
+        var msje = "Debe registrar el c&oacute;digo a usarse para la excepci&oacute;n necesariamente.";
+        divCodigo.addClass("has-error");
+        helpErrorCodigo.html(msje);
+        if (enfoque == null)enfoque = txtCodigo;
     }
+    if(color==''||color.toUpperCase=='#FFFFFF'){
+        ok = false;
+        var msje = "Debe seleccionar el color para representar a la excepci&oacute;n necesariamente.";
+        divColor.addClass("has-error");
+        helpErrorColor.html(msje);
+        if (enfoque == null)enfoque = txtColor;
+    }
+    if(diariamente==''||diariamente==undefined){
+        ok = false;
+        var msje = "Debe seleccionar si la excepci&oacute;n se aplica diariamente o no.";
+        divDiariamente.addClass("has-error");
+        helpErrorDiariamente.html(msje);
+        if (enfoque == null)enfoque = chkDiariamente;
+    }
+    if(genero<0||genero==''){
+        ok = false;
+        var msje = "Debe seleccionar un g&eacute;nero o si es indistinto necesariamente.";
+        divGenero.addClass("has-error");
+        helpErrorGenero.html(msje);
+        if (enfoque == null)enfoque = lstGenero;
+    }
+    if(unidad!=''||fraccionamiento!=''){
+        if(cantidad==''){
+            ok = false;
+            var msje = "Debido a que seleccion&oacute; un valor para la Unidad y/o Fraccionamiento debe introducir la cantidad necesariamente.";
+            divCantidad.addClass("has-error");
+            helpErrorCantidad.html(msje);
+            if (enfoque == null)enfoque = txtCantidad;
+        }
+    }else{
+        if(cantidad!=''){
+            ok = false;
+            var msje = "Debido a que registr&oacute; un valor para la cantidad debe seleccionar la Unidad y/o Fraccionamiento necesariamente.";
+            divUnidad.addClass("has-error");
+            helpErrorUnidad.html(msje);
+            divFraccionamiento.addClass("has-error");
+            helpErrorFraccionamiento.html(msje);
+            if (enfoque == null)enfoque = lstUnidad;
+        }
+    }
+
     if (enfoque != null) {
         enfoque.focus();
     }
     return ok;
 }
 /**
- * Función para la limpieza de los mensajes de error debido a la validación del formulario para registro de tolerancia en el horario.
- * @sufijoEditar Variable que define la limpieza de variables para el caso de nuevo y edición.
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario.
+ * @opción Variable que identifica a que tipo de formulario se aplica la función.
  */
-function limpiarMensajesErrorPorValidacionTolerancia(sufijoEditar) {
-    $("#divTolerancia"+sufijoEditar).removeClass("has-error");
-    $("#helpErrorTolerancia"+sufijoEditar).html("");
-    $("#divAcumulacion"+sufijoEditar).removeClass("has-error");
-    $("#helpErrorAcumulacion"+sufijoEditar).html("");
-    $("#divConsideracionRetraso"+sufijoEditar).removeClass("has-error");
-    $("#helpErrorConsideracionRetraso"+sufijoEditar).html("");
-    $("#divFechaIni"+sufijoEditar).removeClass("has-error");
-    $("#helpErrorFechaIni"+sufijoEditar).html("");
+function limpiarMensajesErrorPorValidacionExcepcion(opcion) {
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    $("#divExcepcion"+sufijo).removeClass("has-error");
+    $("#helpErrorExcepcion"+sufijo).html("");
+    $("#divTipoExcepcion"+sufijo).removeClass("has-error");
+    $("#helpErrorTipoExcepcion"+sufijo).html("");
+    $("#divCodigo"+sufijo).removeClass("has-error");
+    $("#helpErrorCodigo"+sufijo).html("");
+    $("#divColor"+sufijo).removeClass("has-error");
+    $("#helpErrorColor"+sufijo).html("");
+    $("#divDiariamente"+sufijo).removeClass("has-error");
+    $("#helpErrorDiariamente"+sufijo).html("");
+    $("#divGenero"+sufijo).removeClass("has-error");
+    $("#helpErrorGenero"+sufijo).html("");
+    $("#divCantidad"+sufijo).removeClass("has-error");
+    $("#helpErrorCantidad"+sufijo).html("");
+    $("#divUnidad"+sufijo).removeClass("has-error");
+    $("#helpErrorUnidad"+sufijo).html("");
+    $("#divFraccionamiento"+sufijo).removeClass("has-error");
+    $("#helpErrorFraccionamiento"+sufijo).html("");
 }
 /**
- * Función para guardar el registro de la tolerancia.
- * @param idHorario Identificador del horario.
+ * Función para guardar el registro de la excepción.
  * @returns {boolean}
  */
-function guardaTolerancia(){
-    var ok = true;
-    var idTolerancia = $("#hdnIdToleranciaEditar").val();
-    var sufijoEditar = "";
-    if(idTolerancia>0)
-    {
-        sufijoEditar="Editar";
+function guardaExcepcion(opcion){
+    var ok = false;
+    var idExcepcion = 0;
+    var sufijo = "New";
+    if(opcion==2)
+    {   idExcepcion = $("#hdnIdExcepcionEdit").val();
+        sufijo="Edit";
     }
-    var tolerancia = $("#txtTolerancia"+sufijoEditar).val();
-    var tipoAcumulacion = $("#lstTipoAcumulacion"+sufijoEditar).val();
-    var consideracionRetraso = $("#lstConsideracionRetraso"+sufijoEditar).val();
-    var descripcion = $("#txtDescripcion"+sufijoEditar).val();
-    var fechaIni = $("#txtFechaIni"+sufijoEditar).val();
-    var fechaFin = $("#txtFechaFin"+sufijoEditar).val();
-    var observacion = $("#txtObservacion"+sufijoEditar).val();
-    if (tolerancia != '') {
+    var excepcion = $("#txtExcepcion"+sufijo).val();
+    var tipoExcepcion = $("#lstTipoExcepcion"+sufijo).val();
+    var codigo = $("#txtCodigo"+sufijo).val();
+    var color = $("#txtColor"+sufijo).val();
+    var diariamente = 0;
+    if($("#chkDiariamente"+sufijo).bootstrapSwitch("state")){
+        diariamente = 1;
+    }
+    var genero = $("#lstGenero"+sufijo).val();
+    var cantidad = $("#txtCantidad"+sufijo).val();
+    var unidad = $("#lstUnidad"+sufijo).val();
+    var fraccionamiento = $("#lstFraccionamiento"+sufijo).val();
+    var redondeo = 1;
+    var observacion = $("#txtObservacion"+sufijo).val();
+    if (excepcion != '') {
         $.ajax({
-            url: '/tolerancias/save/',
+            url: '/excepciones/save/',
             type: "POST",
             datatype: 'json',
             async: false,
             cache: false,
             data: {
-                id: idTolerancia,
-                tolerancia:tolerancia,
-                tipo_acumulacion:tipoAcumulacion,
-                consideracion_retraso:consideracionRetraso,
-                descripcion:descripcion,
-                fecha_ini: fechaIni,
-                fecha_fin:fechaFin,
+                id: idExcepcion,
+                excepcion:excepcion,
+                tipoexcepcion_id:tipoExcepcion,
+                codigo:codigo,
+                color:color,
+                diariamente:diariamente,
+                genero_id:genero,
+                cantidad:cantidad,
+                unidad:unidad,
+                fraccionamiento:fraccionamiento,
+                redondeo:redondeo,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
-                 * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
+                 * Si se ha realizado correctamente el registro de excepción
                  */
                 $(".msjes").hide();
                 if (res.result == 1) {
@@ -197,7 +411,7 @@ function guardaTolerancia(){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#jqxgridtolerancias").jqxGrid("updatebounddata");
+                    $("#divGridExcepciones").jqxGrid("updatebounddata");
                 } else if (res.result == 0) {
                     /**
                      * En caso de presentarse un error subsanable
@@ -225,11 +439,53 @@ function guardaTolerancia(){
     return ok;
 }
 /**
- * Función para limpiar los campos correspondientes para el registro de una nueva toleracia para horarios.
+ * Función para limpiar los campos correspondientes para el registro de una nueva excepción.
  */
-function inicializarCamposParaNuevoRegistroTolerancia(){
-    $("#hdnIdToleranciaEditar").val(0);
-    $("#txtTolerancia").val("");
-    $("#txtDescripcion").val("");
-    $("#txtObservacion").val("");
+function inicializarCamposParaNuevoRegistroExcepcion(){
+    $("#hdnIdExcepcionEdit").val(0);
+    $("#txtExcepcionNew").val("");
+    $("#txtCodigoNew").val("");
+    $("#txtColorNew").val("");
+    $("#txtCantidadNew").val("");
+    $("#txtObservacionNew").val("");
+}
+/**
+ * Función para inicializar los datos referentes a la duración.
+ * @param opcion
+ * @param cantidad
+ * @param unidad
+ * @param fraccionamiento
+ */
+function inicializarDatosDuracion(opcion,cantidad,unidad,fraccionamiento){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    $("#txtCantidad"+sufijo).val(cantidad);
+    cargarTiposUnidades(opcion,unidad);
+    var idMinima=0;
+    if(opcion==2&&cantidad>0&&cantidad!=null){
+        var arrUnidades = ["MINUTO","HORA","DIA","SEMANA","MES","SEMESTRE","AÑO"];
+        if(unidad!=""){
+            var idClave = $.inArray( unidad, arrUnidades );
+            idMinima = idClave+1;
+        }
+        cargarTiposFraccionamientos(opcion,idMinima,fraccionamiento);
+        defineDuracionEnTexto(opcion);
+    }else{
+        cargarTiposFraccionamientos(opcion,idMinima,fraccionamiento);
+        defineDuracionEnTexto(opcion);
+    }
+    $("#lstUnidad"+sufijo).off();
+    $("#lstUnidad"+sufijo).on("change",function(){
+        /**
+         * Se aplica el uso del idMinima a objeto de obtener para fraccionamiento sólo aquellos valores superiores
+         * al seleccionado considerando la unidad. Siendo que contienen los mismos valores.
+         * @type {*|jQuery}
+         */
+        idMinima = $("#lstUnidad"+sufijo+" option:selected").data("id-unidad");
+        cargarTiposFraccionamientos(opcion,idMinima,fraccionamiento);
+        defineDuracionEnTexto(opcion);
+    });
+    $("#txtCantidad"+sufijo+",#lstUnidad"+sufijo+",#lstFraccionamiento"+sufijo).on("change",function(){
+        defineDuracionEnTexto(opcion);
+    });
 }

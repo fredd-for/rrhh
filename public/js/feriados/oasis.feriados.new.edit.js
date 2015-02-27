@@ -186,7 +186,7 @@ function guardaFeriado(opcion){
         gestion = "";
     }
     var observacion = $("#txtObservacion"+sufijo).val();
-    if (ok && feriado != ''&&mes>0&&mes>0) {
+    if (ok && feriado != '') {
         $.ajax({
             url: '/feriados/save/',
             type: "POST",
@@ -209,6 +209,7 @@ function guardaFeriado(opcion){
                 observacion: observacion
             },
             success: function (data) {
+                ok = false;
                 var res = jQuery.parseJSON(data);
                 /**
                  * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
@@ -224,6 +225,7 @@ function guardaFeriado(opcion){
                     /**
                      * En caso de presentarse un error subsanable
                      */
+                    ok = false;
                     $("#divMsjePorWarning").html("");
                     $("#divMsjePorWarning").append(res.msj);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");

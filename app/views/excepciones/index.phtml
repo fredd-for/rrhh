@@ -94,65 +94,98 @@
 <div class="section" id="divNew">
         <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido de manera obligatoria (*).</h6>
         <div class="form-horizontal col-sm-12">
-        <fieldset>
-        <legend><i class="fa fa-angle-right"></i> Datos del Tipo de Tolerancia</legend>
-        <div class="row div-tolerancia" id="divTolerancia">
-            <label class="col-sm-3 control-label" for="txtTolerancia">Minutos Tolerancia *:</label>
-            <div class="col-md-6">
-                <input type="text" id="txtTolerancia" class="form-control numeral" placeholder="Minutos de Tolerancia">
-                <span class="help-block" id="helpErrorTolerancia"></span>
-            </div>
-        </div>
-        <div class="row div-tolerancia" id="divTipoAcumulacion">
-            <label class="col-sm-3 control-label" for="lstTipoAcumulacion">Tipo Acumulaci&oacute;n *:</label>
-            <div class="col-md-6" form-group>
-                <select id="lstTipoAcumulacion" class="form-control"></select>
-                <span class="help-block" id="helpErrorTipoAcumulacion"></span>
-            </div>
-        </div>
-        <div class="row div-tolerancia" id="divConsideracionRetraso">
-            <label class="col-sm-3 control-label" for="lstConsideracionRetraso">Consideraci&oacute;n Retraso *:</label>
-            <div class="col-md-6" form-group>
-                <select id="lstConsideracionRetraso" class="form-control"></select>
-                <span class="help-block" id="helpErrorConsideracionRetraso"></span>
-            </div>
-        </div>
-            <div class="form-group div-tolerancia" id="divDescripcion">
-                <label class="col-md-3 control-label" for="txtDescripcion">Descripci&oacute;n:</label>
-                <div class="col-md-6">
-                    <textarea rows="6" id="txtDescripcion" name="txtDescripcion" class="form-control" placeholder="Descripci&oacute;n.."></textarea>
+            <fieldset>
+                <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n</legend>
+            <div class="row">
+                <div class="col-xs-6" id="divExcepcionNew">
+                    <label class="col-sm-6 control-label" for="txtExcepcionNew">Excepci&oacute;n *:</label>
+                    <div class="col-sm-6">
+                        <textarea id="txtExcepcionNew" class="form-control" placeholder="Excepci&oacute;n.."></textarea>
+                        <span class="help-block" id="helpErrorExcepcionNew"></span>
+                    </div>
                 </div>
-                <span class="help-block" id="helpErrorDescripcion"></span>
-            </div>
-            <div class="form-group div-tolerancia" id="divFechaIni">
-                <label class="col-md-3 control-label" for="txtFechaIni">Fecha Inicio *:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaIni" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaIni">
-                    <span class="help-block" id="helpErrorFechaIni"></span>
+                <div class="col-xs-6" id="divTipoExcepcionNew">
+                    <label class="col-sm-3 control-label" for="lstTipoExcepcionNew">Tipo *:</label>
+                    <div class="col-sm-6" form-group>
+                        <select id="lstTipoExcepcionNew" class="form-control"></select>
+                        <span class="help-block" id="helpErrorTipoExcepcionNew"></span>
+                    </div>
                 </div>
             </div>
-            <div class="form-group div-tolerancia" id="divFechaFin">
-                <label class="col-md-3 control-label" for="txtFechaFin">Fecha Fin:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaFin" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaFin">
-                    <span class="help-block" id="helpErrorFechaFin"></span>
+                <div class="row">
+                    <div class="col-xs-6" id="divCodigoNew">
+                        <label class="col-sm-6 control-label" for="txtCodigoNew">C&oacute;digo *:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtCodigoNew" name="txtCodigoNew" class="form-control" placeholder="C&oacute;digo..">
+                            <span class="help-block" id="helpErrorCodigoNew"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" id="divColorNew">
+                        <label class="col-sm-3 control-label" for="txtColorNew">Color *:</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="txtColorNew" name="txtColorNew" class="kolorPicker form-control" value="#FFFFFF" placeholder="#FFFFFF">
+                            <span class="help-block" id="helpErrorColorNew"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        <div class="form-group div-tolerancia" id="divObservacion">
-            <label class="col-md-3 control-label" for="txtObservacion">Observaciones:</label>
-            <div class="col-md-6">
-                <textarea id="txtObservacion" name="txtObservacion" class="form-control" placeholder="Observaciones.."></textarea>
-            </div>
-            <span class="help-block" id="helpErrorObservacion"></span>
-        </div>
+                <div class="row">
+                    <div class="col-xs-6" id="divDiariamenteNew">
+                        <label class="col-sm-6 control-label" for="chkDiariamenteNew">Diariamente *:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="chkDiariamenteNew" id="chkDiariamenteNew" data-on-text="SI" data-off-text="NO">
+                            <span class="help-block" id="helpErrorDiariamenteNew"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" id="divGeneroNew">
+                        <label class="col-sm-3 control-label" for="lstGeneroNew">G&eacute;nero *:</label>
+                        <div class="col-sm-6">
+                            <select id="lstGeneroNew" class="form-control"><option value="">Seleccionar...</option></select>
+                            <span class="help-block" id="helpErrorGeneroNew"></span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend><i class="fa fa-angle-right"></i> Duraci&oacute;n:</legend>
+                <div class="form-group" id="divDuracionNew">
+                    <div class="col-sm-3" id="divCantidadNew">
+                        Cantidad:
+                        <input type="text" name="txtCantidadNew" id="txtCantidadNew" class="form-control decimal">
+                        <span class="help-block" id="helpErrorCantidadNew"></span>
+                    </div>
+                    <div class="col-sm-3" id="divUnidadNew">
+                        Unidad:
+                        <select id="lstUnidadNew" name="lstUnidadNew" class="form-control"><option value="">Seleccionar...</option></select>
+                        <span class="help-block" id="helpErrorUnidadNew"></span>
+                    </div>
+                    <div class="col-sm-3" id="divFraccionamientoNew">
+                        Fraccionamiento:
+                        <select id="lstFraccionamientoNew" name="lstFraccionamientoNew" class="form-control" disabled><option value="" dataid-unidad="0">Seleccionar...</option></select>
+                        <span class="help-block" id="helpErrorFraccionamientoNew"></span>
+                    </div>
+                    <div class="col-sm-3" id="divDuracionNew">
+                        Resultado:
+                        <span id="spanDuracionNew" class="form-control"></span>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend><i class="fa fa-angle-right"></i> &nbsp;</legend>
+                <div class="form-group div-excepciones" id="divObservacionNew">
+                    <label class="col-md-3 control-label" for="txtObservacionNew">Observaciones:</label>
+                    <div class="col-md-6">
+                        <textarea id="txtObservacionNew" name="txtObservacionNew" class="form-control" placeholder="Observaciones.."></textarea>
+                    </div>
+                    <span class="help-block" id="helpErrorObservacionNew"></span>
+                </div>
         </fieldset>
         <div class="form-group form-actions">
             <div class="col-md-8 col-md-offset-4">
-                <button id="btnGuardarToleranciaNuevo" class="btn btn-sm btn-primary" type="button">
+                <button id="btnGuardarExcepcionNew" class="btn btn-sm btn-primary" type="button">
                     <i class="fa fa-floppy-o"></i>
                     Guardar
                 </button>
-                <button id="btnCancelarToleranciaNuevo" class="btn btn-sm btn-warning" type="button">
+                <button id="btnCancelarExcepcionNew" class="btn btn-sm btn-warning" type="button">
                     <i class="fa fa-repeat"></i>
                     Cancelar
                 </button>
@@ -164,70 +197,103 @@
     <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido de manera obligatoria (*).</h6>
     <div class="form-horizontal col-sm-12">
         <fieldset>
-            <legend><i class="fa fa-angle-right"></i> Datos del Tipo de Tolerancia</legend>
-            <div class="row div-tolerancia" id="divToleranciaEditar">
-                <label class="col-sm-3 control-label" for="txtToleranciaEditar">Minutos Tolerancia *:</label>
-                <div class="col-md-6">
-                    <input type="text" id="txtToleranciaEditar" class="form-control numeral" placeholder="Minutos de Tolerancia">
-                    <span class="help-block" id="helpErrorToleranciaEditar"></span>
+            <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n</legend>
+            <div class="row">
+                <div class="col-xs-6" id="divExcepcionEdit">
+                    <label class="col-sm-6 control-label" for="txtExcepcionEdit">Excepci&oacute;n *:</label>
+                    <div class="col-sm-6">
+                        <textarea id="txtExcepcionEdit" class="form-control" placeholder="Excepci&oacute;n.."></textarea>
+                        <span class="help-block" id="helpErrorExcepcionEdit"></span>
+                    </div>
+                </div>
+                <div class="col-xs-6" id="divTipoExcepcionEdit">
+                    <label class="col-sm-3 control-label" for="lstTipoExcepcionEdit">Tipo *:</label>
+                    <div class="col-sm-6" form-group>
+                        <select id="lstTipoExcepcionEdit" class="form-control"></select>
+                        <span class="help-block" id="helpErrorTipoExcepcionEdit"></span>
+                    </div>
                 </div>
             </div>
-            <div class="row div-tolerancia" id="divTipoAcumulacionEditar">
-                <label class="col-sm-3 control-label" for="lstTipoAcumulacionEditar">Tipo Acumulaci&oacute;n *:</label>
-                <div class="col-md-6" form-group>
-                    <select id="lstTipoAcumulacionEditar" class="form-control"></select>
-                    <span class="help-block" id="helpErrorTipoAcumulacionEditar"></span>
+            <div class="row">
+                <div class="col-xs-6" id="divCodigoEdit">
+                    <label class="col-sm-6 control-label" for="txtCodigoEdit">C&oacute;digo *:</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="txtCodigoEdit" name="txtCodigoEdit" class="form-control" placeholder="C&oacute;digo..">
+                        <span class="help-block" id="helpErrorCodigoEdit"></span>
+                    </div>
+                </div>
+                <div class="col-xs-6" id="divColorEdit">
+                    <label class="col-sm-3 control-label" for="txtColorEdit">Color *:</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="txtColorEdit" name="txtColorEdit" class="kolorPicker form-control" value="#FFFFFF" placeholder="#FFFFFF">
+                        <span class="help-block" id="helpErrorColorEdit"></span>
+                    </div>
                 </div>
             </div>
-            <div class="row div-tolerancia" id="divConsideracionRetrasoEditar">
-                <label class="col-sm-3 control-label" for="lstConsideracionRetrasoEditar">Consideraci&oacute;n Retraso *:</label>
-                <div class="col-md-6" form-group>
-                    <select id="lstConsideracionRetrasoEditar" class="form-control"></select>
-                    <span class="help-block" id="helpErrorConsideracionRetrasoEditar"></span>
+            <div class="row">
+                <div class="col-xs-6" id="divDiariamenteEdit">
+                    <label class="col-sm-6 control-label" for="chkDiariamenteEdit">Diariamente *:</label>
+                    <div class="col-sm-6">
+                        <input type="checkbox" name="chkDiariamenteEdit" id="chkDiariamenteEdit" data-on-text="SI" data-off-text="NO">
+                        <span class="help-block" id="helpErrorDiariamenteEdit"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group div-tolerancia" id="divDescripcionEditar">
-                <label class="col-md-3 control-label" for="txtDescripcionEditar">Descripci&oacute;n:</label>
-                <div class="col-md-6">
-                    <textarea rows="6" id="txtDescripcionEditar" name="txtDescripcionEditar" class="form-control" placeholder="Descripci&oacute;n.."></textarea>
+                <div class="col-xs-6" id="divGeneroEdit">
+                    <label class="col-sm-3 control-label" for="lstGeneroEdit">G&eacute;nero *:</label>
+                    <div class="col-sm-6">
+                        <select id="lstGeneroEdit" class="form-control"><option value="">Seleccionar...</option></select>
+                        <span class="help-block" id="helpErrorGeneroEdit"></span>
+                    </div>
                 </div>
-                <span class="help-block" id="helpErrorDescripcionEditar"></span>
-            </div>
-            <div class="form-group div-tolerancia" id="divFechaIniEditar">
-                <label class="col-md-3 control-label" for="txtFechaIniEditar">Fecha Inicio *:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaIniEditar" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaIniEditar">
-                    <span class="help-block" id="helpErrorFechaIniEditar"></span>
-                </div>
-            </div>
-            <div class="form-group div-tolerancia" id="divFechaFinEditar">
-                <label class="col-md-3 control-label" for="txtFechaFinEditar">Fecha Fin:</label>
-                <div class="col-md-6">
-                    <input id="txtFechaFinEditar" class="form-control input-datepicker" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" name="txtFechaFinEditar">
-                    <span class="help-block" id="helpErrorFechaFinEditar"></span>
-                </div>
-            </div>
-            <div class="form-group div-tolerancia" id="divObservacionEditar">
-                <label class="col-md-3 control-label" for="txtObservacionEditar">Observaciones:</label>
-                <div class="col-md-6">
-                    <textarea id="txtObservacionEditar" name="txtObservacionEditar" class="form-control" placeholder="Observaciones.."></textarea>
-                </div>
-                <span class="help-block" id="helpErrorObservacionEditar"></span>
             </div>
         </fieldset>
-        <input type="hidden" id="hdnIdToleranciaEditar" value="0">
+        <fieldset>
+            <legend><i class="fa fa-angle-right"></i> Duraci&oacute;n:</legend>
+            <div class="form-group" id="divDuracionEdit">
+                <div class="col-sm-3" id="divCantidadEdit">
+                    Cantidad:
+                    <input type="text" name="txtCantidadEdit" id="txtCantidadEdit" class="form-control decimal">
+                    <span class="help-block" id="helpErrorCantidadEdit"></span>
+                </div>
+                <div class="col-sm-3" id="divUnidadEdit">
+                    Unidad:
+                    <select id="lstUnidadEdit" name="lstUnidadEdit" class="form-control"><option value="">Seleccionar...</option></select>
+                    <span class="help-block" id="helpErrorUnidadEdit"></span>
+                </div>
+                <div class="col-sm-3" id="divFraccionamientoEdit">
+                    Fraccionamiento:
+                    <select id="lstFraccionamientoEdit" name="lstFraccionamientoEdit" class="form-control" disabled><option value="" dataid-unidad="0">Seleccionar...</option></select>
+                    <span class="help-block" id="helpErrorFraccionamientoEdit"></span>
+                </div>
+                <div class="col-sm-3" id="divDuracionEdit">
+                    Resultado:
+                    <span id="spanDuracionEdit" class="form-control"></span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-angle-right"></i> &nbsp;</legend>
+            <div class="form-group div-excepciones" id="divObservacionEdit">
+                <label class="col-md-3 control-label" for="txtObservacionEdit">Observaciones:</label>
+                <div class="col-md-6">
+                    <textarea id="txtObservacionEdit" name="txtObservacionEdit" class="form-control" placeholder="Observaciones.."></textarea>
+                </div>
+                <span class="help-block" id="helpErrorObservacionEdit"></span>
+            </div>
+        </fieldset>
         <div class="form-group form-actions">
             <div class="col-md-8 col-md-offset-4">
-                <button id="btnGuardarToleranciaEditar" class="btn btn-sm btn-primary" type="button">
+                <button id="btnGuardarExcepcionEdit" class="btn btn-sm btn-primary" type="button">
                     <i class="fa fa-floppy-o"></i>
                     Guardar
                 </button>
-                <button id="btnCancelarToleranciaEditar" class="btn btn-sm btn-warning" type="button">
+                <button id="btnCancelarExcepcionEdit" class="btn btn-sm btn-warning" type="button">
                     <i class="fa fa-repeat"></i>
                     Cancelar
                 </button>
             </div>
         </div>
+        <input type="hidden" id="hdnIdExcepcionEdit" value="0">
     </div>
 </div>
 <div class="section" id="divView">
@@ -247,3 +313,6 @@
     <div id="divMsjePorSuccess">
     </div>
 </div>
+<style type="text/css">
+    .evo-pop{z-index:1151 !important;}
+</style>

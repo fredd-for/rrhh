@@ -305,7 +305,7 @@ function validaFormularioPorNuevoRegistro(){
      * Sólo para el caso de condición consultor será necesario registrar la fecha de finalización
      */
     if(id_condicion==2||id_condicion==3||id_condicion==7){
-        var fechaFin = $("#FechaFin").jqxDateTimeInput('getText');
+        fechaFin = $("#FechaFin").jqxDateTimeInput('getText');
     }
     var idCargo = $("#hdnIdCargoNuevoSeleccionado").val();
     if(idCargo==0||idCargo==null){
@@ -511,7 +511,7 @@ function guardarNuevoRegistro(){
     var numContrato=  '';
     //Si la condición de la relación laboral es consultoría se requiere que se llene el campo del número de contrato.
     var fechaFin=null;
-    if(idCondicion==2||idCondicion==3){
+    if(idCondicion==2||idCondicion==3||idCondicion==7){
         numContrato =  $("#txtNumContrato").val();
         var fechaFin = $('#FechaFin').jqxDateTimeInput('getText');
     }

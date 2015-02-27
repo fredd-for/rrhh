@@ -6,9 +6,6 @@ function inicializarPaleta(cajaColor){
     var preInput = ''; // for communicating between event handlers
     var paletteHTML = generateHTML(); //cached array of fully printed html for the palettes
     var selection = 1; //default palette selected
-    //var cajaColor = "";
-    /*if(option==1)cajaColor = $("#txtColorHorario");
-    else cajaColor = $("#txtColorHorarioEditar");*/
 
     function displayPicker(input) {
 

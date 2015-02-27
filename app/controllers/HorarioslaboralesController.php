@@ -21,9 +21,10 @@ class HorarioslaboralesController extends ControllerBase
     public function indexAction()
     {
         $this->assets->addCss('/assets/css/oasis.principal.css');
-        $this->assets->addJs('/js/jquery.kolorpicker.js');
-        $this->assets->addJs('/js/clockpicker/clockpicker.js');
+        $this->assets->addJs('/js/kolorpicker/oasis.kolorpicker.js');
         $this->assets->addCss('/assets/css/kolorpicker.css');
+
+        $this->assets->addJs('/js/clockpicker/clockpicker.js');
         $this->assets->addCss('/assets/css/clockpicker.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $this->assets->addCss('/css/oasis.grillas.css');

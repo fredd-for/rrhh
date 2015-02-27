@@ -217,6 +217,7 @@ function definirGrillaParaListaFeriados() {
                         });
                         inicializarCamposParaNuevoRegistroFeriado(1);
                         limpiarMensajesErrorPorValidacionFeriado("New");
+                        $("#txtFechaEspecificaNew").datepicker("hide");
                         $("#txtFeriadoNew").focus();
                     });
                     /*Aprobar registro.*/
@@ -281,21 +282,20 @@ function definirGrillaParaListaFeriados() {
                                     else $("#chkHorariosMultiplesEditar").bootstrapSwitch("state",false);
 
                                     listarCantidadDias(2,dataRecord.cantidad_dias);
-
+                                    $("#txtFechaEspecificaEditar").datepicker("hide");
                                     if(dataRecord.repetitivo==1){
                                         listaMesesEnCadaGestion(2,dataRecord.mes);
                                         listaDiasEnCadaMes(2,dataRecord.mes,dataRecord.dia);
                                     }else{
                                         listaMesesEnCadaGestion(2,0);
                                         listaDiasEnCadaMes(2,0,0);
-
-                                        var dia = dataRecord.dia;
-                                        var mes = dataRecord.mes;
-                                        var gestion = dataRecord.gestion;
+                                        var dia = dataRecord.dia+"";
+                                        var mes = dataRecord.mes+"";
+                                        var gestion = dataRecord.gestion+"";
                                         if(dia.length==1)dia="0"+dia;
                                         if(mes.length==1)mes="0"+mes;
                                         var fecha = dia+"-"+mes+"-"+gestion;
-                                        $("#txtFechaEspecificaEditar").val(fecha);
+                                        $("#txtFechaEspecificaEditar").datepicker("update", fecha);
                                     }
                                     $("#lstMesEditar").off();
                                     $("#lstMesEditar").on("change",function(){
