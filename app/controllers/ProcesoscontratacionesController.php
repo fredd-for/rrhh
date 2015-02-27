@@ -737,7 +737,7 @@ if ($this->request->isPost()) {
 						</tr>
 						'.$expgeneral_html.'
 				</table>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA GENERAL: </strong> '.$calificacion->exp_general_meses.' MESES</p>
+				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA GENERAL: </strong> '.$this->calculoaniomes($calificacion->exp_general_meses).'</p>
 				<h4><strong>Experiencia Laboral Especifica</strong></h4>
 				<table class="table table-vcenter table-striped tabla1">
 						<tr>
@@ -750,8 +750,8 @@ if ($this->request->isPost()) {
 						</tr>
 						'.$expespecifica_html.'
 				</table>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA ESPECIFICA: </strong> '.$calificacion->exp_relacionado_meses.' MESES</p>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA PROFESIONAL: </strong> '.$calificacion->exp_profesional_meses.' MESES</p>
+				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA ESPECIFICA: </strong> '.$this->calculoaniomes($calificacion->exp_relacionado_meses).'</p>
+				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA PROFESIONAL: </strong> '.$this->calculoaniomes($calificacion->exp_profesional_meses).' </p>
 				<h4><strong>Cursos, Seminarios y Talleres de Capacitación</strong></h4>
 				<table class="table table-vcenter table-striped tabla1">
 						<tr>
@@ -838,6 +838,17 @@ if ($this->request->isPost()) {
 		';
 		$this->view->disable();
 		echo $html;	
+	}
+
+	public function calculoaniomes($value='')
+	{
+		$meses = $value%12;
+		$anio = floor($value/12);
+		$cadena = $meses." MESES";
+		if($anio>0){
+			$cadena=$anio." AÑOS y ".$cadena;
+		}
+		return $cadena;
 	}
 
 }

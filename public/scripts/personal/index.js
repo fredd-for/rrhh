@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    
-    var source =
+      cargar();
+      function cargar () {
+        var source =
             {
                 datatype: "json",
                 datafields: [
@@ -17,7 +18,8 @@ $(document).ready(function () {
                     {name: 'e_civil'},
                     {name: 'genero'},
                     {name: 'nacionalidad'},
-                    {name: 'fecha_apr', format: 'date'}
+                    {name: 'fecha_apr', format: 'date'},
+                    {name: 'estado_actual', format: 'string'}
                 ],
                 url: '/personas/listajson',
                 cache: false
@@ -79,7 +81,7 @@ $(document).ready(function () {
                 showfilterrow: true,
                 filterable: true,
                 scrollmode: 'deferred',
-                 renderstatusbar: barra,
+                renderstatusbar: barra,
                 scrollfeedback: function (row)
                 {
                     return '<table style="height: 150px;"><tr><td><img src="' + row.foto + '"  height="90"/></td></tr><tr><td>' + row.p_nombre + '</td></tr></table>';
@@ -93,10 +95,9 @@ $(document).ready(function () {
                     },
                     {text: 'Nro', datafield: 'id', width: '5%', hidden: true,
                     },
-                    {text: 'Nombres', datafield: 'p_nombre', width: '14%',                        
-                    },
+                    {text: 'Nombres', datafield: 'p_nombre', width: '14%'},
                     //{text: '2o Nombre', datafield: 's_nombre', width: '14%'},
-                    {text: 'Apellidos', datafield: 'p_apellido', width: '20%'},
+                    {text: 'Apellidos', datafield: 'p_apellido', width: '14%'},
                     {text: 'A. Casada', datafield: 's_apellido', width: '14%'},
                     {text: 'Doc. Ident.', datafield: 'ci', type: 'string', width: '10%'},
                     {text: 'EXP', datafield: 'expd', type: 'string', filtertype: 'input', width: '5%'},
@@ -104,10 +105,12 @@ $(document).ready(function () {
                     {text: 'Estado Civil.', datafield: 'e_civil',  width: '8%'},
                     {text: 'Genero', datafield: 'genero',  width: '5%'},
                     {text: 'Nacionalidad', datafield: 'nacionalidad',  width: '8%'},
-                    
+                    {text: 'Estado', datafield: 'estado_actual',  width: '8%'},
                 ]
             });
 
+    
+    
 
 
   $("#jqxgrid").bind("filter", function(event) {
@@ -131,7 +134,7 @@ $(document).ready(function () {
 
 
 
-
+ }
 
 
     // initialize the popup window and buttons.
@@ -183,22 +186,22 @@ $(document).ready(function () {
         json_filter = json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
         window.open("/personal/imprimir/" + n_rows + "/" + json_columns + "/" + json_filter, "_blank");
     });
-    $("#add").click(function () {
-        //$("#page-content").load('../../personal/registro');
-        document.location.href = '../../personal/registro';
-        /*$("#titulo").text("Adicionar");
-         $("#id").val("");
-         $("#tipo_resolucion").val("");
-         $("#numero_res").val("");
-         $("#popupWindow").jqxWindow('open');
-         $("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
-         fecha= new Date();
-         fecha.setDate(fecha.getDate());
-         $("#fecha_emi").jqxDateTimeInput('setDate', fecha);
-         fecha= new Date();
-         fecha.setDate(fecha.getDate());
-         $("#fecha_apr").jqxDateTimeInput('setDate', fecha);*/
-    });
+    // $("#add").click(function () {
+    //     //$("#page-content").load('../../personal/registro');
+    //     document.location.href = '../../personal/registro';
+    //     $("#titulo").text("Adicionar");
+    //      $("#id").val("");
+    //      $("#tipo_resolucion").val("");
+    //      $("#numero_res").val("");
+    //      $("#popupWindow").jqxWindow('open');
+    //      $("#fecha_emi").jqxDateTimeInput({width: '250px', height: '25px',formatString:'yyyy-MM-dd'});
+    //      fecha= new Date();
+    //      fecha.setDate(fecha.getDate());
+    //      $("#fecha_emi").jqxDateTimeInput('setDate', fecha);
+    //      fecha= new Date();
+    //      fecha.setDate(fecha.getDate());
+    //      $("#fecha_apr").jqxDateTimeInput('setDate', fecha);
+    // });
 
     $("#edit").click(function () {
         var rowindex = $('#jqxgrid').jqxGrid('getselectedrowindex');
@@ -214,43 +217,66 @@ $(document).ready(function () {
         
     });
 
-    $("#Save").click(function () {
-        var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
-        var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
-        var v = $.ajax({
-            url: '../../resoluciones/save/',
-            type: 'POST',
-            datatype: 'json',
-            data: {id: $("#id").val(), tipo_resolucion: $("#tipo_resolucion").val(), numero_res: $("#numero_res").val(), fecha_apr: fecha_apr, fecha_emi: fecha_emi},
-            success: function (data) {
-                cargar(); //alert(data); 
-            }, //mostramos el error
-            error: function () {
-                alert('Se ha producido un error Inesperado');
+    // $("#Save").click(function () {
+    //     var fecha_apr = $('#fecha_apr').jqxDateTimeInput('getDate');
+    //     var fecha_emi = $('#fecha_emi').jqxDateTimeInput('getDate');
+    //     var v = $.ajax({
+    //         url: '../../resoluciones/save/',
+    //         type: 'POST',
+    //         datatype: 'json',
+    //         data: {id: $("#id").val(), tipo_resolucion: $("#tipo_resolucion").val(), numero_res: $("#numero_res").val(), fecha_apr: fecha_apr, fecha_emi: fecha_emi},
+    //         success: function (data) {
+    //             cargar(); //alert(data); 
+    //         }, //mostramos el error
+    //         error: function () {
+    //             alert('Se ha producido un error Inesperado');
+    //         }
+    //     });
+    //     $("#popupWindow").jqxWindow('hide');
+    //     // }
+    // });
+
+    // $("#Eliminar").click(function () {
+    //     if (editrow >= 0) {
+    //         var v = $.ajax({
+    //             url: '../../personal/delete/',
+    //             type: 'POST',
+    //             datatype: 'json',
+    //             data: {id: $("#id").val()},
+    //             success: function (data) {
+    //                 cargar(); //alert('Guardado Correctamente'); 
+    //             }, //mostramos el error
+    //             error: function () {
+    //                 alert('Se ha producido un error Inesperado');
+    //             }
+    //         });
+    //         //$('#jqxgrid').jqxGrid();
+    //         $("#popupWindow_delete").jqxWindow('hide');
+    //     }
+    // });
+
+    $("#delete").click(function(){
+        var rowindex = $('#jqxgrid').jqxGrid('getselectedrowindex');
+        if (rowindex > -1)
+            {   var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', rowindex);
+        bootbox.confirm("<strong>¡Mensaje!</strong> Esta seguro de eliminar el registro.", function(result) {
+            if (result==true) {
+                var v=$.ajax({
+                    url:'/personas/delete/',
+                    type:'POST',
+                    datatype: 'json',
+                    data:{id:dataRecord.id},
+                        success: function(data) { cargar(); 
+                            //alert(data); 
+                                                }, //mostramos el error
+                        error: function() { alert('Se ha producido un error Inesperado'); }
+                                            }); 
             }
         });
-        $("#popupWindow").jqxWindow('hide');
-        // }
-    });
-
-    $("#Eliminar").click(function () {
-        if (editrow >= 0) {
-            var v = $.ajax({
-                url: '../../personal/delete/',
-                type: 'POST',
-                datatype: 'json',
-                data: {id: $("#id").val()},
-                success: function (data) {
-                    cargar(); //alert('Guardado Correctamente'); 
-                }, //mostramos el error
-                error: function () {
-                    alert('Se ha producido un error Inesperado');
-                }
-            });
-            //$('#jqxgrid').jqxGrid();
-            $("#popupWindow_delete").jqxWindow('hide');
-        }
-    });
+    }else{
+        bootbox.alert("<strong>¡Mensaje!</strong> Seleccionar un registro para eliminar.");
+    }
+});
 
     
 
