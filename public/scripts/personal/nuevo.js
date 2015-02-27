@@ -39,15 +39,36 @@ $(document).ready(function () {
     //datepicker a fechas
     $('#f_caducidad,#fecha_nacimiento').datepicker();
 
-    $("#container_image").PictureCut({
-        InputOfImageDirectory : "image",
-        PluginFolderOnServer : "/jquery.picture.cut/",
-        FolderOnServer : "/personal/",
-        EnableCrop : true,
-        CropWindowStyle : "Bootstrap"
-    });
+    // $("#container_image").PictureCut({
+    //     InputOfImageDirectory : "auto",
+    //     PluginFolderOnServer : "/jquery.picture.cut/",
+    //     FolderOnServer : "/personal/",
+    //     EnableCrop : true,
+    //     CropWindowStyle : "Bootstrap",
+    //     ////
+    //     ImageButtonCSS : {
+    //       border:"1px #394263 solid",
+    //       width :170,
+    //       height:150
+    //   },
+    //   CropModes : {
+    //       widescreen: true,
+    //       letterbox: true,
+    //       free   : true
+    //   },
+    //   ImageNameRandom : false,
+    //   InputOfFile : "nombre",
+    //   MaximumSize : 10120,
+    //   EnableMaximumSize : true,
+    //   EnableResize : true,
+    //   //MinimumWidthToResize :true,
+    //   //MinimumHeightToResize : 5320,
+    //         //CropOrientation : false,
+    //     }); 
+    //     
+    $("#boton_foto").load('/personas/subirfoto/');
 
-    
+
 });
 
 

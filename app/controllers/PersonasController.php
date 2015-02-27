@@ -116,18 +116,24 @@ class PersonasController extends ControllerBase {
                 $this->flashSession->error("Ocurrio un error, favor comuniquese con el administrador del sistema.");
             }
         }
-        $this->assets->addCss('/media/plugins/form-stepy/jquery.stepy.css');
-        $this->assets
+        $this->assets->addCss('/media/plugins/form-stepy/jquery.stepy.css')
+                    ->addCss('/js/dropzone/css/dropzone.css')
+                    ->addCss('/js/jscrop/css/jquery.Jcrop.css');
 
+        $this->assets
         ->addJs('/media/plugins/form-validation/jquery.validate.min.js')
         ->addJs('/media/plugins/form-stepy/jquery.stepy.js')
         ->addJs('/media/plugins/bootbox/bootbox.min.js')
         ->addJs('/media/demo/demo-formwizard.js')
         
-        ->addJs('/js/jquery-ui.js')
+        ->addJs('/js/dropzone/dropzone.min.js')
+        ->addJs('/js/jscrop/js/jquery.Jcrop.js')
         ->addJs('/scripts/personal/nuevo.js')
-        ->addJs('/jquery.picture.cut/src/jquery.picture.cut.js')
+
+        // ->addJs('/js/jquery-ui.js')
+        // ->addJs('/jquery.picture.cut/src/jquery.picture.cut.js')
         ;
+
     }
 
     public function editarAction($id) {
@@ -454,6 +460,51 @@ class PersonasController extends ControllerBase {
     $this->view->disable();
     echo json_encode();
 }
+
+
+public function subirfotoAction($ci){
+        if ($ci){
+            $foto_persona = $ci+'.jpg';
+            $this->view->setVar('foto_persona', $foto_persona);
+            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
+        } else {
+            $this->view->setRenderLevel(View::LEVEL_BEFORE_TEMPLATE);
+        }
+    }
+
+public function subirAction(){
+        //$ds = DIRECTORY_SEPARATOR;
+        //$storeFolder = "/images/personal/";
+        $this->view->disable();
+        if ($this->request->hasFiles() == true) {
+            //Print the real file names and their sizes
+            foreach ($this->request->getUploadedFiles() as $file){
+                //echo $file->getName(), " ", $file->getSize(), "\n";
+                $file->moveTo('personas/tmp.jpg');
+            }
+        }
+    }
+    public function cargarcropAction() {
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
+public function cropAction(){
+        //$this->view->disable();
+        $targ_w = $targ_h = 472;
+        $jpeg_quality = 90;
+        $src = 'personal/tmp.jpg';
+        if ($src){
+            $img_r = imagecreatefromjpeg($src);
+            $dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+            imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],$targ_w,$targ_h,$_POST['w'],$_POST['h']);
+            //header('Content-type: image/jpeg');
+            //imagejpeg($dst_r,null,$jpeg_quality);
+            imagejpeg($dst_r,'personal/'.$_POST['ci'].'.jpg',$jpeg_quality);
+            imagedestroy($dst_r);
+            unlink($src);
+        }
+        $this->view->disable();
+    }
 
     public function saveAction() {
         if (isset($_POST['id'])) {
