@@ -24,6 +24,7 @@ class RelaboralesController extends ControllerBase
         $this->assets->addCss('/assets/css/PrintArea.css');
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $this->assets->addJs('/js/relaborales/oasis.localizacion.js');
+        $this->assets->addCss('/css/oasis.grillas.css');
 
         $this->assets->addJs('/js/relaborales/oasis.relaborales.tab.js');
         $this->assets->addJs('/js/relaborales/oasis.relaborales.index.js');
@@ -3207,8 +3208,9 @@ class RelaboralesController extends ControllerBase
      */
     public function savemovilidadAction()
     {
-        $user_reg_id = 1;
-        $user_mod_id = 1;
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $user_reg_id = $auth['id'];
         $msj = Array();
         $gestion_actual = date("Y");
         $hoy = date("Y-m-d H:i:s");

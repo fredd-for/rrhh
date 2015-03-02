@@ -1,6 +1,6 @@
 </head>
 <body>
-<h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n de Excepciones</b></h2>
+<h2 style="padding-top: 0px; width: 100%;"><b>Definici&oacute;n de Excepciones</b></h2>
 
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
     <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
@@ -43,7 +43,6 @@
     <li id="liList">Listado</li>
     <li id="liNew">Nuevo</li>
     <li id="liEdit">Modificaci&oacute;n</li>
-    <li id="liView">Vista</li>
 </ul>
 <br>
 <div class="row section" id="divList">
@@ -129,11 +128,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6" id="divDiariamenteNew">
-                        <label class="col-sm-6 control-label" for="chkDiariamenteNew">Diariamente *:</label>
+                    <div class="col-xs-6" id="divCompensatoriaNew">
+                        <label class="col-sm-6 control-label" for="chkCompensatoriaNew">Compensatoria *:</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="chkDiariamenteNew" id="chkDiariamenteNew" data-on-text="SI" data-off-text="NO">
-                            <span class="help-block" id="helpErrorDiariamenteNew"></span>
+                            <input type="checkbox" name="chkCompensatoriaNew" id="chkCompensatoriaNew" data-on-text="SI" data-off-text="NO">
+                            <span class="help-block" id="helpErrorCompensatoriaNew"></span>
                         </div>
                     </div>
                     <div class="col-xs-6" id="divGeneroNew">
@@ -146,8 +145,8 @@
                 </div>
             </fieldset>
             <fieldset>
-                <legend><i class="fa fa-angle-right"></i> Duraci&oacute;n:</legend>
-                <div class="form-group" id="divDuracionNew">
+                <legend><i class="fa fa-angle-right"></i> Frecuencia:</legend>
+                <div class="form-group" id="divFrecuenciaNew">
                     <div class="col-sm-3" id="divCantidadNew">
                         Cantidad:
                         <input type="text" name="txtCantidadNew" id="txtCantidadNew" class="form-control decimal">
@@ -163,9 +162,9 @@
                         <select id="lstFraccionamientoNew" name="lstFraccionamientoNew" class="form-control" disabled><option value="" dataid-unidad="0">Seleccionar...</option></select>
                         <span class="help-block" id="helpErrorFraccionamientoNew"></span>
                     </div>
-                    <div class="col-sm-3" id="divDuracionNew">
+                    <div class="col-sm-3" id="divFrecuenciaNew">
                         Resultado:
-                        <span id="spanDuracionNew" class="form-control"></span>
+                        <span id="spanFrecuenciaNew" class="form-control"></span>
                     </div>
                 </div>
             </fieldset>
@@ -231,11 +230,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6" id="divDiariamenteEdit">
-                    <label class="col-sm-6 control-label" for="chkDiariamenteEdit">Diariamente *:</label>
+                <div class="col-xs-6" id="divCompensatoriaEdit">
+                    <label class="col-sm-6 control-label" for="chkCompensatoriaEdit">Compensatoria *:</label>
                     <div class="col-sm-6">
-                        <input type="checkbox" name="chkDiariamenteEdit" id="chkDiariamenteEdit" data-on-text="SI" data-off-text="NO">
-                        <span class="help-block" id="helpErrorDiariamenteEdit"></span>
+                        <input type="checkbox" name="chkCompensatoriaEdit" id="chkCompensatoriaEdit" data-on-text="SI" data-off-text="NO">
+                        <span class="help-block" id="helpErrorCompensatoriaEdit"></span>
                     </div>
                 </div>
                 <div class="col-xs-6" id="divGeneroEdit">
@@ -248,8 +247,8 @@
             </div>
         </fieldset>
         <fieldset>
-            <legend><i class="fa fa-angle-right"></i> Duraci&oacute;n:</legend>
-            <div class="form-group" id="divDuracionEdit">
+            <legend><i class="fa fa-angle-right"></i> Frecuencia:</legend>
+            <div class="form-group" id="divFrecuenciaEdit">
                 <div class="col-sm-3" id="divCantidadEdit">
                     Cantidad:
                     <input type="text" name="txtCantidadEdit" id="txtCantidadEdit" class="form-control decimal">
@@ -265,9 +264,9 @@
                     <select id="lstFraccionamientoEdit" name="lstFraccionamientoEdit" class="form-control" disabled><option value="" dataid-unidad="0">Seleccionar...</option></select>
                     <span class="help-block" id="helpErrorFraccionamientoEdit"></span>
                 </div>
-                <div class="col-sm-3" id="divDuracionEdit">
+                <div class="col-sm-3" id="divFrecuenciaEdit">
                     Resultado:
-                    <span id="spanDuracionEdit" class="form-control"></span>
+                    <span id="spanFrecuenciaEdit" class="form-control"></span>
                 </div>
             </div>
         </fieldset>
@@ -295,8 +294,6 @@
         </div>
         <input type="hidden" id="hdnIdExcepcionEdit" value="0">
     </div>
-</div>
-<div class="section" id="divView">
 </div>
 </div>
 <!--</form></div>-->

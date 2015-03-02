@@ -14,14 +14,14 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
     public $tipo_excepcion;
     public $codigo;
     public $color;
-    public $diariamente;
-    public $diariamente_descripcion;
+    public $compensatoria;
+    public $compensatoria_descripcion;
     public $genero_id;
     public $genero;
     public $cantidad;
     public $unidad;
     public $fraccionamiento;
-    public $duracion_descripcion;
+    public $frecuencia_descripcion;
     public $redondeo;
     public $redondeo_descripcion;
     public $observacion;
@@ -54,14 +54,14 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
             'tipo_excepcion'=>'tipo_excepcion',
             'codigo'=>'codigo',
             'color'=>'color',
-            'diariamente'=>'diariamente',
-            'diariamente_descripcion'=>'diariamente_descripcion',
+            'compensatoria'=>'compensatoria',
+            'compensatoria_descripcion'=>'compensatoria_descripcion',
             'genero_id'=>'genero_id',
             'genero'=>'genero',
             'cantidad'=>'cantidad',
             'unidad'=>'unidad',
             'fraccionamiento'=>'fraccionamiento',
-            'duracion_descripcion'=>'duracion_descripcion',
+            'frecuencia_descripcion'=>'frecuencia_descripcion',
             'redondeo'=>'redondeo',
             'redondeo_descripcion'=>'redondeo_descripcion',
             'observacion'=>'observacion',

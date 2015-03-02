@@ -14,7 +14,7 @@ class ExcepcionesController extends ControllerBase
         parent::initialize();
     }
     /**
-     * Función para la carga de la página de gestión de relaciones laborales.
+     * Función para la carga de la página de gestión de excepciones.
      * Se cargan los combos necesarios.
      */
     public function indexAction()
@@ -58,14 +58,14 @@ class ExcepcionesController extends ControllerBase
                     'tipo_excepcion'=>$v->tipo_excepcion,
                     'codigo'=>$v->codigo,
                     'color'=>$v->color,
-                    'diariamente'=>$v->diariamente,
-                    'diariamente_descripcion'=>$v->diariamente_descripcion,
+                    'compensatoria'=>$v->compensatoria,
+                    'compensatoria_descripcion'=>$v->compensatoria_descripcion,
                     'genero_id'=>$v->genero_id,
                     'genero'=>$v->genero,
                     'cantidad'=>$v->cantidad,
                     'unidad'=>$v->unidad,
                     'fraccionamiento'=>$v->fraccionamiento,
-                    'duracion_descripcion'=>$v->duracion_descripcion,
+                    'frecuencia_descripcion'=>$v->frecuencia_descripcion,
                     'redondeo'=>$v->redondeo,
                     'redondeo_descripcion'=>$v->redondeo_descripcion,
                     'observacion'=>$v->observacion,
@@ -199,14 +199,14 @@ class ExcepcionesController extends ControllerBase
             $idTipoExcepcion = $_POST['tipoexcepcion_id'];
             $codigo = $_POST['codigo'];
             $color = $_POST['color'];
-            $diariamente = $_POST['diariamente'];
+            $compensatoria = $_POST['compensatoria'];
             $idGenero = $_POST['genero_id'];
             $cantidad = $_POST['cantidad'];
             $unidad = $_POST['unidad'];
             $fraccionamiento = $_POST['fraccionamiento'];
             $redondeo = $_POST['redondeo'];
             $observacion = $_POST['observacion'];
-            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$diariamente!=''&&$idGenero>=0){
+            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$compensatoria!=''&&$idGenero>=0){
                 $objExcepciones = Excepciones::findFirst(array("id=".$_POST["id"]));
                 if(count($objExcepciones)>0){
                     $cantMismosDatos = Excepciones::count(array("id!=".$_POST["id"]." AND UPPER(excepcion) LIKE UPPER('".$excepcion."') AND baja_logica=1 AND estado>=0"));
@@ -215,7 +215,7 @@ class ExcepcionesController extends ControllerBase
                         $objExcepciones->tipoexcepcion_id = $idTipoExcepcion;
                         $objExcepciones->codigo = $codigo;
                         $objExcepciones->color = $color;
-                        $objExcepciones->diariamente = $diariamente;
+                        $objExcepciones->compensatoria = $compensatoria;
                         $objExcepciones->genero_id = $idGenero;
                         if($cantidad>0&&$unidad!=''){
                             $objExcepciones->cantidad = $cantidad;
@@ -258,14 +258,14 @@ class ExcepcionesController extends ControllerBase
             $idTipoExcepcion = $_POST['tipoexcepcion_id'];
             $codigo = $_POST['codigo'];
             $color = $_POST['color'];
-            $diariamente = $_POST['diariamente'];
+            $compensatoria = $_POST['compensatoria'];
             $idGenero = $_POST['genero_id'];
             $cantidad = $_POST['cantidad'];
             $unidad = $_POST['unidad'];
             $fraccionamiento = $_POST['fraccionamiento'];
             $redondeo = $_POST['redondeo'];
             $observacion = $_POST['observacion'];
-            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$diariamente!=''&&$idGenero>=0){
+            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$compensatoria!=''&&$idGenero>=0){
                 $cantMismosDatos = Excepciones::count(array("UPPER(excepcion) LIKE UPPER('".$excepcion."') AND baja_logica=1 AND estado>=0"));
                 if($cantMismosDatos==0){
                     $objExcepciones = new Excepciones();
@@ -273,7 +273,7 @@ class ExcepcionesController extends ControllerBase
                     $objExcepciones->tipoexcepcion_id = $idTipoExcepcion;
                     $objExcepciones->codigo = $codigo;
                     $objExcepciones->color = $color;
-                    $objExcepciones->diariamente = $diariamente;
+                    $objExcepciones->compensatoria = $compensatoria;
                     $objExcepciones->genero_id = $idGenero;
                     if($cantidad>0&&$unidad!=''){
                         $objExcepciones->cantidad = $cantidad;

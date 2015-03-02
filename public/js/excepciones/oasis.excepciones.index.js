@@ -14,7 +14,7 @@ $().ready(function () {
     $('#divTabExcepciones').jqxTabs('enableAt', 0);
     $('#divTabExcepciones').jqxTabs('disableAt', 1);
     $('#divTabExcepciones').jqxTabs('disableAt', 2);
-    $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
 
     definirGrillaParaListaTolerancias();
     /**
@@ -28,7 +28,7 @@ $().ready(function () {
                 $('#divTabExcepciones').jqxTabs('enableAt', 0);
                 $('#divTabExcepciones').jqxTabs('disableAt', 1);
                 $('#divTabExcepciones').jqxTabs('disableAt', 2);
-                $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
                 $("#msjs-alert").hide();
             }
         }
@@ -41,24 +41,24 @@ $().ready(function () {
                 $('#divTabExcepciones').jqxTabs('enableAt', 0);
                 $('#divTabExcepciones').jqxTabs('disableAt', 1);
                 $('#divTabExcepciones').jqxTabs('disableAt', 2);
-                $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
                 $("#msjs-alert").hide();
             }
         }
     });
-    $("#btnCancelarToleranciaNuevo").click(function () {
+    $("#btnCancelarExcepcionNew").click(function () {
         $('#divTabExcepciones').jqxTabs('enableAt', 0);
         $('#divTabExcepciones').jqxTabs('disableAt', 1);
         $('#divTabExcepciones').jqxTabs('disableAt', 2);
-        $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
         $("#msjs-alert").hide();
 
     });
-    $("#btnCancelarToleranciaEditar").click(function () {
+    $("#btnCancelarExcepcionEdit").click(function () {
         $('#divTabExcepciones').jqxTabs('enableAt', 0);
         $('#divTabExcepciones').jqxTabs('disableAt', 1);
         $('#divTabExcepciones').jqxTabs('disableAt', 2);
-        $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
         $("#msjs-alert").hide();
     });
     $("#btnExportarExcel").click(function () {
@@ -93,8 +93,8 @@ $().ready(function () {
         }
     });
     $("#liList").click(function () {
-        $("#btnCancelarToleranciaNuevo").click();
-        $("#btnCancelarToleranciaEditar").click();
+        $("#btnCancelarExcepcionNew").click();
+        $("#btnCancelarExcepcionEdit").click();
     });
     $('#btnDesfiltrartodo').click(function () {
         $("#divGridExcepciones").jqxGrid('clearfilters');
@@ -157,9 +157,9 @@ function definirGrillaParaListaTolerancias() {
             {name: 'cantidad', type: 'numeric'},
             {name: 'unidad', type: 'string'},
             {name: 'fraccionamiento', type: 'string'},
-            {name: 'duracion_descripcion', type: 'string'},
-            {name: 'diariamente', type: 'integer'},
-            {name: 'diariamente_descripcion', type: 'string'},
+            {name: 'frecuencia_descripcion', type: 'string'},
+            {name: 'compensatoria', type: 'integer'},
+            {name: 'compensatoria_descripcion', type: 'string'},
             {name: 'redondeo', type: 'integer'},
             {name: 'redondeo_descripcion', type: 'string'},
             {name: 'codigo', type: 'string'},
@@ -210,7 +210,7 @@ function definirGrillaParaListaTolerancias() {
                     $("#addexceprowbutton").on('click', function () {
                         $('#divTabExcepciones').jqxTabs('enableAt', 1);
                         $('#divTabExcepciones').jqxTabs('disableAt', 2);
-                        $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
                         $('#divTabExcepciones').jqxTabs({selectedItem: 1});
                         limpiarMensajesErrorPorValidacionExcepcion(1);
                         inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",false,-1);
@@ -260,14 +260,14 @@ function definirGrillaParaListaTolerancias() {
                                     $('#divTabExcepciones').jqxTabs('enableAt', 0);
                                     $('#divTabExcepciones').jqxTabs('disableAt', 1);
                                     $('#divTabExcepciones').jqxTabs('enableAt', 2);
-                                    $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
                                     $('#divTabExcepciones').jqxTabs({selectedItem: 2});
 
                                     $("#hdnIdExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionExcepcion(2);
-                                    var diariamente = false;
-                                    if(dataRecord.diariamente==1)diariamente=true;
-                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,diariamente,dataRecord.genero_id);
+                                    var compensatoria = false;
+                                    if(dataRecord.compensatoria==1)compensatoria=true;
+                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,compensatoria,dataRecord.genero_id);
                                     inicializarDatosDuracion(2,dataRecord.cantidad,dataRecord.unidad,dataRecord.fraccionamiento);
                                     $("#txtExcepcionEdit").val(dataRecord.excepcion);
                                     $("#txtExcepcionEdit").focus();
@@ -380,19 +380,19 @@ function definirGrillaParaListaTolerancias() {
                         hidden: false
                     },
                     {
-                        text: 'Duraci&oacute;n',
+                        text: 'Frecuencia',
                         filtertype: 'checkedlist',
-                        datafield: 'duracion_descripcion',
+                        datafield: 'frecuencia_descripcion',
                         width: 80,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
-                        text: 'Diariamente',
+                        text: 'Compensatoria',
                         filtertype: 'checkedlist',
-                        datafield: 'diariamente_descripcion',
-                        width: 80,
+                        datafield: 'compensatoria_descripcion',
+                        width: 100,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
@@ -414,8 +414,8 @@ function definirGrillaParaListaTolerancias() {
             {label: 'C&oacute;digo', value: 'codigo', checked: true},
             {label: 'Color', value: 'color', checked: true},
             {label: 'G&eacute;nero', value: 'genero', checked: true},
-            {label: 'Duraci&oacute;n', value: 'duracion_descripcion', checked: true},
-            {label: 'Diariamente', value: 'diariamente_descripcion', checked: true},
+            {label: 'Frecuencia', value: 'frecuencia_descripcion', checked: true},
+            {label: 'Compensatoria', value: 'compensatoria_descripcion', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#listBoxExcepciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
@@ -453,7 +453,7 @@ function OperaEvento(evento) {
         $('#divTabExcepciones').jqxTabs('enableAt', 0);
         $('#divTabExcepciones').jqxTabs('disableAt', 1);
         $('#divTabExcepciones').jqxTabs('disableAt', 2);
-        $('#divTabExcepciones').jqxTabs('disableAt', 3);
+
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */

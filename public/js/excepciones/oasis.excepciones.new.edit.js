@@ -9,7 +9,7 @@
  * Función para la inicialización del formulario para el registro y edición de excepciones.
  * @param opcion
  */
-function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,diariamente,idGenero){
+function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,compensatoria,idGenero){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
     $("#txtColor"+sufijo).colorpicker({color:'#8db3e2'})
@@ -20,7 +20,7 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
         });
     $(".evo-pointer").hide();
 
-    $("#chkDiariamente"+sufijo).bootstrapSwitch();
+    $("#chkCompensatoria"+sufijo).bootstrapSwitch();
     $("#txtCantidad"+sufijo).numeric();
 
     $("#txtExcepcion"+sufijo).val(excepcion);
@@ -29,9 +29,9 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
     $("#txtCodigo"+sufijo).val(codigo);
     $("#txtColor"+sufijo).css({'background-color': color,'color':color});
 
-    if(diariamente==1){
-        $("#chkDiariamente"+sufijo).bootstrapSwitch("state",true)
-    }else $("#chkDiariamente"+sufijo).bootstrapSwitch("state",false)
+    if(compensatoria==1){
+        $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",true)
+    }else $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",false)
 
     cargarTiposGeneros(opcion,idGenero);
 }
@@ -227,13 +227,13 @@ function validaFormularioExcepcion(opcion) {
     var helpErrorColor = $("#helpErrorColor"+sufijo);
     var color = $("#txtColor"+sufijo).val();
 
-    var diariamente = 0;
-    if($("#chkDiariamente"+sufijo).bootstrapSwitch("state")){
-        diariamente = 1;
+    var compensatoria = 0;
+    if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
+        compensatoria = 1;
     }
-    var divDiariamente = $("#divDiariamente"+sufijo);
-    var helpErrorDiariamente = $("#helpErrorDiariamente"+sufijo);
-    var diariamente = $("#chkDiariamente"+sufijo).val();
+    var divCompensatoria = $("#divCompensatoria"+sufijo);
+    var helpErrorCompensatoria = $("#helpErrorCompensatoria"+sufijo);
+    var compensatoria = $("#chkCompensatoria"+sufijo).val();
 
     var lstGenero = $("#lstGenero"+sufijo);
     var divGenero = $("#divGenero"+sufijo);
@@ -288,12 +288,12 @@ function validaFormularioExcepcion(opcion) {
         helpErrorColor.html(msje);
         if (enfoque == null)enfoque = txtColor;
     }
-    if(diariamente==''||diariamente==undefined){
+    if(compensatoria==''||compensatoria==undefined){
         ok = false;
-        var msje = "Debe seleccionar si la excepci&oacute;n se aplica diariamente o no.";
-        divDiariamente.addClass("has-error");
-        helpErrorDiariamente.html(msje);
-        if (enfoque == null)enfoque = chkDiariamente;
+        var msje = "Debe seleccionar si la excepci&oacute;n se aplica compensatoria o no.";
+        divCompensatoria.addClass("has-error");
+        helpErrorCompensatoria.html(msje);
+        if (enfoque == null)enfoque = chkCompensatoria;
     }
     if(genero<0||genero==''){
         ok = false;
@@ -342,8 +342,8 @@ function limpiarMensajesErrorPorValidacionExcepcion(opcion) {
     $("#helpErrorCodigo"+sufijo).html("");
     $("#divColor"+sufijo).removeClass("has-error");
     $("#helpErrorColor"+sufijo).html("");
-    $("#divDiariamente"+sufijo).removeClass("has-error");
-    $("#helpErrorDiariamente"+sufijo).html("");
+    $("#divCompensatoria"+sufijo).removeClass("has-error");
+    $("#helpErrorCompensatoria"+sufijo).html("");
     $("#divGenero"+sufijo).removeClass("has-error");
     $("#helpErrorGenero"+sufijo).html("");
     $("#divCantidad"+sufijo).removeClass("has-error");
@@ -369,9 +369,9 @@ function guardaExcepcion(opcion){
     var tipoExcepcion = $("#lstTipoExcepcion"+sufijo).val();
     var codigo = $("#txtCodigo"+sufijo).val();
     var color = $("#txtColor"+sufijo).val();
-    var diariamente = 0;
-    if($("#chkDiariamente"+sufijo).bootstrapSwitch("state")){
-        diariamente = 1;
+    var compensatoria = 0;
+    if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
+        compensatoria = 1;
     }
     var genero = $("#lstGenero"+sufijo).val();
     var cantidad = $("#txtCantidad"+sufijo).val();
@@ -392,7 +392,7 @@ function guardaExcepcion(opcion){
                 tipoexcepcion_id:tipoExcepcion,
                 codigo:codigo,
                 color:color,
-                diariamente:diariamente,
+                compensatoria:compensatoria,
                 genero_id:genero,
                 cantidad:cantidad,
                 unidad:unidad,

@@ -1,14 +1,15 @@
 <?php
 
-class IndexController extends ControllerBase {
+class IndexController extends ControllerBase
+{
 
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
     }
 
-    public function indexAction() {
-
+    public function indexAction()
+    {
         $this->view->setVar('usuario', $this->_user);
     }
-
 }
