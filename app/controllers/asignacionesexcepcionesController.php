@@ -7,7 +7,7 @@
 *   Fecha Creación:  02-03-2015
 */
 
-class asignacionesexcepcionesController  extends ControllerBase
+class AsignacionesexcepcionesController  extends ControllerBase
 {
     public function initialize()
     {
