@@ -196,12 +196,12 @@ function definirGrillaParaListaTolerancias() {
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='addexceprowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button id='approveexceprowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
+                    /*container.append("<button id='approveexceprowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");*/
                     container.append("<button id='updateexceprowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleteexceprowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
 
                     $("#addexceprowbutton").jqxButton();
-                    $("#approveexceprowbutton").jqxButton();
+                    /*$("#approveexceprowbutton").jqxButton();*/
                     $("#updateexceprowbutton").jqxButton();
                     $("#deleteexceprowbutton").jqxButton();
                     $("#hdnIdExcepcionEdit").val(0);
@@ -219,14 +219,11 @@ function definirGrillaParaListaTolerancias() {
                         $("#txtExcepcionNew").focus();
                     });
                     /*Aprobar registro.*/
-                    $("#approveexceprowbutton").on('click', function () {
+                    /*$("#approveexceprowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridExcepciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridExcepciones').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                /*
-                                 * La aprobación de un registro es admisible si el estado del registro es EN PROCESO.
-                                 */
                                 if (dataRecord.estado == 2) {
                                     if (confirm("¿Esta seguro de aprobar este registro de la Excepci&oacute;n?")) {
                                         aprobarRegistroExcepcion(dataRecord.id);
@@ -244,7 +241,7 @@ function definirGrillaParaListaTolerancias() {
                             $("#divMsjePorError").append(msje);
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
-                    });
+                    });*/
                     /* Modificar registro.*/
                     $("#updateexceprowbutton").off();
                     $("#updateexceprowbutton").on('click', function () {
@@ -270,6 +267,7 @@ function definirGrillaParaListaTolerancias() {
                                     inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,compensatoria,dataRecord.genero_id);
                                     inicializarDatosDuracion(2,dataRecord.cantidad,dataRecord.unidad,dataRecord.fraccionamiento);
                                     $("#txtExcepcionEdit").val(dataRecord.excepcion);
+                                    $("#txtObservacionEdit").val(dataRecord.observacion);
                                     $("#txtExcepcionEdit").focus();
 
                                 } else {
@@ -323,7 +321,7 @@ function definirGrillaParaListaTolerancias() {
                         align: 'center',
                         cellsrenderer: rownumberrenderer
                     },
-                    {
+                    /*{
                         text: 'Estado',
                         filtertype: 'checkedlist',
                         datafield: 'estado_descripcion',
@@ -332,7 +330,7 @@ function definirGrillaParaListaTolerancias() {
                         align: 'center',
                         hidden: false,
                         cellclassname: cellclass
-                    },
+                    },*/
                     {
                         text: 'Tipo Excepci&oacute;n',
                         filtertype: 'checkedlist',
@@ -355,7 +353,7 @@ function definirGrillaParaListaTolerancias() {
                         text: 'C&oacute;digo',
                         filtertype: 'checkedlist',
                         datafield: 'codigo',
-                        width: 150,
+                        width: 120,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
@@ -363,7 +361,7 @@ function definirGrillaParaListaTolerancias() {
                     {
                         text: 'Color',
                         datafield: 'color',
-                        width: 100,
+                        width: 80,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false,
@@ -389,7 +387,7 @@ function definirGrillaParaListaTolerancias() {
                         hidden: false
                     },
                     {
-                        text: 'Compensatoria',
+                        text: 'Compensar Horas',
                         filtertype: 'checkedlist',
                         datafield: 'compensatoria_descripcion',
                         width: 100,
@@ -408,14 +406,14 @@ function definirGrillaParaListaTolerancias() {
                 ]
             });
         var listSource = [
-            {label: 'Estado', value: 'estado_descripcion', checked: true},
+            /*{label: 'Estado', value: 'estado_descripcion', checked: true},*/
             {label: 'Tipo Excepci&oacute;n', value: 'tipo_excepcion', checked: true},
             {label: 'Excepci&oacute;n', value: 'excepcion', checked: true},
             {label: 'C&oacute;digo', value: 'codigo', checked: true},
             {label: 'Color', value: 'color', checked: true},
             {label: 'G&eacute;nero', value: 'genero', checked: true},
             {label: 'Frecuencia', value: 'frecuencia_descripcion', checked: true},
-            {label: 'Compensatoria', value: 'compensatoria_descripcion', checked: true},
+            {label: 'Compensar Horas', value: 'compensatoria_descripcion', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#listBoxExcepciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
