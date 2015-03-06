@@ -11,26 +11,28 @@ $(document).ready(function () {
     });
     // verfiicar si el ci existe ya en la db
     $('input#ci').blur(function () {
-//        alert($("#id").val());
         if($("#id").val()==''){
-            var ajax = $.ajax({
-            url: '/personas/ci',
-            type: 'POST',
-            datatype: 'json',
-            data: {ci: $("#ci").val()},
-            success: function (data) {
-                var data = jQuery.parseJSON(data);
-                if (data.existe > 0) {
-                    bootbox.alert("<strong>¡Error!</strong> " + data.mensaje);
-                    $('#ci').val('').focus();
-                }
+            if($("#ci").val()!=''){
+                var ajax = $.ajax({
+                    url: '/personas/ci',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {ci: $("#ci").val()},
+                    success: function (data) {
+                        var data = jQuery.parseJSON(data);
+                        if (data.existe > 0) {
+                            bootbox.alert("<strong>¡Error!</strong> " + data.mensaje);
+                            $('#ci').val('').focus();
+                        }
 
             }, //mostramos el error
             error: function () {
                 alert('Se ha producido un error Inesperado');
             }
         });
+            }    
         }
+        
         
 
 
@@ -66,7 +68,7 @@ $(document).ready(function () {
     //         //CropOrientation : false,
     //     }); 
     //     
-    $("#boton_foto").load('/personas/subirfoto/');
+    $("#boton_foto").load('/personas/subirfoto/'+$("#link_foto").val());
 
 
 });

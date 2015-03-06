@@ -4,7 +4,8 @@
   	$("#accion li a").click(function(){
   		var calificacion_id=$(this).attr('idcalificacion');
   		var postulante=$(this).attr('idpostulante');
-  		
+      
+      //alert(calificacion_id);
   		var v=$.ajax({
           url:'/procesoscontrataciones/formulariopostulante/',
           type:'POST',
@@ -59,7 +60,7 @@ $("#imprimir").click(function(){
 
    });
 </script>
- <a href="javascript:history.back()"> << Volver Atras</a>
+ <a href="/procesoscontrataciones/"> << Volver Atras</a>
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-3">
@@ -76,6 +77,19 @@ $("#imprimir").click(function(){
 				<?php } ?>
 				</ol>
 			</div>
+
+      <div class="block full" style="overflow-y: scroll; height:400px;">
+        <div class="block-title">
+          <h2>
+            <strong>Postulantes que No Califican</strong>
+          </h2>
+        </div>
+        <ol id="accion">
+        <?php foreach ($nocalificados as $v) { ?>
+        <li><a href="#" idcalificacion=<?php echo $v->pcalificacion_id ?> idpostulante=<?php echo $v->id ?> ><?php echo $v->ci. " - ".$v->app. " ".$v->apm. " ".$v->nombre; ?></a></li>
+        <?php } ?>
+        </ol>
+      </div>
 		</div>
 		<div class="col-lg-9">
 		<input type="button" value="Imprimir" id="imprimir"></input>

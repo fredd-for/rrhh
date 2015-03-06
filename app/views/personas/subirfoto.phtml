@@ -1,10 +1,10 @@
 <?php
 if (isset($foto_persona)){
     echo '<input id="foto_persona" name="foto_persona" value="'.$foto_persona.'" hidden="hidden">';
-    echo '<button id="btn_foto" class="btn btn-primary"  data-toggle="modal" href="#modal-regular"><img class="img-rounded pull-right img-perfil" src="personal/'.$foto_persona.'.jpg?'.rand().'" width="128" ></button>';
+    echo '<button id="btn_foto" data-toggle="modal" href="#modal-regular"><img class="img-rounded pull-right img-perfil" src="/images/personal/'.$foto_persona.'.jpg?'.rand().'" width="128" ></button>';
 } else { 
     echo '<input id="foto_persona" name="foto_persona" value="" hidden="hidden">';
-    echo '<button id="btn_foto" class="btn btn-primary"  data-toggle="modal" href="#modal-regular"><img class="img-rounded pull-right img-perfil" src="personal/imagen_comodin.png"></button>';
+    echo '<button id="btn_foto" data-toggle="modal" href="#modal-regular"><img class="img-rounded pull-right img-perfil" src="/images/personal/hombre.jpg" width="128"></button>';
 }
 ?>
 <script language="Javascript">
@@ -13,14 +13,16 @@ if (isset($foto_persona)){
         $("#btn_foto").click(function() {
             if (!$("#ci").val()){
                 alert("Debe ingresar un valor de documento de identidad");
+                 $('#ci').focus();
                 return false;
-            } else {
-                if(verificar_ci($("#ci").val(),$("#ci_inicial").val())==false){
-                    return false;
-                } else {
-                    alert("Subida la foto el documento de identidad no podrá modificarse.");
-                }
-            }
+            } 
+            // else {
+            //     if(verificar_ci($("#ci").val(),$("#ci_inicial").val())==false){
+            //         return false;
+            //     } else {
+            //         alert("Subida la foto el documento de identidad no podrá modificarse.");
+            //     }
+            // }
         });
         $("#recortar_foto").hide();
         $("#cambio_foto").hide();
@@ -37,7 +39,7 @@ if (isset($foto_persona)){
             uploadMultiple: false,
             maxFiles: 1,
             acceptedFiles: '.jpg',
-            success: function(file) {alert('se subirá el archivo: '+file.name);
+            success: function(file) { //alert('se subirá el archivo: '+file.name);
                 $("#subir_foto").hide();
                 $("#recortar_foto").load('/personas/cargarcrop/');
                 $("#recortar_foto").show();

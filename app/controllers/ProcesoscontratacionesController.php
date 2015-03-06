@@ -535,6 +535,10 @@ if ($this->request->isPost()) {
 		$resul = $model->listaCalificados($seguimiento_id);
 		$this->view->setVar('calificados',$resul);		
 
+		$model = new Procesoscontrataciones();
+		$resul = $model->listaNoCalificados($seguimiento_id);
+		$this->view->setVar('nocalificados',$resul);		
+
 	}
 
 	public function formulariopostulanteAction()
@@ -562,7 +566,7 @@ if ($this->request->isPost()) {
 							<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
 							</tr>';
    		}
-   		$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+   		$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'gestion_desde ASC, mes_desde ASC'));
    		$expgeneral_html='';
    		foreach ($expgeneral as $v) {
    			$expgeneral_html.='<tr>

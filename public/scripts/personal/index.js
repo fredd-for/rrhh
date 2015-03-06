@@ -22,7 +22,7 @@ $(document).ready(function () {
                     {name: 'estado_actual', format: 'string'}
                 ],
                 url: '/personas/listajson',
-                cache: false
+                cache: true
             };
     var dataAdapter = new $.jqx.dataAdapter(source);
     

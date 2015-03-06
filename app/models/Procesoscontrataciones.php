@@ -269,6 +269,16 @@ WHERE se.id ='$id' ORDER BY cp.prioridad ASC ";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    public function listaNoCalificados($seguimiento_id)
+    {
+        $sql="SELECT po.*, pc.id as pcalificacion_id
+        FROM pcalificaciones pc
+        INNER JOIN ppostulantes po ON pc.postulante_id=po.id
+        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =0";
+        $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
     public function getcargopostula($seguimiento_id='')
     {
         $sql="SELECT s.id,CONCAT(p.codigo_proceso,' ',c.cargo) AS cargo

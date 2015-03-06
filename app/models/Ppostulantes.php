@@ -250,7 +250,8 @@ class Ppostulantes extends \Phalcon\Mvc\Model
         INNER JOIN procesoscontrataciones pr ON se.proceso_contratacion_id = pr.id
         INNER JOIN pacs pa ON se.pac_id = pa.id
         INNER JOIN cargos ca ON pa.cargo_id = ca.id
-        WHERE pe.postulante_id='$postulante_id' AND pe.seguimiento_id='$seguimiento_id' AND pe.baja_logica=1 ".$where;
+        WHERE pe.postulante_id='$postulante_id' AND pe.seguimiento_id='$seguimiento_id' AND pe.baja_logica=1 ".$where ." ORDER BY pe.gestion_desde ASC, pe.mes_desde ASC
+";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

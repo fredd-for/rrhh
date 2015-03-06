@@ -1,5 +1,4 @@
 <?php
-
 use Phalcon\Tag; ?>
 <div class="row">
     <div class="col-sm-12">
@@ -27,11 +26,9 @@ use Phalcon\Tag; ?>
                                         <div id="container_image"></div> 
                                     </div> -->
                                     <div class="row">
-                                        <div class="box-body" width="100%" align="right" id="boton_foto"></div>
-                                    </div>
-                                    
-                                    
-                                    <form action="" method="post" id="wizard" class="form-horizontal">
+                                        <div class="col-md-10">
+                                <form action="" method="post" id="wizard" class="form-horizontal">
+                                    <input type="hidden" id="link_foto" name="id" value="">
                                     <input type="hidden" id="id" name="id" value="">
                                         <fieldset title="Paso 1">
                                             <legend>Datos Personales</legend>
@@ -398,6 +395,14 @@ use Phalcon\Tag; ?>
                                         </fieldset>
                                         <input type="submit" name="submit" class="finish btn-success btn" title="Registrar persona" value="Registrar" />
                                     </form>
+                                        </div>
+                                        <div class="col-md-2" >
+                                            <div id="boton_foto" class="pull-right"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

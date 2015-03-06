@@ -4,12 +4,12 @@
 <input type="hidden" id="imgalto" name="imgalto" />
 <script language="Javascript">
     // llamado del ancho para que se refresquen los valores de la imagen en jquery.
-    $("<img>").attr("src", "/personal/tmp.jpg"+ "?nocache=" + (new Date()).getTime()).load(function(){
+    $("<img>").attr("src", "/images/personal/tmp.jpg"+ "?nocache=" + (new Date()).getTime()).load(function(){
         $("#imgancho").val(Number(this.width));
         $("#imgalto").val(Number(this.height));
     //    alert (imgWidth+" | "+imgHeight);
     });
-    $("#cropbox").attr("src", "/personal/tmp.jpg"+ "?nocache=" + (new Date()).getTime());
+    $("#cropbox").attr("src", "/images/personal/tmp.jpg"+ "?nocache=" + (new Date()).getTime());
     $("#ancho").val(Number($("#cropbox").width()));
     $("#alto").val(Number($("#cropbox").height()));
     //alert(ancho+" | "+ancho_real);
@@ -33,10 +33,10 @@
                 type:'POST',
                 datatype:'jason',
                 data: {x:$("#x").val(),y:$("#y").val(),w:$("#w").val(),h:$("#h").val(),ci:$("#ci").val()},
-                success: function(data){ alert ('Guardado con éxito');//alert (data);
+                success: function(data){ // alert ('Guardado con éxito');//alert (data);
                     //var res = jQuery.parseJSON(data);
                     //alert(res.msm);
-                    $("#ci").attr('disabled','disabled');
+                    $("#ci").attr('readonly','readonly');
                     $("#cerrar").click();
                     //$("#boton_foto").unbind();
                     $("#boton_foto").load('/personas/subirfoto/'+imagen);
@@ -70,9 +70,9 @@
 </script>
 <h4>Recortar Imagen</h4>
 <!--Image that we Will insert -->
-<img class='imagem_artigo' src="/personal/tmp.jpg" id="cropbox" width="100%"/>
+<img class='imagem_artigo' src="/images/personal/tmp.jpg" id="cropbox" width="100%"/>
 <!--Form to crop-->
-<form action="/personal/crop/" method="post" onsubmit="return checkCoords();">
+<form action="/personas/crop/" method="post" onsubmit="return checkCoords();">
     <input type="hidden" id="x" name="x" />
     <input type="hidden" id="y" name="y" />
     <input type="hidden" id="w" name="w" />
