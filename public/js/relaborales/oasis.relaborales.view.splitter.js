@@ -139,15 +139,9 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     if(val.id_area>0)historial += "<dt id='dtArea_" + val.id_relaboral + "'>&Aacute;rea:</dt><dd id='ddArea_" + val.id_relaboral + "'>" + val.area + "</dd>";
                     historial += "<dt id='dtUbicacion_" + val.id_relaboral + "'>Ubicaci&oacute;n:</dt><dd id='ddUbicacion_" + val.id_relaboral + "'>" + val.ubicacion + "</dd>";
                     switch (val.tiene_item){
-                        /*case 'PERMANENTE':
-                        case 'CONTRATO INDEFINIDO':
-                        case 'DESIGNACION':
-                        case 'LIBRENOMBRAMIENTO':*/
                         case 1:
                             historial += "<dt id='dtItem_" + val.id_relaboral + "'>&Iacute;tem:</dt><dd id='ddItem_" + val.id_relaboral + "'>" + val.cargo_codigo + "</dd>";
                             break;
-                        /*case 'EVENTUAL':
-                        case 'CONSULTOR':*/
                         case 0:
                             var numContrato = '&nbsp;';
                             if(val.num_contrato!=null)numContrato = val.num_contrato;
@@ -157,6 +151,7 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtNivelSalarial_" + val.id_relaboral + "'>Nivel Salarial:</dt><dd id='ddNivelSalarial_" + val.id_relaboral + "'>" + val.nivelsalarial + "</dd>";
                     /*historial +="<dt id='dtCargo_"+val.id_relaboral+"'>Cargo:</dt><dd id='ddCargo_'>ssssssss</dd>";*/
                     historial += "<dt id='dtHaber_" + val.id_relaboral + "'>Haber:</dt><dd id='ddHaber_" + val.id_relaboral + "'>" + val.sueldo + "</dd>";
+                    historial += "<dt id='dtFechaIng_" + val.id_relaboral + "'>Fecha Ingreso:</dt><dd id='ddFechaIng_" + val.id_relaboral + "'>" + val.fecha_ing + "</dd>";
                     historial += "<dt id='dtFechaIni_" + val.id_relaboral + "'>Fecha Inicio:</dt><dd id='ddFechaIni_" + val.id_relaboral + "'>" + val.fecha_ini + "</dd>";
                     historial += "<dt id='dtFechaIncor_" + val.id_relaboral + "'>Fecha Incor:</dt><dd id='ddFechaIncor_" + val.id_relaboral + "'>" + val.fecha_incor + "</dd>";
                     switch (val.tiene_item){
@@ -164,13 +159,7 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                          case 0:
                          historial += "<dt id='dtFechaFin_" + val.id_relaboral + "'>Fecha Fin:</dt><dd id='ddFechaFin_" + val.id_relaboral + "'>" + val.fecha_fin + "</dd>";
                          break;
-
-                        /*case 'PERMANENTE':break;
-                        case 'EVENTUAL':
-                        case 'CONSULTOR':
-                            historial += "<dt id='dtFechaFin_" + val.id_relaboral + "'>Fecha Fin:</dt><dd id='ddFechaFin_" + val.id_relaboral + "'>" + val.fecha_fin + "</dd>";
-                            break;*/
-                    }
+                   }
                     if(val.estado == 0){
                         historial += "<dt id='dtFechaBaja_" + val.id_relaboral + "'>Fecha Baja:</dt><dd id='ddFechaBaja_" + val.id_relaboral + "'>" + val.fecha_baja + "</dd>";
                         historial += "<dt id='dtMotivoBaja_" + val.id_relaboral + "'>Motivo Baja:</dt><dd id='ddMotivoBaja_" + val.id_relaboral + "'>" + val.motivo_baja + "</dd>";
