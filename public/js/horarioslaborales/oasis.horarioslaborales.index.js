@@ -302,7 +302,14 @@ function definirGrillaParaListaHorarios() {
                         inicializarCamposParaNuevoRegistro();
                         limpiarMensajesErrorPorValidacionHorario("");
                         $("#txtNombreHorario").focus();
-                        inicializarPaleta($("#txtColorHorario"));
+                        //inicializarPaleta($("#txtColorHorario"));
+                        $("#txtColorHorario").colorpicker()
+                            .on('change.color', function(evt, color){
+                                $(this).css("background",color);
+                                $(this).css("color",color);
+                                $(".evo-pointer").hide();
+                            });
+                        $(".evo-pointer").hide();
                     });
                     /*Aprobar registro.*/
                     $("#approverowbutton").on('click', function () {
@@ -363,7 +370,14 @@ function definirGrillaParaListaHorarios() {
                                     $("#txtHoraInicioRangoSalEditar").val(dataRecord.hora_inicio_rango_sal);
                                     $("#txtHoraFinalizacionRangoSalEditar").val(dataRecord.hora_final_rango_sal);
                                     $("#txtObservacionEditar").val(dataRecord.observacion);
-                                    inicializarPaleta($("#txtColorHorarioEditar"));
+                                    //inicializarPaleta($("#txtColorHorarioEditar"));
+                                    $("#txtColorHorarioEditar").colorpicker()
+                                        .on('change.color', function(evt, color){
+                                            $(this).css("background",color);
+                                            $(this).css("color",color);
+                                            $(".evo-pointer").hide();
+                                        });
+                                    $(".evo-pointer").hide();
                                     var horaEntrada = dataRecord.hora_entrada;
                                     var horaSalida = dataRecord.hora_salida;
                                     if(horaEntrada=="")horaEntrada="00:00:00";

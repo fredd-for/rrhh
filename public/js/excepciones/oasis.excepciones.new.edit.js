@@ -12,7 +12,7 @@
 function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,compensatoria,idGenero){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
-    $("#txtColor"+sufijo).colorpicker({color:'#8db3e2'})
+    $("#txtColor"+sufijo).colorpicker()
         .on('change.color', function(evt, color){
             $(this).css("background",color);
             $(this).css("color",color);

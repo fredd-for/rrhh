@@ -168,6 +168,83 @@ class CalendariolaboralController extends ControllerBase
         }
         echo json_encode($calendariolaboral);
     }
+
+    /**
+     * Función para la obtención de los calendarios registrados para un registro laboral específico en un periodo determinado de tiempo.
+     * En caso de enviarse un valor numérico mayor a cero en el parámetro id_perfillaboral se considera para efectuar el filtro.
+     * En caso de enviarse un valor diferente de vacio para ambas fechas como parámetros se consideran para efectuar el filtro.
+     */
+    public function listallregisteredbyrelaboralAction(){
+        $this->view->disable();
+        $calendariolaboral = Array();
+        $obj = new Fcalendariolaboral();
+        if(isset($_POST["id"])&&$_POST["id"]>0&&isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])){
+            $idRelaboral = $_POST["id"];
+            $idPerfilRelaboral = 0;
+            if(isset($_POST["id_perfillaboral"])&&$_POST["id_perfillaboral"]>0)
+                $idPerfilRelaboral=$_POST["id_perfillaboral"];
+            $fecha_ini = $_POST["fecha_ini"];
+            $fecha_fin = $_POST["fecha_fin"];
+            $resul = $obj->getAllRegisteredByPerfilAndRelaboralRangoFechas($idPerfilRelaboral,$idRelaboral,$fecha_ini,$fecha_fin);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $calendariolaboral[] = array(
+                        'chk' => "",
+                        'nro_row' => 0,
+                        'id_calendariolaboral'=>$v->id_calendariolaboral,
+                        'calendario_fecha_ini'=>$v->calendario_fecha_ini,
+                        'calendario_fecha_fin'=>$v->calendario_fecha_fin,
+                        'calendario_observacion'=>$v->calendario_observacion,
+                        'calendario_estado'=>$v->calendario_estado,
+                        'calendario_estado_descripcion'=>$v->calendario_estado_descripcion,
+                        'id_perfillaboral'=>$v->id_perfillaboral,
+                        'perfil_laboral'=>$v->perfil_laboral,
+                        'perfil_laboral_grupo'=>$v->perfil_laboral_grupo,
+                        'tipo_horario_descripcion'=>$v->tipo_horario_descripcion,
+                        'perfil_laboral_observacion'=>$v->perfil_laboral_observacion,
+                        'perfil_laboral_estado'=>$v->perfil_laboral_estado,
+                        'perfil_laboral_estado_descripcion'=>$v->perfil_laboral_estado_descripcion,
+                        'id_horariolaboral'=>$v->id_horariolaboral,
+                        'horario_nombre'=>$v->horario_nombre,
+                        'horario_nombre_alternativo'=>$v->horario_nombre_alternativo,
+                        'hora_entrada'=>$v->hora_entrada,
+                        'hora_salida'=>$v->hora_salida,
+                        'horas_laborales'=>$v->horas_laborales,
+                        'dias_laborales'=>$v->dias_laborales,
+                        'rango_entrada'=>$v->rango_entrada,
+                        'rango_salida'=>$v->rango_salida,
+                        'hora_inicio_rango_ent'=>$v->hora_inicio_rango_ent,
+                        'hora_final_rango_ent'=>$v->hora_final_rango_ent,
+                        'hora_inicio_rango_sal'=>$v->hora_inicio_rango_sal,
+                        'hora_final_rango_sal'=>$v->hora_final_rango_sal,
+                        'color'=>$v->color,
+                        'horario_fecha_ini'=>$v->horario_fecha_ini,
+                        'horario_fecha_fin'=>$v->horario_fecha_fin,
+                        'horario_observacion'=>$v->horario_observacion,
+                        'horario_estado'=>$v->horario_estado,
+                        'horario_estado_descripcion'=>$v->horario_estado_descripcion,
+                        'id_tolerancia'=>$v->id_tolerancia,
+                        'tolerancia'=>$v->tolerancia,
+                        'tolerancia_tipo_acumulacion'=>$v->tolerancia_tipo_acumulacion,
+                        'tolerancia_tipo_acumulacion_descripcion'=>$v->tolerancia_tipo_acumulacion_descripcion,
+                        'tolerancia_consideracion_retraso'=>$v->tolerancia_consideracion_retraso,
+                        'tolerancia_consideracion_retraso_descripcion'=>$v->tolerancia_consideracion_retraso_descripcion,
+                        'tolerancia_descripcion'=>$v->tolerancia_descripcion,
+                        'tolerancia_fecha_ini'=>$v->tolerancia_fecha_ini,
+                        'tolerancia_fecha_fin'=>$v->tolerancia_fecha_fin,
+                        'tolerancia_observacion'=>$v->tolerancia_observacion,
+                        'tolerancia_estado'=>$v->tolerancia_estado,
+                        'tolerancia_estado_descripcion'=>$v->tolerancia_estado_descripcion,
+                        'relaboralperfil_ubicacion'=>$v->relaboralperfil_ubicacion,
+                        'relaboralperfil_estacion'=>$v->relaboralperfil_estacion,
+                        'relaboralperfil_observacion'=>$v->relaboralperfil_observacion
+                    );
+                }
+            }
+        }
+        echo json_encode($calendariolaboral);
+    }
     /**
      * Función para la obtención del listado de horarios laborales registrados considerando el tipo de horario seleccionado.
      */

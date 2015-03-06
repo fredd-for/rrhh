@@ -283,7 +283,7 @@ class ExcepcionesController extends ControllerBase
                     }
                     $objExcepciones->redondeo=$redondeo;
                     $objExcepciones->observacion=$observacion;
-                    $objExcepciones->estado=2;
+                    $objExcepciones->estado=1;
                     $objExcepciones->baja_logica=1;
                     $objExcepciones->agrupador=0;
                     $objExcepciones->user_reg_id=$user_reg_id;
@@ -376,7 +376,7 @@ class ExcepcionesController extends ControllerBase
                  */
                 $objExcepciones = Excepciones::findFirstById($_POST["id"]);
                 $objExcepciones->estado = 0;
-                $objExcepciones->baja_logica = 0;
+                $objExcepciones->baja_logica = 0;//Debido a que no es necesario que el registro continúe apareciendo en estado pasivo.
                 $objExcepciones->user_mod_id = $user_mod_id;
                 $objExcepciones->fecha_mod = $hoy;
                 if ($objExcepciones->save()) {

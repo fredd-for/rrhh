@@ -16,9 +16,9 @@ $().ready(function () {
     $('#divTabExcepciones').jqxTabs('disableAt', 2);
 
 
-    definirGrillaParaListaTolerancias();
+    definirGrillaParaListaExcepciones();
     /**
-     * Control del evento de solicitud de guardar el registro del horario.
+     * Control del evento de solicitud de guardar el registro de la excepción.
      */
     $("#btnGuardarExcepcionNew").on("click",function () {
         var ok = validaFormularioExcepcion(1)
@@ -140,9 +140,9 @@ $().ready(function () {
     $(document).keyup(OperaEvento);
 });
 /**
- * Función para definir la grilla principal (listado) para la gestión de tolerancias de ingreso.
+ * Función para definir la grilla principal (listado) para la gestión de excepciones.
  */
-function definirGrillaParaListaTolerancias() {
+function definirGrillaParaListaExcepciones() {
     var source =
     {
         datatype: "json",

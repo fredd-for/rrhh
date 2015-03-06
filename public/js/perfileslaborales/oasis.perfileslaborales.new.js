@@ -74,21 +74,7 @@ function definirGrillaParaSeleccionarCargoAcefalo(numCertificacion,codCargo){
             });
     }
 }
-/**
- * Función para la carga del combo de ubicaciones de trabajo (Oficinas o Paradas de Línea).
- * @param idUbicacionPredeterminada Identificador de la ubicación de la oficina o Parada de Línea en la cual trabajará el empleado.
- */
-function cargarUbicaciones(idUbicacionPredeterminada){
-    var ubicacion = [
-        { value: 1, label: "OFICINA CENTRAL" },
-        { value: 2, label: "LÍNEA ROJA" },
-        { value: 3, label: "LÍNEA AMARILLA" },
-        { value: 4, label: "LÍNEA VERDE" },
-    ];
-    $("#ubicacion").jqxComboBox({ selectedIndex:0,autoComplete:true,enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una ubicacion", source: ubicacion, height: 22, width: '100%' });
-}
-
-/**
+/*
  * Función para cargar los departamentos en el combo especificado.
  * @param idDepartamentoPrefijado Identificador del departamento prefijado por defecto.
  */
@@ -151,97 +137,6 @@ function cargarAreasAdministrativas(idPadre,idAreaPredeterminada){
         });
     }
     return ok;
-}
-/**
- * Función para cargar el combo de procesos de acuerdo al financiamiento seleccionado de acuerdo al cargo.
- * @param idFinPartida Identificador del registro de financiamiento por partida.
- * @param idProcesoPrefijado Identificador del proceso prefijado por defecto.
- */
-function cargarProcesos(idCondicion){
-    $.ajax({
-        url:'/relaborales/listprocesos',
-        type:'POST',
-        datatype: 'json',
-        data:{id_condicion:idCondicion
-        },
-        success: function(data) {
-            var res = jQuery.parseJSON(data);
-            $('#lstProcesos').html("");
-            $('#lstProcesos').append("<option value='0'>Seleccionar..</option>");
-            $.each( res, function( key, valo ) {
-                $('#lstProcesos').append("<option value="+valo.id+">"+valo.codigo_proceso+"</option>");
-            });
-        }
-    });
-}
-function cargaCategorias(idCategoriaPredeterminada){
-    var categoria = [
-        { value: 1, label: "ADMINISTRATIVO" },
-        { value: 2, label: "TECNICO" },
-        { value: 3, label: "JURIDICO" },
-    ];
-
-    $("#categoria").jqxComboBox({ enableBrowserBoundsDetection: true, autoDropDownHeight: true, promptText: "Seleccione una categoria", source: categoria, height: 22, width: '100%' });
-}
-/**
- * Función para agregar un cargo a la grilla correspondiente para determinar donde trabajará la persona.
- * @param id_cargo Identificador del cargo.
- * @param codigo Código del cargo seleccionado.
- * @param finpartida Financiamiento por partida.
- * @param condicion Condición de contrato / relación laboral.
- * @param gerencia_administrativa Gerencia Administrativa a la cual corresponde el cargo.
- * @param departamento_administrativo Departamento administrativo al cual corresponde el cargo.
- * @param nivelsalarial Nivel salarial correspondiente para el cargo.
- * @param cargo Nombre del cargo.
- * @param haber Haber mensual para el cargo.
- */
-function agregarCargoSeleccionadoEnGrilla(id_cargo,codigo,id_finpartida,finpartida,id_condicion,condicion,id_organigrama,gerencia_administrativa,departamento_administrativo,nivelsalarial,cargo,haber){
-    $("#tr_cargo_seleccionado").html("");
-    var btnDescartar = "<td  class='text-center'><a class='btn btn-danger btnDescartarCargoSeleccionado' title='Descartar cargo seleccionado.' data-toggle='tooltip' data-original-title='Descartar' id='btn_"+id_cargo+"' alt='Descartar cargo para el contrato'>";
-    btnDescartar += "<i class='fa fa-times'></i></a></td>";
-    //var grilla = "<td>"+codigo+"</td><td>"+finpartida+"</td><td>"+condicion+"</td><td>"+gerencia_administrativa+"</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td>"+haber+"</td>";
-    var grilla = "<td class='text-center'>"+codigo+"</td><td class='text-center'>"+condicion+"</td><td>"+gerencia_administrativa+
-        "</td><td>"+departamento_administrativo+"</td><td>"+nivelsalarial+"</td><td>"+cargo+"</td><td  class='text-right'>"+haber+"</td>";
-    $("#tr_cargo_seleccionado").append(btnDescartar+grilla);
-    $("#hdnIdCargoNuevoSeleccionado").val(id_cargo);
-    $("#hdnIdOrganigramaSeleccionado").val(id_organigrama);
-    $("#hdnIdCondicionNuevaSeleccionada").val(id_condicion);
-    $("#divProcesos").show();
-    var okArea = cargarAreasAdministrativas(id_organigrama,0);
-    cargarProcesos(id_condicion);
-    $("#popupWindowCargo").jqxWindow('close');
-    id_condicion = parseInt(id_condicion);
-    /**
-     * Un número de contrato es requerido si es eventual o consultor
-     */
-    if(id_condicion==2||id_condicion==3){
-        $("#divNumContratos").show();
-        if(!okArea)$("#txtNumContrato").focus();
-        else $("#lstAreas").focus();
-        $("#divFechasFin").show();
-        $("#FechaFin").jqxDateTimeInput({ enableBrowserBoundsDetection: true, height: 24, formatString:'dd-MM-yyyy' });
-    }else{
-        if(!okArea)$("#lstUbicaciones").focus();
-        else $("#lstAreas").focus();
-    }
-    $(".btnDescartarCargoSeleccionado").click(function(){
-        $("#tr_cargo_seleccionado").html("");
-        $("#hdnIdCargoNuevoSeleccionado").val(0);
-        $("#hdnIdOrganigramaSeleccionado").val(0);
-        $("#hdnIdCondicionNuevaSeleccionada").val(0);
-        //$("#divItems").hide();
-        $("#divNumContratos").hide();
-        $("#divProcesos").hide();
-        $("#divFechasFin").hide();
-        $(".msjs-alert").hide();
-        $(".div-new-relab").removeClass('has-error');
-        $("#helpErrorUbicaciones").html("");
-        $("#helpErrorProcesos").html("");
-        $("#helpErrorCategorias").html("");
-        $("#divUbicaciones").removeClass("has-error");
-        $("#divProcesos").removeClass("has-error");
-        $("#divCategorias").removeClass("has-error");
-    });
 }
 /**
  * Función para validar los datos del formulario de nuevo registro de perfil laboral.
