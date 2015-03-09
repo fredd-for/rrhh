@@ -15,7 +15,6 @@ $().ready(function () {
     $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
     $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
     $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-    $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
 
     definirGrillaParaListaRelaborales();
     /**
@@ -94,7 +93,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
         //deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
     });
@@ -104,7 +103,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
         //deshabilitarCamposParaEditarRegistroDeRelacionLaboral();
     });
@@ -114,7 +113,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
         deshabilitarCamposParaBajaRegistroDeRelacionLaboral();
     });
@@ -124,7 +123,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $('#divTabControlExcepciones').jqxTabs({selectedItem: 1});
         $("#msjs-alert").hide();
     });
@@ -134,7 +133,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
     });
 
@@ -220,7 +219,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
     });
     $("#liExcept").click(function () {
@@ -230,7 +229,7 @@ $().ready(function () {
         $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+        
         $("#msjs-alert").hide();
     });
 
@@ -398,7 +397,7 @@ function definirGrillaParaListaRelaborales() {
                                 $("#hdnIdPersonaHistorial").val(dataRecord.id_persona);
                                 if (dataRecord.tiene_contrato_vigente >= 0) {
                                     $('#divTabControlExcepciones').jqxTabs('enableAt', 0);
-                                    $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
+                                    
                                     $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
                                     $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
                                     $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
