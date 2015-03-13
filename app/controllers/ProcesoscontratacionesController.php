@@ -6,19 +6,19 @@
 class ProcesoscontratacionesController extends ControllerBase
 {
 	private $mes_array =array(
-                "1" => "ENERO",
-                "2"   => "FEBRERO",
-                "3" => "MARZO",
-                "4" => "ABRIL",
-                "5" => "MAYO",
-                "6" => "JUNIO",
-                "7" => "JULIO",
-                "8" => "AGOSTO",
-                "9" => "SEPTIEMBRE",
-                "10" => "OCTUBRE",
-                "11" => "NOVIEMBRE",
-                "12" => "DICIEMBRE"
-                );
+		"1" => "ENERO",
+		"2"   => "FEBRERO",
+		"3" => "MARZO",
+		"4" => "ABRIL",
+		"5" => "MAYO",
+		"6" => "JUNIO",
+		"7" => "JULIO",
+		"8" => "AGOSTO",
+		"9" => "SEPTIEMBRE",
+		"10" => "OCTUBRE",
+		"11" => "NOVIEMBRE",
+		"12" => "DICIEMBRE"
+		);
 
 	public function initialize() {
 		parent::initialize();
@@ -142,6 +142,154 @@ class ProcesoscontratacionesController extends ControllerBase
 				$resul2->save();
 
 			}
+
+			if ($this->request->hasFiles() == true) {
+				foreach ($this->request->getUploadedFiles() as $file) {
+                //Move the file into the application
+					$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
+					if($file->moveTo($path)) {
+						$resul3 = new Archivos();
+						$resul3->tipo_documento=0;
+						$resul3->persona_id = $resul->id;
+						$resul3->tipo_archivo = $file->getType();
+						$resul3->user_id = $auth['id'];
+						$resul3->nombre_archivo = date("Ymd_his").$file->getName();
+						$resul3->carpeta = 'AppData/convocatorias/';
+						$resul3->fecha = date("Y-m-d h:i:s");
+						$resul3->baja_logica = 1;
+						$resul3->tamanio = $file->getSize();
+						$resul3->save();
+                	//die("Archivo cargado correctamente.")	
+					} else {
+						die("Acurrio algun error.");	
+					} 
+				}
+			}
+
+			$this->flashSession->success("Exito: Registro guardado correctamente...");
+
+		}else{
+			$this->flashSession->error("Error: no se guardo el registro...");
+		}
+		
+		
+		 // #check if there is any file
+        // if($this->request->hasFiles() == true){
+        //     $uploads = $this->request->getUploadedFiles();
+        //     $isUploaded = false;
+
+        //    #do a loop to handle each file individually
+        //    foreach($uploads as $upload){
+
+        //        #define a “unique” name and a path to where our file must go
+        //        $path = '/AppData/convocatorias/'.md5(uniqid(rand(), true)).'-'.strtolower($upload->getname());
+
+        //        #move the file and simultaneously check if everything was ok
+        //        ($upload->moveTo($path)) ? $isUploaded = true : $isUploaded = false;
+        //    }
+        //    #if any file couldn’t be moved, then throw an message
+        //    ($isUploaded) ? die("Files successfully uploaded.") : die("Some error ocurred.");
+        // }else{
+        //     #if no files were sent, throw a message warning user
+        //     die("You must choose at least one file to send. Please try again.");
+        // }
+
+
+
+
+		$this->response->redirect('/procesoscontrataciones');
+	}
+
+}
+
+public function editAction($id)
+{
+	$auth = $this->session->get('auth');
+	$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
+	$this->view->setVar('normativamod',$resul);
+
+	$resul= Procesoscontrataciones::findFirstById($id);
+	$this->view->setVar('procesocontratacion',$resul);
+
+	$archivo= Archivos::find(array('baja_logica=1 and persona_id='.$resul->id,'order'=>'id ASC'));
+	$this->view->setVar('archivo',$archivo);
+
+	$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+	$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
+
+	if ($this->request->isPost()) {
+		$resul = Procesoscontrataciones::findFirstById($id);
+		$resul->normativamod_id = $_POST['normativamod_id'];
+		$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
+		$resul->regional_id = 1;
+		$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
+		$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
+		$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
+		$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
+		$resul->observacion = $_POST['observacion'];
+				// $resul->tipoconvocatoria_id = 1;
+				// $resul->estado = 1;
+				// $resul->baja_logica = 1;
+				// $resul->agrupador = 1;
+				// $resul->user_reg_id = $auth['id'];
+				// $resul->fecha_reg = date("Y-m-d H:i:s");
+		if ($resul->save()) {
+			if($pac_id!=''){
+				$pac_id = explode(',', $_POST['pac_ids']);
+			$model = new Procesoscontrataciones();
+			$resul4 = $model->seguimientoCero($id);
+			foreach ($pac_id as $v) {
+
+				$resul5=Seguimientos::findFirst(array('proceso_contratacion_id='.$id.' AND pac_id='.$v,'order'=>'id DESC','limit'=> 1));
+				if ($resul5!=false) {
+					$resul2=Seguimientos::findFirstById($resul5->id);
+					$resul2->baja_logica = 1;
+					$resul2->save();
+				}else{
+					$resul2 = new Seguimientos();
+					$resul2->pac_id = $v;
+					$resul2->proceso_contratacion_id = $resul->id;
+					$resul2->seguimiento_estado_id = 1;
+					$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
+					$resul2->estado = 1;
+					$resul2->user_reg_id = $auth['id'];
+					$resul2->organigrama_id = 0;
+					$resul2->fecha_reg = date("Y-m-d H:i:s");
+					$resul2->baja_logica = 1;
+					$resul2->save();	
+				}
+
+			}
+	
+			}
+			
+			if ($this->request->hasFiles() == true) {
+				foreach ($this->request->getUploadedFiles() as $file) {
+                //Move the file into the application
+					$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
+					if($file->moveTo($path)) {
+						if ($_POST['archivo_id']!='') {
+							$resul3 = Archivos::findFirstById($_POST['archivo_id']);	
+						}else{
+							$resul3= new Archivos();	
+						}
+						$resul3->tipo_documento=0;
+						$resul3->persona_id = $resul->id;
+						$resul3->tipo_archivo = $file->getType();
+						$resul3->user_id = $auth['id'];
+						$resul3->nombre_archivo = date("Ymd_his").$file->getName();
+						$resul3->carpeta = 'AppData/convocatorias/';
+						$resul3->fecha = date("Y-m-d h:i:s");
+						$resul3->baja_logica = 1;
+						$resul3->tamanio = $file->getSize();
+						$resul3->save();
+                	//die("Archivo cargado correctamente.")	
+					} else {
+						die("Acurrio algun error.");	
+					} 
+				}
+			}
+
 			$this->flashSession->success("Exito: Registro guardado correctamente...");
 
 		}else{
@@ -150,71 +298,6 @@ class ProcesoscontratacionesController extends ControllerBase
 
 		$this->response->redirect('/procesoscontrataciones');
 	}
-
-}
-
-public function editAction($id)
-{	$auth = $this->session->get('auth');
-$resul=Normativasmod::find(array('baja_logica=1','order'=>'id ASC'));
-$this->view->setVar('normativamod',$resul);
-
-$resul= Procesoscontrataciones::findFirstById($id);
-$this->view->setVar('procesocontratacion',$resul);
-
-$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
-$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
-
-if ($this->request->isPost()) {
-	$resul = Procesoscontrataciones::findFirstById($id);
-	$resul->normativamod_id = $_POST['normativamod_id'];
-	$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
-	$resul->regional_id = 1;
-	$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
-	$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
-	$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
-	$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
-	$resul->observacion = $_POST['observacion'];
-				// $resul->tipoconvocatoria_id = 1;
-				// $resul->estado = 1;
-				// $resul->baja_logica = 1;
-				// $resul->agrupador = 1;
-				// $resul->user_reg_id = $auth['id'];
-				// $resul->fecha_reg = date("Y-m-d H:i:s");
-	if ($resul->save()) {
-		$pac_id = explode(',', $_POST['pac_ids']);
-		$model = new Procesoscontrataciones();
-		$resul4 = $model->seguimientoCero($id);
-
-		foreach ($pac_id as $v) {
-
-			$resul5=Seguimientos::findFirst(array('proceso_contratacion_id='.$id.' AND pac_id='.$v,'order'=>'id DESC','limit'=> 1));
-			if ($resul5!=false) {
-				$resul2=Seguimientos::findFirstById($resul5->id);
-				$resul2->baja_logica = 1;
-				$resul2->save();
-			}else{
-				$resul2 = new Seguimientos();
-				$resul2->pac_id = $v;
-				$resul2->proceso_contratacion_id = $resul->id;
-				$resul2->seguimiento_estado_id = 1;
-				$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
-				$resul2->estado = 1;
-				$resul2->user_reg_id = $auth['id'];
-				$resul2->organigrama_id = 0;
-				$resul2->fecha_reg = date("Y-m-d H:i:s");
-				$resul2->baja_logica = 1;
-				$resul2->save();	
-			}
-
-		}
-		$this->flashSession->success("Exito: Registro guardado correctamente...");
-
-	}else{
-		$this->flashSession->error("Error: no se guardo el registro...");
-	}
-
-	$this->response->redirect('/procesoscontrataciones');
-}
 
 }
 
@@ -504,319 +587,319 @@ if ($this->request->isPost()) {
 		$resul = $model->getPerfilCargo($_POST['id_seguimiento']);
 		$html='';
 		foreach ($resul as $v) {
-   			$html.='<tr>
-							<td>'.$v->formacion_academica.'</td>
-							<td>'.$v->exp_general.' '.$v->exp_general_aniomes.'</td>
-							<td>'.$v->exp_profesional.' '.$v->exp_profesional_aniomes.'</td>
-							<td>'.$v->exp_relacionado.' '.$v->exp_relacionado_aniomes.'</td>
-					</tr>';
-   		}
-   		$this->view->disable();
-		echo $html;
+			$html.='<tr>
+			<td>'.$v->formacion_academica.'</td>
+			<td>'.$v->exp_general.' '.$v->exp_general_aniomes.'</td>
+			<td>'.$v->exp_profesional.' '.$v->exp_profesional_aniomes.'</td>
+			<td>'.$v->exp_relacionado.' '.$v->exp_relacionado_aniomes.'</td>
+		</tr>';
 	}
+	$this->view->disable();
+	echo $html;
+}
 
-	public function filtrarPostulantesAction()
-	{
-		$model = new Procesoscontrataciones();
-		$resul = $model->filtrarPostulantes($_POST['id']);
+public function filtrarPostulantesAction()
+{
+	$model = new Procesoscontrataciones();
+	$resul = $model->filtrarPostulantes($_POST['id']);
 		//sleep(5);
-		if (count($resul)>0) {
-			$msm = 'Exito: Se filtro correctamente los postulantes';
-		}else{
-			$msm = 'Error: No Se filtro correctamente los postulantes';
-		}
-		$this->view->disable();
-		echo json_encode($msm);
+	if (count($resul)>0) {
+		$msm = 'Exito: Se filtro correctamente los postulantes';
+	}else{
+		$msm = 'Error: No Se filtro correctamente los postulantes';
 	}
+	$this->view->disable();
+	echo json_encode($msm);
+}
 
-	public function verpostulantesAction($seguimiento_id)
-	{
-		$model = new Procesoscontrataciones();
-		$resul = $model->listaCalificados($seguimiento_id);
-		$this->view->setVar('calificados',$resul);		
+public function verpostulantesAction($seguimiento_id)
+{
+	$model = new Procesoscontrataciones();
+	$resul = $model->listaCalificados($seguimiento_id);
+	$this->view->setVar('calificados',$resul);		
 
-		$model = new Procesoscontrataciones();
-		$resul = $model->listaNoCalificados($seguimiento_id);
-		$this->view->setVar('nocalificados',$resul);		
+	$model = new Procesoscontrataciones();
+	$resul = $model->listaNoCalificados($seguimiento_id);
+	$this->view->setVar('nocalificados',$resul);		
 
-	}
+}
 
-	public function formulariopostulanteAction()
-	{
-		$calificacion = Pcalificaciones::findFirstById($_POST['id']);
-		$model = new Procesoscontrataciones();
-		$getcargo = $model->getcargopostula($calificacion->seguimiento_id);
-		$getcargo_html="";
-		foreach ($getcargo as $v) {
-			$getcargo_html.='<tr>
-							<td class="caja">'.$v->cargo.'</td>
-						</tr>';
-		}
+public function formulariopostulanteAction()
+{
+	$calificacion = Pcalificaciones::findFirstById($_POST['id']);
+	$model = new Procesoscontrataciones();
+	$getcargo = $model->getcargopostula($calificacion->seguimiento_id);
+	$getcargo_html="";
+	foreach ($getcargo as $v) {
+		$getcargo_html.='<tr>
+		<td class="caja">'.$v->cargo.'</td>
+	</tr>';
+}
 
-		$resul = Ppostulantes::findFirstByid($_POST['postulante_id']);
-		$model = new Ppostulantes();
-   		$formacion = $model->listpformacion($_POST['postulante_id']);
-   		$formacion_html='';
-   		foreach ($formacion as $v) {
-   			$formacion_html.='<tr>
-							<td class="caja">'.$v->valor_1.'</td>
-							<td class="caja">'.$v->documento_text.'</td>
-							<td class="caja">'.$v->institucion.'</td>
-							<td class="caja">'.$v->grado.'</td>
-							<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
-							</tr>';
-   		}
-   		$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'gestion_desde ASC, mes_desde ASC'));
-   		$expgeneral_html='';
-   		foreach ($expgeneral as $v) {
-   			$expgeneral_html.='<tr>
-							<td class="caja">'.$this->mes_array[$v->mes_desde].' - '.$v->gestion_desde.'</td>
-							<td class="caja">'.$this->mes_array[$v->mes_hasta].' - '.$v->gestion_hasta.'</td>
-							<td class="caja">'.$v->cargo.'</td>
-							<td class="caja">'.$v->empresa.'</td>
-							<td class="caja">'.$v->motivo_retiro.'</td>
-							<td class="caja">'.$v->doc_respaldo.'</td>
-							</tr>';
-   		}
-   		$model = new Ppostulantes();
-    	$expespecifica = $model->listpexplabespecifica($_POST['postulante_id'],$calificacion->seguimiento_id,1);
-   		$expespecifica_html='';
-   		foreach ($expespecifica as $v) {
-   			$expespecifica_html.='<tr>
-							<td class="caja">'.$this->mes_array[$v->mes_desde].' - '.$v->gestion_desde.'</td>
-							<td class="caja">'.$this->mes_array[$v->mes_hasta].' - '.$v->gestion_hasta.'</td>
-							<td class="caja">'.$v->cargo.'</td>
-							<td class="caja">'.$v->institucion.'</td>
-							<td class="caja">'.$v->desc_fun.'</td>
-							<td class="caja">'.$v->doc_respaldo.'</td>
-							</tr>';
-   		}
-   		$curso = Pcursos::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$curso_html='';
-   		foreach ($curso as $v) {
-   			$curso_html.='<tr>
-							<td class="caja">'.$v->gestion.'</td>
-							<td class="caja">'.$v->institucion.'</td>
-							<td class="caja">'.$v->nombre_curso.'</td>
-							<td class="caja">'.$v->duracion_hrs.'</td>
-							</tr>';
-   		}
-   		$paquete = Ppaquetes::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$paquete_html='';
-   		foreach ($paquete as $v) {
-   			$paquete_html.='<tr>
-							<td class="caja">'.$v->aplicacion.'</td>
-							<td class="caja">'.$v->nivel.'</td>
-							</tr>';
-   		}
-   		$idioma = Pidiomas::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$idioma_html='';
-   		foreach ($idioma as $v) {
-   			$idioma_html.='<tr>
-							<td class="caja">'.$v->idioma.'</td>
-							<td class="caja">'.$v->lectura.'</td>
-							<td class="caja">'.$v->escritura.'</td>
-							<td class="caja">'.$v->conversacion.'</td>
-							</tr>';
-   		}
-   		$docencia = Pdocencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$docencia_html='';
-   		foreach ($docencia as $v) {
-   			$docencia_html.='<tr>
-							<td class="caja">'.$v->gestion.'</td>
-							<td class="caja">'.$v->institucion.'</td>
-							<td class="caja">'.$v->materia.'</td>
-							<td class="caja">'.$v->duracion.'</td>
-							</tr>';
-   		}
-   		$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$referencia_html='';
-   		foreach ($referencia as $v) {
-   			$referencia_html.='<tr>
-							<td class="caja">'.$v->nombres_y_apps.'</td>
-							<td class="caja">'.$v->institucion.'</td>
-							<td class="caja">'.$v->cargo.'</td>
-							<td class="caja">'.$v->telefono.'</td>
-							</tr>';
-   		}
-   		$referenciapersonal = Preferenciaspersonales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
-   		$referenciapersonal_html='';
-   		foreach ($referenciapersonal as $v) {
-   			$referenciapersonal_html.='<tr>
-							<td class="caja">'.$v->nombres_y_apps.'</td>
-							<td class="caja">'.$v->parentesco.'</td>
-							<td class="caja">'.$v->telefono.'</td>
-							</tr>';
-   		}
+$resul = Ppostulantes::findFirstByid($_POST['postulante_id']);
+$model = new Ppostulantes();
+$formacion = $model->listpformacion($_POST['postulante_id']);
+$formacion_html='';
+foreach ($formacion as $v) {
+	$formacion_html.='<tr>
+	<td class="caja">'.$v->valor_1.'</td>
+	<td class="caja">'.$v->documento_text.'</td>
+	<td class="caja">'.$v->institucion.'</td>
+	<td class="caja">'.$v->grado.'</td>
+	<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
+</tr>';
+}
+$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'gestion_desde ASC, mes_desde ASC'));
+$expgeneral_html='';
+foreach ($expgeneral as $v) {
+	$expgeneral_html.='<tr>
+	<td class="caja">'.$this->mes_array[$v->mes_desde].' - '.$v->gestion_desde.'</td>
+	<td class="caja">'.$this->mes_array[$v->mes_hasta].' - '.$v->gestion_hasta.'</td>
+	<td class="caja">'.$v->cargo.'</td>
+	<td class="caja">'.$v->empresa.'</td>
+	<td class="caja">'.$v->motivo_retiro.'</td>
+	<td class="caja">'.$v->doc_respaldo.'</td>
+</tr>';
+}
+$model = new Ppostulantes();
+$expespecifica = $model->listpexplabespecifica($_POST['postulante_id'],$calificacion->seguimiento_id,1);
+$expespecifica_html='';
+foreach ($expespecifica as $v) {
+	$expespecifica_html.='<tr>
+	<td class="caja">'.$this->mes_array[$v->mes_desde].' - '.$v->gestion_desde.'</td>
+	<td class="caja">'.$this->mes_array[$v->mes_hasta].' - '.$v->gestion_hasta.'</td>
+	<td class="caja">'.$v->cargo.'</td>
+	<td class="caja">'.$v->institucion.'</td>
+	<td class="caja">'.$v->desc_fun.'</td>
+	<td class="caja">'.$v->doc_respaldo.'</td>
+</tr>';
+}
+$curso = Pcursos::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$curso_html='';
+foreach ($curso as $v) {
+	$curso_html.='<tr>
+	<td class="caja">'.$v->gestion.'</td>
+	<td class="caja">'.$v->institucion.'</td>
+	<td class="caja">'.$v->nombre_curso.'</td>
+	<td class="caja">'.$v->duracion_hrs.'</td>
+</tr>';
+}
+$paquete = Ppaquetes::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$paquete_html='';
+foreach ($paquete as $v) {
+	$paquete_html.='<tr>
+	<td class="caja">'.$v->aplicacion.'</td>
+	<td class="caja">'.$v->nivel.'</td>
+</tr>';
+}
+$idioma = Pidiomas::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$idioma_html='';
+foreach ($idioma as $v) {
+	$idioma_html.='<tr>
+	<td class="caja">'.$v->idioma.'</td>
+	<td class="caja">'.$v->lectura.'</td>
+	<td class="caja">'.$v->escritura.'</td>
+	<td class="caja">'.$v->conversacion.'</td>
+</tr>';
+}
+$docencia = Pdocencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$docencia_html='';
+foreach ($docencia as $v) {
+	$docencia_html.='<tr>
+	<td class="caja">'.$v->gestion.'</td>
+	<td class="caja">'.$v->institucion.'</td>
+	<td class="caja">'.$v->materia.'</td>
+	<td class="caja">'.$v->duracion.'</td>
+</tr>';
+}
+$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$referencia_html='';
+foreach ($referencia as $v) {
+	$referencia_html.='<tr>
+	<td class="caja">'.$v->nombres_y_apps.'</td>
+	<td class="caja">'.$v->institucion.'</td>
+	<td class="caja">'.$v->cargo.'</td>
+	<td class="caja">'.$v->telefono.'</td>
+</tr>';
+}
+$referenciapersonal = Preferenciaspersonales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$referenciapersonal_html='';
+foreach ($referenciapersonal as $v) {
+	$referenciapersonal_html.='<tr>
+	<td class="caja">'.$v->nombres_y_apps.'</td>
+	<td class="caja">'.$v->parentesco.'</td>
+	<td class="caja">'.$v->telefono.'</td>
+</tr>';
+}
     	//$this->view->setVar('postulante',$resul);
-		$nombre = "Luis Freddy Velasco";
-		$html = '
-		
-		<div class="block">
-			<center><h4>FORMULARIO ÚNICO DE POSTULACIÓN</h4></center>	
-			<div class="table-responsive" >
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>CARGO AL QUE POSTULA</th>
-						</tr>
-						'.$getcargo_html.'
-				</table>
-				<h4><strong>Datos Personales</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>NOMBRE(S)</th>
-							<th>APELLIDO PATERNO</th>
-							<th>APELLIDO MATERNO</th>
-						</tr>
-						<tr>
-							<td class="caja">'.$resul->nombre.'</td>
-							<td class="caja">'.$resul->app.'</td>
-							<td class="caja">'.$resul->apm.'</td>
-						</tr>
-				</table>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>CEDULA DE IDENTIDAD</th>
-							<th>FECHA DE NACIMIENTO</th>
-							<th>NACIONALIDAD</th>
-							<th>ESTADO CIVIL</th>
-							<th>CODIGO LIBRETA MILITAR</th>
-							<th>CERTIFICADO DE EMPADRONAMIENTO</th>
-						</tr>
-						<tr>
-							<td class="caja">'.$resul->ci.'</td>
-							<td class="caja">'.$resul->fecha_nac.'</td>
-							<td class="caja">'.$resul->nacionalidad.'</td>
-							<td class="caja">'.$resul->estado_civil.'</td>
-							<td class="caja">'.$resul->libreta_militar.'</td>
-							<td class="caja">'.$resul->empadronamiento.'</td>
-						</tr>
-				</table>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>DIRECCIÓN DE DOMICILIO</th>
-							<th>TELEFONO</th>
-							<th>TELEFONO DE CELULAR</th>
-							<th>PARIENTES EN LA EMPRESA</th>
-						</tr>
-						<tr>
-							<td class="caja">'.$resul->direccion.'</td>
-							<td class="caja">'.$resul->telefono.'</td>
-							<td class="caja">'.$resul->celular.'</td>
-							<td class="caja">'.$resul->parentesco.'</td>
-						</tr>
-				</table>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>CORREO ELECTRÓNICO</th>
-							<th>LUGAR DE POSTULACIÓN</th>
-							<th>FECHA DE REGISTRO</th>
-						</tr>
-						<tr>
-							<td class="caja">'.$resul->correo.'</td>
-							<td class="caja">'.$resul->lugar_postulacion.'</td>
-							<td class="caja">'.date("d-m-Y",strtotime($resul->fecha_registro)).'</td>
-						</tr>
-				</table>
-				<h4><strong>Formación Academica</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>FORMACIÓN ACADEMICA</th>
-							<th>DOCUMENTO</th>
-							<th>INSTITUCIÓN</th>
-							<th>GRADO O TITULO OBTENIDO</th>
-							<th>FECHA EMISIÓN</th>
-						</tr>
-						'.$formacion_html.'
-				</table>
-				<h4><strong>Experiencia Laboral General</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>DESDE</th>
-							<th>HASTA</th>
-							<th>CARGO</th>
-							<th>EMPRESA O INSTITUCIÓN</th>
-							<th>MOTIVO RETIRO</th>
-							<th>DOC. DE RESPALDO</th>
-						</tr>
-						'.$expgeneral_html.'
-				</table>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA GENERAL: </strong> '.$this->calculoaniomes($calificacion->exp_general_meses).'</p>
-				<h4><strong>Experiencia Laboral Especifica</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>DESDE</th>
-							<th>HASTA</th>
-							<th>CARGO</th>
-							<th>EMPRESA O INSTITUCIÓN</th>
-							<th>DESCRIPCIÓN DE FUNCIONES</th>
-							<th>DOC. DE RESPALDO</th>
-						</tr>
-						'.$expespecifica_html.'
-				</table>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA ESPECIFICA: </strong> '.$this->calculoaniomes($calificacion->exp_relacionado_meses).'</p>
-				<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA PROFESIONAL: </strong> '.$this->calculoaniomes($calificacion->exp_profesional_meses).' </p>
-				<h4><strong>Cursos, Seminarios y Talleres de Capacitación</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>AÑO</th>
-							<th>INSTITUCIÓN</th>
-							<th>NOMBRE DEL CURSO</th>
-							<th>DURACIÓN EN HORAS</th>
-						</tr>
-						'.$curso_html.'
-				</table>
-				<h4><strong>Manejo de Paquetes de Computación</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>APLICACIÓN</th>
-							<th>NIVEL</th>
-						</tr>
-						'.$paquete_html.'
-				</table>
-				<h4><strong>Idiomas</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>IDIOMA</th>
-							<th>LECTURA</th>
-							<th>ESCRITURA</th>
-							<th>CONVERSACIÓN</th>
-						</tr>
-						'.$idioma_html.'
-				</table>
-				<h4><strong>Docencia o Experiencia Académica</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>AÑO</th>
-							<th>INSTITUCIÓN</th>
-							<th>NOMBRE DE LA MATERIA O CURSO IMPARTIDO</th>
-							<th>DURACIÓN EN HORAS</th>
-						</tr>
-						'.$docencia_html.'
-				</table>
-				<h4><strong>Referencias Laborales</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>NOMBRE(S) Y APELLIDO(S)</th>
-							<th>INSTITUCIÓN</th>
-							<th>CARGO</th>
-							<th>TELEFONO(S)</th>
-						</tr>
-						'.$referencia_html.'
-				</table>
-				<h4><strong>Referencias Personales</strong></h4>
-				<table class="table table-vcenter table-striped tabla1">
-						<tr>
-							<th>NOMBRE(S) Y APELLIDO(S)</th>
-							<th>PARENTESCO</th>
-							<th>TELEFONO(S)</th>
-						</tr>
-						'.$referenciapersonal_html.'
-				</table>
-				<br><br><br><br>
-				<div style="margin: auto;text-align:center;width:200px;border-top-color:black;border-top-style:dotted;border-top-width:1px; ">FIRMA DEL POSTULANTE</div>
-				<h5> FECHA DE EMISIÓN DEL REPORTE: '.date("d-m-Y H:i:s").' </h3>
-				<h5> NOTA:ESTE DOCUMENTO DE POSTULACIÓN ES CONSIDERADO COMO UNA DECLARACIÓN JURADA, ESTO SIGNIFICA QUE TIENE VALOR DE PUNTUACIÓN AL MOMENTO DE EVALUAR SU POSTULACIÓN. </h3>
+$nombre = "Luis Freddy Velasco";
+$html = '
+
+<div class="block">
+	<center><h4>FORMULARIO ÚNICO DE POSTULACIÓN</h4></center>	
+	<div class="table-responsive" >
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>CARGO AL QUE POSTULA</th>
+			</tr>
+			'.$getcargo_html.'
+		</table>
+		<h4><strong>Datos Personales</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>NOMBRE(S)</th>
+				<th>APELLIDO PATERNO</th>
+				<th>APELLIDO MATERNO</th>
+			</tr>
+			<tr>
+				<td class="caja">'.$resul->nombre.'</td>
+				<td class="caja">'.$resul->app.'</td>
+				<td class="caja">'.$resul->apm.'</td>
+			</tr>
+		</table>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>CEDULA DE IDENTIDAD</th>
+				<th>FECHA DE NACIMIENTO</th>
+				<th>NACIONALIDAD</th>
+				<th>ESTADO CIVIL</th>
+				<th>CODIGO LIBRETA MILITAR</th>
+				<th>CERTIFICADO DE EMPADRONAMIENTO</th>
+			</tr>
+			<tr>
+				<td class="caja">'.$resul->ci.'</td>
+				<td class="caja">'.$resul->fecha_nac.'</td>
+				<td class="caja">'.$resul->nacionalidad.'</td>
+				<td class="caja">'.$resul->estado_civil.'</td>
+				<td class="caja">'.$resul->libreta_militar.'</td>
+				<td class="caja">'.$resul->empadronamiento.'</td>
+			</tr>
+		</table>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>DIRECCIÓN DE DOMICILIO</th>
+				<th>TELEFONO</th>
+				<th>TELEFONO DE CELULAR</th>
+				<th>PARIENTES EN LA EMPRESA</th>
+			</tr>
+			<tr>
+				<td class="caja">'.$resul->direccion.'</td>
+				<td class="caja">'.$resul->telefono.'</td>
+				<td class="caja">'.$resul->celular.'</td>
+				<td class="caja">'.$resul->parentesco.'</td>
+			</tr>
+		</table>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>CORREO ELECTRÓNICO</th>
+				<th>LUGAR DE POSTULACIÓN</th>
+				<th>FECHA DE REGISTRO</th>
+			</tr>
+			<tr>
+				<td class="caja">'.$resul->correo.'</td>
+				<td class="caja">'.$resul->lugar_postulacion.'</td>
+				<td class="caja">'.date("d-m-Y",strtotime($resul->fecha_registro)).'</td>
+			</tr>
+		</table>
+		<h4><strong>Formación Academica</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>FORMACIÓN ACADEMICA</th>
+				<th>DOCUMENTO</th>
+				<th>INSTITUCIÓN</th>
+				<th>GRADO O TITULO OBTENIDO</th>
+				<th>FECHA EMISIÓN</th>
+			</tr>
+			'.$formacion_html.'
+		</table>
+		<h4><strong>Experiencia Laboral General</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>DESDE</th>
+				<th>HASTA</th>
+				<th>CARGO</th>
+				<th>EMPRESA O INSTITUCIÓN</th>
+				<th>MOTIVO RETIRO</th>
+				<th>DOC. DE RESPALDO</th>
+			</tr>
+			'.$expgeneral_html.'
+		</table>
+		<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA GENERAL: </strong> '.$this->calculoaniomes($calificacion->exp_general_meses).'</p>
+		<h4><strong>Experiencia Laboral Especifica</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>DESDE</th>
+				<th>HASTA</th>
+				<th>CARGO</th>
+				<th>EMPRESA O INSTITUCIÓN</th>
+				<th>DESCRIPCIÓN DE FUNCIONES</th>
+				<th>DOC. DE RESPALDO</th>
+			</tr>
+			'.$expespecifica_html.'
+		</table>
+		<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA ESPECIFICA: </strong> '.$this->calculoaniomes($calificacion->exp_relacionado_meses).'</p>
+		<p style="font-size: 10px;"><strong>TOTAL EXPERIENCIA PROFESIONAL: </strong> '.$this->calculoaniomes($calificacion->exp_profesional_meses).' </p>
+		<h4><strong>Cursos, Seminarios y Talleres de Capacitación</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>AÑO</th>
+				<th>INSTITUCIÓN</th>
+				<th>NOMBRE DEL CURSO</th>
+				<th>DURACIÓN EN HORAS</th>
+			</tr>
+			'.$curso_html.'
+		</table>
+		<h4><strong>Manejo de Paquetes de Computación</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>APLICACIÓN</th>
+				<th>NIVEL</th>
+			</tr>
+			'.$paquete_html.'
+		</table>
+		<h4><strong>Idiomas</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>IDIOMA</th>
+				<th>LECTURA</th>
+				<th>ESCRITURA</th>
+				<th>CONVERSACIÓN</th>
+			</tr>
+			'.$idioma_html.'
+		</table>
+		<h4><strong>Docencia o Experiencia Académica</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>AÑO</th>
+				<th>INSTITUCIÓN</th>
+				<th>NOMBRE DE LA MATERIA O CURSO IMPARTIDO</th>
+				<th>DURACIÓN EN HORAS</th>
+			</tr>
+			'.$docencia_html.'
+		</table>
+		<h4><strong>Referencias Laborales</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>NOMBRE(S) Y APELLIDO(S)</th>
+				<th>INSTITUCIÓN</th>
+				<th>CARGO</th>
+				<th>TELEFONO(S)</th>
+			</tr>
+			'.$referencia_html.'
+		</table>
+		<h4><strong>Referencias Personales</strong></h4>
+		<table class="table table-vcenter table-striped tabla1">
+			<tr>
+				<th>NOMBRE(S) Y APELLIDO(S)</th>
+				<th>PARENTESCO</th>
+				<th>TELEFONO(S)</th>
+			</tr>
+			'.$referenciapersonal_html.'
+		</table>
+		<br><br><br><br>
+		<div style="margin: auto;text-align:center;width:200px;border-top-color:black;border-top-style:dotted;border-top-width:1px; ">FIRMA DEL POSTULANTE</div>
+		<h5> FECHA DE EMISIÓN DEL REPORTE: '.date("d-m-Y H:i:s").' </h3>
+			<h5> NOTA:ESTE DOCUMENTO DE POSTULACIÓN ES CONSIDERADO COMO UNA DECLARACIÓN JURADA, ESTO SIGNIFICA QUE TIENE VALOR DE PUNTUACIÓN AL MOMENTO DE EVALUAR SU POSTULACIÓN. </h3>
 			</div>
 		</div>
 
@@ -854,6 +937,22 @@ if ($this->request->isPost()) {
 		}
 		return $cadena;
 	}
+
+	public function descargarAction($archivo_id)
+    {
+        $resul = Archivos::findFirstById($archivo_id);
+        $filename = $resul->carpeta.$resul->nombre_archivo;
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Type: '.$resul->tipo_archivo);
+        header('Content-Disposition: attachment; filename="'. basename(substr($resul->nombre_archivo, 15)) . '";');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($filename));
+        readfile($filename);
+        exit;
+    }
 
 }
 ?>
