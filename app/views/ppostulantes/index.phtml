@@ -1,0 +1,103 @@
+<script type="text/javascript">
+$(document).ready(function () {
+		var source =
+		{
+			datatype: "json",
+			datafields: [
+				{ name: 'id',type: 'number'},
+				{ name: 'nombre',type: 'string'},
+				{ name: 'apellidos',type: 'string'},
+				{ name: 'sexo',type:'string'},
+				{ name: 'ci',type:'string'},
+				{ name: 'fecha_nac',type:'date'},
+				{ name: 'nacionalidad',type:'string'},
+				{ name: 'estado_civil',type:'string'},
+				{ name: 'direccion',type:'string'},
+				{ name: 'telefono'},
+				{ name: 'celular'},
+				{ name: 'correo',type:'string'},
+				{ name: 'libreta_militar',type:'string'}
+			],
+			url: '/ppostulantes/list',
+			cache: false
+		};
+		var dataAdapter = new $.jqx.dataAdapter(source);
+		cargar();	
+		function cargar(){
+			$("#jqxgrid").jqxGrid(
+			{
+				
+
+
+                width: '100%',
+				height: '100%',
+				source: dataAdapter,
+				sortable: true,
+				altRows: true,
+				showstatusbar: true,
+                columnsresize: true,
+                pageable: true,
+                pagerMode: 'advanced',
+                showfilterrow: true,
+                filterable: true,
+                autorowheight: true,
+
+				columns: [
+				{
+					text: '#', sortable: false, filterable: false, editable: false,
+					groupable: false, draggable: false, resizable: false,
+					datafield: '', columntype: 'number', width: '3%',
+					cellsrenderer: function (row, column, value) {
+						return "<div style='margin:4px;'>" + (value + 1) + "</div>";
+					}
+				},
+				{ text: 'Apellidos', datafield: 'apellidos', filtertype: 'input',width: '20%' },
+				{ text: 'Nombres', datafield: 'nombre', filtertype: 'input', width: '20%'},
+				{ text: 'C.I.', datafield: 'ci',filtertype: 'input', width: '10%' },
+				{ text: 'Sexo', datafield: 'sexo',filtertype: 'input', width: '10%' },
+				{ text: 'Fecha Nacimiento', datafield: 'fecha_nac', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+				{ text: 'Nacionalidad', datafield: 'nacionalidad',filtertype: 'input', width: '10%' },
+				{ text: 'Estado Civil', datafield: 'estado_civil',filtertype: 'input', width: '10%' },
+				{ text: 'Direccion', datafield: 'direccion',filtertype: 'input', width: '15%' },
+				{ text: 'Telefono', datafield: 'telefono',filtertype: 'input', width: '10%' },
+				{ text: 'Celular', datafield: 'celular',filtertype: 'input', width: '10%' },
+				{ text: 'Correo', datafield: 'correo',filtertype: 'input', width: '10%' },
+				{ text: 'Libreta Militar', datafield: 'libreta_militar',filtertype: 'input', width: '10%' },
+
+				]
+			});
+
+}
+            
+
+
+            
+	});
+</script>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1>Postulantes registrados</h1>		
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<?php //echo $this->flashSession->output() ?>
+				<div class="form-group form-actions">
+					<div class="col-xs-12">
+						<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Ver</button>
+					</div>
+				</div>
+				<br>
+				<div class="table-responsive">
+					<div id="jqxgrid"></div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+

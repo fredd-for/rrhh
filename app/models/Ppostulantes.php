@@ -215,6 +215,17 @@ class Ppostulantes extends \Phalcon\Mvc\Model
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));        
     }
 
+    public function listas()
+    {
+        $sql = "SELECT p.id, p.nombre, concat(p.app,' ',p.apm) as apellidos, p.sexo, concat(p.ci, ' ', p.expedido) as ci,p.fecha_nac,p.nacionalidad, p.estado_civil, p.direccion, p.telefono,p.celular, p.correo,p.libreta_militar
+FROM ppostulantes p 
+WHERE p.baja_logica = 1  
+ORDER BY p.app ASC, p.apm ASC, p.nombre ASC";
+
+      $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
     // public function puestopostula($postulante_id)
     // {
     //     $sql = "SELECT p.*,CONCAT(pr.codigo_proceso,' ',c.cargo) AS cargo
