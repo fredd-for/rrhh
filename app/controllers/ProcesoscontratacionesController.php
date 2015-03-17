@@ -624,32 +624,55 @@ public function verpostulantesAction($seguimiento_id)
 
 }
 
-public function formulariopostulanteAction()
-{
-	$calificacion = Pcalificaciones::findFirstById($_POST['id']);
-	$model = new Procesoscontrataciones();
-	$getcargo = $model->getcargopostula($calificacion->seguimiento_id);
-	$getcargo_html="";
-	foreach ($getcargo as $v) {
-		$getcargo_html.='<tr>
-		<td class="caja">'.$v->cargo.'</td>
-	</tr>';
-}
+	public function formulariopostulanteAction()
+	{
+		$html = $this->contenidopostulante($_POST['id'],$_POST['postulante_id']);
+		$this->view->disable();
+		echo $html;	
+	}
 
-$resul = Ppostulantes::findFirstByid($_POST['postulante_id']);
-$model = new Ppostulantes();
-$formacion = $model->listpformacion($_POST['postulante_id']);
-$formacion_html='';
-foreach ($formacion as $v) {
-	$formacion_html.='<tr>
-	<td class="caja">'.$v->valor_1.'</td>
-	<td class="caja">'.$v->documento_text.'</td>
-	<td class="caja">'.$v->institucion.'</td>
-	<td class="caja">'.$v->grado.'</td>
-	<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
-</tr>';
-}
-$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'gestion_desde ASC, mes_desde ASC'));
+	public function verformulariopostulanteAction()
+	{
+		$postulante_id = $_POST['postulante_id'];
+		$html = $this->contenidopostulante(0,$postulante_id);
+		$this->view->disable();
+		echo $html;	
+
+	}
+
+	public function contenidopostulante($calificacion_id,$postulante_id)
+	{
+		$getcargo_html="";
+		if($calificacion_id!=0){
+			$calificacion = Pcalificaciones::findFirstById($calificacion_id);
+			if ($calificacion!=false) {
+				$model = new Procesoscontrataciones();
+				$getcargo = $model->getcargopostula($calificacion->seguimiento_id);
+				$getcargo_html="";
+				foreach ($getcargo as $v) {
+					$getcargo_html.='<tr>
+					<td class="caja">'.$v->cargo.'</td>
+					</tr>';
+				}	
+			}	
+		}
+
+		
+		$resul = Ppostulantes::findFirstByid($postulante_id);
+		$model = new Ppostulantes();
+		$formacion = $model->listpformacion($postulante_id);
+		$formacion_html='';
+		foreach ($formacion as $v) {
+			$formacion_html.='<tr>
+			<td class="caja">'.$v->valor_1.'</td>
+			<td class="caja">'.$v->documento_text.'</td>
+			<td class="caja">'.$v->institucion.'</td>
+			<td class="caja">'.$v->grado.'</td>
+			<td class="caja">'.date("d-m-Y",strtotime($v->fecha_emision)).'</td>
+		</tr>';
+	}
+
+$expgeneral = Pexplabgenerales::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'gestion_desde ASC, mes_desde ASC'));
 $expgeneral_html='';
 foreach ($expgeneral as $v) {
 	$expgeneral_html.='<tr>
@@ -661,11 +684,20 @@ foreach ($expgeneral as $v) {
 	<td class="caja">'.$v->doc_respaldo.'</td>
 </tr>';
 }
-$model = new Ppostulantes();
-$expespecifica = $model->listpexplabespecifica($_POST['postulante_id'],$calificacion->seguimiento_id,1);
+
+
+if($calificacion_id!=0){
+	$model = new Ppostulantes();
+	$expespecifica = $model->listpexplabespecifica($postulante_id,$calificacion->seguimiento_id,1);	
+}else{
+	$model = new Ppostulantes();
+	$expespecifica = $model->listpexplabespecifica($postulante_id,0,1);	
+}
+
 $expespecifica_html='';
 foreach ($expespecifica as $v) {
 	$expespecifica_html.='<tr>
+	<td class="caja">'.$v->codigo_proceso.'</td>
 	<td class="caja">'.$this->mes_array[$v->mes_desde].' - '.$v->gestion_desde.'</td>
 	<td class="caja">'.$this->mes_array[$v->mes_hasta].' - '.$v->gestion_hasta.'</td>
 	<td class="caja">'.$v->cargo.'</td>
@@ -674,7 +706,7 @@ foreach ($expespecifica as $v) {
 	<td class="caja">'.$v->doc_respaldo.'</td>
 </tr>';
 }
-$curso = Pcursos::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$curso = Pcursos::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $curso_html='';
 foreach ($curso as $v) {
 	$curso_html.='<tr>
@@ -684,7 +716,7 @@ foreach ($curso as $v) {
 	<td class="caja">'.$v->duracion_hrs.'</td>
 </tr>';
 }
-$paquete = Ppaquetes::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$paquete = Ppaquetes::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $paquete_html='';
 foreach ($paquete as $v) {
 	$paquete_html.='<tr>
@@ -692,7 +724,7 @@ foreach ($paquete as $v) {
 	<td class="caja">'.$v->nivel.'</td>
 </tr>';
 }
-$idioma = Pidiomas::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$idioma = Pidiomas::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $idioma_html='';
 foreach ($idioma as $v) {
 	$idioma_html.='<tr>
@@ -702,7 +734,7 @@ foreach ($idioma as $v) {
 	<td class="caja">'.$v->conversacion.'</td>
 </tr>';
 }
-$docencia = Pdocencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$docencia = Pdocencias::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $docencia_html='';
 foreach ($docencia as $v) {
 	$docencia_html.='<tr>
@@ -712,7 +744,7 @@ foreach ($docencia as $v) {
 	<td class="caja">'.$v->duracion.'</td>
 </tr>';
 }
-$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$referencia = Preferencias::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $referencia_html='';
 foreach ($referencia as $v) {
 	$referencia_html.='<tr>
@@ -722,7 +754,7 @@ foreach ($referencia as $v) {
 	<td class="caja">'.$v->telefono.'</td>
 </tr>';
 }
-$referenciapersonal = Preferenciaspersonales::find(array('baja_logica=1 and postulante_id='.$_POST['postulante_id'],'order' => 'id ASC'));
+$referenciapersonal = Preferenciaspersonales::find(array('baja_logica=1 and postulante_id='.$postulante_id,'order' => 'id ASC'));
 $referenciapersonal_html='';
 foreach ($referenciapersonal as $v) {
 	$referenciapersonal_html.='<tr>
@@ -732,7 +764,6 @@ foreach ($referenciapersonal as $v) {
 </tr>';
 }
     	//$this->view->setVar('postulante',$resul);
-$nombre = "Luis Freddy Velasco";
 $html = '
 
 <div class="block">
@@ -828,6 +859,7 @@ $html = '
 		<h4><strong>Experiencia Laboral Especifica</strong></h4>
 		<table class="table table-vcenter table-striped tabla1">
 			<tr>
+				<th>CONVOCATORIA</th>
 				<th>DESDE</th>
 				<th>HASTA</th>
 				<th>CARGO</th>
@@ -923,8 +955,7 @@ $html = '
 			}
 		</style>
 		';
-		$this->view->disable();
-		echo $html;	
+		return $html;
 	}
 
 	public function calculoaniomes($value='')

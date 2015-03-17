@@ -253,7 +253,10 @@ ORDER BY p.app ASC, p.apm ASC, p.nombre ASC";
     {
         $where = '';
         if ($estado==0) {
-            $where=' AND pe.estado = 0';
+            $where.=' AND pe.estado = 0';
+        }
+        if ($seguimiento_id!=0) {
+            $where.=' AND pe.seguimiento_id='.$seguimiento_id;   
         }
         $sql="SELECT pe.*, pr.codigo_convocatoria, CONCAT(pr.codigo_proceso,' ',ca.cargo) as codigo_proceso
         FROM pexplabespecificas pe
@@ -261,8 +264,8 @@ ORDER BY p.app ASC, p.apm ASC, p.nombre ASC";
         INNER JOIN procesoscontrataciones pr ON se.proceso_contratacion_id = pr.id
         INNER JOIN pacs pa ON se.pac_id = pa.id
         INNER JOIN cargos ca ON pa.cargo_id = ca.id
-        WHERE pe.postulante_id='$postulante_id' AND pe.seguimiento_id='$seguimiento_id' AND pe.baja_logica=1 ".$where ." ORDER BY pe.gestion_desde ASC, pe.mes_desde ASC
-";
+        WHERE pe.postulante_id='$postulante_id' AND pe.baja_logica=1 ".$where ." ORDER BY pe.gestion_desde ASC, pe.mes_desde ASC
+        ";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
