@@ -88,12 +88,13 @@ class PpostulantesController extends ControllerBase
 				'telefono'=>$v->telefono,
 				'celular'=>$v->celular,
 				'correo'=>$v->correo,
-				'libreta_militar'=>$v->libreta_militar
+				'libreta_militar'=>$v->libreta_militar,
+                    'institucion'=>$v->institucion,
+                    'grado'=>$v->grado,
+                    'valor_1'=>$v->valor_1
 				);
 		}
 		echo json_encode($customers);
-
-
 		
 	}
 

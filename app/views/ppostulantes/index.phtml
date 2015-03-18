@@ -16,7 +16,10 @@ $(document).ready(function () {
 				{ name: 'telefono'},
 				{ name: 'celular'},
 				{ name: 'correo',type:'string'},
-				{ name: 'libreta_militar',type:'string'}
+				{ name: 'libreta_militar',type:'string'},
+				{ name: 'grado',type:'string'},
+				{ name: 'institucion',type:'string'},
+				{ name: 'valor_1',type:'string'},
 			],
 			url: '/ppostulantes/list',
 			cache: false
@@ -51,19 +54,22 @@ $(document).ready(function () {
 						return "<div style='margin:4px;'>" + (value + 1) + "</div>";
 					}
 				},
-				{ text: 'Apellidos', datafield: 'apellidos', filtertype: 'input',width: '20%' },
-				{ text: 'Nombres', datafield: 'nombre', filtertype: 'input', width: '20%'},
+				{ text: 'Apellidos', datafield: 'apellidos', filtertype: 'input',width: '10%' },
+				{ text: 'Nombres', datafield: 'nombre', filtertype: 'input', width: '10%'},
 				{ text: 'C.I.', datafield: 'ci',filtertype: 'input', width: '10%' },
-				{ text: 'Sexo', datafield: 'sexo',filtertype: 'input', width: '10%' },
-				{ text: 'Fecha Nacimiento', datafield: 'fecha_nac', filtertype: 'range', width: '10%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
+				{ text: 'Sexo', datafield: 'sexo',filtertype: 'input', width: '8%' },
+				{ text: 'Grado', datafield: 'grado',filtertype: 'input', width: '10%' },
+				{ text: 'Institución', datafield: 'institucion',filtertype: 'input', width: '10%' },
+				{ text: 'Titulo', datafield: 'valor_1',filtertype: 'input', width: '10%' },
+				{ text: 'Fecha Nacimiento', datafield: 'fecha_nac', filtertype: 'range', width: '7%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy',align:'center'},
 				{ text: 'Nacionalidad', datafield: 'nacionalidad',filtertype: 'input', width: '10%' },
 				{ text: 'Estado Civil', datafield: 'estado_civil',filtertype: 'input', width: '10%' },
 				{ text: 'Direccion', datafield: 'direccion',filtertype: 'input', width: '15%' },
 				{ text: 'Telefono', datafield: 'telefono',filtertype: 'input', width: '10%' },
 				{ text: 'Celular', datafield: 'celular',filtertype: 'input', width: '10%' },
-				{ text: 'Correo', datafield: 'correo',filtertype: 'input', width: '10%' },
+				{ text: 'Correo', datafield: 'correo',filtertype: 'input', width: '15%' },
 				{ text: 'Libreta Militar', datafield: 'libreta_militar',filtertype: 'input', width: '10%' },
-
+				
 				]
 			});
 
