@@ -247,7 +247,7 @@ ORDER BY p.id ASC";
         $sql="SELECT pf.*, pa.valor_1,pa2.valor_1 documento_text FROM pformaciones pf
         INNER JOIN parametros pa ON pf.detalle = pa.id
         LEFT JOIN parametros pa2 ON pf.documento_id = pa2.id
-        WHERE pf.postulante_id='$postulante_id' ORDER BY pf.id ASC";
+        WHERE pf.postulante_id='$postulante_id' AND pf.baja_logica=1 ORDER BY pf.id ASC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
