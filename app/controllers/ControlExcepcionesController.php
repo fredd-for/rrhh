@@ -7,7 +7,7 @@
 *   Fecha Creación:  02-03-2015
 */
 
-class ControlExcepcionesController extends ControllerBase
+class ControlexcepcionesController extends ControllerBase
 {
     public function initialize()
     {
