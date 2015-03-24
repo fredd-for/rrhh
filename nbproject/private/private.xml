@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>app/controllers/ProcesoscontratacionesController.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>925</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/rrhh/app/views/procesoscontrataciones/edit.phtml</file>
             <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
-            <file>file:/var/www/html/rrhh/app/views/personas/cargarcrop.phtml</file>
-            <file>file:/var/www/html/rrhh/app/views/personal/cargarcrop.phtml</file>
-            <file>file:/var/www/html/rrhh/app/controllers/PersonalController.php</file>
-            <file>file:/var/www/html/rrhh/app/views/personas/subirfoto.phtml</file>
             <file>file:/var/www/html/rrhh/app/controllers/ProcesoscontratacionesController.php</file>
-            <file>file:/var/www/html/rrhh/app/views/personas/visualizar.phtml</file>
-            <file>file:/var/www/html/rrhh/app/controllers/PersonasController.php</file>
-            <file>file:/var/www/html/rrhh/app/models/Procesoscontrataciones.php</file>
-            <file>file:/var/www/html/rrhh/app/views/personal/visualizar.phtml</file>
-            <file>file:/var/www/html/rrhh/app/views/personal/subirfoto.phtml</file>
+            <file>file:/var/www/html/rrhh/app/config/services.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
+            <file>file:/var/www/html/rrhh/app/models/Ppostulantes.php</file>
         </group>
     </open-files>
 </project-private>

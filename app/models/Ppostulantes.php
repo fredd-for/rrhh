@@ -215,6 +215,20 @@ class Ppostulantes extends \Phalcon\Mvc\Model
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));        
     }
 
+    public function listas()
+    {
+        $sql = "SELECT p.id, p.nombre, concat(p.app,' ',p.apm) as apellidos, p.sexo, concat(p.ci, ' ', p.expedido) as ci,p.fecha_nac,p.nacionalidad, p.estado_civil, p.direccion, p.telefono,p.celular, p.correo,p.libreta_militar,
+fo.institucion, fo.grado,pa.valor_1
+from ppostulantes p
+LEFT JOIN pformaciones fo ON p.id = fo.postulante_id
+LEFT JOIN parametros pa ON fo.detalle = pa.id
+WHERE p.baja_logica = 1
+ORDER BY p.id ASC";
+
+      $this->_db = new Procesoscontrataciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
     // public function puestopostula($postulante_id)
     // {
     //     $sql = "SELECT p.*,CONCAT(pr.codigo_proceso,' ',c.cargo) AS cargo
@@ -233,7 +247,7 @@ class Ppostulantes extends \Phalcon\Mvc\Model
         $sql="SELECT pf.*, pa.valor_1,pa2.valor_1 documento_text FROM pformaciones pf
         INNER JOIN parametros pa ON pf.detalle = pa.id
         LEFT JOIN parametros pa2 ON pf.documento_id = pa2.id
-        WHERE pf.postulante_id='$postulante_id' ORDER BY pf.id ASC";
+        WHERE pf.postulante_id='$postulante_id' AND pf.baja_logica=1 ORDER BY pf.id ASC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -242,7 +256,10 @@ class Ppostulantes extends \Phalcon\Mvc\Model
     {
         $where = '';
         if ($estado==0) {
-            $where=' AND pe.estado = 0';
+            $where.=' AND pe.estado = 0';
+        }
+        if ($seguimiento_id!=0) {
+            $where.=' AND pe.seguimiento_id='.$seguimiento_id;   
         }
         $sql="SELECT pe.*, pr.codigo_convocatoria, CONCAT(pr.codigo_proceso,' ',ca.cargo) as codigo_proceso
         FROM pexplabespecificas pe
@@ -250,8 +267,8 @@ class Ppostulantes extends \Phalcon\Mvc\Model
         INNER JOIN procesoscontrataciones pr ON se.proceso_contratacion_id = pr.id
         INNER JOIN pacs pa ON se.pac_id = pa.id
         INNER JOIN cargos ca ON pa.cargo_id = ca.id
-        WHERE pe.postulante_id='$postulante_id' AND pe.seguimiento_id='$seguimiento_id' AND pe.baja_logica=1 ".$where ." ORDER BY pe.gestion_desde ASC, pe.mes_desde ASC
-";
+        WHERE pe.postulante_id='$postulante_id' AND pe.baja_logica=1 ".$where ." ORDER BY pe.gestion_desde ASC, pe.mes_desde ASC
+        ";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
