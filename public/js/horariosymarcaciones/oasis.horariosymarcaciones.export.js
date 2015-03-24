@@ -3,34 +3,35 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-12-2014
+ *   Fecha Creación:  09-11-2014
  */
 function exportarReporte(option){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
-    ubicacion = $('#jqxgridtolerancias').jqxGrid('getcolumn','ubicacion');
-    condicion = $('#jqxgridtolerancias').jqxGrid('getcolumn','condicion');
-    estado_descripcion = $('#jqxgridtolerancias').jqxGrid('getcolumn','estado_descripcion');
-    nombres = $('#jqxgridtolerancias').jqxGrid('getcolumn','nombres');
-    ci = $('#jqxgridtolerancias').jqxGrid('getcolumn','ci');
-    expd = $('#jqxgridtolerancias').jqxGrid('getcolumn','expd');
-    /*num_complemento = $('#jqxgridtolerancias').jqxGrid('getcolumn','num_complemento');*/
-    gerencia_administrativa = $('#jqxgridtolerancias').jqxGrid('getcolumn','gerencia_administrativa');
-    cargo = $('#jqxgridtolerancias').jqxGrid('getcolumn','cargo');
-    sueldo = $('#jqxgridtolerancias').jqxGrid('getcolumn','sueldo');
-    departamento_administrativo = $('#jqxgridtolerancias').jqxGrid('getcolumn','departamento_administrativo');
-    area = $('#jqxgridtolerancias').jqxGrid('getcolumn','area');
-    fin_partida = $('#jqxgridtolerancias').jqxGrid('getcolumn','fin_partida');
-    proceso_codigo = $('#jqxgridtolerancias').jqxGrid('getcolumn','proceso_codigo');
-    nivelsalarial = $('#jqxgridtolerancias').jqxGrid('getcolumn','nivelsalarial');
-    fecha_ini = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_incor');
-    fecha_fin = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_fin'),
-    fecha_baja = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_baja');
-    motivo_baja = $('#jqxgridtolerancias').jqxGrid('getcolumn','motivo_baja');
-    observacion = $('#jqxgridtolerancias').jqxGrid('getcolumn','observacion');
+    ubicacion = $('#jqxgrid').jqxGrid('getcolumn','ubicacion');
+    condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
+    estado_descripcion = $('#jqxgrid').jqxGrid('getcolumn','estado_descripcion');
+    nombres = $('#jqxgrid').jqxGrid('getcolumn','nombres');
+    ci = $('#jqxgrid').jqxGrid('getcolumn','ci');
+    expd = $('#jqxgrid').jqxGrid('getcolumn','expd');
+    /*num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');*/
+    gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
+    cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
+    sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
+    departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
+    area = $('#jqxgrid').jqxGrid('getcolumn','area');
+    fin_partida = $('#jqxgrid').jqxGrid('getcolumn','fin_partida');
+    proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
+    nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
+    fecha_ing = $('#jqxgrid').jqxGrid('getcolumn','fecha_ing');
+    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
+    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
+    fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
+    fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
+    motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
+    observacion = $('#jqxgrid').jqxGrid('getcolumn','observacion');
 
     columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
     columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
@@ -46,6 +47,7 @@ function exportarReporte(option){
     columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
     columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
+    columna[fecha_ing.datafield] = {text: fecha_ing.text, hidden: fecha_ing.hidden};
     columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};
     columna[fecha_incor.datafield] = {text: fecha_incor.text, hidden: fecha_incor.hidden};
     columna[nivelsalarial.datafield] = {text: nivelsalarial.text, hidden: nivelsalarial.hidden};
@@ -54,11 +56,11 @@ function exportarReporte(option){
     columna[motivo_baja.datafield] = {text: motivo_baja.text, hidden: motivo_baja.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
-    var groups = $('#jqxgridtolerancias').jqxGrid('groups');
+    var groups = $('#jqxgrid').jqxGrid('groups');
     if(groups==null||groups=='')groups='null';
-    //var sorteds = $('#jqxgridtolerancias').jqxGrid('getsortcolumn');
+    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
 
-    var sortinformation = $('#jqxgridtolerancias').jqxGrid('getsortinformation');
+    var sortinformation = $('#jqxgrid').jqxGrid('getsortinformation');
     if(sortinformation.sortcolumn!=undefined){
         // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
         var sortcolumn = sortinformation.sortcolumn;
@@ -68,8 +70,8 @@ function exportarReporte(option){
     }else ordenados='';
 
 
-    var rows = $('#jqxgridtolerancias').jqxGrid('getrows');
-    var filterGroups = $('#jqxgridtolerancias').jqxGrid('getfilterinformation');
+    var rows = $('#jqxgrid').jqxGrid('getrows');
+    var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
     var counter = 0;
     for (var i = 0; i < filterGroups.length; i++) {
         var filterGroup = filterGroups[i];
@@ -98,8 +100,8 @@ function exportarReporte(option){
     json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta="/horarioslaborales/exportexcel/";break;
-        case 2: ruta="/horarioslaborales/exportpdf/";break;
+        case 1: ruta="/relaborales/exportexcel/";break;
+        case 2: ruta="/relaborales/exportpdf/";break;
     }
     /*if(option==1)ruta="/relaborales/print/";
     elseif(option==2)ruta="/relaborales/print/";*/

@@ -141,11 +141,11 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             var startDate = calEvent.start;
             var FromEndDate = calEventEnd;
             var ToEndDate = calEventEnd;
-            //ToEndDate.setDate(ToEndDate.getDate()+900);
 
             $("#txtHorarioFechaIni").datepicker('setDate', calEvent.start);
             //$('#txtHorarioFechaIni').datepicker('setStartDate', calEvent.start);
             $("#txtHorarioFechaFin").datepicker('setDate', calEventEnd);
+            $("#txtHorarioFechaIni").datepicker('update', fechaIni);
             //$('#txtHorarioFechaFin').datepicker('setEndDate', calEventEnd);
             $('#txtHorarioFechaIni').datepicker({
                 format:'dd-mm-yyyy',
@@ -172,6 +172,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                     FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
                     $('#txtHorarioFechaIni').datepicker('setEndDate', FromEndDate);
                 });
+            $("#txtHorarioFechaFin").datepicker('update', fechaFin);
             if(idTipoHorario>0){
                 var ok = cargarModalHorario(idTipoHorario);
                 if(ok) {
@@ -229,6 +230,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                                     var arrFechaFinalicacion = fechaFinalizacion.split("-");
                                     fechaInicio = arrFechaInicio[2]+"-"+arrFechaInicio[1]+"-"+arrFechaInicio[0];
                                     fechaFinalizacion = arrFechaFinalicacion[2]+"-"+arrFechaFinalicacion[1]+"-"+arrFechaFinalicacion[0];
+                                    var horasLaborales = calcularCantidadHorasLaborales(calEvent.hora_entrada,calEvent.hora_salida);
                                     addEvent = {
                                         id:calEvent.id,
                                         title:calEvent.title,
@@ -236,6 +238,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                                         start:fechaInicio,
                                         end:fechaFinalizacion,
                                         color:calEvent.color,
+                                        horas_laborales:horasLaborales,
                                         editable: true,
                                         hora_entrada:calEvent.hora_entrada,
                                         hora_salida:calEvent.hora_salida
@@ -267,8 +270,7 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
         /*dayRender: function (date, cell) {},*/
         viewRender: function(view) {
             if(view.name=="month")
-            {   //$("#divSumatorias").show();
-                removerColumnaSumaTotales();
+            {   removerColumnaSumaTotales();
                 agregarColumnaSumaTotales(diasSemana);
                 arrFechasPorSemana= [];
                 var contP=0;
@@ -299,9 +301,6 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                     });
                 });
                 sumarTotalHorasPorSemana(arrFechasPorSemana);
-            }else{
-                //$("#divSumatorias").hide();
-                //ocultarColumnaSumaTotales();
             }
         }
     });
@@ -1005,6 +1004,7 @@ function numeroHoras(hora){
  * Función para calcular el total de horas por semana.
  */
 function sumarTotalHorasPorSemana(arrFechasPorSemana){
+    $("#calendar").fullCalendar( 'refetchEvents' );
     var arr = $("#calendar").fullCalendar( 'clientEvents');
     var horasSemana1=0;
     var horasSemana2=0;
@@ -1028,6 +1028,11 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
     $.each(arr,function(key,turno){
         var fechaIni = $.fullCalendar.formatDate(turno.start,'dd-MM-yyyy');
         var fechaFin = $.fullCalendar.formatDate(turno.end,'dd-MM-yyyy');
+        if(turno.horas_laborales==undefined){
+            $.each(turno,function(clave,valor){
+                alert(clave+"......---->"+valor);
+            })
+        }
         if(fechaFin=="")fechaFin=fechaIni;
         var sep='-';
         $.each(arrFechasPorSemana,function(clave,valor){
@@ -1042,7 +1047,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana1 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 1 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
-
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
             if(valor.semana==2){
@@ -1050,6 +1057,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana2 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 2 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
             if(valor.semana==3){
@@ -1057,6 +1067,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana3 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 3 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
             if(valor.semana==4){
@@ -1064,6 +1077,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana4 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 4 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
             if(valor.semana==5){
@@ -1071,6 +1087,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana5 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 5 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
             if(valor.semana==6){
@@ -1078,6 +1097,9 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana6 += parseFloat(turno.horas_laborales);
                     //alert(turno.title+" entro en la semana 6 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    if(isNaN(turno.horas_laborales)) {
+                        alert('--->'+turno.horas_laborales);
+                    }
                 }
             }
         });
@@ -1220,4 +1242,35 @@ function removerColumnaSumaTotales(){
     $("#tdSumaSemana5").remove();
     $("#tdSumaSemana6").remove();
     $("#trSumaPromedioTresSemanas").remove();
+}
+/**
+ * Función para calcular las fechas por semana.
+ * @returns {Array}
+ */
+function calcularFechasPorSemana(){
+    var arrFechasPorSemana= [];
+    var contP=0;
+    var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
+    $.each(arrDias,function(k,dia){
+        contP=0;
+        $("td.fc-"+dia).map(function (index, elem) {
+            contP++;
+            var fecha = $(this).data("date");
+            var fechaAux = $(this).data("date");
+            if(fecha!=undefined){
+                var arrFecha = fecha.split("-");
+                fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                switch (contP){
+                    case 1:arrFechasPorSemana.push( {semana:1,fecha:fecha});break;
+                    case 2:arrFechasPorSemana.push( {semana:2,fecha:fecha});break;
+                    case 3:arrFechasPorSemana.push( {semana:3,fecha:fecha});break;
+                    case 4:arrFechasPorSemana.push( {semana:4,fecha:fecha});break;
+                    case 5:arrFechasPorSemana.push( {semana:5,fecha:fecha});break;
+                    case 6:arrFechasPorSemana.push( {semana:6,fecha:fecha});break;
+                }
+
+            }
+        });
+    });
+    return arrFechasPorSemana;
 }

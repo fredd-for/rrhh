@@ -3,24 +3,24 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-02-2015
+ *   Fecha Creación:  03-03-2015
  */
 /**
- * Función para aprobar un registro de feriado.
+ * Función para aprobar un registro de control de excepción.
  */
-function aprobarRegistroFeriado(idFeriado){
+function aprobarRegistroControlExcepcion(idExcepcion){
     var ok = false;
     $.ajax({
-        url:'/feriados/approve/',
+        url:'/controlexcepciones/approve/',
         type:'POST',
         datatype: 'json',
         async:false,
-        data:{id:idFeriado},
+        data:{id:idExcepcion},
         success: function(data) {
 
             var res = jQuery.parseJSON(data);
             /**
-             * Si se ha realizado correctamentela aprobación del registro de feriado
+             * Si se ha realizado correctamentela aprobación del registro del control de excepciones.
              */
             $(".msjes").hide();
             if(res.result==1){
@@ -28,18 +28,15 @@ function aprobarRegistroFeriado(idFeriado){
                 $("#divMsjePorSuccess").html("");
                 $("#divMsjePorSuccess").append(res.msj);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                $("#divGridFeriados").jqxGrid("updatebounddata");
+                $("#divGridControlExcepciones").jqxGrid("updatebounddata");
                 ok=true;
             } else if(res.result==0){
-                /**
-                 * En caso de haberse presentado un error al momento de modificar el estado del registro del feriado, siendo que su estado no haya estado EN PROCESO.
-                 */
                 $("#divMsjePorWarning").html("");
                 $("#divMsjePorWarning").append(res.msj);
                 $("#divMsjeNotificacionWarning").jqxNotification("open");
             }else{
                 /**
-                 * En caso de haberse presentado un error crítico al momento de modificar el estado el registro del feriado.
+                 * En caso de haberse presentado un error crítico al momento de modificar el estado el registro del control de excepción.
                  */
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(res.msj);

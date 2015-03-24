@@ -14,6 +14,8 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
     public $tipo_excepcion;
     public $codigo;
     public $color;
+    public $descuento;
+    public $descuento_descripcion;
     public $compensatoria;
     public $compensatoria_descripcion;
     public $genero_id;
@@ -54,6 +56,8 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
             'tipo_excepcion'=>'tipo_excepcion',
             'codigo'=>'codigo',
             'color'=>'color',
+            'descuento'=>'descuento',
+            'descuento_descripcion'=>'descuento_descripcion',
             'compensatoria'=>'compensatoria',
             'compensatoria_descripcion'=>'compensatoria_descripcion',
             'genero_id'=>'genero_id',

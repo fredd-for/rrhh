@@ -8,8 +8,15 @@
 /**
  * Función para la inicialización del formulario para el registro y edición de excepciones.
  * @param opcion
+ * @param excepcion
+ * @param idTipoExcepcion
+ * @param codigo
+ * @param color
+ * @param descuento
+ * @param compensatoria
+ * @param idGenero
  */
-function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,compensatoria,idGenero){
+function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,descuento, compensatoria,idGenero){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
     $("#txtColor"+sufijo).colorpicker()
@@ -20,6 +27,7 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
         });
     $(".evo-pointer").hide();
 
+    $("#chkDescuento"+sufijo).bootstrapSwitch();
     $("#chkCompensatoria"+sufijo).bootstrapSwitch();
     $("#txtCantidad"+sufijo).numeric();
 
@@ -28,6 +36,10 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
 
     $("#txtCodigo"+sufijo).val(codigo);
     $("#txtColor"+sufijo).css({'background-color': color,'color':color});
+
+    if(descuento==1){
+        $("#chkDescuento"+sufijo).bootstrapSwitch("state",true)
+    }else $("#chkDescuento"+sufijo).bootstrapSwitch("state",false)
 
     if(compensatoria==1){
         $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",true)
@@ -172,7 +184,7 @@ function cargarTiposFraccionamientos(opcion,idMinima,fraccionamiento){
 function defineDuracionEnTexto(opcion){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
-    $("#spanDuracion"+sufijo).html("");
+    $("#spanFrecuencia"+sufijo).html("");
     var cantidad = parseFloat($("#txtCantidad"+sufijo).val());
     var unidad = $("#lstUnidad"+sufijo).val();
     var fraccionamiento = $("#lstFraccionamiento"+sufijo).val();
@@ -188,7 +200,7 @@ function defineDuracionEnTexto(opcion){
             else  duracion += ' A LA '+fraccionamiento;
         }
     }
-    $("#spanDuracion"+sufijo).html(duracion);
+    $("#spanFrecuencia"+sufijo).html(duracion);
 }
 
 /**
@@ -227,13 +239,21 @@ function validaFormularioExcepcion(opcion) {
     var helpErrorColor = $("#helpErrorColor"+sufijo);
     var color = $("#txtColor"+sufijo).val();
 
-    var compensatoria = 0;
-    if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
-        compensatoria = 1;
+    var chkDescuento = $("#chkDescuento"+sufijo);
+    var divDescuento = $("#divDescuento"+sufijo);
+    var helpErrorDescuento = $("#helpErrorDescuento"+sufijo);
+    var descuento = "0";
+    if($("#chkDescuento"+sufijo).bootstrapSwitch("state")){
+        descuento = "1";
     }
+
+    var chkCompensatoria = $("#chkCompensatoria"+sufijo);
     var divCompensatoria = $("#divCompensatoria"+sufijo);
     var helpErrorCompensatoria = $("#helpErrorCompensatoria"+sufijo);
-    var compensatoria = $("#chkCompensatoria"+sufijo).val();
+    var compensatoria = "0";
+    if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
+        compensatoria = "1";
+    }
 
     var lstGenero = $("#lstGenero"+sufijo);
     var divGenero = $("#divGenero"+sufijo);
@@ -288,9 +308,17 @@ function validaFormularioExcepcion(opcion) {
         helpErrorColor.html(msje);
         if (enfoque == null)enfoque = txtColor;
     }
+    if(descuento==''||descuento==undefined){
+        ok = false;
+        var msje = "Debe seleccionar si en la excepci&oacute;n se aplica descuento o no.";
+        divDescuento.addClass("has-error");
+        helpErrorDescuento.html(msje);
+        if (enfoque == null)enfoque = chkDescuento;
+    }
+
     if(compensatoria==''||compensatoria==undefined){
         ok = false;
-        var msje = "Debe seleccionar si la excepci&oacute;n se aplica compensatoria o no.";
+        var msje = "Debe seleccionar si en la excepci&oacute;n se aplica compensatoria o no.";
         divCompensatoria.addClass("has-error");
         helpErrorCompensatoria.html(msje);
         if (enfoque == null)enfoque = chkCompensatoria;
@@ -342,6 +370,8 @@ function limpiarMensajesErrorPorValidacionExcepcion(opcion) {
     $("#helpErrorCodigo"+sufijo).html("");
     $("#divColor"+sufijo).removeClass("has-error");
     $("#helpErrorColor"+sufijo).html("");
+    $("#divDescuento"+sufijo).removeClass("has-error");
+    $("#helpErrorDescuento"+sufijo).html("");
     $("#divCompensatoria"+sufijo).removeClass("has-error");
     $("#helpErrorCompensatoria"+sufijo).html("");
     $("#divGenero"+sufijo).removeClass("has-error");
@@ -369,6 +399,12 @@ function guardaExcepcion(opcion){
     var tipoExcepcion = $("#lstTipoExcepcion"+sufijo).val();
     var codigo = $("#txtCodigo"+sufijo).val();
     var color = $("#txtColor"+sufijo).val();
+
+    var descuento = 0;
+    if($("#chkDescuento"+sufijo).bootstrapSwitch("state")){
+        descuento = 1;
+    }
+
     var compensatoria = 0;
     if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
         compensatoria = 1;
@@ -392,6 +428,7 @@ function guardaExcepcion(opcion){
                 tipoexcepcion_id:tipoExcepcion,
                 codigo:codigo,
                 color:color,
+                descuento:descuento,
                 compensatoria:compensatoria,
                 genero_id:genero,
                 cantidad:cantidad,

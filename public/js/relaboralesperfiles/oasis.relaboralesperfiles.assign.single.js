@@ -810,8 +810,8 @@ function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEs
         $("#lstUbicacionesAsignacionSingle").on("change",function(){
             cargarEstacionesAsignacionIndividual(2,$(this).val(),0);
         });
-        $("#txtFechaIniAsignacionSingle").val(fechaIni);
-        $("#txtFechaFinAsignacionSingle").val(fechaFin);
+        $("#txtFechaIniAsignacionSingle").datepicker("update",fechaIni);
+        $("#txtFechaFinAsignacionSingle").datepicker("update",fechaFin);
         $("#txtObservacionAsignacionSingle").val(observacion);
     }
     $('#popupAsignacionPerfilLaboral').modal('show');

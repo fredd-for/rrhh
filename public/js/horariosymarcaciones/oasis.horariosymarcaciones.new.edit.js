@@ -3,242 +3,295 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-02-2015
+ *   Fecha Creación:  05-03-2014
  */
 /**
- * Formulario para la validación de lo datos enviados para el registro de feriados.
- * @param opcion Valor que referencia el tipo de formulario a validar (Nuevo o de Edición)
- * @author JLM
+ * Función para inicializar el formulario para el registro y edición de controles de excepción.
+ * @param opcion
+ * @param idRelaboral
+ * @param idExcepcion
+ * @param fechaIni
+ * @param horaIni
+ * @param fechaFin
+ * @param horaFin
+ * @param justificacion
+ * @param observacion
+ */
+function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion,observacion){
+    var sufijo="New";
+    if(opcion==2) sufijo="Edit";
+
+    $("#txtFechaIni"+sufijo).datepicker("update","");
+    $("#txHoraIni"+sufijo).val("");
+    $("#txtFechaIni"+sufijo).datepicker("update","");
+    $("#txtHoraFin"+sufijo).val("");
+    $("#txtJustificacion"+sufijo).val("");
+    $("#txtObservacion"+sufijo).val("");
+    if(opcion==2){
+        $("#txtFechaIni"+sufijo).datepicker("update",fechaIni);
+        $("#txtHoraIni"+sufijo).val(horaIni);
+        $("#txtFechaFin"+sufijo).datepicker("update",fechaFin);
+        $("#txtHoraFin"+sufijo).val(horaFin);
+    }
+    $("#txtFechaIni"+sufijo).datepicker("hiden");
+    $("#txtFechaFin"+sufijo).datepicker("hiden");
+
+    $("#txtJustificacion"+sufijo).val(justificacion);
+    $("#txtObservacion"+sufijo).val(observacion);
+
+    var inputIni = $("#txtHoraIni"+sufijo).clockpicker({
+        placement: "bottom",
+        align: "left",
+        autoclose: true,
+        'default': "now"
+    }).on('changeDate', function (ev) {
+        $(this).hide();
+    });
+    $("#aHoraIni"+sufijo).off();
+    $("#aHoraIni"+sufijo).on("click",function(e){
+        e.stopPropagation();
+        inputIni.clockpicker('show');
+    });
+    var inputFin = $("#txtHoraFin"+sufijo).clockpicker({
+        placement: "bottom",
+        align: "left",
+        autoclose: true,
+        'default': "now"
+    }).on('changeDate', function (ev) {
+        $(this).hide();
+    });
+    $("#aHoraFin"+sufijo).off();
+    $("#aHoraFin"+sufijo).on("click",function(e){
+        e.stopPropagation();
+        inputFin.clockpicker('show');
+    });
+    cargaListaDeExcepciones(opcion,idExcepcion);
+}
+/**
+ * Función para la obtención del listado de excepciones definidas en el sistema.
+ * @param opcion      -- Valor que permite determinar el formulario en el que se ejecuta.
+ * @param idExcepcion -- Identificador de la excepción que debería estar seleccionada por defecto en caso de que su valor sea mayor a cero.
+ */
+function cargaListaDeExcepciones(opcion,idExcepcion){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    var selected = "";
+    $("#lstExcepcion"+sufijo).html("");
+    $("#lstExcepcion"+sufijo).append("<option value=''>Seleccionar..</option>");
+    $("#lstExcepcion"+sufijo).prop("disabled",true);
+    $.ajax({
+        url: '/excepciones/list/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        success: function (data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            if(res.length>0){
+                $("#lstExcepcion"+sufijo).prop("disabled",false);
+                $.each( res, function( key, val ) {
+                    if(idExcepcion==val.id){selected="selected";
+                    }else selected="";
+                    $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.excepcion+"</option>");
+                });
+            }
+        }, //mostramos el error
+        error: function () {
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append("Se ha producido un error Inesperado");
+            $("#divMsjeNotificacionError").jqxNotification("open");
+        }
+    });
+}
+/**
+ * Función para validar los datos del formulario de registro y edición de  control de excepciones.
  * @returns {boolean}
  */
-function validaFormularioFeriado(opcion) {
+function validaFormularioControlExcepciones(opcion){
     var ok = true;
+    var sufijo = "New";
+    var idControlExcepcion = 0;
+    var idRelaboral = 0;
+    if(opcion==2){
+        sufijo="Edit";
+        idControlExcepcion = $("#hdnIdControlExcepcionEdit").val()
+        idRelaboral = $("#hdnIdRelaboralEdit").val()
+    }else{
+        idRelaboral = $("#hdnIdRelaboralNew").val()
+    }
     var msje = "";
     $(".msjs-alert").hide();
-    var sufijo="New";
-    if(opcion==2){
-        sufijo="Editar";
-    }
-    limpiarMensajesErrorPorValidacionFeriado(sufijo);
+    limpiarMensajesErrorPorValidacionControlExcepcion(opcion);
     var enfoque = null;
+    var lstExcepcion =$("#lstExcepcion"+sufijo);
+    var divExcepcion = $("#divExcepcion"+sufijo);
+    var helpErrorExcepcion = $("#helpErrorExcepcion"+sufijo);
+    var idExcepcion = $("#lstExcepcion"+sufijo).val();
 
-    var feriado = $("#txtFeriado"+sufijo).val();
-    var divFeriado=$("#divFeriado"+sufijo);
-    var helpErrorFeriado=$("#helpErrorFeriado"+sufijo);
-    var txtFeriado = $("#txtFeriado"+sufijo);
+    var txtFechaIni = $("#txtFechaIni"+sufijo);
+    var divFechaIni = $("#divFechaIni"+sufijo);
+    var helpErrorFechaIni = $("#helpErrorFechaIni"+sufijo);
+    var fechaIni = $("#txtFechaIni"+sufijo).val();
 
-    var divTiposHorarios = $("#divTiposHorarios"+sufijo);
-    var helpErrorTiposHorarios = $("#helpErrorTiposHorarios"+sufijo);
-    var horariosDiscontinuos = $("#chkHorariosDiscontinuos"+sufijo).bootstrapSwitch("state");
-    var chkHorariosDiscontinuos = $("#chkHorariosDiscontinuos"+sufijo);
-    var horariosContinuos = $("#chkHorariosContinuos"+sufijo).bootstrapSwitch("state");
-    var horariosMultiples = $("#chkHorariosMultiples"+sufijo).bootstrapSwitch("state");
+    var txtHoraIni = $("#txtHoraIni"+sufijo);
+    var divHoraIni = $("#divHoraIni"+sufijo);
+    var helpErrorHoraIni = $("#helpErrorHoraIni"+sufijo);
+    var horaIni = $("#txtHoraIni"+sufijo).val();
 
-    var cantidadDias = $("#lstCantidadDias"+sufijo).val();
-    var divCantidadDias = $("#divCantidadDias"+sufijo);
-    var helpErrorCantidadDias=$("#helpErrorCantidadDias"+sufijo);
-    var lstCantidadDias = $("#lstCantidadDias"+sufijo);
+    var txtFechaFin = $("#txtFechaFin"+sufijo);
+    var divFechaFin = $("#divFechaFin"+sufijo);
+    var helpErrorFechaFin = $("#helpErrorFechaFin"+sufijo);
+    var fechaFin = $("#txtFechaFin"+sufijo).val();
 
-    var chkRepetitivo = $("#chkRepetitivo"+sufijo).bootstrapSwitch("state");
+    var txtHoraFin = $("#txtHoraFin"+sufijo);
+    var divHoraFin = $("#divHoraFin"+sufijo);
+    var helpErrorHoraFin = $("#helpErrorHoraFin"+sufijo);
+    var horaFin = $("#txtHoraFin"+sufijo).val();
 
-    var fechaEspecifica = $("#txtFechaEspecifica"+sufijo).val();
-    var divFechaEspecifica = $("#divFechaEspecifica"+sufijo);
-    var helpErrorFechaEspecifica=$("#helpErrorFechaEspecifica"+sufijo);
-    var txtFechaEspecifica = $("#txtFechaEspecifica"+sufijo);
+    var txtJustificacion = $("#txtJustificacion"+sufijo);
+    var divJustificacion = $("#divJustificacion"+sufijo);
+    var helpErrorJustificacion = $("#helpErrorJustificacion"+sufijo);
+    var justificacion = $("#txtJustificacion"+sufijo).val();
 
-    var mes = $("#lstMes"+sufijo).val();
-    var divMes = $("#divMes"+sufijo);
-    var helpErrorMes=$("#helpErrorMes"+sufijo);
-    var lstMes = $("#lstMes"+sufijo);
-
-    var dia = $("#lstDia"+sufijo).val();
-    var divDia = $("#divDia"+sufijo);
-    var helpErrorDia=$("#helpErrorDia"+sufijo);
-    var lstDia = $("#lstDia"+sufijo);
-
-    if (feriado == '') {
+    if (idExcepcion == ''||idExcepcion==0) {
         ok = false;
-        var msje = "Debe introducir el nombre del feriado necesariamente.";
-        divFeriado.addClass("has-error");
-        helpErrorFeriado.html(msje);
-        if (enfoque == null)enfoque = txtFeriado;
+        var msje = "Debe seleccionar la excepci&oacute;n necesariamente.";
+        divExcepcion.addClass("has-error");
+        helpErrorExcepcion.html(msje);
+        if (enfoque == null)enfoque = lstExcepcion;
     }
-    if(!horariosDiscontinuos&&!horariosContinuos&&!horariosMultiples){
+    if(fechaIni==''){
         ok = false;
-        var msje = "Debe seleccionar al menos un Tipo de Horario necesariamente.";
-        divTiposHorarios.addClass("has-error");
-        helpErrorTiposHorarios.html(msje);
-        if (enfoque == null)enfoque = chkHorariosDiscontinuos;
+        var msje = "Debe seleccionar la fecha de inicio de la excepci&oacute;n.";
+        divFechaIni.addClass("has-error");
+        helpErrorFechaIni.html(msje);
+        if (enfoque == null)enfoque = txtFechaIni;
     }
-    if(cantidadDias==0){
+    if(horaIni==''){
         ok = false;
-        var msje = "Debe seleccionar al menos un d&iacute;a para la ejecuci&oacute;n del feriado.";
-        divCantidadDias.addClass("has-error");
-        helpErrorCantidadDias.html(msje);
-        if (enfoque == null)enfoque = lstCantidadDias;
+        var msje = "Debe seleccionar la fecha de inicio de la excepci&oacute;n.";
+        divHoraIni.addClass("has-error");
+        helpErrorHoraIni.html(msje);
+        if (enfoque == null)enfoque = txtHoraIni;
     }
-    if(chkRepetitivo){
-        /**
-         * En caso de que el feriado se aplique a la misma fecha (Día y mes) en cada año.
-         */
-        if(mes==0){
-            ok = false;
-            var msje = "Debe seleccionar el mes correspondiente en el que se aplica el feriado cada a&ntilde;o.";
-            divMes.addClass("has-error");
-            helpErrorMes.html(msje);
-            if (enfoque == null)enfoque = lstMes;
-        }
-        if(dia==0){
-            ok = false;
-            var msje = "Debe seleccionar el d&iacute; del mes en el que se aplica el feriado cada a&ntilde;o.";
-            divDia.addClass("has-error");
-            helpErrorDia.html(msje);
-            if (enfoque == null)enfoque = lstDia;
-        }
-    }else
-    {   /**
-         * En caso de que el feriado se aplique sólo a una fecha específica.
-         */
-        if(fechaEspecifica==""){
-            ok = false;
-            $("#divFechaEspecifica"+sufijo).show();
-            $("#txtFechaEspecifica"+sufijo).show();
-            var msje = "Debe seleccionar una fecha espec&iacute;fica para la aplicaci&oacute;n del feriado necesariamente.";
-            divFechaEspecifica.addClass("has-error");
-            helpErrorFechaEspecifica.html(msje);
-            if (enfoque == null)enfoque = txtFechaEspecifica;
-        }
+    if(fechaFin==''){
+        ok = false;
+        var msje = "Debe seleccionar la fecha de finalizaci&oacute;n de la excepci&oacute;n.";
+        divFechaFin.addClass("has-error");
+        helpErrorFechaFin.html(msje);
+        if (enfoque == null)enfoque = txtFechaFin;
+    }
+    if(horaFin==''){
+        ok = false;
+        var msje = "Debe seleccionar la fecha de finalizaci&oacute;n de la excepci&oacute;n.";
+        divHoraFin.addClass("has-error");
+        helpErrorHoraFin.html(msje);
+        if (enfoque == null)enfoque = txtHoraFin;
+    }
+    var sep="-";
+    if(procesaTextoAFecha(fechaFin,sep)<procesaTextoAFecha(fechaIni,sep)){
+        ok=false;
+        msje = "La fecha de inicio no puede ser superior a la fecha de finalizaci&oacute;n.";
+        $("#divFechaIni"+sufijo).show();
+        $("#divFechaIni"+sufijo).addClass("has-error");
+        $("#helpErrorFechaIni"+sufijo).html(msje);
+        $("#divFechaFin"+sufijo).show();
+        $("#divFechaFin"+sufijo).addClass("has-error");
+        $("#helpErrorFechaFin"+sufijo).html(msje);
+        if(enfoque==null)enfoque =$("#txtFechaFin"+sufijo);
+    }
+    if(justificacion==''){
+        ok = false;
+        var msje = "Debe introducir la justificaci&oacute;n para solicitar la excepci&oacute;n.";
+        divJustificacion.addClass("has-error");
+        helpErrorJustificacion.html(msje);
+        if (enfoque == null)enfoque = txtJustificacion;
     }
     if (enfoque != null) {
         enfoque.focus();
     }
+    var okk = verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion);
+    if(!okk)ok=false;
     return ok;
 }
 /**
- * Función para la limpieza de los mensajes de error debido a la validación del formulario para registro de feriado.
- * @sufijo Variable que define la limpieza de variables para el caso de nuevo y edición.
+ * Función para la limpieza de los mensajes de error debido a la validación del formulario.
+ * @opción Variable que identifica a que tipo de formulario se aplica la función.
  */
-function limpiarMensajesErrorPorValidacionFeriado(sufijo) {
-    $("#divFeriado"+sufijo).removeClass("has-error");
-    $("#helpErrorFeriado"+sufijo).html("");
-    $("#divTiposHorarios"+sufijo).removeClass("has-error");
-    $("#helpErrorTiposHorarios"+sufijo).html("");
-    $("#divCantidadDias"+sufijo).removeClass("has-error");
-    $("#helpErrorCantidadDias"+sufijo).html("");
-    $("#divMes"+sufijo).removeClass("has-error");
-    $("#helpErrorMes"+sufijo).html("");
-    $("#divDia"+sufijo).removeClass("has-error");
-    $("#helpErrorDia"+sufijo).html("");
-    $("#divFechaEspecifica"+sufijo).removeClass("has-error");
-    $("#helpErrorFechaEspecifica"+sufijo).html("");
-
-}
-/**
- * Función para guardar el registro del feriado.
- * @param idFeriado Identificador del feriado.
- * @returns {boolean}
- */
-function guardaFeriado(opcion){
-    var ok = true;
-    var idFeriado = $("#hdnIdFeriadoEditar").val();
+function limpiarMensajesErrorPorValidacionControlExcepcion(opcion) {
     var sufijo = "New";
-    if(opcion==2)
-    {
-        sufijo="Editar";
+    if(opcion==2)sufijo = "Edit";
+    $("#divExcepcion"+sufijo).removeClass("has-error");
+    $("#helpErrorExcepcion"+sufijo).html("");
+    $("#divFechaIni"+sufijo).removeClass("has-error");
+    $("#helpErrorFechaIni"+sufijo).html("");
+    $("#divHoraIni"+sufijo).removeClass("has-error");
+    $("#helpErrorHoraIni"+sufijo).html("");
+    $("#divFechaFin"+sufijo).removeClass("has-error");
+    $("#helpErrorFechaFin"+sufijo).html("");
+    $("#divHoraFin"+sufijo).removeClass("has-error");
+    $("#helpErrorHoraFin"+sufijo).html("");
+    $("#divJustificacion"+sufijo).removeClass("has-error");
+    $("#helpErrorJustificacion"+sufijo).html("");
+}
+
+/**
+ * Función para el almacenamiento de los datos registrados en el formulario de control de excepciones.
+ */
+function guardaControlExcepciones(opcion) {
+    var ok = false;
+    var idControlExcepcion = 0;
+    var sufijo = "New";
+    if (opcion == 2) {
+        idControlExcepcion = $("#hdnIdControlExcepcionEdit").val();
+        sufijo = "Edit";
     }
-    var feriado = $("#txtFeriado"+sufijo).val();
-    var descripcion = $("#txtDescripcion"+sufijo).val();
-    var idRegional = 1;
-    var chkHorariosDiscontinuos = 0;
-    var chkHorariosContinuos = 0;
-    var chkHorariosMultiples = 0;
-
-    if($("#chkHorariosDiscontinuos"+sufijo).bootstrapSwitch("state"))
-    chkHorariosDiscontinuos = 1;
-
-    if($("#chkHorariosContinuos"+sufijo).bootstrapSwitch("state"))
-       chkHorariosContinuos = 1;
-
-    if($("#chkHorariosMultiples"+sufijo).bootstrapSwitch("state"))
-        chkHorariosMultiples = 1;
-
-    var cantidadDias = $("#lstCantidadDias"+sufijo).val();
-
-    var chkRepetitivo = 0;
-    var mes = "";
-    var dia = "";
-    var gestion = "";
-
-
-    if($("#chkRepetitivo"+sufijo).bootstrapSwitch("state"))
-        chkRepetitivo = 1;
-
-    if(chkRepetitivo==0){
-        if($("#txtFechaEspecifica"+sufijo).val().split("-")!=''){
-            var arrFechaEspecifica = $("#txtFechaEspecifica"+sufijo).val().split("-");
-            dia = parseFloat(arrFechaEspecifica[0]);
-            mes = parseFloat(arrFechaEspecifica[1]);
-            gestion = parseFloat(arrFechaEspecifica[2]);
-        }else ok=false
-    }else{
-        mes = $("#lstMes"+sufijo).val();
-        dia = $("#lstDia"+sufijo).val();
-        gestion = "";
-    }
+    var idRelaboral = $("#hdnIdRelaboral"+sufijo).val();
+    var idExcepcion = $("#lstExcepcion"+sufijo).val();
+    var fechaIni = $("#txtFechaIni"+sufijo).val();
+    var horaIni = $("#txtHoraIni"+sufijo).val();
+    var fechaFin = $("#txtFechaFin"+sufijo).val();
+    var horaFin = $("#txtHoraFin"+sufijo).val();
+    var justificacion = $("#txtJustificacion"+sufijo).val();
     var observacion = $("#txtObservacion"+sufijo).val();
-    if (ok && feriado != '') {
+    if (idExcepcion != ''&&idExcepcion>0) {
         $.ajax({
-            url: '/feriados/save/',
+            url: '/controlexcepciones/save/',
             type: "POST",
             datatype: 'json',
             async: false,
             cache: false,
             data: {
-                id: idFeriado,
-                feriado:feriado,
-                descripcion:descripcion,
-                id_regional:idRegional,
-                horario_discontinuo:chkHorariosDiscontinuos,
-                horario_continuo:chkHorariosContinuos,
-                horario_multiple:chkHorariosMultiples,
-                cantidad_dias:cantidadDias,
-                repetitivo:chkRepetitivo,
-                dia:dia,
-                mes:mes,
-                gestion:gestion,
+                id: idControlExcepcion,
+                relaboral_id:idRelaboral,
+                excepcion_id:idExcepcion,
+                fecha_ini:fechaIni,
+                hora_ini:horaIni,
+                fecha_fin:fechaFin,
+                hora_fin:horaFin,
+                justificacion:justificacion,
                 observacion: observacion
             },
-            success: function (data) {
-                ok = false;
+            success: function (data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
-                /**
-                 * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
-                 */
                 $(".msjes").hide();
                 if (res.result == 1) {
                     ok = true;
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#divGridFeriados").jqxGrid("updatebounddata");
+                    $("#divGridControlExcepciones").jqxGrid("updatebounddata");
                 } else if (res.result == 0) {
-                    /**
-                     * En caso de presentarse un error subsanable
-                     */
-                    ok = false;
                     $("#divMsjePorWarning").html("");
                     $("#divMsjePorWarning").append(res.msj);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 } else {
-                    /**
-                     * En caso de haberse presentado un error crítico al momento de registrarse el feriado
-                     */
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(res.msj);
                     $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
-            }, //mostramos el error
+            },
             error: function () {
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append("Se ha producido un error Inesperado");
@@ -249,18 +302,56 @@ function guardaFeriado(opcion){
     return ok;
 }
 /**
- * Función para limpiar los campos correspondientes para el registro de un nuevo feriado.
+ * Función para la verificación de la no existencia de cruce de horarios en cuanto a la aplicación de las excepciones para una determinada persona.
+ * @param idControlExcepcion
+ * @param idRelaboral
+ * @param idExcepcion
+ * @param fechaIni
+ * @param horaIni
+ * @param fechaFin
+ * @param horaFin
+ * @param justificacion
  */
-function inicializarCamposParaNuevoRegistroFeriado(opcion){
-    var sufijo ="New";
-    if(opcion==2)sufijo ="Editar";
-    $("#hdnIdFeriadoEditar").val(0);
-    $("#txtFeriado"+sufijo).val("");
-    $("#txtDescripcion"+sufijo).val("");
-    $("#txtObservacion"+sufijo).val("");
-    $("#chkHorariosDiscontinuos"+sufijo).bootstrapSwitch("state",false);
-    $("#chkHorariosContinuos"+sufijo).bootstrapSwitch("state",false);
-    $("#chkHorariosMultiples"+sufijo).bootstrapSwitch("state",false);
-    $("#chkRepetitivo"+sufijo).bootstrapSwitch("state",false);
+function verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion){
+    var ok = false;
+    $.ajax({
+        url: '/controlexcepciones/verificacruce/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {
+            id:idControlExcepcion,
+            relaboral_id:idRelaboral,
+            excepcion_id:idExcepcion,
+            excepcion_id:idExcepcion,
+            fecha_ini:fechaIni,
+            hora_ini:horaIni,
+            fecha_fin:fechaFin,
+            hora_fin:horaFin,
+            justificacion:justificacion
+        },
+        success: function (data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            $(".msjes").hide();
+            if (res.result == 0) {
+                ok = true;
+            } else if (res.result == 1) {
+                $("#divMsjePorWarning").html("");
+                $("#divMsjePorWarning").append(res.msj);
+                $("#divMsjeNotificacionWarning").jqxNotification("open");
+            } else {
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(res.msj);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
 
+        },
+        error: function () {
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append("Se ha producido un error Inesperado");
+            $("#divMsjeNotificacionError").jqxNotification("open");
+        }
+    });
+    return ok;
 }

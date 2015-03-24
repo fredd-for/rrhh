@@ -113,7 +113,6 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $('#divTabControlExcepciones').jqxTabs('enableAt', 2);
                         $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
                         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
-                        $('#divTabControlExcepciones').jqxTabs('disableAt', 5);
 
                         $('#divTabControlExcepciones').jqxTabs({selectedItem: 2});
 

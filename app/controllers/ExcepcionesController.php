@@ -58,6 +58,8 @@ class ExcepcionesController extends ControllerBase
                     'tipo_excepcion'=>$v->tipo_excepcion,
                     'codigo'=>$v->codigo,
                     'color'=>$v->color,
+                    'descuento'=>$v->descuento,
+                    'descuento_descripcion'=>$v->descuento_descripcion,
                     'compensatoria'=>$v->compensatoria,
                     'compensatoria_descripcion'=>$v->compensatoria_descripcion,
                     'genero_id'=>$v->genero_id,
@@ -199,6 +201,7 @@ class ExcepcionesController extends ControllerBase
             $idTipoExcepcion = $_POST['tipoexcepcion_id'];
             $codigo = $_POST['codigo'];
             $color = $_POST['color'];
+            $descuento = $_POST['descuento'];
             $compensatoria = $_POST['compensatoria'];
             $idGenero = $_POST['genero_id'];
             $cantidad = $_POST['cantidad'];
@@ -206,7 +209,7 @@ class ExcepcionesController extends ControllerBase
             $fraccionamiento = $_POST['fraccionamiento'];
             $redondeo = $_POST['redondeo'];
             $observacion = $_POST['observacion'];
-            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$compensatoria!=''&&$idGenero>=0){
+            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$descuento!=''&&$compensatoria!=''&&$idGenero>=0){
                 $objExcepciones = Excepciones::findFirst(array("id=".$_POST["id"]));
                 if(count($objExcepciones)>0){
                     $cantMismosDatos = Excepciones::count(array("id!=".$_POST["id"]." AND UPPER(excepcion) LIKE UPPER('".$excepcion."') AND baja_logica=1 AND estado>=0"));
@@ -215,6 +218,7 @@ class ExcepcionesController extends ControllerBase
                         $objExcepciones->tipoexcepcion_id = $idTipoExcepcion;
                         $objExcepciones->codigo = $codigo;
                         $objExcepciones->color = $color;
+                        $objExcepciones->descuento = $descuento;
                         $objExcepciones->compensatoria = $compensatoria;
                         $objExcepciones->genero_id = $idGenero;
                         if($cantidad>0&&$unidad!=''){
@@ -258,6 +262,7 @@ class ExcepcionesController extends ControllerBase
             $idTipoExcepcion = $_POST['tipoexcepcion_id'];
             $codigo = $_POST['codigo'];
             $color = $_POST['color'];
+            $descuento = $_POST['descuento'];
             $compensatoria = $_POST['compensatoria'];
             $idGenero = $_POST['genero_id'];
             $cantidad = $_POST['cantidad'];
@@ -265,7 +270,7 @@ class ExcepcionesController extends ControllerBase
             $fraccionamiento = $_POST['fraccionamiento'];
             $redondeo = $_POST['redondeo'];
             $observacion = $_POST['observacion'];
-            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$compensatoria!=''&&$idGenero>=0){
+            if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$descuento!=''&&$compensatoria!=''&&$idGenero>=0){
                 $cantMismosDatos = Excepciones::count(array("UPPER(excepcion) LIKE UPPER('".$excepcion."') AND baja_logica=1 AND estado>=0"));
                 if($cantMismosDatos==0){
                     $objExcepciones = new Excepciones();
@@ -273,6 +278,7 @@ class ExcepcionesController extends ControllerBase
                     $objExcepciones->tipoexcepcion_id = $idTipoExcepcion;
                     $objExcepciones->codigo = $codigo;
                     $objExcepciones->color = $color;
+                    $objExcepciones->descuento = $descuento;
                     $objExcepciones->compensatoria = $compensatoria;
                     $objExcepciones->genero_id = $idGenero;
                     if($cantidad>0&&$unidad!=''){

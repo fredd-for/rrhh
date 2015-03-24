@@ -3,11 +3,11 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  22-12-2014
+ *   Fecha Creación:  02-03-2015
  */
 $(document).ready(function () {
     $.jqx.theme = "bootstrap";
     var theme = prepareSimulator("tabs");
-    $('#divTabRelaboralesHorariosMarcaciones').jqxTabs({ theme:theme,height: '100%', width: '100%',  keyboardNavigation: false });
+    $('#divTabControlMarcaciones').jqxTabs({ theme:theme,height: '100%', width: '100%',  keyboardNavigation: false });
 });
 

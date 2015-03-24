@@ -3,32 +3,31 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-02-2015
+ *   Fecha Creación:  04-03-2014
  */
 /**
- * Función registrar la baja de un registro de feriado.
+ * Función registrar la baja de un registro de control de excepción.
  */
-function darDeBajaFeriado(idFeriado){
+function darDeBajaControlExcepcion(idControlExcepcion){
     var ok=true;
-    if(idFeriado>0){
+    if(idControlExcepcion>0){
         var ok=$.ajax({
-            url:'/feriados/down/',
+            url:'/controlexcepciones/down/',
             type:'POST',
             datatype: 'json',
             async:false,
-            data:{id:idFeriado},
+            data:{id:idControlExcepcion},
             success: function(data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
-                //alert(data);
                 /**
-                 * Si se ha realizado correctamente el registro de baja del feriado.
+                 * Si se ha realizado correctamente el registro de baja del control de excepción.
                  */
                 $(".msjes").hide();
                 if(res.result==1){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#divGridFeriados").jqxGrid("updatebounddata");
+                    $("#divGridControlExcepciones").jqxGrid("updatebounddata");
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.

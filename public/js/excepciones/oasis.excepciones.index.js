@@ -28,7 +28,6 @@ $().ready(function () {
                 $('#divTabExcepciones').jqxTabs('enableAt', 0);
                 $('#divTabExcepciones').jqxTabs('disableAt', 1);
                 $('#divTabExcepciones').jqxTabs('disableAt', 2);
-
                 $("#msjs-alert").hide();
             }
         }
@@ -158,6 +157,8 @@ function definirGrillaParaListaExcepciones() {
             {name: 'unidad', type: 'string'},
             {name: 'fraccionamiento', type: 'string'},
             {name: 'frecuencia_descripcion', type: 'string'},
+            {name: 'descuento', type: 'integer'},
+            {name: 'descuento_descripcion', type: 'string'},
             {name: 'compensatoria', type: 'integer'},
             {name: 'compensatoria_descripcion', type: 'string'},
             {name: 'redondeo', type: 'integer'},
@@ -213,7 +214,7 @@ function definirGrillaParaListaExcepciones() {
 
                         $('#divTabExcepciones').jqxTabs({selectedItem: 1});
                         limpiarMensajesErrorPorValidacionExcepcion(1);
-                        inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",false,-1);
+                        inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",0,0,-1);
                         inicializarDatosDuracion(1,"","","");
                         inicializarCamposParaNuevoRegistroExcepcion();
                         $("#txtExcepcionNew").focus();
@@ -262,9 +263,7 @@ function definirGrillaParaListaExcepciones() {
 
                                     $("#hdnIdExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionExcepcion(2);
-                                    var compensatoria = false;
-                                    if(dataRecord.compensatoria==1)compensatoria=true;
-                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,compensatoria,dataRecord.genero_id);
+                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,dataRecord.descuento,dataRecord.compensatoria,dataRecord.genero_id);
                                     inicializarDatosDuracion(2,dataRecord.cantidad,dataRecord.unidad,dataRecord.fraccionamiento);
                                     $("#txtExcepcionEdit").val(dataRecord.excepcion);
                                     $("#txtObservacionEdit").val(dataRecord.observacion);
@@ -387,6 +386,15 @@ function definirGrillaParaListaExcepciones() {
                         hidden: false
                     },
                     {
+                        text: 'Descontar Horas',
+                        filtertype: 'checkedlist',
+                        datafield: 'descuento_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
                         text: 'Compensar Horas',
                         filtertype: 'checkedlist',
                         datafield: 'compensatoria_descripcion',
@@ -413,6 +421,7 @@ function definirGrillaParaListaExcepciones() {
             {label: 'Color', value: 'color', checked: true},
             {label: 'G&eacute;nero', value: 'genero', checked: true},
             {label: 'Frecuencia', value: 'frecuencia_descripcion', checked: true},
+            {label: 'Descontar Horas', value: 'descuento_descripcion', checked: true},
             {label: 'Compensar Horas', value: 'compensatoria_descripcion', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
