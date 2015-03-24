@@ -152,7 +152,7 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
     public function lista() {
         $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion 
 FROM procesoscontrataciones p, normativasmod n 
-WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.id ASC";
+WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.fecha_publ DESC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -264,7 +264,8 @@ WHERE se.id ='$id' ORDER BY cp.prioridad ASC ";
         $sql="SELECT po.*, pc.id as pcalificacion_id
         FROM pcalificaciones pc
         INNER JOIN ppostulantes po ON pc.postulante_id=po.id
-        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =1";
+        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =1
+        ORDER BY app, apm";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -274,7 +275,8 @@ WHERE se.id ='$id' ORDER BY cp.prioridad ASC ";
         $sql="SELECT po.*, pc.id as pcalificacion_id
         FROM pcalificaciones pc
         INNER JOIN ppostulantes po ON pc.postulante_id=po.id
-        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =0";
+        WHERE pc.seguimiento_id='$seguimiento_id' AND pc.cumple =0
+        ORDER BY app, apm";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
