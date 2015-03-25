@@ -152,19 +152,19 @@ $("#normativamod_id").val(<?php echo $procesocontratacion->normativamod_id ?>);
 											<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" value="<?php echo $procesocontratacion->codigo_convocatoria; ?>" readonly="readonly" class="form-control">
 										</div>
 									</div>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-lg-4 control-label">Adjuntar Convocatoria Digital</label>
 										<div class="col-lg-4">
 											<input type="file" name="file_convocatoria" id="file_convocatoria" class="file" >
 										</div>
 										<div class="col-lg-4">
-											<?php foreach ($archivo as $v) { ?>
+											<?php // foreach ($archivo as $v) { ?>
 												<br>
-												<a href="/procesoscontrataciones/descargar/<?php echo $v->id ?>"><?php echo substr($v->nombre_archivo, 15) ?></a>
-												<input type="hidden" name="archivo_id" value="<?php echo $v->id ?>">
-											<?php } ?>
+												<a href="/procesoscontrataciones/descargar/<?php // echo $v->id ?>"><?php // echo substr($v->nombre_archivo, 15) ?></a>
+												<input type="hidden" name="archivo_id" value="<?php // echo $v->id ?>">
+											<?php // } ?>
 										</div>
-									</div>
+									</div> -->
 									<div class="form-group">
 										<label class="col-lg-4 control-label">Observación</label>
 										<div class="col-lg-8">
