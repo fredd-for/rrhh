@@ -1150,7 +1150,7 @@ function ImageExist(url)
  * @returns {string}
  */
 function fechaConvertirAFormato(fecha,separador){
-    if(separador=='')separador='-';
+    if(separador==''||separador==undefined)separador='-';
     var formattedDate = fecha;
     var d = formattedDate.getDate();
     var m =  formattedDate.getMonth();

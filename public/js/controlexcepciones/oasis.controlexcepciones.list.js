@@ -117,7 +117,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $('#divTabControlExcepciones').jqxTabs({selectedItem: 2});
 
                         inicializarFormularioControlExcepcionesNuevoEditar(1,idRelaboral,0,"","","","","");
-                        inicializarFormularioControlExcepcionesNuevoEditar(1);
+                        //inicializarFormularioControlExcepcionesNuevoEditar(1);
                         $("#hdnIdRelaboralNew").val(idRelaboral);
 
                         $("#lstExcepcionesNew").focus();
@@ -213,13 +213,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                     $("#turnexceptrowbutton").off();
                     $("#turnexceptrowbutton").on("click",function(){
                             $('#divTabControlExcepciones').jqxTabs('enableAt', 0);
-                            $('#divTabControlExcepciones').jqxTabs('disableAt', 1);
                             $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
                             $('#divTabControlExcepciones').jqxTabs('disableAt', 3);
                             $('#divTabControlExcepciones').jqxTabs('enableAt', 4);
 
                             $('#divTabControlExcepciones').jqxTabs({selectedItem: 4});
-
                             var idPerfilLaboral=0;
                             var tipoHorario=2;
 
@@ -229,6 +227,17 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                             var defaultDia = date.getDate();
                             var defaultMes = date.getMonth();
                             var defaultGestion = date.getFullYear();
+                            var selectedrowindex = $("#divGridControlExcepciones").jqxGrid('getselectedrowindex');
+                            if (selectedrowindex >= 0) {
+                                var dataRecord = $('#divGridControlExcepciones').jqxGrid('getrowdata', selectedrowindex);
+                                if (dataRecord != undefined) {
+                                    var fechaAux = fechaConvertirAFormato(dataRecord.fecha_ini,"-");
+                                    var arrFechaAux = fechaAux.split("-");
+                                    defaultDia =arrFechaAux[0];
+                                    defaultMes =arrFechaAux[1]-1;
+                                    defaultGestion =arrFechaAux[2];
+                                }
+                            }
                             var fechaIni = "";
                             var fechaFin = "";
                             var contadorPerfiles = 0;
