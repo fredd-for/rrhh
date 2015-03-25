@@ -45,6 +45,7 @@ class ControlexcepcionesController extends ControllerBase
     }
     /**
      * Función para la obtención del listado de registros de control de excepciones.
+     * Autor: JLM
      */
     public function listporrelaboralAction()
     {
