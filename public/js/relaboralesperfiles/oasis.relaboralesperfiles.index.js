@@ -49,6 +49,7 @@ $().ready(function () {
                 var msje = "";
                 if(accion==1) msje = "Registro de exitoso de la asignaci&oacute;n de Perfil.";
                 else msje = "Modificaci&oacute;n exitosa del registro de Perfil.";
+
                 $("#divMsjePorSuccess").html("");
                 $("#divMsjePorSuccess").append(msje);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");

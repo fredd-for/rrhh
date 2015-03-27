@@ -13,6 +13,7 @@ $().ready(function () {
     $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
     $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
     $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
+    $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
 
     definirGrillaParaListaRelaborales();
     /**
@@ -84,10 +85,11 @@ $().ready(function () {
             }
         }
     });
-    $("#btnVolverDesdeExcept").click(function (){
+    $("#btnVolverDesdeMarcaciones").click(function (){
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
+        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
 
         $("#msjs-alert").hide();
     });
@@ -172,7 +174,8 @@ $().ready(function () {
         $('#divTabControlMarcaciones').jqxTabs({selectedItem: 0});
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
-        
+        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
+
         
         
         $("#msjs-alert").hide();
@@ -331,9 +334,11 @@ function definirGrillaParaListaRelaborales() {
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='listrowbutton' class='btn btn-sm btn-primary' type='button'  title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'><i class='fa fa-list-alt fa-2x text-info' title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'/></i></button>");
+                    container.append("<button id='calculaterowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para el c&aacute;lculo de asistencia.'><i class='gi gi-calculator fa-2x text-info' title='Formulario para el c&aacute;lculo de asistencia.'/></i></button>");
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por relaci&oacute;n laboral.'/></i></button>");
 
                     $("#listrowbutton").jqxButton();
+                    $("#calculaterowbutton").jqxButton();
                     $("#turnrowbutton").jqxButton();
 
                     /* Registrar nueva relación laboral.*/
@@ -353,6 +358,7 @@ function definirGrillaParaListaRelaborales() {
                                 if (dataRecord.tiene_contrato_vigente >= 0) {
                                     $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
                                     $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
+                                    $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
                                     $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
                                     $('#divTabControlMarcaciones').jqxTabs({selectedItem: 1});
 
@@ -388,7 +394,14 @@ function definirGrillaParaListaRelaborales() {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
-
+                    $("#calculaterowbutton").off();
+                    $("#calculaterowbutton").on('click', function () {
+                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
+                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
+                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 2);
+                        $('#divTabControlMarcaciones').jqxTabs({selectedItem: 2});
+                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
+                    });
                     /* Ver registro.*/
                     $("#turnrowbutton").off();
                     $("#turnrowbutton").on('click', function () {
@@ -400,9 +413,10 @@ function definirGrillaParaListaRelaborales() {
                                 var idRelaboral = dataRecord.id_relaboral;
                                 $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
                                 $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
-                                $('#divTabControlMarcaciones').jqxTabs('enableAt', 2);
+                                $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
+                                $('#divTabControlMarcaciones').jqxTabs('enableAt', 3);
 
-                                $('#divTabControlMarcaciones').jqxTabs({selectedItem: 2});
+                                $('#divTabControlMarcaciones').jqxTabs({selectedItem: 3});
 
                                 var idPerfilLaboral=0;
                                 var tipoHorario=2;
@@ -419,7 +433,7 @@ function definirGrillaParaListaRelaborales() {
                                 var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
                                 $("#calendar").html("");
 
-                                var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaciones(dataRecord,dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecord,dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                 sumarTotalHorasPorSemana(arrFechasPorSemana);
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
@@ -1123,7 +1137,7 @@ function fechaConvertirAFormato(fecha,separador){
  * @param defaultDia
  * @returns {Array}
  */
-function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaciones(dataRecord,idRelaboral,accion,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
+function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecord,idRelaboral,accion,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia) {
     tipoHorario = parseInt(tipoHorario);
     var arrFechasPorSemana = [];
     var contadorPorSemana = 0;
@@ -1134,7 +1148,8 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
 
     /* Initialize FullCalendar */
     var optLeft = 'prev,next';
-    var optRight = 'year,month,agendaWeek,agendaDay';
+    /*var optRight = 'year,month,agendaWeek,agendaDay';*/
+    var optRight = 'year';
     var optEditable = true;
     var optDroppable = true;
     var optSelectable = true;

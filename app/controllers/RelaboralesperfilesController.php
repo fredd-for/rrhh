@@ -97,7 +97,7 @@ class RelaboralesperfilesController extends ControllerBase{
         if(isset($_GET["id"])&&$_GET["id"]>0){
             $resul = $obj->getListRelaboralesByPerfil($_GET["id"]);
             //comprobamos si hay filas
-            if ($resul->count() > 0) {
+            if ($resul!=null&&$resul->count() > 0) {
                 foreach ($resul as $v) {
                     $relaboral[] = array(
                         'nro_row' => 0,
@@ -275,7 +275,39 @@ class RelaboralesperfilesController extends ControllerBase{
                 try{
                     $ok = $objRelaboralPerfil->save();
                     if ($ok)  {
-                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+
+                        #region Determinación del o de los equipos biométricos para marcación considerando la modificación de registro asignación.
+                        /**
+                         * Si se ha realizado el registro correctamente se realiza la verificación de la existencia del registro de asignación del equipo biométrico.
+                         * Debido a la existencia de un sólo equipo biométrico por oficina central o estación para la primera versión del sistema se registra por defecto
+                         * el equipo biométrico de acuerdo al lugar donde se encuentra.
+                         */
+                        $objMaquina = Maquinas::findFirst(array("ubicacion_id=".$idUbicacion));
+                        if($objMaquina->id>0){
+                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina_id=".$objMaquina->id));
+                            if($objRelaboralPerfilMaquinaAux&=null&&$objRelaboralPerfilMaquinaAux->id > 0){
+                                $objRelaboralPerfilMaquina = $objRelaboralPerfilMaquinaAux;
+                                $objRelaboralPerfilMaquina->user_mod_id=$user_mod_id;
+                                $objRelaboralPerfilMaquina->fecha_mod = $hoy;
+                            }else{
+                                $objRelaboralPerfilMaquina = new Relaboralesperfilesmaquinas();
+                                $objRelaboralPerfilMaquina->user_reg_id=$user_reg_id;
+                                $objRelaboralPerfilMaquina->fecha_reg = $hoy;
+                            }
+                            $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
+                            $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
+                            $objRelaboralPerfilMaquina->tipo_marcacion = 0;//Marcaciones tanto de entrada como de salida
+                            $objRelaboralPerfilMaquina->estado=1;
+                            $objRelaboralPerfilMaquina->baja_logica=1;
+                            $objRelaboralPerfilMaquina->agrupador=0;
+                            $ok = $objRelaboralPerfilMaquina->save();
+                            if($ok)$msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                            else $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente. Sin embargo, no se asign&oacute; correctamente el equipo biom&eacute;trico en el cual debe marcar.');
+                        } else{
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente. Sin embargo, no se asign&oacute; correctamente el equipo biom&eacute;trico en el cual debe marcar debido a la inexistencia de registro del equipo.');
+                        }
+                        #region Determinación del o de los equipos biométricos para marcación considerando la modificación de registro asignación.
+
                     } else {
                         $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
                     }
@@ -325,7 +357,6 @@ class RelaboralesperfilesController extends ControllerBase{
             $fechaFin = $_POST['fecha_fin'];
             $observacion = $_POST['observacion'];
             if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''){
-
                 $objAuxRelaboralPerfil = Relaboralesperfiles::findFirst(array("relaboral_id=".$idRelaboral." AND perfillaboral_id=".$idPerfilLaboral." AND ubicacion_id=".$idUbicacion." AND fecha_ini='".$fechaIni."' AND fecha_fin='".$fechaFin."' AND estado>=1 AND baja_logica=1"));
                 if($objAuxRelaboralPerfil==false){
                     $objRelaboralPerfil = new Relaboralesperfiles();
@@ -355,7 +386,37 @@ class RelaboralesperfilesController extends ControllerBase{
                 try{
                     $ok = $objRelaboralPerfil->save();
                     if ($ok)  {
-                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                        #region Determinación del o de los equipos biométricos para marcación considerando un nuevo registro de asignación.
+                        /**
+                         * Si se ha realizado el registro correctamente se realiza la verificación de la existencia del registro de asignación del equipo biométrico.
+                         * Debido a la existencia de un sólo equipo biométrico por oficina central o estación para la primera versión del sistema se registra por defecto
+                         * el equipo biométrico de acuerdo al lugar donde se encuentra.
+                         */
+                        $objMaquina = Maquinas::findFirst(array("ubicacion_id=".$idUbicacion));
+                        if($objMaquina->id>0){
+                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina_id=".$objMaquina->id));
+                            if($objRelaboralPerfilMaquinaAux!=null&&$objRelaboralPerfilMaquinaAux->id){
+                                $objRelaboralPerfilMaquina = $objRelaboralPerfilMaquinaAux;
+                                $objRelaboralPerfilMaquina->user_mod_id=$user_mod_id;
+                                $objRelaboralPerfilMaquina->fecha_mod = $hoy;
+                            }else{
+                                $objRelaboralPerfilMaquina = new Relaboralesperfilesmaquinas();
+                                $objRelaboralPerfilMaquina->user_reg_id=$user_reg_id;
+                                $objRelaboralPerfilMaquina->fecha_reg = $hoy;
+                            }
+                            $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
+                            $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
+                            $objRelaboralPerfilMaquina->tipo_marcacion = 0;//Marcaciones tanto de entrada como de salida
+                            $objRelaboralPerfilMaquina->estado=1;
+                            $objRelaboralPerfilMaquina->baja_logica=1;
+                            $objRelaboralPerfilMaquina->agrupador=0;
+                            $ok = $objRelaboralPerfilMaquina->save();
+                            if($ok)$msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
+                            else $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente. Sin embargo, no se asign&oacute; correctamente el equipo biom&eacute;trico en el cual debe marcar.');
+                        } else{
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente. Sin embargo, no se asign&oacute; correctamente el equipo biom&eacute;trico en el cual debe marcar debido a la inexistencia de registro del equipo.');
+                        }
+                        #endregion Determinación del o de los equipos biométricos para marcación considerando un nuevo registro de asignación.
                     } else {
                         $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
                     }

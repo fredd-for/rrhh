@@ -248,7 +248,7 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                                         var contadorPerfiles = 0;
                                         var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
                                         $("#calendar").html("");
-                                        var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaciones(dataRecordRelaboral,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                        var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecordRelaboral,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                         sumarTotalHorasPorSemana(arrFechasPorSemana);
 
                                         $('#tabFichaPersonalTurnAndExcept').jqxTabs({

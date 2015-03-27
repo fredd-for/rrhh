@@ -46,6 +46,7 @@
 <ul>
     <li id="liList">Listado</li>
     <li id="liMarc">Marcaciones</li>
+    <li id="liCalc">C&aacute;lculos</li>
     <li id="liTurnAndExcept">Calendario</li>
 </ul>
 <br>
@@ -251,12 +252,80 @@
 
     <!--<div id="divGridControlMarcaciones"></div>-->
     <div>
-        <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeExcept">
+        <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeMarcaciones">
             <i class="fa fa-reply"></i>
             Volver al Listado
         </button>
     </div>
 </form>
+</div>
+<div class="section" id="divCalc">
+    <form class="navbar-form" id="formCalc">
+        <div class="col-md-10">
+            <!-- Input Grid Block -->
+            <div class="block">
+                <!-- Input Grid Title -->
+                <div class="block-title">
+
+                    <h2>Listado General</h2>
+                    <div id='jqxWidget'>
+                        <div align="right">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosExcel" accesskey="i">
+                                <i class="fi fi-xls"></i>
+                                Exportar Excel
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosPDF" accesskey="i">
+                                <i class="fi fi-pdf"></i>
+                                Exportar PDF
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodocalculos">
+                                <i class="fa fa-chain-broken"></i>
+                                Desagrupar Todo
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodocalculos">
+                                <i class="gi gi-sorting"></i>
+                                Desfiltrar Todo
+                            </button>
+                        </div>
+                        <div id="divGridControlCalculations"></div>
+                    </div>
+                </div>
+                <!-- END Input Grid Title -->
+
+            </div>
+            <!-- END Input Grid Block -->
+        </div>
+        <div class="col-md-2">
+            <!-- Input Grid Block -->
+            <div class="block">
+                <!-- Input Grid Title -->
+                <div class="block-title">
+                    <h2>Mostrar</h2>
+                    <br>
+                    <!--<input type="checkbox" id="chkAllCols"> Todas / Ninguna-->
+
+                    <!--<div id="hintWrapper">
+                        <div id="hintSection" class="hint">
+                        </div>
+                    </div>-->
+                </div>
+                <div id="divListBoxCalculos"></div>
+
+
+                <!-- END Input Grid Title -->
+            </div>
+            <!-- END Input Grid Block -->
+        </div>
+
+        <!--<div id="divGridControlMarcaciones"></div>-->
+        <div>
+            <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeCalculos">
+                <i class="fa fa-reply"></i>
+                Volver al Listado
+            </button>
+        </div>
+    </form>
+
 </div>
 <div class="section" id="divTurnAndMarc">
     <form class="navbar-form" id="form" onsubmit="return false;">
