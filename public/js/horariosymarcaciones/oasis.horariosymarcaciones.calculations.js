@@ -3,36 +3,104 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  03-03-2015
+ *   Fecha Creación:  27-03-2015
  */
 /**
- * Función para la definición de la grilla que contiene la lista de registros de control de excepciones.
- * @param idRelaboral
- * @param idPersona
- * @param nombres
- * @param ci
- * @param numComplemento
- * @param fechaIng
- * @param fechaIncor
- * @param fechaIni
- * @param fechaFin
- * @param fechaBaja
+ * Función para la búsqueda de registros de personal que cumplen el criterio de búsqueda establecido a través del parámetro.
+ * @param objParametros
  */
-function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelaboral) {
-    var idRelaboral = dataRecordRelaboral.id_relaboral;
-    var idPersona=dataRecordRelaboral.id_persona;
-    var nombres=dataRecordRelaboral.nombres;
-    var ci=dataRecordRelaboral.ci;
-    var numComplemento=dataRecordRelaboral.num_complemento;
-    var fechaIng=dataRecordRelaboral.fecha_ing;
-    var fechaIncor=dataRecordRelaboral.fecha_incor;
-    var fechaIni=dataRecordRelaboral.fecha_ini;
-    var fechaFin=dataRecordRelaboral.fecha_fin;
-    var fechaBaja=dataRecordRelaboral.fecha_baja;
+function definirGrillaMarcacionesYCalculos(objParametros) {
+    var idOrganigrama = objParametros.idOrganigrama;
+    var idArea=objParametros.idArea;
+    var idUbicacion=objParametros.idUbicacion;
+    var idRelaboral=objParametros.idRelaboral;
+    var fechaIni = objParametros.fechaIni;
+    var fechaFin = objParametros.fechaFin;
+    /*$('#txtFechaIniAsignacionSingle').data("date-min",fechaMin);
+    $('#txtFechaIniAsignacionSingle').data("date-max",fechaMax);*/
+    /*var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
+    ToEndDate.setDate(ToEndDate.getDate()+365);
+    $('#txtFechaIniCalculo').datepicker({
+
+        weekStart: 1,
+        startDate: '01/01/2012',
+        endDate: FromEndDate,
+        autoclose: true
+    })
+        .on('changeDate', function(selected){
+            startDate = new Date(selected.date.valueOf());
+            startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+            $('.to_date').datepicker('setStartDate', startDate);
+        });
+    $('#txtFechaFinCalculo')
+        .datepicker({
+
+            weekStart: 1,
+            startDate: startDate,
+            endDate: ToEndDate,
+            autoclose: true
+        })
+        .on('changeDate', function(selected){
+            FromEndDate = new Date(selected.date.valueOf());
+            FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+            $('.from_date').datepicker('setEndDate', FromEndDate);
+        });
+*/
     var source =
     {
         datatype: "json",
         datafields: [
+            {name: 'fecha_nac', type: 'string'},
+            {name: 'edad', type: 'integer'},
+            {name: 'lugar_nac', type: 'integer'},
+            {name: 'genero', type: 'integer'},
+            {name: 'e_civil', type: 'integer'},
+            {name: 'id_relaboral', type: 'integer'},
+            {name: 'id_persona', type: 'integer'},
+            {name: 'tiene_contrato_vigente', type: 'integer'},
+            {name: 'id_fin_partida', type: 'integer'},
+            {name: 'finpartida', type: 'string'},
+            {name: 'ubicacion', type: 'string'},
+            {name: 'id_condicion', type: 'integer'},
+            {name: 'condicion', type: 'string'},
+            {name: 'tiene_item', type: 'integer'},
+            {name: 'id_cargo', type: 'integer'},
+            {name: 'cargo_codigo', type: 'string'},
+            {name: 'cargo_resolucion_ministerial_id', type: 'integer'},
+            {name: 'cargo_resolucion_ministerial', type: 'string'},
+            {name: 'relaboral_estado', type: 'integer'},
+            {name: 'relaboral_estado_descripcion', type: 'string'},
+            {name: 'nombres', type: 'string'},
+            {name: 'ci', type: 'string'},
+            {name: 'expd', type: 'string'},
+            {name: 'num_complemento', type: 'string'},
+            {name: 'id_organigrama', type: 'integer'},
+            {name: 'gerencia_administrativa', type: 'string'},
+            {name: 'departamento_administrativo', type: 'string'},
+            {name: 'id_area', type: 'integer'},
+            {name: 'area', type: 'string'},
+            {name: 'id_ubicacion', type: 'integer'},
+            {name: 'num_contrato', type: 'string'},
+            {name: 'fin_partida', type: 'string'},
+            {name: 'id_procesocontratacion', type: 'integer'},
+            {name: 'proceso_codigo', type: 'string'},
+            {name: 'nivelsalarial', type: 'string'},
+            {name: 'nivelsalarial_resolucion', type: 'string'},
+            {name: 'cargo', type: 'string'},
+            {name: 'sueldo', type: 'numeric'},
+            /*{name: 'fecha_ini', type: 'date'},
+            {name: 'fecha_incor', type: 'date'},
+            {name: 'fecha_fin', type: 'date'},
+            {name: 'fecha_baja', type: 'date'},
+            {name: 'motivo_baja', type: 'string'},
+            {name: 'relaboral_previo_id', type: 'integer'},
+            {name: 'observacion', type: 'string'},
+            {name: 'fecha_ing', type: 'date'}*/
+
+
             {name: 'nro_row', type: 'integer'},
             {name: 'id', type: 'integer'},
             {name: 'relaboral_id', type: 'integer'},
@@ -180,14 +248,14 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/horariosymarcaciones/listporrelaboral?id='+idRelaboral,
+        url: '/horariosymarcaciones/listallbyrange?id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeTolerancias();
     function cargarRegistrosDeTolerancias() {
         var theme = prepareSimulator("grid");
-        $("#divGridControlMarcaciones").jqxGrid(
+        $("#divGridControlCalculos").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -208,15 +276,15 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                     var container = $("<div></div>");
                     toolbar.append(container);
                     /*container.append("<button title='Registrar nuevo control de excepci&oacute;n.' id='addcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button title='Aprobar registro de control de excepci&oacute;n.' id='approveexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
-                    container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
-                    container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
+                     container.append("<button title='Aprobar registro de control de excepci&oacute;n.' id='approveexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
+                     container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
+                     container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
                     /*$("#addcontrolexceptrowbutton").jqxButton();
-                    $("#approveexceptrowbutton").jqxButton();
-                    $("#updateexceptrowbutton").jqxButton();
-                    $("#deleteexceptrowbutton").jqxButton();*/
+                     $("#approveexceptrowbutton").jqxButton();
+                     $("#updateexceptrowbutton").jqxButton();
+                     $("#deleteexceptrowbutton").jqxButton();*/
                     $("#turnexceptrowbutton").jqxButton();
 
                     $("#hdnIdControlExcepcionEdit").val(0);
@@ -225,139 +293,139 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
 
                     $("#turnexceptrowbutton").off();
                     $("#turnexceptrowbutton").on("click",function(){
-                            var selectedrowindex = $("#divGridControlMarcaciones").jqxGrid('getselectedrowindex');
-                            if (selectedrowindex >= 0) {
-                                var dataRecord = $('#divGridControlMarcaciones').jqxGrid('getrowdata', selectedrowindex);
-                                if(dataRecord!=undefined){
-                                    if(dataRecord.gestion!=null&&dataRecord.gestion!=undefined){
-                                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
-                                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 3);
-                                        $('#divTabControlMarcaciones').jqxTabs({selectedItem: 3});
+                        var selectedrowindex = $("#divGridControlMarcaciones").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridControlMarcaciones').jqxGrid('getrowdata', selectedrowindex);
+                            if(dataRecord!=undefined){
+                                if(dataRecord.gestion!=null&&dataRecord.gestion!=undefined){
+                                    $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
+                                    $('#divTabControlMarcaciones').jqxTabs('enableAt', 3);
+                                    $('#divTabControlMarcaciones').jqxTabs({selectedItem: 3});
 
-                                        var idPerfilLaboral=0;
-                                        var tipoHorario=2;
+                                    var idPerfilLaboral=0;
+                                    var tipoHorario=2;
 
-                                        $("#spanPrefijoCalendarioLaboral").html("");
-                                        $("#spanSufijoCalendarioLaboral").html(" Vrs. Calendario de Excepciones (Individual)");
+                                    $("#spanPrefijoCalendarioLaboral").html("");
+                                    $("#spanSufijoCalendarioLaboral").html(" Vrs. Calendario de Excepciones (Individual)");
 
-                                        var defaultDia = 1;
-                                        var defaultMes = dataRecord.mes-1;
-                                        var defaultGestion = dataRecord.gestion;
-                                        var fechaIni = "";
-                                        var fechaFin = "";
-                                        var contadorPerfiles = 0;
-                                        var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
-                                        $("#calendar").html("");
-                                        var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecordRelaboral,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
-                                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+                                    var defaultDia = 1;
+                                    var defaultMes = dataRecord.mes-1;
+                                    var defaultGestion = dataRecord.gestion;
+                                    var fechaIni = "";
+                                    var fechaFin = "";
+                                    var contadorPerfiles = 0;
+                                    var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                                    $("#calendar").html("");
+                                    var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecordRelaboral,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                                    sumarTotalHorasPorSemana(arrFechasPorSemana);
 
-                                        $('#tabFichaPersonalTurnAndExcept').jqxTabs({
-                                            theme: 'oasis',
-                                            width: '100%',
-                                            height: '100%',
-                                            position: 'top'
-                                        });
-                                        /*******************************************************************************************************/
-                                        $('#tabFichaPersonalTurnAndExcept').jqxTabs({
-                                            theme: 'oasis',
-                                            width: '100%',
-                                            height: '100%',
-                                            position: 'top'
-                                        });
-                                        $('#tabFichaPersonalTurnAndExcept').jqxTabs({selectedItem: 0});
-                                        $(".ddNombresTurnAndExcept").html(dataRecordRelaboral.nombres+"&nbsp;");
-                                        $(".ddCIAndNumComplementoExpdTurnAndExcept").html(dataRecordRelaboral.ci+dataRecordRelaboral.num_complemento+" "+dataRecordRelaboral.expd+"&nbsp;");
-                                        $("#ddCargoTurnAndExcept").html(dataRecordRelaboral.cargo+"&nbsp;");
-                                        $("#ddProcesoTurnAndExcept").html(dataRecordRelaboral.proceso_codigo+"&nbsp;");
-                                        $("#ddFinanciamientoTurnAndExcept").html(dataRecordRelaboral.condicion+" (Partida "+dataRecordRelaboral.partida+")");
-                                        $("#ddGerenciaTurnAndExcept").html(dataRecordRelaboral.gerencia_administrativa+"&nbsp;");
-                                        if(dataRecordRelaboral.departamento_administrativo!=""&&dataRecordRelaboral.departamento_administrativo!=null){
-                                            $("#ddDepartamentoTurnAndExcept").show();
-                                            $("#dtDepartamentoTurnAndExcept").show();
-                                            $("#ddDepartamentoTurnAndExcept").html(dataRecordRelaboral.departamento_administrativo+"&nbsp;");
-                                        }
-                                        else {
-                                            $("#dtDepartamentoTurnAndExcept").hide();
-                                            $("#ddDepartamentoTurnAndExcept").hide();
-                                        }
-                                        $("#ddUbicacionTurnAndExcept").html(dataRecordRelaboral.ubicacion+"&nbsp;");
-
-                                        switch (dataRecordRelaboral.tiene_item) {
-                                            case 1:
-                                                $("#dtItemTurnAndExcept").show();
-                                                $("#ddItemTurnAndExcept").show();
-                                                $("#ddItemTurnAndExcept").html(dataRecordRelaboral.item+"&nbsp;");
-                                                break;
-                                            case 0:
-                                                $("#dtItemTurnAndExcept").hide();
-                                                $("#ddItemTurnAndExcept").hide();
-                                                break;
-                                        }
-                                        $("#ddNivelSalarialTurnAndExcept").html(dataRecordRelaboral.nivelsalarial+"&nbsp;");
-                                        $("#ddHaberTurnAndExcept").html(dataRecordRelaboral.sueldo+"&nbsp;");
-                                        $("#ddFechaIngTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_ing,"-")+"&nbsp;");
-                                        if(dataRecordRelaboral.fecha_incor!=null){
-                                            var fechaIncor = fechaConvertirAFormato(dataRecordRelaboral.fecha_incor,"-");
-                                            $("#dtFechaIncorTurnAndExcept").show();
-                                            $("#ddFechaIncorTurnAndExcept").show();
-                                            $("#ddFechaIncorTurnAndExcept").html(fechaIncor+"&nbsp;");
-                                        }else{
-                                            $("#dtFechaIncorTurnAndExcept").hide();
-                                            $("#ddFechaIncorTurnAndExcept").hide();
-                                        }
-                                        $("#ddFechaIniTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_ini,"-")+"&nbsp;");
-                                        switch (dataRecordRelaboral.tiene_item) {
-                                            case 1:
-                                                $("#dtFechaFinTurnAndExcept").hide();
-                                                $("#ddFechaFinTurnAndExcept").hide();
-                                                break;
-                                            case 0:
-                                                $("#dtFechaFinTurnAndExcept").show();
-                                                $("#ddFechaFinTurnAndExcept").show();
-                                                $("#ddFechaFinTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_fin,"-")+"&nbsp;");
-                                                break;
-                                        }
-                                        $("#ddEstadoDescripcionTurnAndExcept").html(dataRecordRelaboral.estado_descripcion+"&nbsp;");
-                                        if(dataRecordRelaboral.estado==0){
-                                            $("#dtFechaBajaTurnAndExcept").show();
-                                            $("#ddFechaBajaTurnAndExcept").show();
-                                            $("#ddFechaBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_baja,"-")+"&nbsp;");
-                                            $("#dtMotivoBajaTurnAndExcept").show();
-                                            $("#ddMotivoBajaTurnAndExcept").show();
-                                            $("#ddMotivoBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.motivo_baja,"-")+"&nbsp;");
-                                        }else{
-                                            $("#dtFechaBajaTurnAndExcept").hide();
-                                            $("#ddFechaBajaTurnAndExcept").hide();
-                                            $("#dtMotivoBajaTurnAndExcept").hide();
-                                            $("#ddMotivoBajaTurnAndExcept").hide();
-                                        }
-                                        /*******************************************************************************************************/
-
-                                        $('#tabFichaPersonalTurnAndExcept').jqxTabs({selectedItem: 0});
-                                        $("#ddNombresTurnAndExcept").html(nombres);
-                                        var rutaImagen = obtenerRutaFoto(ci, numComplemento);
-                                        $("#imgFotoPerfilTurnAndExceptRelaboral").attr("src", rutaImagen);
-                                        $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
-                                        $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
-                                        $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                                        cargarPersonasContactosControlExcepciones(2,idPersona);
-                                        $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
-                                        $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
-
-
-                                    }else{
-                                        var msje = "Para acceder a la vista del calendario con las marcaciones y excepciones debidas debe seleccionar un registro necesariamente.";
-                                        $("#divMsjePorError").html("");
-                                        $("#divMsjePorError").append(msje);
-                                        $("#divMsjeNotificacionError").jqxNotification("open");
+                                    $('#tabFichaPersonalTurnAndExcept').jqxTabs({
+                                        theme: 'oasis',
+                                        width: '100%',
+                                        height: '100%',
+                                        position: 'top'
+                                    });
+                                    /*******************************************************************************************************/
+                                    $('#tabFichaPersonalTurnAndExcept').jqxTabs({
+                                        theme: 'oasis',
+                                        width: '100%',
+                                        height: '100%',
+                                        position: 'top'
+                                    });
+                                    $('#tabFichaPersonalTurnAndExcept').jqxTabs({selectedItem: 0});
+                                    $(".ddNombresTurnAndExcept").html(dataRecordRelaboral.nombres+"&nbsp;");
+                                    $(".ddCIAndNumComplementoExpdTurnAndExcept").html(dataRecordRelaboral.ci+dataRecordRelaboral.num_complemento+" "+dataRecordRelaboral.expd+"&nbsp;");
+                                    $("#ddCargoTurnAndExcept").html(dataRecordRelaboral.cargo+"&nbsp;");
+                                    $("#ddProcesoTurnAndExcept").html(dataRecordRelaboral.proceso_codigo+"&nbsp;");
+                                    $("#ddFinanciamientoTurnAndExcept").html(dataRecordRelaboral.condicion+" (Partida "+dataRecordRelaboral.partida+")");
+                                    $("#ddGerenciaTurnAndExcept").html(dataRecordRelaboral.gerencia_administrativa+"&nbsp;");
+                                    if(dataRecordRelaboral.departamento_administrativo!=""&&dataRecordRelaboral.departamento_administrativo!=null){
+                                        $("#ddDepartamentoTurnAndExcept").show();
+                                        $("#dtDepartamentoTurnAndExcept").show();
+                                        $("#ddDepartamentoTurnAndExcept").html(dataRecordRelaboral.departamento_administrativo+"&nbsp;");
                                     }
+                                    else {
+                                        $("#dtDepartamentoTurnAndExcept").hide();
+                                        $("#ddDepartamentoTurnAndExcept").hide();
+                                    }
+                                    $("#ddUbicacionTurnAndExcept").html(dataRecordRelaboral.ubicacion+"&nbsp;");
+
+                                    switch (dataRecordRelaboral.tiene_item) {
+                                        case 1:
+                                            $("#dtItemTurnAndExcept").show();
+                                            $("#ddItemTurnAndExcept").show();
+                                            $("#ddItemTurnAndExcept").html(dataRecordRelaboral.item+"&nbsp;");
+                                            break;
+                                        case 0:
+                                            $("#dtItemTurnAndExcept").hide();
+                                            $("#ddItemTurnAndExcept").hide();
+                                            break;
+                                    }
+                                    $("#ddNivelSalarialTurnAndExcept").html(dataRecordRelaboral.nivelsalarial+"&nbsp;");
+                                    $("#ddHaberTurnAndExcept").html(dataRecordRelaboral.sueldo+"&nbsp;");
+                                    $("#ddFechaIngTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_ing,"-")+"&nbsp;");
+                                    if(dataRecordRelaboral.fecha_incor!=null){
+                                        var fechaIncor = fechaConvertirAFormato(dataRecordRelaboral.fecha_incor,"-");
+                                        $("#dtFechaIncorTurnAndExcept").show();
+                                        $("#ddFechaIncorTurnAndExcept").show();
+                                        $("#ddFechaIncorTurnAndExcept").html(fechaIncor+"&nbsp;");
+                                    }else{
+                                        $("#dtFechaIncorTurnAndExcept").hide();
+                                        $("#ddFechaIncorTurnAndExcept").hide();
+                                    }
+                                    $("#ddFechaIniTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_ini,"-")+"&nbsp;");
+                                    switch (dataRecordRelaboral.tiene_item) {
+                                        case 1:
+                                            $("#dtFechaFinTurnAndExcept").hide();
+                                            $("#ddFechaFinTurnAndExcept").hide();
+                                            break;
+                                        case 0:
+                                            $("#dtFechaFinTurnAndExcept").show();
+                                            $("#ddFechaFinTurnAndExcept").show();
+                                            $("#ddFechaFinTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_fin,"-")+"&nbsp;");
+                                            break;
+                                    }
+                                    $("#ddEstadoDescripcionTurnAndExcept").html(dataRecordRelaboral.estado_descripcion+"&nbsp;");
+                                    if(dataRecordRelaboral.estado==0){
+                                        $("#dtFechaBajaTurnAndExcept").show();
+                                        $("#ddFechaBajaTurnAndExcept").show();
+                                        $("#ddFechaBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.fecha_baja,"-")+"&nbsp;");
+                                        $("#dtMotivoBajaTurnAndExcept").show();
+                                        $("#ddMotivoBajaTurnAndExcept").show();
+                                        $("#ddMotivoBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecordRelaboral.motivo_baja,"-")+"&nbsp;");
+                                    }else{
+                                        $("#dtFechaBajaTurnAndExcept").hide();
+                                        $("#ddFechaBajaTurnAndExcept").hide();
+                                        $("#dtMotivoBajaTurnAndExcept").hide();
+                                        $("#ddMotivoBajaTurnAndExcept").hide();
+                                    }
+                                    /*******************************************************************************************************/
+
+                                    $('#tabFichaPersonalTurnAndExcept').jqxTabs({selectedItem: 0});
+                                    $("#ddNombresTurnAndExcept").html(nombres);
+                                    var rutaImagen = obtenerRutaFoto(ci, numComplemento);
+                                    $("#imgFotoPerfilTurnAndExceptRelaboral").attr("src", rutaImagen);
+                                    $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
+                                    $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
+                                    $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
+                                    cargarPersonasContactosControlExcepciones(2,idPersona);
+                                    $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
+                                    $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
+
+
+                                }else{
+                                    var msje = "Para acceder a la vista del calendario con las marcaciones y excepciones debidas debe seleccionar un registro necesariamente.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
                                 }
-                            }else{
-                                var msje = "Para acceder a la vista del calendario con las marcaciones y excepciones debidas debe seleccionar un registro necesariamente.";
-                                $("#divMsjePorError").html("");
-                                $("#divMsjePorError").append(msje);
-                                $("#divMsjeNotificacionError").jqxNotification("open");
                             }
+                        }else{
+                            var msje = "Para acceder a la vista del calendario con las marcaciones y excepciones debidas debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
                     });
                 },
                 columns: [
@@ -370,16 +438,197 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                         align: 'center',
                         cellsrenderer: rownumberrenderer
                     },
+                    /*********************************************************************************************************/
+                   /* {
+                        text: 'Ubicaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'ubicacion',
+                        width: 150,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
                     {
-                     text: 'Estado',
-                     filtertype: 'checkedlist',
-                     datafield: 'estado_descripcion',
-                     width: 100,
-                     cellsalign: 'center',
-                     align: 'center',
-                     hidden: false,
-                     cellclassname: cellclass
-                     },
+                        text: 'Condici&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'condicion',
+                        width: 150,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Estado',
+                        filtertype: 'checkedlist',
+                        datafield: 'relaboral_estado_descripcion',
+                        width: 100,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false,
+                        cellclassname: cellclass
+                    },*/
+                    {
+                        text: 'Nombres y Apellidos',
+                        columntype: 'textbox',
+                        filtertype: 'input',
+                        datafield: 'nombres',
+                        width: 215,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'CI',
+                        columntype: 'textbox',
+                        filtertype: 'input',
+                        datafield: 'ci',
+                        width: 90,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Exp',
+                        filtertype: 'checkedlist',
+                        datafield: 'expd',
+                        width: 40,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },/*
+                    {
+                        text: 'Gerencia',
+                        filtertype: 'checkedlist',
+                        datafield: 'gerencia_administrativa',
+                        width: 220,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Departamento',
+                        filtertype: 'checkedlist',
+                        datafield: 'departamento_administrativo',
+                        width: 220,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: '&Aacute;rea',
+                        filtertype: 'checkedlist',
+                        datafield: 'area',
+                        width: 220,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Proceso',
+                        filtertype: 'checkedlist',
+                        datafield: 'proceso_codigo',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fuente',
+                        filtertype: 'checkedlist',
+                        datafield: 'fin_partida',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Nivel Salarial',
+                        filtertype: 'checkedlist',
+                        datafield: 'nivelsalarial',
+                        width: 220,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Cargo',
+                        columntype: 'textbox',
+                        filtertype: 'input',
+                        datafield: 'cargo',
+                        width: 215,
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Haber',
+                        filtertype: 'checkedlist',
+                        datafield: 'sueldo',
+                        width: 100,
+                        cellsalign: 'right',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Ingreso',
+                        datafield: 'fecha_ing',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Inicio',
+                        datafield: 'fecha_ini',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Incor.',
+                        datafield: 'fecha_incor',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Fin',
+                        datafield: 'fecha_fin',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Baja',
+                        datafield: 'fecha_baja',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {text: 'Motivo Baja', datafield: 'motivo_baja', width: 100, hidden: false},
+                    {text: 'Observacion', datafield: 'observacion', width: 100, hidden: false},*/
+                    /*********************************************************************************************************/
+
+
+
+                    {
+                        text: 'Estado',
+                        filtertype: 'checkedlist',
+                        datafield: 'estado_descripcion',
+                        width: 100,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false,
+                        cellclassname: cellclass
+                    },
                     {
                         text: 'Gesti&oacute;n',
                         filtertype: 'checkedlist',
@@ -730,6 +979,9 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                 ]
             });
         var listSource = [
+            {label: 'Nombres', value: 'nombres', checked: true},
+            {label: 'CI', value: 'ci', checked: true},
+            {label: 'Expd', value: 'expd', checked: true},
             {label: 'Estado', value: 'estado_descripcion', checked: true},
             {label: 'Gesti&oacute;n', value: 'gestion', checked: true},
             {label: 'Mes', value: 'mes_nombre', checked: true},
@@ -774,16 +1026,16 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
             {label: 'LSGH', value: 'lsgh', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
-        $("#divListBoxMarcaciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
-        $("#divListBoxMarcaciones").on('checkChange', function (event) {
-            $("#divGridControlMarcaciones").jqxGrid('beginupdate');
+        $("#divListBoxCalculos").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#divListBoxCalculos").on('checkChange', function (event) {
+            $("#divGridControlCalculos").jqxGrid('beginupdate');
             if (event.args.checked) {
-                $("#divGridControlMarcaciones").jqxGrid('showcolumn', event.args.value);
+                $("#divGridControlCalculos").jqxGrid('showcolumn', event.args.value);
             }
             else {
-                $("#divGridControlMarcaciones").jqxGrid('hidecolumn', event.args.value);
+                $("#divGridControlCalculos").jqxGrid('hidecolumn', event.args.value);
             }
-            $("#divGridControlMarcaciones").jqxGrid('endupdate');
+            $("#divGridControlCalculos").jqxGrid('endupdate');
         });
     }
 }

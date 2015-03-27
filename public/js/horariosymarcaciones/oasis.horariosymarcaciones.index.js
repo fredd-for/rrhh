@@ -6,6 +6,7 @@
  *   Fecha Creación:  21-10-2014
  */
 $().ready(function () {
+    var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
@@ -163,9 +164,24 @@ $().ready(function () {
                 if (n > 0) {
                     cargo = cargo.replace("a.i.", "").trim();
                     $('#txtCargoMovilidad').val(cargo);
-                    //$('#txtCargoMovilidad').jqxInput('val', {label: cargo, value: cargo});
                 }
             }
+        }
+    });
+    $("#btnCalcular").on("click",function(){
+        //var objParametro = getParametroVacio();
+        var fechaIni = $("#txtFechaIniCalculo").val();
+        var fechaFin = $("#txtFechaFinCalculo").val();
+        var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
+        if(fechaIni!=''&&fechaFin!=''){
+            definirGrillaMarcacionesYCalculos(objParametro);
+        }else{
+            var msje = "Debe seleccionar las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.";
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append(msje);
+            $("#divMsjeNotificacionError").jqxNotification("open");
+            if(fechaIni!='')$("#txtFechaFinCalculo").focus();
+            else $("#txtFechaIniCalculo").focus();
         }
     });
 
@@ -247,6 +263,13 @@ $().ready(function () {
     $(document).keypress(OperaEvento);
     $(document).keyup(OperaEvento);
 });
+/**
+ * Función para instanciar un objeto de tipo parámetro.
+ */
+function getParametroVacio(){
+    var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+    return objParametro;
+}
 /**
  * Función para definir la grilla principal (listado) para la gestión de relaciones laborales.
  */
@@ -401,6 +424,13 @@ function definirGrillaParaListaRelaborales() {
                         $('#divTabControlMarcaciones').jqxTabs('enableAt', 2);
                         $('#divTabControlMarcaciones').jqxTabs({selectedItem: 2});
                         $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
+
+                        $("#txtFechaIniCalculo").datepicker("update","");
+                        $("#txtFechaIniCalculo").val('').datepicker('update');
+                        $("#txtFechaFinCalculo").datepicker("update","");
+                        $("#txtFechaFinCalculo").val('').datepicker('update');
+                        var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+                        definirGrillaMarcacionesYCalculos(objParametro);
                     });
                     /* Ver registro.*/
                     $("#turnrowbutton").off();

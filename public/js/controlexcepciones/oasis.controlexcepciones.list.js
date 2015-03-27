@@ -117,7 +117,6 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $('#divTabControlExcepciones').jqxTabs({selectedItem: 2});
 
                         inicializarFormularioControlExcepcionesNuevoEditar(1,idRelaboral,0,"","","","","");
-                        //inicializarFormularioControlExcepcionesNuevoEditar(1);
                         $("#hdnIdRelaboralNew").val(idRelaboral);
 
                         $("#lstExcepcionesNew").focus();

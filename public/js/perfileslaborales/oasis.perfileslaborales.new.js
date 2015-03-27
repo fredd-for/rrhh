@@ -215,7 +215,6 @@ function guardarNuevoRegistroPerfilLaboral(){
                      */
                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
                     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                    deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
                     $("#divGridPerfilesLaborales").jqxGrid("updatebounddata");
                 } else if(res.result==0){
                     /**

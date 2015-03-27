@@ -260,6 +260,7 @@
 </form>
 </div>
 <div class="section" id="divCalc">
+    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.</h6>
     <form class="navbar-form" id="formCalc">
         <div class="col-md-10">
             <!-- Input Grid Block -->
@@ -267,31 +268,53 @@
                 <!-- Input Grid Title -->
                 <div class="block-title">
 
-                    <h2>Listado General</h2>
-                    <div id='jqxWidget'>
-                        <div align="right">
-                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosExcel" accesskey="i">
-                                <i class="fi fi-xls"></i>
-                                Exportar Excel
-                            </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosPDF" accesskey="i">
-                                <i class="fi fi-pdf"></i>
-                                Exportar PDF
-                            </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodocalculos">
-                                <i class="fa fa-chain-broken"></i>
-                                Desagrupar Todo
-                            </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodocalculos">
-                                <i class="gi gi-sorting"></i>
-                                Desfiltrar Todo
-                            </button>
+                    <h2>Listado General para C&aacute;lculos</h2>
+                    <div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
+                            <div class="col-md-6"> <!--input-daterange-->
+                                <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
+                                    <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
+                                    <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                </div>
+                            </div>
                         </div>
-                        <div id="divGridControlCalculations"></div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnCalcular" accesskey="c">
+                                <i class="fa fa-gears"></i>
+                                Calcular
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div id='jqxWidget'>
+                        <div id="divGridControlCalculos"></div>
                     </div>
                 </div>
                 <!-- END Input Grid Title -->
-
+                <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosExcel" accesskey="i">
+                    <i class="fi fi-xls"></i>
+                    Exportar Excel
+                </button>
+                <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosPDF" accesskey="i">
+                    <i class="fi fi-pdf"></i>
+                    Exportar PDF
+                </button>
+                <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodocalculos">
+                    <i class="fa fa-chain-broken"></i>
+                    Desagrupar Todo
+                </button>
+                <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodocalculos">
+                    <i class="gi gi-sorting"></i>
+                    Desfiltrar Todo
+                </button>
+                <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeCalculos">
+                    <i class="fa fa-reply"></i>
+                    Volver al Listado
+                </button>
             </div>
             <!-- END Input Grid Block -->
         </div>
@@ -318,12 +341,7 @@
         </div>
 
         <!--<div id="divGridControlMarcaciones"></div>-->
-        <div>
-            <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeCalculos">
-                <i class="fa fa-reply"></i>
-                Volver al Listado
-            </button>
-        </div>
+
     </form>
 
 </div>
