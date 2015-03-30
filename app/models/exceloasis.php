@@ -34,7 +34,10 @@ class exceloasis extends PHPExcel{
     var $widthsSelecteds;       //Anchuras seleccionadas
     //var $colTitleSelecteds;     //Titulos de las columnas seleccionadas
     var $alignSelecteds;        //Alineaciones de la columnas seleccionadas
-    var $columnasExcel=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA","AB","AC","AD","AE");
+    var $columnasExcel=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+        "AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ",
+        "BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ",
+        "CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ");
                                 //Array con las letras de las columnas del archivo excel. Se calcula este numero máximo de columnas a usarse.
     var $ultimaLetraCabeceraTabla; //Ultima letra que coincide con la última columna del reporte.
     var $penultimaLetraCabeceraTabla; //penúltima letra que coincide con la última columna del reporte.
@@ -66,7 +69,7 @@ class exceloasis extends PHPExcel{
 
         $this->getActiveSheet()->setCellValue('B1', 'Estado Plurinacional de Bolivia');
         $this->getActiveSheet()->setCellValue('B2', 'Empresa Estatal de Transporte Por Cable "Mi Teleférico"');
-        $this->getActiveSheet()->setCellValue('B3', 'Reporte Relación Laboral');
+        $this->getActiveSheet()->setCellValue('B3', ($this->title_rpt!=false&&$this->title_rpt!='')?$this->title_rpt:'Reporte Relación Laboral');
         //$this->getActiveSheet()->setCellValue('D1', PHPExcel_Shared_Date::PHPToExcel( gmmktime(0,0,0,date('m'),date('d'),date('Y')) ));
         //$this->getActiveSheet()->getStyle('D1')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX15);
         //$this->getActiveSheet()->setCellValue('E1', '#12566');

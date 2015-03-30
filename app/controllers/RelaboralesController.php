@@ -2494,7 +2494,7 @@ class RelaboralesController extends ControllerBase
             $excel->tableWidth = $ancho;
             #region Proceso de generación del documento Excel
             $excel->debug = 0;
-            $excel->title_rpt = utf8_decode('Reporte Relación Laboral');
+            $excel->title_rpt = utf8_decode('Reporte Relacion Laboral');
             $excel->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
             $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);

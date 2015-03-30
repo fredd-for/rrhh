@@ -5,62 +5,302 @@
  *   Usuario Creador: Lic. Javier Loza
  *   Fecha Creación:  09-11-2014
  */
-function exportarReporte(option){
+/**
+ * Función para la obtención de los reportes correspondientes a horarios y marcaciones.
+ * @param option
+ * @param idRelaboral
+ */
+function exportarReporteHorariosYMarcaciones(option,idRelaboral){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
-    ubicacion = $('#jqxgrid').jqxGrid('getcolumn','ubicacion');
-    condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
-    estado_descripcion = $('#jqxgrid').jqxGrid('getcolumn','estado_descripcion');
-    nombres = $('#jqxgrid').jqxGrid('getcolumn','nombres');
-    ci = $('#jqxgrid').jqxGrid('getcolumn','ci');
-    expd = $('#jqxgrid').jqxGrid('getcolumn','expd');
-    /*num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');*/
-    gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
-    cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
-    sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
-    departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
-    area = $('#jqxgrid').jqxGrid('getcolumn','area');
-    fin_partida = $('#jqxgrid').jqxGrid('getcolumn','fin_partida');
-    proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
-    nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
-    fecha_ing = $('#jqxgrid').jqxGrid('getcolumn','fecha_ing');
-    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
-    fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
-    fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
-    motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
-    observacion = $('#jqxgrid').jqxGrid('getcolumn','observacion');
 
-    columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
-    columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
-    columna[estado_descripcion.datafield] = {text: estado_descripcion.text, hidden: estado_descripcion.hidden};
-    columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
-    columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
-    columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
-    /*columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};*/
-    columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
-    columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
-    columna[area.datafield] = {text: area.text, hidden: area.hidden};
-    columna[proceso_codigo.datafield] = {text: proceso_codigo.text, hidden: proceso_codigo.hidden};
-    columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
-    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
-    columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
-    columna[fecha_ing.datafield] = {text: fecha_ing.text, hidden: fecha_ing.hidden};
-    columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};
-    columna[fecha_incor.datafield] = {text: fecha_incor.text, hidden: fecha_incor.hidden};
-    columna[nivelsalarial.datafield] = {text: nivelsalarial.text, hidden: nivelsalarial.hidden};
-    columna[fecha_fin.datafield] = {text: fecha_fin.text, hidden: fecha_fin.hidden};
-    columna[fecha_baja.datafield] = {text: fecha_baja.text, hidden: fecha_baja.hidden};
-    columna[motivo_baja.datafield] = {text: motivo_baja.text, hidden: motivo_baja.hidden};
+    gestion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','gestion');
+    mes_nombre = $('#divGridControlMarcaciones').jqxGrid('getcolumn','mes_nombre');
+    turno = $('#divGridControlMarcaciones').jqxGrid('getcolumn','turno');
+    modalidad_marcacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','modalidad_marcacion');
+
+    d1 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d1');
+    estado1 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado1');
+    estado1_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado1_descripcion');
+
+    d2 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d2');
+    estado2 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado2');
+    estado2_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado2_descripcion');
+
+    d3 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d3');
+    estado3 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado3');
+    estado3_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado3_descripcion');
+
+    d4 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d4');
+    estado4 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado4');
+    estado4_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado4_descripcion');
+
+    d5 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d5');
+    estado5 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado5');
+    estado5_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado5_descripcion');
+
+    d6 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d6');
+    estado6 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado6');
+    estado6_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado6_descripcion');
+
+    d7 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d7');
+    estado7 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado7');
+    estado7_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado7_descripcion');
+
+    d8 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d8');
+    estado8 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado8');
+    estado8_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado8_descripcion');
+
+    d9 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d9');
+    estado9 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado9');
+    estado9_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado9_descripcion');
+
+    d10 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d10');
+    estado10 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado10');
+    estado10_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado10_descripcion');
+
+    d11 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d11');
+    estado11 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado11');
+    estado11_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado11_descripcion');
+
+    d12 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d12');
+    estado12 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado12');
+    estado12_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado12_descripcion');
+
+    d13 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d13');
+    estado13 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado13');
+    estado13_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado13_descripcion');
+
+    d14 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d14');
+    estado14 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado14');
+    estado14_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado14_descripcion');
+
+    d15 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d15');
+    estado15 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado15');
+    estado15_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado15_descripcion');
+
+    d16 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d16');
+    estado16 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado16');
+    estado16_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado16_descripcion');
+
+    d17 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d17');
+    estado17 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado17');
+    estado17_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado17_descripcion');
+
+    d18 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d18');
+    estado18 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado18');
+    estado18_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado18_descripcion');
+
+    d19 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d19');
+    estado19 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado19');
+    estado19_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado19_descripcion');
+
+    d20 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d20');
+    estado20 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado20');
+    estado20_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado20_descripcion');
+
+    d21 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d21');
+    estado21 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado21');
+    estado21_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado21_descripcion');
+
+    d22 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d22');
+    estado22 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado22');
+    estado22_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado22_descripcion');
+
+    d23 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d23');
+    estado23 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado23');
+    estado23_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado23_descripcion');
+
+    d24 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d24');
+    estado24 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado24');
+    estado24_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado24_descripcion');
+
+    d25 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d25');
+    estado25 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado25');
+    estado25_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado25_descripcion');
+
+    d26 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d26');
+    estado26 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado26');
+    estado26_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado26_descripcion');
+
+    d27 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d27');
+    estado27 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado27');
+    estado27_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado27_descripcion');
+
+    d28 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d28');
+    estado28 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado28');
+    estado28_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado28_descripcion');
+
+    d29 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d29');
+    estado29 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado29');
+    estado29_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado29_descripcion');
+
+    d30 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d30');
+    estado30 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado30');
+    estado30_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado30_descripcion');
+
+    d31 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d31');
+    estado31 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado31');
+    estado31_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado31_descripcion');
+
+    ultimo_dia = $('#divGridControlMarcaciones').jqxGrid('getcolumn','ultimo_dia');
+    atrasos = $('#divGridControlMarcaciones').jqxGrid('getcolumn','atrasos');
+    faltas = $('#divGridControlMarcaciones').jqxGrid('getcolumn','faltas');
+    abandono = $('#divGridControlMarcaciones').jqxGrid('getcolumn','abandono');
+    omision = $('#divGridControlMarcaciones').jqxGrid('getcolumn','omision');
+    lsgh = $('#divGridControlMarcaciones').jqxGrid('getcolumn','lsgh');
+    compensacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','compensacion');
+    observacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','observacion');
+    estado = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado');
+    estado_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado_descripcion');
+
+
+    columna[gestion.datafield] = {text: gestion.text, hidden: gestion.hidden};
+    columna[mes_nombre.datafield] = {text: mes_nombre.text, hidden: mes_nombre.hidden};
+    columna[turno.datafield] = {text: turno.text, hidden: turno.hidden};
+    columna[modalidad_marcacion.datafield] = {text: modalidad_marcacion.text, hidden: modalidad_marcacion.hidden};
+    columna[estado_descripcion.datafield] = {text: modalidad_marcacion.text, hidden: estado_descripcion.hidden};
+
+    columna[d1.datafield] = {text: d1.text, hidden: d1.hidden};
+    /*columna[estado1.datafield] = {text: estado1.text, hidden: estado1.hidden};
+    columna[estado1_descripcion.datafield] = {text: estado1_descripcion.text, hidden: estado1_descripcion.hidden};*/
+
+    columna[d2.datafield] = {text: d2.text, hidden: d2.hidden};
+    /*columna[estado2.datafield] = {text: estado2.text, hidden: estado2.hidden};
+    columna[estado2_descripcion.datafield] = {text: estado2_descripcion.text, hidden: estado2_descripcion.hidden};
+*/
+    columna[d3.datafield] = {text: d3.text, hidden: d3.hidden};
+    /*columna[estado3.datafield] = {text: estado3.text, hidden: estado3.hidden};
+    columna[estado3_descripcion.datafield] = {text: estado3_descripcion.text, hidden: estado3_descripcion.hidden};*/
+
+    columna[d4.datafield] = {text: d4.text, hidden: d4.hidden};
+    /*columna[estado4.datafield] = {text: estado4.text, hidden: estado4.hidden};
+    columna[estado4_descripcion.datafield] = {text: estado4_descripcion.text, hidden: estado4_descripcion.hidden};*/
+
+    columna[d5.datafield] = {text: d5.text, hidden: d5.hidden};
+    /*columna[estado5.datafield] = {text: estado5.text, hidden: estado5.hidden};
+    columna[estado5_descripcion.datafield] = {text: estado5_descripcion.text, hidden: estado5_descripcion.hidden};*/
+
+    columna[d6.datafield] = {text: d6.text, hidden: d6.hidden};
+    /*columna[estado6.datafield] = {text: estado6.text, hidden: estado6.hidden};
+    columna[estado6_descripcion.datafield] = {text: estado6_descripcion.text, hidden: estado6_descripcion.hidden};*/
+
+    columna[d7.datafield] = {text: d7.text, hidden: d7.hidden};
+    /*columna[estado7.datafield] = {text: estado7.text, hidden: estado7.hidden};
+    columna[estado7_descripcion.datafield] = {text: estado7_descripcion.text, hidden: estado7_descripcion.hidden};*/
+
+    columna[d8.datafield] = {text: d8.text, hidden: d8.hidden};
+    /*columna[estado8.datafield] = {text: estado8.text, hidden: estado8.hidden};
+    columna[estado8_descripcion.datafield] = {text: estado8_descripcion.text, hidden: estado8_descripcion.hidden};*/
+
+    columna[d9.datafield] = {text: d9.text, hidden: d9.hidden};
+    /*columna[estado9.datafield] = {text: estado9.text, hidden: estado9.hidden};
+    columna[estado9_descripcion.datafield] = {text: estado9_descripcion.text, hidden: estado9_descripcion.hidden};*/
+
+    columna[d10.datafield] = {text: d10.text, hidden: d10.hidden};
+    /*columna[estado10.datafield] = {text: estado10.text, hidden: estado10.hidden};
+    columna[estado10_descripcion.datafield] = {text: estado10_descripcion.text, hidden: estado10_descripcion.hidden};*/
+
+    columna[d11.datafield] = {text: d11.text, hidden: d11.hidden};
+    /*columna[estado11.datafield] = {text: estado11.text, hidden: estado11.hidden};
+    columna[estado11_descripcion.datafield] = {text: estado11_descripcion.text, hidden: estado11_descripcion.hidden};*/
+
+    columna[d12.datafield] = {text: d12.text, hidden: d12.hidden};
+    /*columna[estado12.datafield] = {text: estado12.text, hidden: estado12.hidden};
+    columna[estado12_descripcion.datafield] = {text: estado12_descripcion.text, hidden: estado12_descripcion.hidden};*/
+
+    columna[d13.datafield] = {text: d13.text, hidden: d13.hidden};
+    /*columna[estado13.datafield] = {text: estado13.text, hidden: estado13.hidden};
+    columna[estado13_descripcion.datafield] = {text: estado13_descripcion.text, hidden: estado13_descripcion.hidden};*/
+
+    columna[d14.datafield] = {text: d14.text, hidden: d14.hidden};
+    /*columna[estado14.datafield] = {text: estado14.text, hidden: estado14.hidden};
+    columna[estado14_descripcion.datafield] = {text: estado14_descripcion.text, hidden: estado14_descripcion.hidden};*/
+
+    columna[d15.datafield] = {text: d15.text, hidden: d15.hidden};
+    /*columna[estado15.datafield] = {text: estado15.text, hidden: estado15.hidden};
+    columna[estado15_descripcion.datafield] = {text: estado15_descripcion.text, hidden: estado15_descripcion.hidden};*/
+
+    columna[d16.datafield] = {text: d16.text, hidden: d16.hidden};
+    /*columna[estado16.datafield] = {text: estado16.text, hidden: estado16.hidden};
+    columna[estado16_descripcion.datafield] = {text: estado16_descripcion.text, hidden: estado16_descripcion.hidden};*/
+
+    columna[d17.datafield] = {text: d17.text, hidden: d17.hidden};
+    /*columna[estado17.datafield] = {text: estado17.text, hidden: estado17.hidden};
+    columna[estado17_descripcion.datafield] = {text: estado17_descripcion.text, hidden: estado17_descripcion.hidden};*/
+
+    columna[d18.datafield] = {text: d18.text, hidden: d18.hidden};
+    /*columna[estado18.datafield] = {text: estado18.text, hidden: estado18.hidden};
+    columna[estado18_descripcion.datafield] = {text: estado18_descripcion.text, hidden: estado18_descripcion.hidden};*/
+
+    columna[d19.datafield] = {text: d19.text, hidden: d19.hidden};
+    /*columna[estado19.datafield] = {text: estado19.text, hidden: estado19.hidden};
+    columna[estado19_descripcion.datafield] = {text: estado19_descripcion.text, hidden: estado19_descripcion.hidden};*/
+
+    columna[d20.datafield] = {text: d20.text, hidden: d20.hidden};
+    /*columna[estado20.datafield] = {text: estado20.text, hidden: estado20.hidden};
+    columna[estado20_descripcion.datafield] = {text: estado20_descripcion.text, hidden: estado20_descripcion.hidden};*/
+
+    columna[d21.datafield] = {text: d21.text, hidden: d21.hidden};
+    /*columna[estado21.datafield] = {text: estado21.text, hidden: estado21.hidden};
+    columna[estado21_descripcion.datafield] = {text: estado21_descripcion.text, hidden: estado21_descripcion.hidden};*/
+
+    columna[d22.datafield] = {text: d22.text, hidden: d22.hidden};
+    /*columna[estado22.datafield] = {text: estado22.text, hidden: estado22.hidden};
+    columna[estado22_descripcion.datafield] = {text: estado22_descripcion.text, hidden: estado22_descripcion.hidden};*/
+
+    columna[d23.datafield] = {text: d23.text, hidden: d23.hidden};
+    /*columna[estado23.datafield] = {text: estado23.text, hidden: estado23.hidden};
+    columna[estado23_descripcion.datafield] = {text: estado23_descripcion.text, hidden: estado23_descripcion.hidden};*/
+
+    columna[d24.datafield] = {text: d24.text, hidden: d24.hidden};
+    /*columna[estado24.datafield] = {text: estado24.text, hidden: estado24.hidden};
+    columna[estado24_descripcion.datafield] = {text: estado24_descripcion.text, hidden: estado24_descripcion.hidden};*/
+
+    columna[d25.datafield] = {text: d25.text, hidden: d25.hidden};
+    /*columna[estado25.datafield] = {text: estado25.text, hidden: estado25.hidden};
+    columna[estado25_descripcion.datafield] = {text: estado25_descripcion.text, hidden: estado25_descripcion.hidden};*/
+
+    columna[d26.datafield] = {text: d26.text, hidden: d26.hidden};
+    /*columna[estado26.datafield] = {text: estado26.text, hidden: estado26.hidden};
+    columna[estado26_descripcion.datafield] = {text: estado26_descripcion.text, hidden: estado26_descripcion.hidden};*/
+
+    columna[d27.datafield] = {text: d27.text, hidden: d27.hidden};
+    /*columna[estado27.datafield] = {text: estado27.text, hidden: estado27.hidden};
+    columna[estado27_descripcion.datafield] = {text: estado27_descripcion.text, hidden: estado27_descripcion.hidden};*/
+
+    columna[d28.datafield] = {text: d28.text, hidden: d28.hidden};
+    /*columna[estado28.datafield] = {text: estado28.text, hidden: estado28.hidden};
+    columna[estado28_descripcion.datafield] = {text: estado28_descripcion.text, hidden: estado28_descripcion.hidden};*/
+
+    columna[d29.datafield] = {text: d29.text, hidden: d29.hidden};
+    /*columna[estado29.datafield] = {text: estado29.text, hidden: estado29.hidden};
+    columna[estado29_descripcion.datafield] = {text: estado29_descripcion.text, hidden: estado29_descripcion.hidden};*/
+
+    columna[d30.datafield] = {text: d30.text, hidden: d30.hidden};
+    /*columna[estado30.datafield] = {text: estado30.text, hidden: estado30.hidden};
+    columna[estado30_descripcion.datafield] = {text: estado30_descripcion.text, hidden: estado30_descripcion.hidden};*/
+
+    columna[d31.datafield] = {text: d31.text, hidden: d31.hidden};
+    /*columna[estado31.datafield] = {text: estado31.text, hidden: estado31.hidden};
+    columna[estado31_descripcion.datafield] = {text: estado31_descripcion.text, hidden: estado31_descripcion.hidden};*/
+
+    columna[ultimo_dia.datafield] = {text: ultimo_dia.text, hidden: ultimo_dia.hidden};
+    columna[atrasos.datafield] = {text: atrasos.text, hidden: atrasos.hidden};
+    columna[faltas.datafield] = {text: faltas.text, hidden: faltas.hidden};
+    columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};
+    columna[omision.datafield] = {text: omision.text, hidden: omision.hidden};
+    columna[lsgh.datafield] = {text: lsgh.text, hidden: lsgh.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
-    var groups = $('#jqxgrid').jqxGrid('groups');
-    if(groups==null||groups=='')groups='null';
-    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
 
-    var sortinformation = $('#jqxgrid').jqxGrid('getsortinformation');
+    var groups = $('#divGridControlMarcaciones').jqxGrid('groups');
+    if(groups==null||groups=='')groups='null';
+    //var sorteds = $('#divGridControlMarcaciones').jqxGrid('getsortcolumn');
+
+    var sortinformation = $('#divGridControlMarcaciones').jqxGrid('getsortinformation');
     if(sortinformation.sortcolumn!=undefined){
         // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
         var sortcolumn = sortinformation.sortcolumn;
@@ -70,8 +310,8 @@ function exportarReporte(option){
     }else ordenados='';
 
 
-    var rows = $('#jqxgrid').jqxGrid('getrows');
-    var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
+    var rows = $('#divGridControlMarcaciones').jqxGrid('getrows');
+    var filterGroups = $('#divGridControlMarcaciones').jqxGrid('getfilterinformation');
     var counter = 0;
     for (var i = 0; i < filterGroups.length; i++) {
         var filterGroup = filterGroups[i];
@@ -94,19 +334,20 @@ function exportarReporte(option){
     json_sorteds = btoa(utf8_encode(json_sorteds));
     var json_groups =  btoa(utf8_encode(groups));
 
-    json_columns= json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    json_filter= json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    json_groups= json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-    json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_columns = json_columns.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_filter = json_filter.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_groups = json_groups.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+    json_sorteds = json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta="/relaborales/exportexcel/";break;
-        case 2: ruta="/relaborales/exportpdf/";break;
+        case 1: ruta = "/horariosymarcaciones/exportmarcacionesexcel/";break;
+        case 2: ruta = "/horariosymarcaciones/exportcalculosexcel/";break;
+        case 3: ruta = "/horariosymarcaciones/exportmarcacionespdf/";break;
+        case 4: ruta = "/horariosymarcaciones/exportcalculospdf/";break;
     }
-    /*if(option==1)ruta="/relaborales/print/";
-    elseif(option==2)ruta="/relaborales/print/";*/
+
     if(ruta!='')
-        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+        window.open(ruta+idRelaboral+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

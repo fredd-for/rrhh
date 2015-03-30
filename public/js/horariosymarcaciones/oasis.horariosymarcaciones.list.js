@@ -667,7 +667,7 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                         hidden: false
                     },
                     {
-                        text: '&Uacute;ltimo Procesado',
+                        text: '&Uacute;ltimo D&iacute;a Procesado',
                         datafield: 'ultimo_dia',
                         width: 70,
                         cellsalign: 'center',
@@ -722,7 +722,7 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                     {
                         text: 'Observaci&oacute;n',
                         filtertype: 'checkedlist',
-                        datafield: 'controlexcepcion_observacion',
+                        datafield: 'observacion',
                         width: 100,
                         align: 'center',
                         hidden: false

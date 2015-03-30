@@ -95,28 +95,30 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
 
-    $("#btnExportarExcel").click(function () {
-        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+    $("#btnExportarMarcacionesExcel").click(function () {
+        var items = $("#divListBoxMarcaciones").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
             numColumnas++;
         });
-        if (numColumnas > 0) exportarReporte(1);
+        var idRelaboral = $("#hdnIdRelaboralVista").val();
+        if (idRelaboral>0&&numColumnas > 0) exportarReporteHorariosYMarcaciones(1,idRelaboral);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#jqxlistbox").focus();
+            $("#divListBoxMarcaciones").focus();
         }
     });
-    $("#btnExportarPDF").click(function () {
-        var items = $("#jqxlistbox").jqxListBox('getCheckedItems');
+    $("#btnExportarMarcacionesPDF").click(function () {
+        var items = $("#divListBoxMarcaciones").jqxListBox('getCheckedItems');
         var numColumnas = 0;
         $.each(items, function (index, value) {
             numColumnas++;
         });
-        if (numColumnas > 0) exportarReporte(2);
+        var idRelaboral = $("#hdnIdRelaboralVista").val();
+        if (idRelaboral>0&&numColumnas > 0) exportarReporteHorariosYMarcaciones(3,idRelaboral);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#jqxlistbox").focus();
+            $("#divListBoxMarcaciones").focus();
         }
     });
     $("#chkAllCols").click(function () {
@@ -363,6 +365,7 @@ function definirGrillaParaListaRelaborales() {
                     $("#listrowbutton").jqxButton();
                     $("#calculaterowbutton").jqxButton();
                     $("#turnrowbutton").jqxButton();
+                    $("#hdnIdRelaboralVista").val(0);
 
                     /* Registrar nueva relación laboral.*/
                     $("#listrowbutton").off();
