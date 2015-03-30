@@ -108,6 +108,20 @@ $().ready(function () {
             $("#divListBoxMarcaciones").focus();
         }
     });
+    $("#btnExportarCalculosExcel").click(function () {
+        var items = $("#divListBoxCalculos").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
+        var fechaIni=$("#txtFechaIniCalculo").val();
+        var fechaFin = $("#txtFechaFinCalculo").val();
+        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#divListBoxCalculos").focus();
+        }
+    });
     $("#btnExportarMarcacionesPDF").click(function () {
         var items = $("#divListBoxMarcaciones").jqxListBox('getCheckedItems');
         var numColumnas = 0;
@@ -115,10 +129,24 @@ $().ready(function () {
             numColumnas++;
         });
         var idRelaboral = $("#hdnIdRelaboralVista").val();
-        if (idRelaboral>0&&numColumnas > 0) exportarReporteHorariosYMarcaciones(3,idRelaboral);
+        if (idRelaboral>0&&numColumnas > 0) exportarReporteHorariosYMarcaciones(2,idRelaboral);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#divListBoxMarcaciones").focus();
+        }
+    });
+    $("#btnExportarCalculosPDF").click(function () {
+        var items = $("#divListBoxCalculos").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
+        var fechaIni=$("#txtFechaIniCalculo").val();
+        var fechaFin = $("#txtFechaFinCalculo").val();
+        if (fechaIni!=''&&fechaFin!=''&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(2,fechaIni,fechaFin);
+        else {
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+            $("#divListBoxCalculos").focus();
         }
     });
     $("#chkAllCols").click(function () {

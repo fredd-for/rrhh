@@ -3,159 +3,166 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  09-11-2014
+ *   Fecha Creación:  30-03-2015
  */
 /**
- * Función para la obtención de los reportes correspondientes a horarios y marcaciones.
+ * Función para la obtención de los reportes correspondientes a horarios y marcaciones considerando los cálculos en base a un rango de fechas.
  * @param option
  * @param idRelaboral
  */
-function exportarReporteHorariosYMarcaciones(option,idRelaboral){
+function exportarReporteCalculosHorariosYMarcaciones(option,fechaIni,fechaFin){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
 
-    gestion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','gestion');
-    mes_nombre = $('#divGridControlMarcaciones').jqxGrid('getcolumn','mes_nombre');
-    turno = $('#divGridControlMarcaciones').jqxGrid('getcolumn','turno');
-    modalidad_marcacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','modalidad_marcacion');
+    nombres = $('#divGridControlCalculos').jqxGrid('getcolumn','nombres');
+    ci = $('#divGridControlCalculos').jqxGrid('getcolumn','ci');
+    expd = $('#divGridControlCalculos').jqxGrid('getcolumn','expd');
 
-    d1 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d1');
-    estado1 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado1');
-    estado1_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado1_descripcion');
+    gestion = $('#divGridControlCalculos').jqxGrid('getcolumn','gestion');
+    mes_nombre = $('#divGridControlCalculos').jqxGrid('getcolumn','mes_nombre');
+    turno = $('#divGridControlCalculos').jqxGrid('getcolumn','turno');
+    modalidad_marcacion = $('#divGridControlCalculos').jqxGrid('getcolumn','modalidad_marcacion');
 
-    d2 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d2');
-    estado2 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado2');
-    estado2_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado2_descripcion');
+    d1 = $('#divGridControlCalculos').jqxGrid('getcolumn','d1');
+    estado1 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado1');
+    estado1_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado1_descripcion');
 
-    d3 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d3');
-    estado3 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado3');
-    estado3_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado3_descripcion');
+    d2 = $('#divGridControlCalculos').jqxGrid('getcolumn','d2');
+    estado2 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado2');
+    estado2_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado2_descripcion');
 
-    d4 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d4');
-    estado4 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado4');
-    estado4_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado4_descripcion');
+    d3 = $('#divGridControlCalculos').jqxGrid('getcolumn','d3');
+    estado3 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado3');
+    estado3_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado3_descripcion');
 
-    d5 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d5');
-    estado5 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado5');
-    estado5_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado5_descripcion');
+    d4 = $('#divGridControlCalculos').jqxGrid('getcolumn','d4');
+    estado4 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado4');
+    estado4_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado4_descripcion');
 
-    d6 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d6');
-    estado6 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado6');
-    estado6_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado6_descripcion');
+    d5 = $('#divGridControlCalculos').jqxGrid('getcolumn','d5');
+    estado5 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado5');
+    estado5_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado5_descripcion');
 
-    d7 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d7');
-    estado7 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado7');
-    estado7_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado7_descripcion');
+    d6 = $('#divGridControlCalculos').jqxGrid('getcolumn','d6');
+    estado6 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado6');
+    estado6_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado6_descripcion');
 
-    d8 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d8');
-    estado8 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado8');
-    estado8_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado8_descripcion');
+    d7 = $('#divGridControlCalculos').jqxGrid('getcolumn','d7');
+    estado7 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado7');
+    estado7_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado7_descripcion');
 
-    d9 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d9');
-    estado9 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado9');
-    estado9_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado9_descripcion');
+    d8 = $('#divGridControlCalculos').jqxGrid('getcolumn','d8');
+    estado8 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado8');
+    estado8_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado8_descripcion');
 
-    d10 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d10');
-    estado10 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado10');
-    estado10_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado10_descripcion');
+    d9 = $('#divGridControlCalculos').jqxGrid('getcolumn','d9');
+    estado9 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado9');
+    estado9_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado9_descripcion');
 
-    d11 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d11');
-    estado11 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado11');
-    estado11_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado11_descripcion');
+    d10 = $('#divGridControlCalculos').jqxGrid('getcolumn','d10');
+    estado10 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado10');
+    estado10_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado10_descripcion');
 
-    d12 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d12');
-    estado12 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado12');
-    estado12_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado12_descripcion');
+    d11 = $('#divGridControlCalculos').jqxGrid('getcolumn','d11');
+    estado11 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado11');
+    estado11_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado11_descripcion');
 
-    d13 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d13');
-    estado13 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado13');
-    estado13_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado13_descripcion');
+    d12 = $('#divGridControlCalculos').jqxGrid('getcolumn','d12');
+    estado12 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado12');
+    estado12_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado12_descripcion');
 
-    d14 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d14');
-    estado14 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado14');
-    estado14_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado14_descripcion');
+    d13 = $('#divGridControlCalculos').jqxGrid('getcolumn','d13');
+    estado13 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado13');
+    estado13_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado13_descripcion');
 
-    d15 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d15');
-    estado15 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado15');
-    estado15_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado15_descripcion');
+    d14 = $('#divGridControlCalculos').jqxGrid('getcolumn','d14');
+    estado14 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado14');
+    estado14_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado14_descripcion');
 
-    d16 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d16');
-    estado16 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado16');
-    estado16_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado16_descripcion');
+    d15 = $('#divGridControlCalculos').jqxGrid('getcolumn','d15');
+    estado15 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado15');
+    estado15_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado15_descripcion');
 
-    d17 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d17');
-    estado17 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado17');
-    estado17_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado17_descripcion');
+    d16 = $('#divGridControlCalculos').jqxGrid('getcolumn','d16');
+    estado16 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado16');
+    estado16_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado16_descripcion');
 
-    d18 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d18');
-    estado18 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado18');
-    estado18_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado18_descripcion');
+    d17 = $('#divGridControlCalculos').jqxGrid('getcolumn','d17');
+    estado17 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado17');
+    estado17_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado17_descripcion');
 
-    d19 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d19');
-    estado19 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado19');
-    estado19_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado19_descripcion');
+    d18 = $('#divGridControlCalculos').jqxGrid('getcolumn','d18');
+    estado18 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado18');
+    estado18_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado18_descripcion');
 
-    d20 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d20');
-    estado20 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado20');
-    estado20_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado20_descripcion');
+    d19 = $('#divGridControlCalculos').jqxGrid('getcolumn','d19');
+    estado19 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado19');
+    estado19_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado19_descripcion');
 
-    d21 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d21');
-    estado21 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado21');
-    estado21_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado21_descripcion');
+    d20 = $('#divGridControlCalculos').jqxGrid('getcolumn','d20');
+    estado20 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado20');
+    estado20_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado20_descripcion');
 
-    d22 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d22');
-    estado22 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado22');
-    estado22_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado22_descripcion');
+    d21 = $('#divGridControlCalculos').jqxGrid('getcolumn','d21');
+    estado21 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado21');
+    estado21_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado21_descripcion');
 
-    d23 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d23');
-    estado23 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado23');
-    estado23_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado23_descripcion');
+    d22 = $('#divGridControlCalculos').jqxGrid('getcolumn','d22');
+    estado22 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado22');
+    estado22_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado22_descripcion');
 
-    d24 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d24');
-    estado24 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado24');
-    estado24_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado24_descripcion');
+    d23 = $('#divGridControlCalculos').jqxGrid('getcolumn','d23');
+    estado23 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado23');
+    estado23_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado23_descripcion');
 
-    d25 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d25');
-    estado25 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado25');
-    estado25_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado25_descripcion');
+    d24 = $('#divGridControlCalculos').jqxGrid('getcolumn','d24');
+    estado24 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado24');
+    estado24_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado24_descripcion');
 
-    d26 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d26');
-    estado26 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado26');
-    estado26_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado26_descripcion');
+    d25 = $('#divGridControlCalculos').jqxGrid('getcolumn','d25');
+    estado25 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado25');
+    estado25_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado25_descripcion');
 
-    d27 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d27');
-    estado27 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado27');
-    estado27_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado27_descripcion');
+    d26 = $('#divGridControlCalculos').jqxGrid('getcolumn','d26');
+    estado26 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado26');
+    estado26_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado26_descripcion');
 
-    d28 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d28');
-    estado28 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado28');
-    estado28_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado28_descripcion');
+    d27 = $('#divGridControlCalculos').jqxGrid('getcolumn','d27');
+    estado27 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado27');
+    estado27_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado27_descripcion');
 
-    d29 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d29');
-    estado29 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado29');
-    estado29_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado29_descripcion');
+    d28 = $('#divGridControlCalculos').jqxGrid('getcolumn','d28');
+    estado28 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado28');
+    estado28_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado28_descripcion');
 
-    d30 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d30');
-    estado30 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado30');
-    estado30_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado30_descripcion');
+    d29 = $('#divGridControlCalculos').jqxGrid('getcolumn','d29');
+    estado29 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado29');
+    estado29_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado29_descripcion');
 
-    d31 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','d31');
-    estado31 = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado31');
-    estado31_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado31_descripcion');
+    d30 = $('#divGridControlCalculos').jqxGrid('getcolumn','d30');
+    estado30 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado30');
+    estado30_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado30_descripcion');
 
-    ultimo_dia = $('#divGridControlMarcaciones').jqxGrid('getcolumn','ultimo_dia');
-    atrasos = $('#divGridControlMarcaciones').jqxGrid('getcolumn','atrasos');
-    faltas = $('#divGridControlMarcaciones').jqxGrid('getcolumn','faltas');
-    abandono = $('#divGridControlMarcaciones').jqxGrid('getcolumn','abandono');
-    omision = $('#divGridControlMarcaciones').jqxGrid('getcolumn','omision');
-    lsgh = $('#divGridControlMarcaciones').jqxGrid('getcolumn','lsgh');
-    compensacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','compensacion');
-    observacion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','observacion');
-    estado = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado');
-    estado_descripcion = $('#divGridControlMarcaciones').jqxGrid('getcolumn','estado_descripcion');
+    d31 = $('#divGridControlCalculos').jqxGrid('getcolumn','d31');
+    estado31 = $('#divGridControlCalculos').jqxGrid('getcolumn','estado31');
+    estado31_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado31_descripcion');
 
+    ultimo_dia = $('#divGridControlCalculos').jqxGrid('getcolumn','ultimo_dia');
+    atrasos = $('#divGridControlCalculos').jqxGrid('getcolumn','atrasos');
+    faltas = $('#divGridControlCalculos').jqxGrid('getcolumn','faltas');
+    abandono = $('#divGridControlCalculos').jqxGrid('getcolumn','abandono');
+    omision = $('#divGridControlCalculos').jqxGrid('getcolumn','omision');
+    lsgh = $('#divGridControlCalculos').jqxGrid('getcolumn','lsgh');
+    compensacion = $('#divGridControlCalculos').jqxGrid('getcolumn','compensacion');
+    observacion = $('#divGridControlCalculos').jqxGrid('getcolumn','observacion');
+    estado = $('#divGridControlCalculos').jqxGrid('getcolumn','estado');
+    estado_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado_descripcion');
+
+    columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
+    columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
+    columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
 
     columna[gestion.datafield] = {text: gestion.text, hidden: gestion.hidden};
     columna[mes_nombre.datafield] = {text: mes_nombre.text, hidden: mes_nombre.hidden};
@@ -296,11 +303,11 @@ function exportarReporteHorariosYMarcaciones(option,idRelaboral){
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
 
-    var groups = $('#divGridControlMarcaciones').jqxGrid('groups');
+    var groups = $('#divGridControlCalculos').jqxGrid('groups');
     if(groups==null||groups=='')groups='null';
-    //var sorteds = $('#divGridControlMarcaciones').jqxGrid('getsortcolumn');
+    //var sorteds = $('#divGridControlCalculos').jqxGrid('getsortcolumn');
 
-    var sortinformation = $('#divGridControlMarcaciones').jqxGrid('getsortinformation');
+    var sortinformation = $('#divGridControlCalculos').jqxGrid('getsortinformation');
     if(sortinformation.sortcolumn!=undefined){
         // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
         var sortcolumn = sortinformation.sortcolumn;
@@ -310,8 +317,8 @@ function exportarReporteHorariosYMarcaciones(option,idRelaboral){
     }else ordenados='';
 
 
-    var rows = $('#divGridControlMarcaciones').jqxGrid('getrows');
-    var filterGroups = $('#divGridControlMarcaciones').jqxGrid('getfilterinformation');
+    var rows = $('#divGridControlCalculos').jqxGrid('getrows');
+    var filterGroups = $('#divGridControlCalculos').jqxGrid('getfilterinformation');
     var counter = 0;
     for (var i = 0; i < filterGroups.length; i++) {
         var filterGroup = filterGroups[i];
@@ -340,14 +347,12 @@ function exportarReporteHorariosYMarcaciones(option,idRelaboral){
     json_sorteds = json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta = "/horariosymarcaciones/exportmarcacionesexcel/";break;
-        case 2: ruta = "/horariosymarcaciones/exportcalculosexcel/";break;
-        case 3: ruta = "/horariosymarcaciones/exportmarcacionespdf/";break;
-        case 4: ruta = "/horariosymarcaciones/exportcalculospdf/";break;
+        case 1: ruta = "/horariosymarcaciones/exportcalculosexcel/";break;
+        case 2: ruta = "/horariosymarcaciones/exportcalculospdf/";break;
     }
 
     if(ruta!='')
-        window.open(ruta+idRelaboral+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+        window.open(ruta+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

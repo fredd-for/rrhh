@@ -279,20 +279,20 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                      container.append("<button title='Aprobar registro de control de excepci&oacute;n.' id='approveexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                      container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                      container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
-                    container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
+                    container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='calendarrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
                     /*$("#addcontrolexceptrowbutton").jqxButton();
                      $("#approveexceptrowbutton").jqxButton();
                      $("#updateexceptrowbutton").jqxButton();
                      $("#deleteexceptrowbutton").jqxButton();*/
-                    $("#turnexceptrowbutton").jqxButton();
+                    $("#calendarrowbutton").jqxButton();
 
                     $("#hdnIdControlExcepcionEdit").val(0);
                     $("#hdnIdRelaboralNew").val(0);
                     $("#hdnIdRelaboralEdit").val(0);
 
-                    $("#turnexceptrowbutton").off();
-                    $("#turnexceptrowbutton").on("click",function(){
+                    $("#calendarrowbutton").off();
+                    $("#calendarrowbutton").on("click",function(){
                         var selectedrowindex = $("#divGridControlMarcaciones").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridControlMarcaciones').jqxGrid('getrowdata', selectedrowindex);
@@ -971,7 +971,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                     {
                         text: 'Observaci&oacute;n',
                         filtertype: 'checkedlist',
-                        datafield: 'controlexcepcion_observacion',
+                        datafield: 'observacion',
                         width: 100,
                         align: 'center',
                         hidden: false
