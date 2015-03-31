@@ -588,7 +588,7 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
     }
 
     /**
-     * Función para la obtención del conjunto de registros que cumple el criterio de búsqueda
+     * Función para la obtención del conjunto de registros que cumple el criterio de búsqueda de acuerdo a un rango de fechas y/o un registro de relación laboral determinado.
      * @param $idRelaboral
      * @param $fechaIni
      * @param $fechaFin
