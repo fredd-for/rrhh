@@ -1440,11 +1440,11 @@ class HorariosymarcacionesController extends ControllerBase
          */
         $generalConfigForAllColumns = array(
             'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'nombres' => array('title' => 'Nombres', 'width' => 50, 'align' => 'L', 'type' => 'varchar'),
-            'ci' => array('title' => 'CI', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'expd' => array('title' => 'EXP', 'width' => 10, 'align' => 'C', 'type' => 'varchar'),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'gestion' => array('title' => 'Gestion', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
+            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
             'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
             'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
             'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
@@ -1510,13 +1510,13 @@ class HorariosymarcacionesController extends ControllerBase
             /*'estado30_descripcion' => array('title' => 'Estado Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
             'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             /*'estado31_descripcion' => array('title' => 'Estado Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'ultimo_dia' => array('title' => 'Ultimo Dia Procesado', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'atrasos' => array('title' => 'Atrasos', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'faltas' => array('title' => 'Faltas', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'abandono' => array('title' => 'Abandono', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'omision' => array('title' => 'Omision', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'lsgh' => array('title' => 'LSGH', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'observacion' => array('title' => 'Observacion', 'width' => 15, 'align' => 'L', 'type' => 'varchar')
+            'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
+            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric'),
+            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar')
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
         $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
@@ -2726,11 +2726,11 @@ class HorariosymarcacionesController extends ControllerBase
          */
         $generalConfigForAllColumns = array(
             'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'nombres' => array('title' => 'Nombres', 'width' => 50, 'align' => 'L', 'type' => 'varchar'),
-            'ci' => array('title' => 'CI', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'expd' => array('title' => 'EXP', 'width' => 10, 'align' => 'C', 'type' => 'varchar'),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'gestion' => array('title' => 'Gestion', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
+            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
             'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
             'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
             'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
@@ -2797,11 +2797,11 @@ class HorariosymarcacionesController extends ControllerBase
             'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date'),
             /*'estado31_descripcion' => array('title' => 'Estado Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
             'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'atrasos' => array('title' => 'Atrasos', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'faltas' => array('title' => 'Faltas', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'abandono' => array('title' => 'Abandono', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'omision' => array('title' => 'Omision', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
-            'lsgh' => array('title' => 'LSGH', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
+            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric'),
+            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
+            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
             'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar')
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
