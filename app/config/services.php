@@ -88,6 +88,14 @@ $di->set('oracle', function () {
         )'           
     ));
 });
+/*$di->set('sqlsrv', function () {
+    return new \Phalcon\Db\Adapter\Pdo\Sqlsrv(array(
+        'host' => '192.168.10.40',
+        'username' => 'sa',
+        'password' => 'Sistemas2015',
+        'dbname' => 'asistencia'
+    ));
+});*/
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */

@@ -3,7 +3,7 @@
     .activeDay {background-color:#ff0000 !important;}
 </style>
 <body>
-<h2 style="padding-top: 0px; width: 100%;"><b>Control de Horarios & Marcaciones </h2>
+<h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n de Marcaciones</h2>
 <!--<h3 style="padding-top: 0px; width: 100%;">(Permisos, Comisiones, Licencias, Tolerancias y Horarios de Lactancia)</b></h3>-->
 
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
@@ -45,8 +45,8 @@
 <div id='divTabControlMarcaciones'>
 <ul>
     <li id="liList">Listado</li>
-    <li id="liMarc">Horarios & Marcaciones</li>
-    <li id="liCalc">C&aacute;lculos por Rango</li>
+    <li id="liMarc">Marcaciones</li>
+    <li id="liCalc">Descarga por Rango</li>
     <li id="liTurnAndExcept">Calendario</li>
 </ul>
 <br>
@@ -242,7 +242,7 @@
                     </div>
                 </div>-->
             </div>
-            <div id="divListBoxMarcaciones"></div>
+            <div id="divListBoxControlMarcaciones"></div>
 
 
             <!-- END Input Grid Title -->
@@ -269,7 +269,7 @@
                 <!-- Input Grid Title -->
                 <div class="block-title">
 
-                    <h2>Listado General para C&aacute;lculos</h2>
+                    <h2>Listado General de Marcaciones</h2>
                     <div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
@@ -283,7 +283,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                            <button class="btn btn-sm btn-primary" type="button" id="btnCalcular" accesskey="c">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDescargarMarcaciones" accesskey="c">
                                 <i class="fa fa-gears"></i>
                                 Calcular
                             </button>
@@ -292,7 +292,7 @@
                     </div>
                     </br>
                     <div id='jqxWidget'>
-                        <div id="divGridControlCalculos"></div>
+                        <div id="divGridMarcacionesRango"></div>
                     </div>
                 </div>
                 <!-- END Input Grid Title -->
@@ -333,7 +333,7 @@
                         </div>
                     </div>-->
                 </div>
-                <div id="divListBoxCalculos"></div>
+                <div id="divListBoxMarcacionesRango"></div>
 
 
                 <!-- END Input Grid Title -->
