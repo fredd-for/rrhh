@@ -549,6 +549,7 @@ function guardarNuevoRegistro(){
                     $("#divMsjeExito").show();
                     $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
                     $("#aMsjeExito").html(res.msj);
+                    setTimeout(function(){$("#divMsjeExito").hide()},5000);
                     /**
                      * Se habilita nuevamente el listado actualizado con el registro realizado y
                      * se inhabilita el formulario para nuevo registro.
@@ -564,6 +565,7 @@ function guardarNuevoRegistro(){
                     $("#divMsjePeligro").show();
                     $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
                     $("#aMsjePeligro").html(res.msj);
+                    setTimeout(function(){$("#divMsjePeligro").hide()},5000);
                 }else{
                     /**
                      * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
@@ -571,6 +573,7 @@ function guardarNuevoRegistro(){
                     $("#divMsjeError").show();
                     $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
                     $("#aMsjeError").html(res.msj);
+                    setTimeout(function(){$("#divMsjeError").hide()},5000);
                 }
 
             }, //mostramos el error

@@ -15,6 +15,20 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
         $this->_db = new Relaboralesperfiles();
         //   parent::initialize();
     }
+    /**
+     * Función para la obtención del listado asignaciones de perfiles.
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function getAll($where='',$group='')
+    {
+        $sql = "SELECT * FROM relaboralesperfiles ";
+        if($where!='')$sql .= $where;
+        if($group!='')$sql .= $group;
+        $this->_db = new Relaboralesperfiles();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 
     /**
      * Función para la verificación de la existencia de sobre posición de asignación de perfiles laborales.
@@ -55,4 +69,4 @@ class Relaboralesperfiles extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
-} 
+}

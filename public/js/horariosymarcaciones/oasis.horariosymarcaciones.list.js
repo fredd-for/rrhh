@@ -6,7 +6,7 @@
  *   Fecha Creación:  03-03-2015
  */
 /**
- * Función para la definición de la grilla que contiene la lista de registros de control de excepciones.
+ * Función para la definición de la grilla que contiene la lista de registros tanto de marcaciones debidas como marcaciones realizadas.
  * @param idRelaboral
  * @param idPersona
  * @param nombres
@@ -18,7 +18,7 @@
  * @param fechaFin
  * @param fechaBaja
  */
-function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelaboral) {
+function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelaboral(dataRecordRelaboral) {
     var idRelaboral = dataRecordRelaboral.id_relaboral;
     var idPersona=dataRecordRelaboral.id_persona;
     var nombres=dataRecordRelaboral.nombres;
@@ -49,7 +49,7 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
             {name: 'calendariolaboral1_id', type: 'integer'},
             {name: 'estado1', type: 'integer'},
             {name: 'estado1_descripcion', type: 'string'},
-            {name: 'd2', type: 'time'},
+            {name: 'd2', type: 'string'},
             {name: 'calendariolaboral2_id', type: 'integer'},
             {name: 'estado2', type: 'integer'},
             {name: 'estado2_descripcion', type: 'string'},
@@ -207,22 +207,36 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecordRelabo
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
-                    /*container.append("<button title='Registrar nuevo control de excepci&oacute;n.' id='addcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
-                    container.append("<button title='Aprobar registro de control de excepci&oacute;n.' id='approveexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
-                    container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
+                    container.append("<button title='Generar matriz de marcaciones debidas en un mes para la persona.' id='marcaciondebidarowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-flag-o fa-2x text-info' title='Generar matriz de marcaciones debidas en el mes para la persona.'/></i></button>");
+                    container.append("<button title='Generar matriz de marcaciones realizadas en un mes para la persona.' id='marcacionrealizadarowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-flag fa-2x text-info' title='Generar matriz de marcaciones realizadas en el mes para la persona.'/></i></button>");
+
+                    /*container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
-                    /*$("#addcontrolexceptrowbutton").jqxButton();
-                    $("#approveexceptrowbutton").jqxButton();
-                    $("#updateexceptrowbutton").jqxButton();
+                    $("#marcaciondebidarowbutton").jqxButton();
+                    $("#marcacionrealizadarowbutton").jqxButton();
+                    /*$("#updateexceptrowbutton").jqxButton();
                     $("#deleteexceptrowbutton").jqxButton();*/
                     $("#turnexceptrowbutton").jqxButton();
 
                     $("#hdnIdControlExcepcionEdit").val(0);
                     $("#hdnIdRelaboralNew").val(0);
                     $("#hdnIdRelaboralEdit").val(0);
-
+                    $("#marcaciondebidarowbutton").off();
+                    $("#marcaciondebidarowbutton").on("click",function(){
+                        $('#popupGeneradorMarcacionDebida').modal('show');
+                        $("#tituloModalGeneradorMarcacion").html("Marcaci&oacute;n Prevista");
+                        $("#divPanelHeadingModal").html("LISTADO DE MARCACIONES PREVISTAS POR MES");
+                        cargarHorariosMarcacionesGenerados(idRelaboral,'H');
+                    });
+                    $("#marcacionrealizadarowbutton").off();
+                    $("#marcacionrealizadarowbutton").on("click",function(){
+                        $('#popupGeneradorMarcacionDebida').modal('show');
+                        $("#tituloModalGeneradorMarcacion").html("Marcaci&oacute;n Efectivas");
+                        $("#divPanelHeadingModal").html("LISTADO DE MARCACIONES EFECTIVAS POR MES");
+                        cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,'M','H');
+                    });
                     $("#turnexceptrowbutton").off();
                     $("#turnexceptrowbutton").on("click",function(){
                             var selectedrowindex = $("#divGridControlMarcaciones").jqxGrid('getselectedrowindex');
@@ -814,4 +828,467 @@ var cellsrenderer = function(row, column, value, defaultHtml) {
     element.css({'background-color': value});
     return element[0].outerHTML;
     return defaultHtml;
+}
+/**
+ * Función para la carga del listado descriptivo de horarios y marcaciones generados.
+ * @param idRelaboral
+ * @param clasemarcacion
+ */
+function cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion){
+    var sufijo = clasemarcacion;
+    $("#tbodyHorariosYMarcacionesGenerados").html("");
+    var grilla = "";
+    var ok=$.ajax({
+        url:'/horariosymarcaciones/listdescriptivomarcaciones/',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        data:{id:idRelaboral,gestion:0,mes:0,clasemarcacion:clasemarcacion},
+        success: function(data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            var cont = 1;
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    grilla += "<tr>";
+                    grilla += "<td style='text-align: center'>"+cont+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.perfil_laboral+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.grupo+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.gestion+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.mes_nombre+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.rango_fecha_ini+" al "+val.rango_fecha_fin+"</td>";
+                    /**
+                     * Sólo si el estado es en elaboración
+                     */
+                    switch (val.estado)
+                    {
+                        case -1:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que no se ha asignado ning&uacute;n calendario al perfil en este mes' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "&nbsp;";
+                            grilla += "</td>";
+                            break;
+                        case 1:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que todas o parte de las fechas en este mes contin&uacute;an pendientes de ser considerados en las planillas finales.' href='javascript:void(0)' class='label label-success'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla +="<a id='btnVolverAGenerar."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Volver a generar.' data-original-title='Volver a Generar' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnVolverAGenerar'><i class='fa fa-gears'></i></a>";
+                            if(val.estado_global==0){
+                                grilla +="<a id='btnEliminarRegistro."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Eliminar Registro' data-original-title='Eliminar registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-danger btnEliminarRegistro'><i class='fa fa-times'></i></a>";
+                            }
+                            grilla += "</td>";
+                            break;
+                        case 2:
+                        case 3:
+                        case 4:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que todos las fechas para este mes ya han sido consideradas dentro de una planilla. Por lo tanto, no se pueden modificar.' href='javascript:void(0)' class='label label-info'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "&nbsp;";
+                            grilla += "</td>";
+                            break;
+                        default:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que a&uacute;n no se ha generado el registro de marcaciones para este mes.' href='javascript:void(0)' class='label label-primary'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "<a id='btnGenerarNuevo."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Generar Nuevo Registro.' data-original-title='Generar Nuevo Registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnGenerarNuevo'><i class='fa fa-cog'></i> Generar</a>";
+                            grilla += "</td>";
+                            break;
+                    }
+                    grilla += "</tr>";
+                    cont++;
+                });
+                var tipoMarcacion = "";
+                switch (clasemarcacion){
+                    case 'H':tipoMarcacion = "PREVISTA";break;
+                    case 'M':tipoMarcacion = "EFECTIVA";break;
+                    case 'R':tipoMarcacion = "RETRASO";break;
+                    case 'A':tipoMarcacion = "ABANDONO";break;
+                }
+                $("#tbodyHorariosYMarcacionesGenerados").append(grilla);
+                $(".btnGenerarNuevo").off();
+                $(".btnGenerarNuevo").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente generar la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados?"))
+                                var ok = generarMarcacion(0,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion);
+                                if(ok){
+                                    cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion);
+                                }
+                        }else{
+                            alert("Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.")
+                        }
+                    }
+                });
+                $(".btnVolverAGenerar").off();
+                $(".btnVolverAGenerar").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente volver a generar la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados?"))
+                                var ok = generarMarcacion(1,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion);
+                            if(ok){
+                                cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion);
+                            }
+                        }else{
+                            var msje="Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.";
+                            $("#divMsjeError").show();
+                            $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                            $("#aMsjeError").html(msje);
+                            setTimeout(function(){$("#divMsjeError").hide()},5000);
+                        }
+                    }
+                });
+                $(".btnEliminarRegistro").off();
+                $(".btnEliminarRegistro").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente dar de baja la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados? Esto implica que se darán de baja todos los registros de marcación PREVISTA, EFECTIVA y de SANCIÓN."))
+                                var ok = eliminarMarcacion(idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion);
+                            if(ok){
+                                cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion);
+                            }
+                        }else{
+                            var msje="Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.";
+                            $("#divMsjeError").show();
+                            $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                            $("#aMsjeError").html(msje);
+                            setTimeout(function(){$("#divMsjeError").hide()},5000);
+                        }
+                    }
+                });
+
+            }
+        }, //mostramos el error
+        error: function() { alert('Se ha producido un error Inesperado'); }
+    });
+}
+/**
+ * Función para la obtención del listado descriptivo de marcaciones consderando el cruce entre dos clases de marcación.
+ * El uso común de esta función será cuando se requiera comparar los estados entre lo previsto (H) y lo efectivo (M).
+ * @param idRelaboral
+ * @param clasemarcacionA
+ * @param clasemarcacionB
+ */
+function cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,clasemarcacionB){
+    var sufijo = clasemarcacionA;
+    $("#tbodyHorariosYMarcacionesGenerados").html("");
+    var grilla = "";
+    var ok=$.ajax({
+        url:'/horariosymarcaciones/listdescriptivomarcacionescruzada/',
+        type:'POST',
+        datatype: 'json',
+        async:false,
+        data:{id:idRelaboral,gestion:0,mes:0,clasemarcacionA:clasemarcacionA,clasemarcacionB:clasemarcacionB},
+        success: function(data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            var cont = 1;
+            if(res.length>0){
+                $.each( res, function( key, val ) {
+                    grilla += "<tr>";
+                    grilla += "<td style='text-align: center'>"+cont+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.perfil_laboral+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.grupo+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.gestion+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.mes_nombre+"</td>";
+                    grilla += "<td style='text-align: center'>"+val.rango_fecha_ini+" al "+val.rango_fecha_fin+"</td>";
+                    /**
+                     * Sólo si el estado es en elaboración
+                     */
+                    switch (val.estado)
+                    {
+                        case -1:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que no se ha asignado ning&uacute;n calendario al perfil en este mes' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "&nbsp;";
+                            grilla += "</td>";
+                            break;
+                        case 1:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que todas o parte de las fechas en este mes contin&uacute;an pendientes de ser considerados en las planillas finales.' href='javascript:void(0)' class='label label-success'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla +="<a id='btnVolverAGenerar."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Volver a generar.' data-original-title='Volver a Generar' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnVolverAGenerar'><i class='fa fa-gears'></i></a>";
+                            if(val.estado_global==0){
+                                grilla +="<a id='btnEliminarRegistro."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Eliminar Registro' data-original-title='Eliminar registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-danger btnEliminarRegistro'><i class='fa fa-times'></i></a>";
+                            }
+                            grilla += "</td>";
+                            break;
+                        case 2:
+                        case 3:
+                        case 4:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que todos las fechas para este mes ya han sido consideradas dentro de una planilla. Por lo tanto, no se pueden modificar.' href='javascript:void(0)' class='label label-info'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "&nbsp;";
+                            grilla += "</td>";
+                            break;
+                        default:
+                            if(val.prevista_estado>=1){
+                                grilla += "<td style='text-align: center'><a title='Esto significa que a&uacute;n no se ha generado el registro de marcaciones para este mes.' href='javascript:void(0)' class='label label-primary'>"+val.estado_descripcion+"</a></td>";
+                                grilla += "<td style='text-align: center'>";
+                                grilla += "<a id='btnGenerarNuevo."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Generar Nuevo Registro.' data-original-title='Generar Nuevo Registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnGenerarNuevo'><i class='fa fa-cog'></i> Generar</a>";
+                                grilla += "</td>";
+                            }else{
+                                grilla += "<td style='text-align: center'><a title='Esto significa que a&uacute;n no se ha generado el registro de marcaciones para este mes.' href='javascript:void(0)' class='label label-primary'>"+val.estado_descripcion+"</a></td>";
+                                grilla += "<td style='text-align: center'>";
+                                //grilla += "&nbsp;";
+                                grilla += "NO EXISTE MARCACI&Oacute;N PREVISTA";
+                                grilla += "</td>";
+                            }
+                            break;
+                    }
+                    grilla += "</tr>";
+                    cont++;
+                });
+                var tipoMarcacion = "";
+                switch (clasemarcacionA){
+                    case 'H':tipoMarcacion = "PREVISTA";break;
+                    case 'M':tipoMarcacion = "EFECTIVA";break;
+                    case 'R':tipoMarcacion = "RETRASO";break;
+                    case 'A':tipoMarcacion = "ABANDONO";break;
+                }
+                $("#tbodyHorariosYMarcacionesGenerados").append(grilla);
+                $(".btnGenerarNuevo").off();
+                $(".btnGenerarNuevo").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente generar la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados?"))
+                                var ok = generarMarcacion(0,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacionA);
+                            if(ok){
+                                cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,clasemarcacionB);
+                            }
+                        }else{
+                            alert("Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.")
+                        }
+                    }
+                });
+                $(".btnVolverAGenerar").off();
+                $(".btnVolverAGenerar").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente volver a generar la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados?"))
+                                var ok = generarMarcacion(1,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacionA);
+                            if(ok){
+                                cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,clasemarcacionB);
+                            }
+                        }else{
+                            var msje="Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.";
+                            $("#divMsjeError").show();
+                            $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                            $("#aMsjeError").html(msje);
+                            setTimeout(function(){$("#divMsjeError").hide()},5000);
+                        }
+                    }
+                });
+                $(".btnEliminarRegistro").off();
+                $(".btnEliminarRegistro").on("click",function(){
+                    var arrValores = (this.id).split(".");
+                    var fechaIni = "";
+                    var fechaFin = "";
+                    var gestion = 0;
+                    var mes = 0;
+                    if(arrValores.length>0){
+                        fechaIni = arrValores[2];
+                        fechaFin = arrValores[3];
+                        var arrFecha = fechaIni.split("-");
+                        gestion = parseInt(arrFecha[2]);
+                        mes = parseInt(arrFecha[1]);
+                        if(gestion>0&&mes>0){
+                            if(confirm("¿Desea realmente dar de baja la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados? Esto implica que se darán de baja todos los registros de marcación PREVISTA, EFECTIVA y de SANCIÓN."))
+                                var ok = eliminarMarcacion(idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacionA);
+                            if(ok){
+                                cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,clasemarcacionB);
+                            }
+                        }else{
+                            var msje="Existe un error en el listado de marcaci&oacute;n '"+tipoMarcacion+"', consulte con el administrador.";
+                            $("#divMsjeError").show();
+                            $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                            $("#aMsjeError").html(msje);
+                            setTimeout(function(){$("#divMsjeError").hide()},5000);
+                        }
+                    }
+                });
+
+            }
+        }, //mostramos el error
+        error: function() { alert('Se ha producido un error Inesperado'); }
+    });
+}
+/**
+ * Función para la generación de las marcaciones debidas en una gestión y mes particula para una persona en particular.
+ * @param opcion
+ * @param idRelaboral
+ * @param gestion
+ * @param mes
+ * @param fechaIni
+ * @param fechaFin
+ * @param clasemarcacion
+ */
+function generarMarcacion(opcion,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion){
+    var action = "";
+    switch (clasemarcacion){
+        case 'H':action="generarmarcacionprevista";break;
+        case 'M':action="generarmarcacionefectiva";break;
+        case 'R':break;
+        case 'A':break;
+        default:break;
+    }
+    if(action!=''){
+        var ok = $.ajax({
+            url: '/horariosymarcaciones/'+action+'/',
+            type: "POST",
+            datatype: 'html',
+            async: false,
+            cache: false,
+            data: {
+                opcion: opcion,
+                id_relaboral: idRelaboral,
+                gestion:gestion,
+                mes:mes,
+                fecha_ini:fechaIni,
+                fecha_fin:fechaFin,
+                clasemarcacion:clasemarcacion
+            },
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                $(".msjs-alert").hide();
+                var ok1 = false;
+                if (res.result == 1) {
+                    ok1 =  true;
+                    $("#divMsjeExito").show();
+                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
+                    $("#aMsjeExito").html(res.msj);
+                    setTimeout(function(){$("#divMsjeExito").hide()},3000);
+
+                } else if (res.result == 0) {
+                    ok1 = false;
+                    $("#divMsjePeligro").show();
+                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
+                    $("#aMsjePeligro").html(res.msj);
+                    setTimeout(function(){$("#divMsjePeligro").hide()},3000);
+                } else {
+                    ok1 =  false;
+                    $("#divMsjeError").show();
+                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                    $("#aMsjeError").html(res.msj);
+                    setTimeout(function(){$("#divMsjeError").hide()},3000);
+                }
+                return ok1;
+            },
+            error: function () {
+                return false;
+                $("#divMsjeError").show();
+                $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                $("#aMsjeError").html("Se ha producido un error inesperado");
+                setTimeout(function(){$("#divMsjeError").hide()},3000);
+            }
+        });
+        return ok;
+    }else return false;
+}
+/**
+ * Función para la eliminación del registro de marcaciones para un determinado registro de relación laboral, gestión y mes.
+ * @param idRelaboral
+ * @param gestion
+ * @param mes
+ * @param fechaIni
+ * @param fechaFin
+ * @param clasemarcacion
+ * @returns {*}
+ */
+function eliminarMarcacion(idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion){
+        var ok = $.ajax({
+            url: '/horariosymarcaciones/eliminar/',
+            type: "POST",
+            datatype: 'html',
+            async: false,
+            cache: false,
+            data: {
+                id_relaboral: idRelaboral,
+                gestion:gestion,
+                mes:mes,
+                fecha_ini:fechaIni,
+                fecha_fin:fechaFin,
+                clasemarcacion:clasemarcacion
+            },
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                $(".msjs-alert").hide();
+                var ok1 = false;
+                if (res.result == 1) {
+                    ok1 =  true;
+                    $("#divMsjeExito").show();
+                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
+                    $("#aMsjeExito").html(res.msj);
+                    setTimeout(function(){$("#divMsjeExito").hide()},3000);
+
+                } else if (res.result == 0) {
+                    ok1 = false;
+                    $("#divMsjePeligro").show();
+                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
+                    $("#aMsjePeligro").html(res.msj);
+                    setTimeout(function(){$("#divMsjePeligro").hide()},3000);
+                } else {
+                    ok1 =  false;
+                    $("#divMsjeError").show();
+                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                    $("#aMsjeError").html(res.msj);
+                    setTimeout(function(){$("#divMsjeError").hide()},3000);
+                }
+                return ok1;
+            },
+            error: function () {
+                return false;
+                $("#divMsjeError").show();
+                $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
+                $("#aMsjeError").html("Se ha producido un error inesperado");
+                setTimeout(function(){$("#divMsjeError").hide()},3000);
+            }
+        });
+        return ok;
 }

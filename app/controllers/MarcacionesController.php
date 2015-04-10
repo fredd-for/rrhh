@@ -35,7 +35,7 @@ class MarcacionesController extends ControllerBase
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.index.js');
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.list.js');
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.approve.js');
-        $this->assets->addJs('/js/marcaciones/oasis.marcaciones.calculations.js');
+        $this->assets->addJs('/js/marcaciones/oasis.marcaciones.download.js');
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.new.edit.js');
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.turns.excepts.js');
         $this->assets->addJs('/js/marcaciones/oasis.marcaciones.down.js');
@@ -54,7 +54,15 @@ class MarcacionesController extends ControllerBase
     {
         $this->view->disable();
         $obj = new FMarcaciones();
-        $resul = $obj->getAll();
+
+        $where = "";
+        if(isset($_GET["opcion"])&&$_GET["opcion"]==0){
+            /**
+             * Se realiza este filtrado a objeto de no mostrar ningún registro, ya que considerando el tiempo de carga
+             */
+            $where = "id_persona=0";
+        }
+        $resul = $obj->getAll($where);
         $marcacion = Array();
         //comprobamos si hay filas
         if ($resul->count() > 0) {
@@ -75,7 +83,9 @@ class MarcacionesController extends ControllerBase
                     'id_maquina'=>$v->id_maquina,
                     'maquina'=>$v->maquina,
                     'user_reg_id'=>$v->user_reg_id,
-                    'fecha_reg'=>$v->fecha_reg
+                    'fecha_reg'=>$v->fecha_reg != "" ? date("d-m-Y", strtotime($v->fecha_reg)) : "",
+                    'fecha_ini_rango'=>$v->fecha_ini_rango != "" ? date("d-m-Y", strtotime($v->fecha_ini_rango)) : "",
+                    'fecha_fin_rango'=>$v->fecha_fin_rango != "" ? date("d-m-Y", strtotime($v->fecha_fin_rango)) : ""
                 );
             }
         }
@@ -100,19 +110,49 @@ class MarcacionesController extends ControllerBase
         }
         return $conn;
     }
+
+    /**
+     * Función para la conexión con la base de datos del sistema OASIS de manera auxiliar.
+     * @return resource
+     */
+    function ConexionAuxiliarPostgreSql(){
+
+        $user = 'user_rrhh';
+        $passwd = 'pass_rrhh';
+        $db = 'bd_rrhh_publicado';
+        $port = 5432;
+        $host = 'localhost';
+        $strCnx = "host=$host port=$port dbname=$db user=$user password=$passwd";
+        $cnx = pg_connect($strCnx) or die ("Error de conexion. ". pg_last_error());
+        if( $cnx === false )
+        {
+            die ( "Falla en la conexion..." );
+            die( print_r( sqlsrv_errors(), true));
+        }
+        return $cnx;
+    }
     /**
      * Disables FOREIGN_KEY_CHECKS and truncates database table
-     *
      * @param string $table table name
-     *
      * @return bool result of truncate operation
      */
     public function truncateTable($table)
     {
         $db = $this->getDI()->get('db');
-        //$db->execute("SET FOREIGN_KEY_CHECKS = 0");
         $success = $db->execute("TRUNCATE TABLE $table, $table RESTART IDENTITY");
-        //$db->execute("SET FOREIGN_KEY_CHECKS = 1");
+        return $success;
+    }
+
+    /**
+     * Función para el borrado de los registros de acuerdo al rango de fechas establecidas.
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return mixed
+     */
+    public function borrarRangoEnTabla($fechaIni,$fechaFin)
+    {
+        $db = $this->getDI()->get('db');
+        $success = $db->execute("DELETE FROM marcaciones where fecha BETWEEN '$fechaIni' AND '$fechaIni'");
         return $success;
     }
     /**
@@ -154,8 +194,7 @@ class MarcacionesController extends ControllerBase
      * Función para la descarga de los registros almacenados en la base de datos correspondiente a marcaciones de equipos biométricos.
      */
     public function downloadAction(){
-        $ok1=true;
-        $ok2=false;
+        $ok=true;
         $auth = $this->session->get('auth');
         $user_reg_id = $user_mod_id = $auth['id'];
         $msj = Array();
@@ -173,52 +212,36 @@ class MarcacionesController extends ControllerBase
             if( $stmt === false )
             {
                 $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guardaron los registros de marcaciones.');
-                //die( print_r( sqlsrv_errors(), true));
             }else{
                 $errores = 0;
                 $tot = 0;
                 $good = 0;
-                $this->truncateTable("marcaciones");
+                $this->borrarRangoEnTabla($fechaIni,$fechaFin);
                 $err = array();
+                $pg = $this->ConexionAuxiliarPostgreSql();
+                $sql = "INSERT INTO marcaciones(id, persona_id, maquina_id, fecha, hora, observacion, estado,baja_logica, agrupador, user_reg_id, fecha_reg, fecha_ini_rango, fecha_fin_rango) VALUES ";
                 while ( $result = sqlsrv_fetch_array ($stmt) ) {
                     $tot++;
-                    $marc = new Marcaciones();
                     $persona = Personas::findFirst(array("ci LIKE '".trim($result ["CI"])."'"));
                     $maquina = Maquinas::findFirst(array("num_serie LIKE '".trim($result ["CODIGO_MAQUINA"])."'"));
                     $idPersona=$idMaquina=0;
                     if($persona){$idPersona = $persona->id;}
                     if($maquina){$idMaquina = $maquina->id;}
                     if($idPersona!=null&&$idPersona>0&&$maquina!=null&&$idMaquina>0){
-                        $marc->persona_id=$idPersona;
-                        $marc->maquina_id=$idMaquina;
-                        $marc->fecha=$result ["MARCACION_FECHA"];
-                        $marc->hora=$result ["MARCACION_HORA"];
-                        $marc->estado=1;
-                        $marc->baja_logica=1;
-                        $marc->agrupador=0;
-                        $marc->user_reg_id=$user_reg_id;
-                        $marc->fecha_reg=$hoy;
-                        $marc->fecha_ini_rango=$fechaIni != "" ? date("d-m-Y", strtotime($fechaIni)) : null;
-                        $marc->fecha_fin_rango=$fechaIni != "" ? date("d-m-Y", strtotime($fechaIni)) : null;
-                        try{
-                            $ok2 = $marc->save();
-                            if($ok2){
-                                $good++;
-                            }
-                        }catch (\Exception $e) {
-                            echo get_class($e), ": ", $e->getMessage(), "\n";
-                            echo " File=", $e->getFile(), "\n";
-                            echo " Line=", $e->getLine(), "\n";
-                            echo $e->getTraceAsString();
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de marcaci&oacute;n.');
-                        }
+                        $good++;
+                        $sql .= "(default,$idPersona,$idMaquina,'".$result ["MARCACION_FECHA"]."','".$result ["MARCACION_HORA"]."',NULL,1,1,0,$user_reg_id,'$hoy','$fechaIni','$fechaFin'),";
                     }else{
                         $err[]= array('ci'=>$result ["CI"],'id_persona'=>$idPersona,'codigo_maquina'=>$result ["CODIGO_MAQUINA"],'id_maquina'=>$idMaquina);
-                        $ok1=false;
+                        $ok=false;
                         $errores ++;
                     }
                 }
-                if($ok1) $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se realizaron las descargas para el rango solicitado de modo satisfactorio.','total'=>$tot,'correctas'=>$good,'errores'=>$errores);
+                if($good>0){
+                    $sql .=",";
+                    $sql = str_replace(",,","",$sql);
+                    $ok = pg_query($pg, $sql);
+                }
+                if($ok) $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se realizaron las descargas para el rango solicitado de modo satisfactorio.','total'=>$tot,'correctas'=>$good,'errores'=>$errores);
                 else  {
 
                     $msj = array('result' => 0, 'msj' => 'Se realizaron las descargas para el rango solicitado. Sin embargo, hubieron '.$errores." marcaciones que no se descargaron por inconsistencia de datos.",'cant_total'=>$tot,'cant_correctas'=>$good,'cant_errores'=>$errores,'errores'=>$err);

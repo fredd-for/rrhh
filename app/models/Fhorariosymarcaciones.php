@@ -346,4 +346,18 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
         $this->_db = new Fhorariosymarcaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de fechas de acuerdo al rango enviado de fechas.
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getListadoFechas($fechaIni,$fechaFin){
+        $sql = "SELECT * FROM f_listado_fechas_rango('$fechaIni','$fechaFin')";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+    function generarMarcacion($idRelaboral,$gestion,$mes,$clasemarcacion){
+        $ok=true;
+    }
 }

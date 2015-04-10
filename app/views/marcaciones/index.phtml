@@ -260,9 +260,9 @@
     <input type="hidden" id="hdnIdRelaboralVista" value="0">
 </form>
 </div>
-<div class="section" id="divCalc">
-    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.</h6>
-    <form class="navbar-form" id="formCalc">
+<div class="section" id="divDownload">
+    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; la descarga de datos.</h6>
+    <form class="navbar-form" id="formDownload">
         <div class="col-md-10">
             <!-- Input Grid Block -->
             <div class="block">
@@ -272,26 +272,29 @@
                     <h2>Listado General de Marcaciones</h2>
                     <div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
+                            <label class="col-md-3 control-label" for="txtFechaIniDescarga">Fechas *:</label>
                             <div class="col-md-6"> <!--input-daterange-->
                                 <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
-                                    <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <input id="txtFechaIniDescarga" name="txtFechaIniDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                     <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
-                                    <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <input id="txtFechaFinDescarga" name="txtFechaFinDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
                             <button class="btn btn-sm btn-primary" type="button" id="btnDescargarMarcaciones" accesskey="c">
-                                <i class="fa fa-gears"></i>
-                                Calcular
+                                <i class="fa fa-chevron-circle-down"></i>
+                                Descargar
                             </button>
                             </div>
                         </div>
                     </div>
                     </br>
                     <div id='jqxWidget'>
+                        <div id="divCarga" style="display:none" align="center">
+                            <img src="../images/barra_carga.gif" />
+                        </div>
                         <div id="divGridMarcacionesRango"></div>
                     </div>
                 </div>

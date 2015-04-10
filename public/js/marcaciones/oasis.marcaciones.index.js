@@ -7,7 +7,7 @@
  */
 $().ready(function () {
 
-    var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+    var objParametro = {opcion:1,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
@@ -20,19 +20,19 @@ $().ready(function () {
     definirGrillaParaListaRelaborales();
     $("#btnDescargarMarcaciones").on("click",function(){
         var idPersona = 0;
-        var fechaIni = $("#txtFechaIniCalculo").val();
-        var fechaFin = $("#txtFechaFinCalculo").val();
+        var fechaIni = $("#txtFechaIniDescarga").val();
+        var fechaFin = $("#txtFechaFinDescarga").val();
         if(fechaIni!=''&&fechaFin!=''){
             descargarMarcaciones(idPersona,fechaIni,fechaFin);
-            //definirGrillaMarcacionesRango(objParametro);
         }else{
             var msj = "Debe seleccionar necesariamente la fecha de inicio y finalizaci&oacute;n para la descarga."
             $("#divMsjePorWarning").html("");
             $("#divMsjePorWarning").append(msj);
             $("#divMsjeNotificacionWarning").jqxNotification("open");
-            if($("#txtFechaIniCalculo").val()=='')$("#txtFechaIniCalculo").focus();
-            else $("#txtFechaFinCalculo").focus();
+            if($("#txtFechaIniDescarga").val()=='')$("#txtFechaIniDescarga").focus();
+            else $("#txtFechaFinDescarga").focus();
         }
+        definirGrillaMarcacionesRango(objParametro);
     });
     /**
      * Control del evento de solicitud de guardar el registro de la excepción de control.
@@ -404,7 +404,7 @@ function definirGrillaParaListaRelaborales() {
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='listrowbutton' class='btn btn-sm btn-primary' type='button'  title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'><i class='fa fa-list-alt fa-2x text-info' title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'/></i></button>");
-                    container.append("<button id='downloadrowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para la descarga de marcaciones.'><i class='gi gi-download_alt fa-2x text-info' title='Formulario para la descarga de marcaciones.'/></i></button>");
+                    container.append("<button id='downloadrowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para la descarga de marcaciones.'><i class='fa fa-download fa-2x text-info' title='Formulario para la descarga de marcaciones.'/></i></button>");
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por relaci&oacute;n laboral.'/></i></button>");
 
                     $("#listrowbutton").jqxButton();
@@ -477,7 +477,9 @@ function definirGrillaParaListaRelaborales() {
                         $("#txtFechaIniCalculo").val('').datepicker('update');
                         $("#txtFechaFinCalculo").datepicker("update","");
                         $("#txtFechaFinCalculo").val('').datepicker('update');
-                        var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+                        $("#txtFechaIniDescarga").val("");
+                        $("#txtFechaFinDescarga").val("");
+                        var objParametro = {opcion:0, idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
                         definirGrillaMarcacionesRango(objParametro);
                     });
                     /* Ver registro.*/
@@ -1190,7 +1192,7 @@ function ImageExist(url)
  * @returns {string}
  */
 function fechaConvertirAFormato(fecha,separador){
-    if(separador=='')separador='-';
+    if(separador==''||separador==null||separador==undefined)separador='-';
     var formattedDate = fecha;
     var d = formattedDate.getDate();
     var m =  formattedDate.getMonth();
@@ -1958,6 +1960,10 @@ function descargarMarcaciones(idPersona,fechaIni,fechaFin){
         async: false,
         cache: false,
         data: {fecha_ini: fechaIni,fecha_fin:fechaFin},
+        beforeSend:function(objeto){
+            $("#divCarga").css({display:'block'});
+        },
+        complete:function(){$('#divCarga').css('display','none');},
         success: function (data) {
             var res = jQuery.parseJSON(data);
             var contador = 1;
@@ -1968,12 +1974,13 @@ function descargarMarcaciones(idPersona,fechaIni,fechaFin){
                         $.each(val,function(k,v){
                             errores+="ci:"+ v.ci+",idPersona:"+ v.id_persona+",maquina:"+ v.codigo_maquina+",idMaquina:"+id_maquina+"\n";
                         });
+                    }else{
+                        if(val.result==1){
+
+                        }
                     }
                     contador++;
                 });
-                if(contador>0){
-                    $("#divGridMarcacionesRango").jqxGrid("updatebounddata");
-                }
             }
             return errores;
         }

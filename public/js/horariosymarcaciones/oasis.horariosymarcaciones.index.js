@@ -214,6 +214,9 @@ $().ready(function () {
             else $("#txtFechaIniCalculo").focus();
         }
     });
+    $('#popupGeneradorMarcacionDebida').on('hidden.bs.modal', function () {
+        $("#divGridControlMarcaciones").jqxGrid("updatebounddata");
+    })
 
     $("#liList,#btnVolverAlListadoPrincipalDesdeNew,#btnVolverAlListadoPrincipalDesdeEdit").click(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
@@ -231,9 +234,6 @@ $().ready(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
         $('#divTabControlMarcaciones').jqxTabs({selectedItem: 1});
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
-        
-        
-        
         $("#msjs-alert").hide();
     });
 
@@ -433,7 +433,7 @@ function definirGrillaParaListaRelaborales() {
                                     $("#hdnIdRelaboralVista").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
-                                    definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecord);
+                                    definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelaboral(dataRecord);
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");
@@ -1928,4 +1928,11 @@ function obtenerFechaMasDias(fecha,dias){
         }
     }).responseText;
     return fecha;
+}
+/**
+ * Función para cerrar un mensaje dispuesto en la parte superior del formulario.
+ * @param tipo
+ */
+function cerrarMensaje(tipo){
+    alert("llego: "+tipo);
 }

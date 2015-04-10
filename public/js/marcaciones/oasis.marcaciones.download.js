@@ -10,6 +10,7 @@
  * @param objParametros
  */
 function definirGrillaMarcacionesRango(objParametros) {
+    var opcion = objParametros.opcion;
     var idOrganigrama = objParametros.idOrganigrama;
     var idArea=objParametros.idArea;
     var idUbicacion=objParametros.idUbicacion;
@@ -35,9 +36,11 @@ function definirGrillaMarcacionesRango(objParametros) {
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'},
             {name: 'user_reg_id', type: 'integer'},
-            {name: 'fecha_reg', type: 'date'}
+            {name: 'fecha_reg', type: 'date'},
+            {name: 'fecha_ini_rango', type: 'date'},
+            {name: 'fecha_fin_rango', type: 'date'}
         ],
-        url: '/marcaciones/list?id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
+        url: '/marcaciones/list?opcion='+opcion+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -60,6 +63,16 @@ function definirGrillaMarcacionesRango(objParametros) {
                 filterable: true,
                 showtoolbar: true,
                 autorowheight: true,
+                rendered: function (type) {
+                    if (type == "full") {
+                        var data = $('#divGridMarcacionesRango').jqxGrid('getrowdata', 0);
+                        if(data!=null){
+                            $("#txtFechaIniDescarga").val(fechaConvertirAFormato(data.fecha_ini_rango,"-"));
+                            $("#txtFechaFinDescarga").val(fechaConvertirAFormato(data.fecha_fin_rango,"-"));
+                        }
+
+                    }
+                },
                 rendertoolbar: function (toolbar) {
                     var me = this;
                     var container = $("<div></div>");
