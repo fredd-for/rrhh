@@ -55,7 +55,6 @@ class Calendarioslaborales extends \Phalcon\Mvc\Model
         if($hora!=''&&$hora_ini!=''&&$hora_fin!=''){
             $sql = "SELECT f_verifica_hora_en_rango AS resultado,CASE WHEN f_verifica_hora_en_rango=1 THEN 'La hora ".$hora." se encuentra dentro del rango entre ".$hora_ini." A ".$hora_fin.".'";
             $sql .= " ELSE 'La hora ".$hora." NO se encuentra dentro del rango entre ".$hora_ini." A ".$hora_fin.".' END AS msj FROM f_verifica_hora_en_rango('".$hora."','".$hora_ini."','".$hora_fin."')";
-            //echo "<p>--------------------------->".$sql;
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

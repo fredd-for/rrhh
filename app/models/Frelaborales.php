@@ -309,8 +309,11 @@ class Frelaborales extends \Phalcon\Mvc\Model {
      */
     public function getAllWithPersons($where='',$group='')
     {
+        /*
+        Modificación innecesaria debido a que la columna tiene_item ya se ha considerado dentro del procedimiento almacenado
         $sql = "SELECT f.*,c.agrupador as tiene_item FROM f_relaborales_y_personas_nuevas() f ";
-        $sql .= "LEFT JOIN condiciones c ON c.id = f.id_condicion";
+        $sql .= "LEFT JOIN condiciones c ON c.id = f.id_condicion";*/
+        $sql = "SELECT * FROM f_relaborales_y_personas_nuevas()";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
@@ -362,7 +365,6 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     {
         if($idPerfilLaboral>0&&$idUbicacion>0&&$fechaIni!=''&&$fechaFin!=''){
             $sql = "SELECT * FROM f_relaborales_asignados_a_perfil(".$idPerfilLaboral.",".$idUbicacion.",'".$fechaIni."','".$fechaFin."')";
-            //echo "<p>--->".$sql;
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         } else return new Resultset();

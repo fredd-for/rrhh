@@ -3,14 +3,13 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  17-04-2015
+ *   Fecha Creación:  27-03-2015
  */
 /**
- * Función para la búsqueda de registros de marcaciones registrados en el sistema OASIS.
- * Este modo de despliegue abarca todas las marcaciones descargadas en la base de datos del sistema OASIS.
+ * Función para la búsqueda de registros de personal que cumplen el criterio de búsqueda establecido a través del parámetro.
  * @param objParametros
  */
-function definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametros) {
+function definirGrillaDescargaMarcacionesRango(objParametros) {
     var opcion = objParametros.opcion;
     var idOrganigrama = objParametros.idOrganigrama;
     var idArea=objParametros.idArea;
@@ -42,14 +41,14 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametros) {
             {name: 'fecha_ini_rango', type: 'date'},
             {name: 'fecha_fin_rango', type: 'date'}
         ],
-        url: '/marcaciones/listbyrelaboral?id='+idRelaboral+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
+        url: '/marcaciones/list?opcion='+opcion+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeDescargaMarcaciones();
     function cargarRegistrosDeDescargaMarcaciones() {
         var theme = prepareSimulator("grid");
-        $("#divGridControlMarcaciones").jqxGrid(
+        $("#divGridDescargaMarcacionesRango").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -65,6 +64,16 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametros) {
                 filterable: true,
                 showtoolbar: true,
                 autorowheight: true,
+                rendered: function (type) {
+                    if (type == "full") {
+                        var data = $('#divGridDescargaMarcacionesRango').jqxGrid('getrowdata', 0);
+                        if(data!=null){
+                            $("#txtFechaIniDescarga").val(fechaIni);
+                            $("#txtFechaFinDescarga").val(fechaFin);
+                        }
+
+                    }
+                },
                 columns: [
                     {
                         text: 'Nro.',
@@ -213,16 +222,16 @@ function definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametros) {
             {label: 'Fecha Fin Rango', value: 'fecha_fin_rango', checked: false},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: false}
         ];
-        $("#divListBoxControlMarcaciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
-        $("#divListBoxControlMarcaciones").on('checkChange', function (event) {
-            $("#divGridControlMarcaciones").jqxGrid('beginupdate');
+        $("#divListBoxDescargasRango").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#divListBoxDescargasRango").on('checkChange', function (event) {
+            $("#divGridDescargaMarcacionesRango").jqxGrid('beginupdate');
             if (event.args.checked) {
-                $("#divGridControlMarcaciones").jqxGrid('showcolumn', event.args.value);
+                $("#divGridDescargaMarcacionesRango").jqxGrid('showcolumn', event.args.value);
             }
             else {
-                $("#divGridControlMarcaciones").jqxGrid('hidecolumn', event.args.value);
+                $("#divGridDescargaMarcacionesRango").jqxGrid('hidecolumn', event.args.value);
             }
-            $("#divGridControlMarcaciones").jqxGrid('endupdate');
+            $("#divGridDescargaMarcacionesRango").jqxGrid('endupdate');
         });
     }
 }

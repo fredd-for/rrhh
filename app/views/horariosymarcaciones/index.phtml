@@ -5,43 +5,6 @@
 <body>
 <h2 style="padding-top: 0px; width: 100%;"><b>Control de Horarios & Marcaciones </h2>
 <!--<h3 style="padding-top: 0px; width: 100%;">(Permisos, Comisiones, Licencias, Tolerancias y Horarios de Lactancia)</b></h3>-->
-
-<div id="divMsjeExito" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-check-circle"></i>
-        &Eacute;xito!
-    </h4>
-    Solicitud completada!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeExito"></a>
-</div>
-<div id="divMsjeInformacion" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-info-circle"></i>
-        Atenci&oacute;n!
-    </h4>
-    Algo que considerar!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeInformacion"></a>
-</div>
-<div id="divMsjePeligro" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-exclamation-circle"></i>
-        Cuidado!
-    </h4>
-    Considere lo siguiente!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjePeligro"></a>
-</div>
-<div id="divMsjeError" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-times-circle"></i>
-        Error!
-    </h4>
-    Solicitud inv&aacute;lida!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeError"></a>
-</div>
 <div id='divTabControlMarcaciones'>
 <ul>
     <li id="liList">Listado</li>
@@ -531,19 +494,92 @@
 </div>
 <!--</form></div>-->
 </body>
+<div class="modal fade bs-example-modal-lg" id="popupGeneradorMarcacionDebida" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="formGeneradorMarcacionDebida" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="tituloModalGeneradorMarcacion">Marcaci&oacute;n Debida</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                                <h4>
+                                    <i class="fa fa-check-circle"></i>
+                                    &Eacute;xito!
+                                </h4>
+                                <a class="alert-link" href="javascript:void(0)" id="aMsjeExito"></a>
+                            </div>
+                            <div id="divMsjeInformacion" class="msjs-alert" hidden="hidden">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                                <h4>
+                                    <i class="fa fa-info-circle"></i>
+                                </h4>
+                                Algo que considerar!
+                                <a class="alert-link" href="javascript:void(0)" id="aMsjeInformacion"></a>
+                            </div>
+                            <div id="divMsjePeligro" class="msjs-alert" hidden="hidden">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                                <h4>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                </h4>
+                                <a class="alert-link" href="javascript:void(0)" id="aMsjePeligro"></a>
+                            </div>
+                            <div id="divMsjeError" class="msjs-alert" hidden="hidden">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                                <h4>
+                                    <i class="fa fa-times-circle"></i>
+                                </h4>
+                                <a class="alert-link" href="javascript:void(0)" id="aMsjeError"></a>
+                            </div>
+                            <div class="panel-heading" id="divPanelHeadingModal">
+                               LISTADO DE MARCACIONES PREVISTAS
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table table-vcenter">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center">Nro.</th>
+                                    <th style="text-align: center">Perfil Laboral</th>
+                                    <th style="text-align: center">Grupo</th>
+                                    <th style="text-align: center">Gesti&oacute;n</th>
+                                    <th style="text-align: center">Mes</th>
+                                    <th style="text-align: center">Rango Fechas</th>
+                                    <th style="text-align: center">Estado</th>
+                                    <th style="width: 150px;" class="text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyHorariosYMarcacionesGenerados"></tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarGeneradorMarcacionesYHorarios" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i> Cerrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade bs-example-modal-lg" id="popupDescripcionHorario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form class="form-horizontal" id="testForm_perfil" data-toggle="validator" onsubmit="return false;"/>
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                 <h4 class="modal-title" id="tituloModal">Horario</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <input type="hidden" name="perfil_id" id="perfil_id" value="">
                             <div class="panel-heading">
                                 DATOS DEL HORARIO SELECCIONADO
                             </div>
@@ -671,10 +707,4 @@
 <div id="divMsjeNotificacionSuccess">
     <div id="divMsjePorSuccess">
     </div>
-</div>
-<div id="popupWindowCargo">
-    <!--<div id="titulo">Seleccionar Cargo</div>
-    <div>
-        <div id="divGrillaParaSeleccionarCargo"></div>
-    </div>-->
 </div>

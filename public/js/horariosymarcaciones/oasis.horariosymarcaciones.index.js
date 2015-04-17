@@ -56,36 +56,6 @@ $().ready(function () {
             guardarRegistroBaja();
         }
     });
-    /**
-     * Control sobre la solicitud de guardar registro de movilidad de personal por nuevo, edición y baja.
-     */
-    $("#btnGuardarMovilidad").click(function () {
-        var idRelaboralMovilidadBaja = $("#hdnIdRelaboralMovilidadBaja").val();
-        if (idRelaboralMovilidadBaja == 0) {
-            /**
-             * Si se solicita nuevo registro o modificación.
-             * @type {boolean}
-             */
-            var ok = validaFormularioPorRegistroMovilidad();
-            if (ok) {
-                var okk = guardarRegistroMovilidad();
-                if (okk) {
-                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
-                }
-            }
-        } else {
-            /**
-             * Si se ha solicitado realizar una baja.
-             */
-            var ok = validaFormularioPorBajaRegistroMovilidad();
-            if (ok) {
-                var okk = bajaRegistroMovilidad();
-                if (okk) {
-                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
-                }
-            }
-        }
-    });
     $("#btnVolverDesdeMarcaciones").click(function (){
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
@@ -116,7 +86,8 @@ $().ready(function () {
         });
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
+        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
+            exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#divListBoxCalculos").focus();
@@ -214,6 +185,9 @@ $().ready(function () {
             else $("#txtFechaIniCalculo").focus();
         }
     });
+    $('#popupGeneradorMarcacionDebida').on('hidden.bs.modal', function () {
+        $("#divGridControlMarcaciones").jqxGrid("updatebounddata");
+    })
 
     $("#liList,#btnVolverAlListadoPrincipalDesdeNew,#btnVolverAlListadoPrincipalDesdeEdit").click(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
@@ -231,9 +205,6 @@ $().ready(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
         $('#divTabControlMarcaciones').jqxTabs({selectedItem: 1});
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
-        
-        
-        
         $("#msjs-alert").hide();
     });
 
@@ -433,7 +404,7 @@ function definirGrillaParaListaRelaborales() {
                                     $("#hdnIdRelaboralVista").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
-                                    definirGrillaParaListaControlMarcacionesPorIdRelaboral(dataRecord);
+                                    definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelaboral(dataRecord);
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");
@@ -1928,4 +1899,11 @@ function obtenerFechaMasDias(fecha,dias){
         }
     }).responseText;
     return fecha;
+}
+/**
+ * Función para cerrar un mensaje dispuesto en la parte superior del formulario.
+ * @param tipo
+ */
+function cerrarMensaje(tipo){
+    alert("llego: "+tipo);
 }

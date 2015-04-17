@@ -285,7 +285,7 @@ class RelaboralesperfilesController extends ControllerBase{
                         $objMaquina = Maquinas::findFirst(array("ubicacion_id=".$idUbicacion));
                         if($objMaquina->id>0){
                             $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina_id=".$objMaquina->id));
-                            if($objRelaboralPerfilMaquinaAux&=null&&$objRelaboralPerfilMaquinaAux->id > 0){
+                            if($objRelaboralPerfilMaquinaAux!=null&&$objRelaboralPerfilMaquinaAux->id > 0){
                                 $objRelaboralPerfilMaquina = $objRelaboralPerfilMaquinaAux;
                                 $objRelaboralPerfilMaquina->user_mod_id=$user_mod_id;
                                 $objRelaboralPerfilMaquina->fecha_mod = $hoy;

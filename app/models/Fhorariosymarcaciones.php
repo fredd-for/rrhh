@@ -331,7 +331,7 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
 
         );
     }
-
+    private $_db;
     /**
      * Función para la obtención del listado total de horarios y marcaciones filtrable de acuerdo a los parámetros enviados.
      * @param string $where
@@ -344,6 +344,33 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Fhorariosymarcaciones();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+    /**
+     * Función que se encarga de devolver en un solo resultado el conjunto de excepciones registradas para un registro de relación laboral determinado, considerando el
+     * filtro de un tipo de excepción específico, una fecha, hora de inicio y finalización.
+     * @param $idRelaboral
+     * @param $idExcepcion
+     * @param $gestion
+     * @param $mes
+     * @param $dia
+     * @param $idCalendariolaboral
+     * @return Resultset
+     */
+    public function getExcepcionEnDia($idRelaboral,$idExcepcion,$gestion,$mes,$dia,$idCalendariolaboral,$opcion=0)
+    {   if($gestion>0&&$mes>0&&$dia>0&&$idCalendariolaboral>0) {
+        $sql = "SELECT f_excepciones_en_dia FROM f_excepciones_en_dia($idRelaboral,$idExcepcion,$gestion,$mes,$dia,$idCalendariolaboral,$opcion) ";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+    /**
+     * Función para la obtención del listado de fechas de acuerdo al rango enviado de fechas.
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getListadoFechas($fechaIni,$fechaFin){
+        $sql = "SELECT * FROM f_listado_fechas_rango('$fechaIni','$fechaFin')";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 }

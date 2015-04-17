@@ -202,25 +202,50 @@
 
                 <h2>Listado General</h2>
                 <div id='jqxWidget'>
+                    <div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="txtFechaIniControlMarcaciones">Fechas *:</label>
+                            <div class="col-md-3"> <!--input-daterange-->
+                                <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
+                                    <input id="txtFechaIniControlMarcaciones" name="txtFechaIniControlMarcaciones" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
+                                    <input id="txtFechaFinControlMarcaciones" name="txtFechaFinControlMarcaciones" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <button class="btn btn-sm btn-primary" type="button" id="btnBuscarControlMarcaciones" accesskey="c">
+                                    <i class="gi gi-search"></i>
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div id="divGridControlMarcaciones"></div>
                     <div align="right">
-                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarMarcacionesExcel" accesskey="i">
+                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarControlMarcacionesExcel" accesskey="i">
                             <i class="fi fi-xls"></i>
                             Exportar Excel
                         </button>
-                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarMarcacionesPDF" accesskey="i">
+                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarControlMarcacionesPDF" accesskey="i">
                             <i class="fi fi-pdf"></i>
                             Exportar PDF
                         </button>
-                        <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodomarcaciones">
+                        <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodocontrolmarcaciones">
                             <i class="fa fa-chain-broken"></i>
                             Desagrupar Todo
                         </button>
-                        <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodomarcaciones">
+                        <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodocontrolmarcaciones">
                             <i class="gi gi-sorting"></i>
                             Desfiltrar Todo
                         </button>
+                        <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeControlMarcaciones">
+                            <i class="fa fa-reply"></i>
+                            Volver al Listado
+                        </button>
                     </div>
-                    <div id="divGridControlMarcaciones"></div>
                 </div>
             </div>
             <!-- END Input Grid Title -->
@@ -249,20 +274,12 @@
         </div>
         <!-- END Input Grid Block -->
     </div>
-
-    <!--<div id="divGridControlMarcaciones"></div>-->
-    <div>
-        <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeMarcaciones">
-            <i class="fa fa-reply"></i>
-            Volver al Listado
-        </button>
-    </div>
-    <input type="hidden" id="hdnIdRelaboralVista" value="0">
+    <input type="hidden" id="hdnIdRelaboralControlMarcaciones" value="0">
 </form>
 </div>
-<div class="section" id="divCalc">
-    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.</h6>
-    <form class="navbar-form" id="formCalc">
+<div class="section" id="divDownload">
+    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; la descarga de datos.</h6>
+    <form class="navbar-form" id="formDownload">
         <div class="col-md-10">
             <!-- Input Grid Block -->
             <div class="block">
@@ -272,47 +289,58 @@
                     <h2>Listado General de Marcaciones</h2>
                     <div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
-                            <div class="col-md-6"> <!--input-daterange-->
+                            <label class="col-md-3 control-label" for="txtFechaIniDescarga">Fechas *:</label>
+                            <div class="col-md-3"> <!--input-daterange-->
                                 <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
-                                    <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <input id="txtFechaIniDescarga" name="txtFechaIniDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                     <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
-                                    <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <input id="txtFechaFinDescarga" name="txtFechaFinDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
                             <button class="btn btn-sm btn-primary" type="button" id="btnDescargarMarcaciones" accesskey="c">
-                                <i class="fa fa-gears"></i>
-                                Calcular
+                                <i class="fa fa-chevron-circle-down"></i>
+                                Descargar
                             </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <button class="btn btn-sm btn-primary" type="button" id="btnBuscarMarcaciones" accesskey="c">
+                                    <i class="gi gi-search"></i>
+                                    Buscar
+                                </button>
                             </div>
                         </div>
                     </div>
                     </br>
                     <div id='jqxWidget'>
-                        <div id="divGridMarcacionesRango"></div>
+                        <div id="divCarga" style="display:none" align="center">
+                            <img src="../images/barra_carga.gif" />
+                        </div>
+                        <div id="divGridDescargaMarcacionesRango"></div>
                     </div>
                 </div>
                 <!-- END Input Grid Title -->
-                <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosExcel" accesskey="i">
+                <button class="btn btn-sm btn-primary" type="button" id="btnExportarDescargasExcel" accesskey="i">
                     <i class="fi fi-xls"></i>
                     Exportar Excel
                 </button>
-                <button class="btn btn-sm btn-primary" type="button" id="btnExportarCalculosPDF" accesskey="i">
+                <button class="btn btn-sm btn-primary" type="button" id="btnExportarDescargasPDF" accesskey="i">
                     <i class="fi fi-pdf"></i>
                     Exportar PDF
                 </button>
-                <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartodocalculos">
+                <button class="btn btn-sm btn-primary" type="button" id="btnDesagrupartododescargas">
                     <i class="fa fa-chain-broken"></i>
                     Desagrupar Todo
                 </button>
-                <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartodocalculos">
+                <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrartododescargas">
                     <i class="gi gi-sorting"></i>
                     Desfiltrar Todo
                 </button>
-                <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeCalculos">
+                <button class="btn btn-sm btn-warning" type="button" id="btnVolverDesdeDescargas">
                     <i class="fa fa-reply"></i>
                     Volver al Listado
                 </button>
@@ -333,7 +361,7 @@
                         </div>
                     </div>-->
                 </div>
-                <div id="divListBoxMarcacionesRango"></div>
+                <div id="divListBoxDescargasRango"></div>
 
 
                 <!-- END Input Grid Title -->

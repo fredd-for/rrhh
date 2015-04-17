@@ -77,4 +77,19 @@ class Frelaboralesperfiles extends \Phalcon\Mvc\Model {
         $this->_db = new Frelaboralesperfiles();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de registros de asignación de perfil laboral a un registro de relación laboral.
+     * @param $idRelaboral
+     * @param $idPerfilLaboral
+     * @param $idUbicacion
+     * @param $fechaIni
+     * @param $fechaFin
+     */
+    public function getAllByRelaboral($idRelaboral,$idPerfilLaboral,$idUbicacion,$fechaIni,$fechaFin){
+        $sql = "SELECT * FROM f_relaborales_asignados_a_perfil($idPerfilLaboral,$idUbicacion,'$fechaIni','$fechaFin')";
+        if($idRelaboral>0)$sql .= " WHERE id_relaboral=".$idRelaboral;
+        $this->_db = new Frelaboralesperfiles();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 } 
