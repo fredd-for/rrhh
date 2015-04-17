@@ -53,7 +53,7 @@ class MarcacionesController extends ControllerBase
     public function listAction()
     {
         $this->view->disable();
-        $obj = new FMarcaciones();
+        $obj = new Fmarcaciones();
         $marcacion = Array();
         $where = "";
         if(isset($_GET["opcion"])&&$_GET["opcion"]==1){
