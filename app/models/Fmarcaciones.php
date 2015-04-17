@@ -88,6 +88,9 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
      */
     public function getAllByRelaboral($idRelaboral,$fechaIni='',$fechaFin='',$where='',$group='')
     {   if($idRelaboral!=''){
+        /**
+         * prueba
+         */
             $sql = "SELECT * FROM f_marcaciones() ";
             $sql .= " WHERE id_persona =(SELECT persona_id FROM relaborales WHERE id = ".$idRelaboral." LIMIT 1) ";
             if($fechaIni!=''&&$fechaFin!='')$sql .= "AND fecha BETWEEN '".$fechaIni."'AND '".$fechaFin."' ";
