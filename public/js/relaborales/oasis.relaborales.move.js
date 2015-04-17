@@ -744,7 +744,7 @@ function cargarGrillaMovilidad(idRelaboral) {
                                 var idRelaboralMovilidad = dataRecord.id_relaboralmovilidad;
                                 var estado = dataRecord.estado;
                                 if(idRelaboralMovilidad>0&&estado>0){
-                                    if(confirm("Esta seguro de que desea eliminar este registro? El registro desaparecera del historial de Movilidad de personal.")){
+                                    if(confirm("Esta seguro de que desea eliminar este registro? El registro desaparecera del historial de Movilidad de Personal.")){
                                         var ok = eliminarRegistroMovilidad(idRelaboralMovilidad);
                                     }
                                 }
@@ -1851,13 +1851,12 @@ function eliminarRegistroMovilidad(idRelaboralMovilidad){
              */
             $(".msjes").hide();
             if (res.result == 1) {
-                ok = true;
-                $("#jqxgridmovilidad").jqxGrid("updatebounddata");
                 $("#divMsjePorSuccess").html("");
                 $("#divMsjePorSuccess").append(res.msj);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");
                 /*Es necesario actualizar la grilla principal debido a que este debe mostrar los datos de acuerdo a la última movilidad de personal*/
-                $("#jqxgridmovilidad").jqxGrid('beginupdate');
+                $("#jqxgridmovilidad").jqxGrid("updatebounddata");
+                return true;
             } else if (res.result == 0) {
                 /**
                  * En caso de presentarse un error subsanable
@@ -1865,6 +1864,7 @@ function eliminarRegistroMovilidad(idRelaboralMovilidad){
                 $("#divMsjePorWarning").html("");
                 $("#divMsjePorWarning").append(res.msj);
                 $("#divMsjeNotificacionWarning").jqxNotification("open");
+                return false;
             } else {
                 /**
                  * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
@@ -1872,6 +1872,7 @@ function eliminarRegistroMovilidad(idRelaboralMovilidad){
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(res.msj);
                 $("#divMsjeNotificacionError").jqxNotification("open");
+                return false;
             }
 
         }, //mostramos el error
@@ -1879,6 +1880,7 @@ function eliminarRegistroMovilidad(idRelaboralMovilidad){
             $("#divMsjePorError").html("");
             $("#divMsjePorError").append("Se ha producido un error Inesperado");
             $("#divMsjeNotificacionError").jqxNotification("open");
+            return false;
         }
         }).responseText;
     }
