@@ -16,6 +16,14 @@ function exportarReporteCalculosHorariosYMarcaciones(option,fechaIni,fechaFin){
     agrupados = new Object();
     ordenados = new Object();
 
+    ubicacion = $('#divGridControlCalculos').jqxGrid('getcolumn','ubicacion');
+    condicion = $('#divGridControlCalculos').jqxGrid('getcolumn','condicion');
+    gerencia_administrativa = $('#divGridControlCalculos').jqxGrid('getcolumn','gerencia_administrativa');
+    departamento_administrativo = $('#divGridControlCalculos').jqxGrid('getcolumn','departamento_administrativo');
+    area = $('#divGridControlCalculos').jqxGrid('getcolumn','area');
+    cargo = $('#divGridControlCalculos').jqxGrid('getcolumn','cargo');
+    sueldo = $('#divGridControlCalculos').jqxGrid('getcolumn','sueldo');
+
     nombres = $('#divGridControlCalculos').jqxGrid('getcolumn','nombres');
     ci = $('#divGridControlCalculos').jqxGrid('getcolumn','ci');
     expd = $('#divGridControlCalculos').jqxGrid('getcolumn','expd');
@@ -159,6 +167,14 @@ function exportarReporteCalculosHorariosYMarcaciones(option,fechaIni,fechaFin){
     observacion = $('#divGridControlCalculos').jqxGrid('getcolumn','observacion');
     estado = $('#divGridControlCalculos').jqxGrid('getcolumn','estado');
     estado_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado_descripcion');
+
+    columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
+    columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
+    columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
+    columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
+    columna[area.datafield] = {text: area.text, hidden: area.hidden};
+    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
+    columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
 
     columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
     columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};

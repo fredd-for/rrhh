@@ -10,6 +10,7 @@ require_once('../app/libs/phpexcel180/PHPExcel/IOFactory.php');
 
 class exceloasis extends PHPExcel{
     public $title_rpt = '';
+    public $title_total_rpt = '';
     public $header_title_estado_rpt = 'Estado Plurinacional de Bolivia';
     public $header_title_empresa_rpt = 'Empresa Estatal de Transporte por Cable "Mi Teleferico"';
     public $style_header_table = '';
@@ -188,8 +189,9 @@ class exceloasis extends PHPExcel{
      * @param $alignSelecteds Array con el listado de alineaciones correspondientes por columna.
      * @param $formatTypes Array con el listado de typos de datos que se almacenan en cada columna.
      * @param $fila Número de fila
+     * @param $celdacolor Array con la definición del color asignado.
      */
-    function Row($data,$alignSelecteds,$formatTypes,$fila)
+    function Row($data,$alignSelecteds,$formatTypes,$fila,$celdacolor = array())
     {
         for($i=0;$i<=count($data);$i++){
             if(isset($data[$i])&&isset($this->columnasExcel[$i])){
@@ -197,6 +199,44 @@ class exceloasis extends PHPExcel{
                 /*if($formatTypes[$i]=='date'){
                     $dato = str_replace("-","/",$dato);
                 }*/
+                /**
+                 * Si existe alguna celda que requiere un color diferente.
+                 */
+                if(count($celdacolor)>0&&isset($celdacolor[$i])){
+                    $this->getActiveSheet()->getColumnDimension($this->columnasExcel[$i])->setAutoSize(true);
+                    $this->getActiveSheet()->getStyle($this->columnasExcel[$i].$fila)->applyFromArray(
+                        array(
+                        'font'    => array(
+                            'bold'      => false,
+                        ),
+                        'alignment' => array(
+                                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        ),
+                        'borders' => array(
+                                'top'     => array(
+                                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                                ),'left'     => array(
+                                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                                )
+                                ,'right'     => array(
+                                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                                ),'bottom'     => array(
+                                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                                )
+                        ),
+                        'fill' => array(
+                        'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
+                        'rotation'   => 90,
+                        'startcolor' => array(
+                            'argb' => $celdacolor[$i]
+                        ),
+                        'endcolor'   => array(
+                            'argb' => $celdacolor[$i]
+                        )
+                        )
+                        )
+                    );
+                }
                 $this->getActiveSheet()->setCellValue($this->columnasExcel[$i].$fila, $dato);
                 switch($alignSelecteds[$i]){
                     case 'C':
@@ -553,6 +593,222 @@ class exceloasis extends PHPExcel{
         $objWriter = PHPExcel_IOFactory::createWriter($this, 'Excel2007');
         $objWriter->save('php://output');
         exit;
+    }
+
+    /**
+     * Función para la agregación de una nueva página al reporte en formato excel a objeto de mostrar un resumen de totales
+     * @param array $arrListado
+     * @param array $totalColSelecteds
+     * @param int $totalAtrasos
+     * @param int $totalFaltas
+     * @param int $totalAbandono
+     * @param int $totalOmision
+     * @param int $totalLsgh
+     * @param int $totalCompensacion
+     * @throws Exception
+     */
+    function agregarPaginaTotales($arrListado=array(),$totalColSelecteds=array(),$totalTitleColSelecteds=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalCompensacion=0){
+
+        $this->createSheet();
+        $this->setActiveSheetIndex(1);
+        $fila=4;
+        $contador = 1;
+        $i=0;
+        $cantColTotal = count($totalColSelecteds);
+        $primeraLetra="A";
+        $ultimaLetra="A";
+        $letraInicioTotales="K";
+        $letrasUsadas = array();
+        foreach($this->columnasExcel as $letra){
+            $this->getActiveSheet()->setCellValue($letra.$fila, $totalTitleColSelecteds[$i]);
+            $this->getActiveSheet()->getColumnDimension($letra)->setAutoSize(true);
+            $i++;
+            $ultimaLetra=$letra;
+            $letrasUsadas[]=$letra;
+            if($cantColTotal<($i+1))break;
+        }
+        $this->getActiveSheet()->getStyle($primeraLetra.$fila.':'.$ultimaLetra.$fila)->applyFromArray(
+            array(
+                'font'    => array(
+                    'bold'      => true
+                ),
+                'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                ),
+                'borders' => array(
+                    'top'     => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                ),
+                'fill' => array(
+                    'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
+                    'rotation'   => 90,
+                    'startcolor' => array(
+                        'argb' => '4F81BD'
+                    ),
+                    'endcolor'   => array(
+                        'argb' => '4F81BD'
+                    )
+                )
+            )
+        );
+        $this->getActiveSheet()->getStyle($primeraLetra.$fila.':'.$ultimaLetra.$fila)->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_WHITE);
+        $fila++;
+        foreach ($arrListado as $clave2=>$valor2) {
+            foreach($valor2 as $clave1 => $valor1){
+                foreach($valor1 as $clave=>$valor){
+                    $j=0;
+                    foreach($letrasUsadas as $letra){
+                        if($letra==$primeraLetra){
+                            $this->getActiveSheet()->getStyle($letra.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $this->getActiveSheet()->setCellValue($letra.$fila, $contador);
+                        }else{
+                            $this->getActiveSheet()->getStyle($letra.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $this->getActiveSheet()->setCellValue($letra.$fila, $valor[$totalColSelecteds[$j]]);
+                        }
+                        $j++;
+                    }
+                    $fila++;
+                    $contador++;
+                }
+            }
+        }
+        $this->getActiveSheet()->getTabColor()->setARGB('FF0094FF');;
+        $this->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+        $this->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+
+        // Rename second worksheet
+        $this->getActiveSheet()->setTitle('Totales');
+
+        $penultimaLetraCabeceraTabla="O";
+        $this->getActiveSheet()->setCellValue('B1', 'Estado Plurinacional de Bolivia');
+        $this->getActiveSheet()->setCellValue('B2', 'Empresa Estatal de Transporte Por Cable "Mi Teleférico"');
+        $this->getActiveSheet()->setCellValue('B3', ($this->title_rpt!=false&&$this->title_rpt!='')?$this->title_rpt:'Reporte Relación Laboral');
+        $this->getActiveSheet()->getStyle('B1:B3')->getFont()->setName('Arial');
+        $this->getActiveSheet()->getStyle('B1')->getFont()->setSize(14);
+        $this->getActiveSheet()->getStyle('B2:B3')->getFont()->setSize(12);
+        $this->getActiveSheet()->getStyle('B1:B3')->getFont()->setBold(true);
+        $this->getActiveSheet()->getStyle('B1:B3')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLUEMITELEFERICO);
+
+        #region Combinación de celdas para la cabecera (3 primeras filas)
+        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'1:'.$penultimaLetraCabeceraTabla.'1');
+        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'2:'.$penultimaLetraCabeceraTabla.'2');
+        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'3:'.$penultimaLetraCabeceraTabla.'3');
+        #endregion Combinación de celdas para la cabecera (3 primeras filas)
+
+        #region Centrando los dos líneas que corresponden a las cabeceras.
+        $this->getActiveSheet()->getStyle('B1:B3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        #endregion Centrando los dos líneas que corresponden a las cabeceras.
+
+        #region Estableciendo el lugar de los logotipos (Imágenes)
+        // Add a drawing to the worksheet
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Escudo');
+        $objDrawing->setDescription('Escudo de Bolivia');
+        $objDrawing->setPath('./images/escudo.jpg');
+        $objDrawing->setOffsetX(5);
+        $objDrawing->setHeight(50);
+        $objDrawing->setWorksheet($this->getActiveSheet());
+
+        // Add a drawing to the worksheet
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo Mi Teleferico');
+        $objDrawing->setPath('./images/logoMT.jpg');
+        $objDrawing->setCoordinates($ultimaLetra.'1');
+        $objDrawing->setOffsetX(5);
+        $objDrawing->setHeight(50);
+        $objDrawing->setWorksheet($this->getActiveSheet());
+        #endregion Estableciendo el lugar de los logotipos (Imágenes)
+
+        #region para el establecimiento de las cabeceras y pie de páginas del documento
+        $this->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BReporte Relación laboral&RImpreso el &D');
+        $this->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $this->getProperties()->getTitle() . '&RPagina &P de &N');
+        #endregion para el establecimiento de las cabeceras y pie de páginas del documento
+
+        $styleThinBlackBorderOutline = array(
+            'borders' => array(
+                'outline' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => '4F81BD'),
+                ),
+            ),
+        );
+        #region Sector para añadir la fila de totales globales
+        //$this->getActiveSheet()->mergeCells('A'.$fila.':0'.$fila);
+        $this->getActiveSheet()->getStyle($primeraLetra.$fila.':K'.$fila)->applyFromArray(
+            array(
+                'font'    => array(
+                    'bold'      => true
+                ),
+                'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                ),
+                'fill' => array(
+                    'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
+                    'rotation'   => 90,
+                    'startcolor' => array(
+                        'argb' => '4F81BD'
+                    ),
+                    'endcolor'   => array(
+                        'argb' => '4F81BD'
+                    )
+                )
+            )
+        );
+        $sw=false;
+        $h=0;
+        $k=0;
+        $arrCantidadesTotales = array("Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh);
+        foreach($letrasUsadas as $letra){
+            if($letraInicioTotales==$letra)$sw=true;
+            if($sw){
+                $this->getActiveSheet()->getStyle($letra.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->getActiveSheet()->setCellValue($letra.$fila, $arrCantidadesTotales[$k]);
+                $k++;
+            }else{
+                $this->getActiveSheet()->getStyle($letra.$fila)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->getActiveSheet()->setCellValue($letra.$fila, "");
+            }
+        }
+        #endregion Sector para añadir la fila de totales globales
+        $celdaInicial="A4";$celdaFinalDiagonalTabla="";
+        $this->getActiveSheet()->getStyle($celdaInicial.':'.$ultimaLetra.$fila)->applyFromArray($styleThinBlackBorderOutline);
+
+        // Estableciendo la hoja a mostrarse
+        $this->setActiveSheetIndex(0);
+
+    }
+    /**
+     * Función para conocer el listado de columnas para el resumen de totales
+     * @param $generalConfigForAllColumns
+     * @return array
+     */
+    function DefineSelectedTotalCols($generalConfigForAllColumns){
+        $arrRes = Array();
+        $arrRes[]="nro_row";
+        foreach($generalConfigForAllColumns as $key => $val){
+            if($val['totales']===true){
+                $arrRes[]=$key;
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para definir las columnas a considerarse dentro de la grilla de totales
+     * @param $widthAlignAll
+     * @param $columns
+     * @param array $exclude
+     * @return array
+     */
+    function DefineTotalTitleCols($widthAlignAll,$totalCols){
+        $arrRes = Array();
+        foreach($totalCols as $key => $val){
+            if(array_key_exists($val,$widthAlignAll)){
+                $arrRes[]=$widthAlignAll[$val]['title'];
+            }
+        }
+        return $arrRes;
     }
     #endregion nuevas funciones
 }

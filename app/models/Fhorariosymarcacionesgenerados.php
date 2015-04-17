@@ -76,7 +76,7 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
      */
     public function getAll($idRelaboral,$gestion,$mes,$clasemaracion,$where='',$group='')
     {
-        $sql = "SELECT * FROM f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemaracion')";
+        $sql = "SELECT * FROM f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemaracion') ORDER BY gestion,mes";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
@@ -100,7 +100,9 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
         $sql .= "INNER JOIN f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemarcacionB') h ON ";
         $sql .= "h.id_relaboral=m.id_relaboral AND h.id_perfillaboral = m.id_perfillaboral AND ";
         $sql .= "h.rango_fecha_ini=m.rango_fecha_ini AND ";
-        $sql .= "h.rango_fecha_fin=m.rango_fecha_fin";
+        $sql .= "h.rango_fecha_fin=m.rango_fecha_fin ";
+        $sql .= "ORDER BY m.gestion,m.mes";
+
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();

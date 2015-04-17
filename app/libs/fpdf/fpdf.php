@@ -371,6 +371,80 @@ function AddPage($orientation='', $size='')
 	$this->ColorFlag = $cf;
 }
 
+    /**
+     * Función para la agregación de una hoja para la muestra del cuadro resumen de datos.
+     * @param string $orientation
+     * @param string $size
+     */
+    function AddTotalPage($orientation='', $size='')
+    {
+        // Start a new page
+        if($this->state==0)
+            $this->Open();
+        $family = $this->FontFamily;
+        $style = $this->FontStyle.($this->underline ? 'U' : '');
+        $fontsize = $this->FontSizePt;
+        $lw = $this->LineWidth;
+        $dc = $this->DrawColor;
+        $fc = $this->FillColor;
+        $tc = $this->TextColor;
+        $cf = $this->ColorFlag;
+        if($this->page>0)
+        {
+            // Page footer
+            $this->InFooter = true;
+            $this->Footer();
+            $this->InFooter = false;
+            // Close page
+            $this->_endpage();
+        }
+        // Start new page
+        $this->_beginpage($orientation,$size);
+        // Set line cap style to square
+        $this->_out('2 J');
+        // Set line width
+        $this->LineWidth = $lw;
+        $this->_out(sprintf('%.2F w',$lw*$this->k));
+        // Set font
+        if($family)
+            $this->SetFont($family,$style,$fontsize);
+        // Set colors
+        $this->DrawColor = $dc;
+        if($dc!='0 G')
+            $this->_out($dc);
+        $this->FillColor = $fc;
+        if($fc!='0 g')
+            $this->_out($fc);
+        $this->TextColor = $tc;
+        $this->ColorFlag = $cf;
+        // Page header
+        $this->InHeader = true;
+        $this->HeaderTotal();
+        $this->InHeader = false;
+        // Restore line width
+        if($this->LineWidth!=$lw)
+        {
+            $this->LineWidth = $lw;
+            $this->_out(sprintf('%.2F w',$lw*$this->k));
+        }
+        // Restore font
+        if($family)
+            $this->SetFont($family,$style,$fontsize);
+        // Restore colors
+        if($this->DrawColor!=$dc)
+        {
+            $this->DrawColor = $dc;
+            $this->_out($dc);
+        }
+        if($this->FillColor!=$fc)
+        {
+            $this->FillColor = $fc;
+            $this->_out($fc);
+        }
+        $this->TextColor = $tc;
+        $this->ColorFlag = $cf;
+    }
+
 function Header()
 {
 	// To be implemented in your own inherited class

@@ -59,106 +59,484 @@ class HorariosymarcacionesController extends ControllerBase
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
-                    $horariosymarcaciones[] = array(
-                        'nro_row' => 0,
-                        'id'=>$v->id_horarioymarcacion,
-                        'relaboral_id'=>$v->relaboral_id,
-                        'gestion'=>$v->gestion,
-                        'mes'=>$v->mes,
-                        'mes_nombre'=>$v->mes_nombre,
-                        'turno'=>$v->turno,
-                        'grupo'=>$v->grupo,
-                        'clasemarcacion'=>$v->clasemarcacion,
-                        'clasemarcacion_descripcion'=>$v->clasemarcacion_descripcion,
-                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
-                        'modalidad_marcacion'=>$v->modalidad_marcacion,
-                        'd1'=>$v->d1,
-                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
-                        'd2'=>'<div style="background-color:#f39c12;font-size:70%">PPGH: 11:00:00 A 12:59:59</br>Justificaci&oacute;n: knsdfknaskjd</div>',
-                        //'d2'=>$v->d2,
-                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
-                        'd3'=>$v->d3,
-                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
-                        'd4'=>$v->d4,
-                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
-                        'd5'=>$v->d5,
-                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
-                        'd6'=>$v->d6,
-                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
-                        'd7'=>$v->d7,
-                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
-                        'd8'=>$v->d8,
-                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
-                        'd9'=>$v->d9,
-                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
-                        'd10'=>$v->d10,
-                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
-                        'd11'=>$v->d11,
-                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
-                        'd12'=>$v->d12,
-                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
-                        'd13'=>$v->d13,
-                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
-                        'd14'=>$v->d14,
-                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
-                        'd15'=>$v->d15,
-                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
-                        'd16'=>$v->d16,
-                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
-                        'd17'=>$v->d17,
-                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
-                        'd18'=>$v->d18,
-                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
-                        'd19'=>$v->d19,
-                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
-                        'd20'=>$v->d20,
-                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
-                        'd21'=>$v->d21,
-                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
-                        'd22'=>$v->d22,
-                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
-                        'd23'=>$v->d23,
-                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
-                        'd24'=>$v->d24,
-                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
-                        'd25'=>$v->d25,
-                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
-                        'd26'=>$v->d26,
-                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
-                        'd27'=>$v->d27,
-                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
-                        'd28'=>$v->d28,
-                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
-                        'd29'=>$v->d29,
-                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
-                        'd30'=>$v->d30,
-                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
-                        'd31'=>$v->d31,
-                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
-                        'ultimo_dia'=>$v->ultimo_dia,
-                        'atrasos'=>$v->atrasos,
-                        'faltas'=>$v->faltas,
-                        'abandono'=>$v->abandono,
-                        'omision'=>$v->omision,
-                        'compensacion'=>$v->compensacion,
-                        'observacion'=>$v->observacion,
-                        'estado'=>$v->estado,
-                        'estado_descripcion'=>$v->estado_descripcion,
-                        'baja_logica'=>$v->baja_logica,
-                        'agrupador'=>$v->agrupador,
-                        'user_reg_id'=>$v->user_reg_id,
-                        'fecha_reg'=>$v->fecha_reg,
-                        'user_apr_id'=>$v->user_apr_id,
-                        'fecha_apr'=>$v->fecha_apr,
-                        'user_mod_id'=>$v->user_mod_id,
-                        'fecha_mod'=>$v->fecha_mod,
-                    );
+                        $horariosymarcaciones[] = array(
+                            'nro_row' => 0,
+                            'id'=>$v->id_horarioymarcacion,
+                            'relaboral_id'=>$v->relaboral_id,
+                            'gestion'=>$v->gestion,
+                            'mes'=>$v->mes,
+                            'mes_nombre'=>$v->mes_nombre,
+                            'turno'=>$v->turno,
+                            'grupo'=>$v->grupo,
+                            'clasemarcacion'=>$v->clasemarcacion,
+                            'clasemarcacion_descripcion'=>$v->clasemarcacion_descripcion,
+                            'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                            'modalidad_marcacion'=>$v->modalidad_marcacion,
+                            'd1'=>$v->d1,
+                            'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                            'd2'=>$v->d2,
+                            'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                            'd3'=>$v->d3,
+                            'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                            'd4'=>$v->d4,
+                            'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                            'd5'=>$v->d5,
+                            'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                            'd6'=>$v->d6,
+                            'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                            'd7'=>$v->d7,
+                            'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                            'd8'=>$v->d8,
+                            'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                            'd9'=>$v->d9,
+                            'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                            'd10'=>$v->d10,
+                            'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                            'd11'=>$v->d11,
+                            'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                            'd12'=>$v->d12,
+                            'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                            'd13'=>$v->d13,
+                            'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                            'd14'=>$v->d14,
+                            'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                            'd15'=>$v->d15,
+                            'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                            'd16'=>$v->d16,
+                            'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                            'd17'=>$v->d17,
+                            'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                            'd18'=>$v->d18,
+                            'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                            'd19'=>$v->d19,
+                            'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                            'd20'=>$v->d20,
+                            'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                            'd21'=>$v->d21,
+                            'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                            'd22'=>$v->d22,
+                            'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                            'd23'=>$v->d23,
+                            'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                            'd24'=>$v->d24,
+                            'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                            'd25'=>$v->d25,
+                            'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                            'd26'=>$v->d26,
+                            'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                            'd27'=>$v->d27,
+                            'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                            'd28'=>$v->d28,
+                            'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                            'd29'=>$v->d29,
+                            'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                            'd30'=>$v->d30,
+                            'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                            'd31'=>$v->d31,
+                            'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                            'ultimo_dia'=>$v->ultimo_dia,
+                            'atrasos'=>$v->atrasos,
+                            'faltas'=>$v->faltas,
+                            'abandono'=>$v->abandono,
+                            'omision'=>$v->omision,
+                            'lsgh'=>$v->lsgh,
+                            'compensacion'=>$v->compensacion,
+                            'observacion'=>$v->observacion,
+                            'estado'=>$v->estado,
+                            'estado_descripcion'=>$v->estado_descripcion,
+                            'baja_logica'=>$v->baja_logica,
+                            'agrupador'=>$v->agrupador,
+                            'user_reg_id'=>$v->user_reg_id,
+                            'fecha_reg'=>$v->fecha_reg,
+                            'user_apr_id'=>$v->user_apr_id,
+                            'fecha_apr'=>$v->fecha_apr,
+                            'user_mod_id'=>$v->user_mod_id,
+                            'fecha_mod'=>$v->fecha_mod,
+                        );
+                    #region sector para adicionar una fila para Excepciones
+                    if($v->modalidadmarcacion_id==6){
+                        $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                        if($v->calendariolaboral1_id>0){
+                            $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                            if(is_object($res1)&&$res1->count()>0){
+                                foreach($res1 as $r1){
+                                    $d1 = $r1->f_excepciones_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral2_id>0){
+                            $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id);
+                            if(is_object($res2)&&$res2->count()>0){
+                                foreach($res2 as $r2){
+                                    $d2 = $r2->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral3_id>0){
+                            $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id);
+                            if(is_object($res3)&&$res3->count()>0){
+                                foreach($res3 as $r3){
+                                    $d3 = $r3->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral4_id>0){
+                            $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id);
+                            if(is_object($res4)&&$res4->count()>0){
+                                foreach($res4 as $r4){
+                                    $d4 = $r4->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral5_id>0){
+                            $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id);
+                            if(is_object($res5)&&$res5->count()>0){
+                                foreach($res5 as $r5){
+                                    $d5 = $r5->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral6_id>0){
+                            $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id);
+                            if(is_object($res6)&&$res6->count()>0){
+                                foreach($res6 as $r6){
+                                    $d6 = $r6->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral7_id>0){
+                            $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id);
+                            if(is_object($res7)&&$res7->count()>0){
+                                foreach($res7 as $r7){
+                                    $d7 = $r7->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral8_id>0){
+                            $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id);
+                            if(is_object($res8)&&$res8->count()>0){
+                                foreach($res8 as $r8){
+                                    $d8 = $r8->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral9_id>0){
+                            $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id);
+                            if(is_object($res9)&&$res9->count()>0){
+                                foreach($res9 as $r9){
+                                    $d9 = $r9->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral10_id>0){
+                            $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id);
+                            if(is_object($res10)&&$res10->count()>0){
+                                foreach($res10 as $r10){
+                                    $d10 = $r10->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral11_id>0){
+                            $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id);
+                            if(is_object($res11)&&$res11->count()>0){
+                                foreach($res11 as $r11){
+                                    $d11 = $r11->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral12_id>0){
+                            $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id);
+                            if(is_object($res12)&&$res12->count()>0){
+                                foreach($res12 as $r12){
+                                    $d12 = $r12->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral13_id>0){
+                            $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id);
+                            if(is_object($res13)&&$res13->count()>0){
+                                foreach($res13 as $r13){
+                                    $d13 = $r13->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral14_id>0){
+                            $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id);
+                            if(is_object($res14)&&$res14->count()>0){
+                                foreach($res14 as $r14){
+                                    $d14 = $r14->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral15_id>0){
+                            $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id);
+                            if(is_object($res15)&&$res15->count()>0){
+                                foreach($res15 as $r15){
+                                    $d15 = $r15->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral16_id>0){
+                            $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id);
+                            if(is_object($res16)&&$res16->count()>0){
+                                foreach($res16 as $r16){
+                                    $d16 = $r16->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral17_id>0){
+                            $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id);
+                            if(is_object($res17)&&$res17->count()>0){
+                                foreach($res17 as $r17){
+                                    $d17 = $r17->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral18_id>0){
+                            $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id);
+                            if(is_object($res18)&&$res18->count()>0){
+                                foreach($res18 as $r){
+                                    $d18 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral19_id>0){
+                            $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id);
+                            if(is_object($res19)&&$res19->count()>0){
+                                foreach($res19 as $r){
+                                    $d19 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral20_id>0){
+                            $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id);
+                            if(is_object($res20)&&$res20->count()>0){
+                                foreach($res20 as $r){
+                                    $d20 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral21_id>0){
+                            $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id);
+                            if(is_object($res21)&&$res21->count()>0){
+                                foreach($res21 as $r21){
+                                    $d21 = $r21->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral22_id>0){
+                            $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id);
+                            if(is_object($res22)&&$res22->count()>0){
+                                foreach($res22 as $r22){
+                                    $d22 = $r22->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral23_id>0){
+                            $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id);
+                            if(is_object($res23)&&$res23->count()>0){
+                                foreach($res23 as $r23){
+                                    $d23 = $r23->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral24_id>0){
+                            $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id);
+                            if(is_object($res24)&&$res24->count()>0){
+                                foreach($res24 as $r24){
+                                    $d24 = $r24->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral25_id>0){
+                            $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id);
+                            if(is_object($res25)&&$res25->count()>0){
+                                foreach($res25 as $r25){
+                                    $d25 = $r25->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral26_id>0){
+                            $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id);
+                            if(is_object($res26)&&$res26->count()>0){
+                                foreach($res26 as $r26){
+                                    $d26 = $r26->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral27_id>0){
+                            $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id);
+                            if(is_object($res27)&&$res27->count()>0){
+                                foreach($res27 as $r27){
+                                    $d27 = $r27->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral28_id>0){
+                            $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id);
+                            if(is_object($res28)&&$res28->count()>0){
+                                foreach($res28 as $r28){
+                                    $d28 = $r28->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral29_id>0){
+                            $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id);
+                            if(is_object($res29)&&$res29->count()>0){
+                                foreach($res29 as $r29){
+                                    $d29 = $r29->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral30_id>0){
+                            $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id);
+                            if(is_object($res30)&&$res30->count()>0){
+                                foreach($res30 as $r30){
+                                    $d30 = $r30->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral31_id>0){
+                            $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id);
+                            if(is_object($res31)&&$res31->count()>0){
+                                foreach($res31 as $r31){
+                                    $d31 = $r31->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        $horariosymarcaciones[] = array(
+                            'nro_row' => 0,
+                            'id'=>$v->id_horarioymarcacion,
+                            'relaboral_id'=>$v->relaboral_id,
+                            'gestion'=>$v->gestion,
+                            'mes'=>$v->mes,
+                            'mes_nombre'=>$v->mes_nombre,
+                            'turno'=>$v->turno,
+                            'grupo'=>$v->grupo,
+                            'clasemarcacion'=>"e",
+                            'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                            'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                            'modalidad_marcacion'=>"EXCEPCIONES",
+                            'd1'=>$d1,
+                            'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                            'd2'=>$d2,
+                            'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                            'd3'=>$d3,
+                            'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                            'd4'=>$d4,
+                            'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                            'd5'=>$d5,
+                            'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                            'd6'=>$d6,
+                            'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                            'd7'=>$d7,
+                            'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                            'd8'=>$d8,
+                            'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                            'd9'=>$d9,
+                            'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                            'd10'=>$d10,
+                            'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                            'd11'=>$d11,
+                            'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                            'd12'=>$d12,
+                            'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                            'd13'=>$d13,
+                            'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                            'd14'=>$d14,
+                            'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                            'd15'=>$d15,
+                            'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                            'd16'=>$d16,
+                            'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                            'd17'=>$d17,
+                            'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                            'd18'=>$d18,
+                            'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                            'd19'=>$d19,
+                            'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                            'd20'=>$d20,
+                            'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                            'd21'=>$d21,
+                            'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                            'd22'=>$d22,
+                            'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                            'd23'=>$d23,
+                            'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                            'd24'=>$d24,
+                            'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                            'd25'=>$d25,
+                            'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                            'd26'=>$d26,
+                            'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                            'd27'=>$d27,
+                            'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                            'd28'=>$d28,
+                            'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                            'd29'=>$d29,
+                            'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                            'd30'=>$d30,
+                            'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                            'd31'=>$d31,
+                            'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                            'ultimo_dia'=>$v->ultimo_dia,
+                            'atrasos'=>null,
+                            'faltas'=>null,
+                            'abandono'=>null,
+                            'omision'=>null,
+                            'compensacion'=>null,
+                            'observacion'=>$v->observacion,
+                            'estado'=>$v->estado,
+                            'estado_descripcion'=>$v->estado_descripcion,
+                            'baja_logica'=>$v->baja_logica,
+                            'agrupador'=>$v->agrupador,
+                            'user_reg_id'=>$v->user_reg_id,
+                            'fecha_reg'=>$v->fecha_reg,
+                            'user_apr_id'=>$v->user_apr_id,
+                            'fecha_apr'=>$v->fecha_apr,
+                            'user_mod_id'=>$v->user_mod_id,
+                            'fecha_mod'=>$v->fecha_mod,
+                        );
+                    }
+                    #endregion sector para adicionar una fila para Excepciones
                 }
             }
         }
         echo json_encode($horariosymarcaciones);
     }
-
     /**
      * Función para obtener el listado de marcaciones con los cálculos correspondiente considerando el rango de dos meses
      */
@@ -193,113 +571,14 @@ class HorariosymarcacionesController extends ControllerBase
                         'nombres' => $v->nombres,
                         'ci' => $v->ci,
                         'expd' => $v->expd,
-                        'fecha_caducidad' => $v->fecha_caducidad,
-                        'num_complemento' => '',
-                        'fecha_nac' => $v->fecha_nac,
-                        'edad' => $v->edad,
-                        'lugar_nac' => $v->lugar_nac,
-                        'genero' => $v->genero,
-                        'e_civil' => $v->e_civil,
-                        'tiene_item' => $v->tiene_item,
-                        'item' => $v->item,
-                        'carrera_adm' => $v->carrera_adm,
-                        'num_contrato' => $v->num_contrato,
-                        'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                        'id_solelabcontrato' => $v->id_solelabcontrato,
-                        'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                        'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                        'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                        'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                        'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                        'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                        'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
-                        'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                        'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
-                        'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                        'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
-                        'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
-                        'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                        'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
-                        'motivo_baja' => $v->motivo_baja,
-                        'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                        'descripcion_baja' => $v->descripcion_baja,
-                        'descripcion_anu' => $v->descripcion_anu,
-                        'id_cargo' => $v->id_cargo,
-                        'cargo_codigo' => $v->cargo_codigo,
                         'cargo' => $v->cargo,
-                        'cargo_resolucion_ministerial_id' => $v->cargo_resolucion_ministerial_id,
-                        'cargo_resolucion_ministerial' => $v->cargo_resolucion_ministerial,
-                        'id_nivelessalarial' => $v->id_nivelessalarial,
-                        'nivelsalarial' => $v->nivelsalarial,
-                        'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                        'nivelsalarial_resolucion' => $v->nivelsalarial_resolucion,
-                        'numero_escala' => $v->numero_escala,
-                        'gestion_escala' => $v->gestion_escala,
-                        /*'sueldo' => $v->sueldo,*/
                         'sueldo' => str_replace(".00", "", $v->sueldo),
-                        'id_procesocontratacion' => $v->id_procesocontratacion,
-                        'proceso_codigo' => $v->proceso_codigo,
-                        'id_convocatoria' => $v->id_convocatoria,
-                        'convocatoria_codigo' => $v->convocatoria_codigo,
-                        'convocatoria_tipo' => $v->convocatoria_tipo,
-                        'id_fin_partida' => $v->id_fin_partida,
-                        'fin_partida' => $v->fin_partida,
-                        'id_condicion' => $v->id_condicion,
                         'condicion' => $v->condicion,
-                        'categoria_relaboral' => $v->categoria_relaboral,
-                        'id_da' => $v->id_da,
-                        'direccion_administrativa' => $v->direccion_administrativa,
-                        'organigrama_regional_id' => $v->organigrama_regional_id,
-                        'organigrama_regional' => $v->organigrama_regional,
-                        'id_regional' => $v->id_regional,
-                        'regional' => $v->regional,
-                        'regional_codigo' => $v->regional_codigo,
-                        'id_departamento' => $v->id_departamento,
-                        'departamento' => $v->departamento,
-                        'id_provincia' => $v->id_provincia,
-                        'provincia' => $v->provincia,
-                        'id_localidad' => $v->id_localidad,
-                        'localidad' => $v->localidad,
-                        'residencia' => $v->residencia,
-                        'unidad_ejecutora' => $v->unidad_ejecutora,
-                        'cod_ue' => $v->cod_ue,
-                        'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
                         'gerencia_administrativa' => $v->gerencia_administrativa,
-                        'id_departamento_administrativo' => $v->id_departamento_administrativo,
                         'departamento_administrativo' => $v->departamento_administrativo,
-                        'id_organigrama' => $v->id_organigrama,
-                        'unidad_administrativa' => $v->unidad_administrativa,
-                        'organigrama_sigla' => $v->organigrama_sigla,
-                        'organigrama_orden' => $v->organigrama_orden,
-                        'id_area' => $v->id_area,
                         'area' => $v->area,
-                        'id_ubicacion' => $v->id_ubicacion,
                         'ubicacion' => $v->ubicacion,
-                        'unidades_superiores' => $v->unidades_superiores,
-                        'unidades_dependientes' => $v->unidades_dependientes,
-                        'partida' => $v->partida,
-                        'fuente_codigo' => $v->fuente_codigo,
-                        'fuente' => $v->fuente,
-                        'organismo_codigo' => $v->organismo_codigo,
-                        'organismo' => $v->organismo,
-                        'relaboral_previo_id' => $v->relaboral_previo_id,
-                        'observacion' => ($v->observacion != null) ? $v->observacion : "",
-                        /*'relaboral_estado' => $v->relaboral_estado,
-                        'relaboral_estado_descripcion' => $v->relaboral_estado_descripcion,
-                        'relaboral_estado_abreviacion' => $v->relaboral_estado_abreviacion,
-                        'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                        'id_eventual' => $v->id_eventual,*/
-                        'id_consultor' => $v->id_consultor,
-                        /*'user_reg_id' => $v->user_reg_id,
-                        'fecha_reg' => $v->fecha_reg,
-                        'user_mod_id' => $v->user_mod_id,
-                        'fecha_mod' => $v->fecha_mod,*/
-                        'persona_user_reg_id' => $v->persona_user_reg_id,
-                        'persona_fecha_reg' => $v->persona_fecha_reg,
-                        'persona_user_mod_id' => $v->persona_user_mod_id,
-                        'persona_fecha_mod' => $v->persona_fecha_mod,
                         #endregion Columnas de procedimiento f_relaborales()
-
 
                         'id'=>$v->id_horarioymarcacion,
                         'relaboral_id'=>$v->relaboral_id,
@@ -392,6 +671,407 @@ class HorariosymarcacionesController extends ControllerBase
                         'user_mod_id'=>$v->user_mod_id,
                         'fecha_mod'=>$v->fecha_mod,
                     );
+                    #region sector para adicionar una fila para Excepciones
+                    if($v->modalidadmarcacion_id==6){
+                        $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                        if($v->calendariolaboral1_id>0){
+                            $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                            if(is_object($res1)&&$res1->count()>0){
+                                foreach($res1 as $r1){
+                                    $d1 = $r1->f_excepciones_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral2_id>0){
+                            $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id);
+                            if(is_object($res2)&&$res2->count()>0){
+                                foreach($res2 as $r2){
+                                    $d2 = $r2->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral3_id>0){
+                            $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id);
+                            if(is_object($res3)&&$res3->count()>0){
+                                foreach($res3 as $r3){
+                                    $d3 = $r3->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral4_id>0){
+                            $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id);
+                            if(is_object($res4)&&$res4->count()>0){
+                                foreach($res4 as $r4){
+                                    $d4 = $r4->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral5_id>0){
+                            $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id);
+                            if(is_object($res5)&&$res5->count()>0){
+                                foreach($res5 as $r5){
+                                    $d5 = $r5->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral6_id>0){
+                            $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id);
+                            if(is_object($res6)&&$res6->count()>0){
+                                foreach($res6 as $r6){
+                                    $d6 = $r6->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral7_id>0){
+                            $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id);
+                            if(is_object($res7)&&$res7->count()>0){
+                                foreach($res7 as $r7){
+                                    $d7 = $r7->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral8_id>0){
+                            $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id);
+                            if(is_object($res8)&&$res8->count()>0){
+                                foreach($res8 as $r8){
+                                    $d8 = $r8->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral9_id>0){
+                            $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id);
+                            if(is_object($res9)&&$res9->count()>0){
+                                foreach($res9 as $r9){
+                                    $d9 = $r9->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral10_id>0){
+                            $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id);
+                            if(is_object($res10)&&$res10->count()>0){
+                                foreach($res10 as $r10){
+                                    $d10 = $r10->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral11_id>0){
+                            $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id);
+                            if(is_object($res11)&&$res11->count()>0){
+                                foreach($res11 as $r11){
+                                    $d11 = $r11->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral12_id>0){
+                            $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id);
+                            if(is_object($res12)&&$res12->count()>0){
+                                foreach($res12 as $r12){
+                                    $d12 = $r12->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral13_id>0){
+                            $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id);
+                            if(is_object($res13)&&$res13->count()>0){
+                                foreach($res13 as $r13){
+                                    $d13 = $r13->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+
+                        if($v->calendariolaboral14_id>0){
+                            $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id);
+                            if(is_object($res14)&&$res14->count()>0){
+                                foreach($res14 as $r14){
+                                    $d14 = $r14->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral15_id>0){
+                            $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id);
+                            if(is_object($res15)&&$res15->count()>0){
+                                foreach($res15 as $r15){
+                                    $d15 = $r15->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral16_id>0){
+                            $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id);
+                            if(is_object($res16)&&$res16->count()>0){
+                                foreach($res16 as $r16){
+                                    $d16 = $r16->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral17_id>0){
+                            $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id);
+                            if(is_object($res17)&&$res17->count()>0){
+                                foreach($res17 as $r17){
+                                    $d17 = $r17->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral18_id>0){
+                            $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id);
+                            if(is_object($res18)&&$res18->count()>0){
+                                foreach($res18 as $r){
+                                    $d18 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral19_id>0){
+                            $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id);
+                            if(is_object($res19)&&$res19->count()>0){
+                                foreach($res19 as $r){
+                                    $d19 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral20_id>0){
+                            $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id);
+                            if(is_object($res20)&&$res20->count()>0){
+                                foreach($res20 as $r){
+                                    $d20 = $r->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral21_id>0){
+                            $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id);
+                            if(is_object($res21)&&$res21->count()>0){
+                                foreach($res21 as $r21){
+                                    $d21 = $r21->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral22_id>0){
+                            $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id);
+                            if(is_object($res22)&&$res22->count()>0){
+                                foreach($res22 as $r22){
+                                    $d22 = $r22->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral23_id>0){
+                            $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id);
+                            if(is_object($res23)&&$res23->count()>0){
+                                foreach($res23 as $r23){
+                                    $d23 = $r23->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral24_id>0){
+                            $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id);
+                            if(is_object($res24)&&$res24->count()>0){
+                                foreach($res24 as $r24){
+                                    $d24 = $r24->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral25_id>0){
+                            $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id);
+                            if(is_object($res25)&&$res25->count()>0){
+                                foreach($res25 as $r25){
+                                    $d25 = $r25->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral26_id>0){
+                            $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id);
+                            if(is_object($res26)&&$res26->count()>0){
+                                foreach($res26 as $r26){
+                                    $d26 = $r26->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral27_id>0){
+                            $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id);
+                            if(is_object($res27)&&$res27->count()>0){
+                                foreach($res27 as $r27){
+                                    $d27 = $r27->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral28_id>0){
+                            $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id);
+                            if(is_object($res28)&&$res28->count()>0){
+                                foreach($res28 as $r28){
+                                    $d28 = $r28->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral29_id>0){
+                            $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id);
+                            if(is_object($res29)&&$res29->count()>0){
+                                foreach($res29 as $r29){
+                                    $d29 = $r29->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral30_id>0){
+                            $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id);
+                            if(is_object($res30)&&$res30->count()>0){
+                                foreach($res30 as $r30){
+                                    $d30 = $r30->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        if($v->calendariolaboral31_id>0){
+                            $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id);
+                            if(is_object($res31)&&$res31->count()>0){
+                                foreach($res31 as $r31){
+                                    $d31 = $r31->f_excepciones_en_dia;
+                                }
+
+                            }
+                        }
+                        $horariosymarcaciones[] = array(
+                            'nro_row' => 0,
+                            #region Columnas de procedimiento f_relaborales()
+                            'id_relaboral' => $v->id_relaboral,
+                            'id_persona' => $v->id_persona,
+                            'p_nombre' => $v->p_nombre,
+                            's_nombre' => $v->s_nombre,
+                            't_nombre' => $v->t_nombre,
+                            'p_apellido' => $v->p_apellido,
+                            's_apellido' => $v->s_apellido,
+                            'c_apellido' => $v->c_apellido,
+                            'nombres' => $v->nombres,
+                            'ci' => $v->ci,
+                            'expd' => $v->expd,
+                            'cargo' => $v->cargo,
+                            'sueldo' => str_replace(".00", "", $v->sueldo),
+                            'condicion' => $v->condicion,
+                            'gerencia_administrativa' => $v->gerencia_administrativa,
+                            'departamento_administrativo' => $v->departamento_administrativo,
+                            'area' => $v->area,
+                            'ubicacion' => $v->ubicacion,
+                            #endregion Columnas de procedimiento f_relaborales()
+
+                            'id'=>$v->id_horarioymarcacion,
+                            'relaboral_id'=>$v->relaboral_id,
+                            'gestion'=>$v->gestion,
+                            'mes'=>$v->mes,
+                            'mes_nombre'=>$v->mes_nombre,
+                            'turno'=>$v->turno,
+                            'grupo'=>$v->grupo,
+                            'clasemarcacion'=>"e",
+                            'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                            'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                            'modalidad_marcacion'=>"EXCEPCIONES",
+                            'd1'=>$d1,
+                            'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                            'd2'=>$d2,
+                            'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                            'd3'=>$d3,
+                            'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                            'd4'=>$d4,
+                            'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                            'd5'=>$d5,
+                            'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                            'd6'=>$d6,
+                            'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                            'd7'=>$d7,
+                            'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                            'd8'=>$d8,
+                            'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                            'd9'=>$d9,
+                            'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                            'd10'=>$d10,
+                            'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                            'd11'=>$d11,
+                            'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                            'd12'=>$d12,
+                            'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                            'd13'=>$d13,
+                            'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                            'd14'=>$d14,
+                            'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                            'd15'=>$d15,
+                            'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                            'd16'=>$d16,
+                            'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                            'd17'=>$d17,
+                            'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                            'd18'=>$d18,
+                            'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                            'd19'=>$d19,
+                            'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                            'd20'=>$d20,
+                            'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                            'd21'=>$d21,
+                            'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                            'd22'=>$d22,
+                            'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                            'd23'=>$d23,
+                            'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                            'd24'=>$d24,
+                            'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                            'd25'=>$d25,
+                            'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                            'd26'=>$d26,
+                            'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                            'd27'=>$d27,
+                            'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                            'd28'=>$d28,
+                            'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                            'd29'=>$d29,
+                            'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                            'd30'=>$d30,
+                            'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                            'd31'=>$d31,
+                            'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                            'ultimo_dia'=>$v->ultimo_dia,
+                            'atrasos'=>null,
+                            'faltas'=>null,
+                            'abandono'=>null,
+                            'omision'=>null,
+                            'lsgh'=>null,
+                            'compensacion'=>null,
+                            'observacion'=>$v->observacion,
+                            'estado'=>$v->estado,
+                            'estado_descripcion'=>$v->estado_descripcion,
+                            'baja_logica'=>$v->baja_logica,
+                            'agrupador'=>$v->agrupador,
+                            'user_reg_id'=>$v->user_reg_id,
+                            'fecha_reg'=>$v->fecha_reg,
+                            'user_apr_id'=>$v->user_apr_id,
+                            'fecha_apr'=>$v->fecha_apr,
+                            'user_mod_id'=>$v->user_mod_id,
+                            'fecha_mod'=>$v->fecha_mod,
+                        );
+                    }
+                    #endregion sector para adicionar una fila para Excepciones
                 }
             }
         }
@@ -740,67 +1420,67 @@ class HorariosymarcacionesController extends ControllerBase
             'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
             'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
             'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado1_descripcion' => array('title' => 'Estado Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado2_descripcion' => array('title' => 'Estado Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado3_descripcion' => array('title' => 'Estado Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado4_descripcion' => array('title' => 'Estado Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado5_descripcion' => array('title' => 'Estado Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado6_descripcion' => array('title' => 'Estado Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado7_descripcion' => array('title' => 'Estado Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado8_descripcion' => array('title' => 'Estado Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado9_descripcion' => array('title' => 'Estado Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado10_descripcion' => array('title' => 'Estado Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado11_descripcion' => array('title' => 'Estado Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado12_descripcion' => array('title' => 'Estado Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado13_descripcion' => array('title' => 'Estado Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado14_descripcion' => array('title' => 'Estado Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado15_descripcion' => array('title' => 'Estado Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado16_descripcion' => array('title' => 'Estado Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado17_descripcion' => array('title' => 'Estado Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado18_descripcion' => array('title' => 'Estado Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado19_descripcion' => array('title' => 'Estado Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado20_descripcion' => array('title' => 'Estado Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado21_descripcion' => array('title' => 'Estado Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado22_descripcion' => array('title' => 'Estado Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado23_descripcion' => array('title' => 'Estado Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado24_descripcion' => array('title' => 'Estado Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado25_descripcion' => array('title' => 'Estado Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado26_descripcion' => array('title' => 'Estado Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado27_descripcion' => array('title' => 'Estado Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado28_descripcion' => array('title' => 'Estado Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado29_descripcion' => array('title' => 'Estado Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado30_descripcion' => array('title' => 'Estado Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'string'),
             /*'estado31_descripcion' => array('title' => 'Estado Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
             'ultimo_dia' => array('title' => 'Ultimo Dia Procesado', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
             'atrasos' => array('title' => 'Atrasos', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
@@ -1110,128 +1790,10 @@ class HorariosymarcacionesController extends ControllerBase
             $resul = $obj->getAll("WHERE relaboral_id=".$idRelaboral,$groups);
 
             $horariosymarcaciones = array();
+            $listaExcepciones = array();
+            $contador = 0;
             foreach ($resul as $v) {
                 $horariosymarcaciones[] = array(
-                    #region Columnas de procedimiento f_relaborales()
-                    'id_relaboral' => $v->id_relaboral,
-                    'id_persona' => $v->id_persona,
-                    'p_nombre' => $v->p_nombre,
-                    's_nombre' => $v->s_nombre,
-                    't_nombre' => $v->t_nombre,
-                    'p_apellido' => $v->p_apellido,
-                    's_apellido' => $v->s_apellido,
-                    'c_apellido' => $v->c_apellido,
-                    'nombres' => $v->nombres,
-                    'ci' => $v->ci,
-                    'expd' => $v->expd,
-                    'fecha_caducidad' => $v->fecha_caducidad,
-                    'num_complemento' => '',
-                    'fecha_nac' => $v->fecha_nac,
-                    'edad' => $v->edad,
-                    'lugar_nac' => $v->lugar_nac,
-                    'genero' => $v->genero,
-                    'e_civil' => $v->e_civil,
-                    'tiene_item' => $v->tiene_item,
-                    'item' => $v->item,
-                    'carrera_adm' => $v->carrera_adm,
-                    'num_contrato' => $v->num_contrato,
-                    'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                    'id_solelabcontrato' => $v->id_solelabcontrato,
-                    'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                    'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                    'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                    'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                    'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                    'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
-                    'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                    'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
-                    'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                    'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
-                    'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
-                    'motivo_baja' => $v->motivo_baja,
-                    'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                    'descripcion_baja' => $v->descripcion_baja,
-                    'descripcion_anu' => $v->descripcion_anu,
-                    'id_cargo' => $v->id_cargo,
-                    'cargo_codigo' => $v->cargo_codigo,
-                    'cargo' => $v->cargo,
-                    'cargo_resolucion_ministerial_id' => $v->cargo_resolucion_ministerial_id,
-                    'cargo_resolucion_ministerial' => $v->cargo_resolucion_ministerial,
-                    'id_nivelessalarial' => $v->id_nivelessalarial,
-                    'nivelsalarial' => $v->nivelsalarial,
-                    'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                    'nivelsalarial_resolucion' => $v->nivelsalarial_resolucion,
-                    'numero_escala' => $v->numero_escala,
-                    'gestion_escala' => $v->gestion_escala,
-                    /*'sueldo' => $v->sueldo,*/
-                    'sueldo' => str_replace(".00", "", $v->sueldo),
-                    'id_procesocontratacion' => $v->id_procesocontratacion,
-                    'proceso_codigo' => $v->proceso_codigo,
-                    'id_convocatoria' => $v->id_convocatoria,
-                    'convocatoria_codigo' => $v->convocatoria_codigo,
-                    'convocatoria_tipo' => $v->convocatoria_tipo,
-                    'id_fin_partida' => $v->id_fin_partida,
-                    'fin_partida' => $v->fin_partida,
-                    'id_condicion' => $v->id_condicion,
-                    'condicion' => $v->condicion,
-                    'categoria_relaboral' => $v->categoria_relaboral,
-                    'id_da' => $v->id_da,
-                    'direccion_administrativa' => $v->direccion_administrativa,
-                    'organigrama_regional_id' => $v->organigrama_regional_id,
-                    'organigrama_regional' => $v->organigrama_regional,
-                    'id_regional' => $v->id_regional,
-                    'regional' => $v->regional,
-                    'regional_codigo' => $v->regional_codigo,
-                    'id_departamento' => $v->id_departamento,
-                    'departamento' => $v->departamento,
-                    'id_provincia' => $v->id_provincia,
-                    'provincia' => $v->provincia,
-                    'id_localidad' => $v->id_localidad,
-                    'localidad' => $v->localidad,
-                    'residencia' => $v->residencia,
-                    'unidad_ejecutora' => $v->unidad_ejecutora,
-                    'cod_ue' => $v->cod_ue,
-                    'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
-                    'gerencia_administrativa' => $v->gerencia_administrativa,
-                    'id_departamento_administrativo' => $v->id_departamento_administrativo,
-                    'departamento_administrativo' => $v->departamento_administrativo,
-                    'id_organigrama' => $v->id_organigrama,
-                    'unidad_administrativa' => $v->unidad_administrativa,
-                    'organigrama_sigla' => $v->organigrama_sigla,
-                    'organigrama_orden' => $v->organigrama_orden,
-                    'id_area' => $v->id_area,
-                    'area' => $v->area,
-                    'id_ubicacion' => $v->id_ubicacion,
-                    'ubicacion' => $v->ubicacion,
-                    'unidades_superiores' => $v->unidades_superiores,
-                    'unidades_dependientes' => $v->unidades_dependientes,
-                    'partida' => $v->partida,
-                    'fuente_codigo' => $v->fuente_codigo,
-                    'fuente' => $v->fuente,
-                    'organismo_codigo' => $v->organismo_codigo,
-                    'organismo' => $v->organismo,
-                    'relaboral_previo_id' => $v->relaboral_previo_id,
-                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
-                    /*'relaboral_estado' => $v->relaboral_estado,
-                    'relaboral_estado_descripcion' => $v->relaboral_estado_descripcion,
-                    'relaboral_estado_abreviacion' => $v->relaboral_estado_abreviacion,
-                    'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                    'id_eventual' => $v->id_eventual,*/
-                    'id_consultor' => $v->id_consultor,
-                    /*'user_reg_id' => $v->user_reg_id,
-                    'fecha_reg' => $v->fecha_reg,
-                    'user_mod_id' => $v->user_mod_id,
-                    'fecha_mod' => $v->fecha_mod,*/
-                    'persona_user_reg_id' => $v->persona_user_reg_id,
-                    'persona_fecha_reg' => $v->persona_fecha_reg,
-                    'persona_user_mod_id' => $v->persona_user_mod_id,
-                    'persona_fecha_mod' => $v->persona_fecha_mod,
-                    #endregion Columnas de procedimiento f_relaborales()
-
-
                     'id'=>$v->id_horarioymarcacion,
                     'relaboral_id'=>$v->relaboral_id,
                     'gestion'=>$v->gestion,
@@ -1322,8 +1884,358 @@ class HorariosymarcacionesController extends ControllerBase
                     'user_apr_id'=>$v->user_apr_id,
                     'fecha_apr'=>$v->fecha_apr,
                     'user_mod_id'=>$v->user_mod_id,
-                    'fecha_mod'=>$v->fecha_mod
+                    'fecha_mod'=>$v->fecha_mod,
                 );
+                #region sector para adicionar una fila para Excepciones
+                if($v->modalidadmarcacion_id==6){
+                    $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                    if($v->calendariolaboral1_id>0){
+                        $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id,1);
+                        if(is_object($res1)&&$res1->count()>0){
+                            foreach($res1 as $r1){
+                                $d1 = $r1->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral2_id>0){
+                        $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
+                        if(is_object($res2)&&$res2->count()>0){
+                            foreach($res2 as $r2){
+                                $d2 = $r2->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral3_id>0){
+                        $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
+                        if(is_object($res3)&&$res3->count()>0){
+                            foreach($res3 as $r3){
+                                $d3 = $r3->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+
+                    if($v->calendariolaboral4_id>0){
+                        $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
+                        if(is_object($res4)&&$res4->count()>0){
+                            foreach($res4 as $r4){
+                                $d4 = $r4->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral5_id>0){
+                        $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
+                        if(is_object($res5)&&$res5->count()>0){
+                            foreach($res5 as $r5){
+                                $d5 = $r5->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral6_id>0){
+                        $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
+                        if(is_object($res6)&&$res6->count()>0){
+                            foreach($res6 as $r6){
+                                $d6 = $r6->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral7_id>0){
+                        $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
+                        if(is_object($res7)&&$res7->count()>0){
+                            foreach($res7 as $r7){
+                                $d7 = $r7->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral8_id>0){
+                        $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
+                        if(is_object($res8)&&$res8->count()>0){
+                            foreach($res8 as $r8){
+                                $d8 = $r8->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral9_id>0){
+                        $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
+                        if(is_object($res9)&&$res9->count()>0){
+                            foreach($res9 as $r9){
+                                $d9 = $r9->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral10_id>0){
+                        $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
+                        if(is_object($res10)&&$res10->count()>0){
+                            foreach($res10 as $r10){
+                                $d10 = $r10->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral11_id>0){
+                        $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
+                        if(is_object($res11)&&$res11->count()>0){
+                            foreach($res11 as $r11){
+                                $d11 = $r11->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral12_id>0){
+                        $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
+                        if(is_object($res12)&&$res12->count()>0){
+                            foreach($res12 as $r12){
+                                $d12 = $r12->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral13_id>0){
+                        $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
+                        if(is_object($res13)&&$res13->count()>0){
+                            foreach($res13 as $r13){
+                                $d13 = $r13->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral14_id>0){
+                        $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
+                        if(is_object($res14)&&$res14->count()>0){
+                            foreach($res14 as $r14){
+                                $d14 = $r14->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral15_id>0){
+                        $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
+                        if(is_object($res15)&&$res15->count()>0){
+                            foreach($res15 as $r15){
+                                $d15 = $r15->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral16_id>0){
+                        $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
+                        if(is_object($res16)&&$res16->count()>0){
+                            foreach($res16 as $r16){
+                                $d16 = $r16->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral17_id>0){
+                        $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
+                        if(is_object($res17)&&$res17->count()>0){
+                            foreach($res17 as $r17){
+                                $d17 = $r17->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral18_id>0){
+                        $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
+                        if(is_object($res18)&&$res18->count()>0){
+                            foreach($res18 as $r){
+                                $d18 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral19_id>0){
+                        $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
+                        if(is_object($res19)&&$res19->count()>0){
+                            foreach($res19 as $r){
+                                $d19 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral20_id>0){
+                        $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
+                        if(is_object($res20)&&$res20->count()>0){
+                            foreach($res20 as $r){
+                                $d20 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral21_id>0){
+                        $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
+                        if(is_object($res21)&&$res21->count()>0){
+                            foreach($res21 as $r21){
+                                $d21 = $r21->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral22_id>0){
+                        $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
+                        if(is_object($res22)&&$res22->count()>0){
+                            foreach($res22 as $r22){
+                                $d22 = $r22->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral23_id>0){
+                        $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
+                        if(is_object($res23)&&$res23->count()>0){
+                            foreach($res23 as $r23){
+                                $d23 = $r23->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral24_id>0){
+                        $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
+                        if(is_object($res24)&&$res24->count()>0){
+                            foreach($res24 as $r24){
+                                $d24 = $r24->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral25_id>0){
+                        $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
+                        if(is_object($res25)&&$res25->count()>0){
+                            foreach($res25 as $r25){
+                                $d25 = $r25->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral26_id>0){
+                        $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
+                        if(is_object($res26)&&$res26->count()>0){
+                            foreach($res26 as $r26){
+                                $d26 = $r26->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral27_id>0){
+                        $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
+                        if(is_object($res27)&&$res27->count()>0){
+                            foreach($res27 as $r27){
+                                $d27 = $r27->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral28_id>0){
+                        $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
+                        if(is_object($res28)&&$res28->count()>0){
+                            foreach($res28 as $r28){
+                                $d28 = $r28->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral29_id>0){
+                        $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
+                        if(is_object($res29)&&$res29->count()>0){
+                            foreach($res29 as $r29){
+                                $d29 = $r29->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral30_id>0){
+                        $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
+                        if(is_object($res30)&&$res30->count()>0){
+                            foreach($res30 as $r30){
+                                $d30 = $r30->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral31_id>0){
+                        $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
+                        if(is_object($res31)&&$res31->count()>0){
+                            foreach($res31 as $r31){
+                                $d31 = $r31->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    $horariosymarcaciones[] = array(
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>"e",
+                        'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>"EXCEPCIONES",
+                        'd1'=>$d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>null,
+                        'faltas'=>null,
+                        'abandono'=>null,
+                        'omision'=>null,
+                        'lsgh'=>null,
+                        'compensacion'=>null,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
+                }
+                #endregion sector para adicionar una fila para Excepciones
             }
             #region Espacio para la definición de valores para la cabecera de la tabla
             $excel->FechaHoraReporte = date("d-m-Y H:i:s");
@@ -1396,11 +2308,29 @@ class HorariosymarcacionesController extends ControllerBase
                         $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
                         $rowData = $excel->DefineRows($j + 1, $val, $colSelecteds);
                         if ($excel->debug == 1) {
-                            echo "<p>···································FILA·················································<p></p>";
+                            echo "<p>···································FILA DATA·················································<p></p>";
                             print_r($rowData);
-                            echo "<p>···································FILA·················································<p></p>";
+                            echo "<p>···································FILA DATA·················································<p></p>";
                         }
-                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $celdacolores = array();
+                        if($rowData[0]%7 == 0){
+                            if($excel->debug==1){
+                                echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
+                            }
+                            for($i=1;$i<=31;$i++){
+                                if(in_array("d".$i,$colSelecteds)){
+                                    $clave = array_search("d".$i,$colSelecteds);
+                                    if(isset($rowData[$clave])&&$rowData[$clave]!=''){
+                                        $celdacolores[$clave] = "FF00FF00";
+                                    }
+                                }
+                            }
+                            if($excel->debug==1){
+                                print_r($celdacolores);
+                                echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
+                            }
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila,$celdacolores);
                         $fila++;
                     }
                     $j++;
@@ -1440,84 +2370,91 @@ class HorariosymarcacionesController extends ControllerBase
          * Especificando la configuración de las columnas
          */
         $generalConfigForAllColumns = array(
-            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
-            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
-            'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'condicion' => array('title' => 'Condicion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>true),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>true),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>true),
+            'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric','totales'=>false),
+            'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado1_descripcion' => array('title' => 'Estado Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado2_descripcion' => array('title' => 'Estado Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado3_descripcion' => array('title' => 'Estado Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado4_descripcion' => array('title' => 'Estado Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado5_descripcion' => array('title' => 'Estado Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado6_descripcion' => array('title' => 'Estado Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado7_descripcion' => array('title' => 'Estado Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado8_descripcion' => array('title' => 'Estado Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado9_descripcion' => array('title' => 'Estado Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado10_descripcion' => array('title' => 'Estado Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado11_descripcion' => array('title' => 'Estado Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado12_descripcion' => array('title' => 'Estado Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado13_descripcion' => array('title' => 'Estado Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado14_descripcion' => array('title' => 'Estado Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado15_descripcion' => array('title' => 'Estado Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado16_descripcion' => array('title' => 'Estado Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado17_descripcion' => array('title' => 'Estado Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado18_descripcion' => array('title' => 'Estado Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado19_descripcion' => array('title' => 'Estado Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado20_descripcion' => array('title' => 'Estado Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado21_descripcion' => array('title' => 'Estado Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado22_descripcion' => array('title' => 'Estado Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado23_descripcion' => array('title' => 'Estado Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado24_descripcion' => array('title' => 'Estado Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado25_descripcion' => array('title' => 'Estado Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado26_descripcion' => array('title' => 'Estado Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado27_descripcion' => array('title' => 'Estado Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado28_descripcion' => array('title' => 'Estado Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado29_descripcion' => array('title' => 'Estado Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado30_descripcion' => array('title' => 'Estado Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado31_descripcion' => array('title' => 'Estado Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric'),
-            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar')
+            'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric','totales'=>false),
+            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
         $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
@@ -1531,6 +2468,7 @@ class HorariosymarcacionesController extends ControllerBase
             #region Proceso de generación del documento Excel
             $excel->debug = 0;
             $excel->title_rpt = utf8_decode('Reporte Rango Marcaciones ('.$fechaIni.' al '.$fechaFin.')');
+            $excel->title_total_rpt = utf8_decode('Cuadro Resumen de Datos Marcaciones ('.$fechaIni.' al '.$fechaFin.')');
             $excel->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
             $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
@@ -1830,9 +2768,11 @@ class HorariosymarcacionesController extends ControllerBase
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $resul = $obj->getAllByRangeTwoMonth(0,$fechaIni,$fechaFin,$where,$groups);
-
+            $arrTotales = array();
             $horariosymarcaciones = array();
+            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalCompensacion = 0;
             foreach ($resul as $v) {
+                $modalidadmarcacion_id =$v->modalidadmarcacion_id;
                 $horariosymarcaciones[] = array(
                     #region Columnas de procedimiento f_relaborales()
                     'id_relaboral' => $v->id_relaboral,
@@ -1845,114 +2785,15 @@ class HorariosymarcacionesController extends ControllerBase
                     'c_apellido' => $v->c_apellido,
                     'nombres' => $v->nombres,
                     'ci' => $v->ci,
-                    'expd' => $v->expd,
-                    'fecha_caducidad' => $v->fecha_caducidad,
-                    'num_complemento' => '',
-                    'fecha_nac' => $v->fecha_nac,
-                    'edad' => $v->edad,
-                    'lugar_nac' => $v->lugar_nac,
-                    'genero' => $v->genero,
-                    'e_civil' => $v->e_civil,
-                    'tiene_item' => $v->tiene_item,
-                    'item' => $v->item,
-                    'carrera_adm' => $v->carrera_adm,
-                    'num_contrato' => $v->num_contrato,
-                    'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                    'id_solelabcontrato' => $v->id_solelabcontrato,
-                    'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                    'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                    'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                    'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                    'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                    'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
-                    'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                    'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
-                    'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                    'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
-                    'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
-                    'motivo_baja' => $v->motivo_baja,
-                    'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                    'descripcion_baja' => $v->descripcion_baja,
-                    'descripcion_anu' => $v->descripcion_anu,
-                    'id_cargo' => $v->id_cargo,
-                    'cargo_codigo' => $v->cargo_codigo,
+                    'expd' => trim($v->expd),
                     'cargo' => $v->cargo,
-                    'cargo_resolucion_ministerial_id' => $v->cargo_resolucion_ministerial_id,
-                    'cargo_resolucion_ministerial' => $v->cargo_resolucion_ministerial,
-                    'id_nivelessalarial' => $v->id_nivelessalarial,
-                    'nivelsalarial' => $v->nivelsalarial,
-                    'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                    'nivelsalarial_resolucion' => $v->nivelsalarial_resolucion,
-                    'numero_escala' => $v->numero_escala,
-                    'gestion_escala' => $v->gestion_escala,
-                    /*'sueldo' => $v->sueldo,*/
                     'sueldo' => str_replace(".00", "", $v->sueldo),
-                    'id_procesocontratacion' => $v->id_procesocontratacion,
-                    'proceso_codigo' => $v->proceso_codigo,
-                    'id_convocatoria' => $v->id_convocatoria,
-                    'convocatoria_codigo' => $v->convocatoria_codigo,
-                    'convocatoria_tipo' => $v->convocatoria_tipo,
-                    'id_fin_partida' => $v->id_fin_partida,
-                    'fin_partida' => $v->fin_partida,
-                    'id_condicion' => $v->id_condicion,
                     'condicion' => $v->condicion,
-                    'categoria_relaboral' => $v->categoria_relaboral,
-                    'id_da' => $v->id_da,
-                    'direccion_administrativa' => $v->direccion_administrativa,
-                    'organigrama_regional_id' => $v->organigrama_regional_id,
-                    'organigrama_regional' => $v->organigrama_regional,
-                    'id_regional' => $v->id_regional,
-                    'regional' => $v->regional,
-                    'regional_codigo' => $v->regional_codigo,
-                    'id_departamento' => $v->id_departamento,
-                    'departamento' => $v->departamento,
-                    'id_provincia' => $v->id_provincia,
-                    'provincia' => $v->provincia,
-                    'id_localidad' => $v->id_localidad,
-                    'localidad' => $v->localidad,
-                    'residencia' => $v->residencia,
-                    'unidad_ejecutora' => $v->unidad_ejecutora,
-                    'cod_ue' => $v->cod_ue,
-                    'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
                     'gerencia_administrativa' => $v->gerencia_administrativa,
-                    'id_departamento_administrativo' => $v->id_departamento_administrativo,
                     'departamento_administrativo' => $v->departamento_administrativo,
-                    'id_organigrama' => $v->id_organigrama,
-                    'unidad_administrativa' => $v->unidad_administrativa,
-                    'organigrama_sigla' => $v->organigrama_sigla,
-                    'organigrama_orden' => $v->organigrama_orden,
-                    'id_area' => $v->id_area,
                     'area' => $v->area,
-                    'id_ubicacion' => $v->id_ubicacion,
                     'ubicacion' => $v->ubicacion,
-                    'unidades_superiores' => $v->unidades_superiores,
-                    'unidades_dependientes' => $v->unidades_dependientes,
-                    'partida' => $v->partida,
-                    'fuente_codigo' => $v->fuente_codigo,
-                    'fuente' => $v->fuente,
-                    'organismo_codigo' => $v->organismo_codigo,
-                    'organismo' => $v->organismo,
-                    'relaboral_previo_id' => $v->relaboral_previo_id,
-                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
-                    /*'relaboral_estado' => $v->relaboral_estado,
-                    'relaboral_estado_descripcion' => $v->relaboral_estado_descripcion,
-                    'relaboral_estado_abreviacion' => $v->relaboral_estado_abreviacion,
-                    'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                    'id_eventual' => $v->id_eventual,*/
-                    'id_consultor' => $v->id_consultor,
-                    /*'user_reg_id' => $v->user_reg_id,
-                    'fecha_reg' => $v->fecha_reg,
-                    'user_mod_id' => $v->user_mod_id,
-                    'fecha_mod' => $v->fecha_mod,*/
-                    'persona_user_reg_id' => $v->persona_user_reg_id,
-                    'persona_fecha_reg' => $v->persona_fecha_reg,
-                    'persona_user_mod_id' => $v->persona_user_mod_id,
-                    'persona_fecha_mod' => $v->persona_fecha_mod,
                     #endregion Columnas de procedimiento f_relaborales()
-
 
                     'id'=>$v->id_horarioymarcacion,
                     'relaboral_id'=>$v->relaboral_id,
@@ -2043,8 +2884,457 @@ class HorariosymarcacionesController extends ControllerBase
                     'user_apr_id'=>$v->user_apr_id,
                     'fecha_apr'=>$v->fecha_apr,
                     'user_mod_id'=>$v->user_mod_id,
-                    'fecha_mod'=>$v->fecha_mod
+                    'fecha_mod'=>$v->fecha_mod,
                 );
+                #region Sector para almacenamiento de los totales
+                if($v->modalidadmarcacion_id==3||$v->modalidadmarcacion_id==6){
+                    $atrasos = $faltas = $abandono = $omision = $lsgh = $compensacion = 0;
+                    if($v->atrasos!=''){
+                        $atrasos=$v->atrasos;
+                    }
+                    if($v->faltas!=''){
+                        $faltas=$v->faltas;
+                    }
+                    if($v->abandono!=''){
+                        $abandono=$v->abandono;
+                    }
+                    if($v->omision!=''){
+                        $omision=$v->omision;
+                    }
+                    if($v->lsgh!=''){
+                        $lsgh=$v->lsgh;
+                    }
+                    if($v->compensacion!=''){
+                        $compensacion=$v->compensacion;
+                    }
+                    $totalAtrasos += $atrasos;
+                    $totalFaltas += $faltas;
+                    $totalAbandono += $abandono;
+                    $totalOmision += $omision;
+                    $totalLsgh += $lsgh;
+                    $totalCompensacion += $compensacion;
+
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["id_relaboral"]=$v->relaboral_id;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["nombres"]=$v->nombres;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["ci"]=$v->ci;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["expd"]=$v->expd;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["gestion"]=$v->gestion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["mes"]=$v->mes;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["mes_nombre"]=$v->mes_nombre;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["condicion"]=$v->condicion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["gerencia_administrativa"]=$v->gerencia_administrativa;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["departamento_administrativo"]=$v->departamento_administrativo;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["area"]=$v->area;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["ubicacion"]=$v->ubicacion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["cargo"]=$v->cargo;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["sueldo"]=$v->sueldo;
+                    /*echo "<p>---------------------------------------------------------------------</p>";
+                    echo "1) ".$atrasos.", 2) ".$faltas.", 3) ".$abandono.", 4) ".$omision.", 5) ".$lsgh.", 6) ".$compensacion;
+                    echo "<p>---------------------------------------------------------------------</p>";*/
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] + $atrasos;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $atrasos;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] + $faltas;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] = $faltas;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] + $abandono;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] = $abandono;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] + $omision;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] = $omision;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] + $lsgh;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] = $lsgh;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] + $compensacion;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $compensacion;
+                    }
+                }
+                #endregion Sector para almacenamiento de los totales
+                #region Sector para adicionar una fila para Excepciones
+                if($v->modalidadmarcacion_id==6){
+                    $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                    if($v->calendariolaboral1_id>0){
+                        $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                        if(is_object($res1)&&$res1->count()>0){
+                            foreach($res1 as $r1){
+                                $d1 = $r1->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral2_id>0){
+                        $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
+                        if(is_object($res2)&&$res2->count()>0){
+                            foreach($res2 as $r2){
+                                $d2 = $r2->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral3_id>0){
+                        $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
+                        if(is_object($res3)&&$res3->count()>0){
+                            foreach($res3 as $r3){
+                                $d3 = $r3->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral4_id>0){
+                        $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
+                        if(is_object($res4)&&$res4->count()>0){
+                            foreach($res4 as $r4){
+                                $d4 = $r4->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral5_id>0){
+                        $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
+                        if(is_object($res5)&&$res5->count()>0){
+                            foreach($res5 as $r5){
+                                $d5 = $r5->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral6_id>0){
+                        $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
+                        if(is_object($res6)&&$res6->count()>0){
+                            foreach($res6 as $r6){
+                                $d6 = $r6->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral7_id>0){
+                        $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
+                        if(is_object($res7)&&$res7->count()>0){
+                            foreach($res7 as $r7){
+                                $d7 = $r7->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral8_id>0){
+                        $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
+                        if(is_object($res8)&&$res8->count()>0){
+                            foreach($res8 as $r8){
+                                $d8 = $r8->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral9_id>0){
+                        $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
+                        if(is_object($res9)&&$res9->count()>0){
+                            foreach($res9 as $r9){
+                                $d9 = $r9->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral10_id>0){
+                        $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
+                        if(is_object($res10)&&$res10->count()>0){
+                            foreach($res10 as $r10){
+                                $d10 = $r10->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral11_id>0){
+                        $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
+                        if(is_object($res11)&&$res11->count()>0){
+                            foreach($res11 as $r11){
+                                $d11 = $r11->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral12_id>0){
+                        $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
+                        if(is_object($res12)&&$res12->count()>0){
+                            foreach($res12 as $r12){
+                                $d12 = $r12->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral13_id>0){
+                        $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
+                        if(is_object($res13)&&$res13->count()>0){
+                            foreach($res13 as $r13){
+                                $d13 = $r13->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral14_id>0){
+                        $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
+                        if(is_object($res14)&&$res14->count()>0){
+                            foreach($res14 as $r14){
+                                $d14 = $r14->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral15_id>0){
+                        $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
+                        if(is_object($res15)&&$res15->count()>0){
+                            foreach($res15 as $r15){
+                                $d15 = $r15->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral16_id>0){
+                        $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
+                        if(is_object($res16)&&$res16->count()>0){
+                            foreach($res16 as $r16){
+                                $d16 = $r16->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral17_id>0){
+                        $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
+                        if(is_object($res17)&&$res17->count()>0){
+                            foreach($res17 as $r17){
+                                $d17 = $r17->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral18_id>0){
+                        $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
+                        if(is_object($res18)&&$res18->count()>0){
+                            foreach($res18 as $r){
+                                $d18 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral19_id>0){
+                        $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
+                        if(is_object($res19)&&$res19->count()>0){
+                            foreach($res19 as $r){
+                                $d19 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral20_id>0){
+                        $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
+                        if(is_object($res20)&&$res20->count()>0){
+                            foreach($res20 as $r){
+                                $d20 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral21_id>0){
+                        $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
+                        if(is_object($res21)&&$res21->count()>0){
+                            foreach($res21 as $r21){
+                                $d21 = $r21->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral22_id>0){
+                        $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
+                        if(is_object($res22)&&$res22->count()>0){
+                            foreach($res22 as $r22){
+                                $d22 = $r22->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral23_id>0){
+                        $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
+                        if(is_object($res23)&&$res23->count()>0){
+                            foreach($res23 as $r23){
+                                $d23 = $r23->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral24_id>0){
+                        $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
+                        if(is_object($res24)&&$res24->count()>0){
+                            foreach($res24 as $r24){
+                                $d24 = $r24->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral25_id>0){
+                        $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
+                        if(is_object($res25)&&$res25->count()>0){
+                            foreach($res25 as $r25){
+                                $d25 = $r25->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral26_id>0){
+                        $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
+                        if(is_object($res26)&&$res26->count()>0){
+                            foreach($res26 as $r26){
+                                $d26 = $r26->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral27_id>0){
+                        $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
+                        if(is_object($res27)&&$res27->count()>0){
+                            foreach($res27 as $r27){
+                                $d27 = $r27->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral28_id>0){
+                        $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
+                        if(is_object($res28)&&$res28->count()>0){
+                            foreach($res28 as $r28){
+                                $d28 = $r28->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral29_id>0){
+                        $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
+                        if(is_object($res29)&&$res29->count()>0){
+                            foreach($res29 as $r29){
+                                $d29 = $r29->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral30_id>0){
+                        $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
+                        if(is_object($res30)&&$res30->count()>0){
+                            foreach($res30 as $r30){
+                                $d30 = $r30->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral31_id>0){
+                        $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
+                        if(is_object($res31)&&$res31->count()>0){
+                            foreach($res31 as $r31){
+                                $d31 = $r31->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    $horariosymarcaciones[] = array(
+                        #region Columnas de procedimiento f_relaborales()
+                        'id_relaboral' => $v->id_relaboral,
+                        'id_persona' => $v->id_persona,
+                        'p_nombre' => $v->p_nombre,
+                        's_nombre' => $v->s_nombre,
+                        't_nombre' => $v->t_nombre,
+                        'p_apellido' => $v->p_apellido,
+                        's_apellido' => $v->s_apellido,
+                        'c_apellido' => $v->c_apellido,
+                        'nombres' => $v->nombres,
+                        'ci' => $v->ci,
+                        'expd' => $v->expd,
+                        'cargo' => $v->cargo,
+                        'sueldo' => str_replace(".00", "", $v->sueldo),
+                        'condicion' => $v->condicion,
+                        'gerencia_administrativa' => $v->gerencia_administrativa,
+                        'departamento_administrativo' => $v->departamento_administrativo,
+                        'area' => $v->area,
+                        'ubicacion' => $v->ubicacion,
+                        #endregion Columnas de procedimiento f_relaborales()
+
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>"e",
+                        'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>"EXCEPCIONES",
+                        'd1'=>$d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>null,
+                        'faltas'=>null,
+                        'abandono'=>null,
+                        'omision'=>null,
+                        'lsgh'=>null,
+                        'compensacion'=>null,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
+                }
+                #endregion sector para adicionar una fila para Excepciones
             }
             #region Espacio para la definición de valores para la cabecera de la tabla
             $excel->FechaHoraReporte = date("d-m-Y H:i:s");
@@ -2121,7 +3411,25 @@ class HorariosymarcacionesController extends ControllerBase
                             print_r($rowData);
                             echo "<p>···································FILA·················································<p></p>";
                         }
-                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $celdacolores = array();
+                        if($rowData[0]%7 == 0){
+                            if($excel->debug==1){
+                                echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
+                            }
+                            for($i=1;$i<=31;$i++){
+                                if(in_array("d".$i,$colSelecteds)){
+                                    $clave = array_search("d".$i,$colSelecteds);
+                                    if(isset($rowData[$clave])&&$rowData[$clave]!=''){
+                                        $celdacolores[$clave] = "FF00FF00";
+                                    }
+                                }
+                            }
+                            if($excel->debug==1){
+                                print_r($celdacolores);
+                                echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
+                            }
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila,$celdacolores);
                         $fila++;
                     }
                     $j++;
@@ -2129,6 +3437,20 @@ class HorariosymarcacionesController extends ControllerBase
                 $fila--;
                 $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
                 $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
+                $totalColSelecteds = $excel->DefineSelectedTotalCols($generalConfigForAllColumns);
+                $totalTitleColSelecteds = $excel->DefineTotalTitleCols($generalConfigForAllColumns,$totalColSelecteds);
+
+                if($excel->debug==1){
+                    echo "<P>*****************************************TOTALES*****************************************</P>";
+                    print_r($arrTotales);
+                    echo "<P>*****************************************COLUMNAS SELECCIONADAS*****************************************</P>";
+                    print_r($totalColSelecteds);
+                    echo "<P>*****************************************TITULOS DE COLUMNAS SELECCIONADAS*****************************************</P>";
+                    print_r($totalTitleColSelecteds);
+                    echo "<P>**********************************************************************************</P>";
+                }else{
+                    $excel->agregarPaginaTotales($arrTotales,$totalColSelecteds,$totalTitleColSelecteds,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
+                }
             }
             $excel->ShowLeftFooter = true;
             //$excel->secondPage();
@@ -2537,6 +3859,27 @@ class HorariosymarcacionesController extends ControllerBase
             $horariosymarcaciones = array();
             foreach ($resul as $v) {
                 $horariosymarcaciones[] = array(
+                    #region Columnas de procedimiento f_relaborales()
+                    'id_relaboral' => $v->id_relaboral,
+                    'id_persona' => $v->id_persona,
+                    'p_nombre' => $v->p_nombre,
+                    's_nombre' => $v->s_nombre,
+                    't_nombre' => $v->t_nombre,
+                    'p_apellido' => $v->p_apellido,
+                    's_apellido' => $v->s_apellido,
+                    'c_apellido' => $v->c_apellido,
+                    'nombres' => $v->nombres,
+                    'ci' => $v->ci,
+                    'expd' => $v->expd,
+                    'cargo' => $v->cargo,
+                    'sueldo' => str_replace(".00", "", $v->sueldo),
+                    'condicion' => $v->condicion,
+                    'gerencia_administrativa' => $v->gerencia_administrativa,
+                    'departamento_administrativo' => $v->departamento_administrativo,
+                    'area' => $v->area,
+                    'ubicacion' => $v->ubicacion,
+                    #endregion Columnas de procedimiento f_relaborales()
+
                     'id'=>$v->id_horarioymarcacion,
                     'relaboral_id'=>$v->relaboral_id,
                     'gestion'=>$v->gestion,
@@ -2617,10 +3960,417 @@ class HorariosymarcacionesController extends ControllerBase
                     'omision'=>$v->omision,
                     'lsgh'=>$v->lsgh,
                     'compensacion'=>$v->compensacion,
-                    'observacion'=>$v->observacion,
                     'estado'=>$v->estado,
-                    'estado_descripcion'=>$v->estado_descripcion
+                    'estado_descripcion'=>$v->estado_descripcion,
+                    'baja_logica'=>$v->baja_logica,
+                    'agrupador'=>$v->agrupador,
+                    'user_reg_id'=>$v->user_reg_id,
+                    'fecha_reg'=>$v->fecha_reg,
+                    'user_apr_id'=>$v->user_apr_id,
+                    'fecha_apr'=>$v->fecha_apr,
+                    'user_mod_id'=>$v->user_mod_id,
+                    'fecha_mod'=>$v->fecha_mod,
                 );
+                #region sector para adicionar una fila para Excepciones
+                if($v->modalidadmarcacion_id==6){
+                    $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                    if($v->calendariolaboral1_id>0){
+                        $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                        if(is_object($res1)&&$res1->count()>0){
+                            foreach($res1 as $r1){
+                                $d1 = $r1->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral2_id>0){
+                        $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
+                        if(is_object($res2)&&$res2->count()>0){
+                            foreach($res2 as $r2){
+                                $d2 = $r2->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral3_id>0){
+                        $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
+                        if(is_object($res3)&&$res3->count()>0){
+                            foreach($res3 as $r3){
+                                $d3 = $r3->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+
+                    if($v->calendariolaboral4_id>0){
+                        $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
+                        if(is_object($res4)&&$res4->count()>0){
+                            foreach($res4 as $r4){
+                                $d4 = $r4->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral5_id>0){
+                        $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
+                        if(is_object($res5)&&$res5->count()>0){
+                            foreach($res5 as $r5){
+                                $d5 = $r5->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral6_id>0){
+                        $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
+                        if(is_object($res6)&&$res6->count()>0){
+                            foreach($res6 as $r6){
+                                $d6 = $r6->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral7_id>0){
+                        $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
+                        if(is_object($res7)&&$res7->count()>0){
+                            foreach($res7 as $r7){
+                                $d7 = $r7->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral8_id>0){
+                        $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
+                        if(is_object($res8)&&$res8->count()>0){
+                            foreach($res8 as $r8){
+                                $d8 = $r8->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral9_id>0){
+                        $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
+                        if(is_object($res9)&&$res9->count()>0){
+                            foreach($res9 as $r9){
+                                $d9 = $r9->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral10_id>0){
+                        $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
+                        if(is_object($res10)&&$res10->count()>0){
+                            foreach($res10 as $r10){
+                                $d10 = $r10->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral11_id>0){
+                        $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
+                        if(is_object($res11)&&$res11->count()>0){
+                            foreach($res11 as $r11){
+                                $d11 = $r11->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral12_id>0){
+                        $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
+                        if(is_object($res12)&&$res12->count()>0){
+                            foreach($res12 as $r12){
+                                $d12 = $r12->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+
+                    if($v->calendariolaboral13_id>0){
+                        $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
+                        if(is_object($res13)&&$res13->count()>0){
+                            foreach($res13 as $r13){
+                                $d13 = $r13->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+
+                    if($v->calendariolaboral14_id>0){
+                        $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
+                        if(is_object($res14)&&$res14->count()>0){
+                            foreach($res14 as $r14){
+                                $d14 = $r14->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral15_id>0){
+                        $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
+                        if(is_object($res15)&&$res15->count()>0){
+                            foreach($res15 as $r15){
+                                $d15 = $r15->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral16_id>0){
+                        $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
+                        if(is_object($res16)&&$res16->count()>0){
+                            foreach($res16 as $r16){
+                                $d16 = $r16->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral17_id>0){
+                        $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
+                        if(is_object($res17)&&$res17->count()>0){
+                            foreach($res17 as $r17){
+                                $d17 = $r17->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral18_id>0){
+                        $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
+                        if(is_object($res18)&&$res18->count()>0){
+                            foreach($res18 as $r){
+                                $d18 = $r->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral19_id>0){
+                        $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
+                        if(is_object($res19)&&$res19->count()>0){
+                            foreach($res19 as $r){
+                                $d19 = $r->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral20_id>0){
+                        $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
+                        if(is_object($res20)&&$res20->count()>0){
+                            foreach($res20 as $r){
+                                $d20 = $r->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral21_id>0){
+                        $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
+                        if(is_object($res21)&&$res21->count()>0){
+                            foreach($res21 as $r21){
+                                $d21 = $r21->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral22_id>0){
+                        $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
+                        if(is_object($res22)&&$res22->count()>0){
+                            foreach($res22 as $r22){
+                                $d22 = $r22->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral23_id>0){
+                        $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
+                        if(is_object($res23)&&$res23->count()>0){
+                            foreach($res23 as $r23){
+                                $d23 = $r23->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral24_id>0){
+                        $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
+                        if(is_object($res24)&&$res24->count()>0){
+                            foreach($res24 as $r24){
+                                $d24 = $r24->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral25_id>0){
+                        $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
+                        if(is_object($res25)&&$res25->count()>0){
+                            foreach($res25 as $r25){
+                                $d25 = $r25->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral26_id>0){
+                        $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
+                        if(is_object($res26)&&$res26->count()>0){
+                            foreach($res26 as $r26){
+                                $d26 = $r26->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral27_id>0){
+                        $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
+                        if(is_object($res27)&&$res27->count()>0){
+                            foreach($res27 as $r27){
+                                $d27 = $r27->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral28_id>0){
+                        $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
+                        if(is_object($res28)&&$res28->count()>0){
+                            foreach($res28 as $r28){
+                                $d28 = $r28->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral29_id>0){
+                        $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
+                        if(is_object($res29)&&$res29->count()>0){
+                            foreach($res29 as $r29){
+                                $d29 = $r29->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral30_id>0){
+                        $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
+                        if(is_object($res30)&&$res30->count()>0){
+                            foreach($res30 as $r30){
+                                $d30 = $r30->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral31_id>0){
+                        $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
+                        if(is_object($res31)&&$res31->count()>0){
+                            foreach($res31 as $r31){
+                                $d31 = $r31->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    $horariosymarcaciones[] = array(
+                        #region Columnas de procedimiento f_relaborales()
+                        'id_relaboral' => $v->id_relaboral,
+                        'id_persona' => $v->id_persona,
+                        'p_nombre' => $v->p_nombre,
+                        's_nombre' => $v->s_nombre,
+                        't_nombre' => $v->t_nombre,
+                        'p_apellido' => $v->p_apellido,
+                        's_apellido' => $v->s_apellido,
+                        'c_apellido' => $v->c_apellido,
+                        'nombres' => $v->nombres,
+                        'ci' => $v->ci,
+                        'expd' => $v->expd,
+                        'cargo' => $v->cargo,
+                        'sueldo' => str_replace(".00", "", $v->sueldo),
+                        'condicion' => $v->condicion,
+                        'gerencia_administrativa' => $v->gerencia_administrativa,
+                        'departamento_administrativo' => $v->departamento_administrativo,
+                        'area' => $v->area,
+                        'ubicacion' => $v->ubicacion,
+                        #endregion Columnas de procedimiento f_relaborales()
+
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>"e",
+                        'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>"EXCEPCIONES",
+                        'd1'=>$d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>null,
+                        'faltas'=>null,
+                        'abandono'=>null,
+                        'omision'=>null,
+                        'lsgh'=>null,
+                        'compensacion'=>null,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
+                }
+                #endregion sector para adicionar una fila para Excepciones
             }
             //$pdf->Open("L");
             /**
@@ -2726,84 +4476,91 @@ class HorariosymarcacionesController extends ControllerBase
          * Especificando la configuración de las columnas
          */
         $generalConfigForAllColumns = array(
-            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4'),
-            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar'),
-            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar'),
-            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar'),
-            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar'),
-            'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar'),
-            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'condicion' => array('title' => 'Condicion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>true),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>true),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'gestion' => array('title' => 'Gestion', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'mes_nombre' => array('title' => 'Mes', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>true),
+            'turno' => array('title' => 'Turno', 'width' => 10, 'align' => 'C', 'type' => 'numeric','totales'=>false),
+            'modalidad_marcacion' => array('title' => 'Modalidad', 'width' => 30, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'd1' => array('title' => 'Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado1_descripcion' => array('title' => 'Estado Dia 1', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd2' => array('title' => 'Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado2_descripcion' => array('title' => 'Estado Dia 2', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd3' => array('title' => 'Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado3_descripcion' => array('title' => 'Estado Dia 3', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd4' => array('title' => 'Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado4_descripcion' => array('title' => 'Estado Dia 4', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd5' => array('title' => 'Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado5_descripcion' => array('title' => 'Estado Dia 5', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd6' => array('title' => 'Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado6_descripcion' => array('title' => 'Estado Dia 6', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd7' => array('title' => 'Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado7_descripcion' => array('title' => 'Estado Dia 7', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd8' => array('title' => 'Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado8_descripcion' => array('title' => 'Estado Dia 8', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd9' => array('title' => 'Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado9_descripcion' => array('title' => 'Estado Dia 9', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd10' => array('title' => 'Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado10_descripcion' => array('title' => 'Estado Dia 10', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd11' => array('title' => 'Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado11_descripcion' => array('title' => 'Estado Dia 11', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd12' => array('title' => 'Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado12_descripcion' => array('title' => 'Estado Dia 12', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd13' => array('title' => 'Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado13_descripcion' => array('title' => 'Estado Dia 13', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd14' => array('title' => 'Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado14_descripcion' => array('title' => 'Estado Dia 14', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd15' => array('title' => 'Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado15_descripcion' => array('title' => 'Estado Dia 15', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd16' => array('title' => 'Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado16_descripcion' => array('title' => 'Estado Dia 16', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd17' => array('title' => 'Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado17_descripcion' => array('title' => 'Estado Dia 17', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd18' => array('title' => 'Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado18_descripcion' => array('title' => 'Estado Dia 18', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd19' => array('title' => 'Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado19_descripcion' => array('title' => 'Estado Dia 19', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd20' => array('title' => 'Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado20_descripcion' => array('title' => 'Estado Dia 20', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd21' => array('title' => 'Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado21_descripcion' => array('title' => 'Estado Dia 21', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd22' => array('title' => 'Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado22_descripcion' => array('title' => 'Estado Dia 22', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd23' => array('title' => 'Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado23_descripcion' => array('title' => 'Estado Dia 23', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd24' => array('title' => 'Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado24_descripcion' => array('title' => 'Estado Dia 24', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd25' => array('title' => 'Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado25_descripcion' => array('title' => 'Estado Dia 25', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd26' => array('title' => 'Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado26_descripcion' => array('title' => 'Estado Dia 26', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd27' => array('title' => 'Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado27_descripcion' => array('title' => 'Estado Dia 27', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd28' => array('title' => 'Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado28_descripcion' => array('title' => 'Estado Dia 28', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd29' => array('title' => 'Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado29_descripcion' => array('title' => 'Estado Dia 29', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd30' => array('title' => 'Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado30_descripcion' => array('title' => 'Estado Dia 30', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date'),
+            'd31' => array('title' => 'Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'date','totales'=>false),
             /*'estado31_descripcion' => array('title' => 'Estado Dia 31', 'width' => 18, 'align' => 'C', 'type' => 'varchar'),*/
-            'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric'),
-            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric'),
-            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
-            'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar')
+            'ultimo_dia' => array('title' => 'U/Dia', 'width' => 10, 'align' => 'C', 'type' => 'numeric','totales'=>false),
+            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
         $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
@@ -2826,8 +4583,9 @@ class HorariosymarcacionesController extends ControllerBase
             }
             $pdf->tableWidth = $ancho;
             #region Proceso de generación del documento PDF
-            $pdf->debug =0;
+            $pdf->debug = 0;
             $pdf->title_rpt = utf8_decode('Reporte Rango Marcaciones ('.$fechaIni.' al '.$fechaFin.')');
+            $pdf->title_total_rpt = utf8_decode('Cuadro Resumen de Datos Marcaciones ('.$fechaIni.' al '.$fechaFin.')');
             $pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
             $alignSelecteds = $pdf->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $pdf->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
@@ -2839,11 +4597,14 @@ class HorariosymarcacionesController extends ControllerBase
             $colTitleSelecteds = $pdf->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
             $alignTitleSelecteds = $pdf->DefineTitleAligns(count($colTitleSelecteds));
             $gruposSeleccionadosActuales = $pdf->DefineDefaultValuesForGroups($groups);
+
             $pdf->generalConfigForAllColumns = $generalConfigForAllColumns;
             $pdf->colTitleSelecteds = $colTitleSelecteds;
             $pdf->widthsSelecteds = $widthsSelecteds;
             $pdf->alignSelecteds = $alignSelecteds;
+            $pdf->totalAlignSelecteds = $alignSelecteds;
             $pdf->alignTitleSelecteds = $alignTitleSelecteds;
+            $pdf->totalAlignTitleSelecteds = $alignTitleSelecteds;
             if ($pdf->debug == 1) {
                 echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Rango Fecha^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
                 echo $fechaIni."<->".$fechaFin;
@@ -3108,7 +4869,10 @@ class HorariosymarcacionesController extends ControllerBase
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $resul = $obj->getAllByRangeTwoMonth(0,$fechaIni,$fechaFin,$where,$groups);
 
+            $arrTotales = array();
             $horariosymarcaciones = array();
+            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalCompensacion = 0;
+
             foreach ($resul as $v) {
                 $horariosymarcaciones[] = array(
                     #region Columnas de procedimiento f_relaborales()
@@ -3123,113 +4887,14 @@ class HorariosymarcacionesController extends ControllerBase
                     'nombres' => $v->nombres,
                     'ci' => $v->ci,
                     'expd' => $v->expd,
-                    'fecha_caducidad' => $v->fecha_caducidad,
-                    'num_complemento' => '',
-                    'fecha_nac' => $v->fecha_nac,
-                    'edad' => $v->edad,
-                    'lugar_nac' => $v->lugar_nac,
-                    'genero' => $v->genero,
-                    'e_civil' => $v->e_civil,
-                    'tiene_item' => $v->tiene_item,
-                    'item' => $v->item,
-                    'carrera_adm' => $v->carrera_adm,
-                    'num_contrato' => $v->num_contrato,
-                    'contrato_numerador_estado' => $v->contrato_numerador_estado,
-                    'id_solelabcontrato' => $v->id_solelabcontrato,
-                    'solelabcontrato_regional_sigla' => $v->solelabcontrato_regional_sigla,
-                    'solelabcontrato_numero' => $v->solelabcontrato_numero,
-                    'solelabcontrato_gestion' => $v->solelabcontrato_gestion,
-                    'solelabcontrato_codigo' => $v->solelabcontrato_codigo,
-                    'solelabcontrato_user_reg_id' => $v->solelabcontrato_user_reg_id,
-                    'solelabcontrato_fecha_sol' => $v->solelabcontrato_fecha_sol,
-                    'fecha_ing' => $v->fecha_ing != "" ? date("d-m-Y", strtotime($v->fecha_ing)) : "",
-                    'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
-                    'fecha_incor' => $v->fecha_incor != "" ? date("d-m-Y", strtotime($v->fecha_incor)) : "",
-                    'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
-                    'fecha_baja' => $v->fecha_baja != "" ? date("d-m-Y", strtotime($v->fecha_baja)) : "",
-                    'fecha_ren' => $v->fecha_ren != "" ? date("d-m-Y", strtotime($v->fecha_ren)) : "",
-                    'fecha_acepta_ren' => $v->fecha_acepta_ren != "" ? date("d-m-Y", strtotime($v->fecha_acepta_ren)) : "",
-                    'fecha_agra_serv' => $v->fecha_agra_serv != "" ? date("d-m-Y", strtotime($v->fecha_agra_serv)) : "",
-                    'motivo_baja' => $v->motivo_baja,
-                    'motivosbajas_abreviacion' => $v->motivosbajas_abreviacion,
-                    'descripcion_baja' => $v->descripcion_baja,
-                    'descripcion_anu' => $v->descripcion_anu,
-                    'id_cargo' => $v->id_cargo,
-                    'cargo_codigo' => $v->cargo_codigo,
                     'cargo' => $v->cargo,
-                    'cargo_resolucion_ministerial_id' => $v->cargo_resolucion_ministerial_id,
-                    'cargo_resolucion_ministerial' => $v->cargo_resolucion_ministerial,
-                    'id_nivelessalarial' => $v->id_nivelessalarial,
-                    'nivelsalarial' => $v->nivelsalarial,
-                    'nivelsalarial_resolucion_id' => $v->nivelsalarial_resolucion_id,
-                    'nivelsalarial_resolucion' => $v->nivelsalarial_resolucion,
-                    'numero_escala' => $v->numero_escala,
-                    'gestion_escala' => $v->gestion_escala,
-                    /*'sueldo' => $v->sueldo,*/
                     'sueldo' => str_replace(".00", "", $v->sueldo),
-                    'id_procesocontratacion' => $v->id_procesocontratacion,
-                    'proceso_codigo' => $v->proceso_codigo,
-                    'id_convocatoria' => $v->id_convocatoria,
-                    'convocatoria_codigo' => $v->convocatoria_codigo,
-                    'convocatoria_tipo' => $v->convocatoria_tipo,
-                    'id_fin_partida' => $v->id_fin_partida,
-                    'fin_partida' => $v->fin_partida,
-                    'id_condicion' => $v->id_condicion,
                     'condicion' => $v->condicion,
-                    'categoria_relaboral' => $v->categoria_relaboral,
-                    'id_da' => $v->id_da,
-                    'direccion_administrativa' => $v->direccion_administrativa,
-                    'organigrama_regional_id' => $v->organigrama_regional_id,
-                    'organigrama_regional' => $v->organigrama_regional,
-                    'id_regional' => $v->id_regional,
-                    'regional' => $v->regional,
-                    'regional_codigo' => $v->regional_codigo,
-                    'id_departamento' => $v->id_departamento,
-                    'departamento' => $v->departamento,
-                    'id_provincia' => $v->id_provincia,
-                    'provincia' => $v->provincia,
-                    'id_localidad' => $v->id_localidad,
-                    'localidad' => $v->localidad,
-                    'residencia' => $v->residencia,
-                    'unidad_ejecutora' => $v->unidad_ejecutora,
-                    'cod_ue' => $v->cod_ue,
-                    'id_gerencia_administrativa' => $v->id_gerencia_administrativa,
                     'gerencia_administrativa' => $v->gerencia_administrativa,
-                    'id_departamento_administrativo' => $v->id_departamento_administrativo,
                     'departamento_administrativo' => $v->departamento_administrativo,
-                    'id_organigrama' => $v->id_organigrama,
-                    'unidad_administrativa' => $v->unidad_administrativa,
-                    'organigrama_sigla' => $v->organigrama_sigla,
-                    'organigrama_orden' => $v->organigrama_orden,
-                    'id_area' => $v->id_area,
                     'area' => $v->area,
-                    'id_ubicacion' => $v->id_ubicacion,
                     'ubicacion' => $v->ubicacion,
-                    'unidades_superiores' => $v->unidades_superiores,
-                    'unidades_dependientes' => $v->unidades_dependientes,
-                    'partida' => $v->partida,
-                    'fuente_codigo' => $v->fuente_codigo,
-                    'fuente' => $v->fuente,
-                    'organismo_codigo' => $v->organismo_codigo,
-                    'organismo' => $v->organismo,
-                    'relaboral_previo_id' => $v->relaboral_previo_id,
-                    'observacion' => ($v->observacion != null) ? $v->observacion : "",
-                    /*'relaboral_estado' => $v->relaboral_estado,
-                    'relaboral_estado_descripcion' => $v->relaboral_estado_descripcion,
-                    'relaboral_estado_abreviacion' => $v->relaboral_estado_abreviacion,
-                    'tiene_contrato_vigente' => $v->tiene_contrato_vigente,
-                    'id_eventual' => $v->id_eventual,*/
-                    'id_consultor' => $v->id_consultor,
-                    /*'user_reg_id' => $v->user_reg_id,
-                    'fecha_reg' => $v->fecha_reg,
-                    'user_mod_id' => $v->user_mod_id,
-                    'fecha_mod' => $v->fecha_mod,*/
-                    'persona_user_reg_id' => $v->persona_user_reg_id,
-                    'persona_fecha_reg' => $v->persona_fecha_reg,
-                    'persona_user_mod_id' => $v->persona_user_mod_id,
-                    'persona_fecha_mod' => $v->persona_fecha_mod,
                     #endregion Columnas de procedimiento f_relaborales()
-
 
                     'id'=>$v->id_horarioymarcacion,
                     'relaboral_id'=>$v->relaboral_id,
@@ -3320,8 +4985,457 @@ class HorariosymarcacionesController extends ControllerBase
                     'user_apr_id'=>$v->user_apr_id,
                     'fecha_apr'=>$v->fecha_apr,
                     'user_mod_id'=>$v->user_mod_id,
-                    'fecha_mod'=>$v->fecha_mod
+                    'fecha_mod'=>$v->fecha_mod,
                 );
+                #region Sector para almacenamiento de los totales
+                if($v->modalidadmarcacion_id==3||$v->modalidadmarcacion_id==6){
+                    $atrasos = $faltas = $abandono = $omision = $lsgh = $compensacion = 0;
+                    if($v->atrasos!=''){
+                        $atrasos=$v->atrasos;
+                    }
+                    if($v->faltas!=''){
+                        $faltas=$v->faltas;
+                    }
+                    if($v->abandono!=''){
+                        $abandono=$v->abandono;
+                    }
+                    if($v->omision!=''){
+                        $omision=$v->omision;
+                    }
+                    if($v->lsgh!=''){
+                        $lsgh=$v->lsgh;
+                    }
+                    if($v->compensacion!=''){
+                        $compensacion=$v->compensacion;
+                    }
+                    $totalAtrasos += $atrasos;
+                    $totalFaltas += $faltas;
+                    $totalAbandono += $abandono;
+                    $totalOmision += $omision;
+                    $totalLsgh += $lsgh;
+                    $totalCompensacion += $compensacion;
+
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["id_relaboral"]=$v->relaboral_id;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["nombres"]=$v->nombres;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["ci"]=$v->ci;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["expd"]=$v->expd;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["gestion"]=$v->gestion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["mes"]=$v->mes;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["mes_nombre"]=$v->mes_nombre;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["condicion"]=$v->condicion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["gerencia_administrativa"]=$v->gerencia_administrativa;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["departamento_administrativo"]=$v->departamento_administrativo;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["area"]=$v->area;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["ubicacion"]=$v->ubicacion;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["sueldo"]=$v->sueldo;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["cargo"]=$v->cargo;
+                    /*echo "<p>---------------------------------------------------------------------</p>";
+                    echo "1) ".$atrasos.", 2) ".$faltas.", 3) ".$abandono.", 4) ".$omision.", 5) ".$lsgh.", 6) ".$compensacion;
+                    echo "<p>---------------------------------------------------------------------</p>";*/
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] + $atrasos;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $atrasos;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] + $faltas;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] = $faltas;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] + $abandono;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["abandono"] = $abandono;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] + $omision;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["omision"] = $omision;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] + $lsgh;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["lsgh"] = $lsgh;
+                    }
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] + $compensacion;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $compensacion;
+                    }
+                }
+                #endregion Sector para almacenamiento de los totales
+                #region Sector para adicionar una fila para Excepciones
+                if($v->modalidadmarcacion_id==6){
+                    $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                    if($v->calendariolaboral1_id>0){
+                        $res1 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                        if(is_object($res1)&&$res1->count()>0){
+                            foreach($res1 as $r1){
+                                $d1 = $r1->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral2_id>0){
+                        $res2 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
+                        if(is_object($res2)&&$res2->count()>0){
+                            foreach($res2 as $r2){
+                                $d2 = $r2->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral3_id>0){
+                        $res3 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
+                        if(is_object($res3)&&$res3->count()>0){
+                            foreach($res3 as $r3){
+                                $d3 = $r3->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral4_id>0){
+                        $res4 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
+                        if(is_object($res4)&&$res4->count()>0){
+                            foreach($res4 as $r4){
+                                $d4 = $r4->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral5_id>0){
+                        $res5 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
+                        if(is_object($res5)&&$res5->count()>0){
+                            foreach($res5 as $r5){
+                                $d5 = $r5->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral6_id>0){
+                        $res6 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
+                        if(is_object($res6)&&$res6->count()>0){
+                            foreach($res6 as $r6){
+                                $d6 = $r6->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral7_id>0){
+                        $res7 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
+                        if(is_object($res7)&&$res7->count()>0){
+                            foreach($res7 as $r7){
+                                $d7 = $r7->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral8_id>0){
+                        $res8 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
+                        if(is_object($res8)&&$res8->count()>0){
+                            foreach($res8 as $r8){
+                                $d8 = $r8->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral9_id>0){
+                        $res9 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
+                        if(is_object($res9)&&$res9->count()>0){
+                            foreach($res9 as $r9){
+                                $d9 = $r9->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral10_id>0){
+                        $res10 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
+                        if(is_object($res10)&&$res10->count()>0){
+                            foreach($res10 as $r10){
+                                $d10 = $r10->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral11_id>0){
+                        $res11 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
+                        if(is_object($res11)&&$res11->count()>0){
+                            foreach($res11 as $r11){
+                                $d11 = $r11->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral12_id>0){
+                        $res12 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
+                        if(is_object($res12)&&$res12->count()>0){
+                            foreach($res12 as $r12){
+                                $d12 = $r12->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral13_id>0){
+                        $res13 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
+                        if(is_object($res13)&&$res13->count()>0){
+                            foreach($res13 as $r13){
+                                $d13 = $r13->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+
+                    if($v->calendariolaboral14_id>0){
+                        $res14 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
+                        if(is_object($res14)&&$res14->count()>0){
+                            foreach($res14 as $r14){
+                                $d14 = $r14->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral15_id>0){
+                        $res15 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
+                        if(is_object($res15)&&$res15->count()>0){
+                            foreach($res15 as $r15){
+                                $d15 = $r15->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral16_id>0){
+                        $res16 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
+                        if(is_object($res16)&&$res16->count()>0){
+                            foreach($res16 as $r16){
+                                $d16 = $r16->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral17_id>0){
+                        $res17 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
+                        if(is_object($res17)&&$res17->count()>0){
+                            foreach($res17 as $r17){
+                                $d17 = $r17->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral18_id>0){
+                        $res18 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
+                        if(is_object($res18)&&$res18->count()>0){
+                            foreach($res18 as $r){
+                                $d18 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral19_id>0){
+                        $res19 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
+                        if(is_object($res19)&&$res19->count()>0){
+                            foreach($res19 as $r){
+                                $d19 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral20_id>0){
+                        $res20 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
+                        if(is_object($res20)&&$res20->count()>0){
+                            foreach($res20 as $r){
+                                $d20 = $r->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral21_id>0){
+                        $res21 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
+                        if(is_object($res21)&&$res21->count()>0){
+                            foreach($res21 as $r21){
+                                $d21 = $r21->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral22_id>0){
+                        $res22 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
+                        if(is_object($res22)&&$res22->count()>0){
+                            foreach($res22 as $r22){
+                                $d22 = $r22->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral23_id>0){
+                        $res23 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
+                        if(is_object($res23)&&$res23->count()>0){
+                            foreach($res23 as $r23){
+                                $d23 = $r23->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral24_id>0){
+                        $res24 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
+                        if(is_object($res24)&&$res24->count()>0){
+                            foreach($res24 as $r24){
+                                $d24 = $r24->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral25_id>0){
+                        $res25 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
+                        if(is_object($res25)&&$res25->count()>0){
+                            foreach($res25 as $r25){
+                                $d25 = $r25->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral26_id>0){
+                        $res26 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
+                        if(is_object($res26)&&$res26->count()>0){
+                            foreach($res26 as $r26){
+                                $d26 = $r26->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral27_id>0){
+                        $res27 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
+                        if(is_object($res27)&&$res27->count()>0){
+                            foreach($res27 as $r27){
+                                $d27 = $r27->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral28_id>0){
+                        $res28 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
+                        if(is_object($res28)&&$res28->count()>0){
+                            foreach($res28 as $r28){
+                                $d28 = $r28->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral29_id>0){
+                        $res29 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
+                        if(is_object($res29)&&$res29->count()>0){
+                            foreach($res29 as $r29){
+                                $d29 = $r29->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral30_id>0){
+                        $res30 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
+                        if(is_object($res30)&&$res30->count()>0){
+                            foreach($res30 as $r30){
+                                $d30 = $r30->f_excepciones_en_dia;
+                            }
+
+                        }
+                    }
+                    if($v->calendariolaboral31_id>0){
+                        $res31 = $obj->getExcepcionEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
+                        if(is_object($res31)&&$res31->count()>0){
+                            foreach($res31 as $r31){
+                                $d31 = $r31->f_excepciones_en_dia;
+                            }
+                        }
+                    }
+                    $horariosymarcaciones[] = array(
+                        #region Columnas de procedimiento f_relaborales()
+                        'id_relaboral' => $v->id_relaboral,
+                        'id_persona' => $v->id_persona,
+                        'p_nombre' => $v->p_nombre,
+                        's_nombre' => $v->s_nombre,
+                        't_nombre' => $v->t_nombre,
+                        'p_apellido' => $v->p_apellido,
+                        's_apellido' => $v->s_apellido,
+                        'c_apellido' => $v->c_apellido,
+                        'nombres' => $v->nombres,
+                        'ci' => $v->ci,
+                        'expd' => $v->expd,
+                        'cargo' => $v->cargo,
+                        'sueldo' => str_replace(".00", "", $v->sueldo),
+                        'condicion' => $v->condicion,
+                        'gerencia_administrativa' => $v->gerencia_administrativa,
+                        'departamento_administrativo' => $v->departamento_administrativo,
+                        'area' => $v->area,
+                        'ubicacion' => $v->ubicacion,
+                        #endregion Columnas de procedimiento f_relaborales()
+
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>"e",
+                        'clasemarcacion_descripcion'=>"EXCEPCIONES",
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>"EXCEPCIONES",
+                        'd1'=>$d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>null,
+                        'faltas'=>null,
+                        'abandono'=>null,
+                        'omision'=>null,
+                        'lsgh'=>null,
+                        'compensacion'=>null,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
+                }
+                #endregion sector para adicionar una fila para Excepciones
             }
             //$pdf->Open("L");
             /**
@@ -3336,7 +5450,7 @@ class HorariosymarcacionesController extends ControllerBase
             $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
             $j = 0;
             $agrupadores = array();
-            //echo "<p>++++++++++>".$groups;
+
             if ($groups != "")
                 $agrupadores = explode(",", $groups);
 
@@ -3396,6 +5510,22 @@ class HorariosymarcacionesController extends ControllerBase
                     //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
                     $j++;
                 }
+                #region Espacio para la definición de datos para la grilla de totales
+                $totalCols = $pdf->DefineSelectedTotalCols($generalConfigForAllColumns);
+                $totalTitleCols = $pdf->DefineTotalTitleCols($generalConfigForAllColumns, $totalCols);
+                $totalAligns = $pdf->DefineAlignsForTotals($generalConfigForAllColumns, $totalCols);
+                $totalWidths = $this->DefineTotalWidths($generalConfigForAllColumns,$totalCols);
+                $anchoT=0;
+                foreach ($totalWidths as $w) {
+                    $anchoT = $anchoT + $w;
+                }
+                $pdf->totalColTitleSelecteds = $totalTitleCols;
+                $pdf->totalWidths = $totalWidths;
+                $pdf->totalAligns = $totalAligns;
+                $pdf->totalTableWidth = $anchoT;
+
+                $pdf->agregarPaginaTotales($arrTotales,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
+                #endregion Espacio para la definición de datos para la grilla de totales
             }
             $pdf->ShowLeftFooter = true;
             if($pdf->debug==0)$pdf->Output('reporte_marcaciones.pdf','I');
@@ -3417,6 +5547,22 @@ class HorariosymarcacionesController extends ControllerBase
                     if(!in_array($key,$exclude)||count($exclude)==0)
                         $arrRes[]=$widthAlignAll[$key]['width'];
                 }
+            }
+        }
+        return $arrRes;
+    }
+
+    /**
+     * Función para la obtención del listado de anchos de campo para la grilla de totales.
+     * @param $widthAlignAll
+     * @param $totalCols
+     * @return array
+     */
+    function DefineTotalWidths($widthAlignAll,$totalCols){
+        $arrRes = Array();
+        foreach($totalCols as $key => $val){
+            if(isset($widthAlignAll[$val])){
+                $arrRes[]=$widthAlignAll[$val]['width'];
             }
         }
         return $arrRes;
@@ -4271,7 +6417,9 @@ class HorariosymarcacionesController extends ControllerBase
             $fechaIni = $_POST["fecha_ini"];
             $fechaFin = $_POST["fecha_fin"];
             $clasemarcacion = $_POST["clasemarcacion"];
+            if($clasemarcacion=="H")
             $result = Horariosymarcaciones::find(array("relaboral_id=".$idRelaboral." AND gestion=".$gestion." AND mes=".$mes." AND estado>=1 AND baja_logica=1"));
+            else $result = Horariosymarcaciones::find(array("relaboral_id=".$idRelaboral." AND gestion=".$gestion." AND mes=".$mes." AND clasemarcacion='$clasemarcacion' AND estado>=1 AND baja_logica=1"));
             if($result->count()>0){
                 $ok2 = true;
                 foreach ($result as $val) {
@@ -4304,4 +6452,5 @@ class HorariosymarcacionesController extends ControllerBase
         }
         echo json_encode($msj);
     }
+
 } 

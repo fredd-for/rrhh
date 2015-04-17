@@ -84,10 +84,12 @@ function cargarGrillaMovilidad(idRelaboral) {
                     toolbar.append(container);
                     container.append("<button id='addrowbuttonmove' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
                     container.append("<button id='updaterowbuttonmove'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
-                    container.append("<button id='deleterowbuttonmove' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button title='Dar de baja registro de Movilidad' id='downrowbuttonmove' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button title='Eliminar registro de Movilidad' id='deleterowbuttonmove' class='btn btn-sm btn-primary' type='button'><i class='gi gi-bin fa-2x text-info' title='Eliminar registro.'/></i></button>");
 
                     $("#addrowbuttonmove").jqxButton();
                     $("#updaterowbuttonmove").jqxButton();
+                    $("#downrowbuttonmove").jqxButton();
                     $("#deleterowbuttonmove").jqxButton();
 
                     // Registrar nueva movilidad de personal.
@@ -628,7 +630,8 @@ function cargarGrillaMovilidad(idRelaboral) {
                         }
                     });
                     /* Dar de baja un registro de movilidad de personal.*/
-                    $("#deleterowbuttonmove").on('click', function () {
+                    $("#downrowbuttonmove").off();
+                    $("#downrowbuttonmove").on('click', function () {
                         $("#hdnIdRelaboralPorMovilidad").val(idRelaboral);
                         $("#hdnIdMemorandumMovilidadModificar").val(0);
                         limpiarMensajesErrorPorValidacionMovilidad();
@@ -722,6 +725,28 @@ function cargarGrillaMovilidad(idRelaboral) {
                                     $("#divMsjePorError").append(msj);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
 
+                                }
+                            }
+                        } else {
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append("Debe seleccionar un registro necesariamente.");
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                    });
+                    /* Eliminar registro de movilidad de personal */
+                    $("#deleterowbuttonmove").off();
+                    $("#deleterowbuttonmove").on('click', function () {
+                        limpiarMensajesErrorPorValidacionMovilidad();
+                        var selectedrowindex = $("#jqxgridmovilidad").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#jqxgridmovilidad').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                var idRelaboralMovilidad = dataRecord.id_relaboralmovilidad;
+                                var estado = dataRecord.estado;
+                                if(idRelaboralMovilidad>0&&estado>0){
+                                    if(confirm("Esta seguro de que desea eliminar este registro? El registro desaparecera del historial de Movilidad de personal.")){
+                                        var ok = eliminarRegistroMovilidad(idRelaboralMovilidad);
+                                    }
                                 }
                             }
                         } else {
@@ -1804,4 +1829,58 @@ function obtieneCargoInmediatoSuperior(idRelaboral) {
             }
         }
     }
+}
+/**
+ * Función para la eliminación del registro de movilidad de personal.
+ * @param idRelaboralMovilidad
+ */
+function eliminarRegistroMovilidad(idRelaboralMovilidad){
+    var resultado = 0;
+    if(idRelaboralMovilidad>0){
+        resultado = $.ajax({
+            url: '/relaborales/delmovilidad',
+            type: 'POST',
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id: idRelaboralMovilidad},
+            success: function (data) {  //alert(data);
+            var res = jQuery.parseJSON(data);
+            /**
+             * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
+             */
+            $(".msjes").hide();
+            if (res.result == 1) {
+                ok = true;
+                $("#jqxgridmovilidad").jqxGrid("updatebounddata");
+                $("#divMsjePorSuccess").html("");
+                $("#divMsjePorSuccess").append(res.msj);
+                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                /*Es necesario actualizar la grilla principal debido a que este debe mostrar los datos de acuerdo a la última movilidad de personal*/
+                $("#jqxgridmovilidad").jqxGrid('beginupdate');
+            } else if (res.result == 0) {
+                /**
+                 * En caso de presentarse un error subsanable
+                 */
+                $("#divMsjePorWarning").html("");
+                $("#divMsjePorWarning").append(res.msj);
+                $("#divMsjeNotificacionWarning").jqxNotification("open");
+            } else {
+                /**
+                 * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
+                 */
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(res.msj);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
+
+        }, //mostramos el error
+        error: function () {
+            $("#divMsjePorError").html("");
+            $("#divMsjePorError").append("Se ha producido un error Inesperado");
+            $("#divMsjeNotificacionError").jqxNotification("open");
+        }
+        }).responseText;
+    }
+    return resultado;
 }

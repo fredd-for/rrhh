@@ -3826,4 +3826,43 @@ class RelaboralesController extends ControllerBase
         }
         echo json_encode($paises);
     }
+    /**
+     * Funcion para la eliminacion lógica de un registro de movilidad de personal.
+     *  0: Error
+     *   1: Procesado
+     *  -1: Crítico Error
+     *  -2: Error de Conexión
+     *  -3: Usuario no Autorizado
+     */
+    public function delmovilidadAction()
+    {
+        $auth = $this->session->get('auth');
+        $user_mod_id = $auth['id'];
+        $msj = Array();
+        $gestion_actual = date("Y");
+        $hoy = date("Y-m-d H:i:s");
+        $this->view->disable();
+        if (isset($_POST["id"]) && $_POST["id"] > 0) {
+            $objRelaboralmovilidad = Relaboralesmovilidades::findFirstById($_POST["id"]);
+            $objRelaboralmovilidad->estado=0;
+            $objRelaboralmovilidad->baja_logica=0;
+            $objRelaboralmovilidad->user_mod_id=$user_mod_id;
+            $objRelaboralmovilidad->fecha_mod=$hoy;
+            try{
+                $ok = $objRelaboralmovilidad->save();
+                if($ok){
+                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: Eliminaci&oacute;n exitosa del registro.');
+                }else{
+                    $msj = array('result' => 1, 'msj' => 'Error: No se pudo realizar la eliminaci&oacute;n del registro.');
+                }
+            }catch (\Exception $e) {
+                echo get_class($e), ": ", $e->getMessage(), "\n";
+                echo " File=", $e->getFile(), "\n";
+                echo " Line=", $e->getLine(), "\n";
+                echo $e->getTraceAsString();
+                $msj = array('result' => -2, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de movilidad de personal.');
+            }
+        }else $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de movilidad de personal debido a error en el envio de datos.');
+        echo json_encode($msj);
+    }
 }

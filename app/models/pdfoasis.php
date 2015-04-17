@@ -15,9 +15,13 @@ class pdfoasis extends fpdf{
     public $style_footer_table = '';
     var $debug;              //Valor de seguimiento 1: Hacer debug; 0: No hacer debug
     var $widths;             //Array de anchuras
+    var $totalWidths;             //Array de anchuras
     var $aligns;             //Array de alineaciones
+    var $totalAligns;             //Array de alineaciones
     var $pageWidth;          //Ancho de la hoja (Sea si esta vertical u horizontal)
+    var $totalPageWidth;          //Ancho de la hoja (Sea si esta vertical u horizontal)
     var $tableWidth;         //Ancho de la tabla
+    var $totalTableWidth;         //Ancho de la tabla
     var $FechaHoraReporte;	 //Fecha y hora del reporte
     var $FechaHoraCreacion;	 //Fecha y hora de creación
     var $IdUsrPrint;	 	 //Identificador del usuario impresor
@@ -31,8 +35,11 @@ class pdfoasis extends fpdf{
     var $angle;             //Angulo
     var $generalConfigForAllColumns;    //Array multidimencional con todas las configuraciones necesarias para el despliegue de valores
     var $widthsSelecteds;       //Anchuras seleccionadas
+    var $totalWidthsSelecteds;  //Anchuras seleccionadas para la grilla de totales
     var $colTitleSelecteds;     //Titulos de las columnas seleccionadas
+    var $totalColTitleSelecteds;  //Titulos de las columnas seleccionadas para la grilla de totales
     var $alignSelecteds;        //Alineaciones de la columnas seleccionadas
+    var $totalAlignSelecteds;   //Alineaciones de la columnas seleccionadas para la grilla de totales
 
 
     /**
@@ -85,13 +92,53 @@ class pdfoasis extends fpdf{
         if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
 
     }
+    function HeaderTotal()
+    {   $this->Image('../public/images/escudo.jpg',10,6,20,0);
+        $x_segunda_imagen = $this->pageWidth-25;
+        $this->Image('../public/images/logoMT.jpg',$x_segunda_imagen,6,15,0);
+        $this->SetFont('Arial','B',10);
+        $west = $this->GetStringWidth($this->header_title_estado_rpt)+6;
+        $wemp = $this->GetStringWidth($this->header_title_empresa_rpt)+6;
+        $this->SetX(($this->pageWidth-$west)/2);
+        $this->SetDrawColor(247,249,251);
+        $this->SetFillColor(247,249,251);
+        $this->SetTextColor(79,129,189);
+        $this->SetFont('Arial','',13);
+        $this->Cell($west+15,5,$this->header_title_estado_rpt,1,1,'C');
+        $this->SetX(($this->pageWidth-$wemp)/2);
+        $this->SetFont('Arial','',9);
+        $this->Cell($wemp+15,5,$this->header_title_empresa_rpt,1,1,'C');
+        /**
+         * Espacio para definir la línea en el encabezado
+         */
+        $this->SetFillColor(79,129,189);
+        $this->SetLineWidth(1);
+        $this->SetX(($this->pageWidth-$wemp)/2);
+        $this->Cell($wemp+15,2,"",1,1,'C',1);
+
+        if($this->title_total_rpt!=""){
+            $w = $this->GetStringWidth($this->title_total_rpt)+6;
+            $this->SetX(($this->pageWidth-$w)/2);
+            $this->Cell($w+15,5,$this->title_total_rpt,1,1,'C');
+        }
+
+        $this->Ln();
+
+        $this->SetFont('Arial','',10);
+        $this->SetFillColor(255,255,255);
+        $this->SetTextColor(0);
+        /**
+         * Añadido
+         */
+        $this->SetY(30);
+    }
     /**
      * Función para definir el color de las celdas en la cabecera de la tabla.
      */
     function DefineColorHeaderTable(){
         $this->SetFont('Arial', 'B', 8);
         $this->SetDrawColor(0);
-        $this->SetFillColor(52,152,219);//Fondo verde de celeste
+        $this->SetFillColor(52,152,219);//Fondo celeste
         $this->SetTextColor(255,255,255);//Letras blancas
         $this->SetLineWidth(.3);
     }
@@ -156,6 +203,12 @@ class pdfoasis extends fpdf{
         //juego de arreglos de relleno
         $this->fill=$f;
     }
+
+    /**
+     * Función para el despliegue del registro dentro del cuerpo de la grilla principal.
+     * @param $data
+     * @return mixed
+     */
     function Row($data)
     {
         //Calculate the height of the row
@@ -170,6 +223,42 @@ class pdfoasis extends fpdf{
         {
             $w=$this->widths[$i];
             $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
+            //Save the current position
+            $x=$this->GetX();
+            $y=$this->GetY();
+            //Draw the border
+            $this->Rect($x, $y, $w, $h);
+            //Print the text
+            $this->MultiCell($w, 5, utf8_decode($data[$i]), 0, $a);
+            //Put the position to the right of the cell
+            $this->SetXY($x+$w, $y);
+        }
+        //Go to the next line
+        $this->Ln($h);
+        return $w;
+    }
+
+    /**
+     * Función para el despliegue del registro dentro del cuerpo de la grilla de totales
+     * @param $data
+     * @return mixed
+     */
+    function RowTotal($data)
+    {
+        //Calculate the height of the row
+        $nb=0;
+        for($i=0;$i<count($data);$i++)
+            $nb=max($nb, $this->NbLines($this->totalWidths[$i], $data[$i]));
+        $h=5*$nb;
+        $this->DefineColorBodyTable();
+        //Issue a page break first if needed
+        $this->CheckPageBreak($h);
+        //Draw the cells of the row
+        if(($this->pageWidth-$this->totalTableWidth)>0)$this->SetX(($this->pageWidth-$this->totalTableWidth)/2);
+        for($i=0;$i<count($data);$i++)
+        {
+            $w=$this->totalWidths[$i];
+            $a=isset($this->totalAligns[$i]) ? $this->totalAligns[$i] : 'L';
             //Save the current position
             $x=$this->GetX();
             $y=$this->GetY();
@@ -225,6 +314,41 @@ class pdfoasis extends fpdf{
         {
             $w=$this->widths[$i];
             $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
+            //Save the current position
+            $x=$this->GetX();
+            $y=$this->GetY();
+            //Draw the border
+            $this->Rect($x, $y, $w, $h);
+            //Print the text
+            $this->MultiCell($w, 5, utf8_decode($data[$i]), 0, $a,true);
+            //Put the position to the right of the cell
+            $this->SetXY($x+$w, $y);
+        }
+        //Go to the next line
+        $this->Ln($h);
+    }
+
+    /**
+     * Función para mostrar la primera fila cabecera de la grilla de totales.
+     * @param $data
+     * @param int $sw
+     */
+    function RowTotalTitle($data,$sw=0)
+    {
+        $nb=0;
+        for($i=0;$i<count($data);$i++)
+            $nb=max($nb, $this->NbLines($this->totalWidths[$i], $data[$i]));
+        $h=5*$nb;
+        $this->DefineColorHeaderTable();
+        //Issue a page break first if needed
+        $this->CheckPageBreak($h);
+        //Draw the cells of the row
+        if(($this->pageWidth-$this->totalTableWidth)>0)$this->SetX(($this->pageWidth-$this->totalTableWidth)/2);
+        for($i=0;$i<count($data);$i++)
+        {
+            $w=$this->totalWidths[$i];
+            //$a=isset($this->totalAlignSelecteds[$i]) ? $this->totalAlignSelecteds[$i] : 'L';
+            $a='C';
             //Save the current position
             $x=$this->GetX();
             $y=$this->GetY();
@@ -375,6 +499,45 @@ class pdfoasis extends fpdf{
         }
         return $arrRes;
     }
+
+    /**
+     * Función para definir las columnas a considerarse dentro de la grilla de totales
+     * @param $widthAlignAll
+     * @param $columns
+     * @param array $exclude
+     * @return array
+     */
+    function DefineTotalTitleCols($widthAlignAll,$totalCols){
+        $arrRes = Array();
+        foreach($totalCols as $key => $val){
+            if(array_key_exists($val,$widthAlignAll)){
+                $arrRes[]=$widthAlignAll[$val]['title'];
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para conocer el listado de columnas para el resumen de totales
+     * @param $generalConfigForAllColumns
+     * @return array
+     */
+    function DefineSelectedTotalCols($generalConfigForAllColumns){
+        $arrRes = Array();
+        $arrRes[]="nro_row";
+        foreach($generalConfigForAllColumns as $key => $val){
+            if($val['totales']===true){
+                $arrRes[]=$key;
+            }
+        }
+        return $arrRes;
+    }
+    /**
+     * Función para definir el listado de columnas para mostrarse, considerando que se estén usando agrupadores
+     * @param $widthAlignAll
+     * @param $dondeCambio
+     * @param $queCambio
+     * @return array
+     */
     function DefineTitleColsByGroups($widthAlignAll,$dondeCambio,$queCambio){
         $arrRes = Array();
         foreach($dondeCambio as $val){
@@ -435,6 +598,21 @@ class pdfoasis extends fpdf{
         return $arrRes;
     }
 
+    /**
+     * Función para la obtención del listado de alineaciones de los campos considerados dentro de la grilla de totales.
+     * @param $widthAlignAll
+     * @param $totalCols
+     * @return array
+     */
+    function DefineAlignsForTotals($widthAlignAll,$totalCols){
+        $arrRes = Array();
+        foreach($totalCols as $key => $val){
+            if(array_key_exists($val,$widthAlignAll)){
+                $arrRes[]=$widthAlignAll[$val]['align'];
+            }
+        }
+        return $arrRes;
+    }
     /**
      * Función para establecer los valores por defecto (Vacios) para los grupos seleccionados.
      * @param $groups
@@ -510,4 +688,33 @@ class pdfoasis extends fpdf{
         return $arr_col;
     }
 
+    /**
+     * Función para la agregación de la grilla correspondiente a los totales del reporte.
+     * @param array $arrListado
+     * @param int $totalAtrasos
+     * @param int $totalFaltas
+     * @param int $totalAbandono
+     * @param int $totalOmision
+     * @param int $totalLsgh
+     * @param int $totalCompensacion
+     */
+    function agregarPaginaTotales($arrListado=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalCompensacion=0){
+        $this->AddTotalPage();
+        $this->RowTotalTitle($this->totalColTitleSelecteds);
+        $cc=0;
+                foreach ($arrListado as $clave2=>$valor2) {
+                    foreach ($valor2 as $clave1 => $valor1) {
+                        foreach ($valor1 as $clave => $valor) {
+                            $cc++;
+                            $arrMostrable=array($cc,$valor["nombres"],$valor["ci"],$valor["expd"],$valor["gerencia_administrativa"],$valor["departamento_administrativo"],$valor["area"],$valor["cargo"],str_replace(".00","",$valor["sueldo"]),$valor["gestion"],$valor["mes_nombre"],$valor["atrasos"],$valor["faltas"],$valor["abandono"],$valor["omision"],$valor["lsgh"]);
+                            $this->RowTotal($arrMostrable);
+                        }
+                    }
+                }
+                if($cc>0){
+                    $this->DefineColorHeaderTable();
+                    $arrMostrable=array("","","","","","","","","","","Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh);
+                    $this->RowTotal($arrMostrable);
+                }
+    }
 }

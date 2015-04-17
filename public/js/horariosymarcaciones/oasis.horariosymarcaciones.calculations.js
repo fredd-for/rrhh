@@ -16,39 +16,6 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
     var idRelaboral=objParametros.idRelaboral;
     var fechaIni = objParametros.fechaIni;
     var fechaFin = objParametros.fechaFin;
-    /*$('#txtFechaIniAsignacionSingle').data("date-min",fechaMin);
-    $('#txtFechaIniAsignacionSingle').data("date-max",fechaMax);*/
-    /*var startDate = new Date('01/01/2012');
-    var FromEndDate = new Date();
-    var ToEndDate = new Date();
-
-    ToEndDate.setDate(ToEndDate.getDate()+365);
-    $('#txtFechaIniCalculo').datepicker({
-
-        weekStart: 1,
-        startDate: '01/01/2012',
-        endDate: FromEndDate,
-        autoclose: true
-    })
-        .on('changeDate', function(selected){
-            startDate = new Date(selected.date.valueOf());
-            startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-            $('.to_date').datepicker('setStartDate', startDate);
-        });
-    $('#txtFechaFinCalculo')
-        .datepicker({
-
-            weekStart: 1,
-            startDate: startDate,
-            endDate: ToEndDate,
-            autoclose: true
-        })
-        .on('changeDate', function(selected){
-            FromEndDate = new Date(selected.date.valueOf());
-            FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
-            $('.from_date').datepicker('setEndDate', FromEndDate);
-        });
-*/
     var source =
     {
         datatype: "json",
@@ -439,7 +406,17 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         cellsrenderer: rownumberrenderer
                     },
                     /*********************************************************************************************************/
-                   /* {
+                    {
+                        text: 'Estado',
+                        filtertype: 'checkedlist',
+                        datafield: 'estado_descripcion',
+                        width: 100,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false,
+                        cellclassname: cellclass
+                    },
+                    {
                         text: 'Ubicaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'ubicacion',
@@ -457,7 +434,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         align: 'center',
                         hidden: false
                     },
-                    {
+                    /*{
                         text: 'Estado',
                         filtertype: 'checkedlist',
                         datafield: 'relaboral_estado_descripcion',
@@ -494,7 +471,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
-                    },/*
+                    },
                     {
                         text: 'Gerencia',
                         filtertype: 'checkedlist',
@@ -518,7 +495,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         width: 220,
                         align: 'center',
                         hidden: false
-                    },
+                    },/*
                     {
                         text: 'Proceso',
                         filtertype: 'checkedlist',
@@ -544,7 +521,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         width: 220,
                         align: 'center',
                         hidden: false
-                    },
+                    },*/
                     {
                         text: 'Cargo',
                         columntype: 'textbox',
@@ -562,7 +539,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         cellsalign: 'right',
                         align: 'center',
                         hidden: false
-                    },
+                    },/*
                     {
                         text: 'Fecha Ingreso',
                         datafield: 'fecha_ing',
@@ -616,19 +593,6 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                     {text: 'Motivo Baja', datafield: 'motivo_baja', width: 100, hidden: false},
                     {text: 'Observacion', datafield: 'observacion', width: 100, hidden: false},*/
                     /*********************************************************************************************************/
-
-
-
-                    {
-                        text: 'Estado',
-                        filtertype: 'checkedlist',
-                        datafield: 'estado_descripcion',
-                        width: 100,
-                        cellsalign: 'center',
-                        align: 'center',
-                        hidden: false,
-                        cellclassname: cellclass
-                    },
                     {
                         text: 'Gesti&oacute;n',
                         filtertype: 'checkedlist',
@@ -979,10 +943,17 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                 ]
             });
         var listSource = [
+            {label: 'Estado Marcaciones', value: 'estado_descripcion', checked: true},
+            {label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: true},
+            {label: 'Condici&oacute;n', value: 'condicion', checked: true},
             {label: 'Nombres', value: 'nombres', checked: true},
             {label: 'CI', value: 'ci', checked: true},
             {label: 'Expd', value: 'expd', checked: true},
-            {label: 'Estado', value: 'estado_descripcion', checked: true},
+            {label: 'Gerencia', value: 'gerencia_administrativa', checked: true},
+            {label: 'Departamento', value: 'departamento_administrativo', checked: true},
+            {label: '&Aacute;rea', value: 'area', checked: true},
+            {label: 'Cargo', value: 'cargo', checked: true},
+            {label: 'Haber', value: 'sueldo', checked: true},
             {label: 'Gesti&oacute;n', value: 'gestion', checked: true},
             {label: 'Mes', value: 'mes_nombre', checked: true},
             {label: 'Turno', value: 'turno', checked: true},

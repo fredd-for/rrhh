@@ -847,12 +847,16 @@ function cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion){
         success: function(data) {  //alert(data);
             var res = jQuery.parseJSON(data);
             var cont = 1;
+            var grupo="";
             if(res.length>0){
                 $.each( res, function( key, val ) {
+
+                    grupo="";
+                    if(val.grupo!=null&&val.grupo!='')grupo=val.grupo;
                     grilla += "<tr>";
                     grilla += "<td style='text-align: center'>"+cont+"</td>";
                     grilla += "<td style='text-align: center'>"+val.perfil_laboral+"</td>";
-                    grilla += "<td style='text-align: center'>"+val.grupo+"</td>";
+                    grilla += "<td style='text-align: center'>"+grupo+"</td>";
                     grilla += "<td style='text-align: center'>"+val.gestion+"</td>";
                     grilla += "<td style='text-align: center'>"+val.mes_nombre+"</td>";
                     grilla += "<td style='text-align: center'>"+val.rango_fecha_ini+" al "+val.rango_fecha_fin+"</td>";
@@ -969,7 +973,7 @@ function cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion){
                         gestion = parseInt(arrFecha[2]);
                         mes = parseInt(arrFecha[1]);
                         if(gestion>0&&mes>0){
-                            if(confirm("¿Desea realmente dar de baja la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados? Esto implica que se darán de baja todos los registros de marcación PREVISTA, EFECTIVA y de SANCIÓN."))
+                            if(confirm("¿Desea realmente dar de baja la marcación '"+tipoMarcacion+"' para la gestión y mes seleccionados? Esto implica que se darán de baja tambi&eacute;n los registros de marcación EFECTIVA y de SANCIÓN."))
                                 var ok = eliminarMarcacion(idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion);
                             if(ok){
                                 cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion);
@@ -1009,12 +1013,15 @@ function cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,c
         success: function(data) {  //alert(data);
             var res = jQuery.parseJSON(data);
             var cont = 1;
+            var grupo="";
             if(res.length>0){
                 $.each( res, function( key, val ) {
+                    grupo="";
+                    if(val.grupo!=null&&val.grupo!='')grupo=val.grupo;
                     grilla += "<tr>";
                     grilla += "<td style='text-align: center'>"+cont+"</td>";
                     grilla += "<td style='text-align: center'>"+val.perfil_laboral+"</td>";
-                    grilla += "<td style='text-align: center'>"+val.grupo+"</td>";
+                    grilla += "<td style='text-align: center'>"+grupo+"</td>";
                     grilla += "<td style='text-align: center'>"+val.gestion+"</td>";
                     grilla += "<td style='text-align: center'>"+val.mes_nombre+"</td>";
                     grilla += "<td style='text-align: center'>"+val.rango_fecha_ini+" al "+val.rango_fecha_fin+"</td>";

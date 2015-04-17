@@ -56,36 +56,6 @@ $().ready(function () {
             guardarRegistroBaja();
         }
     });
-    /**
-     * Control sobre la solicitud de guardar registro de movilidad de personal por nuevo, edición y baja.
-     */
-    $("#btnGuardarMovilidad").click(function () {
-        var idRelaboralMovilidadBaja = $("#hdnIdRelaboralMovilidadBaja").val();
-        if (idRelaboralMovilidadBaja == 0) {
-            /**
-             * Si se solicita nuevo registro o modificación.
-             * @type {boolean}
-             */
-            var ok = validaFormularioPorRegistroMovilidad();
-            if (ok) {
-                var okk = guardarRegistroMovilidad();
-                if (okk) {
-                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
-                }
-            }
-        } else {
-            /**
-             * Si se ha solicitado realizar una baja.
-             */
-            var ok = validaFormularioPorBajaRegistroMovilidad();
-            if (ok) {
-                var okk = bajaRegistroMovilidad();
-                if (okk) {
-                    $("#popupWindowNuevaMovilidad").jqxWindow('close');
-                }
-            }
-        }
-    });
     $("#btnVolverDesdeMarcaciones").click(function (){
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
@@ -116,7 +86,8 @@ $().ready(function () {
         });
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
+        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
+            exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#divListBoxCalculos").focus();
