@@ -96,7 +96,7 @@ class MarcacionesController extends ControllerBase
     public function listbyrelaboralAction()
     {
         $this->view->disable();
-        $obj = new FMarcaciones();
+        $obj = new Fmarcaciones();
         $marcacion = Array();
         $where = "";
             if(isset($_GET["id"])&&isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])&&$_GET["fecha_ini"]!=''&&$_GET["fecha_fin"]!=''){
