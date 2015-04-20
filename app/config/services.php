@@ -5,6 +5,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlResolver;
 //use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Db\Adapter\Pdo\PostgreSQL as DbAdapter;
+use Phalcon\Db\Adapter\Pdo\Mssql as MsDbAdapter;
 //use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
@@ -71,6 +72,43 @@ $di->set('sigec', function () {
         'dbname' => 'paperwork'
     ));
 });
+/**
+ * Database connection is created based in the parameters defined in the configuration file
+ */
+$di->set('biometrico', function() use ($config) {
+    return new Twm\Db\Adapter\Pdo\Mssql(array(
+        'host' => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname' => $config->database->dbname,
+        'pdoType'	=> $config->database->pdoType,
+        'dialectClass' => $config->database->dialectClass
+    ));
+});
+/*
+$di->set('biometrico', function() use ($config) {
+    return new Twm\Db\Adapter\Pdo\Mssql(array(
+        'host' => $config->database->host,
+        'username' => $config->database->username,
+        'password' => $config->database->password,
+        'dbname' => $config->database->dbname,
+        'pdoType'	=> $config->database->pdoType,
+        'dialectClass' => $config->database->dialectClass
+    ));
+});*/
+/*
+ 'biometrico' => array(
+        'adapter'     => 'Twm\Db\Adapter\Pdo\Mssql',
+        'host'		=> '192.168.10.40',
+        'username'	=> 'sa',
+        'password'	=> 'Sistemas2015',
+        'dbname'	=> 'asistencia',
+        'pdoType'       => 'dblib',
+        'dialectClass'	=> 'Twm\Db\Dialect\Mssql'
+    )
+
+
+  */
 $di->set('oracle', function () {
     return new \Phalcon\Db\Adapter\Pdo\Oracle(array(
         'username' => 'CONTRATACION',

@@ -149,22 +149,6 @@ class MarcacionesController extends ControllerBase
         }
         return $conn;
     }
-
-    /**
-     * Función para la conexión con la base de datos del sistema OASIS de manera auxiliar.
-     * @return resource
-     */
-    function ConexionAuxiliarPostgreSql(){
-        $SERVER = "192.168.10.158";$USER = "user_rrhh";$PSW = "pass_rrhh";$DB = "bd_rrhh";$PORT = 5432;
-        $strCnx = "host=$SERVER port=$PORT dbname=$DB user=$USER password=$PSW";
-        $cnx = pg_connect($strCnx) or die ("Error de conexion. ". pg_last_error());
-        if( $cnx === false )
-        {
-            die ( "Falla en la conexion..." );
-            die( print_r( sqlsrv_errors(), true));
-        }
-        return $cnx;
-    }
     /**
      * Disables FOREIGN_KEY_CHECKS and truncates database table
      * @param string $table table name
@@ -252,7 +236,7 @@ class MarcacionesController extends ControllerBase
                 $good = 0;
                 $this->borrarRangoEnTabla($fechaIni,$fechaFin);
                 $err = array();
-                $pg = $this->ConexionAuxiliarPostgreSql();
+                $db = $this->getDI()->get('db');
                 $sqlA = "INSERT INTO marcaciones(id, persona_id, maquina_id, fecha, hora, observacion, estado,baja_logica, agrupador, user_reg_id, fecha_reg, fecha_ini_rango, fecha_fin_rango) VALUES ";
                 $sqlB = "";
                 while ( $result = sqlsrv_fetch_array ($stmt) ) {
@@ -268,7 +252,7 @@ class MarcacionesController extends ControllerBase
                         if($good%10000==0){
                             $sqlB .=",";
                             $sqlB = str_replace(",,","",$sqlB);
-                            $ok = pg_query($pg, $sqlA.$sqlB);
+                            $ok = $db->execute($sqlA.$sqlB);
                             $sqlB="";
                         }
                     }else{
@@ -280,7 +264,7 @@ class MarcacionesController extends ControllerBase
                 if($sqlB!=""){
                     $sqlB .=",";
                     $sqlB = str_replace(",,","",$sqlB);
-                    $ok = pg_query($pg, $sqlA.$sqlB);
+                    $ok = $db->execute($sqlA.$sqlB);
                 }
                 if($ok) $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se realizaron las descargas para el rango solicitado de modo satisfactorio.','total'=>$tot,'correctas'=>$good,'errores'=>$errores);
                 else  {
