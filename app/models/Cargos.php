@@ -332,5 +332,15 @@ class Cargos extends \Phalcon\Mvc\Model
     //     $this->_db = new Cargos();
     //     return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     // }
+    // 
+    // 
+    // 
+    
+
+    public function serverlista($sql)
+    {
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 
 }
