@@ -224,7 +224,7 @@
 </form>
 </div>
 <div class="section" id="divCalc">
-    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.</h6>
+    <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.</h6>
     <form class="navbar-form" id="formCalc">
         <div class="col-md-10">
             <!-- Input Grid Block -->
@@ -234,12 +234,33 @@
 
                     <h2>Listado General para C&aacute;lculos</h2>
                     <div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
-                            <div class="col-md-6"> <!--input-daterange-->
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
                                     <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                     <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
+                                    <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                </div>
+                            </div>
+                            &nbsp;
+                            <div class="col-sm-2">
+                                <input id="txtCiCalculo" name="txtCiCalculo" class="form-control" placeholder="Doc. Identidad" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-sm btn-primary" type="button" id="btnCalcular" accesskey="c">
+                                    <i class="fa fa-gears"></i>
+                                    Calcular
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="txtFechaIniCalculo">Fechas *:</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
+                                    <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
+                                    <span class="input-group-addon">Al</span>
                                     <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                 </div>
                             </div>
@@ -252,7 +273,7 @@
                             </button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     </br>
                     <div id='jqxWidget'>
                         <div id="divGridControlCalculos"></div>

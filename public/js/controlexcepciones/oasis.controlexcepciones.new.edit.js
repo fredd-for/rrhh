@@ -20,10 +20,16 @@
 function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion,observacion){
     var sufijo="New";
     if(opcion==2) sufijo="Edit";
+
     $("#txtFechaIni"+sufijo).datepicker("update","");
+    $("#txtFechaIni"+sufijo).val("").datepicker('update');
+
+    $("#txtFechaFin"+sufijo).datepicker("update","");
+    $("#txtFechaFin"+sufijo).val("").datepicker('update');
+
     $("#txtHoraIni"+sufijo).val("");
-    $("#txtFechaIni"+sufijo).datepicker("update","");
     $("#txtHoraFin"+sufijo).val("");
+
     $("#txtJustificacion"+sufijo).val("");
     $("#txtObservacion"+sufijo).val("");
     if(opcion==2){

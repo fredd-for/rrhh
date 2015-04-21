@@ -10,6 +10,7 @@
  * @param objParametros
  */
 function definirGrillaMarcacionesYCalculos(objParametros) {
+    var ci = objParametros.ci;
     var idOrganigrama = objParametros.idOrganigrama;
     var idArea=objParametros.idArea;
     var idUbicacion=objParametros.idUbicacion;
@@ -215,7 +216,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/horariosymarcaciones/listallbyrange?id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
+        url: '/horariosymarcaciones/listallbyrange?ci='+ci+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);

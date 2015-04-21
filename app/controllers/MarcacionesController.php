@@ -55,7 +55,10 @@ class MarcacionesController extends ControllerBase
         $this->view->disable();
         $obj = new Fmarcaciones();
         $marcaciones = Array();
-        $fechaIni = $fechaFin = "";
+        $ci=$fechaIni = $fechaFin = "";
+        if(isset($_GET["ci"])){
+            $ci = $_GET["ci"];
+        }
         if(isset($_GET["fecha_ini"])){
             $fechaIni = $_GET["fecha_ini"];
         }
@@ -164,6 +167,13 @@ class MarcacionesController extends ControllerBase
                     $tmpfilteroperator = $filteroperator;
                     $tmpdatafield = $filterdatafield;
                 }
+            }
+        }
+        if($ci!=''&&$ci>0){
+            if($where!=''){
+                $where.= " AND persona_id=(SELECT id FROM personas WHERE ci = '$ci' LIMIT 1)";
+            }else{
+                $where.= " WHERE persona_id=(SELECT id FROM personas WHERE ci = '$ci' LIMIT 1)";
             }
         }
         if(isset($_GET["opcion"])&&$_GET["opcion"]==1){
@@ -397,14 +407,17 @@ class MarcacionesController extends ControllerBase
 
     /**
      * Función para el borrado de los registros de acuerdo al rango de fechas establecidas.
+     * @param $ci
      * @param $fechaIni
      * @param $fechaFin
      * @return mixed
      */
-    public function borrarRangoEnTabla($fechaIni,$fechaFin)
+    public function borrarRangoEnTabla($ci,$fechaIni,$fechaFin)
     {
         $db = $this->getDI()->get('db');
-        $success = $db->execute("DELETE FROM marcaciones where fecha BETWEEN '$fechaIni' AND '$fechaIni'");
+        $sql = "DELETE FROM marcaciones where fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        if($ci!=''&&$ci>0)$sql.=" AND persona_id=(SELECT id FROM personas WHERE CI='$ci' LIMIT 1)";
+        $success = $db->execute($sql);
         return $success;
     }
     /**
@@ -458,8 +471,16 @@ class MarcacionesController extends ControllerBase
         if(isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])){
             $fechaIni = $_POST["fecha_ini"];
             $fechaFin = $_POST["fecha_fin"];
+            $ci='';
+            $idPersona = 0;
+            if(isset($_POST["ci"])&&$_POST["ci"]!=''){
+                $ci = $_POST["ci"];
+            }
+            if(isset($_POST["id_persona"])&&$_POST["id_persona"]!=''){
+                $idPersona = $_POST["id_persona"];
+            }
             $msql = $this->ConexionMSql();
-            $tsql = "[SP_RPT_MARCACIONES_BIOMETRICOS]0,0,0,'".$fechaIni."','".$fechaFin."'";
+            $tsql = "[SP_RPT_MARCACIONES_BIOMETRICOS]0,'$ci',0,'".$fechaIni."','".$fechaFin."'";
             $stmt = sqlsrv_query( $msql, $tsql);
             if( $stmt === false )
             {
@@ -468,7 +489,7 @@ class MarcacionesController extends ControllerBase
                 $errores = 0;
                 $tot = 0;
                 $good = 0;
-                $this->borrarRangoEnTabla($fechaIni,$fechaFin);
+                $this->borrarRangoEnTabla($ci,$fechaIni,$fechaFin);
                 $err = array();
                 $db = $this->getDI()->get('db');
                 $sqlA = "INSERT INTO marcaciones(id, persona_id, maquina_id, fecha, hora, observacion, estado,baja_logica, agrupador, user_reg_id, fecha_reg, fecha_ini_rango, fecha_fin_rango) VALUES ";
@@ -493,6 +514,12 @@ class MarcacionesController extends ControllerBase
                         $err[]= array('ci'=>$result ["CI"],'id_persona'=>$idPersona,'codigo_maquina'=>$result ["CODIGO_MAQUINA"],'id_maquina'=>$idMaquina);
                         $ok=false;
                         $errores ++;
+                        /**
+                         * En caso de que la persona no este registrada y se haya solicitado específicamente sólo sus marcaciones.
+                         */
+                        if($ci!=''){
+                            break;
+                        }
                     }
                 }
                 if($sqlB!=""){
@@ -981,14 +1008,16 @@ class MarcacionesController extends ControllerBase
 
     /**
      * Función para efectuar la exportación del reporte de descarga de marcaciones en formato Excel.
-     * @param $idRelaboral
+     * @param $ci
+     * @param $fecha_ini
+     * @param $fecha_fin
      * @param $n_rows
      * @param $columns
      * @param $filtros
      * @param $groups
      * @param $sorteds
      */
-    public function exportdescargasexcelAction($fecha_ini,$fecha_fin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportdescargasexcelAction($ci,$fecha_ini,$fecha_fin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -1321,6 +1350,10 @@ class MarcacionesController extends ControllerBase
                     $groups = " ORDER BY " . $groups;
                 }
 
+            }
+            if($ci!=''&&$ci>0){
+                if($where!='')$where .= " AND persona_id=(SELECT id FROM personas WHERE ci='$ci' LIMIT 1)";
+                else $where .= " WHERE persona_id=(SELECT id FROM personas WHERE ci='$ci' LIMIT 1)";
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
@@ -1879,6 +1912,7 @@ class MarcacionesController extends ControllerBase
     }
     /**
      * Función para efectuar la descarga del reporte de descarga de marcaciones en formato PDF.
+     * @param $ci
      * @param $fecha_ini
      * @param $fecha_fin
      * @param $n_rows
@@ -1887,7 +1921,7 @@ class MarcacionesController extends ControllerBase
      * @param $groups
      * @param $sorteds
      */
-    public function exportdescargaspdfAction($fecha_ini,$fecha_fin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportdescargaspdfAction($ci,$fecha_ini,$fecha_fin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -2207,6 +2241,10 @@ class MarcacionesController extends ControllerBase
                     $groups = " ORDER BY " . $groups;
                 }
 
+            }
+            if($ci!=''&&$ci>0){
+                if($where!='')$where .= " AND persona_id=(SELECT id FROM personas WHERE ci='$ci' LIMIT 1)";
+                else $where .= " WHERE persona_id=(SELECT id FROM personas WHERE ci='$ci' LIMIT 1)";
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";

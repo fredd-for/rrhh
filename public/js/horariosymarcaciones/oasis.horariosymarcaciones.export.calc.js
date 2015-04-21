@@ -8,9 +8,11 @@
 /**
  * Función para la obtención de los reportes correspondientes a horarios y marcaciones considerando los cálculos en base a un rango de fechas.
  * @param option
- * @param idRelaboral
+ * @param carnet
+ * @param fechaIni
+ * @param fechaFin
  */
-function exportarReporteCalculosHorariosYMarcaciones(option,fechaIni,fechaFin){
+function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fechaFin){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
@@ -368,7 +370,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,fechaIni,fechaFin){
     }
 
     if(ruta!='')
-        window.open(ruta+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+        window.open(ruta+"/"+carnet+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

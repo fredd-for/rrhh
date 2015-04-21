@@ -6,11 +6,15 @@
  *   Fecha Creación:  30-03-2015
  */
 /**
+ /**
  * Función para la obtención del reporte correspondiente de descargas efectuadas.
  * @param option
- * @param idRelaboral
+ * @param carnet
+ * @param fechaIni
+ * @param fechaFin
  */
-function exportarReporteDescargaMarcacionesRango(option,fechaIni,fechaFin){
+function exportarReporteDescargaMarcacionesRango(option,carnet,fechaIni,fechaFin){
+    if (carnet=='')carnet=0;
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
@@ -96,7 +100,7 @@ function exportarReporteDescargaMarcacionesRango(option,fechaIni,fechaFin){
     }
 
     if(ruta!='')
-        window.open(ruta+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+        window.open(ruta+"/"+carnet+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

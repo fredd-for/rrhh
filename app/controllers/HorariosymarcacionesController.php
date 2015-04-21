@@ -545,15 +545,22 @@ class HorariosymarcacionesController extends ControllerBase
         $this->view->disable();
         $horariosymarcaciones = Array();
         if(isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])){
+            $where = "";
             $idRelaboral = 0;
+            $ci = "";
             if(isset($_GET["id_relaboral"])&&$_GET["id_relaboral"]>0)
                 $idRelaboral=$_GET["id_relaboral"];
+            if(isset($_GET["ci"])&&$_GET["ci"]>0)
+                $ci=$_GET["ci"];
             $fechaIni =$_GET["fecha_ini"];
             $fechaFin =$_GET["fecha_fin"];
 
             $obj = new Frelaboraleshorariosymarcaciones();
             $idRelaboral=0;
-            $resul = $obj->getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,"");
+            if($ci!=''){
+                $where = " WHERE ci='".$ci."'";
+            }
+            $resul = $obj->getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -2349,13 +2356,15 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para la exportación del reporte con cálculos en rango de fechas en formato Excel.
-     * @param $n_rows Cantidad de lineas
+     * @param $ci Número de carnet de identidad
+     * @param $fechaIni Fecha de inicio del rango para el reporte.
+     * @param $fechaFin Fecha de finalización del rango para el reporte.
      * @param $columns Array con las columnas mostradas en el reporte
      * @param $filtros Array con los filtros aplicados sobre las columnas.
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    public function exportcalculosexcelAction($fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculosexcelAction($ci,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -2764,6 +2773,10 @@ class HorariosymarcacionesController extends ControllerBase
                     $groups = " ORDER BY " . $groups;
                 }
 
+            }
+            if($ci!=''){
+                if($where!='')$where.=" AND ci='".$ci."'";
+                else $where.=" WHERE ci='".$ci."'";
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
@@ -4453,15 +4466,16 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para el despliegue del reporte de cálculos de marcaciones en formato PDF.
-     * @param $fechaIni
-     * @param $fechaFin
-     * @param $n_rows
-     * @param $columns
-     * @param $filtros
-     * @param $groups
-     * @param $sorteds
+     * @param $ci Carnet de identidad.
+     * @param $fechaIni Fecha de inicio del rango del reporte.
+     * @param $fechaFin Fecha de finalización del rango del reporte.
+     * @param $n_rows Cantidad de registros.
+     * @param $columns Array con las columnas a considerarse.
+     * @param $filtros Array de los filtros aplicados.
+     * @param $groups Array de las agrupaciones aplicadas.
+     * @param $sorteds Array de los órdenes aplicados.
      */
-    public function exportcalculospdfAction($fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculospdfAction($ci,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -4864,6 +4878,10 @@ class HorariosymarcacionesController extends ControllerBase
                     $groups = " ORDER BY " . $groups;
                 }
 
+            }
+            if($ci!=''){
+                if($where!='')$where.=" AND ci='".$ci."'";
+                else $where.=" WHERE ci='".$ci."'";
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
@@ -6170,8 +6188,6 @@ class HorariosymarcacionesController extends ControllerBase
                             if($objMSalida->estado29==null||$objMSalida->estado29<=1){$objMSalida->d29=null;$objMSalida->calendariolaboral29_id=null;$objMSalida->estado29=null;}
                             if($objMSalida->estado30==null||$objMSalida->estado30<=1){$objMSalida->d30=null;$objMSalida->calendariolaboral30_id=null;$objMSalida->estado30=null;}
                             if($objMSalida->estado31==null||$objMSalida->estado31<=1){$objMSalida->d31=null;$objMSalida->calendariolaboral31_id=null;$objMSalida->estado31=null;}
-
-
 
                             foreach($rangoFechas as $rango){
                                 $cal = Calendarioslaborales::find(array("perfillaboral_id=".$v->id_perfillaboral." AND horariolaboral_id=".$v->id_horariolaboral." AND '".$rango->fecha."' BETWEEN fecha_ini AND fecha_fin AND estado>=1 AND baja_logica=1"));

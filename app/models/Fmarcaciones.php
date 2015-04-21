@@ -165,6 +165,7 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
             $sql .= "LIMIT 1) ";
             if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
                 $sql .= " AND fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+            $sql .= " ORDER BY fecha,hora ";
             if($offset!=''&&$offset!=null)$sql .= " OFFSET ".$offset;
             if($limit!=''&&$limit!=null)$sql .= " LIMIT  ".$limit;
             $sql .= ") AS m ";
@@ -173,8 +174,8 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
             $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
             $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
             $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
-            $sql .= "ORDER BY p.p_apellido,p.s_apellido,p.p_nombre,p.s_nombre,m.fecha,m.hora";
-            //if($group!='')$sql .= $group;
+            $sql .= "ORDER BY m.fecha,m.hora,p.p_apellido,p.s_apellido,p.p_nombre,p.s_nombre";
+            if($group!='')$sql .= $group;
             $this->_db = new Fmarcaciones();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }

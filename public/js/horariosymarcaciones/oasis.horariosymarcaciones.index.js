@@ -84,10 +84,12 @@ $().ready(function () {
         $.each(items, function (index, value) {
             numColumnas++;
         });
+        var ci = $("#txtCiCalculo").val();
+        alert(ci);
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
         if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
-            exportarReporteCalculosHorariosYMarcaciones(1,fechaIni,fechaFin);
+            exportarReporteCalculosHorariosYMarcaciones(1,ci,fechaIni,fechaFin);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#divListBoxCalculos").focus();
@@ -112,9 +114,10 @@ $().ready(function () {
         $.each(items, function (index, value) {
             numColumnas++;
         });
+        var ci = $("#txtCiCalculo").val();
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        if (fechaIni!=''&&fechaFin!=''&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(2,fechaIni,fechaFin);
+        if (fechaIni!=''&&fechaFin!=''&&numColumnas > 0) exportarReporteCalculosHorariosYMarcaciones(2,ci,fechaIni,fechaFin);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
             $("#divListBoxCalculos").focus();
@@ -173,7 +176,8 @@ $().ready(function () {
         //var objParametro = getParametroVacio();
         var fechaIni = $("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
+        var ci = $("#txtCiCalculo").val();
+        var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
         if(fechaIni!=''&&fechaFin!=''){
             definirGrillaMarcacionesYCalculos(objParametro);
         }else{
@@ -431,6 +435,15 @@ function definirGrillaParaListaRelaborales() {
                         $("#txtFechaIniCalculo").val('').datepicker('update');
                         $("#txtFechaFinCalculo").datepicker("update","");
                         $("#txtFechaFinCalculo").val('').datepicker('update');
+                        $("#txtCiCalculo").val("");
+                        var selectedrowindex = $("#divGridRelaborales").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridRelaborales').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                var ci = dataRecord.ci;
+                                $("#txtCiCalculo").val(ci);
+                            }
+                        }
                         var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
                         definirGrillaMarcacionesYCalculos(objParametro);
                     });

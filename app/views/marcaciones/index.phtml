@@ -278,7 +278,7 @@
 </form>
 </div>
 <div class="section" id="divDownload">
-    <h6><b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; la descarga de datos.</h6>
+    <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NOTA: </b>Debe seleccionar necesariamente las fechas para el rango en el cual se obtendr&aacute; la descarga de datos. El documento de identidad es alternativo.</h6>
     <form class="navbar-form" id="formDownload">
         <div class="col-md-10">
             <!-- Input Grid Block -->
@@ -286,28 +286,27 @@
                 <!-- Input Grid Title -->
                 <div class="block-title">
 
-                    <h2>Listado General de Marcaciones</h2>
+                    <h2>Descarga General de Marcaciones</h2>
                     <div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="txtFechaIniDescarga">Fechas *:</label>
-                            <div class="col-md-3"> <!--input-daterange-->
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
                                     <input id="txtFechaIniDescarga" name="txtFechaIniDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                     <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
                                     <input id="txtFechaFinDescarga" name="txtFechaFinDescarga" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                            <button class="btn btn-sm btn-primary" type="button" id="btnDescargarMarcaciones" accesskey="c">
-                                <i class="fa fa-chevron-circle-down"></i>
-                                Descargar
-                            </button>
+                            &nbsp;
+                            <div class="col-sm-2">
+                                <input id="txtCiDescarga" name="txtCiDescarga" class="form-control" placeholder="Doc. Identidad" type="text">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
+                            <div class="col-sm-2">
+                                <button class="btn btn-sm btn-primary" type="button" id="btnDescargarMarcaciones" accesskey="c">
+                                    <i class="fa fa-chevron-circle-down"></i>
+                                    Descargar
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
                                 <button class="btn btn-sm btn-primary" type="button" id="btnBuscarMarcaciones" accesskey="c">
                                     <i class="gi gi-search"></i>
                                     Buscar

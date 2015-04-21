@@ -10,7 +10,8 @@
  * @param objParametros
  */
 function definirGrillaDescargaMarcacionesRango(objParametros) {
-   var opcion = objParametros.opcion;
+    var opcion = objParametros.opcion;
+    var carnet = objParametros.ci;
     var idOrganigrama = objParametros.idOrganigrama;
     var idArea=objParametros.idArea;
     var idUbicacion=objParametros.idUbicacion;
@@ -41,7 +42,7 @@ function definirGrillaDescargaMarcacionesRango(objParametros) {
             {name: 'fecha_ini_rango', type: 'date'},
             {name: 'fecha_fin_rango', type: 'date'}
         ],
-        url: '/marcaciones/list?opcion='+opcion+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
+        url: '/marcaciones/list?opcion='+opcion+'&ci='+carnet+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
         cache: false,
         root: 'Rows',
         beforeprocessing: function (data) {

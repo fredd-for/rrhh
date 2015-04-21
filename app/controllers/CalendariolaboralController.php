@@ -54,7 +54,7 @@ class CalendariolaboralController extends ControllerBase
                         'calendario_estado_descripcion'=>$v->calendario_estado_descripcion,
                         'id_perfillaboral'=>$v->id_perfillaboral,
                         'perfil_laboral'=>$v->perfil_laboral,
-                        'perfil_laboral_grupo'=>$v->perfil_laboral_grupo,
+                        'perfil_laboral_grupo'=>$v->perfil_laboral_grupo!=null?$v->perfil_laboral_grupo:'',
                         'tipo_horario_descripcion'=>$v->tipo_horario_descripcion,
                         'perfil_laboral_observacion'=>$v->perfil_laboral_observacion,
                         'perfil_laboral_estado'=>$v->perfil_laboral_estado,
