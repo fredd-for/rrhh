@@ -216,24 +216,28 @@ class pdfoasis extends fpdf{
         for($i=0;$i<count($data);$i++)
             $nb=max($nb, $this->NbLines($this->widths[$i], $data[$i]));
         $h=5*$nb;
-        //Issue a page break first if needed
-        $this->CheckPageBreak($h);
-        //Draw the cells of the row
+        //Se verifica que se ha añadido una nueva página, por lo cual se ha establecido la cabecera con un
+        //conjunto de alineaciones de cabecerá que hay que reestablecer para el cuerpo de la grilla.
+        $ok = $this->CheckPageBreak($h);
+        if($ok){
+            $this->aligns=$this->alignSelecteds;
+        }
+        $aligns = $this->aligns;
+        //Trazando la celda de la fila
         for($i=0;$i<count($data);$i++)
-        {
-            $w=$this->widths[$i];
-            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
-            //Save the current position
+        {   $w=$this->widths[$i];
+            $a=isset($aligns[$i]) ? $aligns[$i] : 'L';
+            //Guardando la posición actual
             $x=$this->GetX();
             $y=$this->GetY();
-            //Draw the border
+            //Trazando el borde
             $this->Rect($x, $y, $w, $h);
-            //Print the text
+            //Imprimiendo el texto
             $this->MultiCell($w, 5, utf8_decode($data[$i]), 0, $a);
-            //Put the position to the right of the cell
+            //Ubicando la posición de la linea derecha de la celda
             $this->SetXY($x+$w, $y);
         }
-        //Go to the next line
+        //Saltando a la siguiente línea
         $this->Ln($h);
         return $w;
     }
@@ -366,7 +370,9 @@ class pdfoasis extends fpdf{
     {
         //If the height h would cause an overflow, add a new page immediately
         if($this->GetY()+$h>$this->PageBreakTrigger)
-            $this->AddPage($this->CurOrientation);
+        {$this->AddPage($this->CurOrientation);
+            return true;
+        } return false;
     }
 
     function NbLines($w,$txt)

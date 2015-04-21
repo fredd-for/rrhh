@@ -26,8 +26,9 @@ $().ready(function () {
             var cantMeses = obtenerCantidadDeMesesEntreFechas(fechaIni,fechaFin);
             if(cantMeses>0&&cantMeses<2){
                 descargarMarcaciones(idPersona,fechaIni,fechaFin);
-                objParametro = {opcion:1,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
-                definirGrillaDescargaMarcacionesRango(objParametro);
+                $("#btnBuscarMarcaciones").click();
+                //objParametro = {opcion:1,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
+                //definirGrillaDescargaMarcacionesRango(objParametro);
             }else{
                 var msj = "Han transcurrido "+cantMeses+" meses entre la fecha de inicio y finalizaci&oacute;n del rango solicitado. La m&aacute;xima cantidad de meses admitida debe ser menor a dos meses."
                 $("#divMsjePorWarning").html("");
@@ -151,6 +152,7 @@ $().ready(function () {
             $("#divListBoxCalculos").focus();
         }
     });
+    $("#btnBuscarControlMarcaciones").off();
     $("#btnBuscarControlMarcaciones").on("click",function(){
         var fechaIni=$("#txtFechaIniControlMarcaciones").val();
         var fechaFin = $("#txtFechaFinControlMarcaciones").val();
@@ -158,6 +160,7 @@ $().ready(function () {
         objParametro = {opcion:1,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:idRelaboral,fechaIni:fechaIni,fechaFin:fechaFin}
         definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametro);
     });
+    $("#btnBuscarMarcaciones").off();
     $("#btnBuscarMarcaciones").on("click",function(){
         var fechaIni=$("#txtFechaIniDescarga").val();
         var fechaFin = $("#txtFechaFinDescarga").val();
@@ -448,7 +451,7 @@ function definirGrillaParaListaRelaborales() {
                                     }else fechaFin = dataRecord.fecha_fin;
                                     $("#txtFechaIniControlMarcaciones").val("");
                                     $("#txtFechaFinControlMarcaciones").val("");
-                                    var objParametro = {opcion:0, idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:dataRecord.id_relaboral,fechaIni:fechaIni,fechaFin:fechaFin}
+                                    var objParametro = {opcion:0, idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:dataRecord.id_relaboral,fechaIni:'',fechaFin:''}
                                     definirGrillaParaListaControlMarcacionesPorIdRelaboral(objParametro);
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";

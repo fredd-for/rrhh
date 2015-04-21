@@ -10,7 +10,7 @@
  * @param objParametros
  */
 function definirGrillaDescargaMarcacionesRango(objParametros) {
-    var opcion = objParametros.opcion;
+   var opcion = objParametros.opcion;
     var idOrganigrama = objParametros.idOrganigrama;
     var idArea=objParametros.idArea;
     var idUbicacion=objParametros.idUbicacion;
@@ -42,7 +42,21 @@ function definirGrillaDescargaMarcacionesRango(objParametros) {
             {name: 'fecha_fin_rango', type: 'date'}
         ],
         url: '/marcaciones/list?opcion='+opcion+'&id_organigrama='+idOrganigrama+'&id_area='+idArea+'&id_ubicacion='+idUbicacion+'&id_relaboral='+idRelaboral+'&fecha_ini='+fechaIni+'&fecha_fin='+fechaFin,
-        cache: false
+        cache: false,
+        root: 'Rows',
+        beforeprocessing: function (data) {
+            source.totalrecords = data[0].TotalRows;
+        },
+        filter: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridDescargaMarcacionesRango").jqxGrid('updatebounddata', 'filter');
+        },
+        sort: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridDescargaMarcacionesRango").jqxGrid('updatebounddata', 'sort');
+        }
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeDescargaMarcaciones();
@@ -60,6 +74,11 @@ function definirGrillaDescargaMarcacionesRango(objParametros) {
                 columnsresize: true,
                 pageable: true,
                 pagerMode: 'advanced',
+                pagesize:10,
+                virtualmode: true,
+                rendergridrows: function (params) {
+                    return params.data;
+                },
                 showfilterrow: true,
                 filterable: true,
                 showtoolbar: true,

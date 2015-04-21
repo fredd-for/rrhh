@@ -58,45 +58,155 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
     }
 
     private $_db;
+
     /**
      * Función para la obtención de la totalidad de los registros de marcaciones de acuerdo al rango de marcaciones.
      * @param $fechaIni
      * @param $fechaFin
      * @param string $where
      * @param string $group
+     * @param null $offset
+     * @param null $limit
      * @return Resultset
      */
-    public function getAll($fechaIni='',$fechaFin='',$where='',$group='')
+    public function getAll($fechaIni,$fechaFin,$where='',$group='',$offset=null,$limit=null)
     {
-        $sql = "SELECT * FROM f_marcaciones() ";
-        $sql .= " WHERE 1=1 ";
-        if($fechaIni!=''&&$fechaFin!='')$sql .= "AND fecha BETWEEN '".$fechaIni."'AND '".$fechaFin."' ";
-        if($where!='')$sql .= " AND ".$where;
+        $sql = "SELECT p.id as id_persona,CAST(REPLACE(p.p_apellido||' '||CASE WHEN p.s_apellido IS NOT NULL THEN p.s_apellido ELSE '' END ||CASE WHEN p.c_apellido IS NOT NULL THEN ' '||p.c_apellido ELSE '' END ||CASE WHEN p.p_nombre IS NOT NULL THEN ' '||p.p_nombre ELSE '' END ||CASE WHEN p.s_nombre IS NOT NULL THEN ' '||p.s_nombre ELSE '' END ||CASE WHEN p.t_nombre IS NOT NULL THEN ' '||p.t_nombre ELSE '' END ,'  ',' ') AS character varying) AS nombres,";
+        $sql .= "p.ci,CAST(TRIM(p.expd) AS character(2)),CAST(EXTRACT(YEAR from m.fecha) AS integer) AS gestion, CAST(EXTRACT(MONTH from m.fecha) AS integer) AS mes,";
+        $sql .= "CASE CAST(EXTRACT(MONTH from m.fecha) AS integer) WHEN 1 THEN CAST('ENERO' AS character varying) WHEN 2 THEN CAST('FEBRERO' AS character varying) WHEN 3  THEN CAST('MARZO' AS character varying) ";
+        $sql .= "WHEN 4 THEN CAST('ABRIL' AS character varying) WHEN 5 THEN CAST('MAYO' AS character varying) WHEN 6 THEN CAST('JUNIO' AS character varying) ";
+        $sql .= "WHEN 7 THEN CAST('JULIO' AS character varying) WHEN 8 THEN CAST('AGOSTO' AS character varying) WHEN 9 THEN CAST('SEPTIEMBRE' AS character varying) ";
+        $sql .= "WHEN 10 THEN CAST('OCTUBRE' AS character varying) WHEN 11 THEN CAST('NOVIEMBRE' AS character varying) ELSE CAST('DICIEMBRE' AS character varying) END AS mes_nombre,";
+        $sql .= "m.fecha,m.hora,mq.id AS id_maquina,mq.maquina,m.observacion,m.estado,pa.valor_1 as estado_descripcion,m.user_reg_id,";
+        $sql .= "CAST(REPLACE(pu.p_apellido||' '||CASE WHEN pu.s_apellido IS NOT NULL THEN pu.s_apellido ELSE '' END ||CASE WHEN pu.c_apellido IS NOT NULL THEN ' '||pu.c_apellido ELSE '' END ||CASE WHEN pu.p_nombre IS NOT NULL THEN ' '||pu.p_nombre ELSE '' END ||CASE WHEN pu.s_nombre IS NOT NULL THEN ' '||pu.s_nombre ELSE '' END ||CASE WHEN pu.t_nombre IS NOT NULL THEN ' '||pu.t_nombre ELSE '' END ,'  ',' ') AS character varying) AS usuario,";
+        $sql .= "m.fecha_reg,m.fecha_ini_rango,m.fecha_fin_rango ";
+        $sql .= "FROM (";
+        $sql .= "SELECT * FROM marcaciones ";
+        if($where!=''){
+            $sql .= $where;
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " AND fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        }else{
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " WHERE fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        }
+        if($offset!=''&&$offset!=null)$sql .= " OFFSET ".$offset;
+        if($limit!=''&&$limit!=null)$sql .= " LIMIT  ".$limit;
+        $sql .= ") AS m ";
+        $sql .= "INNER JOIN personas p ON m.persona_id = p.id ";
+        $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
+        $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
+        $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
+        $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+        $sql .= "ORDER BY p.p_apellido,p.s_apellido,p.p_nombre,p.s_nombre,m.fecha,m.hora";
         if($group!='')$sql .= $group;
         $this->_db = new Fmarcaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
     /**
-     * Función para la obtención de registros de marcación para una persona en particular en un rango establecido de fechas.
-     * @param $idRelaboral
-     * @param string $fechaIni
-     * @param string $fechaFin
+     * Función para contabilizar la cantidad de registros totales para la consulta ejecutada en la función previa de arriva.
+     * @param $fechaIni
+     * @param $fechaFin
      * @param string $where
      * @param string $group
      * @return Resultset
      */
-    public function getAllByRelaboral($idRelaboral,$fechaIni='',$fechaFin='',$where='',$group='')
+    public function getCountAll($fechaIni,$fechaFin,$where='',$group='')
+    {
+        $sql = "SELECT COUNT (*) AS resultado FROM (";
+        $sql .= "SELECT * FROM marcaciones ";
+        if($where!=''){
+            $sql .= $where;
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " AND fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        }else{
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " WHERE fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        }
+        $sql .= ") AS m ";
+        $sql .= "INNER JOIN personas p ON m.persona_id = p.id ";
+        $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
+        $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
+        $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
+        $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+        if($group!='')$sql .= $group;
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención de registros de marcación para una persona en particular en un rango establecido de fechas.
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @param string $where
+     * @param string $group
+     * @param null $offset
+     * @param null $limit
+     * @return Resultset
+     */
+    public function getAllByRelaboral($idRelaboral,$fechaIni,$fechaFin,$where='',$group='',$offset=null,$limit=null)
     {   if($idRelaboral!=''){
-        /**
-         * prueba
-         */
-            $sql = "SELECT * FROM f_marcaciones() ";
-            $sql .= " WHERE id_persona =(SELECT persona_id FROM relaborales WHERE id = ".$idRelaboral." LIMIT 1) ";
-            if($fechaIni!=''&&$fechaFin!='')$sql .= "AND fecha BETWEEN '".$fechaIni."'AND '".$fechaFin."' ";
-            if($where!='')$sql .= " AND ".$where;
-            if($group!='')$sql .= $group;
+            $sql = "SELECT p.id as id_persona,CAST(REPLACE(p.p_apellido||' '||CASE WHEN p.s_apellido IS NOT NULL THEN p.s_apellido ELSE '' END ||CASE WHEN p.c_apellido IS NOT NULL THEN ' '||p.c_apellido ELSE '' END ||CASE WHEN p.p_nombre IS NOT NULL THEN ' '||p.p_nombre ELSE '' END ||CASE WHEN p.s_nombre IS NOT NULL THEN ' '||p.s_nombre ELSE '' END ||CASE WHEN p.t_nombre IS NOT NULL THEN ' '||p.t_nombre ELSE '' END ,'  ',' ') AS character varying) AS nombres,";
+            $sql .= "p.ci,CAST(TRIM(p.expd) AS character(2)),CAST(EXTRACT(YEAR from m.fecha) AS integer) AS gestion, CAST(EXTRACT(MONTH from m.fecha) AS integer) AS mes,";
+            $sql .= "CASE CAST(EXTRACT(MONTH from m.fecha) AS integer) WHEN 1 THEN CAST('ENERO' AS character varying) WHEN 2 THEN CAST('FEBRERO' AS character varying) WHEN 3  THEN CAST('MARZO' AS character varying) ";
+            $sql .= "WHEN 4 THEN CAST('ABRIL' AS character varying) WHEN 5 THEN CAST('MAYO' AS character varying) WHEN 6 THEN CAST('JUNIO' AS character varying) ";
+            $sql .= "WHEN 7 THEN CAST('JULIO' AS character varying) WHEN 8 THEN CAST('AGOSTO' AS character varying) WHEN 9 THEN CAST('SEPTIEMBRE' AS character varying) ";
+            $sql .= "WHEN 10 THEN CAST('OCTUBRE' AS character varying) WHEN 11 THEN CAST('NOVIEMBRE' AS character varying) ELSE CAST('DICIEMBRE' AS character varying) END AS mes_nombre,";
+            $sql .= "m.fecha,m.hora,mq.id AS id_maquina,mq.maquina,m.observacion,m.estado,pa.valor_1 as estado_descripcion,m.user_reg_id,";
+            $sql .= "CAST(REPLACE(pu.p_apellido||' '||CASE WHEN pu.s_apellido IS NOT NULL THEN pu.s_apellido ELSE '' END ||CASE WHEN pu.c_apellido IS NOT NULL THEN ' '||pu.c_apellido ELSE '' END ||CASE WHEN pu.p_nombre IS NOT NULL THEN ' '||pu.p_nombre ELSE '' END ||CASE WHEN pu.s_nombre IS NOT NULL THEN ' '||pu.s_nombre ELSE '' END ||CASE WHEN pu.t_nombre IS NOT NULL THEN ' '||pu.t_nombre ELSE '' END ,'  ',' ') AS character varying) AS usuario,";
+            $sql .= "m.fecha_reg,m.fecha_ini_rango,m.fecha_fin_rango ";
+            $sql .= "FROM (";
+            $sql .= "SELECT * FROM marcaciones ";
+            if($where!=''){
+                $sql .= $where;
+                $sql .= " AND persona_id=(SELECT persona_id FROM relaborales WHERE id=$idRelaboral ";
+            }else $sql .= " WHERE persona_id=(SELECT persona_id FROM relaborales WHERE id=$idRelaboral ";
+            $sql .= "LIMIT 1) ";
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " AND fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+            if($offset!=''&&$offset!=null)$sql .= " OFFSET ".$offset;
+            if($limit!=''&&$limit!=null)$sql .= " LIMIT  ".$limit;
+            $sql .= ") AS m ";
+            $sql .= "INNER JOIN personas p ON m.persona_id = p.id ";
+            $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
+            $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
+            $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
+            $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+            $sql .= "ORDER BY p.p_apellido,p.s_apellido,p.p_nombre,p.s_nombre,m.fecha,m.hora";
+            //if($group!='')$sql .= $group;
             $this->_db = new Fmarcaciones();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
+    /**
+     * Función para contabilizar la cantidad de registros para la consulta realizada, considerando que no se toma en cuanta offset ni limit.
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function getCountAllByRelaboral($idRelaboral,$fechaIni,$fechaFin,$where='',$group='')
+    {   if($idRelaboral!=''){
+            $sql = "SELECT count(*) AS resultado FROM (";
+            $sql .= "SELECT * FROM marcaciones ";
+            if($where!=''){
+                $sql .= $where;
+                $sql .= " AND persona_id=(SELECT persona_id FROM relaborales WHERE id=$idRelaboral ";
+            }else $sql .= " WHERE persona_id=(SELECT persona_id FROM relaborales WHERE id=$idRelaboral ";
+            $sql .= "LIMIT 1) ";
+            if($fechaIni!=''&&$fechaIni!=null&&$fechaFin!=''&&$fechaFin!=null)
+                $sql .= " AND fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+            $sql .= ") AS m ";
+            $sql .= "INNER JOIN personas p ON m.persona_id = p.id ";
+            $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
+            $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
+            $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
+            $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+            if($group!='')$sql .= $group;
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

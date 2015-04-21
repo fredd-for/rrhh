@@ -54,15 +54,127 @@ class MarcacionesController extends ControllerBase
     {
         $this->view->disable();
         $obj = new Fmarcaciones();
-        $marcacion = Array();
+        $marcaciones = Array();
+        $fechaIni = $fechaFin = "";
+        if(isset($_GET["fecha_ini"])){
+            $fechaIni = $_GET["fecha_ini"];
+        }
+        if(isset($_GET["fecha_fin"])){
+            $fechaFin = $_GET["fecha_fin"];
+        }
         $where = "";
+        $pagenum = $_GET['pagenum'];
+        $pagesize = $_GET['pagesize'];
+        $total_rows=0;
+        $start = $pagenum * $pagesize;
+
+        // filter data.
+        if (isset($_GET['filterscount'])) {
+            $filterscount = $_GET['filterscount'];
+
+            if ($filterscount > 0) {
+                $where = " WHERE (";
+                $tmpdatafield = "";
+                $tmpfilteroperator = "";
+                for ($i = 0; $i < $filterscount; $i++) {
+                    // get the filter's value.
+                    $filtervalue = $_GET["filtervalue" . $i];
+                    // get the filter's condition.
+                    $filtercondition = $_GET["filtercondition" . $i];
+                    // get the filter's column.
+                    $filterdatafield = $_GET["filterdatafield" . $i];
+                    // get the filter's operator.
+                    $filteroperator = $_GET["filteroperator" . $i];
+
+                    if ($tmpdatafield == "") {
+                        $tmpdatafield = $filterdatafield;
+                    } else if ($tmpdatafield <> $filterdatafield) {
+                        $where .= ")AND(";
+                    } else if ($tmpdatafield == $filterdatafield) {
+                        if ($tmpfilteroperator == 0) {
+                            $where .= " AND ";
+                        } else
+                            $where .= " OR ";
+                    }
+
+                    // build the "WHERE" clause depending on the filter's condition, value and datafield.
+                    switch ($filtercondition) {
+                        case "NOT_EMPTY":
+                        case "NOT_NULL":
+                            $where .= " " . $filterdatafield . " NOT LIKE '" . "" . "'";
+                            break;
+                        case "EMPTY":
+                        case "NULL":
+                            $where .= " " . $filterdatafield . " LIKE '" . "" . "'";
+                            break;
+                        case "CONTAINS_CASE_SENSITIVE":
+                            $where .= " BINARY  " . $filterdatafield . " LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "CONTAINS":
+                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "DOES_NOT_CONTAIN_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " NOT LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "DOES_NOT_CONTAIN":
+                            $where .= " " . $filterdatafield . " NOT LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "EQUAL_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " = '" . $filtervalue . "'";
+                            break;
+                        case "EQUAL":
+                            $where .= " " . $filterdatafield . " = '" . $filtervalue . "'";
+                            break;
+                        case "NOT_EQUAL_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            break;
+                        case "NOT_EQUAL":
+                            $where .= " " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN":
+                            $where .= " " . $filterdatafield . " > '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN":
+                            $where .= " " . $filterdatafield . " < '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " >= '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " <= '" . $filtervalue . "'";
+                            break;
+                        case "STARTS_WITH_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " LIKE '" . $filtervalue . "%'";
+                            break;
+                        case "STARTS_WITH":
+                            $where .= " " . $filterdatafield . " LIKE '" . $filtervalue . "%'";
+                            break;
+                        case "ENDS_WITH_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            break;
+                        case "ENDS_WITH":
+                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            break;
+                    }
+
+                    if ($i == $filterscount - 1) {
+                        $where .= ")";
+                    }
+
+                    $tmpfilteroperator = $filteroperator;
+                    $tmpdatafield = $filterdatafield;
+                }
+            }
+        }
         if(isset($_GET["opcion"])&&$_GET["opcion"]==1){
-            if(isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])&&$_GET["fecha_ini"]!=''&&$_GET["fecha_fin"]!=''){
-                $resul = $obj->getAll($_GET["fecha_ini"],$_GET["fecha_fin"],$where);
+            if($fechaIni!=''&&$fechaFin!=''){
+                $resul = $obj->getAll($fechaIni,$fechaFin,$where,"",$start,$pagesize);
                 //comprobamos si hay filas
                 if ($resul->count() > 0) {
+                    $arrTotal = $obj->getCountAll($fechaIni,$fechaFin,$where,"");
+                    $total_rows = $arrTotal[0]->resultado;
                     foreach ($resul as $v) {
-                        $marcacion[] = array(
+                        $marcaciones[] = array(
                             'nro_row' => 0,
                             'id_persona'=>$v->id_persona,
                             'nombres'=>$v->nombres,
@@ -87,7 +199,11 @@ class MarcacionesController extends ControllerBase
                 }
             }
         }
-        echo json_encode($marcacion);
+        $data[] = array(
+            'TotalRows' => $total_rows,
+            'Rows' => $marcaciones
+        );
+        echo json_encode($data);
     }
 
     /**
@@ -97,14 +213,128 @@ class MarcacionesController extends ControllerBase
     {
         $this->view->disable();
         $obj = new Fmarcaciones();
-        $marcacion = Array();
+        $marcaciones = Array();
         $where = "";
-            if(isset($_GET["id"])&&isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])&&$_GET["fecha_ini"]!=''&&$_GET["fecha_fin"]!=''){
-                $resul = $obj->getAllByRelaboral($_GET["id"],$_GET["fecha_ini"],$_GET["fecha_fin"],$where);
+        $pagenum = $_GET['pagenum'];
+        $pagesize = $_GET['pagesize'];
+        $filtercount = 0;
+        $fechaIni = $fechaFin = "";
+        if(isset($_GET["fecha_ini"])){
+            $fechaIni = $_GET["fecha_ini"];
+        }
+        if(isset($_GET["fecha_fin"])){
+            $fechaFin = $_GET["fecha_fin"];
+        }
+        $total_rows=0;
+        $start = $pagenum * $pagesize;
+
+        // filter data.
+        if (isset($_GET['filterscount'])) {
+            $filterscount = $_GET['filterscount'];
+
+            if ($filterscount > 0) {
+                $where = " WHERE (";
+                $tmpdatafield = "";
+                $tmpfilteroperator = "";
+                for ($i = 0; $i < $filterscount; $i++) {
+                    // get the filter's value.
+                    $filtervalue = $_GET["filtervalue" . $i];
+                    // get the filter's condition.
+                    $filtercondition = $_GET["filtercondition" . $i];
+                    // get the filter's column.
+                    $filterdatafield = $_GET["filterdatafield" . $i];
+                    // get the filter's operator.
+                    $filteroperator = $_GET["filteroperator" . $i];
+
+                    if ($tmpdatafield == "") {
+                        $tmpdatafield = $filterdatafield;
+                    } else if ($tmpdatafield <> $filterdatafield) {
+                        $where .= ")AND(";
+                    } else if ($tmpdatafield == $filterdatafield) {
+                        if ($tmpfilteroperator == 0) {
+                            $where .= " AND ";
+                        } else
+                            $where .= " OR ";
+                    }
+
+                    // build the "WHERE" clause depending on the filter's condition, value and datafield.
+                    switch ($filtercondition) {
+                        case "NOT_EMPTY":
+                        case "NOT_NULL":
+                            $where .= " " . $filterdatafield . " NOT LIKE '" . "" . "'";
+                            break;
+                        case "EMPTY":
+                        case "NULL":
+                            $where .= " " . $filterdatafield . " LIKE '" . "" . "'";
+                            break;
+                        case "CONTAINS_CASE_SENSITIVE":
+                            $where .= " BINARY  " . $filterdatafield . " LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "CONTAINS":
+                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "DOES_NOT_CONTAIN_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " NOT LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "DOES_NOT_CONTAIN":
+                            $where .= " " . $filterdatafield . " NOT LIKE '%" . $filtervalue . "%'";
+                            break;
+                        case "EQUAL_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " = '" . $filtervalue . "'";
+                            break;
+                        case "EQUAL":
+                            $where .= " " . $filterdatafield . " = '" . $filtervalue . "'";
+                            break;
+                        case "NOT_EQUAL_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            break;
+                        case "NOT_EQUAL":
+                            $where .= " " . $filterdatafield . " <> '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN":
+                            $where .= " " . $filterdatafield . " > '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN":
+                            $where .= " " . $filterdatafield . " < '" . $filtervalue . "'";
+                            break;
+                        case "GREATER_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " >= '" . $filtervalue . "'";
+                            break;
+                        case "LESS_THAN_OR_EQUAL":
+                            $where .= " " . $filterdatafield . " <= '" . $filtervalue . "'";
+                            break;
+                        case "STARTS_WITH_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " LIKE '" . $filtervalue . "%'";
+                            break;
+                        case "STARTS_WITH":
+                            $where .= " " . $filterdatafield . " LIKE '" . $filtervalue . "%'";
+                            break;
+                        case "ENDS_WITH_CASE_SENSITIVE":
+                            $where .= " BINARY " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            break;
+                        case "ENDS_WITH":
+                            $where .= " " . $filterdatafield . " LIKE '%" . $filtervalue . "'";
+                            break;
+                    }
+
+                    if ($i == $filterscount - 1) {
+                        $where .= ")";
+                    }
+
+                    $tmpfilteroperator = $filteroperator;
+                    $tmpdatafield = $filterdatafield;
+                }
+            }
+        }
+            if(isset($_GET["id"])&&$fechaIni!=''&&$fechaFin!=''){
+                //if($where!="")$where = "WHERE ".$where;
+                $resul = $obj->getAllByRelaboral($_GET["id"],$fechaIni,$fechaFin,$where,"",$start,$pagesize);
                 //comprobamos si hay filas
                 if ($resul->count() > 0) {
+                    $arrTotal = $obj->getCountAllByRelaboral($_GET["id"],$fechaIni,$fechaFin,$where,"");
+                    $total_rows = $arrTotal[0]->resultado;
                     foreach ($resul as $v) {
-                        $marcacion[] = array(
+                        $marcaciones[] = array(
                             'nro_row' => 0,
                             'id_persona'=>$v->id_persona,
                             'nombres'=>$v->nombres,
@@ -128,7 +358,11 @@ class MarcacionesController extends ControllerBase
                     }
                 }
             }
-        echo json_encode($marcacion);
+        $data[] = array(
+            'TotalRows' => $total_rows,
+            'Rows' => $marcaciones
+        );
+        echo json_encode($data);
     }
     /**
      * Función para la conexión con SQL Server
@@ -625,7 +859,7 @@ class MarcacionesController extends ControllerBase
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllByRelaboral($id_relaboral,$fecha_ini,$fecha_fin,$groups);
+            $resul = $obj->getAllByRelaboral($id_relaboral,$fecha_ini,$fecha_fin,$where,"",null,null);
             $marcaciones = array();
             $listaExcepciones = array();
             $contador = 0;
@@ -1090,7 +1324,7 @@ class MarcacionesController extends ControllerBase
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAll($fecha_ini,$fecha_fin,$groups);
+            $resul = $obj->getAll($fecha_ini,$fecha_fin,$where,"");
             $marcaciones = array();
             $listaExcepciones = array();
             $contador = 0;
@@ -1545,7 +1779,7 @@ class MarcacionesController extends ControllerBase
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllByRelaboral($id_relaboral,$fecha_ini,$fecha_fin,$groups);
+            $resul = $obj->getAllByRelaboral($id_relaboral,$fecha_ini,$fecha_fin,$where,"",null,null);
             $marcaciones = array();
             foreach ($resul as $v) {
                 $marcaciones[] = array(
@@ -1623,16 +1857,15 @@ class MarcacionesController extends ControllerBase
                             $pdf->RowTitle($colTitleSelecteds);
                         }
                         $pdf->DefineColorBodyTable();
-                        $pdf->SetAligns($alignSelecteds);
                         if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
                         $rowData = $pdf->DefineRows($j + 1, $marcaciones[$j], $colSelecteds);
-                        $pdf->Row($rowData);
-
-                    } else {
-                        //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
-                        $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
+                        $pdf->Row($rowData);
+                    } else {
+                        if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                        $pdf->DefineColorBodyTable();
                         $rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
+                        $pdf->SetAligns($alignSelecteds);
                         $pdf->Row($rowData);
                     }
                     //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
@@ -1977,7 +2210,7 @@ class MarcacionesController extends ControllerBase
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAll($fecha_ini,$fecha_fin,$groups);
+            $resul = $obj->getAll($fecha_ini,$fecha_fin,$where,"");
             $marcaciones = array();
             foreach ($resul as $v) {
                 $marcaciones[] = array(
