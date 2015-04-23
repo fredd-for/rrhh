@@ -860,6 +860,12 @@ function cargarHorariosMarcacionesGenerados(idRelaboral,clasemarcacion){
                      */
                     switch (val.estado)
                     {
+                        case -2:
+                            grilla += "<td style='text-align: center'><a title='Esto significa que no se ha asignado ning&uacute;n equipo biom&eacute;trico a la persona en este perfil. Actualice la asignaci&oacute;n del perfil.' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
+                            grilla += "<td style='text-align: center'>";
+                            grilla += "&nbsp;";
+                            grilla += "</td>";
+                            break;
                         case -1:
                             grilla += "<td style='text-align: center'><a title='Esto significa que no se ha asignado ning&uacute;n calendario al perfil en este mes' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
                             grilla += "<td style='text-align: center'>";
@@ -1045,7 +1051,7 @@ function cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,c
                             }
                             grilla += "</td>";
                             break;
-                        case 10:
+                        case 10:/*Al menos un día del mes ya fue considerado dentro de las planillas, por lo cual no se puede eliminar el registro, sólo volver a generar para los días en estado sin elaborar.*/
                             grilla += "<td style='text-align: center'><a title='Esto significa que "+val.cruzada_estado_global+" d&iacute;a(s) de este mes tienen planillas Elaboradas o Aprobadas o Planilladas.' href='javascript:void(0)' class='label label-info'>"+val.cruzada_estado_descripcion+"</a></td>";
                             grilla += "<td style='text-align: center'>";
                             grilla +="<a id='btnVolverAGenerar."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Volver a generar.' data-original-title='Volver a Generar' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnVolverAGenerar'><i class='fa fa-gears'></i> Volver a Generar</a>";
@@ -1059,52 +1065,6 @@ function cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,c
                             break;
 
                     }
-                    /*switch (val.estado)
-                    {
-                        case -2:
-                            grilla += "<td style='text-align: center'><a title='Esto significa que no existe descargas de marcaciones para este mes.' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
-                            grilla += "<td style='text-align: center'>";
-                            grilla += "&nbsp;";
-                            grilla += "</td>";
-                            break;
-                        case -1:
-                            grilla += "<td style='text-align: center'><a title='Esto significa que no se ha asignado ning&uacute;n calendario al perfil en este mes' href='javascript:void(0)' class='label label-warning'>"+val.estado_descripcion+"</a></td>";
-                            grilla += "<td style='text-align: center'>";
-                            grilla += "&nbsp;";
-                            grilla += "</td>";
-                            break;
-                        case 1:
-                            grilla += "<td style='text-align: center'><a title='Esto significa que todas o parte de las fechas en este mes contin&uacute;an pendientes de ser considerados en las planillas finales.' href='javascript:void(0)' class='label label-success'>"+val.estado_descripcion+"</a></td>";
-                            grilla += "<td style='text-align: center'>";
-                            grilla +="<a id='btnVolverAGenerar."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Volver a generar.' data-original-title='Volver a Generar' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnVolverAGenerar'><i class='fa fa-gears'></i></a>";
-                            if(val.estado_global==0){
-                                grilla +="<a id='btnEliminarRegistro."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Eliminar Registro' data-original-title='Eliminar registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-danger btnEliminarRegistro'><i class='fa fa-times'></i></a>";
-                            }
-                            grilla += "</td>";
-                            break;
-                        case 2:
-                        case 3:
-                        case 4:
-                            grilla += "<td style='text-align: center'><a title='Esto significa que todos las fechas para este mes ya han sido consideradas dentro de una planilla. Por lo tanto, no se pueden modificar.' href='javascript:void(0)' class='label label-info'>"+val.estado_descripcion+"</a></td>";
-                            grilla += "<td style='text-align: center'>";
-                            grilla += "&nbsp;";
-                            grilla += "</td>";
-                            break;
-                        default:
-                            if(val.prevista_estado>=1){
-                                grilla += "<td style='text-align: center'><a title='Esto significa que a&uacute;n no se ha generado el registro de marcaciones para este mes.' href='javascript:void(0)' class='label label-primary'>"+val.estado_descripcion+"</a></td>";
-                                grilla += "<td style='text-align: center'>";
-                                grilla += "<a id='btnGenerarNuevo."+sufijo+"."+val.rango_fecha_ini+"."+val.rango_fecha_fin+"' title='Generar Nuevo Registro.' data-original-title='Generar Nuevo Registro' href='javascript:void(0)' data-toggle='tooltip' title='' class='btn btn-default btnGenerarNuevo'><i class='fa fa-cog'></i> Generar</a>";
-                                grilla += "</td>";
-                            }else{
-                                grilla += "<td style='text-align: center'><a title='Esto significa que a&uacute;n no se ha generado el registro de marcaciones para este mes.' href='javascript:void(0)' class='label label-primary'>"+val.estado_descripcion+"</a></td>";
-                                grilla += "<td style='text-align: center'>";
-                                //grilla += "&nbsp;";
-                                grilla += "NO EXISTE MARCACI&Oacute;N PREVISTA";
-                                grilla += "</td>";
-                            }
-                            break;
-                    }*/
                     grilla += "</tr>";
                     cont++;
                 });

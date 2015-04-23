@@ -31,26 +31,19 @@ class Marcaciones extends \Phalcon\Mvc\Model {
 
     /**
      * Función para obtener el registro de la marcación válida
-     * @param $idMaquina
      * @param $idRelaboral
+     * @param $idMaquina
      * @param $fecha
      * @param $horaIniRango
      * @param $horaFinRango
      * @return Resultset
      */
-    public function getOneMarcacionValida($idMaquina,$idRelaboral,$fecha,$horaIniRango,$horaFinRango){
-        $sql = "SELECT * FROM marcaciones ";
-        $sql .= "WHERE persona_id=(SELECT persona_id FROM relaborales WHERE id=$idRelaboral LIMIT 1) ";
-        $sql .= "AND fecha='$fecha' AND '$horaIniRango'<=hora AND hora<='$horaFinRango' ";
-        $sql .= "AND maquina_id IN (CASE WHEN '$idMaquina' IS NOT NULL AND $idMaquina>0 THEN $idMaquina ELSE ";
-        $sql .= "(SELECT rpm.maquina_id FROM relaboralesperfiles rp ";
-        $sql .= "INNER JOIN relaboralesperfilesmaquinas rpm ON rp.id = rpm.relaboralperfil_id ";
-        $sql .= "WHERE '$fecha' BETWEEN rp.fecha_ini AND rp.fecha_fin ";
-        $sql .= "AND rp.relaboral_id=$idRelaboral AND rp.estado=1 AND rp.baja_logica=1) ";
-        $sql .= "END) ORDER BY hora LIMIT 1";
-        //echo "\--->".$sql;
-        $this->_db = new Marcaciones();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    public function getOneMarcacionValida($idRelaboral,$idMaquina,$fecha,$horaIniRango,$horaFinRango){
+        if($idMaquina>=0&&$idRelaboral>0&&$fecha!=null&&$fecha!=''&&$horaIniRango!=null&&$horaIniRango!=''&&$horaFinRango!=null&&$horaFinRango!=''){
+            $sql = "SELECT * FROM f_obtener_marcacion_valida($idRelaboral,$idMaquina,'$fecha','$horaIniRango','$horaFinRango') ";
+            $this->_db = new Marcaciones();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
     }
 }
 ?>

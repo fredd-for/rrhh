@@ -85,7 +85,6 @@ $().ready(function () {
             numColumnas++;
         });
         var ci = $("#txtCiCalculo").val();
-        alert(ci);
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
         if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
@@ -436,15 +435,16 @@ function definirGrillaParaListaRelaborales() {
                         $("#txtFechaFinCalculo").datepicker("update","");
                         $("#txtFechaFinCalculo").val('').datepicker('update');
                         $("#txtCiCalculo").val("");
+                        var ci = 0;
                         var selectedrowindex = $("#divGridRelaborales").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridRelaborales').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                var ci = dataRecord.ci;
+                                ci = dataRecord.ci;
                                 $("#txtCiCalculo").val(ci);
                             }
                         }
-                        var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+                        var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
                         definirGrillaMarcacionesYCalculos(objParametro);
                     });
                     /* Ver registro.*/

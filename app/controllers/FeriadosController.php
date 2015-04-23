@@ -109,12 +109,16 @@ class FeriadosController extends ControllerBase
             $repetitivo = $_POST["repetitivo"];
             $dia = $_POST["dia"];
             $mes = $_POST["mes"];
+            $gestion = 0;
+            if(isset($_POST["gestion"])&&$_POST["gestion"]>0)
             $gestion = $_POST["gestion"];
             $observacion = $_POST['observacion'];
             if($feriado!=""&&$mes>0&&$dia>0){
                 $objFeriado = Feriados::findFirst(array("id=".$_POST["id"]));
                 if(count($objFeriado)>0){
+                    if($gestion>0)
                     $cantMismosDatos = Feriados::count(array("id!=".$_POST["id"]." AND feriado LIKE '".$feriado."' AND dia=".$dia." AND mes=".$mes." AND gestion=".$gestion." AND baja_logica=1"));
+                    else $cantMismosDatos = Feriados::count(array("id!=".$_POST["id"]." AND feriado LIKE '".$feriado."' AND dia=".$dia." AND mes=".$mes." AND baja_logica=1"));
                     if($cantMismosDatos==0){
                         $objFeriado->feriado = $feriado;
                         $objFeriado->descripcion = $descripcion;
