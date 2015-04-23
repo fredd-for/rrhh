@@ -5690,12 +5690,15 @@ class HorariosymarcacionesController extends ControllerBase
                         'mes_nombre'=>$v->mes_nombre,
                         'rango_fecha_ini'=>$v->rango_fecha_ini != "" ? date("d-m-Y", strtotime($v->rango_fecha_ini)) : "",
                         'rango_fecha_fin'=>$v->rango_fecha_fin != "" ? date("d-m-Y", strtotime($v->rango_fecha_fin)) : "",
-                        'estado'=>$v->estado,
-                        'estado_descripcion'=>($v->estado!=null)?$v->estado_descripcion:"SIN GENERAR",
-                        'estado_global'=>$v->estado_global,
-                        'prevista_estado'=>$v->prevista_estado,
-                        'prevista_estado_descripcion'=>$v->prevista_estado_descripcion,
-                        'prevista_estado_global'=>$v->prevista_estado_global
+                        /*'a_estado'=>$v->a_estado,
+                        'a_estado_descripcion'=>($v->a_estado!=null)?$v->a_estado_descripcion:"SIN GENERAR",
+                        'a_estado_global'=>$v->a_estado_global,
+                        'b_estado'=>$v->b_estado,
+                        'b_estado_descripcion'=>($v->b_estado!=null)?$v->b_estado_descripcion:"SIN GENERAR",
+                        'b_estado_global'=>$v->b_estado_global,*/
+                        'cruzada_estado'=>$v->cruzada_estado,
+                        'cruzada_estado_descripcion'=>$v->cruzada_estado_descripcion,
+                        'cruzada_estado_global'=>$v->cruzada_estado_global
                     );
                 }
             }

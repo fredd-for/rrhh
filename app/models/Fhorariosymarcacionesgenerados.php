@@ -28,7 +28,9 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
     public $prevista_estado;
     public $prevista_estado_descripcion;
     public $prevista_estado_global;
-
+    public $cruzada_estado;
+    public $cruzada_estado_descripcion;
+    public $cruzada_estado_global;
     /**
      * Initialize method for model.
      */
@@ -81,7 +83,8 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
         if($group!='')$sql .= $group;
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }   /**
+    }
+    /**
      * Función para la obtención del listado descriptivo de horarios de marcación generados en el sistema, considerando que
      * la consulta se efectua haciendo un cruce de información entre dos tipos de marcación. El caso de más uso será entre lo previsto (H) y lo efectivo (M).
      * @param $idRelaboral
@@ -95,17 +98,10 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
      */
     public function getAllCruzada($idRelaboral,$gestion,$mes,$clasemarcacionA,$clasemarcacionB,$where='',$group='')
     {
-        $sql = "SELECT m.*,h.estado as prevista_estado,h.estado_descripcion AS prevista_estado_descripcion,m.estado_global AS prevista_estado_global ";
-        $sql .= "FROM f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemarcacionA') m ";
-        $sql .= "INNER JOIN f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemarcacionB') h ON ";
-        $sql .= "h.id_relaboral=m.id_relaboral AND h.id_perfillaboral = m.id_perfillaboral AND ";
-        $sql .= "h.rango_fecha_ini=m.rango_fecha_ini AND ";
-        $sql .= "h.rango_fecha_fin=m.rango_fecha_fin ";
-        $sql .= "ORDER BY m.gestion,m.mes";
-
+        $sql = "SELECT * FROM f_horariosymarcaciones_generados_cruzada($idRelaboral,$gestion,$mes,'$clasemarcacionA','$clasemarcacionB')";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
-        $this->_db = new Frelaborales();
+        $this->_db = new Fhorariosymarcacionesgenerados();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 }
