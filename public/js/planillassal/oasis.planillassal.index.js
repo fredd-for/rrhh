@@ -10,13 +10,13 @@ $().ready(function () {
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
-    $('#divTabExcepciones').jqxTabs('theme', 'oasis');
-    $('#divTabExcepciones').jqxTabs('enableAt', 0);
-    $('#divTabExcepciones').jqxTabs('disableAt', 1);
-    $('#divTabExcepciones').jqxTabs('disableAt', 2);
+    $('#divTabPlanillasSal').jqxTabs('theme', 'oasis');
+    $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+    $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+    $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
 
-    definirGrillaParaListaExcepciones();
+    definirGrillaParaListaPlanillas();
     /**
      * Control del evento de solicitud de guardar el registro de la excepción.
      */
@@ -25,9 +25,9 @@ $().ready(function () {
         if (ok) {
             var okk = guardaExcepcion(1);
             if (okk) {
-                $('#divTabExcepciones').jqxTabs('enableAt', 0);
-                $('#divTabExcepciones').jqxTabs('disableAt', 1);
-                $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+                $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+                $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
                 $("#msjs-alert").hide();
             }
         }
@@ -37,26 +37,26 @@ $().ready(function () {
         if (ok) {
             var okk = guardaExcepcion(2);
             if (okk) {
-                $('#divTabExcepciones').jqxTabs('enableAt', 0);
-                $('#divTabExcepciones').jqxTabs('disableAt', 1);
-                $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+                $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+                $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
                 $("#msjs-alert").hide();
             }
         }
     });
     $("#btnCancelarExcepcionNew").click(function () {
-        $('#divTabExcepciones').jqxTabs('enableAt', 0);
-        $('#divTabExcepciones').jqxTabs('disableAt', 1);
-        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
         $("#msjs-alert").hide();
 
     });
     $("#btnCancelarExcepcionEdit").click(function () {
-        $('#divTabExcepciones').jqxTabs('enableAt', 0);
-        $('#divTabExcepciones').jqxTabs('disableAt', 1);
-        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
         $("#msjs-alert").hide();
     });
@@ -139,9 +139,9 @@ $().ready(function () {
     $(document).keyup(OperaEvento);
 });
 /**
- * Función para definir la grilla principal (listado) para la gestión de excepciones.
+ * Función para definir la grilla principal (listado) para la gestión de planillas.
  */
-function definirGrillaParaListaExcepciones() {
+function definirGrillaParaListaPlanillas() {
     var source =
     {
         datatype: "json",
@@ -209,10 +209,10 @@ function definirGrillaParaListaExcepciones() {
                     /* Registrar nueva excepción */
                     $("#addexceprowbutton").off();
                     $("#addexceprowbutton").on('click', function () {
-                        $('#divTabExcepciones').jqxTabs('enableAt', 1);
-                        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+                        $('#divTabPlanillasSal').jqxTabs('enableAt', 1);
+                        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
-                        $('#divTabExcepciones').jqxTabs({selectedItem: 1});
+                        $('#divTabPlanillasSal').jqxTabs({selectedItem: 1});
                         limpiarMensajesErrorPorValidacionExcepcion(1);
                         inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",0,0,-1);
                         inicializarDatosDuracion(1,"","","");
@@ -255,11 +255,11 @@ function definirGrillaParaListaExcepciones() {
                                  * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
                                  */
                                 if (dataRecord.estado >= 1) {
-                                    $('#divTabExcepciones').jqxTabs('enableAt', 0);
-                                    $('#divTabExcepciones').jqxTabs('disableAt', 1);
-                                    $('#divTabExcepciones').jqxTabs('enableAt', 2);
+                                    $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+                                    $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+                                    $('#divTabPlanillasSal').jqxTabs('enableAt', 2);
 
-                                    $('#divTabExcepciones').jqxTabs({selectedItem: 2});
+                                    $('#divTabPlanillasSal').jqxTabs({selectedItem: 2});
 
                                     $("#hdnIdExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionExcepcion(2);
@@ -457,14 +457,14 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
  */
 function OperaEvento(evento) {
     if ((evento.type == "keyup" || evento.type == "keydown") && evento.which == "27") {
-        $('#divTabExcepciones').jqxTabs('enableAt', 0);
-        $('#divTabExcepciones').jqxTabs('disableAt', 1);
-        $('#divTabExcepciones').jqxTabs('disableAt', 2);
+        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */
-        $('#divTabExcepciones').jqxTabs({selectedItem: 0});
+        $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
     }
 }
 

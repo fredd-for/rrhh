@@ -127,11 +127,11 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         $("#hdnFechaIniParaCalendario").val(arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion);
                         if(tipoHorario==3){
                             $("#popupGestionMesTurno").modal("show");
-                            cargarGestionesDisponiblesParaGenerarTurno(idPerfilLaboral);
-                            cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val());
+                            cargarGestionesDisponiblesParaGenerarTurno(idPerfilLaboral,defaultGestion);
+                            cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val(),0);
                             $("#lstGestionTurno").off();
                             $("#lstGestionTurno").on("change",function(){
-                                cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val());
+                                cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val(),0);
                             });
                             $("#btnAplicarGestionMesTurno").off();
                             $("#btnAplicarGestionMesTurno").on("click",function(){
@@ -1010,12 +1010,14 @@ function obtenerFechaMasDias(fecha,dias){
 /**
  * Función para la carga de gestiones disponibles para la generación de turnos.
  * @param idPerfillaboral
+ * @param g
  */
-function cargarGestionesDisponiblesParaGenerarTurno(idPerfillaboral){
+function cargarGestionesDisponiblesParaGenerarTurno(idPerfillaboral,g){
     var lista = "";
     $("#lstGestionTurno").html("");
     $("#lstGestionTurno").append("<option value=''>Seleccionar</option>");
     $("#lstGestionTurno").prop("disabled",false);
+    var selected = "";
     $.ajax({
             url: '/perfileslaborales/getgestiones/',
             type: "POST",
@@ -1027,7 +1029,9 @@ function cargarGestionesDisponiblesParaGenerarTurno(idPerfillaboral){
                 var res = jQuery.parseJSON(data);
                 if (res.length > 0) {
                     $.each(res, function (key, gestion) {
-                        lista += "<option value='"+gestion+"'>"+gestion+"</option>";
+                        if(g==gestion)selected="selected";
+                        else selected = "";
+                        lista += "<option value='"+gestion+"' "+selected+">"+gestion+"</option>";
                     });
                 }
             }
@@ -1039,12 +1043,14 @@ function cargarGestionesDisponiblesParaGenerarTurno(idPerfillaboral){
  * Función para la carga del combo de meses disponibles para la generación de turnos laborales.
  * @param idPerfilLaboral
  * @param gestion
+ * @param m
  */
-function cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,gestion){
+function cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,gestion,m){
     $("#lstMesTurno").html("");
     $("#lstMesTurno").append("<option value=''>Seleccionar</option>");
     $("#lstMesTurno").prop("disabled",false);
     var lista = "";
+    var selected = "";
     if(idPerfilLaboral>0&&gestion>0){
         $.ajax({
             url: '/perfileslaborales/getmeses/',
@@ -1057,7 +1063,9 @@ function cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,gestion){
                 var res = jQuery.parseJSON(data);
                 if (res.length > 0) {
                     $.each(res, function (key, val) {
-                        lista += "<option value='"+val.mes+"'>"+val.mes_nombre+"</option>";
+                        if(m==val.mes)selected="selected";
+                        else selected = "";
+                        lista += "<option value='"+val.mes+"' "+selected+">"+val.mes_nombre+"</option>";
                     });
                 }
             }

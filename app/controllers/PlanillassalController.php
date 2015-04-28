@@ -6,7 +6,7 @@
 *   Usuario Creador: Lic. Javier Loza
 *   Fecha Creación:  22-04-2015
 */
-class PlanillassalController  extends ControllerBase{
+class PlanillassalController extends ControllerBase{
     public function initialize()
     {
         parent::initialize();
@@ -33,5 +33,20 @@ class PlanillassalController  extends ControllerBase{
         $this->assets->addJs('/js/planillassal/oasis.planillassal.approve.js');
         $this->assets->addJs('/js/planillassal/oasis.planillassal.export.js');
         $this->assets->addJs('/js/planillassal/oasis.planillassal.down.js');
+    }
+    public function listAction(){
+        $this->view->disable();
+        $obj = new Fplanillassal();
+        $relaboral = Array();
+        $resul = $obj->getAll();
+        $permisoC = true;
+        $permisoR = true;
+        $permisoU = true;
+        $permisoD = true;
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+            }
+        }
     }
 } 
