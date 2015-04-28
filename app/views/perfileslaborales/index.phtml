@@ -537,6 +537,40 @@
         </div>
     </div>
 </div>
+<div class="modal fade bs-example-modal-lg" id="popupGestionMesTurno" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="formGestionMesTurno" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="h4ModalGestionMesTurno">Gesti&oacute;n y Mes para el Turno Laboral</h4>
+            </div>
+            <div class="modal-body">
+                        <div class="form-group">
+                            <div class="div-gestion-mes-turno" id="divGestionTurno">
+                                <label class="col-sm-2 control-label" for="lstGestionTurno">Gesti&oacute;n:</label>
+                                <div class="col-md-3"  form-group>
+                                    <select id="lstGestionTurno" class="form-control"><option value="">Seleccionar...</option></select>
+                                    <span class="help-block" id="helpErrorGestionTurno"></span>
+                                </div>
+                            </div>
+                            <div class="div-gestion-mes-turno" id="divMesTurno">
+                                <label class="col-sm-2 control-label" for="lstMesTurno">Mes:</label>
+                                <div class="col-md-3"  form-group>
+                                    <select id="lstMesTurno" class="form-control"><option value="">Seleccionar...</option></select>
+                                    <span class="help-block" id="helpErrorMesTurno"></span>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarGestionMesTurno" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarGestionMesTurno" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 <style type="text/css">
     .datepicker{
         z-index:1151;

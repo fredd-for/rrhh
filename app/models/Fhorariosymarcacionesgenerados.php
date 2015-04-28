@@ -81,6 +81,7 @@ class Fhorariosymarcacionesgenerados extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_horariosymarcaciones_generados($idRelaboral,$gestion,$mes,'$clasemaracion') ORDER BY gestion,mes";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
+        //echo "<p>--->".$sql."</p>";
         $this->_db = new Frelaborales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

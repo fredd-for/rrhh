@@ -75,13 +75,6 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                         /**
                          * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
                          */
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
                         $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                         if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
@@ -133,42 +126,84 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                          */
                         $("#hdnFechaIniParaCalendario").val(arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion);
                         if(tipoHorario==3){
-                            var fechaFin = obtenerUltimoDiaMes(arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion);
-                            $("#hdnFechaFinParaCalendario").val(fechaFin);
-                            var dafaultFechaInicio = arrFechaIni[0].dia+"-"+arrFechaIni[0].mes+"-"+arrFechaIni[0].gestion;
-                            var fechaIniSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,10);
-                            var fechaFinSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,1);
-                            arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
-                            var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFin,1);
-                            var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFin,10);
-                            arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
+                            $("#popupGestionMesTurno").modal("show");
+                            cargarGestionesDisponiblesParaGenerarTurno(idPerfilLaboral);
+                            cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val());
+                            $("#lstGestionTurno").off();
+                            $("#lstGestionTurno").on("change",function(){
+                                cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,$("#lstGestionTurno").val());
+                            });
+                            $("#btnAplicarGestionMesTurno").off();
+                            $("#btnAplicarGestionMesTurno").on("click",function(){
+                                    var ok = validarModalGestionTurno();
+                                    if(ok){
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
+                                        $("#popupGestionMesTurno").modal("hide");
+                                        defaultDia =1;
+                                        defaultMes = $("#lstMesTurno").val()-1;
+                                        defaultGestion = $("#lstGestionTurno").val();
+                                        arrFechaIni.push( {
+                                            dia:1,
+                                            mes:$("#lstMesTurno").val(),
+                                            gestion:$("#lstGestionTurno").val()
+                                        });
+                                        $("#hdnFechaIniParaCalendario").val("01-"+$("#lstMesTurno").val()+"-"+$("#lstGestionTurno").val());
+                                        var fechaFin = obtenerUltimoDiaMes("01-"+$("#lstMesTurno").val()+"-"+$("#lstGestionTurno").val());
+                                        $("#hdnFechaFinParaCalendario").val(fechaFin);
+                                        var dafaultFechaInicio = "01-"+$("#lstMesTurno").val()+"-"+$("#lstGestionTurno").val();
+                                        var fechaIniSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,10);
+                                        var fechaFinSemanaPrevia = obtenerFechaMenosDias(dafaultFechaInicio,1);
+                                        arrHorariosPreviosRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaPrevia,fechaFinSemanaPrevia);
+                                        var fechaIniSemanaSiguiente = obtenerFechaMasDias(fechaFin,1);
+                                        var fechaFinSemanaSiguiente = obtenerFechaMasDias(fechaFin,10);
+                                        arrHorariosSiguientesRegistrados = obtenerHorariosRegistradosEnCalendarioPorPerfil(idPerfilLaboral,tipoHorario,false,fechaIniSemanaSiguiente,fechaFinSemanaSiguiente);
+                                        definirCalendario(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia,arrHorariosPreviosRegistrados,arrHorariosSiguientesRegistrados);
+                                    }
+                            });
                         }else{
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 3);
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 4);
+                            $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
+                            $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
                             $("#hdnFechaFinParaCalendario").val("00-00-0000");
+                            definirCalendario(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia,arrHorariosPreviosRegistrados,arrHorariosSiguientesRegistrados);
                         }
-                        cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
-                        var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
-                        /**
-                         * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
-                         */
-                        $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
-                        $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
-                        sumarTotalHorasPorSemana(arrFechasPorSemana);
-                        cargarJornadasLaborales(accion,0);
-                        $("#divLstTolerancias").hide();
-                        $("#divDatosTolerancia").hide();
-                        $("#divGrupoBotonesAprobacion").hide();
-                        $("#divGrupoBotonesElaboracion").show();
-                        $("#lstJornadasLaborales").off();
-                        $("#lstJornadasLaborales").on("change",function(){
+                        function definirCalendario(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia,arrHorariosPreviosRegistrados,arrHorariosSiguientesRegistrados){
+                            cargarHorariosDisponibles(obtenerHorariosDisponibles(tipoHorario));
+                            var arrFechasPorSemana = iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
+                            /**
+                             * Se adicionan los horarios del mes anterior y mes siguiente en caso de ser necesarios para su contabilización pero sin la posibilidad de modificación.
+                             */
+                            $("#calendar").fullCalendar('addEventSource', arrHorariosPreviosRegistrados);
+                            $("#calendar").fullCalendar('addEventSource', arrHorariosSiguientesRegistrados);
                             sumarTotalHorasPorSemana(arrFechasPorSemana);
-                        });
-                        $("#divEstadoCalendario").html("");
-                        $("#btnImprimirCalendario").hide();
-                        $("#divArrastre").show();
-                        $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
-                        $("#hdnTipoHorarioParaCuposCalendario").val(0);
-                        $("#hdnFechaIniParaCuposCalendario").val(0);
-                        $("#hdnFechaFinParaCuposCalendario").val(0);
+                            cargarJornadasLaborales(accion,0);
+                            $("#divLstTolerancias").hide();
+                            $("#divDatosTolerancia").hide();
+                            $("#divGrupoBotonesAprobacion").hide();
+                            $("#divGrupoBotonesElaboracion").show();
+                            $("#lstJornadasLaborales").off();
+                            $("#lstJornadasLaborales").on("change",function(){
+                                sumarTotalHorasPorSemana(arrFechasPorSemana);
+                            });
+                            $("#divEstadoCalendario").html("");
+                            $("#btnImprimirCalendario").hide();
+                            $("#divArrastre").show();
+                            $("#hdnIdPerfilLaboralParaCuposCalendario").val(0);
+                            $("#hdnTipoHorarioParaCuposCalendario").val(0);
+                            $("#hdnFechaIniParaCuposCalendario").val(0);
+                            $("#hdnFechaFinParaCuposCalendario").val(0);
+                        }
+
                     });
                     /**
                      * Modificar registro de turno laboral.
@@ -971,4 +1006,89 @@ function obtenerFechaMasDias(fecha,dias){
         }).responseText;
     }
     return fechaRes;
+}
+/**
+ * Función para la carga de gestiones disponibles para la generación de turnos.
+ * @param idPerfillaboral
+ */
+function cargarGestionesDisponiblesParaGenerarTurno(idPerfillaboral){
+    var lista = "";
+    $("#lstGestionTurno").html("");
+    $("#lstGestionTurno").append("<option value=''>Seleccionar</option>");
+    $("#lstGestionTurno").prop("disabled",false);
+    $.ajax({
+            url: '/perfileslaborales/getgestiones/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id_perfillaboral:idPerfillaboral},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, gestion) {
+                        lista += "<option value='"+gestion+"'>"+gestion+"</option>";
+                    });
+                }
+            }
+        });
+        if(lista!='')$("#lstGestionTurno").append(lista);
+        else $("#lstGestionTurno").prop("disabled",true);
+}
+/**
+ * Función para la carga del combo de meses disponibles para la generación de turnos laborales.
+ * @param idPerfilLaboral
+ * @param gestion
+ */
+function cargarMesesDisponiblesParaGenerarTurno(idPerfilLaboral,gestion){
+    $("#lstMesTurno").html("");
+    $("#lstMesTurno").append("<option value=''>Seleccionar</option>");
+    $("#lstMesTurno").prop("disabled",false);
+    var lista = "";
+    if(idPerfilLaboral>0&&gestion>0){
+        $.ajax({
+            url: '/perfileslaborales/getmeses/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {id_perfillaboral:idPerfilLaboral,gestion:gestion},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        lista += "<option value='"+val.mes+"'>"+val.mes_nombre+"</option>";
+                    });
+                }
+            }
+        });
+        if(lista!='')$("#lstMesTurno").append(lista);
+        else $("#lstMesTurno").prop("disabled",true);
+    }else{
+        $("#lstMesTurno").prop("disabled",true);
+    }
+}
+/**
+ * Función para validar el modal con los datos de la gestión y mes para la generación del calendario correspondiente.
+ */
+function validarModalGestionTurno(){
+    var ok=true;
+    var msje = "";
+    $("#lstGestionTurno").removeClass("has-error");
+    $("#helpErrorGestionTurno").html("");
+    $("#lstMesTurno").removeClass("has-error");
+    $("#helpErrorMesTurno").html("");
+    if($("#lstGestionTurno").val()==null||$("#lstGestionTurno").val()==''||$("#lstGestionTurno").val()==0){
+        ok=false;
+        msje = "Debe seleccionar necesariamente la gesti&oacute;n para la generaci&oacute; del turno laboral."
+        $("#lstGestionTurno").addClass("has-error");
+        $("#helpErrorGestionTurno").html(msje);
+    }
+    if($("#lstMesTurno").val()==null||$("#lstMesTurno").val()==''||$("#lstMesTurno").val()==0){
+        ok=false;
+        msje = "Debe seleccionar necesariamente el mes para la generaci&oacute; del turno laboral."
+        $("#lstMesTurno").addClass("has-error");
+        $("#helpErrorMesTurno").html(msje);
+    }
+    return ok;
 }

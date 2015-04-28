@@ -104,9 +104,9 @@ class Fferiados extends \Phalcon\Mvc\Model {
      * @param $fechaFin
      * @return Resultset
      */
-    public function getAllRange($dia,$mes,$gestion,$fechaIni,$fechaFin)
+    public function getAllRange($gestion,$fechaIni,$fechaFin)
     {   if($gestion>0&&$fechaIni!=""&&$fechaFin!=""){
-        $sql = "SELECT * FROM f_feriados_rango($dia,$mes,$gestion)";
+        $sql = "SELECT * FROM f_feriados_por_gestion($gestion)";
         $sql .= " WHERE '".$fechaIni."' BETWEEN fecha_ini AND fecha_fin";
         $sql .= " OR '".$fechaFin."' BETWEEN fecha_ini AND fecha_fin";
         $sql .= " OR fecha_ini BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";

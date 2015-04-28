@@ -167,10 +167,15 @@ class FeriadosController extends ControllerBase
             $repetitivo = $_POST["repetitivo"];
             $dia = $_POST["dia"];
             $mes = $_POST["mes"];
-            $gestion = $_POST["gestion"];
+            $gestion = 0;
+            if(isset($_POST["gestion"])&&$_POST["gestion"]>0)
+                $gestion = $_POST["gestion"];
             $observacion = $_POST['observacion'];
             if($feriado!=""&&$mes>0&&$dia>0){
-                $cantMismosDatos = Feriados::count(array("feriado LIKE '".$feriado."' AND dia=".$dia." AND mes=".$mes." AND gestion=".$gestion." AND baja_logica=1 AND estado>=0"));
+                if($gestion>0)
+                    $cantMismosDatos = Feriados::count(array("feriado LIKE '".$feriado."' AND dia=".$dia." AND mes=".$mes." AND gestion=".$gestion." AND baja_logica=1 AND estado>=0"));
+                else
+                    $cantMismosDatos = Feriados::count(array("feriado LIKE '".$feriado."' AND dia=".$dia." AND mes=".$mes." AND baja_logica=1 AND estado>=0"));
                 if($cantMismosDatos==0){
                     $objFeriado = new Feriados();
                     $objFeriado->feriado = $feriado;
@@ -307,20 +312,12 @@ class FeriadosController extends ControllerBase
         $this->view->disable();
         $obj = new Fferiados();
         $horariolaboral = Array();
-        $dia = 0;
-        $mes = 0;
         $gestion = 0;
         if(isset($_POST["gestion"])&&isset($_POST["fecha_ini"])&&isset($_POST["fecha_fin"])){
             $gestion = $_POST["gestion"];
-            if(isset($_POST["mes"])&&$_POST["gestion"]>0){
-                $mes = $_POST["mes"];
-            }
-            if(isset($_POST["dia"])&&$_POST["dia"]>0){
-                $dia = $_POST["dia"];
-            }
             $fechaIni = $_POST["fecha_ini"];
             $fechaFin = $_POST["fecha_fin"];
-            $resul = $obj->getAllRange($dia,$mes,$gestion,$fechaIni,$fechaFin);
+            $resul = $obj->getAllRange($gestion,$fechaIni,$fechaFin);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {

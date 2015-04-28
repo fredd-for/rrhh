@@ -2818,5 +2818,44 @@ class PerfileslaboralesController extends ControllerBase
         echo json_encode($rangoFechas);
     }
 
+    /**
+     * Función para la obtención del listado de gestiones para la generación de turnos laborales.
+     */
+    public function getgestionesAction(){
+        $this->view->disable();
+        $rangoGestiones = [];
+        $hoy = date("Y-m-d");
+        if(isset($_POST["id_perfillaboral"])){
+            $objPerfil = new Perfileslaborales();
+            $resul = $objPerfil->getGestionesByPerfilLaboral(NULL,$_POST["id_perfillaboral"]);
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $rangoGestiones[] = $v->o_gestiones;
+                }
+            }
+        }
+        echo json_encode($rangoGestiones);
+    }
+    /**
+     * Función para la obtención del listado de meses para la generación de turnos laborales.
+     */
+    public function getmesesAction(){
+        $this->view->disable();
+        $rangoMeses = [];
+        $hoy = date("Y-m-d");
+        if(isset($_POST["id_perfillaboral"])&&isset($_POST["gestion"])){
+            $objPerfil = new Perfileslaborales();
+            $resul = $objPerfil->getMesesByPerfilLaboralAndGestion($_POST["id_perfillaboral"],$_POST["gestion"]);
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $rangoMeses[] = array(
+                        'mes'=>$v->mes,
+                        'mes_nombre' => $v->mes_nombre
+                    );
+                }
+            }
+        }
+        echo json_encode($rangoMeses);
+    }
     #endregion Funciones referentes a la gestión de Calendario y Horarios Laborales
 }

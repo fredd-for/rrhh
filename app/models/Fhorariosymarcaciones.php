@@ -343,6 +343,7 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_horariosymarcaciones_calculos_totales_global() ";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
+        //echo "<p>---->".$sql."</p>";
         $this->_db = new Fhorariosymarcaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
@@ -357,11 +358,26 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
      * @param $idCalendariolaboral
      * @return Resultset
      */
-    public function getExcepcionEnDia($idRelaboral,$idExcepcion,$gestion,$mes,$dia,$idCalendariolaboral,$opcion=0)
+    public function getExcepcionesEnDia($idRelaboral,$idExcepcion,$gestion,$mes,$dia,$idCalendariolaboral,$opcion=0)
     {   if($gestion>0&&$mes>0&&$dia>0&&$idCalendariolaboral>0) {
         $sql = "SELECT f_excepciones_en_dia FROM f_excepciones_en_dia($idRelaboral,$idExcepcion,$gestion,$mes,$dia,$idCalendariolaboral,$opcion) ";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-        }
+    }
+    }
+
+    /**
+     * Función para la obtención en un sólo resultado el conjunto de feriados en un día en particular.
+     * @param $gestion
+     * @param $mes
+     * @param $dia
+     * @param int $opcion
+     * @return Resultset
+     */
+    public function getFeriadosEnDia($gestion,$mes,$dia,$opcion=0)
+    {   if($gestion>0&&$mes>0&&$dia>0) {
+        $sql = "SELECT f_feriados_en_dia FROM f_feriados_en_dia('$dia-$mes-$gestion',$opcion) ";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
     }
     /**
      * Función para la obtención del listado de fechas de acuerdo al rango enviado de fechas.

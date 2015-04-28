@@ -40,6 +40,34 @@ class Perfileslaborales  extends \Phalcon\Mvc\Model {
         if($finDeSemana>=0)$sql .= " WHERE o_fin_de_semana=".$finDeSemana;
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de gestiones disponibles para la generación de turnos laborales.
+     * @param $fecha
+     * @param $idPerfilLaboral
+     * @return Resultset
+     */
+    public function getGestionesByPerfilLaboral($fecha=NULL,$idPerfilLaboral){
+        if($fecha!=''&&$fecha!=NULL)
+        $sql = "SELECT f_listado_gestiones_generacion_calendarios AS o_gestiones FROM f_listado_gestiones_generacion_calendarios('".$fecha."',".$idPerfilLaboral.")";
+        else $sql = "SELECT f_listado_gestiones_generacion_calendarios AS o_gestiones FROM f_listado_gestiones_generacion_calendarios(NULL,".$idPerfilLaboral.")";
+        //echo "<p>---->".$sql;
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de meses disponibles un una determinada gestión para un perfil laboral.
+     * @param null $fecha
+     * @param $idPerfilLaboral
+     * @param $mes
+     * @return Resultset
+     */
+    public function getMesesByPerfilLaboralAndGestion($idPerfilLaboral,$gestion){
+        if($gestion>0){
+            $sql = "SELECT * FROM f_listado_meses_generacion_calendarios($idPerfilLaboral,$gestion)";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
     /**
      * Verifica que una fecha esté dentro del rango de fechas establecidas
      * @param $start_date fecha de inicio

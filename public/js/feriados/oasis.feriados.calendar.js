@@ -97,38 +97,6 @@ function iniciarCalendarioLaboralConFeriados(arrFeriados,defaultGestion,defaultM
         weekNumberTitle:"#Semana",
         timeFormat: 'H(:mm)', // Mayusculas H de 24-horas
         events: arrHorariosRegistrados,
-        annotations: [
-            {
-                start: new Date(y, m, d, 13, 0),
-                end: new Date(y, m, d, 15, 30),
-                title: 'My 1st annotation',
-                cls: 'open',
-                color: '#777777', // optional
-                background: '#eeeeff' // optional
-            },
-            {
-                start: new Date(y, m, d+1, 15, 0),
-                end: new Date(y, m, d+1, 16, 45),
-                title: 'On vacations',
-                cls: 'vacation',
-                color: '#777777',
-                background: '#eeeef0' // optional
-            },
-            {
-                start: new Date(y, m, d+1, 16, 0),
-                end: new Date(y, m, d+1, 18, 30),
-                title: 'Overlapping annotation',
-                cls: 'open',
-                color: '#777777', // optional
-                background: '#eeeedd' // optional
-            },
-            {
-// just minimal fields for annotation
-                start: new Date(y, m, d-1, 12, 0),
-                end: new Date(y, m, d-1, 14, 0)
-            }
-        ],
-            /*dayRender: function (date, cell) {},*/
         viewRender: function(view) {
             renderAnnotations(view,"sdnfdsjanfkjsan");
             switch (view.name){
@@ -208,22 +176,6 @@ function iniciarCalendarioLaboralConFeriados(arrFeriados,defaultGestion,defaultM
                             });
                         });
                     });
-
-
-
-                    /*var fechaInicialCalendario = "";
-                    var fechaFinalCalendario = "";
-
-                    var moment = $('#calendar').fullCalendar('getDate');
-                    fechaInicialCalendario = fechaConvertirAFormato(moment,'-');
-                    var arrFechaInicial = fechaInicialCalendario.split("-");
-                    fechaInicialCalendario = "01-"+arrFechaInicial[1]+"-"+arrFechaInicial[2];
-                    fechaFinalCalendario =  obtenerUltimoDiaMes(fechaInicialCalendario);
-                    $("#hdnFechaInicialCalendario").val(fechaInicialCalendario);
-                    $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);*/
-
-
-
                 }
                     break;
                 case "agendaWeek":

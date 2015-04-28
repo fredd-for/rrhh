@@ -576,7 +576,7 @@ function inicializaFormularioNuevoEditar(opcion,repetitivo){
 
     $("#txtDia"+sufijo).val("");
     $("#txtMes"+sufijo).val("");
-    $("#txtFechaEspecifica"+sufijo).val("");
+    $("#txtFechaEspecifica"+sufijo).val("").datepicker("update");
 
     if(repetitivo==0){
         $("#chkRepetitivo"+sufijo).bootstrapSwitch("state",false);

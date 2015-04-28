@@ -481,7 +481,6 @@ class RelaboralesperfilesController extends ControllerBase{
                  * Baja de registro
                  */
                 $objRelaboralesperfiles = Relaboralesperfiles::findFirst(array("id=".$_POST["id"]));
-                $objRelaboralesperfiles->estado = 0;
                 $objRelaboralesperfiles->baja_logica = 0;
                 $objRelaboralesperfiles->user_mod_id = $user_mod_id;
                 $objRelaboralesperfiles->fecha_mod = $hoy;
