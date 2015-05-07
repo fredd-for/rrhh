@@ -132,7 +132,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                  * vigente, siempre y cuando las fechas de asignación no tengan conflicto con otras fechas
                                  * registradas.
                                  */
-                                if (dataRecord.estado>=1) {
+                                if (dataRecord.estado>=0) {
                                     $("#hdnAccionAsignacionSinglePerfil").val(1);
                                     $("#spanPrefijoFormularioAsignacionSingle").html("Nueva ");
                                     var fechaMin = fechaConvertirAFormato(dataRecord.fecha_ini,"-");

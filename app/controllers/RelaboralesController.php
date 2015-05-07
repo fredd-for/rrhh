@@ -246,7 +246,7 @@ class RelaboralesController extends ControllerBase
         if(isset($_POST["id_ubicacion"])&&$_POST["id_ubicacion"]>0){
             $idUbicacion=$_POST["id_ubicacion"];
         }
-        $sql = " WHERE estado>=1 ";
+        $sql = " WHERE estado>=0 ";
         if($idUbicacion>0)
             $sql .= " AND id_ubicacion=".$idUbicacion;
         $resul = $obj->getAll($sql);

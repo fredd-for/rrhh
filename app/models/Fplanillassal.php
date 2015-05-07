@@ -12,11 +12,18 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
     public $id;
     public $da_id;
     public $ejecutora_id;
+    public $unidad_ejecutora;
     public $regional_id;
+    public $regional;
     public $gestion;
     public $mes;
+    public $mes_nombre;
     public $finpartida_id;
+    public $fin_partida;
+    public $condicion_id;
+    public $condicion;
     public $tipoplanilla_id;
+    public $tipo_planilla;
     public $numero;
     public $total_ganado;
     public $total_liquido;
@@ -44,7 +51,7 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
      */
     public function initialize()
     {
-        $this->setSchema("");
+        $this->_db = new Perfileslaborales();
     }
     /**
      * Independent Column Mapping.
@@ -55,11 +62,18 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
             'id'=>'id',
             'da_id'=>'da_id',
             'ejecutora_id'=>'ejecutora_id',
+            'unidad_ejecutora'=>'unidad_ejecutora',
             'regional_id'=>'regional_id',
+            'regional'=>'regional',
             'gestion'=>'gestion',
             'mes'=>'mes',
+            'mes_nombre'=>'mes_nombre',
             'finpartida_id'=>'finpartida_id',
-            'tipoplanilla_id'=>'ipoplanilla_id',
+            'fin_partida'=>'fin_partida',
+            'condicion_id'=>'condicion_id',
+            'condicion'=>'condicion',
+            'tipoplanilla_id'=>'tipoplanilla_id',
+            'tipo_planilla'=>'tipo_planilla',
             'numero'=>'numero',
             'total_ganado'=>'total_ganado',
             'total_liquido'=>'total_liquido',
@@ -92,10 +106,83 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
      * @return Resultset
      */
     public function getAll($where='',$group=''){
-        $sql = "SELECT p.id as id_persona,CAST(REPLACE(p.p_apellido||' '||CASE WHEN p.s_apellido IS NOT NULL THEN p.s_apellido ELSE '' END ||CASE WHEN p.c_apellido IS NOT NULL THEN ' '||p.c_apellido ELSE '' END ||CASE WHEN p.p_nombre IS NOT NULL THEN ' '||p.p_nombre ELSE '' END ||CASE WHEN p.s_nombre IS NOT NULL THEN ' '||p.s_nombre ELSE '' END ||CASE WHEN p.t_nombre IS NOT NULL THEN ' '||p.t_nombre ELSE '' END ,'  ',' ') AS character varying) AS nombres,";
+        $sql = "SELECT * FROM f_planillassal()";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
         $this->_db = new Fplanillassal();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para generar la planilla salarial
+     * @param $gestion
+     * @param $mes
+     * @param $idFinPartida
+     * @param $jsonIdRelaborales
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
+        if($gestion>0&&$mes>0&&$idFinPartida>0){
+            if($jsonIdRelaborales!='')
+                $sql = "SELECT * FROM f_relaborales_planillas($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
+            else
+                $sql = "SELECT * FROM f_relaborales_planillas($gestion,$mes,$idFinPartida,NULL)";
+            if($where!='')$sql .= $where;
+            if($group!='')$sql .= $group;
+            $this->_db = new Fplanillassal();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
+    /**
+     * Función para la obtención del listado de gestiones disponibles para la generación de planillas salariales.
+     * @param null $fecha
+     * @return Resultset
+     */
+    public function getGestionesGeneracionPlanillas($fecha=NULL){
+        if($fecha!=''&&$fecha!=NULL)
+            $sql = "SELECT f_listado_gestiones_generacion_planillasssal AS o_gestiones FROM f_listado_gestiones_generacion_planillasssal('".$fecha."')";
+        else $sql = "SELECT f_listado_gestiones_generacion_planillasssal AS o_gestiones FROM f_listado_gestiones_generacion_planillasssal(NULL)";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de meses disponibles para la generación de planillas salariales.
+     * @param $gestion
+     * @return Resultset
+     */
+    public function getMesesGeneracionPlanillas($gestion){
+        if($gestion>0){
+            $sql = "SELECT * FROM f_listado_meses_generacion_planillasssal($gestion)";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+    /**
+     * Función para la obtención del listado de financiamientos por partida (Fuentes de Financimiento) disponibles para la generación de planillas salariales.
+     * Se considera una gestión y mes en particular.
+     * @param $gestion
+     * @return Resultset
+     */
+    public function getFinPartidasGeneracionPlanillas($gestion,$mes){
+        if($gestion>0&&$mes>0){
+            $sql = "SELECT * FROM f_listado_finpartidas_generacion_planillasssal($gestion,$mes)";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
+    /**
+     * Función para la obtención del listado de tipos de planillas para la generación de planillas salariales.
+     * @param $gestion
+     * @param $mes
+     * @param $idFinPartida
+     * @return Resultset
+     */
+    public function getTiposPlanillasGeneracionPlanillas($gestion,$mes,$idFinPartida){
+        if($gestion>0&&$mes>0&&$idFinPartida>0){
+            $sql = "SELECT * FROM f_listado_tipos_planillas_diponibles_generacion_planillassal($gestion,$mes,$idFinPartida)";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
     }
 }

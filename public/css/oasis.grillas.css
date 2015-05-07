@@ -11,6 +11,10 @@
 .fc-sat, .fc-sun{
     background-color: yellow;
 }
+.azul {
+    color: black \9;
+    background-color: #3085ff \9;
+}
 .verde {
     color: black \9;
     background-color: #b6ff00 \9;
