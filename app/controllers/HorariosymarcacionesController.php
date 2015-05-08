@@ -713,7 +713,7 @@ class HorariosymarcacionesController extends ControllerBase
 
             $obj = new Frelaboraleshorariosymarcaciones();
             $idRelaboral=0;
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 $where = " WHERE ci='".$ci."'";
             }
             $resul = $obj->getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where);
@@ -3275,7 +3275,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 if($where!='')$where.=" AND ci='".$ci."'";
                 else $where.=" WHERE ci='".$ci."'";
             }
@@ -5682,7 +5682,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 if($where!='')$where.=" AND ci='".$ci."'";
                 else $where.=" WHERE ci='".$ci."'";
             }

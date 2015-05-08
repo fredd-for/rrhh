@@ -75,9 +75,8 @@ $().ready(function () {
                     if(ok1&&ok2){
                         contador++;
                     }
-                    $("#divContador").html(contador_aux+":"+cantidad);
+                    $("#divContador").html("("+contador_aux+":"+cantidad+")");
                 }
-                $("#divContador").html("");
                 $('#divCarga').css('display','none');
                 if(contador>0&&contador==cantidad){
                     var msje = "Se generaron los registros de marcaci&oacute;n prevista y efectiva para "+contador+" registros de relaci&oacute;n laboral.";
