@@ -64,6 +64,10 @@ class ServercargosController extends ControllerBase
                     ->addJs('/js/jqwidgets/jqxnotification.js')
                     ->addJs('/js/jqwidgets/jqxbuttongroup.js')
                     ->addJs('/js/bootbox.js');
+
+                    $resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
+		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
+
 	}
 
 // 	public function listAction()
@@ -278,17 +282,27 @@ ORDER BY c.organigrama_id asc, c.codigo_nivel asc ";
 		foreach ($resul as $v) {
 			$customers[] = array(
 				'id' => $v->id,
-				'resolucion_ministerial_id' => $v->resolucion_ministerial_id,
-				'organigrama_id' => $v->organigrama_id,
-				'codigo_nivel' => $v->codigo_nivel,
-				'codigo' => $v->codigo,
-				'ordenador' => $v->ordenador,
-				'cargo' => $v->cargo,
-				'depende_id' => $v->depende_id,
-				'estado' => $v->estado,
-				'fin_partida_id' => $v->fin_partida_id,
-				'jefe' => $v->jefe,
-				'fecha_reg' => $v->fecha_reg,
+			'resolucion_ministerial_id' => $v->resolucion_ministerial_id,
+			'tipo_resolucion' => $v->tipo_resolucion,
+			'unidad_administrativa' => $v->unidad_administrativa,
+			'organigrama_id' => $v->organigrama_id,
+			'codigo_nivel' => $v->codigo_nivel,
+			'codigo' => $v->codigo,
+			'ordenador' => $v->ordenador,
+			'cargo' => $v->cargo,
+			'denominacion' => $v->denominacion,
+			'sueldo' => intval($v->sueldo),
+			'depende_id' => $v->depende_id,
+			'estado' => $v->estado,
+			'condicion' => $v->condicion,
+			'fin_partida_id' => $v->fin_partida_id,
+			'partida' => $v->partida,
+			'fuente_codigo' => $v->fuente_codigo,
+			'fuente' => $v->fuente,
+			'organismo_codigo' => $v->organismo_codigo,
+			'organismo' => $v->organismo,
+			'asistente' => $v->asistente,
+			'jefe' => $v->jefe,
 				);
 		}
 		$data[] = array('TotalRows' => $total_rows,'Rows' => $customers);

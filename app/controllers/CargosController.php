@@ -115,7 +115,7 @@ class CargosController extends ControllerBase
 				Nivelsalariales::find(array('baja_logica=1',"order"=>"id ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname")),
 				//Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "fullname"),
-				'useEmpty' => tue,
+				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
 				'class' => 'form-control'

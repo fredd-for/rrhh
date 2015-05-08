@@ -14,6 +14,9 @@
         <group>
             <file>file:/var/www/html/rrhh/app/controllers/ControllerBase.php</file>
             <file>file:/var/www/html/rrhh/app/controllers/ServercargosController.php</file>
+            <file>file:/var/www/html/rrhh/app/models/Cargos.php</file>
+            <file>file:/var/www/html/rrhh/app/config/services.php</file>
+            <file>file:/var/www/html/rrhh/index.php</file>
         </group>
     </open-files>
 </project-private>
