@@ -368,7 +368,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
         case 1: ruta = "/horariosymarcaciones/exportcalculosexcel/";break;
         case 2: ruta = "/horariosymarcaciones/exportcalculospdf/";break;
     }
-
+    if(carnet=='')carnet=0;
     if(ruta!='')
         window.open(ruta+"/"+carnet+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }

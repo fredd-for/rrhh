@@ -50,6 +50,49 @@ $().ready(function () {
             }
         }
     });
+    /**
+     * Función para ejecutar la generación de marcaciones previstas y efectivas de manera grupal para un conjunto de registro de relación laboral.
+     */
+    $("#btnAplicarGestionGeneracionMarcaciones").on("click",function(){
+            var gestion = $("#lstGestionGeneracionMarcaciones").val();
+            var mes = $("#lstMesGeneracionMarcaciones").val();
+            if(gestion>0&&mes>0){
+                $("#popupGestionMesGeneracionMarcaciones").modal("hide");
+                var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
+                var contador = 0;
+                var contador_aux = 0;
+                var cantidad = rows.length;
+                for (var m = 0; m < rows.length; m++) {
+                    if(m==0){
+                        $("#divCarga").css({display:'block'});
+                    }
+                    var row = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
+                    var fechaIni = "01-"+mes+"-"+gestion;
+                    var fechaFin =  obtenerUltimoDiaMes(fechaIni);
+                    var ok1 = generarMarcacion(0,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
+                    var ok2 = generarMarcacion(0,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                    contador_aux++;
+                    if(ok1&&ok2){
+                        contador++;
+                    }
+                    $("#divContador").html("("+contador_aux+":"+cantidad+")");
+                }
+                $('#divCarga').css('display','none');
+                if(contador>0&&contador==cantidad){
+                    var msje = "Se generaron los registros de marcaci&oacute;n prevista y efectiva para "+contador+" registros de relaci&oacute;n laboral.";
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(msje);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                }else{
+                    var msje = "Se generaron "+contador+" registros de marcaci&oacute;n prevista y efectiva para "+cantidad+" registros de relaci&oacute;n laboral seleccionadas.";
+                    $("#divMsjePorWarning").html("");
+                    $("#divMsjePorWarning").append(msje);
+                    $("#divMsjeNotificacionWarning").jqxNotification("open");
+                }
+            }else{
+
+            }
+    });
     $("#btnGuardarBaja").click(function () {
         var ok = validaFormularioPorBajaRegistro();
         if (ok) {
@@ -356,16 +399,19 @@ function definirGrillaParaListaRelaborales() {
                 filterable: true,
                 showtoolbar: true,
                 autorowheight: true,
+                selectionmode:'checkbox',
                 rendertoolbar: function (toolbar) {
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='listrowbutton' class='btn btn-sm btn-primary' type='button'  title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'><i class='fa fa-list-alt fa-2x text-info' title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'/></i></button>");
                     container.append("<button id='calculaterowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para el c&aacute;lculo de asistencia.'><i class='gi gi-calculator fa-2x text-info' title='Formulario para el c&aacute;lculo de asistencia.'/></i></button>");
+                    container.append("<button id='generatemarcrowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para la generaci&oacute;n de la matriz de marcaciones previstas y efectivas para una gesti&oacute;n y mes determinados.'><i class='fa fa-flag-checkered fa-2x text-info' title='Formulario para la generaci&oacute;n de la matriz de marcaciones previstas y efectivas para una gesti&oacute;n y mes determinados.'/></i></button>");
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por relaci&oacute;n laboral.'/></i></button>");
 
                     $("#listrowbutton").jqxButton();
                     $("#calculaterowbutton").jqxButton();
+                    $("#generatemarcrowbutton").jqxButton();
                     $("#turnrowbutton").jqxButton();
                     $("#hdnIdRelaboralVista").val(0);
 
@@ -446,6 +492,28 @@ function definirGrillaParaListaRelaborales() {
                         }
                         var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
                         definirGrillaMarcacionesYCalculos(objParametro);
+                    });
+                    /**
+                     * Generar las marcaciones previstas y efectivas de manera directa
+                     */
+                    $("#generatemarcrowbutton").off();
+                    $("#generatemarcrowbutton").on("click",function(){
+
+                            var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
+                            if(rows.length>0) {
+                                $("#popupGestionMesGeneracionMarcaciones").modal("show");
+                                cargarGestionesDisponiblesParaGeneracionMarcaciones(0);
+                                cargarMesesDisponiblesParaGeneracionMarcaciones(0,0);
+                                $("#lstGestionGeneracionMarcaciones").off();
+                                $("#lstGestionGeneracionMarcaciones").on("change",function(){
+                                    cargarMesesDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),0);
+                                });
+                            }else{
+                                var msje = "Debe al menos seleccionar un registro para solicitar la generaci&oacute;n de las marcaciones previstas y efectivas.";
+                                $("#divMsjePorError").html("");
+                                $("#divMsjePorError").append(msje);
+                                $("#divMsjeNotificacionError").jqxNotification("open");
+                            }
                     });
                     /* Ver registro.*/
                     $("#turnrowbutton").off();
@@ -1919,4 +1987,72 @@ function obtenerFechaMasDias(fecha,dias){
  */
 function cerrarMensaje(tipo){
     alert("llego: "+tipo);
+}
+
+/**
+ * Función para la carga de gestiones disponibles para la generación de marcaciones previstas y efectivas.
+ * @param g
+ */
+function cargarGestionesDisponiblesParaGeneracionMarcaciones(g){
+    var lista = "";
+    $("#lstGestionGeneracionMarcaciones").html("");
+    $("#lstGestionGeneracionMarcaciones").append("<option value=''>Seleccionar</option>");
+    $("#lstGestionGeneracionMarcaciones").prop("disabled",false);
+    var selected = "";
+    $.ajax({
+        url: '/perfileslaborales/getgestiones/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id_perfillaboral:0},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, gestion) {
+                    if(g==gestion)selected="selected";
+                    else selected = "";
+                    lista += "<option value='"+gestion+"' "+selected+">"+gestion+"</option>";
+                });
+            }
+        }
+    });
+    if(lista!='')$("#lstGestionGeneracionMarcaciones").append(lista);
+    else $("#lstGestionGeneracionMarcaciones").prop("disabled",true);
+}
+/**
+ * Función para la obtención del listado de meses disponibles para la generación de marcaciones previstas y efectivas.
+ * @param gestion
+ * @param m
+ */
+function cargarMesesDisponiblesParaGeneracionMarcaciones(gestion,m){
+    $("#lstMesGeneracionMarcaciones").html("");
+    $("#lstMesGeneracionMarcaciones").append("<option value=''>Seleccionar</option>");
+    $("#lstMesGeneracionMarcaciones").prop("disabled",false);
+    var lista = "";
+    var selected = "";
+    if(gestion>0){
+        $.ajax({
+            url: '/horariosymarcaciones/getmeses/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {gestion:gestion},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        if(m==val.mes)selected="selected";
+                        else selected = "";
+                        lista += "<option value='"+val.mes+"' "+selected+">"+val.mes_nombre+"</option>";
+                    });
+                }
+            }
+        });
+        if(lista!='')$("#lstMesGeneracionMarcaciones").append(lista);
+        else $("#lstMesGeneracionMarcaciones").prop("disabled",true);
+    }else{
+        $("#lstMesGeneracionMarcaciones").prop("disabled",true);
+    }
 }

@@ -713,7 +713,7 @@ class HorariosymarcacionesController extends ControllerBase
 
             $obj = new Frelaboraleshorariosymarcaciones();
             $idRelaboral=0;
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 $where = " WHERE ci='".$ci."'";
             }
             $resul = $obj->getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where);
@@ -3275,7 +3275,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 if($where!='')$where.=" AND ci='".$ci."'";
                 else $where.=" WHERE ci='".$ci."'";
             }
@@ -5682,7 +5682,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''){
+            if($ci!=''&&$ci!=0){
                 if($where!='')$where.=" AND ci='".$ci."'";
                 else $where.=" WHERE ci='".$ci."'";
             }
@@ -7479,5 +7479,26 @@ class HorariosymarcacionesController extends ControllerBase
         }
         echo json_encode($msj);
     }
-
+    /**
+     * Función para la obtención del listado de meses para la generación de marcaciones previstas y efectivas.
+     */
+    public function getmesesAction(){
+        $this->view->disable();
+        $rangoMeses = [];
+        if(isset($_POST["gestion"])){
+            $rangoMeses[] = array('mes'=>1,'mes_nombre' => "ENERO");
+            $rangoMeses[] = array('mes'=>2,'mes_nombre' => "FEBRERO");
+            $rangoMeses[] = array('mes'=>3,'mes_nombre' => "MARZO");
+            $rangoMeses[] = array('mes'=>4,'mes_nombre' => "ABRIL");
+            $rangoMeses[] = array('mes'=>5,'mes_nombre' => "MAYO");
+            $rangoMeses[] = array('mes'=>6,'mes_nombre' => "JUNIO");
+            $rangoMeses[] = array('mes'=>7,'mes_nombre' => "JULIO");
+            $rangoMeses[] = array('mes'=>8,'mes_nombre' => "AGOSTO");
+            $rangoMeses[] = array('mes'=>9,'mes_nombre' => "SEPTIEMBRE");
+            $rangoMeses[] = array('mes'=>10,'mes_nombre' => "OCTUBRE");
+            $rangoMeses[] = array('mes'=>11,'mes_nombre' => "NOVIEMBRE");
+            $rangoMeses[] = array('mes'=>12,'mes_nombre' => "DICIEMBRE");
+        }
+        echo json_encode($rangoMeses);
+    }
 } 

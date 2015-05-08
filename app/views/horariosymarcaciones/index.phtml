@@ -39,6 +39,10 @@
                             Desfiltrar Todo
                         </button>
                     </div>
+                    <div id="divCarga" style="display:none" align="center">
+                        <div id="divContador"></div>
+                        <img src="../images/barra_carga.gif" />
+                    </div>
                     <div id="divGridRelaborales"></div>
                 </div>
             </div>
@@ -712,6 +716,40 @@
                 <button type="button" id="btnCerrarHorario" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
                 <button type="button" id="btnGuardarModificacionHorario" class="btn btn-primary"><i class="fa fa-pencil"></i>Guardar Modificaci&oacute;n de Fechas</button>
                 <button type="button" id="btnDescartarHorario" class="btn btn-primary"><i class="gi gi-bin"></i>Descartar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="popupGestionMesGeneracionMarcaciones" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="formGestionMesGeneracionMarcaciones" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="h4ModalGestionMesGeneracionMarcaciones">Gesti&oacute;n y Mes para la generaci&oacute;n de la matriz de marcaciones</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="div-gestion-mes-generacion-marcaciones" id="divGestionGeneracionMarcaciones">
+                        <label class="col-sm-2 control-label" for="lstGestionGeneracionMarcaciones">Gesti&oacute;n:</label>
+                        <div class="col-md-3"  form-group>
+                            <select id="lstGestionGeneracionMarcaciones" class="form-control"><option value="">Seleccionar...</option></select>
+                            <span class="help-block" id="helpErrorGestionGeneracionMarcaciones"></span>
+                        </div>
+                    </div>
+                    <div class="div-gestion-mes-generacion-marcaciones" id="divMesGeneracionMarcaciones">
+                        <label class="col-sm-2 control-label" for="lstMesGeneracionMarcaciones">Mes:</label>
+                        <div class="col-md-3"  form-group>
+                            <select id="lstMesGeneracionMarcaciones" class="form-control"><option value="">Seleccionar...</option></select>
+                            <span class="help-block" id="helpErrorMesGeneracionMarcaciones"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarGestionGeneracionMarcaciones" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarGestionGeneracionMarcaciones" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
             </div>
             </form>
         </div>
