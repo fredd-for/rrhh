@@ -604,7 +604,6 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
             $sql .= "h.relaboral_id = r.id_relaboral";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-
             $this->_db = new Frelaboraleshorariosymarcaciones();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }

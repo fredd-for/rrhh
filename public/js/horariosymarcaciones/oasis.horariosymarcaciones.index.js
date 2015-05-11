@@ -69,8 +69,8 @@ $().ready(function () {
                     var row = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
                     var fechaIni = "01-"+mes+"-"+gestion;
                     var fechaFin =  obtenerUltimoDiaMes(fechaIni);
-                    var ok1 = generarMarcacion(0,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
-                    var ok2 = generarMarcacion(0,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                    var ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
+                    var ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
                     contador_aux++;
                     if(ok1&&ok2){
                         contador++;
