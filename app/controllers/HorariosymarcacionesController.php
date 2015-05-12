@@ -4112,7 +4112,8 @@ class HorariosymarcacionesController extends ControllerBase
                             echo "<p>···································FILA·················································<p></p>";
                         }
                         $celdacolores = array();
-                        if($rowData[0]%7 == 0){
+                        //if($rowData[14] == 'EXCEPCIONES / FERIADOS'){
+                        if (in_array("EXCEPCIONES / FERIADOS", $rowData)){
                             if($excel->debug==1){
                                 echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
                             }
@@ -4149,6 +4150,19 @@ class HorariosymarcacionesController extends ControllerBase
                     print_r($totalTitleColSelecteds);
                     echo "<P>**********************************************************************************</P>";
                 }else{
+                    $hora = date("H");
+                    $hoy = date("d-m-Y");
+                    if($fechaFin==$hoy){
+                        if($hora<=12){
+
+                        }
+                    }
+                    /*if($totalFaltas>0){
+                        $totalFaltas = $totalFaltas-0.5;
+                    }
+                    if($totalOmision>0){
+                        $totalOmision = $totalOmision-1;
+                    }*/
                     $excel->agregarPaginaTotales($arrTotales,$totalColSelecteds,$totalTitleColSelecteds,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
                 }
             }
@@ -7921,6 +7935,10 @@ class HorariosymarcacionesController extends ControllerBase
         }
         echo json_encode($msj);
     }
+
+    /**
+     * Función para la obtención del registro de marcaciones previstas y efectivas.
+     */
     function generarmarcacionefectivaAction(){
         $auth = $this->session->get('auth');
         $user_reg_id = $user_mod_id = $auth['id'];
@@ -8410,5 +8428,18 @@ class HorariosymarcacionesController extends ControllerBase
             $rangoMeses[] = array('mes'=>12,'mes_nombre' => "DICIEMBRE");
         }
         echo json_encode($rangoMeses);
+    }
+    /**
+     * Función para la obtención del listado de tipos para la generación de marcaciones (Previstas y/o efectivas).
+     */
+    public function gettiposgeneracionAction(){
+        $this->view->disable();
+        $tipos = [];
+        if(isset($_POST["gestion"])&&isset($_POST["mes"])){
+            $tipos[] = array('tipo'=>1,'tipo_descripcion' => "PREVIA & EFECTIVA");
+            $tipos[] = array('tipo'=>2,'tipo_descripcion' => "PREVIA");
+            $tipos[] = array('tipo'=>3,'tipo_descripcion' => "EFECTIVA");
+        }
+        echo json_encode($tipos);
     }
 } 

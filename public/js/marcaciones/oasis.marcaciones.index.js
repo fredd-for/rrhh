@@ -43,6 +43,21 @@ $().ready(function () {
             else $("#txtFechaFinDescarga").focus();
         }
     });
+    $("#btnExportarTodasMarcacionesRangoExcel").on("click",function(){
+        var fechaIni = $("#txtFechaIniControlMarcaciones").val();
+        var fechaFin = $("#txtFechaFinControlMarcaciones").val();
+        if (fechaIni!='' && fechaFin!='') {
+            exportarReporteControlMarcaciones(3,0,fechaIni,fechaFin);
+        }
+        else {
+            if(fechaIni!='' && fechaFin!='')
+                var msje = "Debe seleccionar la fecha de inicio y finalizaci&oacute;n necesariamente para la obtenci&oacute;n del reporte solicitado.";
+            $("#divMsjePorWarning").html("");
+            $("#divMsjePorWarning").append(msje);
+            $("#divMsjeNotificacionWarning").jqxNotification("open");
+            $("#divListBoxMarcaciones").focus();
+        }
+    });
     /**
      * Control del evento de solicitud de guardar el registro de la excepción de control.
      */

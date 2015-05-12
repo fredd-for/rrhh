@@ -56,7 +56,9 @@ $().ready(function () {
     $("#btnAplicarGestionGeneracionMarcaciones").on("click",function(){
             var gestion = $("#lstGestionGeneracionMarcaciones").val();
             var mes = $("#lstMesGeneracionMarcaciones").val();
-            if(gestion>0&&mes>0){
+            var tipo = $("#lstTipoGeneracionMarcaciones").val();
+            $("#divContador").html("");
+            if(gestion>0&&mes>0&&tipo>0){
                 $("#popupGestionMesGeneracionMarcaciones").modal("hide");
                 var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
                 var contador = 0;
@@ -69,8 +71,20 @@ $().ready(function () {
                     var row = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
                     var fechaIni = "01-"+mes+"-"+gestion;
                     var fechaFin =  obtenerUltimoDiaMes(fechaIni);
-                    var ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
-                    var ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                    var ok1 = true;
+                    var ok2 = true;
+                    switch (tipo){
+                        case "1":
+                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
+                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                            break;
+                        case "2":
+                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
+                            break;
+                        case "3":
+                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                            break;
+                    }
                     contador_aux++;
                     if(ok1&&ok2){
                         contador++;
@@ -504,9 +518,14 @@ function definirGrillaParaListaRelaborales() {
                                 $("#popupGestionMesGeneracionMarcaciones").modal("show");
                                 cargarGestionesDisponiblesParaGeneracionMarcaciones(0);
                                 cargarMesesDisponiblesParaGeneracionMarcaciones(0,0);
+                                cargarTiposDisponiblesParaGeneracionMarcaciones(0,0,0);
                                 $("#lstGestionGeneracionMarcaciones").off();
                                 $("#lstGestionGeneracionMarcaciones").on("change",function(){
                                     cargarMesesDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),0);
+                                    cargarTiposDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),0,0);
+                                });
+                                $("#lstMesGeneracionMarcaciones").on("change",function(){
+                                    cargarTiposDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),$("#lstMesGeneracionMarcaciones").val(),0);
                                 });
                             }else{
                                 var msje = "Debe al menos seleccionar un registro para solicitar la generaci&oacute;n de las marcaciones previstas y efectivas.";
@@ -2054,5 +2073,42 @@ function cargarMesesDisponiblesParaGeneracionMarcaciones(gestion,m){
         else $("#lstMesGeneracionMarcaciones").prop("disabled",true);
     }else{
         $("#lstMesGeneracionMarcaciones").prop("disabled",true);
+    }
+}
+/**
+ * Función para la obtención del listado de tipos disponibles para la generación de marcaciones (Previstas y/o efectivas).
+ * @param gestion
+ * @param mes
+ * @param t
+ */
+function cargarTiposDisponiblesParaGeneracionMarcaciones(gestion,mes,t){
+    $("#lstTipoGeneracionMarcaciones").html("");
+    $("#lstTipoGeneracionMarcaciones").append("<option value=''>Seleccionar</option>");
+    $("#lstTipoGeneracionMarcaciones").prop("disabled",false);
+    var lista = "";
+    var selected = "";
+    if(gestion>0&&mes>0){
+        $.ajax({
+            url: '/horariosymarcaciones/gettiposgeneracion/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {gestion:gestion,mes:mes},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        if(t==val.tipo)selected="selected";
+                        else selected = "";
+                        lista += "<option value='"+val.tipo+"' "+selected+">"+val.tipo_descripcion+"</option>";
+                    });
+                }
+            }
+        });
+        if(lista!='')$("#lstTipoGeneracionMarcaciones").append(lista);
+        else $("#lstTipoGeneracionMarcaciones").prop("disabled",true);
+    }else{
+        $("#lstTipoGeneracionMarcaciones").prop("disabled",true);
     }
 }

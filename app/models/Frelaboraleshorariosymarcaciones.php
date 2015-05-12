@@ -597,11 +597,12 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
      * @return Resultset
      */
     public function getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where='',$group='')
-    {   if($idRelaboral>=0&&$fechaIni!=''&&$fechaFin!=''){
+    {
+        if($idRelaboral>=0&&$fechaIni!=''&&$fechaFin!=''){
             $sql = "SELECT r.nombres,r.ci,r.expd,r.cargo,r.sueldo,r.condicion,r.gerencia_administrativa,r.departamento_administrativo,r.area,r.ubicacion, ";
             $sql .= "h.estado_descripcion as estado_descripcion,h.* FROM f_relaborales() r ";
             $sql .= "INNER JOIN f_horariosymarcaciones_calculos_rango_fechas(r.id_relaboral,'".$fechaIni."','".$fechaFin."') h ON ";
-            $sql .= "h.relaboral_id = r.id_relaboral";
+            $sql .= "h.relaboral_id = r.id_relaboral ";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Frelaboraleshorariosymarcaciones();

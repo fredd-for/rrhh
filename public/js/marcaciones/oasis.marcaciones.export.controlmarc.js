@@ -93,6 +93,7 @@ function exportarReporteControlMarcaciones(option,idRelaboral,fechaIni,fechaFin)
     switch (option){
         case 1: ruta = "/marcaciones/exportcontrolmarcacionexcel/";break;
         case 2: ruta = "/marcaciones/exportcontrolmarcacionpdf/";break;
+        case 3: ruta = "/marcaciones/exportcontrolmarcaciontodoexcel/";break;
     }
 
     if(ruta!='')
