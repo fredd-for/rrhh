@@ -488,12 +488,12 @@ function definirGrillaParaListaPerfilesLaborales() {
                                 /*
                                  *  Para dar de baja un registro, este debe estar inicialmente en estado ACTIVO
                                  */
-                                if (dataRecord.estado == 1) {
+                                if (dataRecord.estado >= 1) {
                                     if(confirm("Esta seguro de dar de baja este perfil?")){
                                         guardarRegistroBajaPerfilLaboral(id_perfillaboral);
                                     }
                                 } else {
-                                    var msje = "Para dar de baja un registro, este debe estar en estado ACTIVO inicialmente.";
+                                    var msje = "Para dar de baja el registro, este debe estar en estado 'EN PROCESO' o 'ACTIVO' inicialmente.";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");

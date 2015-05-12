@@ -158,6 +158,7 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
             $sql .= " OR '".$fechaFin."' BETWEEN calendario_fecha_ini and calendario_fecha_fin";
         }
         $sql .= " ORDER BY calendario_fecha_ini,hora_entrada,calendario_fecha_fin,hora_entrada";
+        //echo "<p>--->".$sql;
         $this->_db = new Fcalendariolaboral();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

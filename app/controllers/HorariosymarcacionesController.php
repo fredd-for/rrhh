@@ -6712,346 +6712,6 @@ class HorariosymarcacionesController extends ControllerBase
     /**
      * Función para la generación del registro de marcación PREVISTA para un registro de relación laboral, gestión y mes determinados.
      */
-    function generarmarcacionprevistayyyAction(){
-        $auth = $this->session->get('auth');
-        $user_reg_id = $user_mod_id = $auth['id'];
-        $msj = Array();
-        $hoy = date("Y-m-d H:i:s");
-        $this->view->disable();
-        if(isset($_POST["opcion"])&&$_POST["opcion"]>0){
-            #region Edición de Registro
-            $idRelaboral = $_POST["id_relaboral"];
-            $gestion = $_POST["gestion"];
-            $mes = $_POST["mes"];
-            $fechaIni = $_POST["fecha_ini"];
-            $fechaFin = $_POST["fecha_fin"];
-            $clasemarcacion = $_POST["clasemarcacion"];
-            $objCL = new Fcalendariolaboral();
-            $turno = 0;
-            $grupo = 0;
-            $consultaEntrada="";
-            $consultaSalida="";
-            /**
-             * Se obtiene el listado de calendarios registrados para los perfiles correspondientes al registro de relación laboral
-             */
-            $resul = $objCL->getAllRegisteredByPerfilAndRelaboralRangoFechas(0,$idRelaboral,$fechaIni,$fechaFin);
-            if ($resul->count() > 0) {
-                foreach ($resul as $v) {
-                    $tipo_horario = $v->tipo_horario;
-                    $turno++;
-                    $grupo++;
-                    $ultimo_dia=0;
-                    $objRango = new Ffechasrango();
-                    $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
-                    if ($rangoFechas->count() > 0) {
-                        #region Estableciendo los valores para las variables del objeto
-                        $consultaEntrada = "relaboral_id=".$idRelaboral." AND ";
-                        $consultaEntrada .= "gestion=".$gestion." AND ";
-                        $consultaEntrada .= "mes=".$mes." AND ";
-                        $consultaEntrada .= "turno=".$turno." AND ";
-                        $consultaSalida = $consultaEntrada;
-                        $consultaEntrada .= "grupo=".$grupo." AND ";
-                        $grupo++;
-                        $consultaSalida .= "grupo=".$grupo." AND ";;
-
-                        $consultaEntrada .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
-                        $consultaSalida .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
-
-                        switch($clasemarcacion){
-                            case 'H':
-                                $consultaEntrada .= "modalidadmarcacion_id = 1 AND ";
-                                $consultaSalida .= "modalidadmarcacion_id = 4 AND ";
-                                break;
-                            case 'M':
-                                $consultaEntrada .= "modalidadmarcacion_id = 2 AND ";
-                                $consultaSalida .= "modalidadmarcacion_id = 5 AND ";
-                                break;
-                            case 'R':
-                                $consultaEntrada .= "modalidadmarcacion_id = 3 AND ";
-                                break;
-                            case 'A':
-                                $consultaSalida .= "modalidadmarcacion_id = 6 AND ";
-                                break;
-                        }
-                        $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
-                        $consultaSalida .= "estado>=1 AND baja_logica=1 ";
-                        /**
-                         * Se hace una consulta para ver los registro de entrada y salida válidos
-                         */
-                        $objMEntrada = Horariosymarcaciones::findFirst(array($consultaEntrada));
-                        $objMSalida = Horariosymarcaciones::findFirst(array($consultaSalida));
-                        if(is_object($objMEntrada)&&is_object($objMSalida)){
-
-                            /**
-                             * Se reinician todos los valores a objeto de no dejar rastros de los anteriores valores.
-                             * Sin embargo, el estado para un día en particular esta ya ELABORADO(2), APROBADO (3) o PLANILLADO (4) ya no se modificará el dato
-                             */
-                            if($objMEntrada->estado1 ==null||$objMEntrada->estado1 <=1){$objMEntrada->d1 =null;$objMEntrada->calendariolaboral1_id=null;$objMEntrada->estado1 =null;}
-                            if($objMEntrada->estado2 ==null||$objMEntrada->estado2 <=1){$objMEntrada->d2 =null;$objMEntrada->calendariolaboral2_id=null;$objMEntrada->estado2 =null;}
-                            if($objMEntrada->estado3 ==null||$objMEntrada->estado3 <=1){$objMEntrada->d3 =null;$objMEntrada->calendariolaboral3_id=null;$objMEntrada->estado3 =null;}
-                            if($objMEntrada->estado4 ==null||$objMEntrada->estado4 <=1){$objMEntrada->d4 =null;$objMEntrada->calendariolaboral4_id=null;$objMEntrada->estado4 =null;}
-                            if($objMEntrada->estado5 ==null||$objMEntrada->estado5 <=1){$objMEntrada->d5 =null;$objMEntrada->calendariolaboral5_id=null;$objMEntrada->estado5 =null;}
-                            if($objMEntrada->estado6 ==null||$objMEntrada->estado6 <=1){$objMEntrada->d6 =null;$objMEntrada->calendariolaboral6_id=null;$objMEntrada->estado6 =null;}
-                            if($objMEntrada->estado7 ==null||$objMEntrada->estado7 <=1){$objMEntrada->d7 =null;$objMEntrada->calendariolaboral7_id=null;$objMEntrada->estado7 =null;}
-                            if($objMEntrada->estado8 ==null||$objMEntrada->estado8 <=1){$objMEntrada->d8 =null;$objMEntrada->calendariolaboral8_id=null;$objMEntrada->estado8 =null;}
-                            if($objMEntrada->estado9 ==null||$objMEntrada->estado9 <=1){$objMEntrada->d9 =null;$objMEntrada->calendariolaboral9_id=null;$objMEntrada->estado9 =null;}
-                            if($objMEntrada->estado10==null||$objMEntrada->estado10<=1){$objMEntrada->d10=null;$objMEntrada->calendariolaboral10_id=null;$objMEntrada->estado10=null;}
-                            if($objMEntrada->estado11==null||$objMEntrada->estado11<=1){$objMEntrada->d11=null;$objMEntrada->calendariolaboral11_id=null;$objMEntrada->estado11=null;}
-                            if($objMEntrada->estado12==null||$objMEntrada->estado12<=1){$objMEntrada->d12=null;$objMEntrada->calendariolaboral12_id=null;$objMEntrada->estado12=null;}
-                            if($objMEntrada->estado13==null||$objMEntrada->estado13<=1){$objMEntrada->d13=null;$objMEntrada->calendariolaboral13_id=null;$objMEntrada->estado13=null;}
-                            if($objMEntrada->estado14==null||$objMEntrada->estado14<=1){$objMEntrada->d14=null;$objMEntrada->calendariolaboral14_id=null;$objMEntrada->estado14=null;}
-                            if($objMEntrada->estado15==null||$objMEntrada->estado15<=1){$objMEntrada->d15=null;$objMEntrada->calendariolaboral15_id=null;$objMEntrada->estado15=null;}
-                            if($objMEntrada->estado16==null||$objMEntrada->estado16<=1){$objMEntrada->d16=null;$objMEntrada->calendariolaboral16_id=null;$objMEntrada->estado16=null;}
-                            if($objMEntrada->estado17==null||$objMEntrada->estado17<=1){$objMEntrada->d17=null;$objMEntrada->calendariolaboral17_id=null;$objMEntrada->estado17=null;}
-                            if($objMEntrada->estado18==null||$objMEntrada->estado18<=1){$objMEntrada->d18=null;$objMEntrada->calendariolaboral18_id=null;$objMEntrada->estado18=null;}
-                            if($objMEntrada->estado19==null||$objMEntrada->estado19<=1){$objMEntrada->d19=null;$objMEntrada->calendariolaboral19_id=null;$objMEntrada->estado19=null;}
-                            if($objMEntrada->estado20==null||$objMEntrada->estado20<=1){$objMEntrada->d20=null;$objMEntrada->calendariolaboral20_id=null;$objMEntrada->estado20=null;}
-                            if($objMEntrada->estado21==null||$objMEntrada->estado21<=1){$objMEntrada->d21=null;$objMEntrada->calendariolaboral21_id=null;$objMEntrada->estado21=null;}
-                            if($objMEntrada->estado22==null||$objMEntrada->estado22<=1){$objMEntrada->d22=null;$objMEntrada->calendariolaboral22_id=null;$objMEntrada->estado22=null;}
-                            if($objMEntrada->estado23==null||$objMEntrada->estado23<=1){$objMEntrada->d23=null;$objMEntrada->calendariolaboral23_id=null;$objMEntrada->estado23=null;}
-                            if($objMEntrada->estado24==null||$objMEntrada->estado24<=1){$objMEntrada->d24=null;$objMEntrada->calendariolaboral24_id=null;$objMEntrada->estado24=null;}
-                            if($objMEntrada->estado25==null||$objMEntrada->estado25<=1){$objMEntrada->d25=null;$objMEntrada->calendariolaboral25_id=null;$objMEntrada->estado25=null;}
-                            if($objMEntrada->estado26==null||$objMEntrada->estado26<=1){$objMEntrada->d26=null;$objMEntrada->calendariolaboral26_id=null;$objMEntrada->estado26=null;}
-                            if($objMEntrada->estado27==null||$objMEntrada->estado27<=1){$objMEntrada->d27=null;$objMEntrada->calendariolaboral27_id=null;$objMEntrada->estado27=null;}
-                            if($objMEntrada->estado28==null||$objMEntrada->estado28<=1){$objMEntrada->d28=null;$objMEntrada->calendariolaboral28_id=null;$objMEntrada->estado28=null;}
-                            if($objMEntrada->estado29==null||$objMEntrada->estado29<=1){$objMEntrada->d29=null;$objMEntrada->calendariolaboral29_id=null;$objMEntrada->estado29=null;}
-                            if($objMEntrada->estado30==null||$objMEntrada->estado30<=1){$objMEntrada->d30=null;$objMEntrada->calendariolaboral30_id=null;$objMEntrada->estado30=null;}
-                            if($objMEntrada->estado31==null||$objMEntrada->estado31<=1){$objMEntrada->d31=null;$objMEntrada->calendariolaboral31_id=null;$objMEntrada->estado31=null;}
-
-                            if($objMSalida->estado1 ==null||$objMSalida->estado1 <=1){$objMSalida->d1 =null;$objMSalida->calendariolaboral1_id=null;$objMSalida->estado1 =null;}
-                            if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){$objMSalida->d2 =null;$objMSalida->calendariolaboral2_id=null;$objMSalida->estado2 =null;}
-                            if($objMSalida->estado3 ==null||$objMSalida->estado3 <=1){$objMSalida->d3 =null;$objMSalida->calendariolaboral3_id=null;$objMSalida->estado3 =null;}
-                            if($objMSalida->estado4 ==null||$objMSalida->estado4 <=1){$objMSalida->d4 =null;$objMSalida->calendariolaboral4_id=null;$objMSalida->estado4 =null;}
-                            if($objMSalida->estado5 ==null||$objMSalida->estado5 <=1){$objMSalida->d5 =null;$objMSalida->calendariolaboral5_id=null;$objMSalida->estado5 =null;}
-                            if($objMSalida->estado6 ==null||$objMSalida->estado6 <=1){$objMSalida->d6 =null;$objMSalida->calendariolaboral6_id=null;$objMSalida->estado6 =null;}
-                            if($objMSalida->estado7 ==null||$objMSalida->estado7 <=1){$objMSalida->d7 =null;$objMSalida->calendariolaboral7_id=null;$objMSalida->estado7 =null;}
-                            if($objMSalida->estado8 ==null||$objMSalida->estado8 <=1){$objMSalida->d8 =null;$objMSalida->calendariolaboral8_id=null;$objMSalida->estado8 =null;}
-                            if($objMSalida->estado9 ==null||$objMSalida->estado9 <=1){$objMSalida->d9 =null;$objMSalida->calendariolaboral9_id=null;$objMSalida->estado9 =null;}
-                            if($objMSalida->estado10==null||$objMSalida->estado10<=1){$objMSalida->d10=null;$objMSalida->calendariolaboral10_id=null;$objMSalida->estado10=null;}
-                            if($objMSalida->estado11==null||$objMSalida->estado11<=1){$objMSalida->d11=null;$objMSalida->calendariolaboral11_id=null;$objMSalida->estado11=null;}
-                            if($objMSalida->estado12==null||$objMSalida->estado12<=1){$objMSalida->d12=null;$objMSalida->calendariolaboral12_id=null;$objMSalida->estado12=null;}
-                            if($objMSalida->estado13==null||$objMSalida->estado13<=1){$objMSalida->d13=null;$objMSalida->calendariolaboral13_id=null;$objMSalida->estado13=null;}
-                            if($objMSalida->estado14==null||$objMSalida->estado14<=1){$objMSalida->d14=null;$objMSalida->calendariolaboral14_id=null;$objMSalida->estado14=null;}
-                            if($objMSalida->estado15==null||$objMSalida->estado15<=1){$objMSalida->d15=null;$objMSalida->calendariolaboral15_id=null;$objMSalida->estado15=null;}
-                            if($objMSalida->estado16==null||$objMSalida->estado16<=1){$objMSalida->d16=null;$objMSalida->calendariolaboral16_id=null;$objMSalida->estado16=null;}
-                            if($objMSalida->estado17==null||$objMSalida->estado17<=1){$objMSalida->d17=null;$objMSalida->calendariolaboral17_id=null;$objMSalida->estado17=null;}
-                            if($objMSalida->estado18==null||$objMSalida->estado18<=1){$objMSalida->d18=null;$objMSalida->calendariolaboral18_id=null;$objMSalida->estado18=null;}
-                            if($objMSalida->estado19==null||$objMSalida->estado19<=1){$objMSalida->d19=null;$objMSalida->calendariolaboral19_id=null;$objMSalida->estado19=null;}
-                            if($objMSalida->estado20==null||$objMSalida->estado20<=1){$objMSalida->d20=null;$objMSalida->calendariolaboral20_id=null;$objMSalida->estado20=null;}
-                            if($objMSalida->estado21==null||$objMSalida->estado21<=1){$objMSalida->d21=null;$objMSalida->calendariolaboral21_id=null;$objMSalida->estado21=null;}
-                            if($objMSalida->estado22==null||$objMSalida->estado22<=1){$objMSalida->d22=null;$objMSalida->calendariolaboral22_id=null;$objMSalida->estado22=null;}
-                            if($objMSalida->estado23==null||$objMSalida->estado23<=1){$objMSalida->d23=null;$objMSalida->calendariolaboral23_id=null;$objMSalida->estado23=null;}
-                            if($objMSalida->estado24==null||$objMSalida->estado24<=1){$objMSalida->d24=null;$objMSalida->calendariolaboral24_id=null;$objMSalida->estado24=null;}
-                            if($objMSalida->estado25==null||$objMSalida->estado25<=1){$objMSalida->d25=null;$objMSalida->calendariolaboral25_id=null;$objMSalida->estado25=null;}
-                            if($objMSalida->estado26==null||$objMSalida->estado26<=1){$objMSalida->d26=null;$objMSalida->calendariolaboral26_id=null;$objMSalida->estado26=null;}
-                            if($objMSalida->estado27==null||$objMSalida->estado27<=1){$objMSalida->d27=null;$objMSalida->calendariolaboral27_id=null;$objMSalida->estado27=null;}
-                            if($objMSalida->estado28==null||$objMSalida->estado28<=1){$objMSalida->d28=null;$objMSalida->calendariolaboral28_id=null;$objMSalida->estado28=null;}
-                            if($objMSalida->estado29==null||$objMSalida->estado29<=1){$objMSalida->d29=null;$objMSalida->calendariolaboral29_id=null;$objMSalida->estado29=null;}
-                            if($objMSalida->estado30==null||$objMSalida->estado30<=1){$objMSalida->d30=null;$objMSalida->calendariolaboral30_id=null;$objMSalida->estado30=null;}
-                            if($objMSalida->estado31==null||$objMSalida->estado31<=1){$objMSalida->d31=null;$objMSalida->calendariolaboral31_id=null;$objMSalida->estado31=null;}
-
-                            foreach($rangoFechas as $rango){
-                                $cal = Calendarioslaborales::find(array("perfillaboral_id=".$v->id_perfillaboral." AND horariolaboral_id=".$v->id_horariolaboral." AND '".$rango->fecha."' BETWEEN fecha_ini AND fecha_fin AND estado>=1 AND baja_logica=1"));
-                                if($cal->count()>0){
-                                    foreach($cal as $cl){
-                                        $arrFecha= explode("-",$rango->fecha);
-                                        $dia = intval($arrFecha[2]);
-                                        switch($dia){
-                                            case 1 :if($objMEntrada->estado1 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral1_id=$cl->id; $objMEntrada->estado1 =1;$objMEntrada->d1 =$v->hora_entrada;}if($objMSalida->estado1 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral1_id=$cl->id; $objMSalida->estado1 =1;$objMSalida->d1 =$v->hora_salida;}$ultimo_dia=1 ;break;
-                                            case 2 :if($objMEntrada->estado2 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral2_id=$cl->id; $objMEntrada->estado2 =1;$objMEntrada->d2 =$v->hora_entrada;}if($objMSalida->estado2 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral2_id=$cl->id; $objMSalida->estado2 =1;$objMSalida->d2 =$v->hora_salida;}$ultimo_dia=2 ;break;
-                                            case 3 :if($objMEntrada->estado3 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral3_id=$cl->id; $objMEntrada->estado3 =1;$objMEntrada->d3 =$v->hora_entrada;}if($objMSalida->estado3 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral3_id=$cl->id; $objMSalida->estado3 =1;$objMSalida->d3 =$v->hora_salida;}$ultimo_dia=3 ;break;
-                                            case 4 :if($objMEntrada->estado4 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral4_id=$cl->id; $objMEntrada->estado4 =1;$objMEntrada->d4 =$v->hora_entrada;}if($objMSalida->estado4 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral4_id=$cl->id; $objMSalida->estado4 =1;$objMSalida->d4 =$v->hora_salida;}$ultimo_dia=4 ;break;
-                                            case 5 :if($objMEntrada->estado5 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral5_id=$cl->id; $objMEntrada->estado5 =1;$objMEntrada->d5 =$v->hora_entrada;}if($objMSalida->estado5 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral5_id=$cl->id; $objMSalida->estado5 =1;$objMSalida->d5 =$v->hora_salida;}$ultimo_dia=5 ;break;
-                                            case 6 :if($objMEntrada->estado6 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral6_id=$cl->id; $objMEntrada->estado6 =1;$objMEntrada->d6 =$v->hora_entrada;}if($objMSalida->estado6 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral6_id=$cl->id; $objMSalida->estado6 =1;$objMSalida->d6 =$v->hora_salida;}$ultimo_dia=6 ;break;
-                                            case 7 :if($objMEntrada->estado7 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral7_id=$cl->id; $objMEntrada->estado7 =1;$objMEntrada->d7 =$v->hora_entrada;}if($objMSalida->estado7 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral7_id=$cl->id; $objMSalida->estado7 =1;$objMSalida->d7 =$v->hora_salida;}$ultimo_dia=7 ;break;
-                                            case 8 :if($objMEntrada->estado8 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral8_id=$cl->id; $objMEntrada->estado8 =1;$objMEntrada->d8 =$v->hora_entrada;}if($objMSalida->estado8 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral8_id=$cl->id; $objMSalida->estado8 =1;$objMSalida->d8 =$v->hora_salida;}$ultimo_dia=8 ;break;
-                                            case 9 :if($objMEntrada->estado9 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral9_id=$cl->id; $objMEntrada->estado9 =1;$objMEntrada->d9 =$v->hora_entrada;}if($objMSalida->estado9 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral9_id=$cl->id; $objMSalida->estado9 =1;$objMSalida->d9 =$v->hora_salida;}$ultimo_dia=9 ;break;
-                                            case 10:if($objMEntrada->estado10==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral10_id=$cl->id;$objMEntrada->estado10=1;$objMEntrada->d10=$v->hora_entrada;}if($objMSalida->estado10==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral10_id=$cl->id;$objMSalida->estado10=1;$objMSalida->d10=$v->hora_salida;}$ultimo_dia=10;break;
-                                            case 11:if($objMEntrada->estado11==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral11_id=$cl->id;$objMEntrada->estado11=1;$objMEntrada->d11=$v->hora_entrada;}if($objMSalida->estado11==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral11_id=$cl->id;$objMSalida->estado11=1;$objMSalida->d11=$v->hora_salida;}$ultimo_dia=11;break;
-                                            case 12:if($objMEntrada->estado12==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral12_id=$cl->id;$objMEntrada->estado12=1;$objMEntrada->d12=$v->hora_entrada;}if($objMSalida->estado12==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral12_id=$cl->id;$objMSalida->estado12=1;$objMSalida->d12=$v->hora_salida;}$ultimo_dia=12;break;
-                                            case 13:if($objMEntrada->estado13==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral13_id=$cl->id;$objMEntrada->estado13=1;$objMEntrada->d13=$v->hora_entrada;}if($objMSalida->estado13==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral13_id=$cl->id;$objMSalida->estado13=1;$objMSalida->d13=$v->hora_salida;}$ultimo_dia=13;break;
-                                            case 14:if($objMEntrada->estado14==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral14_id=$cl->id;$objMEntrada->estado14=1;$objMEntrada->d14=$v->hora_entrada;}if($objMSalida->estado14==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral14_id=$cl->id;$objMSalida->estado14=1;$objMSalida->d14=$v->hora_salida;}$ultimo_dia=14;break;
-                                            case 15:if($objMEntrada->estado15==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral15_id=$cl->id;$objMEntrada->estado15=1;$objMEntrada->d15=$v->hora_entrada;}if($objMSalida->estado15==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral15_id=$cl->id;$objMSalida->estado15=1;$objMSalida->d15=$v->hora_salida;}$ultimo_dia=15;break;
-                                            case 16:if($objMEntrada->estado16==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral16_id=$cl->id;$objMEntrada->estado16=1;$objMEntrada->d16=$v->hora_entrada;}if($objMSalida->estado16==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral16_id=$cl->id;$objMSalida->estado16=1;$objMSalida->d16=$v->hora_salida;}$ultimo_dia=16;break;
-                                            case 17:if($objMEntrada->estado17==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral17_id=$cl->id;$objMEntrada->estado17=1;$objMEntrada->d17=$v->hora_entrada;}if($objMSalida->estado17==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral17_id=$cl->id;$objMSalida->estado17=1;$objMSalida->d17=$v->hora_salida;}$ultimo_dia=17;break;
-                                            case 18:if($objMEntrada->estado18==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral18_id=$cl->id;$objMEntrada->estado18=1;$objMEntrada->d18=$v->hora_entrada;}if($objMSalida->estado18==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral18_id=$cl->id;$objMSalida->estado18=1;$objMSalida->d18=$v->hora_salida;}$ultimo_dia=18;break;
-                                            case 19:if($objMEntrada->estado19==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral19_id=$cl->id;$objMEntrada->estado19=1;$objMEntrada->d19=$v->hora_entrada;}if($objMSalida->estado19==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral19_id=$cl->id;$objMSalida->estado19=1;$objMSalida->d19=$v->hora_salida;}$ultimo_dia=19;break;
-                                            case 20:if($objMEntrada->estado20==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral20_id=$cl->id;$objMEntrada->estado20=1;$objMEntrada->d20=$v->hora_entrada;}if($objMSalida->estado20==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral20_id=$cl->id;$objMSalida->estado20=1;$objMSalida->d20=$v->hora_salida;}$ultimo_dia=20;break;
-                                            case 21:if($objMEntrada->estado21==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral21_id=$cl->id;$objMEntrada->estado21=1;$objMEntrada->d21=$v->hora_entrada;}if($objMSalida->estado21==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral21_id=$cl->id;$objMSalida->estado21=1;$objMSalida->d21=$v->hora_salida;}$ultimo_dia=21;break;
-                                            case 22:if($objMEntrada->estado22==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral22_id=$cl->id;$objMEntrada->estado22=1;$objMEntrada->d22=$v->hora_entrada;}if($objMSalida->estado22==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral22_id=$cl->id;$objMSalida->estado22=1;$objMSalida->d22=$v->hora_salida;}$ultimo_dia=22;break;
-                                            case 23:if($objMEntrada->estado23==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral23_id=$cl->id;$objMEntrada->estado23=1;$objMEntrada->d23=$v->hora_entrada;}if($objMSalida->estado23==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral23_id=$cl->id;$objMSalida->estado23=1;$objMSalida->d23=$v->hora_salida;}$ultimo_dia=23;break;
-                                            case 24:if($objMEntrada->estado24==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral24_id=$cl->id;$objMEntrada->estado24=1;$objMEntrada->d24=$v->hora_entrada;}if($objMSalida->estado24==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral24_id=$cl->id;$objMSalida->estado24=1;$objMSalida->d24=$v->hora_salida;}$ultimo_dia=24;break;
-                                            case 25:if($objMEntrada->estado25==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral25_id=$cl->id;$objMEntrada->estado25=1;$objMEntrada->d25=$v->hora_entrada;}if($objMSalida->estado25==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral25_id=$cl->id;$objMSalida->estado25=1;$objMSalida->d25=$v->hora_salida;}$ultimo_dia=25;break;
-                                            case 26:if($objMEntrada->estado26==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral26_id=$cl->id;$objMEntrada->estado26=1;$objMEntrada->d26=$v->hora_entrada;}if($objMSalida->estado26==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral26_id=$cl->id;$objMSalida->estado26=1;$objMSalida->d26=$v->hora_salida;}$ultimo_dia=26;break;
-                                            case 27:if($objMEntrada->estado27==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral27_id=$cl->id;$objMEntrada->estado27=1;$objMEntrada->d27=$v->hora_entrada;}if($objMSalida->estado27==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral27_id=$cl->id;$objMSalida->estado27=1;$objMSalida->d27=$v->hora_salida;}$ultimo_dia=27;break;
-                                            case 28:if($objMEntrada->estado28==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral28_id=$cl->id;$objMEntrada->estado28=1;$objMEntrada->d28=$v->hora_entrada;}if($objMSalida->estado28==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral28_id=$cl->id;$objMSalida->estado28=1;$objMSalida->d28=$v->hora_salida;}$ultimo_dia=28;break;
-                                            case 29:if($objMEntrada->estado29==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral29_id=$cl->id;$objMEntrada->estado29=1;$objMEntrada->d29=$v->hora_entrada;}if($objMSalida->estado29==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral29_id=$cl->id;$objMSalida->estado29=1;$objMSalida->d29=$v->hora_salida;}$ultimo_dia=29;break;
-                                            case 30:if($objMEntrada->estado30==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral30_id=$cl->id;$objMEntrada->estado30=1;$objMEntrada->d30=$v->hora_entrada;}if($objMSalida->estado30==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral30_id=$cl->id;$objMSalida->estado30=1;$objMSalida->d30=$v->hora_salida;}$ultimo_dia=30;break;
-                                            case 31:if($objMEntrada->estado31==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMEntrada->calendariolaboral31_id=$cl->id;$objMEntrada->estado31=1;$objMEntrada->d31=$v->hora_entrada;}if($objMSalida->estado31==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral31_id=$cl->id;$objMSalida->estado31=1;$objMSalida->d31=$v->hora_salida;}$ultimo_dia=31;break;
-                                        }
-                                    }
-                                }
-                            }
-                            $objMEntrada->ultimo_dia=$ultimo_dia;$objMSalida->ultimo_dia=$ultimo_dia;
-                            $objMEntrada->estado=1;$objMSalida->estado=1;
-                            $objMEntrada->baja_logica=1;$objMSalida->baja_logica=1;
-                            $objMEntrada->agrupador=0;$objMSalida->agrupador=0;
-                            $objMEntrada->user_mod_id=$user_mod_id;$objMSalida->user_mod_id=$user_mod_id;
-                            $objMEntrada->fecha_mod=$hoy;$objMSalida->fecha_mod=$hoy;
-                            try{
-                                $okE = $objMEntrada->save();
-                                $okS = $objMSalida->save();
-                                if ($okS)  {
-                                    $msj = array('result' => 1, 'msj' => '&Eacute;xito: El detalle correspondiente a los registros previstos de marcaci&oacute;n se volvieron a generar correctamente.');
-                                } else {
-                                    $msj = array('result' => 0, 'msj' => 'Error: No se modific&oacute; el detalle correspondiente a los registro previstos de marcación.');
-                                }
-                            }catch (\Exception $e) {
-                                echo get_class($e), ": ", $e->getMessage(), "\n";
-                                echo " File=", $e->getFile(), "\n";
-                                echo " Line=", $e->getLine(), "\n";
-                                echo $e->getTraceAsString();
-                                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se modific&oacute; el detalle correspondiente a registros previstos de marcaci&oacute;n.');
-                            }
-                        }else{
-                            $msj = array('result' => 0, 'msj' => 'Error: No se modific&oacute; el detalle correspondiente a los registro previstos de marcación debido a que no se hall&oacute; los registros correspondientes en la base de datos.');
-                        }
-                        #endregion Estableciendo los valores para las variables del objeto
-                    }
-                }
-            }
-            else{
-                $msj = array('result' => 0, 'msj' => 'Error: No se gener&oacute; el registro de marcaciones debido a que no se encontr&oacute; registros de calendarizaci&oacute;n para el mes solicitado.');
-            }
-            #endregion Edición de Registro
-        }else{
-            if(isset($_POST["id_relaboral"])&&$_POST["id_relaboral"]>0&&isset($_POST["gestion"])&&isset($_POST["mes"])&&isset($_POST["clasemarcacion"])){
-                #region Nuevo Registro
-                $idRelaboral = $_POST["id_relaboral"];
-                $gestion = $_POST["gestion"];
-                $mes = $_POST["mes"];
-                $fechaIni = $_POST["fecha_ini"];
-                $fechaFin = $_POST["fecha_fin"];
-                $clasemarcacion = $_POST["clasemarcacion"];
-                $objCL = new Fcalendariolaboral();
-                $turno = 0;
-                $grupo = 0;
-                /**
-                 * Se obtiene el listado de calendarios registrados para los perfiles correspondientes al registro de relación laboral
-                 */
-                $resul = $objCL->getAllRegisteredByPerfilAndRelaboralRangoFechas(0,$idRelaboral,$fechaIni,$fechaFin);
-                if ($resul->count() > 0) {
-                    foreach ($resul as $v) {
-                        $objMEntrada = new Horariosymarcaciones();
-                        $objMSalida = new Horariosymarcaciones();
-                        $tipo_horario = $v->tipo_horario;
-                        $turno++;
-                        $grupo++;
-                        $ultimo_dia=0;
-                        $objRango = new Ffechasrango();
-                        $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
-                        if ($rangoFechas->count() > 0) {
-                            #region Estableciendo los valores para las variables del objeto
-                            $objMEntrada->relaboral_id=$idRelaboral;$objMSalida->relaboral_id=$idRelaboral;
-                            $objMEntrada->gestion=$gestion;$objMSalida->gestion=$gestion;
-                            $objMEntrada->mes=$mes;$objMSalida->mes=$mes;
-                            $objMEntrada->turno=$turno;$objMSalida->turno=$turno;
-                            $objMEntrada->grupo=$grupo;$grupo++;$objMSalida->grupo=$grupo;
-                            $objMEntrada->clasemarcacion=$clasemarcacion;$objMSalida->clasemarcacion=$clasemarcacion;
-                            switch($clasemarcacion){
-                                case 'H':
-                                    $objMEntrada->modalidadmarcacion_id=1;
-                                    $objMSalida->modalidadmarcacion_id=4;
-                                    break;
-                                case 'M':
-                                    $objMEntrada->modalidadmarcacion_id=2;
-                                    $objMSalida->modalidadmarcacion_id=5;
-                                    break;
-                                case 'R':
-                                    $objMEntrada->modalidadmarcacion_id=3;
-                                    $objMSalida->modalidadmarcacion_id=6;
-                                    break;
-                                case 'A':
-                                    break;
-                            }
-                            foreach($rangoFechas as $rango){
-                                $cal = Calendarioslaborales::find(array("perfillaboral_id=".$v->id_perfillaboral." AND horariolaboral_id=".$v->id_horariolaboral." AND '".$rango->fecha."' BETWEEN fecha_ini AND fecha_fin AND estado>=1 AND baja_logica=1"));
-                                if($cal->count()>0){
-                                    foreach($cal as $cl){
-                                        /**
-                                         * Al perfil se le ha asignado una calendarización para esa fecha
-                                         */
-                                        $arrFecha= explode("-",$rango->fecha);
-                                        $dia = intval($arrFecha[2]);
-                                        switch($dia){
-                                            case 1 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral1_id=$cl->id; $objMEntrada->estado1 =1;$objMEntrada->d1 =$v->hora_entrada;$objMSalida->calendariolaboral1_id=$cl->id; $objMSalida->estado1 =1;$objMSalida->d1 =$v->hora_salida;}$ultimo_dia=1 ;break;
-                                            case 2 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral2_id=$cl->id; $objMEntrada->estado2 =1;$objMEntrada->d2 =$v->hora_entrada;$objMSalida->calendariolaboral2_id=$cl->id; $objMSalida->estado2 =1;$objMSalida->d2 =$v->hora_salida;}$ultimo_dia=2 ;break;
-                                            case 3 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral3_id=$cl->id; $objMEntrada->estado3 =1;$objMEntrada->d3 =$v->hora_entrada;$objMSalida->calendariolaboral3_id=$cl->id; $objMSalida->estado3 =1;$objMSalida->d3 =$v->hora_salida;}$ultimo_dia=3 ;break;
-                                            case 4 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral4_id=$cl->id; $objMEntrada->estado4 =1;$objMEntrada->d4 =$v->hora_entrada;$objMSalida->calendariolaboral4_id=$cl->id; $objMSalida->estado4 =1;$objMSalida->d4 =$v->hora_salida;}$ultimo_dia=4 ;break;
-                                            case 5 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral5_id=$cl->id; $objMEntrada->estado5 =1;$objMEntrada->d5 =$v->hora_entrada;$objMSalida->calendariolaboral5_id=$cl->id; $objMSalida->estado5 =1;$objMSalida->d5 =$v->hora_salida;}$ultimo_dia=5 ;break;
-                                            case 6 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral6_id=$cl->id; $objMEntrada->estado6 =1;$objMEntrada->d6 =$v->hora_entrada;$objMSalida->calendariolaboral6_id=$cl->id; $objMSalida->estado6 =1;$objMSalida->d6 =$v->hora_salida;}$ultimo_dia=6 ;break;
-                                            case 7 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral7_id=$cl->id; $objMEntrada->estado7 =1;$objMEntrada->d7 =$v->hora_entrada;$objMSalida->calendariolaboral7_id=$cl->id; $objMSalida->estado7 =1;$objMSalida->d7 =$v->hora_salida;}$ultimo_dia=7 ;break;
-                                            case 8 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral8_id=$cl->id; $objMEntrada->estado8 =1;$objMEntrada->d8 =$v->hora_entrada;$objMSalida->calendariolaboral8_id=$cl->id; $objMSalida->estado8 =1;$objMSalida->d8 =$v->hora_salida;}$ultimo_dia=8 ;break;
-                                            case 9 :if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral9_id=$cl->id; $objMEntrada->estado9 =1;$objMEntrada->d9 =$v->hora_entrada;$objMSalida->calendariolaboral9_id=$cl->id; $objMSalida->estado9 =1;$objMSalida->d9 =$v->hora_salida;}$ultimo_dia=9 ;break;
-                                            case 10:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral10_id=$cl->id;$objMEntrada->estado10=1;$objMEntrada->d10=$v->hora_entrada;$objMSalida->calendariolaboral10_id=$cl->id;$objMSalida->estado10=1;$objMSalida->d10=$v->hora_salida;}$ultimo_dia=10;break;
-                                            case 11:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral11_id=$cl->id;$objMEntrada->estado11=1;$objMEntrada->d11=$v->hora_entrada;$objMSalida->calendariolaboral11_id=$cl->id;$objMSalida->estado11=1;$objMSalida->d11=$v->hora_salida;}$ultimo_dia=11;break;
-                                            case 12:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral12_id=$cl->id;$objMEntrada->estado12=1;$objMEntrada->d12=$v->hora_entrada;$objMSalida->calendariolaboral12_id=$cl->id;$objMSalida->estado12=1;$objMSalida->d12=$v->hora_salida;}$ultimo_dia=12;break;
-                                            case 13:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral13_id=$cl->id;$objMEntrada->estado13=1;$objMEntrada->d13=$v->hora_entrada;$objMSalida->calendariolaboral13_id=$cl->id;$objMSalida->estado13=1;$objMSalida->d13=$v->hora_salida;}$ultimo_dia=13;break;
-                                            case 14:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral14_id=$cl->id;$objMEntrada->estado14=1;$objMEntrada->d14=$v->hora_entrada;$objMSalida->calendariolaboral14_id=$cl->id;$objMSalida->estado14=1;$objMSalida->d14=$v->hora_salida;}$ultimo_dia=14;break;
-                                            case 15:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral15_id=$cl->id;$objMEntrada->estado15=1;$objMEntrada->d15=$v->hora_entrada;$objMSalida->calendariolaboral15_id=$cl->id;$objMSalida->estado15=1;$objMSalida->d15=$v->hora_salida;}$ultimo_dia=15;break;
-                                            case 16:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral16_id=$cl->id;$objMEntrada->estado16=1;$objMEntrada->d16=$v->hora_entrada;$objMSalida->calendariolaboral16_id=$cl->id;$objMSalida->estado16=1;$objMSalida->d16=$v->hora_salida;}$ultimo_dia=16;break;
-                                            case 17:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral17_id=$cl->id;$objMEntrada->estado17=1;$objMEntrada->d17=$v->hora_entrada;$objMSalida->calendariolaboral17_id=$cl->id;$objMSalida->estado17=1;$objMSalida->d17=$v->hora_salida;}$ultimo_dia=17;break;
-                                            case 18:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral18_id=$cl->id;$objMEntrada->estado18=1;$objMEntrada->d18=$v->hora_entrada;$objMSalida->calendariolaboral18_id=$cl->id;$objMSalida->estado18=1;$objMSalida->d18=$v->hora_salida;}$ultimo_dia=18;break;
-                                            case 19:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral19_id=$cl->id;$objMEntrada->estado19=1;$objMEntrada->d19=$v->hora_entrada;$objMSalida->calendariolaboral19_id=$cl->id;$objMSalida->estado19=1;$objMSalida->d19=$v->hora_salida;}$ultimo_dia=19;break;
-                                            case 20:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral20_id=$cl->id;$objMEntrada->estado20=1;$objMEntrada->d20=$v->hora_entrada;$objMSalida->calendariolaboral20_id=$cl->id;$objMSalida->estado20=1;$objMSalida->d20=$v->hora_salida;}$ultimo_dia=20;break;
-                                            case 21:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral21_id=$cl->id;$objMEntrada->estado21=1;$objMEntrada->d21=$v->hora_entrada;$objMSalida->calendariolaboral21_id=$cl->id;$objMSalida->estado21=1;$objMSalida->d21=$v->hora_salida;}$ultimo_dia=21;break;
-                                            case 22:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral22_id=$cl->id;$objMEntrada->estado22=1;$objMEntrada->d22=$v->hora_entrada;$objMSalida->calendariolaboral22_id=$cl->id;$objMSalida->estado22=1;$objMSalida->d22=$v->hora_salida;}$ultimo_dia=22;break;
-                                            case 23:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral23_id=$cl->id;$objMEntrada->estado23=1;$objMEntrada->d23=$v->hora_entrada;$objMSalida->calendariolaboral23_id=$cl->id;$objMSalida->estado23=1;$objMSalida->d23=$v->hora_salida;}$ultimo_dia=23;break;
-                                            case 24:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral24_id=$cl->id;$objMEntrada->estado24=1;$objMEntrada->d24=$v->hora_entrada;$objMSalida->calendariolaboral24_id=$cl->id;$objMSalida->estado24=1;$objMSalida->d24=$v->hora_salida;}$ultimo_dia=24;break;
-                                            case 25:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral25_id=$cl->id;$objMEntrada->estado25=1;$objMEntrada->d25=$v->hora_entrada;$objMSalida->calendariolaboral25_id=$cl->id;$objMSalida->estado25=1;$objMSalida->d25=$v->hora_salida;}$ultimo_dia=25;break;
-                                            case 26:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral26_id=$cl->id;$objMEntrada->estado26=1;$objMEntrada->d26=$v->hora_entrada;$objMSalida->calendariolaboral26_id=$cl->id;$objMSalida->estado26=1;$objMSalida->d26=$v->hora_salida;}$ultimo_dia=26;break;
-                                            case 27:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral27_id=$cl->id;$objMEntrada->estado27=1;$objMEntrada->d27=$v->hora_entrada;$objMSalida->calendariolaboral27_id=$cl->id;$objMSalida->estado27=1;$objMSalida->d27=$v->hora_salida;}$ultimo_dia=27;break;
-                                            case 28:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral28_id=$cl->id;$objMEntrada->estado28=1;$objMEntrada->d28=$v->hora_entrada;$objMSalida->calendariolaboral28_id=$cl->id;$objMSalida->estado28=1;$objMSalida->d28=$v->hora_salida;}$ultimo_dia=28;break;
-                                            case 29:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral29_id=$cl->id;$objMEntrada->estado29=1;$objMEntrada->d29=$v->hora_entrada;$objMSalida->calendariolaboral29_id=$cl->id;$objMSalida->estado29=1;$objMSalida->d29=$v->hora_salida;}$ultimo_dia=29;break;
-                                            case 30:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral30_id=$cl->id;$objMEntrada->estado30=1;$objMEntrada->d30=$v->hora_entrada;$objMSalida->calendariolaboral30_id=$cl->id;$objMSalida->estado30=1;$objMSalida->d30=$v->hora_salida;}$ultimo_dia=30;break;
-                                            case 31:if(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3){$objMEntrada->calendariolaboral31_id=$cl->id;$objMEntrada->estado31=1;$objMEntrada->d31=$v->hora_entrada;$objMSalida->calendariolaboral31_id=$cl->id;$objMSalida->estado31=1;$objMSalida->d31=$v->hora_salida;}$ultimo_dia=31;break;
-                                        }
-                                    }
-                                }
-                            }
-                            #endregion Estableciendo los valores para las variables del objeto
-                        }
-                        $objMEntrada->ultimo_dia=$ultimo_dia;$objMSalida->ultimo_dia=$ultimo_dia;
-                        $objMEntrada->estado=1;$objMSalida->estado=1;
-                        $objMEntrada->baja_logica=1;$objMSalida->baja_logica=1;
-                        $objMEntrada->agrupador=0;$objMSalida->agrupador=0;
-                        $objMEntrada->user_reg_id=$user_reg_id;$objMSalida->user_reg_id=$user_reg_id;
-                        $objMEntrada->fecha_reg=$hoy;$objMSalida->fecha_reg=$hoy;
-                        try{
-                            $okE = $objMEntrada->save();
-                            $okS = $objMSalida->save();
-                            if ($okE&&$okS)  {
-                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: El detalle correspondiente a los registros previstos de marcaci&oacute;n fueron generados correctamente.');
-                            } else {
-                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el detalle correspondiente a los registro previstos de marcación.');
-                            }
-                        }catch (\Exception $e) {
-                            echo get_class($e), ": ", $e->getMessage(), "\n";
-                            echo " File=", $e->getFile(), "\n";
-                            echo " Line=", $e->getLine(), "\n";
-                            echo $e->getTraceAsString();
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el detalle correspondiente a registros previstos de marcaci&oacute;n.');
-                        }
-                    }
-                }
-                else{
-                    $msj = array('result' => 0, 'msj' => 'Error: No se gener&oacute; el registro de marcaciones debido a que no se encontr&oacute; registros de calendarizaci&oacute;n para el mes solicitado.');
-                }
-                #endregion Nuevo Registro
-            }
-        }
-        echo json_encode($msj);
-    }
     function generarmarcacionprevistaAction(){
         $auth = $this->session->get('auth');
         $user_reg_id = $user_mod_id = $auth['id'];
@@ -7147,8 +6807,6 @@ class HorariosymarcacionesController extends ControllerBase
                     }
                     $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalida .= "estado>=1 AND baja_logica=1 ";
-                    /*echo "<p>Consulta Entrada: ".$consultaEntrada;
-                    echo "<p>Consulta Salida: ".$consultaSalida;*/
                     /**
                      * Se hace una consulta para ver los registro de entrada y salida válidos
                      */
@@ -7314,37 +6972,37 @@ class HorariosymarcacionesController extends ControllerBase
                         if(isset($matrizDiasSemana[$dia])){
                             if(isset($matrizHorarios[$dia][$turno][$grupoA])){
                                 switch($dia){
-                                    case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 =1;$objMSalida->d1 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=1;break;
-                                    case 2 :$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =1;$objMSalida->d2 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=2 ;break;
-                                    case 3 :$objMEntrada->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado3 =1;$objMEntrada->d3 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado3 =1;$objMSalida->d3 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=3 ;break;
-                                    case 4 :$objMEntrada->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado4 =1;$objMEntrada->d4 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado4 =1;$objMSalida->d4 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=4 ;break;
-                                    case 5 :$objMEntrada->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado5 =1;$objMEntrada->d5 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado5 =1;$objMSalida->d5 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=5 ;break;
-                                    case 6 :$objMEntrada->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado6 =1;$objMEntrada->d6 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado6 =1;$objMSalida->d6 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=6 ;break;
-                                    case 7 :$objMEntrada->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado7 =1;$objMEntrada->d7 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado7 =1;$objMSalida->d7 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=7 ;break;
-                                    case 8 :$objMEntrada->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado8 =1;$objMEntrada->d8 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado8 =1;$objMSalida->d8 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=8 ;break;
-                                    case 9 :$objMEntrada->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado9 =1;$objMEntrada->d9 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado9 =1;$objMSalida->d9 =$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=9 ;break;
-                                    case 10:$objMEntrada->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado10=1;$objMEntrada->d10=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado10=1;$objMSalida->d10=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=10;break;
-                                    case 11:$objMEntrada->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado11=1;$objMEntrada->d11=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado11=1;$objMSalida->d11=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=11;break;
-                                    case 12:$objMEntrada->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado12=1;$objMEntrada->d12=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado12=1;$objMSalida->d12=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=12;break;
-                                    case 13:$objMEntrada->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado13=1;$objMEntrada->d13=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado13=1;$objMSalida->d13=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=13;break;
-                                    case 14:$objMEntrada->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado14=1;$objMEntrada->d14=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado14=1;$objMSalida->d14=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=14;break;
-                                    case 15:$objMEntrada->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado15=1;$objMEntrada->d15=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado15=1;$objMSalida->d15=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=15;break;
-                                    case 16:$objMEntrada->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado16=1;$objMEntrada->d16=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado16=1;$objMSalida->d16=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=16;break;
-                                    case 17:$objMEntrada->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado17=1;$objMEntrada->d17=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado17=1;$objMSalida->d17=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=17;break;
-                                    case 18:$objMEntrada->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado18=1;$objMEntrada->d18=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado18=1;$objMSalida->d18=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=18;break;
-                                    case 19:$objMEntrada->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado19=1;$objMEntrada->d19=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado19=1;$objMSalida->d19=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=19;break;
-                                    case 20:$objMEntrada->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado20=1;$objMEntrada->d20=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado20=1;$objMSalida->d20=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=20;break;
-                                    case 21:$objMEntrada->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado21=1;$objMEntrada->d21=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado21=1;$objMSalida->d21=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=21;break;
-                                    case 22:$objMEntrada->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado22=1;$objMEntrada->d22=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado22=1;$objMSalida->d22=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=22;break;
-                                    case 23:$objMEntrada->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado23=1;$objMEntrada->d23=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado23=1;$objMSalida->d23=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=23;break;
-                                    case 24:$objMEntrada->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado24=1;$objMEntrada->d24=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado24=1;$objMSalida->d24=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=24;break;
-                                    case 25:$objMEntrada->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado25=1;$objMEntrada->d25=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado25=1;$objMSalida->d25=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=25;break;
-                                    case 26:$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=1;$objMSalida->d26=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=26;break;
-                                    case 27:$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=1;$objMSalida->d27=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=27;break;
-                                    case 28:$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=1;$objMSalida->d28=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=28;break;
-                                    case 29:$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=1;$objMSalida->d29=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=29;break;
-                                    case 30:$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=1;$objMSalida->d30=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=30;break;
-                                    case 31:$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=1;$objMSalida->d31=$matrizHorarios[$dia][$turno][$grupoB];$ultimo_dia=31;break;
+                                    case 1 :if($objMEntrada->estado1 ==null||$objMEntrada->estado1 <=1){$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 =1;$objMSalida->d1 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 2 :if($objMEntrada->estado2 ==null||$objMEntrada->estado2 <=1){$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =1;$objMSalida->d2 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 3 :if($objMEntrada->estado3 ==null||$objMEntrada->estado3 <=1){$objMEntrada->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado3 =1;$objMEntrada->d3 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado3 =1;$objMSalida->d3 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 4 :if($objMEntrada->estado4 ==null||$objMEntrada->estado4 <=1){$objMEntrada->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado4 =1;$objMEntrada->d4 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado4 =1;$objMSalida->d4 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 5 :if($objMEntrada->estado5 ==null||$objMEntrada->estado5 <=1){$objMEntrada->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado5 =1;$objMEntrada->d5 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado5 =1;$objMSalida->d5 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 6 :if($objMEntrada->estado6 ==null||$objMEntrada->estado6 <=1){$objMEntrada->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado6 =1;$objMEntrada->d6 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado6 =1;$objMSalida->d6 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 7 :if($objMEntrada->estado7 ==null||$objMEntrada->estado7 <=1){$objMEntrada->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado7 =1;$objMEntrada->d7 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado7 =1;$objMSalida->d7 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 8 :if($objMEntrada->estado8 ==null||$objMEntrada->estado8 <=1){$objMEntrada->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado8 =1;$objMEntrada->d8 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado8 =1;$objMSalida->d8 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 9 :if($objMEntrada->estado9 ==null||$objMEntrada->estado9 <=1){$objMEntrada->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado9 =1;$objMEntrada->d9 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado9 =1;$objMSalida->d9 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 10:if($objMEntrada->estado10 ==null||$objMEntrada->estado10 <=1){$objMEntrada->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado10=1;$objMEntrada->d10=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado10=1;$objMSalida->d10=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 11:if($objMEntrada->estado11 ==null||$objMEntrada->estado11 <=1){$objMEntrada->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado11=1;$objMEntrada->d11=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado11=1;$objMSalida->d11=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 12:if($objMEntrada->estado12 ==null||$objMEntrada->estado12 <=1){$objMEntrada->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado12=1;$objMEntrada->d12=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado12=1;$objMSalida->d12=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 13:if($objMEntrada->estado13 ==null||$objMEntrada->estado13 <=1){$objMEntrada->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado13=1;$objMEntrada->d13=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado13=1;$objMSalida->d13=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 14:if($objMEntrada->estado14 ==null||$objMEntrada->estado14 <=1){$objMEntrada->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado14=1;$objMEntrada->d14=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado14=1;$objMSalida->d14=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 15:if($objMEntrada->estado15 ==null||$objMEntrada->estado15 <=1){$objMEntrada->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado15=1;$objMEntrada->d15=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado15=1;$objMSalida->d15=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 16:if($objMEntrada->estado16 ==null||$objMEntrada->estado16 <=1){$objMEntrada->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado16=1;$objMEntrada->d16=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado16=1;$objMSalida->d16=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 17:if($objMEntrada->estado17 ==null||$objMEntrada->estado17 <=1){$objMEntrada->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado17=1;$objMEntrada->d17=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado17=1;$objMSalida->d17=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 18:if($objMEntrada->estado18 ==null||$objMEntrada->estado18 <=1){$objMEntrada->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado18=1;$objMEntrada->d18=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado18=1;$objMSalida->d18=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 19:if($objMEntrada->estado19 ==null||$objMEntrada->estado19 <=1){$objMEntrada->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado19=1;$objMEntrada->d19=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado19=1;$objMSalida->d19=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 20:if($objMEntrada->estado20 ==null||$objMEntrada->estado20 <=1){$objMEntrada->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado20=1;$objMEntrada->d20=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado20=1;$objMSalida->d20=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 21:if($objMEntrada->estado21 ==null||$objMEntrada->estado21 <=1){$objMEntrada->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado21=1;$objMEntrada->d21=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado21=1;$objMSalida->d21=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 22:if($objMEntrada->estado22 ==null||$objMEntrada->estado22 <=1){$objMEntrada->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado22=1;$objMEntrada->d22=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado22=1;$objMSalida->d22=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 23:if($objMEntrada->estado23 ==null||$objMEntrada->estado23 <=1){$objMEntrada->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado23=1;$objMEntrada->d23=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado23=1;$objMSalida->d23=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 24:if($objMEntrada->estado24 ==null||$objMEntrada->estado24 <=1){$objMEntrada->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado24=1;$objMEntrada->d24=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado24=1;$objMSalida->d24=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 25:if($objMEntrada->estado25 ==null||$objMEntrada->estado25 <=1){$objMEntrada->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado25=1;$objMEntrada->d25=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado25=1;$objMSalida->d25=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 26:if($objMEntrada->estado26 ==null||$objMEntrada->estado26 <=1){$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=1;$objMSalida->d26=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 27:if($objMEntrada->estado27 ==null||$objMEntrada->estado27 <=1){$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=1;$objMSalida->d27=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 28:if($objMEntrada->estado28 ==null||$objMEntrada->estado28 <=1){$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=1;$objMSalida->d28=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 29:if($objMEntrada->estado29 ==null||$objMEntrada->estado29 <=1){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=1;$objMSalida->d29=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 30:if($objMEntrada->estado30 ==null||$objMEntrada->estado30 <=1){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=1;$objMSalida->d30=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 31:if($objMEntrada->estado31 ==null||$objMEntrada->estado31 <=1){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=1;$objMSalida->d31=$matrizHorarios[$dia][$turno][$grupoB];}break;
                                 }
                             }
                         }
