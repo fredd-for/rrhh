@@ -128,7 +128,7 @@ class PerfileslaboralesController extends ControllerBase
     {
         $this->view->disable();
         $perfillaboral = Array();
-        $resul = Perfileslaborales::find(array('estado=:estado1: AND baja_logica=:baja_logica1:','bind'=>array('baja_logica1'=>1,'estado1'=>1),'order' => 'id ASC'));
+        $resul = Perfileslaborales::find(array('estado=:estado1: AND baja_logica=:baja_logica1:','bind'=>array('baja_logica1'=>1,'estado1'=>1),'order' => 'perfil_laboral'));
         $permisoC = true;
         $permisoR = true;
         $permisoU = true;

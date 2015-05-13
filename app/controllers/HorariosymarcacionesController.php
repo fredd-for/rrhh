@@ -55,7 +55,7 @@ class HorariosymarcacionesController extends ControllerBase
         if(isset($_GET["id"])&&$_GET["id"]>0){
             $obj = new Fhorariosymarcaciones();
             $idRelaboral = $_GET["id"];
-            $resul = $obj->getAll("WHERE relaboral_id=".$idRelaboral);
+            $resul = $obj->getAllFromOneRelaboral($idRelaboral);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -2106,12 +2106,9 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($where!='')$where .= " AND relaboral_id=".$idRelaboral;
-            else $where .= " WHERE relaboral_id=".$idRelaboral;
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAll($where,$groups);
-
+            $resul = $obj->getAllFromOneRelaboral($idRelaboral,$where,$groups);
             $horariosymarcaciones = array();
             $listaExcepciones = array();
             $contador = 0;
@@ -4568,11 +4565,9 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($where!='')$where .= " AND relaboral_id=".$idRelaboral;
-            else $where .= " WHERE relaboral_id=".$idRelaboral;
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAll($where,$groups);
+            $resul = $obj->getAllFromOneRelaboral($idRelaboral,$where,$groups);
 
             $horariosymarcaciones = array();
             foreach ($resul as $v) {

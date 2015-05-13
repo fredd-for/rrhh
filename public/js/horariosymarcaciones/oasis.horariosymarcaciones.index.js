@@ -249,7 +249,7 @@ $().ready(function () {
         $("#divGridControlMarcaciones").jqxGrid("updatebounddata");
     })
 
-    $("#liList,#btnVolverAlListadoPrincipalDesdeNew,#btnVolverAlListadoPrincipalDesdeEdit").click(function () {
+    $("#liList,#btnCancelarTurnAndExcept,#btnVolverDesdeCalculos").click(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
         $('#divTabControlMarcaciones').jqxTabs({selectedItem: 0});
         $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
@@ -271,14 +271,14 @@ $().ready(function () {
     $('#btnDesfiltrartodo').click(function () {
         $("#divGridRelaborales").jqxGrid('clearfilters');
     });
-    $('#btnDesfiltrarTodoMovilidad').click(function () {
-        $("#divGridRelaboralesmovilidad").jqxGrid('clearfilters');
+    $('#btnDesfiltrartodomarcaciones').click(function () {
+        $("#divGridControlMarcaciones").jqxGrid('clearfilters');
     });
     $('#btnDesagrupartodo').click(function () {
         $('#divGridRelaborales').jqxGrid('cleargroups');
     });
-    $('#btnDesagruparTodoMovilidad').click(function () {
-        $('#divGridRelaboralesmovilidad').jqxGrid('cleargroups');
+    $('#btnDesagrupartodomarcaciones').click(function () {
+        $('#divGridControlMarcaciones').jqxGrid('cleargroups');
     });
     /**
      * Definición de la ventana donde se ve el historial de registros de relación laboral
@@ -1816,8 +1816,13 @@ function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral
                         var arrFechaFin = val.calendario_fecha_fin.split("-");
                         var fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
                         var estacion = "";
+                        var perfilLaboral = val.perfil_laboral;
+                        var grupo='';
+                        if(val.perfil_laboral_grupo!=''&&val.perfil_laboral_grupo!=null)
+                        grupo = val.perfil_laboral_grupo;
+                        var estadoDescripcion = val.calendario_estado_descripcion;
                         if(val.relaboralperfil_estacion!=null)estacion=val.relaboralperfil_estacion;
-                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+fechaIni+"</td><td style='text-align: center'>"+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+estacion+"</td><td style='text-align: center'>"+val.hora_entrada+"</td><td style='text-align: center'>"+val.hora_salida+"</td><td>"+val.relaboralperfil_observacion+"</td></tr>");
+                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+perfilLaboral+"</td><td style='text-align: center'>"+grupo+"</td><td style='text-align: center'>"+estadoDescripcion+"</td><td style='text-align: center'>"+fechaIni+" al "+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+estacion+"</td><td style='text-align: center'>"+val.hora_entrada+" a "+val.hora_salida+"</td><td class='hidden-xs'>"+val.relaboralperfil_observacion+"</td></tr>");
                         contador++;
                     });
                 }

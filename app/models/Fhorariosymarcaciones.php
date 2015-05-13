@@ -347,6 +347,26 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
         $this->_db = new Fhorariosymarcaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para obtener el listado de los registros calculados para un registro de relación laboral.
+     * @param $idRelaboral
+     * @param $where
+     * @param $group
+     * @return Resultset
+     */
+    public function getAllFromOneRelaboral($idRelaboral,$where='',$group=''){
+        if($idRelaboral>0){
+            /**
+             * Se instancia la fecha de baja si es que el registro de relación laboral esta PASIVO.
+             */
+            $sql = "SELECT * FROM f_horariosymarcaciones_calculos_rango_fechas($idRelaboral,(SELECT fecha_incor FROM relaborales WHERE id=$idRelaboral),(SELECT CASE WHEN fecha_baja IS NOT NULL AND estado=0 THEN fecha_baja ELSE fecha_fin END FROM relaborales WHERE id=$idRelaboral))";
+            if($where!='')$sql .= $where;
+            if($group!='')$sql .= $group;
+            $this->_db = new Fhorariosymarcaciones();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
     /**
      * Función que se encarga de devolver en un solo resultado el conjunto de excepciones registradas para un registro de relación laboral determinado, considerando el
      * filtro de un tipo de excepción específico, una fecha, hora de inicio y finalización.

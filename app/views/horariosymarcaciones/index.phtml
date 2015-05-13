@@ -484,14 +484,105 @@
                     <div class="col-md-12">
                         <div id="calendar"></div>
                     </div>
-                    </br>
                     <div class="col-md-12">
+                        <div class="table-responsive">
+                            <!-- Responsive Partial Title -->
+                            <div class="block-title">
+                                <h2><strong>Perfiles</strong> & Horarios</h2>
+                            </div>
+                            <!-- END Responsive Partial Title -->
+
+                            <!-- Responsive Partial Content -->
+                            <p>Cuadro descriptivo de horarios de asistencia en consideraci&oacute;n a los perfiles y horarios establecidos.</p>
+                            <table id="tblGrillaAsignacionSingle" class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Nro.</th>
+                                    <th style="width: 150px;" class="text-center"><i class="gi gi-user"></i></th>
+                                    <th class='text-center'>Grupo</th>
+                                    <th class='text-center'>Calendario</th>
+                                    <th class='text-center'>Fechas</th>
+                                    <th class='text-center'>Ubicaci&oacute;n</th>
+                                    <th class='text-center'>Estaci&oacute;n</th>
+                                    <th class='text-center'>Horas</th>
+                                    <th class='text-center'>Observaci&oacute;n</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody_asignacion_single">
+                                <!--<tr>
+                                    <td class="text-center"><img src="img/placeholders/avatars/avatar8.jpg" alt="avatar" class="img-circle"></td>
+                                    <td><a href="page_ready_user_profile.html">client1</a></td>
+                                    <td class="hidden-xs">client1@example.com</td>
+                                    <td class="hidden-xs">client1@example.com</td>
+                                    <td class="hidden-xs">client1@example.com</td>
+                                    <td class="hidden-sm hidden-xs"><a href="javascript:void(0)" class="label label-warning">Trial</a></td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-xs">
+                                            <a data-original-title="Edit" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                            <a data-original-title="Delete" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="img/placeholders/avatars/avatar4.jpg" alt="avatar" class="img-circle"></td>
+                                    <td><a href="page_ready_user_profile.html">client2</a></td>
+                                    <td class="hidden-xs">client2@example.com</td>
+                                    <td class="hidden-xs">client2@example.com</td>
+                                    <td class="hidden-xs">client2@example.com</td>
+                                    <td class="hidden-sm hidden-xs"><a href="javascript:void(0)" class="label label-success">VIP</a></td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-xs">
+                                            <a data-original-title="Edit" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                            <a data-original-title="Delete" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="img/placeholders/avatars/avatar9.jpg" alt="avatar" class="img-circle"></td>
+                                    <td><a href="page_ready_user_profile.html">client3</a></td>
+                                    <td class="hidden-xs">client3@example.com</td>
+                                    <td class="hidden-xs">client3@example.com</td>
+                                    <td class="hidden-xs">client3@example.com</td>
+                                    <td class="hidden-sm hidden-xs"><a href="javascript:void(0)" class="label label-info">Business</a></td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-xs">
+                                            <a data-original-title="Edit" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                            <a data-original-title="Delete" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="img/placeholders/avatars/avatar13.jpg" alt="avatar" class="img-circle"></td>
+                                    <td><a href="page_ready_user_profile.html">client4</a></td>
+                                    <td class="hidden-xs">client4@example.com</td>
+                                    <td class="hidden-xs">client4@example.com</td>
+                                    <td class="hidden-xs">client4@example.com</td>
+                                    <td class="hidden-sm hidden-xs"><a href="javascript:void(0)" class="label label-success">VIP</a></td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-xs">
+                                            <a data-original-title="Edit" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                            <a data-original-title="Delete" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>-->
+
+                                </tbody>
+                            </table>
+                            <!-- END Responsive Partial Content -->
+                        </div>
+                        </div>
+
+                    </br>
+                    <!--<div class="col-md-12">
                         <div id="divDatosAsignacionSingle" class="table-responsive">
                             Horarios asignados:
                             <table id="tblGrillaAsignacionSingle" class="table table-vcenter table-striped">
                                 <thead>
                                 <tr>
                                     <th class='text-center'>Nro.</th>
+                                    <th class='text-center'>Perfil Laboral</th>
+                                    <th class='text-center'>Grupo</th>
+                                    <th class='text-center'>Calendario</th>
                                     <th class='text-center'>Fecha Ini</th>
                                     <th class='text-center'>Fecha Fin</th>
                                     <th class='text-center'>Ubicaci&oacute;n</th>
@@ -505,7 +596,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div id="divGrupoBotonesTurnAndExcept" class="btn-group">
                     <button id="btnCancelarTurnAndExcept" class="btnCancelarTurnAndExcept btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Listado Principal</button>

@@ -260,6 +260,7 @@ function definirGrillaParaListaPlanillas() {
                         iniciarFormularioGeneracionPlanillasSal();
                         desplegarPlanillaPreviaSal();
                         $("#lstGestionGen").focus();
+
                         $("#lstGestionGen").off();
                         $("#lstGestionGen").on("change",function(){
                             cargarMeses(1,$("#lstGestionGen").val(),0);

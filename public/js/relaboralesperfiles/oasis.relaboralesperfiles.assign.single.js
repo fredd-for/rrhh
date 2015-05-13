@@ -139,6 +139,9 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     if(dataRecord.fecha_incor!=null)
                                         fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
                                     var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
+                                    if(dataRecord.fecha_baja!=null){
+                                        fechaMax = fechaConvertirAFormato(dataRecord.fecha_baja,"-");
+                                    }
                                     generaModalAdicionAsignacionSinglePerfilLaboral(1,dataRecord.id_ubicacion,0,"","",fechaMin,fechaMax,"");
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
                                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
