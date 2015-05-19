@@ -32,10 +32,11 @@ $().ready(function () {
         var idEstacion = $("#lstEstacionesAsignacionSingle").val();
         var fechaIni = $("#txtFechaIniAsignacionSingle").val();
         var fechaFin = $("#txtFechaFinAsignacionSingle").val();
+        var tipoMarcacion = $("#lstTiposMarcacionesAsignacionSingle").val();
         var observacion = $("#txtObservacionAsignacionSingle").val();
         var ok = validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
         if(ok){
-            var okk = guardaRegistroAsignacionPerfilLaboral(1,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion);
+            var okk = guardaRegistroAsignacionPerfilLaboral(1,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,tipoMarcacion,observacion);
             if(okk){
                 $('#popupAsignacionPerfilLaboral').modal('hide');
                 $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
@@ -471,12 +472,12 @@ function definirGrillaParaListaPerfilesLaborales() {
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='assignsinglerowbutton'  class='btn btn-sm btn-primary' type='button' title='Asignaciones Individuales'><i class='fa fa-user fa-2x text-info' title='Asignaciones Individuales'></i></button>");
-                    container.append("<button id='assigngrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");
+                    /*container.append("<button id='assigngrouprowbutton' class='btn btn-sm btn-primary' type='button' title='Asignaciones Grupales'><i class='fa fa-users fa-2x text-info' title='Asignaciones Grupales'/></i></button>");*/
                     /*container.append("<button id='updaterowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
                     container.append("<button id='deleterowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");*/
                     container.append("<button id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
                     $("#assignsinglerowbutton").jqxButton();
-                    $("#assigngrouprowbutton").jqxButton();
+                    /*$("#assigngrouprowbutton").jqxButton();*/
 
                     /*$("#updaterowbutton").jqxButton();
                     $("#deleterowbutton").jqxButton();*/

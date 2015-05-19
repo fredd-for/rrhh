@@ -164,6 +164,24 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
     }
 
     /**
+     * Función para la obtención del listado de horarios para un calendario definido entre una fecha de inicio y finalización. Se considera que para el caso
+     * de un tipo de horario multiple se mantenga la disposición normal y para tipos de horario continuo o discontinuo se particione los horarios de con una
+     * duración entre lunes a viernes.
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllRegisteredByPerfilMixtoAndRelaboralRangoFechas($idRelaboral,$fechaIni,$fechaFin)
+    {
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql = "SELECT * FROM f_calendario_laboral_registrado_por_relaboral_mixto($idRelaboral,'$fechaIni','$fechaFin')";
+        }
+        $this->_db = new Fcalendariolaboral();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
      * Función para la obtención del listado de horarios laborales registrados en el calendario laboral,
      * considerando el tipo de horario como parámetro de distinción.
      * @param $tipoHorario

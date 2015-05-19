@@ -559,12 +559,12 @@ function definirGrillaParaListaRelaborales() {
                                 var contadorPerfiles = 0;
                                 var idPerfilLaboral=0;
                                 var tipoHorario=3;
-                                var objFechas = obtenerFechaIniFinCalendario(defaultGestion,defaultMes+1);
-                                var fechaIni = objFechas.fecha_ini;
-                                var fechaFin = objFechas.fecha_fin;
-                                var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
                                 $("#calendar").html("");
-
+                                /**
+                                 * Los horarios son cargados al momento de desplegarse el calendario.
+                                 * @type {Array}
+                                 */
+                                var arrHorariosRegistrados = [];
                                 var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignaciones(dataRecord,dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                 sumarTotalHorasPorSemana(arrFechasPorSemana);
                                 } else {
@@ -1150,7 +1150,7 @@ function obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones
         case 2:ctrlAllDay=true;break;
     }
     $.ajax({
-        url: '/calendariolaboral/listallregisteredbyrelaboral',
+        url: '/calendariolaboral/listallregisteredbyrelaboralmixto',
         type: 'POST',
         datatype: 'json',
         async: false,
@@ -1539,6 +1539,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                         var primeraFechaCalendario = "";
                         var segundaFechaCalendario = "";
                         arrFechasPorSemana= [];
+                        var gestionInicial = 0;
                         var contP=0;
                         var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
                         $.each(arrDias,function(k,dia){
@@ -1550,6 +1551,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                                 if(fecha!=undefined){
                                     var arrFecha = fecha.split("-");
                                     fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                                    gestionInicial = arrFecha[0];
                                     switch (contP){
                                         case 1:{
                                             if(primeraFechaCalendario=="")primeraFechaCalendario = fecha;
@@ -1584,7 +1586,53 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                         $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
                         cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,primeraFechaCalendario,segundaFechaCalendario);
                         cargarExcepcionesEnCalendario(dataRecord,view.name,diasSemana,primeraFechaCalendario,segundaFechaCalendario);
-                    }
+                        /**
+                         * Asignación de horarios por mes, inicialmente se borra todos los eventos registrados
+                         * a objeto de no repetir su renderización
+                         */
+                        $("#calendar").fullCalendar( 'removeEvents');
+                        var arrHorariosRegistradosEnMes = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,0,tipoHorario,false,primeraFechaCalendario,segundaFechaCalendario,0);
+                            $("#calendar").fullCalendar('addEventSource', arrHorariosRegistradosEnMes);
+
+                        var arrFeriados = obtenerFeriadosRangoFechas(0,0,gestionInicial,primeraFechaCalendario,segundaFechaCalendario);
+                        $.each(arrDias,function(k,dia){
+                            contP=0;
+                            $("td.fc-"+dia).map(function (index, elem) {
+                                contP++;
+                                var fechaCalAux = $(this).data("date");
+                                var fechaCal = $(this).data("date");
+                                var fechaIni = "";
+                                var fechaFin = "";
+                                var celda = $(this);
+                                $.each(arrFeriados,function(key,val){
+
+                                    fechaIni  = val.fecha_ini;
+                                    fechaFin  = val.fecha_fin;
+
+                                    var arrFechaCal = fechaCal.split("-");
+
+                                    fechaCal = arrFechaCal[2]+"-"+arrFechaCal[1]+"-"+arrFechaCal[0];
+
+                                    var arrFechaIni = fechaIni.split("-");
+                                    fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
+
+                                    var arrFechaFin = fechaFin.split("-");
+                                    fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
+
+                                    var sep="-";
+                                    if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
+                                        celda.css("background-color", "orange");
+                                        var elem = $(".fc-day-content");
+                                        celda.append(val.feriado);
+                                        celda.append("</br>");
+                                        celda.append(val.descripcion);
+                                    }
+                                });
+                            });
+                        });
+
+
+                        }
                     break;
                 case "agendaWeek":
                     fechaInicialCalendario = $('#calendar').fullCalendar('getView').start;

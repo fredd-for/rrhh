@@ -492,9 +492,10 @@ function guardaFormularioRegistroAsignacionGroupPerfilLaboral(accion,idPerfilLab
  * @param idEstacion
  * @param fechaIni
  * @param fechaFin
+ * @param tipoMarcacion
  * @param observacion
  */
-function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,observacion){
+function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,tipoMarcacion,observacion){
     var ok = false;
     if(idEstacion>0){
         idUbicacion = idEstacion;
@@ -513,6 +514,7 @@ function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelabo
                 id_ubicacion:idUbicacion,
                 fecha_ini:fechaIni,
                 fecha_fin:fechaFin,
+                tipo_marcacion:tipoMarcacion,
                 observacion:observacion,
                 opcion:opcion
             },

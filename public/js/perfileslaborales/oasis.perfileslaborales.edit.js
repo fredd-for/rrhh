@@ -60,6 +60,9 @@ function guardarRegistroEditadoPerfilLaboral(){
     var perfiLaboral = $('#txtPerfilLaboralEditar').val();
     var grupoLaboral = $("#txtGrupoPerfilLaboralEditar").val();
     var tipoHorario = $("#lstTipoHorarioPerfilLaboralEditar").val();
+    var chkControlFaltasOmisionesPerfilLaboralEditar = 0;
+    if($("#chkControlFaltasOmisionesPerfilLaboralEditar").bootstrapSwitch("state"))
+        chkControlFaltasOmisionesPerfilLaboralEditar = 1;
     var observacion = $("#txtObservacionPerfilLaboralEditar").val();
     if(id_perfillaboral>0){
         var ok=$.ajax({
@@ -71,6 +74,7 @@ function guardarRegistroEditadoPerfilLaboral(){
                 perfil_laboral:perfiLaboral,
                 grupo:grupoLaboral,
                 tipo_horario:tipoHorario,
+                control_f_o:chkControlFaltasOmisionesPerfilLaboralEditar,
                 observacion:observacion
             },
             success: function(data) {  //alert(data);

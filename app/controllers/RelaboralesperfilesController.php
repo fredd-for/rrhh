@@ -228,6 +228,7 @@ class RelaboralesperfilesController extends ControllerBase{
                         'relaboralperfil_observacion' => $v->relaboralperfil_observacion,
                         'relaboralperfil_estado' => $v->relaboralperfil_estado,
                         'relaboralperfil_estado_descripcion' => ($v->relaboralperfil_id==null)?"SIN ASIGNACION":$v->relaboralperfil_estado_descripcion,
+                        'relaboralperfilmaquina_tipo_marcacion' => $v->relaboralperfilmaquina_tipo_marcacion
                     );
                 }
             }
@@ -255,8 +256,9 @@ class RelaboralesperfilesController extends ControllerBase{
             $idRelaboral = $_POST["id_relaboral"];
             $idPerfilLaboral = $_POST['id_perfillaboral'];
             $idUbicacion = $_POST['id_ubicacion'];
+            $tipoMarcacion = $_POST['tipo_marcacion'];
             $observacion = $_POST['observacion'];
-            if($idRelaboralPerfil>0&&$idPerfilLaboral>0&&$idRelaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''){
+            if($idRelaboralPerfil>0&&$idPerfilLaboral>0&&$idRelaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacion>=0){
                 $objRelaboralPerfil = Relaboralesperfiles::findFirst(array("id=".$idRelaboralPerfil));
                 $objRelaboralPerfil->relaboral_id=$idRelaboral;
                 $objRelaboralPerfil->perfillaboral_id=$idPerfilLaboral;
@@ -296,7 +298,7 @@ class RelaboralesperfilesController extends ControllerBase{
                             }
                             $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
                             $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
-                            $objRelaboralPerfilMaquina->tipo_marcacion = 0;//Marcaciones tanto de entrada como de salida
+                            $objRelaboralPerfilMaquina->tipo_marcacion = $tipoMarcacion;
                             $objRelaboralPerfilMaquina->estado=1;
                             $objRelaboralPerfilMaquina->baja_logica=1;
                             $objRelaboralPerfilMaquina->agrupador=0;
@@ -318,31 +320,6 @@ class RelaboralesperfilesController extends ControllerBase{
                     echo $e->getTraceAsString();
                     $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n del Perfil Laboral.');
                 }
-                /*$objRelaboralesperfiles = new Relaboralesperfiles();
-                $verif = $objRelaboralesperfiles->verificaDentroRangoFechasRelaborales($idRelaboral,$_POST['fecha_ini'],$_POST['fecha_fin']);
-                if ($verif->count() > 0) {
-                    $valor = $verif[0];
-                    if($valor->o_resultado==1){
-                        try{
-                            $ok = $objRelaboralPerfil->save();
-                            if ($ok)  {
-                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                            } else {
-                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
-                            }
-                        }catch (\Exception $e) {
-                            echo get_class($e), ": ", $e->getMessage(), "\n";
-                            echo " File=", $e->getFile(), "\n";
-                            echo " Line=", $e->getLine(), "\n";
-                            echo $e->getTraceAsString();
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n del Perfil Laboral.');
-                        }
-                    }else{
-                        $msj = array('result' => -1, 'msj' => 'Las fechas enviadas tienen conflicto con las fechas referentes al registro de la relaci&oacute;n laboral.');
-                    }
-                }else{
-                    $msj = array('result' => -1, 'msj' => 'La verificaci&oacute;n sobre las fechas enviadas tuvo un conflicto en la consulta.');
-                }*/
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
             }
@@ -355,8 +332,9 @@ class RelaboralesperfilesController extends ControllerBase{
             $idUbicacion = $_POST["id_ubicacion"];
             $fechaIni = $_POST['fecha_ini'];
             $fechaFin = $_POST['fecha_fin'];
+            $tipoMarcacion = $_POST['tipo_marcacion'];
             $observacion = $_POST['observacion'];
-            if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''){
+            if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacion>=0){
                 $objAuxRelaboralPerfil = Relaboralesperfiles::findFirst(array("relaboral_id=".$idRelaboral." AND perfillaboral_id=".$idPerfilLaboral." AND ubicacion_id=".$idUbicacion." AND fecha_ini='".$fechaIni."' AND fecha_fin='".$fechaFin."' AND estado>=1 AND baja_logica=1"));
                 if($objAuxRelaboralPerfil==false){
                     $objRelaboralPerfil = new Relaboralesperfiles();
@@ -406,7 +384,7 @@ class RelaboralesperfilesController extends ControllerBase{
                             }
                             $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
                             $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
-                            $objRelaboralPerfilMaquina->tipo_marcacion = 0;//Marcaciones tanto de entrada como de salida
+                            $objRelaboralPerfilMaquina->tipo_marcacion = $tipoMarcacion;
                             $objRelaboralPerfilMaquina->estado=1;
                             $objRelaboralPerfilMaquina->baja_logica=1;
                             $objRelaboralPerfilMaquina->agrupador=0;
@@ -427,31 +405,6 @@ class RelaboralesperfilesController extends ControllerBase{
                     echo $e->getTraceAsString();
                     $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n de Perfil Laboral.');
                 }
-                /*$objRelaboralesperfiles = new Relaboralesperfiles();
-                $verif = $objRelaboralesperfiles->verificaDentroRangoFechasRelaborales($idRelaboral,$_POST['fecha_ini'],$_POST['fecha_fin']);
-                if ($verif->count() > 0) {
-                    $valor = $verif[0];
-                    if($valor->o_resultado==1){
-                        try{
-                            $ok = $objRelaboralPerfil->save();
-                            if ($ok)  {
-                                $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente.');
-                            } else {
-                                $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; la asignaci&oacute;n del Perfil Laboral.');
-                            }
-                        }catch (\Exception $e) {
-                            echo get_class($e), ": ", $e->getMessage(), "\n";
-                            echo " File=", $e->getFile(), "\n";
-                            echo " Line=", $e->getLine(), "\n";
-                            echo $e->getTraceAsString();
-                            $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de asignaci&oacute;n de Perfil Laboral.');
-                        }
-                    }else{
-                        $msj = array('result' => -1, 'msj' => 'Las fechas enviadas tienen conflicto con las fechas referentes al registro de la relaci&oacute;n laboral.');
-                    }
-                }else{
-                    $msj = array('result' => -1, 'msj' => 'La verificaci&oacute;n sobre las fechas enviadas tuvo un conflicto en la consulta.');
-                }*/
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
             }
@@ -546,5 +499,26 @@ class RelaboralesperfilesController extends ControllerBase{
             $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No pudo realizar la verificaci&oacute;n por error en la consulta.');
         }
         echo json_encode($msj);
+    }
+
+    /**
+     * Función para obtener el listado de tipos de marcación admitidos en el sistema.
+     */
+    public function listtiposmarcacionesAction(){
+        $this->view->disable();
+        $tiposMarcaciones = array();
+        $resul = parametros::find(array('parametro LIKE "TIPO_MARCACION" AND estado>=1','order' => 'id ASC'));
+        $tiposMarcaciones = Array();
+        //comprobamos si hay filas
+        if ($resul->count() > 0) {
+            foreach ($resul as $v) {
+                $tiposMarcaciones[] = array(
+                    'tipo_marcacion'=>$v->nivel,
+                    'tipo_marcacion_descripcion' => $v->valor_1,
+                    'tipo_marcacion_descripcion_html' => $v->valor_2
+                );
+            }
+        }
+        echo json_encode($tiposMarcaciones);
     }
 } 

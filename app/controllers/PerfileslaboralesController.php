@@ -30,6 +30,9 @@ class PerfileslaboralesController extends ControllerBase
         $this->assets->addJs('/js/slider/bootstrap-slider.js');
         $this->assets->addCss('/js/slider/bootstrap-slider.css');
 
+        $this->assets->addCss('/assets/css/bootstrap-switch.css');
+        $this->assets->addJs('/js/switch/bootstrap-switch.js');
+
         $this->assets->addJs('/js/enscroll/enscroll.js');
 
         $this->assets->addCss('/assets/css/oasis.principal.css');
@@ -110,6 +113,7 @@ class PerfileslaboralesController extends ControllerBase
                     'observacion' => ($v->observacion != null) ? $v->observacion : "",
                     'estado' => $v->estado,
                     'estado_descripcion' => $estado_descripcion,
+                    'agrupador' => $v->agrupador,
                     'user_reg_id' => $v->user_reg_id,
                     'fecha_reg' => $v->fecha_reg,
                     'user_mod_id' => $v->user_mod_id,
@@ -323,6 +327,10 @@ class PerfileslaboralesController extends ControllerBase
             $perfil_laboral = $_POST['perfil_laboral'];
             $grupo = $_POST['grupo'];
             $tipo_horario = $_POST['tipo_horario'];
+            $controlFaltasOmision=1;
+            if(isset($_POST['control_f_o'])){
+                $controlFaltasOmision = $_POST['control_f_o'];
+            }
             $observacion = $_POST['observacion'];
             $resul = Perfileslaborales::find(array("UPPER(perfil_laboral) LIKE UPPER('".$perfil_laboral."') AND (UPPER(grupo) LIKE UPPER('".$grupo."') OR (grupo is null and '".$grupo."' like '')) AND id!=".$objPerfilLaboral->id));
             if(count($resul)>0){
@@ -335,7 +343,7 @@ class PerfileslaboralesController extends ControllerBase
                     $objPerfilLaboral->tipo_horario = $tipo_horario;
                     $objPerfilLaboral->observacion = ($observacion == "") ? null : $observacion;
                     $objPerfilLaboral->baja_logica = 1;
-                    $objPerfilLaboral->agrupador = 0;
+                    $objPerfilLaboral->agrupador = $controlFaltasOmision;
                     $objPerfilLaboral->user_mod_id = $user_mod_id;
                     $objPerfilLaboral->fecha_mod = $hoy;
                     $ok = $objPerfilLaboral->save();
@@ -363,6 +371,10 @@ class PerfileslaboralesController extends ControllerBase
                 $perfil_laboral = $_POST['perfil_laboral'];
                 $grupo = $_POST['grupo']==''?'':$_POST["grupo"];
                 $tipo_horario = $_POST['tipo_horario'];
+                $controlFaltasOmision=1;
+                if(isset($_POST['control_f_o'])){
+                    $controlFaltasOmision = $_POST['control_f_o'];
+                }
                 $observacion = $_POST['observacion'];
                 if ($perfil_laboral!='') {
                         try {
@@ -378,7 +390,7 @@ class PerfileslaboralesController extends ControllerBase
                                 $objPerfilLaboral->observacion = ($observacion == "") ? null : $observacion;
                                 $objPerfilLaboral->estado = 2;
                                 $objPerfilLaboral->baja_logica = 1;
-                                $objPerfilLaboral->agrupador = 0;
+                                $objPerfilLaboral->agrupador = $controlFaltasOmision;
                                 $objPerfilLaboral->user_reg_id = $user_reg_id;
                                 $objPerfilLaboral->fecha_reg = $hoy;
                                 $ok = $objPerfilLaboral->save();

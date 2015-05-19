@@ -351,6 +351,7 @@ function definirGrillaParaListaPerfilesLaborales() {
             {name: 'tipo_horario_descripcion', type: 'string'},
             {name: 'estado', type: 'integer'},
             {name: 'estado_descripcion', type: 'string'},
+            {name: 'agrupador', type: 'integer'},
             {name: 'observacion', type: 'string'},
         ],
         url: '/perfileslaborales/list',
@@ -394,18 +395,19 @@ function definirGrillaParaListaPerfilesLaborales() {
 
                     /* Registrar nueva relación laboral.*/
                     $("#addrowbutton").on('click', function () {
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 1);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
-                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                        
-                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 1});
                         $('#txtPerfilLaboralNuevo').val("");
                         $('#txtObservacionPerfilLaboralNuevo').val("");
                         $('#txtPerfilLaboralNuevo').val("");
                         $('#txtGrupoPerfilLaboralNuevo').val("");
                         $('#txtPerfilLaboralNuevo').focus();
                         listarTiposHorarios(0,1);
+                        $("#chkControlFaltasOmisionesPerfilLaboralNuevo").bootstrapSwitch("state",true);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 1);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 3);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+
+                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 1});
                     });
                     /*Aprobar registro.*/
                     $("#approverowbutton").on('click', function () {
@@ -447,6 +449,16 @@ function definirGrillaParaListaPerfilesLaborales() {
                                  * Para el caso cuando la persona tenga un registro de relación laboral en estado EN PROCESO o ACTIVO.
                                  */
                                 if (dataRecord.estado >= 1) {
+                                    $("#hdnIdPerfilLaboralEditar").val(id_perfillaboral);
+
+                                    $("#txtPerfilLaboralEditar").val(dataRecord.perfil_laboral);
+                                    $("#txtGrupoPerfilLaboralEditar").val(dataRecord.grupo);
+
+                                    if(dataRecord.agrupador==1){
+                                        $("#chkControlFaltasOmisionesPerfilLaboralEditar").bootstrapSwitch("state",true);
+                                    }else {$("#chkControlFaltasOmisionesPerfilLaboralEditar").bootstrapSwitch("state",false);}
+                                    if (dataRecord.observacion != null)$("#txtObservacionPerfilLaboralEditar").text(dataRecord.observacion);
+                                    else $("#txtObservacionPerfilLaboralEditar").text('');
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 0);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 2);
@@ -456,13 +468,6 @@ function definirGrillaParaListaPerfilesLaborales() {
                                      * Trasladamos el item seleccionado al que corresponde, el de modificación
                                      */
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 2});
-
-                                    $("#hdnIdPerfilLaboralEditar").val(id_perfillaboral);
-
-                                    $("#txtPerfilLaboralEditar").val(dataRecord.perfil_laboral);
-                                    $("#txtGrupoPerfilLaboralEditar").val(dataRecord.grupo);
-                                    if (dataRecord.observacion != null)$("#txtObservacionPerfilLaboralEditar").text(dataRecord.observacion);
-                                    else $("#txtObservacionPerfilLaboralEditar").text('');
                                 } else {
                                     var msje = "Debe seleccionar un registro con estado EN PROCESO o ACTIVO para posibilitar la modificaci&oacute;n del registro";
                                     $("#divMsjePorError").html("");

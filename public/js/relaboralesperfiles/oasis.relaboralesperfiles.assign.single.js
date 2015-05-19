@@ -74,7 +74,8 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
             {name: 'relaboralperfil_fecha_fin', type: 'date'},
             {name: 'relaboralperfil_observacion', type: 'string'},
             {name: 'relaboralperfil_estado', type: 'integer'},
-            {name: 'relaboralperfil_estado_descripcion', type: 'string'}
+            {name: 'relaboralperfil_estado_descripcion', type: 'string'},
+            {name: 'relaboralperfilmaquina_tipo_marcacion', type: 'integer'}
         ],
         url: '/relaboralesperfiles/listsingle?id='+idPerfilLaboral,
         cache: false
@@ -142,7 +143,7 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     /*if(dataRecord.fecha_baja!=null){
                                         fechaMax = fechaConvertirAFormato(dataRecord.fecha_baja,"-");
                                     }*/
-                                    generaModalAdicionAsignacionSinglePerfilLaboral(1,dataRecord.id_ubicacion,0,"","",fechaMin,fechaMax,"");
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(1,dataRecord.id_ubicacion,0,-1,"","",fechaMin,fechaMax,"");
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
                                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
                                 } else {
@@ -179,7 +180,8 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     if(dataRecord.fecha_incor!=null)
                                         fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
                                     var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
-                                    generaModalAdicionAsignacionSinglePerfilLaboral(2,dataRecord.relaboralperfil_ubicacion_id,dataRecord.relaboralperfil_estacion_id,fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
+                                    var tipoMarcacion = dataRecord.relaboralperfilmaquina_tipo_marcacion;
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(2,dataRecord.relaboralperfil_ubicacion_id,dataRecord.relaboralperfil_estacion_id,tipoMarcacion,fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
                                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
                                     $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val(dataRecord.relaboralperfil_id);
@@ -769,11 +771,12 @@ function cargarEstacionesAsignacionIndividual(accion,idUbicacion,idEstacion){
  * @param accion
  * @param idUbicacion
  * @param idEstacion
+ * @param tipoMarcacion
  * @param fechaIni
  * @param fechaFin
  * @param observacion
  */
-function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEstacion,fechaIni,fechaFin,fechaMin,fechaMax,observacion){
+function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEstacion,tipoMarcacion,fechaIni,fechaFin,fechaMin,fechaMax,observacion){
 
     $('#txtFechaIniAsignacionSingle').datepicker('remove');
     $('#txtFechaIniAsignacionSingle').datepicker({
@@ -804,6 +807,7 @@ function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEs
         });
         $("#txtFechaIniAsignacionSingle").val(fechaMin);
         $("#txtFechaFinAsignacionSingle").val(fechaMax);
+        cargarTiposMarcaciones(1,tipoMarcacion);
         $("#txtObservacionAsignacionSingle").val("");
     }else{
         limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(2);
@@ -815,6 +819,7 @@ function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEs
         });
         $("#txtFechaIniAsignacionSingle").datepicker("update",fechaIni);
         $("#txtFechaFinAsignacionSingle").datepicker("update",fechaFin);
+        cargarTiposMarcaciones(2,tipoMarcacion);
         $("#txtObservacionAsignacionSingle").val(observacion);
     }
     $('#popupAsignacionPerfilLaboral').modal('show');
@@ -831,6 +836,7 @@ function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,
     var idEstacion = $("#lstEstacionesAsignacionSingle").val();
     var fechaIni = $("#txtFechaIniAsignacionSingle").val();
     var fechaFin = $("#txtFechaFinAsignacionSingle").val();
+    var tipoMarcacion = $("#lstTiposMarcacionesAsignacionSingle").val();
     limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion);
     var enfoque = "";
     if(idUbicacion<=0){
@@ -894,6 +900,13 @@ function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,
 
         }
     }
+    if(tipoMarcacion>=0){
+        ok = false;
+        var msje = "Debe seleccionar donde puede marcar su asistencia necesariamente.";
+        $("#divTiposMarcacionesAsignacionSingle").addClass("has-error");
+        $("#helpErrorTiposMarcacionesAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#sltTiposMarcacionesAsignacionSingle");
+    }
     var ok2 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
     if(ok2){
         ok=false;
@@ -923,6 +936,9 @@ function limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion){
 
     $("#divFechaFinAsignacionSingle"+sufijo).removeClass("has-error");
     $("#helpErrorFechaFinAsignacionSingle"+sufijo).html("");
+
+    $("#divTiposMarcacionesAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorTiposMarcacionesAsignacionSingle"+sufijo).html("");
 }
 
 /**
@@ -1307,4 +1323,36 @@ function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral
             }
         });
     }
+}
+/**
+ * Función para desplegar los tipos de marcación admitidas en el sistema.
+ * @param accion
+ * @param tipoMarcacion
+ */
+function cargarTiposMarcaciones(accion,tipoMarcacion){
+    var selected = "";
+    var sufijo = "";
+    if(accion==2)sufijo="";
+    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).html("");
+    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
+    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",true);
+    $.ajax({
+        url: '/relaboralesperfiles/listtiposmarcaciones/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",false);
+                $.each(res, function (key, val) {
+                    if(tipoMarcacion==val.tipo_marcacion){
+                        selected = "selected";
+                    }else selected="";
+                    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).append("<option value='"+val.tipo_marcacion+"' "+selected+">"+val.tipo_marcacion_descripcion_html+"</option>");
+                });
+            }else $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",true);
+        }
+    });
 }
