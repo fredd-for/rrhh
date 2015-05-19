@@ -301,7 +301,7 @@ function definirGrillaParaListaHorarios() {
                         $('#jqxTabsHorarios').jqxTabs({selectedItem: 1});
                         inicializarCamposParaNuevoRegistro();
                         limpiarMensajesErrorPorValidacionHorario("");
-                        $("#txtNombreHorario").focus();
+                        $("#txtNombreAlternativoHorario").focus();
                         //inicializarPaleta($("#txtColorHorario"));
                         $("#txtColorHorario").colorpicker()
                             .on('change.color', function(evt, color){
@@ -384,6 +384,7 @@ function definirGrillaParaListaHorarios() {
                                     if(horaSalida=="")horaSalida="00:00:00";
                                     var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
                                     $("#txtHorasLaboralesEditar").val(cantidadHorasLaborales);
+                                    $("#txtNombreAlternativoHorario").focus();
                                 }else {
                                     var msje = "Debe seleccionar un registro en estado EN PROCESO o ACTIVO necesariamente.";
                                     $("#divMsjePorError").html("");

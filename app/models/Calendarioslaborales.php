@@ -58,4 +58,17 @@ class Calendarioslaborales extends \Phalcon\Mvc\Model
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
+    /**
+     * Función para obtener el par fecha de inicio y finalización de un calendario en una gestión y mes determinados.
+     * @param $gestion
+     * @param $mes
+     * @return Resultset
+     */
+    public function getFechaIniFinCalendar($gestion,$mes){
+        if($gestion>0&&$mes>0) {
+            $sql = "SELECT * FROM f_obtener_fecha_ini_fin_calendario($gestion,$mes) ";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
 }

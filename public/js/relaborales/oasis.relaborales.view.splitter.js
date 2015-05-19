@@ -151,9 +151,21 @@ function cargarHistorialRelacionLaboral(idPersona, gestion, sw) {
                     historial += "<dt id='dtNivelSalarial_" + val.id_relaboral + "'>Nivel Salarial:</dt><dd id='ddNivelSalarial_" + val.id_relaboral + "'>" + val.nivelsalarial + "</dd>";
                     /*historial +="<dt id='dtCargo_"+val.id_relaboral+"'>Cargo:</dt><dd id='ddCargo_'>ssssssss</dd>";*/
                     historial += "<dt id='dtHaber_" + val.id_relaboral + "'>Haber:</dt><dd id='ddHaber_" + val.id_relaboral + "'>" + val.sueldo + "</dd>";
-                    historial += "<dt id='dtFechaIng_" + val.id_relaboral + "'>Fecha Ingreso:</dt><dd id='ddFechaIng_" + val.id_relaboral + "'>" + val.fecha_ing + "</dd>";
-                    historial += "<dt id='dtFechaIni_" + val.id_relaboral + "'>Fecha Inicio:</dt><dd id='ddFechaIni_" + val.id_relaboral + "'>" + val.fecha_ini + "</dd>";
-                    historial += "<dt id='dtFechaIncor_" + val.id_relaboral + "'>Fecha Incor:</dt><dd id='ddFechaIncor_" + val.id_relaboral + "'>" + val.fecha_incor + "</dd>";
+                    if(val.fecha_ing!=null&&val.fecha_ing!=""){
+                        historial += "<dt id='dtFechaIng_" + val.id_relaboral + "'>Fecha Ingreso:</dt><dd id='ddFechaIng_" + val.id_relaboral + "'>" + val.fecha_ing + "</dd>";
+                    }else{
+                        historial += "<dt id='dtFechaIng_" + val.id_relaboral + "'>Fecha Ingreso:</dt><dd id='ddFechaIng_" + val.id_relaboral + "'>&nbsp;</dd>";
+                    }
+                    if(val.fecha_ini!=null&&val.fecha_ini!=""){
+                        historial += "<dt id='dtFechaIni_" + val.id_relaboral + "'>Fecha Inicio:</dt><dd id='ddFechaIni_" + val.id_relaboral + "'>" + val.fecha_ini + "</dd>";
+                    }else{
+                        historial += "<dt id='dtFechaIni_" + val.id_relaboral + "'>Fecha Inicio:</dt><dd id='ddFechaIni_" + val.id_relaboral + "'>&nbsp;</dd>";
+                    }
+                    if(val.fecha_incor!=null&&val.fecha_incor!=""){
+                        historial += "<dt id='dtFechaIncor_" + val.id_relaboral + "'>Fecha Incor:</dt><dd id='ddFechaIncor_" + val.id_relaboral + "'>" + val.fecha_incor + "</dd>";
+                    }else{
+                        historial += "<dt id='dtFechaIncor_" + val.id_relaboral + "'>Fecha Incor:</dt><dd id='ddFechaIncor_" + val.id_relaboral + "'>&nbsp;</dd>";
+                    }
                     switch (val.tiene_item){
                          case 1:break;
                          case 0:

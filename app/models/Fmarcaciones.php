@@ -223,5 +223,17 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
+    /**
+     * Función para la obtención de la última fecha de una gestión y mes en particular.
+     * @param $gestion
+     * @param $mes
+     * @return Resultset
+     */
+    public function getUltimaFecha($mes,$gestion)
+    {   if($gestion>0&&$mes>0) {
+            $sql = "SELECT f_ultimo_dia_mes FROM f_ultimo_dia_mes($mes,$gestion) ";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
 }
 ?>

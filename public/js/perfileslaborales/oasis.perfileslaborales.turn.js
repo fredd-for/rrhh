@@ -203,6 +203,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                             $("#hdnFechaIniParaCuposCalendario").val(0);
                             $("#hdnFechaFinParaCuposCalendario").val(0);
                         }
+                        $("#btnConcluirElaboracion").hide();
 
                     });
                     /**
@@ -229,6 +230,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                                     $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 4});
                                     $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 5);
 
+                                    $("#btnConcluirElaboracion").show();
                                     $("#ddPerfilLaboralCalendario").text(perfilLaboral);
                                     if(grupo!=''&&grupo!=null)$("#ddGrupoCalendario").text(grupo);
                                     else $("#ddGrupoCalendario").html("&nbsp;");

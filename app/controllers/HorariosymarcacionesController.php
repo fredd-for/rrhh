@@ -6726,9 +6726,16 @@ class HorariosymarcacionesController extends ControllerBase
             $fechaFin = $_POST["fecha_fin"];
             $clasemarcacion = $_POST["clasemarcacion"];
             $objCL = new Fcalendariolaboral();
+            $objM = new Fmarcaciones();
+            $ultimoDia=0;
+            $fechas = $objM->getUltimaFecha($mes,$gestion);
+            if(is_object($fechas)&&$fechas->count()>0){
+                foreach($fechas as $fecha){
+                    $arrFecha= explode("-",$fecha->f_ultimo_dia_mes);
+                    $ultimoDia = $arrFecha[2];
+                }
+            }
             $cantidadGrupos = 0;
-            $consultaEntrada="";
-            $consultaSalida="";
             $entradas = 0;
             $salidas = 0;
             $objRango = new Ffechasrango();
@@ -6736,6 +6743,10 @@ class HorariosymarcacionesController extends ControllerBase
             $matrizHorarios = array();
             $matrizIdCalendarios = array();
             $matrizDiasSemana = array();
+            $matrizHorariosCruzados = array();
+            $matrizIdCalendariosHorariosCruzados = array();
+            $matrizEstadosHorariosCruzados = array();
+            $swIncluyeOtroMes = false;
             if ($rangoFechas->count() > 0) {
                 #region Estableciendo los valores para las variables del objeto
                 foreach($rangoFechas as $rango) {
@@ -6760,6 +6771,16 @@ class HorariosymarcacionesController extends ControllerBase
                                 $matrizHorarios[$diaaux][$turnoaux][$grupoaux]=$v->hora_salida;
                                 $matrizIdCalendarios[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
                                 if($cantidadGrupos<$grupoaux)$cantidadGrupos=$grupoaux;
+
+                                /**
+                                 * Se verifica que haya entrada en un día y salida en otro.
+                                 */
+                                if(strtotime($v->hora_entrada)>strtotime($v->hora_salida)){
+                                    $matrizHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->hora_salida;
+                                    $matrizIdCalendariosHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                    $matrizEstadosHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                    if($diaaux==$ultimoDia)$swIncluyeOtroMes=true;
+                                }
                             }
                         }
                     }
@@ -6773,40 +6794,74 @@ class HorariosymarcacionesController extends ControllerBase
                     $turno = $i/2;
                     $grupoA = $i - 1;
                     $grupoB = $i;
+                    /**
+                     * Se crea una consulta adicional en caso de existir un horario cruzado,
+                     * es decir, que ingrese en un día y culminé este mismo turno al día siguiente.
+                     */
+                    if($mes<12){
+                        $mesAux = $mes+1;
+                        $gestionAux = $gestion;
+                    }else{
+                        $mesAux = 1;
+                        $gestionAux = $gestion+1;
+                    }
                     $consultaEntrada = "relaboral_id=".$idRelaboral." AND ";
+                    $consultaSalidaAux = "relaboral_id=".$idRelaboral." AND ";
+
                     $consultaEntrada .= "gestion=".$gestion." AND ";
+                    $consultaSalidaAux = "gestion=".$gestionAux." AND ";
+
                     $consultaEntrada .= "mes=".$mes." AND ";
                     $consultaEntrada .= "turno=".$turno." AND ";
+
+                    $consultaSalidaAux .= "mes=".$mesAux." AND ";
+                    $consultaSalidaAux .= "turno=".$turno." AND ";
+
                     $consultaSalida = $consultaEntrada;
+
                     $consultaEntrada .= "grupo=".$grupoA." AND ";
-                    $consultaSalida .= "grupo=".$grupoB." AND ";;
+                    $consultaSalida .= "grupo=".$grupoB." AND ";
+                    $consultaSalidaAux .= "grupo=".$grupoB." AND ";
 
                     $consultaEntrada .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
                     $consultaSalida .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
+                    $consultaSalidaAux .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
 
                     switch($clasemarcacion){
                         case 'H':
                             $consultaEntrada .= "modalidadmarcacion_id = 1 AND ";
                             $consultaSalida .= "modalidadmarcacion_id = 4 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 4 AND ";
                             break;
                         case 'M':
                             $consultaEntrada .= "modalidadmarcacion_id = 2 AND ";
                             $consultaSalida .= "modalidadmarcacion_id = 5 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 5 AND ";
                             break;
                         case 'R':
                             $consultaEntrada .= "modalidadmarcacion_id = 3 AND ";
                             break;
                         case 'A':
                             $consultaSalida .= "modalidadmarcacion_id = 6 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 6 AND ";
                             break;
                     }
                     $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalida .= "estado>=1 AND baja_logica=1 ";
+                    $consultaSalidaAux .= "estado>=1 AND baja_logica=1 ";
+
                     /**
                      * Se hace una consulta para ver los registro de entrada y salida válidos
                      */
                     $objMEntrada = Horariosymarcaciones::findFirst(array($consultaEntrada));
                     $objMSalida = Horariosymarcaciones::findFirst(array($consultaSalida));
+                    /**
+                     * Si la marcación de salida determina que se genere la marcación prevista para el mes siguiente
+                     */
+                    if($swIncluyeOtroMes){
+                        $objMSalidaAux = Horariosymarcaciones::findFirst(array($consultaSalidaAux));
+                    }
+
                     if(!is_object($objMEntrada)) {
                         $objMEntrada = new Horariosymarcaciones();$objMEntrada->relaboral_id=$idRelaboral;
                         $objMEntrada->gestion=$gestion;
@@ -6891,6 +6946,50 @@ class HorariosymarcacionesController extends ControllerBase
                         $objMSalida->user_mod_id=$user_mod_id;
                         $objMSalida->fecha_mod=$hoy;
                     }
+                    if($swIncluyeOtroMes){
+                        if(!is_object($objMSalidaAux)) {
+                            $objMSalidaAux = new Horariosymarcaciones();$objMSalidaAux->relaboral_id=$idRelaboral;
+                            $objMSalidaAux->gestion=$gestionAux;
+                            $objMSalidaAux->mes=$mesAux;
+                            $objMSalidaAux->clasemarcacion=$clasemarcacion;
+                            $objMSalidaAux->user_reg_id=$user_reg_id;
+                            $objMSalidaAux->fecha_reg=$hoy;
+                            $objMSalidaAux->estado1=null;
+                            $objMSalidaAux->estado2=null;
+                            $objMSalidaAux->estado3=null;
+                            $objMSalidaAux->estado4=null;
+                            $objMSalidaAux->estado5=null;
+                            $objMSalidaAux->estado6=null;
+                            $objMSalidaAux->estado7=null;
+                            $objMSalidaAux->estado8=null;
+                            $objMSalidaAux->estado9=null;
+                            $objMSalidaAux->estado10=null;
+                            $objMSalidaAux->estado11=null;
+                            $objMSalidaAux->estado12=null;
+                            $objMSalidaAux->estado13=null;
+                            $objMSalidaAux->estado14=null;
+                            $objMSalidaAux->estado15=null;
+                            $objMSalidaAux->estado16=null;
+                            $objMSalidaAux->estado17=null;
+                            $objMSalidaAux->estado18=null;
+                            $objMSalidaAux->estado19=null;
+                            $objMSalidaAux->estado20=null;
+                            $objMSalidaAux->estado21=null;
+                            $objMSalidaAux->estado22=null;
+                            $objMSalidaAux->estado23=null;
+                            $objMSalidaAux->estado24=null;
+                            $objMSalidaAux->estado25=null;
+                            $objMSalidaAux->estado26=null;
+                            $objMSalidaAux->estado27=null;
+                            $objMSalidaAux->estado28=null;
+                            $objMSalidaAux->estado29=null;
+                            $objMSalidaAux->estado30=null;
+                            $objMSalidaAux->estado31=null;
+                        }else{
+                            $objMSalidaAux->user_mod_id=$user_mod_id;
+                            $objMSalidaAux->fecha_mod=$hoy;
+                        }
+                    }
                     /**
                      * Se reinician todos los valores a objeto de no dejar rastros de los anteriores valores.
                      * Sin embargo, el estado para un día en particular esta ya ELABORADO(2), APROBADO (3) o PLANILLADO (4) ya no se modificará el dato
@@ -6959,10 +7058,21 @@ class HorariosymarcacionesController extends ControllerBase
                     if($objMSalida->estado30==null||$objMSalida->estado30<=1){$objMSalida->d30=null;$objMSalida->calendariolaboral30_id=null;$objMSalida->estado30=null;}
                     if($objMSalida->estado31==null||$objMSalida->estado31<=1){$objMSalida->d31=null;$objMSalida->calendariolaboral31_id=null;$objMSalida->estado31=null;}
 
+                    if($swIncluyeOtroMes){
+                        /**
+                         * Sólo se realiza el control para el primer día del siguiente mes.
+                         */
+                        if($objMSalidaAux->estado1 ==null||$objMSalidaAux->estado1 <=1){$objMSalidaAux->d1 =null;$objMSalidaAux->calendariolaboral1_id=null;$objMSalidaAux->estado1 =null;}
+                        $objMSalidaAux->turno=$turno;
+                        $objMSalidaAux->grupo=$grupoB;
+                    }
                     $objMEntrada->turno=$turno;
                     $objMSalida->turno=$turno;
                     $objMEntrada->grupo=$grupoA;
                     $objMSalida->grupo=$grupoB;
+                    /*foreach($matrizHorariosCruzados as $registrados=>$valores){
+                        echo "<p>dias registrados-->".$registrados." tal que (".(isset($matrizHorariosCruzados[$registrados])).")</p>";
+                    }*/
                     for($dia=1;$dia<=31;$dia++){
                         if(isset($matrizDiasSemana[$dia])){
                             if(isset($matrizHorarios[$dia][$turno][$grupoA])){
@@ -7001,21 +7111,380 @@ class HorariosymarcacionesController extends ControllerBase
                                 }
                             }
                         }
+                        /**
+                         * Calculo de las horas para las salidas con cruce
+                         */
+                            if(isset($matrizHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                switch($dia){
+                                    //case 1 :if($objMSalida->estado1 ==null||$objMSalida->estado1 <=1){$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMSalida->estado1 =1;$objMSalida->d1 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 =1;$objMSalida->d1 =$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 1 :
+                                        /**
+                                         * Asignación momentanea
+                                         */
+                                        $objMSalida->calendariolaboral1_id=null;
+                                        $objMSalida->estado1=1;
+                                        $objMSalida->d1=null;
+                                        break;
+                                    case 2 :if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                            $objMSalida->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                            $objMSalida->estado2=1;
+                                            $objMSalida->d2=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        }
+                                        else{
+                                                $objMSalida->calendariolaboral2_id=null;
+                                                $objMSalida->estado2=null;
+                                                $objMSalida->d2=null;
+                                        }
+                                    }break;
+                                    case 3 :if($objMSalida->estado3 ==null||$objMSalida->estado3 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                            $objMSalida->calendariolaboral3_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                            $objMSalida->estado3=1;
+                                            $objMSalida->d3=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];}
+                                        else{
+                                            $objMSalida->calendariolaboral3_id=null;
+                                            $objMSalida->estado3=null;
+                                            $objMSalida->d3=null;
+                                        }
+                                    }break;
+                                    case 4 :if($objMSalida->estado4 ==null||$objMSalida->estado4 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral4_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado4 = 1;
+                                            $objMSalida->d4 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral4_id = null;
+                                            $objMSalida->estado4 = null;
+                                            $objMSalida->d4 = null;
+                                        }
+                                    }break;
+                                    case 5 :if($objMSalida->estado5 ==null||$objMSalida->estado5 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral5_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado5 = 1;
+                                            $objMSalida->d5 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral5_id = null;
+                                            $objMSalida->estado5 = null;
+                                            $objMSalida->d5 = null;
+                                        }
+                                    }break;
+                                    case 6 :if($objMSalida->estado6 ==null||$objMSalida->estado6 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral6_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado6 = 1;
+                                            $objMSalida->d6 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral6_id = null;
+                                            $objMSalida->estado6 = null;
+                                            $objMSalida->d6 = null;
+                                        }
+                                    }break;
+                                    case 7 :if($objMSalida->estado7 ==null||$objMSalida->estado7 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral7_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado7 = 1;
+                                            $objMSalida->d7 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral7_id = null;
+                                            $objMSalida->estado7 = null;
+                                            $objMSalida->d7 = null;
+                                        }
+                                    }break;
+                                    case 8 :if($objMSalida->estado8 ==null||$objMSalida->estado8 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral8_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado8 = 1;
+                                            $objMSalida->d8 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral8_id = null;
+                                            $objMSalida->estado8 = null;
+                                            $objMSalida->d8 = null;
+                                        }
+                                    }break;
+                                    case 9 :if($objMSalida->estado9 ==null||$objMSalida->estado9 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral9_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado9 = 1;
+                                            $objMSalida->d9 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral9_id = null;
+                                            $objMSalida->estado9 = null;
+                                            $objMSalida->d9 = null;
+                                        }
+                                    }break;
+                                    case 10:if($objMSalida->estado10 ==null||$objMSalida->estado10 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                            $objMSalida->calendariolaboral10_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                            $objMSalida->estado10=1;
+                                            $objMSalida->d10=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral10_id=null;
+                                            $objMSalida->estado10=null;
+                                            $objMSalida->d10=null;
+                                        }
+                                    }break;
+                                    case 11:if($objMSalida->estado11 ==null||$objMSalida->estado11 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral11_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado11 = 1;
+                                            $objMSalida->d11 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral11_id = null;
+                                            $objMSalida->estado11 = null;
+                                            $objMSalida->d11 = null;
+                                        }
+                                    }break;
+                                    case 12:if($objMSalida->estado12 ==null||$objMSalida->estado12 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral12_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado12 = 1;
+                                            $objMSalida->d12 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral12_id = null;
+                                            $objMSalida->estado12 = null;
+                                            $objMSalida->d12 = null;
+                                        }
+                                    }break;
+                                    case 13:if($objMSalida->estado13 ==null||$objMSalida->estado13 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral13_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado13 = 1;
+                                            $objMSalida->d13 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral13_id = null;
+                                            $objMSalida->estado13 = null;
+                                            $objMSalida->d13 = null;
+                                        }
+                                    }break;
+                                    case 14:if($objMSalida->estado14 ==null||$objMSalida->estado14 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral14_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado14 = 1;
+                                            $objMSalida->d14 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral14_id = null;
+                                            $objMSalida->estado14 = null;
+                                            $objMSalida->d14 = null;
+                                        }
+                                    }break;
+                                    case 15:if($objMSalida->estado15 ==null||$objMSalida->estado15 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral15_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado15 = 1;
+                                            $objMSalida->d15 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral15_id = null;
+                                            $objMSalida->estado15 = null;
+                                            $objMSalida->d15 = null;
+                                        }
+                                    }break;
+                                    case 16:if($objMSalida->estado16 ==null||$objMSalida->estado16 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral16_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado16 = 1;
+                                            $objMSalida->d16 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral16_id = null;
+                                            $objMSalida->estado16 = null;
+                                            $objMSalida->d16 = null;
+                                        }
+                                    }break;
+                                    case 17:if($objMSalida->estado17 ==null||$objMSalida->estado17 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral17_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado17 = 1;
+                                            $objMSalida->d17 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral17_id = null;
+                                            $objMSalida->estado17 = null;
+                                            $objMSalida->d17 = null;
+                                        }
+                                    }break;
+                                    case 18:if($objMSalida->estado18 ==null||$objMSalida->estado18 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral18_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado18 = 1;
+                                            $objMSalida->d18 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral18_id = null;
+                                            $objMSalida->estado18 = null;
+                                            $objMSalida->d18 = null;
+                                        }
+                                    }break;
+                                    case 19:if($objMSalida->estado19 ==null||$objMSalida->estado19 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral19_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado19 = 1;
+                                            $objMSalida->d19 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral19_id = null;
+                                            $objMSalida->estado19 = null;
+                                            $objMSalida->d19 = null;
+                                        }
+                                    }break;
+                                    case 20:if($objMSalida->estado20 ==null||$objMSalida->estado20 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral20_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado20 = 1;
+                                            $objMSalida->d20 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral20_id = null;
+                                            $objMSalida->estado20 = null;
+                                            $objMSalida->d20 = null;
+                                        }
+                                    }break;
+                                    case 21:if($objMSalida->estado21 ==null||$objMSalida->estado21 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral21_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado21 = 1;
+                                            $objMSalida->d21 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral21_id = null;
+                                            $objMSalida->estado21 = null;
+                                            $objMSalida->d21 = null;
+                                        }
+                                    }break;
+                                    case 22:if($objMSalida->estado22 ==null||$objMSalida->estado22 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral22_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado22 = 1;
+                                            $objMSalida->d22 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral22_id = null;
+                                            $objMSalida->estado22 = null;
+                                            $objMSalida->d22 = null;
+                                        }
+                                    }break;
+                                    case 23:if($objMSalida->estado23 ==null||$objMSalida->estado23 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral23_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado23 = 1;
+                                            $objMSalida->d23 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral23_id = null;
+                                            $objMSalida->estado23 = null;
+                                            $objMSalida->d23 = null;
+                                        }
+                                    }break;
+                                    case 24:if($objMSalida->estado24 ==null||$objMSalida->estado24 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                            $objMSalida->calendariolaboral24_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                            $objMSalida->estado24=1;
+                                            $objMSalida->d24=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        }
+                                        else {
+                                            $objMSalida->calendariolaboral24_id=null;
+                                            $objMSalida->estado24=null;
+                                            $objMSalida->d24=null;
+                                        }
+                                    }break;
+                                    case 25:if($objMSalida->estado25 ==null||$objMSalida->estado25 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral25_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado25 = 1;
+                                            $objMSalida->d25 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral25_id = null;
+                                            $objMSalida->estado25 = null;
+                                            $objMSalida->d25 = null;
+                                        }
+                                    }break;
+                                    case 26:if($objMSalida->estado26 ==null||$objMSalida->estado26 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral26_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado26 = 1;
+                                            $objMSalida->d26 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral26_id = null;
+                                            $objMSalida->estado26 = null;
+                                            $objMSalida->d26 = null;
+                                        }
+                                    }break;
+                                    case 27:if($objMSalida->estado27 ==null||$objMSalida->estado27 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral27_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado27 = 1;
+                                            $objMSalida->d27 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral27_id = null;
+                                            $objMSalida->estado27 = null;
+                                            $objMSalida->d27 = null;
+                                        }
+                                    }break;
+                                    case 28:if($objMSalida->estado28 ==null||$objMSalida->estado28 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral28_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado28 = 1;
+                                            $objMSalida->d28 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral28_id = null;
+                                            $objMSalida->estado28 = null;
+                                            $objMSalida->d28 = null;
+                                        }
+                                    }break;
+                                    case 29:if($objMSalida->estado29 ==null||$objMSalida->estado29 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado29 = 1;
+                                            $objMSalida->d29 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral29_id = null;
+                                            $objMSalida->estado29 = null;
+                                            $objMSalida->d29 = null;
+                                        }
+                                    }break;
+                                    case 30:if($objMSalida->estado30 ==null||$objMSalida->estado30 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado30 = 1;
+                                            $objMSalida->d30 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral30_id = null;
+                                            $objMSalida->estado30 = null;
+                                            $objMSalida->d30 = null;
+                                        }
+                                    }break;
+                                    case 31:if($objMSalida->estado31 ==null||$objMSalida->estado31 <=1){
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                            $objMSalida->estado31 = 1;
+                                            $objMSalida->d31 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        }else{
+                                            $objMSalida->calendariolaboral31_id = null;
+                                            $objMSalida->estado31 = null;
+                                            $objMSalida->d31 = null;
+                                        }
+                                    }break;
+                                }
+                            }
+
                     }
+                    //$objMSalida->d15=$matrizIdCalendariosHorariosCruzados[14][$turno][$grupoB];
                     switch($clasemarcacion){
                         case 'H':
                             $objMEntrada->modalidadmarcacion_id = 1;
                             $objMSalida->modalidadmarcacion_id = 4;
+                            if($swIncluyeOtroMes){
+                                $objMSalidaAux->modalidadmarcacion_id = 4;
+                            }
                             break;
                         case 'M':
                             $objMEntrada->modalidadmarcacion_id = 2;
                             $objMSalida->modalidadmarcacion_id = 5;
+                            if($swIncluyeOtroMes){
+                                $objMSalidaAux->modalidadmarcacion_id = 5;
+                            }
                             break;
                         case 'R':
                             $objMEntrada->modalidadmarcacion_id = 3;
                             break;
                         case 'A':
                             $objMSalida->modalidadmarcacion_id = 6;
+                            if($swIncluyeOtroMes){
+                                $objMSalidaAux->modalidadmarcacion_id = 6;
+                            }
                             break;
                     }
                     $objMEntrada->ultimo_dia=$diaaux;$objMSalida->ultimo_dia=$diaaux;
@@ -7025,6 +7494,7 @@ class HorariosymarcacionesController extends ControllerBase
                     try{
                         $okE = $objMEntrada->save();
                         $okS = $objMSalida->save();
+                        //$okE = $okS = true;
                         if($okE){
                             $entradas++;
                         }
@@ -7616,16 +8086,23 @@ class HorariosymarcacionesController extends ControllerBase
             $consultaSalida="";
             $entradas = 0;
             $salidas = 0;
+            $ultimoDia=0;
             $objRango = new Ffechasrango();
             $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
             $matrizHorarios = array();
             $matrizIdCalendarios = array();
             $matrizDiasSemana = array();
+            $matrizHorariosCruzados = array();
+            $matrizIdCalendariosHorariosCruzados = array();
+            $matrizEstadosHorariosCruzados = array();
+            $swIncluyeOtroMes = false;
             $matrizFechas = array();
             $matrizInicioRangoEntrada = array();
             $matrizFinalRangoEntrada = array();
             $matrizInicioRangoSalida = array();
             $matrizFinalRangoSalida = array();
+            $matrizInicioRangoSalidaCruzados = array();
+            $matrizFinalRangoSalidaCruzados = array();
             if ($rangoFechas->count() > 0) {
                 #region Estableciendo los valores para las variables del objeto
                 foreach($rangoFechas as $rango) {
@@ -7655,6 +8132,17 @@ class HorariosymarcacionesController extends ControllerBase
                                 $matrizInicioRangoSalida[$diaaux][$turnoaux][$grupoaux] = $v->hora_inicio_rango_sal;
                                 $matrizFinalRangoSalida[$diaaux][$turnoaux][$grupoaux] = $v->hora_final_rango_sal;
                                 if($cantidadGrupos<$grupoaux)$cantidadGrupos=$grupoaux;
+
+                                /**
+                                 * Se verifica que haya entrada en un día y salida en otro.
+                                 */
+                                if(strtotime($v->hora_entrada)>strtotime($v->hora_salida)){
+                                    $matrizHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->hora_salida;
+                                    $matrizIdCalendariosHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                    $matrizInicioRangoSalidaCruzados[$diaaux][$turnoaux][$grupoaux] = $v->hora_inicio_rango_sal;
+                                    $matrizFinalRangoSalidaCruzados[$diaaux][$turnoaux][$grupoaux] = $v->hora_final_rango_sal;
+                                    if($diaaux==$ultimoDia)$swIncluyeOtroMes=true;
+                                }
                             }
                         }
                     }
@@ -7668,42 +8156,75 @@ class HorariosymarcacionesController extends ControllerBase
                     $turno = $i/2;
                     $grupoA = $i - 1;
                     $grupoB = $i;
+                    /**
+                     * Se crea una consulta adicional en caso de existir un horario cruzado,
+                     * es decir, que ingrese en un día y culminé este mismo turno al día siguiente.
+                     */
+                    if($mes<12){
+                        $mesAux = $mes+1;
+                        $gestionAux = $gestion;
+                    }else{
+                        $mesAux = 1;
+                        $gestionAux = $gestion+1;
+                    }
                     $consultaEntrada = "relaboral_id=".$idRelaboral." AND ";
+                    $consultaSalidaAux = "relaboral_id=".$idRelaboral." AND ";
+
                     $consultaEntrada .= "gestion=".$gestion." AND ";
+                    $consultaSalidaAux = "gestion=".$gestionAux." AND ";
+
                     $consultaEntrada .= "mes=".$mes." AND ";
                     $consultaEntrada .= "turno=".$turno." AND ";
+
+                    $consultaSalidaAux .= "mes=".$mesAux." AND ";
+                    $consultaSalidaAux .= "turno=".$turno." AND ";
+
                     $consultaSalida = $consultaEntrada;
+
                     $consultaEntrada .= "grupo=".$grupoA." AND ";
                     $consultaSalida .= "grupo=".$grupoB." AND ";;
+                    $consultaSalidaAux .= "grupo=".$grupoB." AND ";
 
                     $consultaEntrada .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
                     $consultaSalida .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
+                    $consultaSalidaAux .= "clasemarcacion LIKE '".$clasemarcacion."' AND ";
 
                     switch($clasemarcacion){
                         case 'H':
                             $consultaEntrada .= "modalidadmarcacion_id = 1 AND ";
                             $consultaSalida .= "modalidadmarcacion_id = 4 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 4 AND ";
                             break;
                         case 'M':
                             $consultaEntrada .= "modalidadmarcacion_id = 2 AND ";
                             $consultaSalida .= "modalidadmarcacion_id = 5 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 5 AND ";
                             break;
                         case 'R':
                             $consultaEntrada .= "modalidadmarcacion_id = 3 AND ";
                             break;
                         case 'A':
                             $consultaSalida .= "modalidadmarcacion_id = 6 AND ";
+                            $consultaSalidaAux .= "modalidadmarcacion_id = 6 AND ";
                             break;
                     }
                     $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalida .= "estado>=1 AND baja_logica=1 ";
-                    /*echo "<p>Consulta Entrada: ".$consultaEntrada;
-                    echo "<p>Consulta Salida: ".$consultaSalida;*/
+                    $consultaSalidaAux .= "estado>=1 AND baja_logica=1 ";
+
                     /**
                      * Se hace una consulta para ver los registro de entrada y salida válidos
                      */
                     $objMEntrada = Horariosymarcaciones::findFirst(array($consultaEntrada));
                     $objMSalida = Horariosymarcaciones::findFirst(array($consultaSalida));
+
+                    /**
+                     * Si la marcación de salida determina que se genere la marcación prevista para el mes siguiente
+                     */
+                    if($swIncluyeOtroMes){
+                        $objMSalidaAux = Horariosymarcaciones::findFirst(array($consultaSalidaAux));
+                    }
+
                     if(!is_object($objMEntrada)) {
                         $objMEntrada = new Horariosymarcaciones();$objMEntrada->relaboral_id=$idRelaboral;
                         $objMEntrada->gestion=$gestion;
@@ -7788,6 +8309,50 @@ class HorariosymarcacionesController extends ControllerBase
                         $objMSalida->user_mod_id=$user_mod_id;
                         $objMSalida->fecha_mod=$hoy;
                     }
+                    if($swIncluyeOtroMes){
+                        if(!is_object($objMSalidaAux)) {
+                            $objMSalidaAux = new Horariosymarcaciones();$objMSalidaAux->relaboral_id=$idRelaboral;
+                            $objMSalidaAux->gestion=$gestionAux;
+                            $objMSalidaAux->mes=$mesAux;
+                            $objMSalidaAux->clasemarcacion=$clasemarcacion;
+                            $objMSalidaAux->user_reg_id=$user_reg_id;
+                            $objMSalidaAux->fecha_reg=$hoy;
+                            $objMSalidaAux->estado1=null;
+                            $objMSalidaAux->estado2=null;
+                            $objMSalidaAux->estado3=null;
+                            $objMSalidaAux->estado4=null;
+                            $objMSalidaAux->estado5=null;
+                            $objMSalidaAux->estado6=null;
+                            $objMSalidaAux->estado7=null;
+                            $objMSalidaAux->estado8=null;
+                            $objMSalidaAux->estado9=null;
+                            $objMSalidaAux->estado10=null;
+                            $objMSalidaAux->estado11=null;
+                            $objMSalidaAux->estado12=null;
+                            $objMSalidaAux->estado13=null;
+                            $objMSalidaAux->estado14=null;
+                            $objMSalidaAux->estado15=null;
+                            $objMSalidaAux->estado16=null;
+                            $objMSalidaAux->estado17=null;
+                            $objMSalidaAux->estado18=null;
+                            $objMSalidaAux->estado19=null;
+                            $objMSalidaAux->estado20=null;
+                            $objMSalidaAux->estado21=null;
+                            $objMSalidaAux->estado22=null;
+                            $objMSalidaAux->estado23=null;
+                            $objMSalidaAux->estado24=null;
+                            $objMSalidaAux->estado25=null;
+                            $objMSalidaAux->estado26=null;
+                            $objMSalidaAux->estado27=null;
+                            $objMSalidaAux->estado28=null;
+                            $objMSalidaAux->estado29=null;
+                            $objMSalidaAux->estado30=null;
+                            $objMSalidaAux->estado31=null;
+                        }else{
+                            $objMSalidaAux->user_mod_id=$user_mod_id;
+                            $objMSalidaAux->fecha_mod=$hoy;
+                        }
+                    }
                     /**
                      * Se reinician todos los valores a objeto de no dejar rastros de los anteriores valores.
                      * Sin embargo, el estado para un día en particular esta ya ELABORADO(2), APROBADO (3) o PLANILLADO (4) ya no se modificará el dato
@@ -7856,6 +8421,16 @@ class HorariosymarcacionesController extends ControllerBase
                     if($objMSalida->estado30==null||$objMSalida->estado30<=1){$objMSalida->d30=null;$objMSalida->calendariolaboral30_id=null;$objMSalida->estado30=null;}
                     if($objMSalida->estado31==null||$objMSalida->estado31<=1){$objMSalida->d31=null;$objMSalida->calendariolaboral31_id=null;$objMSalida->estado31=null;}
 
+
+                    if($swIncluyeOtroMes){
+                        /**
+                         * Sólo se realiza el control para el primer día del siguiente mes.
+                         */
+                        if($objMSalidaAux->estado1 ==null||$objMSalidaAux->estado1 <=1){$objMSalidaAux->d1 =null;$objMSalidaAux->calendariolaboral1_id=null;$objMSalidaAux->estado1 =null;}
+                        $objMSalidaAux->turno=$turno;
+                        $objMSalidaAux->grupo=$grupoB;
+                    }
+
                     $objMEntrada->turno=$turno;
                     $objMSalida->turno=$turno;
                     $objMEntrada->grupo=$grupoA;
@@ -7889,39 +8464,6 @@ class HorariosymarcacionesController extends ControllerBase
                                 }else{
                                     $horaMarcacionSalida=null;
                                 }
-                                /*switch($dia){
-                                    case 1 :if($objMEntrada->estado1 ==null){$objMEntrada->calendariolaboral1_id=$cl->id; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;}if($objMSalida->estado1 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral1_id=$cl->id; $objMSalida->estado1 =1;$objMSalida->d1 =$horaMarcacionSalida;}$ultimo_dia=1 ;break;
-                                    case 2 :if($objMEntrada->estado2 ==null){$objMEntrada->calendariolaboral2_id=$cl->id; $objMEntrada->estado2 =1;$objMEntrada->d2 =$horaMarcacionEntrada;}if($objMSalida->estado2 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral2_id=$cl->id; $objMSalida->estado2 =1;$objMSalida->d2 =$horaMarcacionSalida;}$ultimo_dia=2 ;break;
-                                    case 3 :if($objMEntrada->estado3 ==null){$objMEntrada->calendariolaboral3_id=$cl->id; $objMEntrada->estado3 =1;$objMEntrada->d3 =$horaMarcacionEntrada;}if($objMSalida->estado3 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral3_id=$cl->id; $objMSalida->estado3 =1;$objMSalida->d3 =$horaMarcacionSalida;}$ultimo_dia=3 ;break;
-                                    case 4 :if($objMEntrada->estado4 ==null){$objMEntrada->calendariolaboral4_id=$cl->id; $objMEntrada->estado4 =1;$objMEntrada->d4 =$horaMarcacionEntrada;}if($objMSalida->estado4 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral4_id=$cl->id; $objMSalida->estado4 =1;$objMSalida->d4 =$horaMarcacionSalida;}$ultimo_dia=4 ;break;
-                                    case 5 :if($objMEntrada->estado5 ==null){$objMEntrada->calendariolaboral5_id=$cl->id; $objMEntrada->estado5 =1;$objMEntrada->d5 =$horaMarcacionEntrada;}if($objMSalida->estado5 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral5_id=$cl->id; $objMSalida->estado5 =1;$objMSalida->d5 =$horaMarcacionSalida;}$ultimo_dia=5 ;break;
-                                    case 6 :if($objMEntrada->estado6 ==null){$objMEntrada->calendariolaboral6_id=$cl->id; $objMEntrada->estado6 =1;$objMEntrada->d6 =$horaMarcacionEntrada;}if($objMSalida->estado6 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral6_id=$cl->id; $objMSalida->estado6 =1;$objMSalida->d6 =$horaMarcacionSalida;}$ultimo_dia=6 ;break;
-                                    case 7 :if($objMEntrada->estado7 ==null){$objMEntrada->calendariolaboral7_id=$cl->id; $objMEntrada->estado7 =1;$objMEntrada->d7 =$horaMarcacionEntrada;}if($objMSalida->estado7 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral7_id=$cl->id; $objMSalida->estado7 =1;$objMSalida->d7 =$horaMarcacionSalida;}$ultimo_dia=7 ;break;
-                                    case 8 :if($objMEntrada->estado8 ==null){$objMEntrada->calendariolaboral8_id=$cl->id; $objMEntrada->estado8 =1;$objMEntrada->d8 =$horaMarcacionEntrada;}if($objMSalida->estado8 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral8_id=$cl->id; $objMSalida->estado8 =1;$objMSalida->d8 =$horaMarcacionSalida;}$ultimo_dia=8 ;break;
-                                    case 9 :if($objMEntrada->estado9 ==null){$objMEntrada->calendariolaboral9_id=$cl->id; $objMEntrada->estado9 =1;$objMEntrada->d9 =$horaMarcacionEntrada;}if($objMSalida->estado9 ==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral9_id=$cl->id; $objMSalida->estado9 =1;$objMSalida->d9 =$horaMarcacionSalida;}$ultimo_dia=9 ;break;
-                                    case 10:if($objMEntrada->estado10==null){$objMEntrada->calendariolaboral10_id=$cl->id;$objMEntrada->estado10=1;$objMEntrada->d10=$horaMarcacionEntrada;}if($objMSalida->estado10==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral10_id=$cl->id;$objMSalida->estado10=1;$objMSalida->d10=$horaMarcacionSalida;}$ultimo_dia=10;break;
-                                    case 11:if($objMEntrada->estado11==null){$objMEntrada->calendariolaboral11_id=$cl->id;$objMEntrada->estado11=1;$objMEntrada->d11=$horaMarcacionEntrada;}if($objMSalida->estado11==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral11_id=$cl->id;$objMSalida->estado11=1;$objMSalida->d11=$horaMarcacionSalida;}$ultimo_dia=11;break;
-                                    case 12:if($objMEntrada->estado12==null){$objMEntrada->calendariolaboral12_id=$cl->id;$objMEntrada->estado12=1;$objMEntrada->d12=$horaMarcacionEntrada;}if($objMSalida->estado12==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral12_id=$cl->id;$objMSalida->estado12=1;$objMSalida->d12=$horaMarcacionSalida;}$ultimo_dia=12;break;
-                                    case 13:if($objMEntrada->estado13==null){$objMEntrada->calendariolaboral13_id=$cl->id;$objMEntrada->estado13=1;$objMEntrada->d13=$horaMarcacionEntrada;}if($objMSalida->estado13==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral13_id=$cl->id;$objMSalida->estado13=1;$objMSalida->d13=$horaMarcacionSalida;}$ultimo_dia=13;break;
-                                    case 14:if($objMEntrada->estado14==null){$objMEntrada->calendariolaboral14_id=$cl->id;$objMEntrada->estado14=1;$objMEntrada->d14=$horaMarcacionEntrada;}if($objMSalida->estado14==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral14_id=$cl->id;$objMSalida->estado14=1;$objMSalida->d14=$horaMarcacionSalida;}$ultimo_dia=14;break;
-                                    case 15:if($objMEntrada->estado15==null){$objMEntrada->calendariolaboral15_id=$cl->id;$objMEntrada->estado15=1;$objMEntrada->d15=$horaMarcacionEntrada;}if($objMSalida->estado15==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral15_id=$cl->id;$objMSalida->estado15=1;$objMSalida->d15=$horaMarcacionSalida;}$ultimo_dia=15;break;
-                                    case 16:if($objMEntrada->estado16==null){$objMEntrada->calendariolaboral16_id=$cl->id;$objMEntrada->estado16=1;$objMEntrada->d16=$horaMarcacionEntrada;}if($objMSalida->estado16==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral16_id=$cl->id;$objMSalida->estado16=1;$objMSalida->d16=$horaMarcacionSalida;}$ultimo_dia=16;break;
-                                    case 17:if($objMEntrada->estado17==null){$objMEntrada->calendariolaboral17_id=$cl->id;$objMEntrada->estado17=1;$objMEntrada->d17=$horaMarcacionEntrada;}if($objMSalida->estado17==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral17_id=$cl->id;$objMSalida->estado17=1;$objMSalida->d17=$horaMarcacionSalida;}$ultimo_dia=17;break;
-                                    case 18:if($objMEntrada->estado18==null){$objMEntrada->calendariolaboral18_id=$cl->id;$objMEntrada->estado18=1;$objMEntrada->d18=$horaMarcacionEntrada;}if($objMSalida->estado18==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral18_id=$cl->id;$objMSalida->estado18=1;$objMSalida->d18=$horaMarcacionSalida;}$ultimo_dia=18;break;
-                                    case 19:if($objMEntrada->estado19==null){$objMEntrada->calendariolaboral19_id=$cl->id;$objMEntrada->estado19=1;$objMEntrada->d19=$horaMarcacionEntrada;}if($objMSalida->estado19==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral19_id=$cl->id;$objMSalida->estado19=1;$objMSalida->d19=$horaMarcacionSalida;}$ultimo_dia=19;break;
-                                    case 20:if($objMEntrada->estado20==null){$objMEntrada->calendariolaboral20_id=$cl->id;$objMEntrada->estado20=1;$objMEntrada->d20=$horaMarcacionEntrada;}if($objMSalida->estado20==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral20_id=$cl->id;$objMSalida->estado20=1;$objMSalida->d20=$horaMarcacionSalida;}$ultimo_dia=20;break;
-                                    case 21:if($objMEntrada->estado21==null){$objMEntrada->calendariolaboral21_id=$cl->id;$objMEntrada->estado21=1;$objMEntrada->d21=$horaMarcacionEntrada;}if($objMSalida->estado21==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral21_id=$cl->id;$objMSalida->estado21=1;$objMSalida->d21=$horaMarcacionSalida;}$ultimo_dia=21;break;
-                                    case 22:if($objMEntrada->estado22==null){$objMEntrada->calendariolaboral22_id=$cl->id;$objMEntrada->estado22=1;$objMEntrada->d22=$horaMarcacionEntrada;}if($objMSalida->estado22==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral22_id=$cl->id;$objMSalida->estado22=1;$objMSalida->d22=$horaMarcacionSalida;}$ultimo_dia=22;break;
-                                    case 23:if($objMEntrada->estado23==null){$objMEntrada->calendariolaboral23_id=$cl->id;$objMEntrada->estado23=1;$objMEntrada->d23=$horaMarcacionEntrada;}if($objMSalida->estado23==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral23_id=$cl->id;$objMSalida->estado23=1;$objMSalida->d23=$horaMarcacionSalida;}$ultimo_dia=23;break;
-                                    case 24:if($objMEntrada->estado24==null){$objMEntrada->calendariolaboral24_id=$cl->id;$objMEntrada->estado24=1;$objMEntrada->d24=$horaMarcacionEntrada;}if($objMSalida->estado24==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral24_id=$cl->id;$objMSalida->estado24=1;$objMSalida->d24=$horaMarcacionSalida;}$ultimo_dia=24;break;
-                                    case 25:if($objMEntrada->estado25==null){$objMEntrada->calendariolaboral25_id=$cl->id;$objMEntrada->estado25=1;$objMEntrada->d25=$horaMarcacionEntrada;}if($objMSalida->estado25==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral25_id=$cl->id;$objMSalida->estado25=1;$objMSalida->d25=$horaMarcacionSalida;}$ultimo_dia=25;break;
-                                    case 26:if($objMEntrada->estado26==null){$objMEntrada->calendariolaboral26_id=$cl->id;$objMEntrada->estado26=1;$objMEntrada->d26=$horaMarcacionEntrada;}if($objMSalida->estado26==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral26_id=$cl->id;$objMSalida->estado26=1;$objMSalida->d26=$horaMarcacionSalida;}$ultimo_dia=26;break;
-                                    case 27:if($objMEntrada->estado27==null){$objMEntrada->calendariolaboral27_id=$cl->id;$objMEntrada->estado27=1;$objMEntrada->d27=$horaMarcacionEntrada;}if($objMSalida->estado27==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral27_id=$cl->id;$objMSalida->estado27=1;$objMSalida->d27=$horaMarcacionSalida;}$ultimo_dia=27;break;
-                                    case 28:if($objMEntrada->estado28==null){$objMEntrada->calendariolaboral28_id=$cl->id;$objMEntrada->estado28=1;$objMEntrada->d28=$horaMarcacionEntrada;}if($objMSalida->estado28==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral28_id=$cl->id;$objMSalida->estado28=1;$objMSalida->d28=$horaMarcacionSalida;}$ultimo_dia=28;break;
-                                    case 29:if($objMEntrada->estado29==null){$objMEntrada->calendariolaboral29_id=$cl->id;$objMEntrada->estado29=1;$objMEntrada->d29=$horaMarcacionEntrada;}if($objMSalida->estado29==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral29_id=$cl->id;$objMSalida->estado29=1;$objMSalida->d29=$horaMarcacionSalida;}$ultimo_dia=29;break;
-                                    case 30:if($objMEntrada->estado30==null){$objMEntrada->calendariolaboral30_id=$cl->id;$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;}if($objMSalida->estado30==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral30_id=$cl->id;$objMSalida->estado30=1;$objMSalida->d30=$horaMarcacionSalida;}$ultimo_dia=30;break;
-                                    case 31:if($objMEntrada->estado31==null){$objMEntrada->calendariolaboral31_id=$cl->id;$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;}if($objMSalida->estado31==null&&(($tipo_horario!=3&&$rango->dia!=0&&$rango->dia!=6)||$tipo_horario==3)){$objMSalida->calendariolaboral31_id=$cl->id;$objMSalida->estado31=1;$objMSalida->d31=$horaMarcacionSalida;}$ultimo_dia=31;break;
-                                }*/
 
                                 switch($dia){
                                     case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 =1;$objMSalida->d1 =$horaMarcacionSalida;break;
@@ -7956,6 +8498,434 @@ class HorariosymarcacionesController extends ControllerBase
                                     case 30:$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=1;$objMSalida->d30=$horaMarcacionSalida;break;
                                     case 31:$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=1;$objMSalida->d31=$horaMarcacionSalida;break;
                                 }
+                                /*foreach ($matrizHorariosCruzados[$dia] as $turnos) {
+                                    foreach($turnos as $grupos=>$diax){
+                                        if ($dias==15){
+                                            echo "dia: ".$dia;
+                                        }
+
+                                    }
+                                }*/
+                            }/////
+                        }
+                        /**
+                         * Cálculo de las marcaciones para las salidas con cruce
+                         */
+                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
+                            //$diaCruzado = $dia-1;
+                            $horaMarcacionSalida=null;
+                            /*if($dia==15){
+                                echo "<p>dia:---->".$dia;
+                            }*/
+                            if(isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                $hora_inicio_rango_sal = $matrizInicioRangoSalidaCruzados[$dia-1][$turno][$grupoB];
+                                $hora_final_rango_sal = $matrizFinalRangoSalidaCruzados[$dia-1][$turno][$grupoB];
+                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal);
+                                if(is_object($resultS)){
+                                    foreach($resultS as $obs){
+                                        $horaMarcacionSalida = $obs->hora;
+                                    }
+                                }
+                            }
+                            switch($dia){
+                                /*case 1 :if($objMSalida->estado1 ==null||$objMSalida->estado1 <=1){
+                                    $objMSalida->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                    $objMSalida->estado2=1;
+                                    $objMSalida->d2=$horaMarcacionSalida;}
+                                    break;*/
+                                case 2 :if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado2=1;
+                                        $objMSalida->d2=$horaMarcacionSalida;
+                                    }
+                                    else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral2_id = null;
+                                            $objMSalida->estado2 = null;
+                                            $objMSalida->d2 = null;
+                                        }
+                                    }
+                                }break;
+                                case 3 :if($objMSalida->estado3 ==null||$objMSalida->estado3 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral3_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado3=1;
+                                        $objMSalida->d3=$horaMarcacionSalida;}
+                                    else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral3_id = null;
+                                            $objMSalida->estado3 = null;
+                                            $objMSalida->d3 = null;
+                                        }
+                                    }
+                                }break;
+                                case 4 :if($objMSalida->estado4 ==null||$objMSalida->estado4 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral4_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado4 = 1;
+                                        $objMSalida->d4 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral4_id = null;
+                                            $objMSalida->estado4 = null;
+                                            $objMSalida->d4 = null;
+                                        }
+                                    }
+                                }break;
+                                case 5 :if($objMSalida->estado5 ==null||$objMSalida->estado5 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral5_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado5 = 1;
+                                        $objMSalida->d5 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral5_id = null;
+                                            $objMSalida->estado5 = null;
+                                            $objMSalida->d5 = null;
+                                        }
+                                    }
+                                }break;
+                                case 6 :if($objMSalida->estado6 ==null||$objMSalida->estado6 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral6_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado6 = 1;
+                                        $objMSalida->d6 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral8_id = null;
+                                            $objMSalida->estado8 = null;
+                                            $objMSalida->d8 = null;
+                                        }
+                                    }
+                                }break;
+                                case 7 :if($objMSalida->estado7 ==null||$objMSalida->estado7 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral7_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado7 = 1;
+                                        $objMSalida->d7 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral7_id = null;
+                                            $objMSalida->estado7 = null;
+                                            $objMSalida->d7 = null;
+                                        }
+                                    }
+                                }break;
+                                case 8 :if($objMSalida->estado8 ==null||$objMSalida->estado8 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral8_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado8 = 1;
+                                        $objMSalida->d8 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral8_id = null;
+                                            $objMSalida->estado8 = null;
+                                            $objMSalida->d8 = null;
+                                        }
+                                    }
+                                }break;
+                                case 9 :if($objMSalida->estado9 ==null||$objMSalida->estado9 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral9_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado9 = 1;
+                                        $objMSalida->d9 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral9_id = null;
+                                            $objMSalida->estado9 = null;
+                                            $objMSalida->d9 = null;
+                                        }
+                                    }
+                                }break;
+                                case 10:if($objMSalida->estado10 ==null||$objMSalida->estado10 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral10_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado10=1;
+                                        $objMSalida->d10 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral10_id = null;
+                                            $objMSalida->estado10 = null;
+                                            $objMSalida->d10 = null;
+                                        }
+                                    }
+                                }break;
+                                case 11:if($objMSalida->estado11 ==null||$objMSalida->estado11 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral11_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado11 = 1;
+                                        $objMSalida->d11 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral11_id = null;
+                                            $objMSalida->estado11 = null;
+                                            $objMSalida->d11 = null;
+                                        }
+                                    }
+                                }break;
+                                case 12:if($objMSalida->estado12 ==null||$objMSalida->estado12 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral12_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado12 = 1;
+                                        $objMSalida->d12 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral12_id = null;
+                                            $objMSalida->estado12 = null;
+                                            $objMSalida->d12 = null;
+                                        }
+                                    }
+                                }break;
+                                case 13:if($objMSalida->estado13 ==null||$objMSalida->estado13 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral13_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado13 = 1;
+                                        $objMSalida->d13 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral13_id = null;
+                                            $objMSalida->estado13 = null;
+                                            $objMSalida->d13 = null;
+                                        }
+                                    }
+                                }break;
+                                case 14:if($objMSalida->estado14 ==null||$objMSalida->estado14 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral14_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado14 = 1;
+                                        $objMSalida->d14 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral14_id = null;
+                                            $objMSalida->estado14 = null;
+                                            $objMSalida->d14 = null;
+                                        }
+                                    }
+                                }break;
+                                case 15:
+                                    if($objMSalida->estado15 ==null||$objMSalida->estado15 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral15_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado15 = 1;
+                                        $objMSalida->d15 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral15_id = null;
+                                            $objMSalida->estado15 = null;
+                                            $objMSalida->d15 = null;
+                                        }
+                                    }
+                                }break;
+                                case 16:if($objMSalida->estado16 ==null||$objMSalida->estado16 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral16_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado16 = 1;
+                                        $objMSalida->d16 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral16_id = null;
+                                            $objMSalida->estado16 = null;
+                                            $objMSalida->d16 = null;
+                                        }
+                                    }
+                                }break;
+                                case 17:if($objMSalida->estado17 ==null||$objMSalida->estado17 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral17_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado17 = 1;
+                                        $objMSalida->d17 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral17_id = null;
+                                            $objMSalida->estado17 = null;
+                                            $objMSalida->d17 = null;
+                                        }
+                                    }
+                                }break;
+                                case 18:if($objMSalida->estado18 ==null||$objMSalida->estado18 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral18_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado18 = 1;
+                                        $objMSalida->d18 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral18_id = null;
+                                            $objMSalida->estado18 = null;
+                                            $objMSalida->d18 = null;
+                                        }
+                                    }
+                                }break;
+                                case 19:if($objMSalida->estado19 ==null||$objMSalida->estado19 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral19_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado19 = 1;
+                                        $objMSalida->d19 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral19_id = null;
+                                            $objMSalida->estado19 = null;
+                                            $objMSalida->d19 = null;
+                                        }
+                                    }
+                                }break;
+                                case 20:if($objMSalida->estado20 ==null||$objMSalida->estado20 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral20_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado20 = 1;
+                                        $objMSalida->d20 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral20_id = null;
+                                            $objMSalida->estado20 = null;
+                                            $objMSalida->d20 = null;
+                                        }
+                                    }
+                                }break;
+                                case 21:if($objMSalida->estado21 ==null||$objMSalida->estado21 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral21_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado21 = 1;
+                                        $objMSalida->d21 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral21_id = null;
+                                            $objMSalida->estado21 = null;
+                                            $objMSalida->d21 = null;
+                                        }
+                                    }
+                                }break;
+                                case 22:if($objMSalida->estado22 ==null||$objMSalida->estado22 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral22_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado22 = 1;
+                                        $objMSalida->d22 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral22_id = null;
+                                            $objMSalida->estado22 = null;
+                                            $objMSalida->d22 = null;
+                                        }
+                                    }
+                                }break;
+                                case 23:if($objMSalida->estado23 ==null||$objMSalida->estado23 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral23_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado23 = 1;
+                                        $objMSalida->d23 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral23_id = null;
+                                            $objMSalida->estado23 = null;
+                                            $objMSalida->d23 = null;
+                                        }
+                                    }
+                                }break;
+                                case 24:if($objMSalida->estado24 ==null||$objMSalida->estado24 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral24_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado24=1;
+                                        $objMSalida->d24 = $horaMarcacionSalida;
+                                    }
+                                    else {
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral24_id = null;
+                                            $objMSalida->estado24 = null;
+                                            $objMSalida->d24 = null;
+                                        }
+                                    }
+                                }break;
+                                case 25:if($objMSalida->estado25 ==null||$objMSalida->estado25 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral25_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado25 = 1;
+                                        $objMSalida->d25 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral25_id = null;
+                                            $objMSalida->estado25 = null;
+                                            $objMSalida->d25 = null;
+                                        }
+                                    }
+                                }break;
+                                case 26:if($objMSalida->estado26 ==null||$objMSalida->estado26 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral26_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado26 = 1;
+                                        $objMSalida->d26 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral26_id = null;
+                                            $objMSalida->estado26 = null;
+                                            $objMSalida->d26 = null;
+                                        }
+                                    }
+                                }break;
+                                case 27:if($objMSalida->estado27 ==null||$objMSalida->estado27 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral27_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado27 = 1;
+                                        $objMSalida->d27 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral27_id = null;
+                                            $objMSalida->estado27 = null;
+                                            $objMSalida->d27 = null;
+                                        }
+                                    }
+                                }break;
+                                case 28:if($objMSalida->estado28 ==null||$objMSalida->estado28 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral28_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado28 = 1;
+                                        $objMSalida->d28 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral28_id = null;
+                                            $objMSalida->estado28 = null;
+                                            $objMSalida->d28 = null;
+                                        }
+                                    }
+                                }break;
+                                case 29:if($objMSalida->estado29 ==null||$objMSalida->estado29 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado29 = 1;
+                                        $objMSalida->d29 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral29_id = null;
+                                            $objMSalida->estado29 = null;
+                                            $objMSalida->d29 = null;
+                                        }
+                                    }
+                                }break;
+                                case 30:if($objMSalida->estado30 ==null||$objMSalida->estado30 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado30 = 1;
+                                        $objMSalida->d30 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral30_id = null;
+                                            $objMSalida->estado30 = null;
+                                            $objMSalida->d30 = null;
+                                        }
+                                    }
+                                }break;
+                                case 31:if($objMSalida->estado31 ==null||$objMSalida->estado31 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado31 = 1;
+                                        $objMSalida->d31 = $horaMarcacionSalida;
+                                    }else{
+                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])) {
+                                            $objMSalida->calendariolaboral31_id = null;
+                                            $objMSalida->estado31 = null;
+                                            $objMSalida->d31 = null;
+                                        }
+                                    }
+                                }break;
                             }
                         }
                     }
@@ -7982,6 +8952,7 @@ class HorariosymarcacionesController extends ControllerBase
                     try{
                         $okE = $objMEntrada->save();
                         $okS = $objMSalida->save();
+                        //$okE=$okS=true;
                         if($okE){
                             $entradas++;
                         }

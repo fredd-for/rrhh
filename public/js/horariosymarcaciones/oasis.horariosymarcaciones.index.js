@@ -419,13 +419,13 @@ function definirGrillaParaListaRelaborales() {
                     var container = $("<div></div>");
                     toolbar.append(container);
                     container.append("<button id='listrowbutton' class='btn btn-sm btn-primary' type='button'  title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'><i class='fa fa-list-alt fa-2x text-info' title='Listado de Horarios y Marcaciones por Relaci&oacute;n Laboral.'/></i></button>");
-                    container.append("<button id='calculaterowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para el c&aacute;lculo de asistencia.'><i class='gi gi-calculator fa-2x text-info' title='Formulario para el c&aacute;lculo de asistencia.'/></i></button>");
                     container.append("<button id='generatemarcrowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para la generaci&oacute;n de la matriz de marcaciones previstas y efectivas para una gesti&oacute;n y mes determinados.'><i class='fa fa-flag-checkered fa-2x text-info' title='Formulario para la generaci&oacute;n de la matriz de marcaciones previstas y efectivas para una gesti&oacute;n y mes determinados.'/></i></button>");
+                    container.append("<button id='calculaterowbutton' class='btn btn-sm btn-primary' type='button'  title='Formulario para el c&aacute;lculo de asistencia.'><i class='gi gi-calculator fa-2x text-info' title='Formulario para el c&aacute;lculo de asistencia.'/></i></button>");
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por relaci&oacute;n laboral.'/></i></button>");
 
                     $("#listrowbutton").jqxButton();
-                    $("#calculaterowbutton").jqxButton();
                     $("#generatemarcrowbutton").jqxButton();
+                    $("#calculaterowbutton").jqxButton();
                     $("#turnrowbutton").jqxButton();
                     $("#hdnIdRelaboralVista").val(0);
 
@@ -482,31 +482,6 @@ function definirGrillaParaListaRelaborales() {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
-                    $("#calculaterowbutton").off();
-                    $("#calculaterowbutton").on('click', function () {
-                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
-                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
-                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 2);
-                        $('#divTabControlMarcaciones').jqxTabs({selectedItem: 2});
-                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
-
-                        $("#txtFechaIniCalculo").datepicker("update","");
-                        $("#txtFechaIniCalculo").val('').datepicker('update');
-                        $("#txtFechaFinCalculo").datepicker("update","");
-                        $("#txtFechaFinCalculo").val('').datepicker('update');
-                        $("#txtCiCalculo").val("");
-                        var ci = 0;
-                        var selectedrowindex = $("#divGridRelaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridRelaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                ci = dataRecord.ci;
-                                $("#txtCiCalculo").val(ci);
-                            }
-                        }
-                        var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
-                        definirGrillaMarcacionesYCalculos(objParametro);
-                    });
                     /**
                      * Generar las marcaciones previstas y efectivas de manera directa
                      */
@@ -534,6 +509,31 @@ function definirGrillaParaListaRelaborales() {
                                 $("#divMsjeNotificacionError").jqxNotification("open");
                             }
                     });
+                    $("#calculaterowbutton").off();
+                    $("#calculaterowbutton").on('click', function () {
+                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
+                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
+                        $('#divTabControlMarcaciones').jqxTabs('enableAt', 2);
+                        $('#divTabControlMarcaciones').jqxTabs({selectedItem: 2});
+                        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
+
+                        $("#txtFechaIniCalculo").datepicker("update","");
+                        $("#txtFechaIniCalculo").val('').datepicker('update');
+                        $("#txtFechaFinCalculo").datepicker("update","");
+                        $("#txtFechaFinCalculo").val('').datepicker('update');
+                        $("#txtCiCalculo").val("");
+                        var ci = 0;
+                        var selectedrowindex = $("#divGridRelaborales").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridRelaborales').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                ci = dataRecord.ci;
+                                $("#txtCiCalculo").val(ci);
+                            }
+                        }
+                        var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
+                        definirGrillaMarcacionesYCalculos(objParametro);
+                    });
                     /* Ver registro.*/
                     $("#turnrowbutton").off();
                     $("#turnrowbutton").on('click', function () {
@@ -550,18 +550,18 @@ function definirGrillaParaListaRelaborales() {
 
                                 $('#divTabControlMarcaciones').jqxTabs({selectedItem: 3});
 
-                                var idPerfilLaboral=0;
-                                var tipoHorario=2;
-
                                 $("#spanPrefijoCalendarioLaboral").html("");
                                 $("#spanSufijoCalendarioLaboral").html(" Vrs. Calendario de Excepciones (Individual)");
                                 var date = new Date();
                                 var defaultDia = date.getDate();
                                 var defaultMes = date.getMonth();
                                 var defaultGestion = date.getFullYear();
-                                var fechaIni = "";
-                                var fechaFin = "";
                                 var contadorPerfiles = 0;
+                                var idPerfilLaboral=0;
+                                var tipoHorario=3;
+                                var objFechas = obtenerFechaIniFinCalendario(defaultGestion,defaultMes+1);
+                                var fechaIni = objFechas.fecha_ini;
+                                var fechaFin = objFechas.fecha_fin;
                                 var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
                                 $("#calendar").html("");
 
@@ -2116,4 +2116,36 @@ function cargarTiposDisponiblesParaGeneracionMarcaciones(gestion,mes,t){
     }else{
         $("#lstTipoGeneracionMarcaciones").prop("disabled",true);
     }
+}
+/**
+ * Función para la obtención de la fecha de inicio y finalización para un calendario laboral de acuerdo a una gestión y mes correspondientes.
+ * @param gestion
+ * @param mes
+ * @returns {{fechaIni: string, fechaFin: string}}
+ */
+function obtenerFechaIniFinCalendario(gestion,mes){
+    var fechaIni = '';
+    var fechaFin = '';
+    if(gestion>0&&mes>0){
+        $.ajax({
+            url: '/calendariolaboral/obtenerfechainifincalendario/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {gestion:gestion,mes:mes},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                /**
+                 * Si se ha realizado correctamente el registro de la relación laboral y la movilidad
+                 */
+                if (res.result == 1) {
+                    fechaIni=res.fecha_ini;
+                    fechaFin=res.fecha_fin;
+                }
+            }
+        });
+    }
+    var objFechas = {fecha_ini:fechaIni,fecha_fin:fechaFin};
+    return objFechas;
 }

@@ -395,9 +395,9 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
      */
     public function getFeriadosEnDia($gestion,$mes,$dia,$opcion=0)
     {   if($gestion>0&&$mes>0&&$dia>0) {
-        $sql = "SELECT f_feriados_en_dia FROM f_feriados_en_dia('$dia-$mes-$gestion',$opcion) ";
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }
+            $sql = "SELECT f_feriados_en_dia FROM f_feriados_en_dia('$dia-$mes-$gestion',$opcion) ";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
     }
     /**
      * Función para la obtención del listado de fechas de acuerdo al rango enviado de fechas.

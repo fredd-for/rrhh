@@ -634,4 +634,27 @@ class CalendariolaboralController extends ControllerBase
         }
         echo json_encode($msj);
     }
+    /**
+     * Función para obtener la fecha de inicio y finalización de un calendario en una gestión y mes respectivos.
+     */
+    public function obtenerfechainifincalendarioAction(){
+        $this->view->disable();
+        $msj = array();
+        if(isset($_POST["gestion"])&&$_POST["gestion"]>0&&isset($_POST["mes"])&&$_POST["mes"]>0){
+            try {
+                $obj = new Calendarioslaborales();
+                $result = $obj->getFechaIniFinCalendar($_POST["gestion"],$_POST["mes"]);
+                foreach ($result as $valor) {
+                    $msj = array('result' => 1, 'fecha_ini' => $valor->fecha_ini, 'fecha_fin' => $valor->fecha_fin);
+                }
+            } catch (\Exception $e) {
+                echo get_class($e), ": ", $e->getMessage(), "\n";
+                echo " File=", $e->getFile(), "\n";
+                echo " Line=", $e->getLine(), "\n";
+                echo $e->getTraceAsString();
+                $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de turno en el calendario laboral.');
+            }
+        }
+        echo json_encode($msj);
+    }
 }

@@ -121,7 +121,7 @@ class ToleranciasController extends ControllerBase
             $tipo_acumulacion = $_POST['tipo_acumulacion'];
             $consideracion_retraso = $_POST['consideracion_retraso'];
             $descripcion = $_POST['descripcion'];
-            $date1 = new DateTime($_POST['fecha_inicio']);
+            $date1 = new DateTime($_POST['fecha_ini']);
             $fecha_ini = $date1->format('Y-m-d');
 
             if($_POST['fecha_fin']!=""){
@@ -171,7 +171,7 @@ class ToleranciasController extends ControllerBase
             $consideracion_retraso = $_POST['consideracion_retraso'];
             $descripcion = $_POST['descripcion'];
 
-            $date1 = new DateTime($_POST['fecha_inicio']);
+            $date1 = new DateTime($_POST['fecha_ini']);
             $fecha_ini = $date1->format('Y-m-d');
 
             if($_POST['fecha_fin']!=""){
@@ -180,7 +180,8 @@ class ToleranciasController extends ControllerBase
             }else $fecha_fin = "";
             $observacion = $_POST['observacion'];
             if($tolerancia>=0&&$tipo_acumulacion>=0&&$consideracion_retraso>=0&&$fecha_ini!=''){
-                $cantMismosDatos = Tolerancias::count(array("tolerancia = ".$tolerancia." AND tipo_acumulacion=".$tipo_acumulacion." AND consideracion_retraso=".$consideracion_retraso.""));
+                $cantMismosDatos = Tolerancias::count(array("tolerancia = ".$tolerancia." AND tipo_acumulacion=".$tipo_acumulacion." AND consideracion_retraso=".$consideracion_retraso." AND estado>=1"));
+                echo "<p>tolerancia = ".$tolerancia." AND tipo_acumulacion=".$tipo_acumulacion." AND consideracion_retraso=".$consideracion_retraso." AND estado>=1";
                 if($cantMismosDatos==0){
                     $objTolerancia = new Tolerancias();
                     $objTolerancia->tolerancia = $tolerancia;
@@ -210,7 +211,7 @@ class ToleranciasController extends ControllerBase
                         $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de Horario laboral laboral.');
                     }
                 }    else{
-                    $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados son similares a otro registro existente, debe modificar los valores necesariamente.');
+                    $msj = array('result' => 0, 'msj' => "Error: Los datos enviados son similares a otro registro existente, debe modificar los valores necesariamente.");
                 }
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');

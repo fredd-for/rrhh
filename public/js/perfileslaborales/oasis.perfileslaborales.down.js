@@ -24,24 +24,24 @@ function guardarRegistroBajaPerfilLaboral(idPerfilLaboral){
                  */
                 $(".msjes").hide();
                 if(res.result==1){
-                    $("#divMsjeExito").show();
-                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
-                    $("#aMsjeExito").html(res.msj);
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(res.msj);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
                     $("#divGridPerfilesLaborales").jqxGrid("updatebounddata");
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.
                      */
-                    $("#divMsjePeligro").show();
-                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
-                    $("#aMsjePeligro").html(res.msj);
+                    $("#divMsjePorWarning").html("");
+                    $("#divMsjePorWarning").append(res.msj);
+                    $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }else{
                     /**
                      * En caso de haberse presentado un error crítico al momento de registrarse la baja (Error de conexión)
                      */
-                    $("#divMsjeError").show();
-                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
-                    $("#aMsjeError").html(res.msj);
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(res.msj);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
             }, //mostramos el error

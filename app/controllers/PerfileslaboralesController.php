@@ -432,7 +432,7 @@ class PerfileslaboralesController extends ControllerBase
                     $ok = $objPerfilLaboral->save();
                     if ($ok) {
                         //$this->adjudicarCargo($objRelaboral->cargo_id,$user_mod_id);
-                        $msj = array('result' => 1, 'msj' => '&Eacute:xito: Se aprob&oacute; correctamente el registro de perfil laboral.');
+                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se aprob&oacute; correctamente el registro de perfil laboral.');
                     } else {
                         $msj = array('result' => 0, 'msj' => 'Error: No se aprob&oacute; el registro de perfil laboral.');
                     }
