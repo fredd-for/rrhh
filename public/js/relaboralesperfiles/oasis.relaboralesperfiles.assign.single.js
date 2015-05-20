@@ -900,7 +900,7 @@ function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,
 
         }
     }
-    if(tipoMarcacion>=0){
+    if(tipoMarcacion<0||tipoMarcacion==''){
         ok = false;
         var msje = "Debe seleccionar donde puede marcar su asistencia necesariamente.";
         $("#divTiposMarcacionesAsignacionSingle").addClass("has-error");

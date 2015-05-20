@@ -38,9 +38,9 @@ class Marcaciones extends \Phalcon\Mvc\Model {
      * @param $horaFinRango
      * @return Resultset
      */
-    public function getOneMarcacionValida($idRelaboral,$idMaquina,$fecha,$horaIniRango,$horaFinRango,$salidaCentral=0){
+    public function getOneMarcacionValida($idRelaboral,$idMaquina,$fecha,$horaIniRango,$horaFinRango){
         if($idMaquina>=0&&$idRelaboral>0&&$fecha!=null&&$fecha!=''&&$horaIniRango!=null&&$horaIniRango!=''&&$horaFinRango!=null&&$horaFinRango!=''){
-            $sql = "SELECT * FROM f_obtener_marcacion_valida($idRelaboral,$idMaquina,'$fecha','$horaIniRango','$horaFinRango',$salidaCentral) ";
+            $sql = "SELECT * FROM f_obtener_marcacion_valida($idRelaboral,$idMaquina,'$fecha','$horaIniRango','$horaFinRango') ";
             $this->_db = new Marcaciones();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
