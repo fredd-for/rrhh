@@ -2854,7 +2854,7 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para la exportación del reporte con cálculos en rango de fechas en formato Excel.
-     * @param $ci Número de carnet de identidad
+     * @param $idRelaboralAux Número de carnet de identidad
      * @param $fechaIni Fecha de inicio del rango para el reporte.
      * @param $fechaFin Fecha de finalización del rango para el reporte.
      * @param $columns Array con las columnas mostradas en el reporte
@@ -2862,7 +2862,7 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    public function exportcalculosexcelAction($ci,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculosexcelAction($idRelaboralAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -3274,9 +3274,9 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''&&$ci!=0){
-                if($where!='')$where.=" AND ci='".$ci."'";
-                else $where.=" WHERE ci='".$ci."'";
+            if($idRelaboralAux!=''&&$idRelaboralAux!=0){
+                if($where!='')$where.=" AND ci='".$idRelaboralAux."'";
+                else $where.=" WHERE ci='".$idRelaboralAux."'";
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
@@ -3284,8 +3284,10 @@ class HorariosymarcacionesController extends ControllerBase
             $arrTotales = array();
             $horariosymarcaciones = array();
             $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalCompensacion = 0;
+            /**
+             * Se establece esta variable a objeto de mantener una numeración por registro laboral.
+             */
             foreach ($resul as $v) {
-                $modalidadmarcacion_id =$v->modalidadmarcacion_id;
                 $horariosymarcaciones[] = array(
                     #region Columnas de procedimiento f_relaborales()
                     'id_relaboral' => $v->id_relaboral,
@@ -4053,7 +4055,17 @@ class HorariosymarcacionesController extends ControllerBase
                     print_r($horariosymarcaciones);
                     echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
                 }
+                $arrIdRelaborales = Array();
+                $numeradorRelaboral = 0;
                 foreach ($horariosymarcaciones as $i => $val) {
+                    /**
+                     * Se agrega un control para modificar el contandor cuando se cambio de contrato.
+                     */
+                    if(isset($val["relaboral_id"])&&!in_array($val["relaboral_id"],$arrIdRelaborales)){
+                        $arrIdRelaborales[]=$val["relaboral_id"];
+                        $numeradorRelaboral++;
+                    }
+
                     if (count($agrupadores) > 0) {
                         if ($excel->debug == 1) {
                             echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
@@ -4091,7 +4103,9 @@ class HorariosymarcacionesController extends ControllerBase
                             $excel->RowTitle($colTitleSelecteds,$fila);
                         }
                         $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
-                        $rowData = $excel->DefineRows($j + 1, $horariosymarcaciones[$j], $colSelecteds);
+                        $rowData = $excel->DefineRows($numeradorRelaboral, $horariosymarcaciones[$j], $colSelecteds);
+                        //Se modifica el numerador de filas debido a que se requiere un numerador por registro de relación laboral
+                        //$rowData = $excel->DefineRows($j + 1, $horariosymarcaciones[$j], $colSelecteds);
                         if ($excel->debug == 1) {
                             echo "<p>···································FILA·················································<p></p>";
                             print_r($rowData);
@@ -4102,14 +4116,15 @@ class HorariosymarcacionesController extends ControllerBase
 
                     } else {
                         $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
-                        $rowData = $excel->DefineRows($j + 1, $val, $colSelecteds);
+                        $rowData = $excel->DefineRows($numeradorRelaboral, $val, $colSelecteds);
+                        //Se modifica el numerador de filas debido a que se requiere un numerador por registro de relación laboral
+                        //$rowData = $excel->DefineRows($j + 1, $val, $colSelecteds);
                         if ($excel->debug == 1) {
                             echo "<p>···································FILA·················································<p></p>";
                             print_r($rowData);
                             echo "<p>···································FILA·················································<p></p>";
                         }
                         $celdacolores = array();
-                        //if($rowData[14] == 'EXCEPCIONES / FERIADOS'){
                         if (in_array("EXCEPCIONES / FERIADOS", $rowData)){
                             if($excel->debug==1){
                                 echo "<p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>";
@@ -4147,19 +4162,6 @@ class HorariosymarcacionesController extends ControllerBase
                     print_r($totalTitleColSelecteds);
                     echo "<P>**********************************************************************************</P>";
                 }else{
-                    $hora = date("H");
-                    $hoy = date("d-m-Y");
-                    if($fechaFin==$hoy){
-                        if($hora<=12){
-
-                        }
-                    }
-                    /*if($totalFaltas>0){
-                        $totalFaltas = $totalFaltas-0.5;
-                    }
-                    if($totalOmision>0){
-                        $totalOmision = $totalOmision-1;
-                    }*/
                     $excel->agregarPaginaTotales($arrTotales,$totalColSelecteds,$totalTitleColSelecteds,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
                 }
             }
@@ -6472,9 +6474,17 @@ class HorariosymarcacionesController extends ControllerBase
 
             $dondeCambio = array();
             $queCambio = array();
-
+            $arrIdRelaborales = array();
+            $numeradorRelaboral = 0;
             if (count($horariosymarcaciones) > 0){
                 foreach ($horariosymarcaciones as $i => $val) {
+                    /**
+                     * Se agrega un control para modificar el contandor cuando se cambio de contrato.
+                     */
+                    if(isset($val["relaboral_id"])&&!in_array($val["relaboral_id"],$arrIdRelaborales)){
+                        $arrIdRelaborales[]=$val["relaboral_id"];
+                        $numeradorRelaboral++;
+                    }
                     if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
                     if (count($agrupadores) > 0) {
                         if ($pdf->debug == 1) {
@@ -6508,7 +6518,9 @@ class HorariosymarcacionesController extends ControllerBase
                         $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
                         if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
-                        $rowData = $pdf->DefineRows($j + 1, $horariosymarcaciones[$j], $colSelecteds);
+                        $rowData = $pdf->DefineRows($numeradorRelaboral, $horariosymarcaciones[$j], $colSelecteds);
+                        //Se modifica el numerador de filas debido a que se requiere un numerador por registro de relación laboral
+                        //$rowData = $pdf->DefineRows($j + 1, $horariosymarcaciones[$j], $colSelecteds);
                         $pdf->Row($rowData);
 
                     } else {
@@ -6520,7 +6532,9 @@ class HorariosymarcacionesController extends ControllerBase
                         }
                         $pdf->DefineColorBodyTable();
                         $pdf->SetAligns($alignSelecteds);
-                        $rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
+                        $rowData = $pdf->DefineRows($numeradorRelaboral, $val, $colSelecteds);
+                        //Se modifica el numerador de filas debido a que se requiere un numerador por registro de relación laboral
+                        //$rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
                         $pdf->Row($rowData);
                     }
                     //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);

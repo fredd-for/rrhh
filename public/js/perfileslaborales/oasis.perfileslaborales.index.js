@@ -399,7 +399,6 @@ function definirGrillaParaListaPerfilesLaborales() {
                         $('#txtObservacionPerfilLaboralNuevo').val("");
                         $('#txtPerfilLaboralNuevo').val("");
                         $('#txtGrupoPerfilLaboralNuevo').val("");
-                        $('#txtPerfilLaboralNuevo').focus();
                         listarTiposHorarios(0,1);
                         $("#chkControlFaltasOmisionesPerfilLaboralNuevo").bootstrapSwitch("state",true);
                         $('#jqxTabsPerfilesLaborales').jqxTabs('enableAt', 1);
@@ -408,6 +407,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
 
                         $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 1});
+                        $('#txtPerfilLaboralNuevo').focus();
                     });
                     /*Aprobar registro.*/
                     $("#approverowbutton").on('click', function () {
