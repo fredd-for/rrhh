@@ -1217,7 +1217,7 @@ class RelaboralesController extends ControllerBase
                             $objRelaboral = new Relaborales();
                             #region Control del identificador de relación laboral previo
                             $rp = Procesoscontrataciones::findFirst(array('id='.$id_procesocontratacion));
-                            if ($rp->tipoconvocatoria_id ==2) {
+                            if ($rp->tipoconvocatoria_id == 2) {
 
                                 $resul=$objRelaboral->getIdRelaboralAmpliado($id_persona,$fecha_incor);
                                 if ($resul->count() > 0) {
