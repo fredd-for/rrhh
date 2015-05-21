@@ -7924,7 +7924,7 @@ class HorariosymarcacionesController extends ControllerBase
                                 $hora_inicio_rango_sal = $matrizInicioRangoSalida[$dia][$turno][$grupoB];
                                 $hora_final_rango_sal = $matrizFinalRangoSalida[$dia][$turno][$grupoB];
                                 $resultE = $objME->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_ent,$hora_final_rango_ent);
-                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal);
+                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);
 
                                 if(is_object($resultE)){
                                     foreach($resultE as $obe){
@@ -7996,7 +7996,7 @@ class HorariosymarcacionesController extends ControllerBase
                             if(isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                 $hora_inicio_rango_sal = $matrizInicioRangoSalidaCruzados[$dia-1][$turno][$grupoB];
                                 $hora_final_rango_sal = $matrizFinalRangoSalidaCruzados[$dia-1][$turno][$grupoB];
-                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal);
+                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);
                                 if(is_object($resultS)){
                                     foreach($resultS as $obs){
                                         $horaMarcacionSalida = $obs->hora;
