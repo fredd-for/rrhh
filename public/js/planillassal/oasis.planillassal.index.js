@@ -15,7 +15,6 @@ $().ready(function () {
     $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
     $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
 
-
     definirGrillaParaListaPlanillas();
     /**
      * Control para la obtención de la planilla previa
@@ -105,17 +104,9 @@ $().ready(function () {
 
         $("#msjs-alert").hide();
     });
-    $("#btnExportarExcel").click(function () {
-        var items = $("#listBoxPlanillasSal").jqxListBox('getCheckedItems');
-        var numColumnas = 0;
-        $.each(items, function (index, value) {
-            numColumnas++;
-        });
-        if (numColumnas > 0) exportarReporte(1);
-        else {
-            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#listBoxPlanillasSal").focus();
-        }
+    $("#btnExportarGenExcel").click(function () {
+        /*$("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xls', 'jqxGrid');*/
+        $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'PlanillaSalPrevia');
     });
     $("#btnExportarPDF").click(function () {
         var items = $("#listBoxPlanillasSal").jqxListBox('getCheckedItems');
@@ -523,6 +514,8 @@ function desplegarPlanillaPreviaSal(){
             {name: 'atrasos', type: 'numeric'},
             {name: 'faltas_atrasos', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
+            {name: 'omision', type: 'numeric'},
+            {name: 'abandono', type: 'numeric'},
             {name: 'otros', type: 'numeric'},
             {name: 'total_ganado', type: 'numeric'},
             {name: 'total_liquido', type: 'numeric'},
@@ -573,7 +566,7 @@ function desplegarPlanillaPreviaSal(){
                         text: 'Cargo',
                         filtertype: 'checkedlist',
                         datafield: 'cargo',
-                        width: 120,
+                        width: 100,
                         cellsalign: 'justify',
                         align: 'center'
                     },
@@ -589,7 +582,7 @@ function desplegarPlanillaPreviaSal(){
                     {
                         text: 'Nombres',
                         datafield: 'nombres',
-                        width: 120,
+                        width: 100,
                         cellsalign: 'justify',
                         align: 'center'
                     },
@@ -618,7 +611,7 @@ function desplegarPlanillaPreviaSal(){
                         datafield: 'sueldo',
                         width: 60,
                         align: 'center',
-                        cellsalign: 'center',
+                        cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalHaberes" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
@@ -630,63 +623,98 @@ function desplegarPlanillaPreviaSal(){
                         datafield: 'dias_efectivos',
                         width: 60,
                         align: 'center',
-                        cellsalign: 'center'
-                    },
-                    {
-                        text: 'Faltas (D&iacute;as)',
-                        filtertype: 'checkedlist',
-                        datafield: 'faltas',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'center',
+                        cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalFaltas" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            var renderstring ='<div id="divTotalDiasEfectivos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
                     {
-                        text: 'Atrasos (D&iacute;as)',
-                        filtertype: 'checkedlist',
-                        datafield: 'atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'center',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
-                        text: 'Faltas & Atrasos (D&iacute;as)',
-                        filtertype: 'checkedlist',
-                        datafield: 'faltas_atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'center',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalFaltasAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
-                        text: 'LSGH',
+                        text: 'LSGHs',
                         filtertype: 'checkedlist',
                         datafield: 'lsgh',
                         width: 60,
                         align: 'center',
-                        cellsalign: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalLsgh" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
                     {
-                        text: 'Otros Descuentos',
+                        text: 'Omisi&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'omision',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalOmision" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Abandono',
+                        filtertype: 'checkedlist',
+                        datafield: 'abandono',
+                        width: 65,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalAbandono" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Faltas',
+                        filtertype: 'checkedlist',
+                        datafield: 'faltas',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalFaltas" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Atrasos',
+                        filtertype: 'checkedlist',
+                        datafield: 'atrasos',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'F. & A.',
+                        filtertype: 'checkedlist',
+                        datafield: 'faltas_atrasos',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoMonetario',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalFaltasAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Otros',
                         filtertype: 'checkedlist',
                         datafield: 'otros',
                         width: 60,
                         align: 'center',
-                        cellsalign: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoMonetario',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
@@ -716,7 +744,12 @@ function desplegarPlanillaPreviaSal(){
                             return renderstring;
                         }
                     }
-                ]
+                ],
+                columngroups:
+                    [
+                        { text: 'Descuento en D&iacute;as', align: 'center', name: 'DescuentoDias' },
+                        { text: 'Descuento en Bs.', align: 'center', name: 'DescuentoMonetario' }
+                    ]
             });
         $('#divGridPlanillasSalGen').off();
         /**
@@ -744,6 +777,8 @@ function desplegarPlanillaPreviaSal(){
             var totalFaltas = 0;
             var totalAtrasos = 0;
             var totalFaltasAtrasos = 0;
+            var totalOmisiones = 0;
+            var totalAbandonos = 0;
             var totalLsgh = 0;
             var totalOtros = 0;
             var totalTotalGanado = 0;
@@ -751,56 +786,103 @@ function desplegarPlanillaPreviaSal(){
             $.each(rows,function(key,val){
                 var rowindex = val;
                 var dataRecord = $("#divGridPlanillasSalGen").jqxGrid('getrowdata', rowindex);
-                if(dataRecord.sueldo!=null){
-                    totalHaberes += (parseFloat(dataRecord.sueldo));
+                if(!isNaN(dataRecord.sueldo)){
+                    totalHaberes += Number(parseFloat(dataRecord.sueldo));
                 }
-                if(dataRecord.faltas!=null){
-                    totalFaltas += (parseFloat(dataRecord.faltas));
+                if(!isNaN(dataRecord.dias_efectivos)){
+                    totalDiasEfectivos += Number(parseFloat(dataRecord.dias_efectivos));
                 }
-                if(dataRecord.atrasos!=null){
-                    totalAtrasos += (parseFloat(dataRecord.atrasos));
+                if(!isNaN(dataRecord.faltas)){
+                    totalFaltas += Number(parseFloat(dataRecord.faltas));
                 }
-                if(dataRecord.faltas_atrasos!=null){
-                    totalFaltasAtrasos += (parseFloat(dataRecord.faltas_atrasos));
+                if(!isNaN(dataRecord.atrasos)){
+                    totalAtrasos += Number(parseFloat(dataRecord.atrasos));
                 }
-                if(dataRecord.lsgh!=null){
-                    totalLsgh += (parseFloat(dataRecord.lsgh));
+                if(!isNaN(dataRecord.faltas_atrasos)){
+                    totalFaltasAtrasos += Number(parseFloat(dataRecord.faltas_atrasos));
                 }
-                if(dataRecord.otros!=null){
-                    totalOtros += (parseFloat(dataRecord.otros));
+                if(!isNaN(dataRecord.lsgh)){
+                    totalLsgh += Number(parseFloat(dataRecord.lsgh));
                 }
-                if(dataRecord.total_ganado!=null){
-                    totalTotalGanado += (parseFloat(dataRecord.total_ganado));
+                if(!isNaN(dataRecord.omision)){
+                    totalOmisiones += Number(parseFloat(dataRecord.omision));
                 }
-                if(dataRecord.total_liquido!=null){
-                    totalTotalLiquido += (parseFloat(dataRecord.total_liquido));
+                if(!isNaN(dataRecord.abandono)){
+                    totalAbandonos += Number(parseFloat(dataRecord.abandono));
+                }
+                if(!isNaN(dataRecord.otros)){
+                    totalOtros += Number(parseFloat(dataRecord.otros));
+                }
+                if(!isNaN(dataRecord.total_ganado)){
+                    totalTotalGanado += Number(parseFloat(dataRecord.total_ganado));
+                }
+                if(!isNaN(dataRecord.total_liquido)){
+                    totalTotalLiquido += Number(parseFloat(dataRecord.total_liquido));
                 }
 
             });
             $("#divTotalHaberes").text("");
-            $("#divTotalHaberes").text(totalHaberes);
+            $("#divTotalHaberes").text(totalHaberes.toFixed(2));
+
+            $("#divTotalDiasEfectivos").text("");
+            $("#divTotalDiasEfectivos").text(totalDiasEfectivos.toFixed(2));
 
             $("#divTotalFaltas").text("");
-            $("#divTotalFaltas").text(totalFaltas);
+            $("#divTotalFaltas").text(totalFaltas.toFixed(2));
 
             $("#divTotalAtrasos").text("");
-            $("#divTotalAtrasos").text(totalAtrasos);
+            $("#divTotalAtrasos").text(totalAtrasos.toFixed(2));
 
             $("#divTotalFaltasAtrasos").text("");
-            $("#divTotalFaltasAtrasos").text(totalAtrasos);
+            $("#divTotalFaltasAtrasos").text(totalFaltasAtrasos.toFixed(2));
 
             $("#divTotalLsgh").text("");
-            $("#divTotalLsgh").text(totalAtrasos);
+            $("#divTotalLsgh").text(totalLsgh.toFixed(2));
+
+            $("#divTotalOmision").text("");
+            $("#divTotalOmision").text(totalOmisiones.toFixed(2));
+
+            $("#divTotalAbandono").text("");
+            $("#divTotalAbandono").text(totalAbandonos.toFixed(2));
 
             $("#divTotalOtros").text("");
-            $("#divTotalOtros").text(totalOtros);
+            $("#divTotalOtros").text(totalOtros.toFixed(2));
 
             $("#divTotalTotalGanado").text("");
-            $("#divTotalTotalGanado").text(totalTotalGanado);
+            $("#divTotalTotalGanado").text(totalTotalGanado.toFixed(2));
 
             $("#divTotalTotalLiquido").text("");
-            $("#divTotalTotalLiquido").text(totalTotalLiquido);
+            $("#divTotalTotalLiquido").text(totalTotalLiquido.toFixed(2));
         }
+        /*$("#excelExport").jqxButton();
+        $("#xmlExport").jqxButton();
+        $("#csvExport").jqxButton();
+        $("#tsvExport").jqxButton();
+        $("#htmlExport").jqxButton();
+        $("#jsonExport").jqxButton();
+        $("#pdfExport").jqxButton();
+
+        $("#excelExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xls', 'jqxGrid');
+        });
+        $("#xmlExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'jqxGrid');
+        });
+        $("#csvExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'csv', 'jqxGrid');
+        });
+        $("#tsvExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'tsv', 'jqxGrid');
+        });
+        $("#htmlExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'html', 'jqxGrid');
+        });
+        $("#jsonExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'json', 'jqxGrid');
+        });
+        $("#pdfExport").on("click",function () {
+            $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+        });*/
     }
 }
 /**

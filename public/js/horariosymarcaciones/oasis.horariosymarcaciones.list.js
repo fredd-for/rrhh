@@ -177,8 +177,9 @@ function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelabora
             {name: 'lsgh', type: 'numeric'},
             {name: 'compensacion', type: 'numeric'},
             {name: 'observacion', type: 'string'},
-            {name: 'estado', type: 'string'},
-            {name: 'estado_descripcion', type: 'string'}
+            {name: 'estado', type: 'numeric'},
+            {name: 'estado_descripcion', type: 'string'},
+            {name: 'agrupador', type: 'numeric'}
         ],
         url: '/horariosymarcaciones/listporrelaboral?id='+idRelaboral,
         cache: false
@@ -729,6 +730,15 @@ function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelabora
                         hidden: false
                     },
                     {
+                        text: 'Marc. Previstas',
+                        filtertype: 'checkedlist',
+                        datafield: 'agrupador',
+                        width: 70,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
                         text: 'Observaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'observacion',
@@ -781,6 +791,7 @@ function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelabora
             {label: 'Abandono', value: 'abandono', checked: true},
             {label: 'Omisi&oacute;n', value: 'omision', checked: true},
             {label: 'LSGH', value: 'lsgh', checked: true},
+            {label: 'Marc. Previstas', value: 'agrupador', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#divListBoxMarcaciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});

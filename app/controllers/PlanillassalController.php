@@ -211,6 +211,8 @@ class PlanillassalController extends ControllerBase{
                         'atrasos'=>$v->atrasos,
                         'faltas_atrasos'=>$v->faltas_atrasos,
                         'lsgh'=>$v->lsgh,
+                        'omision'=>$v->omision,
+                        'abandono'=>$v->abandono,
                         'otros'=>$v->otros,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
