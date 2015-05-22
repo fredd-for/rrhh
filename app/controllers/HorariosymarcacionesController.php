@@ -1807,6 +1807,7 @@ class HorariosymarcacionesController extends ControllerBase
             'abandono' => array('title' => 'Abandono', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
             'omision' => array('title' => 'Omision', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
             'lsgh' => array('title' => 'LSGH', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
+            'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
             'observacion' => array('title' => 'Observacion', 'width' => 15, 'align' => 'L', 'type' => 'varchar')
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -2731,7 +2732,7 @@ class HorariosymarcacionesController extends ControllerBase
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
                         'baja_logica'=>$v->baja_logica,
-                        'agrupador'=>$v->agrupador,
+                        'agrupador'=>null,
                         'user_reg_id'=>$v->user_reg_id,
                         'fecha_reg'=>$v->fecha_reg,
                         'user_apr_id'=>$v->user_apr_id,
@@ -2963,6 +2964,7 @@ class HorariosymarcacionesController extends ControllerBase
             'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -3016,7 +3018,7 @@ class HorariosymarcacionesController extends ControllerBase
             }
             if ($excel->debug == 1) {
                 echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Rango Fechas^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</p>";
-                echo $fechaIni."<-->".$fechaFin;
+                echo "Del ".$fechaIni." al ".$fechaFin;
                 echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
                 echo "<p>::::::::::::::::::::::::::::::::::::::::::::TOTAL COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
                 print_r($columns);
@@ -3283,7 +3285,7 @@ class HorariosymarcacionesController extends ControllerBase
             $resul = $obj->getAllByRangeTwoMonth(0,$fechaIni,$fechaFin,$where,$groups);
             $arrTotales = array();
             $horariosymarcaciones = array();
-            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalCompensacion = 0;
+            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalAgrupador = $totalCompensacion = 0;
             /**
              * Se establece esta variable a objeto de mantener una numeración por registro laboral.
              */
@@ -3475,6 +3477,21 @@ class HorariosymarcacionesController extends ControllerBase
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] + $compensacion;
                     }else{
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $compensacion;
+                    }
+                }
+                /**
+                 * Sumatoria de las marcaciones previstas por persona
+                 */
+                if($v->clasemarcacion=='T'){
+                    $agrupador = 0;
+                    if($v->agrupador!=''){
+                        $agrupador=$v->agrupador;
+                    }
+                    $totalAgrupador += $agrupador;
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] + $agrupador;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] = $agrupador;
                     }
                 }
                 #endregion Sector para almacenamiento de los totales
@@ -4024,7 +4041,7 @@ class HorariosymarcacionesController extends ControllerBase
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
                         'baja_logica'=>$v->baja_logica,
-                        'agrupador'=>$v->agrupador,
+                        'agrupador'=>null,
                         'user_reg_id'=>$v->user_reg_id,
                         'fecha_reg'=>$v->fecha_reg,
                         'user_apr_id'=>$v->user_apr_id,
@@ -4154,15 +4171,16 @@ class HorariosymarcacionesController extends ControllerBase
                 $totalTitleColSelecteds = $excel->DefineTotalTitleCols($generalConfigForAllColumns,$totalColSelecteds);
 
                 if($excel->debug==1){
-                    echo "<P>*****************************************TOTALES*****************************************</P>";
+                    echo "<P>************************************************************TOTALES*****************************************</P>";
                     print_r($arrTotales);
-                    echo "<P>*****************************************COLUMNAS SELECCIONADAS*****************************************</P>";
+                    echo "<P>*********************************************COLUMNAS SELECCIONADAS*****************************************</P>";
                     print_r($totalColSelecteds);
                     echo "<P>*****************************************TITULOS DE COLUMNAS SELECCIONADAS*****************************************</P>";
                     print_r($totalTitleColSelecteds);
-                    echo "<P>**********************************************************************************</P>";
+                    echo "<P>*****************************************************************************************************************</P>";
+
                 }else{
-                    $excel->agregarPaginaTotales($arrTotales,$totalColSelecteds,$totalTitleColSelecteds,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
+                    $excel->agregarPaginaTotales($arrTotales,$totalColSelecteds,$totalTitleColSelecteds,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador,$totalCompensacion);
                 }
             }
             $excel->ShowLeftFooter = true;
@@ -4272,6 +4290,7 @@ class HorariosymarcacionesController extends ControllerBase
             'abandono' => array('title' => 'Abandono', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
             'omision' => array('title' => 'Omision', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
             'lsgh' => array('title' => 'LSGH', 'width' => 20, 'align' => 'C', 'type' => 'numeric'),
+            'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric'),
             'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar')
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -5390,6 +5409,7 @@ class HorariosymarcacionesController extends ControllerBase
             'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -5705,7 +5725,7 @@ class HorariosymarcacionesController extends ControllerBase
 
             $arrTotales = array();
             $horariosymarcaciones = array();
-            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalCompensacion = 0;
+            $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalAgrupador = $totalCompensacion = 0;
 
             foreach ($resul as $v) {
                 $horariosymarcaciones[] = array(
@@ -5861,8 +5881,8 @@ class HorariosymarcacionesController extends ControllerBase
                     $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["departamento_administrativo"]=$v->departamento_administrativo;
                     $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["area"]=$v->area;
                     $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["ubicacion"]=$v->ubicacion;
-                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["sueldo"]=$v->sueldo;
                     $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["cargo"]=$v->cargo;
+                    $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["sueldo"]=$v->sueldo;
                     /*echo "<p>---------------------------------------------------------------------</p>";
                     echo "1) ".$atrasos.", 2) ".$faltas.", 3) ".$abandono.", 4) ".$omision.", 5) ".$lsgh.", 6) ".$compensacion;
                     echo "<p>---------------------------------------------------------------------</p>";*/
@@ -5895,6 +5915,21 @@ class HorariosymarcacionesController extends ControllerBase
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] + $compensacion;
                     }else{
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["compensacion"] = $compensacion;
+                    }
+                }
+                /**
+                 * Sumatoria de las marcaciones previstas por persona
+                 */
+                if($v->clasemarcacion=='T'){
+                    $agrupador = 0;
+                    if($v->agrupador!=''){
+                        $agrupador=$v->agrupador;
+                    }
+                    $totalAgrupador += $agrupador;
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] + $agrupador;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] = $agrupador;
                     }
                 }
                 #endregion Sector para almacenamiento de los totales
@@ -6444,7 +6479,7 @@ class HorariosymarcacionesController extends ControllerBase
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
                         'baja_logica'=>$v->baja_logica,
-                        'agrupador'=>$v->agrupador,
+                        'agrupador'=>null,
                         'user_reg_id'=>$v->user_reg_id,
                         'fecha_reg'=>$v->fecha_reg,
                         'user_apr_id'=>$v->user_apr_id,
@@ -6554,7 +6589,7 @@ class HorariosymarcacionesController extends ControllerBase
                 $pdf->totalAligns = $totalAligns;
                 $pdf->totalTableWidth = $anchoT;
 
-                $pdf->agregarPaginaTotales($arrTotales,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalCompensacion);
+                $pdf->agregarPaginaTotales($arrTotales,$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador,$totalCompensacion);
                 #endregion Espacio para la definición de datos para la grilla de totales
             }
             $pdf->ShowLeftFooter = true;

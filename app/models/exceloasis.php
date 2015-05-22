@@ -607,7 +607,7 @@ class exceloasis extends PHPExcel{
      * @param int $totalCompensacion
      * @throws Exception
      */
-    function agregarPaginaTotales($arrListado=array(),$totalColSelecteds=array(),$totalTitleColSelecteds=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalCompensacion=0){
+    function agregarPaginaTotales($arrListado=array(),$totalColSelecteds=array(),$totalTitleColSelecteds=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalAgrupador=0,$totalCompensacion=0){
 
         $this->createSheet();
         $this->setActiveSheetIndex(1);
@@ -759,7 +759,7 @@ class exceloasis extends PHPExcel{
         $sw=false;
         $h=0;
         $k=0;
-        $arrCantidadesTotales = array("Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh);
+        $arrCantidadesTotales = array("Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador);
         foreach($letrasUsadas as $letra){
             if($letraInicioTotales==$letra)$sw=true;
             if($sw){

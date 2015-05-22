@@ -169,6 +169,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     observacion = $('#divGridControlCalculos').jqxGrid('getcolumn','observacion');
     estado = $('#divGridControlCalculos').jqxGrid('getcolumn','estado');
     estado_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado_descripcion');
+    agrupador = $('#divGridControlCalculos').jqxGrid('getcolumn','agrupador');
 
     columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
     columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
@@ -189,128 +190,36 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     columna[estado_descripcion.datafield] = {text: modalidad_marcacion.text, hidden: estado_descripcion.hidden};
 
     columna[d1.datafield] = {text: d1.text, hidden: d1.hidden};
-    /*columna[estado1.datafield] = {text: estado1.text, hidden: estado1.hidden};
-    columna[estado1_descripcion.datafield] = {text: estado1_descripcion.text, hidden: estado1_descripcion.hidden};*/
-
     columna[d2.datafield] = {text: d2.text, hidden: d2.hidden};
-    /*columna[estado2.datafield] = {text: estado2.text, hidden: estado2.hidden};
-    columna[estado2_descripcion.datafield] = {text: estado2_descripcion.text, hidden: estado2_descripcion.hidden};
-*/
     columna[d3.datafield] = {text: d3.text, hidden: d3.hidden};
-    /*columna[estado3.datafield] = {text: estado3.text, hidden: estado3.hidden};
-    columna[estado3_descripcion.datafield] = {text: estado3_descripcion.text, hidden: estado3_descripcion.hidden};*/
-
     columna[d4.datafield] = {text: d4.text, hidden: d4.hidden};
-    /*columna[estado4.datafield] = {text: estado4.text, hidden: estado4.hidden};
-    columna[estado4_descripcion.datafield] = {text: estado4_descripcion.text, hidden: estado4_descripcion.hidden};*/
-
     columna[d5.datafield] = {text: d5.text, hidden: d5.hidden};
-    /*columna[estado5.datafield] = {text: estado5.text, hidden: estado5.hidden};
-    columna[estado5_descripcion.datafield] = {text: estado5_descripcion.text, hidden: estado5_descripcion.hidden};*/
-
     columna[d6.datafield] = {text: d6.text, hidden: d6.hidden};
-    /*columna[estado6.datafield] = {text: estado6.text, hidden: estado6.hidden};
-    columna[estado6_descripcion.datafield] = {text: estado6_descripcion.text, hidden: estado6_descripcion.hidden};*/
-
     columna[d7.datafield] = {text: d7.text, hidden: d7.hidden};
-    /*columna[estado7.datafield] = {text: estado7.text, hidden: estado7.hidden};
-    columna[estado7_descripcion.datafield] = {text: estado7_descripcion.text, hidden: estado7_descripcion.hidden};*/
-
     columna[d8.datafield] = {text: d8.text, hidden: d8.hidden};
-    /*columna[estado8.datafield] = {text: estado8.text, hidden: estado8.hidden};
-    columna[estado8_descripcion.datafield] = {text: estado8_descripcion.text, hidden: estado8_descripcion.hidden};*/
-
     columna[d9.datafield] = {text: d9.text, hidden: d9.hidden};
-    /*columna[estado9.datafield] = {text: estado9.text, hidden: estado9.hidden};
-    columna[estado9_descripcion.datafield] = {text: estado9_descripcion.text, hidden: estado9_descripcion.hidden};*/
-
     columna[d10.datafield] = {text: d10.text, hidden: d10.hidden};
-    /*columna[estado10.datafield] = {text: estado10.text, hidden: estado10.hidden};
-    columna[estado10_descripcion.datafield] = {text: estado10_descripcion.text, hidden: estado10_descripcion.hidden};*/
-
     columna[d11.datafield] = {text: d11.text, hidden: d11.hidden};
-    /*columna[estado11.datafield] = {text: estado11.text, hidden: estado11.hidden};
-    columna[estado11_descripcion.datafield] = {text: estado11_descripcion.text, hidden: estado11_descripcion.hidden};*/
-
     columna[d12.datafield] = {text: d12.text, hidden: d12.hidden};
-    /*columna[estado12.datafield] = {text: estado12.text, hidden: estado12.hidden};
-    columna[estado12_descripcion.datafield] = {text: estado12_descripcion.text, hidden: estado12_descripcion.hidden};*/
-
     columna[d13.datafield] = {text: d13.text, hidden: d13.hidden};
-    /*columna[estado13.datafield] = {text: estado13.text, hidden: estado13.hidden};
-    columna[estado13_descripcion.datafield] = {text: estado13_descripcion.text, hidden: estado13_descripcion.hidden};*/
-
     columna[d14.datafield] = {text: d14.text, hidden: d14.hidden};
-    /*columna[estado14.datafield] = {text: estado14.text, hidden: estado14.hidden};
-    columna[estado14_descripcion.datafield] = {text: estado14_descripcion.text, hidden: estado14_descripcion.hidden};*/
-
     columna[d15.datafield] = {text: d15.text, hidden: d15.hidden};
-    /*columna[estado15.datafield] = {text: estado15.text, hidden: estado15.hidden};
-    columna[estado15_descripcion.datafield] = {text: estado15_descripcion.text, hidden: estado15_descripcion.hidden};*/
-
     columna[d16.datafield] = {text: d16.text, hidden: d16.hidden};
-    /*columna[estado16.datafield] = {text: estado16.text, hidden: estado16.hidden};
-    columna[estado16_descripcion.datafield] = {text: estado16_descripcion.text, hidden: estado16_descripcion.hidden};*/
-
     columna[d17.datafield] = {text: d17.text, hidden: d17.hidden};
-    /*columna[estado17.datafield] = {text: estado17.text, hidden: estado17.hidden};
-    columna[estado17_descripcion.datafield] = {text: estado17_descripcion.text, hidden: estado17_descripcion.hidden};*/
-
     columna[d18.datafield] = {text: d18.text, hidden: d18.hidden};
-    /*columna[estado18.datafield] = {text: estado18.text, hidden: estado18.hidden};
-    columna[estado18_descripcion.datafield] = {text: estado18_descripcion.text, hidden: estado18_descripcion.hidden};*/
-
     columna[d19.datafield] = {text: d19.text, hidden: d19.hidden};
-    /*columna[estado19.datafield] = {text: estado19.text, hidden: estado19.hidden};
-    columna[estado19_descripcion.datafield] = {text: estado19_descripcion.text, hidden: estado19_descripcion.hidden};*/
-
     columna[d20.datafield] = {text: d20.text, hidden: d20.hidden};
-    /*columna[estado20.datafield] = {text: estado20.text, hidden: estado20.hidden};
-    columna[estado20_descripcion.datafield] = {text: estado20_descripcion.text, hidden: estado20_descripcion.hidden};*/
-
     columna[d21.datafield] = {text: d21.text, hidden: d21.hidden};
-    /*columna[estado21.datafield] = {text: estado21.text, hidden: estado21.hidden};
-    columna[estado21_descripcion.datafield] = {text: estado21_descripcion.text, hidden: estado21_descripcion.hidden};*/
-
     columna[d22.datafield] = {text: d22.text, hidden: d22.hidden};
-    /*columna[estado22.datafield] = {text: estado22.text, hidden: estado22.hidden};
-    columna[estado22_descripcion.datafield] = {text: estado22_descripcion.text, hidden: estado22_descripcion.hidden};*/
-
     columna[d23.datafield] = {text: d23.text, hidden: d23.hidden};
-    /*columna[estado23.datafield] = {text: estado23.text, hidden: estado23.hidden};
-    columna[estado23_descripcion.datafield] = {text: estado23_descripcion.text, hidden: estado23_descripcion.hidden};*/
-
     columna[d24.datafield] = {text: d24.text, hidden: d24.hidden};
-    /*columna[estado24.datafield] = {text: estado24.text, hidden: estado24.hidden};
-    columna[estado24_descripcion.datafield] = {text: estado24_descripcion.text, hidden: estado24_descripcion.hidden};*/
-
     columna[d25.datafield] = {text: d25.text, hidden: d25.hidden};
-    /*columna[estado25.datafield] = {text: estado25.text, hidden: estado25.hidden};
-    columna[estado25_descripcion.datafield] = {text: estado25_descripcion.text, hidden: estado25_descripcion.hidden};*/
-
     columna[d26.datafield] = {text: d26.text, hidden: d26.hidden};
-    /*columna[estado26.datafield] = {text: estado26.text, hidden: estado26.hidden};
-    columna[estado26_descripcion.datafield] = {text: estado26_descripcion.text, hidden: estado26_descripcion.hidden};*/
-
     columna[d27.datafield] = {text: d27.text, hidden: d27.hidden};
-    /*columna[estado27.datafield] = {text: estado27.text, hidden: estado27.hidden};
-    columna[estado27_descripcion.datafield] = {text: estado27_descripcion.text, hidden: estado27_descripcion.hidden};*/
-
     columna[d28.datafield] = {text: d28.text, hidden: d28.hidden};
-    /*columna[estado28.datafield] = {text: estado28.text, hidden: estado28.hidden};
-    columna[estado28_descripcion.datafield] = {text: estado28_descripcion.text, hidden: estado28_descripcion.hidden};*/
-
     columna[d29.datafield] = {text: d29.text, hidden: d29.hidden};
-    /*columna[estado29.datafield] = {text: estado29.text, hidden: estado29.hidden};
-    columna[estado29_descripcion.datafield] = {text: estado29_descripcion.text, hidden: estado29_descripcion.hidden};*/
-
     columna[d30.datafield] = {text: d30.text, hidden: d30.hidden};
-    /*columna[estado30.datafield] = {text: estado30.text, hidden: estado30.hidden};
-    columna[estado30_descripcion.datafield] = {text: estado30_descripcion.text, hidden: estado30_descripcion.hidden};*/
-
     columna[d31.datafield] = {text: d31.text, hidden: d31.hidden};
-    /*columna[estado31.datafield] = {text: estado31.text, hidden: estado31.hidden};
-    columna[estado31_descripcion.datafield] = {text: estado31_descripcion.text, hidden: estado31_descripcion.hidden};*/
 
     columna[ultimo_dia.datafield] = {text: ultimo_dia.text, hidden: ultimo_dia.hidden};
     columna[atrasos.datafield] = {text: atrasos.text, hidden: atrasos.hidden};
@@ -318,6 +227,11 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};
     columna[omision.datafield] = {text: omision.text, hidden: omision.hidden};
     columna[lsgh.datafield] = {text: lsgh.text, hidden: lsgh.hidden};
+    /**
+     * Valor para el almacenamiento de la cantidad de marcaciones previstas por rango del reporte
+     * @type {{text: jQuery.text, hidden: *}}
+     */
+    columna[agrupador.datafield] = {text: agrupador.text, hidden: agrupador.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
 

@@ -212,6 +212,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
             {name: 'omision', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
             {name: 'compensacion', type: 'numeric'},
+            {name: 'agrupador', type: 'integer'},
             {name: 'observacion', type: 'string'},
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
@@ -934,6 +935,15 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         hidden: false
                     },
                     {
+                        text: 'Marc. Previstas',
+                        filtertype: 'checkedlist',
+                        datafield: 'agrupador',
+                        width: 70,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
                         text: 'Observaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'observacion',
@@ -996,6 +1006,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
             {label: 'Abandono', value: 'abandono', checked: true},
             {label: 'Omisi&oacute;n', value: 'omision', checked: true},
             {label: 'LSGH', value: 'lsgh', checked: true},
+            {label: 'Marc. Previstas', value: 'agrupador', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#divListBoxCalculos").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
