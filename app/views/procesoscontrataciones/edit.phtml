@@ -77,15 +77,15 @@ function cargarselect (pc) {
                 };
             }
 
-$("#normativamod_id, #codigo_convocatoria").change(function(){ 
-	var element = $("#normativamod_id").find('option:selected'); 
-	var modalidad = element.attr("modalidad"); 
-	var codigo_convocatoria = $("#codigo_convocatoria").val();
-	var fecha = new Date();
-	var anio = fecha.getFullYear();
-	$("#codigo_convocatoria2").val(modalidad+"-"+codigo_convocatoria+"/"+anio);
-        		//$('#setMyTag').val(myTag); 
-        	}); 
+// $("#normativamod_id, #codigo_convocatoria").change(function(){ 
+// 	var element = $("#normativamod_id").find('option:selected'); 
+// 	var modalidad = element.attr("modalidad"); 
+// 	var codigo_convocatoria = $("#codigo_convocatoria").val();
+// 	var fecha = new Date();
+// 	var anio = fecha.getFullYear();
+// 	$("#codigo_convocatoria2").val(modalidad+"-"+codigo_convocatoria+"/"+anio);
+//         		//$('#setMyTag').val(myTag); 
+//         	}); 
 
 $("#guardar").click(function() {
 	//var pac_ids = obtenerPac_ids();
@@ -145,11 +145,14 @@ $("#normativamod_id").val(<?php echo $procesocontratacion->normativamod_id ?>);
 									</div>
 									<div class="form-group">
 										<label class="col-lg-4 control-label">Codigo Convocatoria</label>
-										<div class="col-lg-4">
-											<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control" value="">
+										<div class="col-lg-8">
+											<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" required class="form-control" value="<?php echo $procesocontratacion->codigo_convocatoria; ?>">
 										</div>
-										<div class="col-lg-4">
-											<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" value="<?php echo $procesocontratacion->codigo_convocatoria; ?>" readonly="readonly" class="form-control">
+									</div>
+									<div class="form-group">
+										<label class="col-lg-4 control-label">Tipo</label>
+										<div class="col-lg-8">
+											<?php echo $tipo ?>
 										</div>
 									</div>
 									<!-- <div class="form-group">

@@ -73,6 +73,7 @@ class ProcesoscontratacionesController extends ControllerBase
 				'fecha_publ' => $v->fecha_publ,
 				'fecha_recep' => $v->fecha_recep,
 				'fecha_concl' => $v->fecha_concl,
+				'tipo' => $v->tipo,
 				);
 		}
 		echo json_encode($customers);
@@ -112,14 +113,14 @@ class ProcesoscontratacionesController extends ControllerBase
 	if ($this->request->isPost()) {
 		$resul = new Procesoscontrataciones();
 		$resul->normativamod_id = $_POST['normativamod_id'];
-		$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
+		$resul->codigo_convocatoria = $_POST['codigo_convocatoria'];
 		$resul->regional_id = 1;
-		$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
+		$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria'];
 		$resul->gestion = date("Y");
 		$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
 		$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
 		$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
-		$resul->tipoconvocatoria_id = 1;
+		$resul->tipoconvocatoria_id = $_POST['tipo'];
 		$resul->observacion = $_POST['observacion'];
 		$resul->estado = 1;
 		$resul->baja_logica = 1;
@@ -200,6 +201,20 @@ class ProcesoscontratacionesController extends ControllerBase
 		$this->response->redirect('/procesoscontrataciones');
 	}
 
+		$tipo = $this->tag->select(
+			array(
+				'tipo',
+				Parametros::find(array("parametro='procesoscontrataciones_tipo' and baja_logica=1 ",'order'=>'nivel ASC')),
+				'using' => array('nivel', "valor_1"),
+				'useEmpty' => false,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '0',
+				'class' => 'form-control',
+				'required' => 'required'
+				)
+			);
+		$this->view->setVar('tipo',$tipo);
+
 }
 
 public function editAction($id)
@@ -217,17 +232,32 @@ public function editAction($id)
 	$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
 	$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
 
+	$this->tag->setDefault("tipo", $resul->tipoconvocatoria_id);
+	$tipo = $this->tag->select(
+			array(
+				'tipo',
+				Parametros::find(array("parametro='procesoscontrataciones_tipo' and baja_logica=1 ",'order'=>'nivel ASC')),
+				'using' => array('nivel', "valor_1"),
+				'useEmpty' => false,
+				'emptyText' => '(Seleccionar)',
+				'emptyValue' => '0',
+				'class' => 'form-control',
+				'required' => 'required'
+				)
+			);
+		$this->view->setVar('tipo',$tipo);
+
 	if ($this->request->isPost()) {
 		$resul = Procesoscontrataciones::findFirstById($id);
 		$resul->normativamod_id = $_POST['normativamod_id'];
-		$resul->codigo_convocatoria = $_POST['codigo_convocatoria2'];
+		$resul->codigo_convocatoria = $_POST['codigo_convocatoria'];
 		$resul->regional_id = 1;
-		$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria2'];
+		$resul->codigo_proceso = "MT-".$_POST['codigo_convocatoria'];
 		$resul->fecha_publ = date("Y-m-d",strtotime($_POST['fecha_publ']));
 		$resul->fecha_recep = date("Y-m-d",strtotime($_POST['fecha_recep']));
 		$resul->fecha_concl = date("Y-m-d",strtotime($_POST['fecha_concl']));
 		$resul->observacion = $_POST['observacion'];
-				// $resul->tipoconvocatoria_id = 1;
+		$resul->tipoconvocatoria_id = $_POST['tipo'];
 				// $resul->estado = 1;
 				// $resul->baja_logica = 1;
 				// $resul->agrupador = 1;

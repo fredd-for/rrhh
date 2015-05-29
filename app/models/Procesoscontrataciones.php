@@ -150,9 +150,12 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
 
     private $_db;
     public function lista() {
-        $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion 
-FROM procesoscontrataciones p, normativasmod n 
-WHERE p.baja_logica=1 and p.normativamod_id=n.id ORDER BY p.fecha_publ DESC";
+        $sql = "SELECT p.*, n.normativa,n.modalidad,n.denominacion,pa.valor_1 as tipo
+FROM procesoscontrataciones p 
+INNER JOIN normativasmod n ON p.normativamod_id=n.id
+LEFT JOIN parametros pa ON  pa.parametro='procesoscontrataciones_tipo' AND CAST(pa.nivel as INT) = p.tipoconvocatoria_id AND pa.baja_logica =1 
+WHERE p.baja_logica=1
+ORDER BY p.fecha_publ DESC";
         $this->_db = new Procesoscontrataciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

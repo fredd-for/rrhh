@@ -110,7 +110,7 @@ $("#guardar").click(function() {
 			});
 });
 
-$(":file").filestyle({buttonName: "btn-primary"});
+// $(":file").filestyle({buttonName: "btn-primary"});
 
 });
 </script>
@@ -133,7 +133,7 @@ $(":file").filestyle({buttonName: "btn-primary"});
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Modalidad</label>
 									<div class="col-lg-8">
-										<select name="normativamod_id" id="normativamod_id" class="form-control">
+										<select name="normativamod_id" id="normativamod_id" class="form-control" required>
 											<option value="">(Seleccionar)</option>
 											<?php foreach ($normativamod as $v) { ?>
 											<option value="<?php echo $v->id ?>" modalidad="<?php echo $v->modalidad ?>"><?php echo $v->denominacion ?></option>
@@ -143,11 +143,17 @@ $(":file").filestyle({buttonName: "btn-primary"});
 								</div>
 								<div class="form-group">
 									<label class="col-lg-4 control-label">Codigo Convocatoria</label>
-									<div class="col-lg-4">
-										<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" class="form-control">
-									</div>
-									<div class="col-lg-4">
-										<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2" readonly="readonly" class="form-control">
+									<div class="col-lg-8">
+										<input type="text" name="codigo_convocatoria" id="codigo_convocatoria" required class="form-control" placeholder='Ej.: CPI-001/2015'>
+									</div> 
+									<!-- <div class="col-lg-4">
+										<input type="text" name="codigo_convocatoria2" id="codigo_convocatoria2"  required class="form-control">
+									</div> -->
+								</div>
+								<div class="form-group">
+									<label class="col-lg-4 control-label">Tipo</label>
+									<div class="col-lg-8">
+										<?php echo $tipo ?>
 									</div>
 								</div>
 								<!-- <div class="form-group">

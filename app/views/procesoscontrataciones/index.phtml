@@ -19,7 +19,8 @@ function cargar(){
    { name: 'normativamod_id',type: 'number'},
    { name: 'fecha_publ',type:'date'},
    { name: 'fecha_recep',type:'date'},
-   { name: 'fecha_concl',type:'date'}
+   { name: 'fecha_concl',type:'date'},
+   { name: 'tipo',type: 'string'},
    ],
    url: '/procesoscontrataciones/list',
    cache: false
@@ -48,8 +49,9 @@ $("#jqxgrid").jqxGrid(
         { text: 'Denominaión', datafield: 'denominacion', filtertype: 'input',width: '35%' },
         { text: 'Codigo Convocatoria', datafield: 'codigo_convocatoria',filtertype: 'input', width: '15%' },
         { text: 'Fecha Publicación', datafield: 'fecha_publ', filtertype: 'range', width: '15%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
-        { text: 'Fecha Recepeción', datafield: 'fecha_recep', filtertype: 'range', width: '15%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
-        { text: 'Fecha Conclusión', datafield: 'fecha_concl', filtertype: 'range', width: '15%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'}
+        { text: 'Fecha Recepeción', datafield: 'fecha_recep', filtertype: 'range', width: '12%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Fecha Conclusión', datafield: 'fecha_concl', filtertype: 'range', width: '12%', cellsalign: 'center', cellsformat: 'dd-MM-yyyy', align:'center'},
+        { text: 'Tipo', datafield: 'tipo', filtertype: 'input', width: '6%', cellsalign: 'center', align:'center'}
         ]
       });
 
@@ -511,7 +513,6 @@ $('#filtrar').click(function(){
         </div>
       </div>
       <div class="modal-body">
-
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Hitos</a></li>
@@ -610,16 +611,6 @@ $('#filtrar').click(function(){
             
         </table>
             </div>
-
-
-      <!--       <div class="tab-pane" id="tab4">
-              <div class="form-group">
-              <button class="btn btn-xs btn-primary" type="button" id="add_adjudicado"> <i class="fa fa-plus-circle"> Adicionar</i> </button>
-                <ul id="li_adjudicados" class="list-group">
-                </ul>
-              </div>                          
-            </div> -->
-
 
           </div>
         </div>
