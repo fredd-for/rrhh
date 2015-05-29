@@ -3,19 +3,19 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  27-02-2015
+ *   Fecha Creación:  26-05-2015
  */
 /**
- * Función para aprobar un registro de excepción.
+ * Función para aprobar un registro de planilla salarial.
  */
-function aprobarRegistroExcepcion(idExcepcion){
+function aprobarRegistroPlanillaSal(idPlanilla){
     var ok = false;
     $.ajax({
-        url:'/excepciones/approve/',
+        url:'/planillassal/approve/',
         type:'POST',
         datatype: 'json',
         async:false,
-        data:{id:idExcepcion},
+        data:{id:idPlanilla},
         success: function(data) {
 
             var res = jQuery.parseJSON(data);
@@ -28,7 +28,7 @@ function aprobarRegistroExcepcion(idExcepcion){
                 $("#divMsjePorSuccess").html("");
                 $("#divMsjePorSuccess").append(res.msj);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                $("#divGridExcepciones").jqxGrid("updatebounddata");
+                $("#divGridPlanillasSal").jqxGrid("updatebounddata");
                 ok=true;
             } else if(res.result==0){
                 $("#divMsjePorWarning").html("");

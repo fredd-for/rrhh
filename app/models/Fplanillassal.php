@@ -27,6 +27,7 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
     public $numero;
     public $total_ganado;
     public $total_liquido;
+    public $cantidad_relaborales;
     public $observacion;
     public $motivo_anu;
     public $estado;
@@ -51,7 +52,7 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
      */
     public function initialize()
     {
-        $this->_db = new Perfileslaborales();
+        $this->_db = new Fplanillassal();
     }
     /**
      * Independent Column Mapping.
@@ -77,6 +78,7 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
             'numero'=>'numero',
             'total_ganado'=>'total_ganado',
             'total_liquido'=>'total_liquido',
+            'cantidad_relaborales'=>'cantidad_relaborales',
             'observacion'=>'observacion',
             'motivo_anu'=>'motivo_anu',
             'estado'=>'estado',
@@ -111,29 +113,6 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
         if($group!='')$sql .= $group;
         $this->_db = new Fplanillassal();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-    }
-
-    /**
-     * Función para generar la planilla salarial
-     * @param $gestion
-     * @param $mes
-     * @param $idFinPartida
-     * @param $jsonIdRelaborales
-     * @param string $where
-     * @param string $group
-     * @return Resultset
-     */
-    public function desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
-        if($gestion>0&&$mes>0&&$idFinPartida>0){
-            if($jsonIdRelaborales!='')
-                $sql = "SELECT * FROM f_relaborales_planillas($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
-            else
-                $sql = "SELECT * FROM f_relaborales_planillas($gestion,$mes,$idFinPartida,NULL)";
-            if($where!='')$sql .= $where;
-            if($group!='')$sql .= $group;
-            $this->_db = new Fplanillassal();
-            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
-        }
     }
 
     /**

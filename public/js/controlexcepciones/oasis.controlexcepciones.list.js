@@ -157,7 +157,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                 /**
                                  * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
                                  */
-                                if (dataRecord.controlexcepcion_estado >= 1) {
+                                if (dataRecord.controlexcepcion_estado == 2 || dataRecord.controlexcepcion_estado == 3) {
                                     $('#divTabControlExcepciones').jqxTabs('enableAt', 0);
                                     $('#divTabControlExcepciones').jqxTabs('enableAt', 1);
                                     $('#divTabControlExcepciones').jqxTabs('disableAt', 2);

@@ -15,6 +15,12 @@
             <!-- Input Grid Title -->
             <div class="block-title">
                 <h2>Listado General</h2>
+                <!--<select class="selectpicker" multiple data-max-options="2" data-live-search="true">
+                    <option>Mustard</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                </select>-->
+
                 <div id='divWidgetPlanillas'>
                     <div align="right">
                         <!--<button class="btn btn-sm btn-primary" type="button" id="btnExportarExcel" accesskey="i">
@@ -64,7 +70,7 @@
                     <div class="row">
                         <div class="col-sm-2" id="divGestionGen">
                             <div class="block">Gesti&oacute;n:
-                                <select id="lstGestionGen" class="form-control"><option value="">Seleccionar...</option></select>
+                                <select class="form-control" id="lstGestionGen"><option value="">Seleccionar...</option></select>
                             </div>
                             <span class="help-block" id="helpErrorGestionGen"></span>
                         </div>
@@ -97,27 +103,11 @@
                             </button>
                         </div>
                     </div>
+                    <div id="divCarga" style="display:none" align="center">
+                        <div id="divContador"></div>
+                        <img src="../images/barra_carga.gif" />
+                    </div>
                     <div id="divGridPlanillasSalGen"></div>
-                    <!--<div style='margin-top: 20px;'>
-                        <div style='float: left;'>
-                            <input type="button" value="Export to Excel" id='excelExport' />
-                            <br /><br />
-                            <input type="button" value="Export to XML" id='xmlExport' />
-                        </div>
-                        <div style='margin-left: 10px; float: left;'>
-                            <input type="button" value="Export to CSV" id='csvExport' />
-                            <br /><br />
-                            <input type="button" value="Export to TSV" id='tsvExport' />
-                        </div>
-                        <div style='margin-left: 10px; float: left;'>
-                            <input type="button" value="Export to HTML" id='htmlExport' />
-                            <br /><br />
-                            <input type="button" value="Export to JSON" id='jsonExport' />
-                        </div>
-                        <div style='margin-left: 10px; float: left;'>
-                            <input type="button" value="Export to PDF" id='pdfExport' />
-                        </div>
-                    </div>-->
                     <div id="divBotonesExportacion">
                     <button class="btn btn-sm btn-primary" type="button" id="btnExportarGenExcel" accesskey="i">
                         <i class="fi fi-xls"></i>
@@ -145,116 +135,119 @@
         </div>
     </div>-->
 </div>
-<div class="section" id="divEdit">
-    <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido de manera obligatoria (*).</h6>
-    <div class="form-horizontal col-sm-12">
-        <fieldset>
-            <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n</legend>
-            <div class="row">
-                <div class="col-xs-6" id="divExcepcionEdit">
-                    <label class="col-sm-6 control-label" for="txtExcepcionEdit">Excepci&oacute;n *:</label>
-                    <div class="col-sm-6">
-                        <textarea id="txtExcepcionEdit" class="form-control" placeholder="Excepci&oacute;n.."></textarea>
-                        <span class="help-block" id="helpErrorExcepcionEdit"></span>
+<div class="section" id="divView">
+    <div class="col-md-12">
+        <!-- Input Grid Block -->
+        <div class="block">
+            <!-- Input Grid Title -->
+            <div class="block-title">
+                <h2>Planillas Salariales Generadas</h2>
+                <div id='divWidgetPlanillasSalView'>
+                    <div class="row">
+                        <div class="col-sm-2" id="divGestionView">
+                            <div class="block">Gesti&oacute;n:
+                                <span id="spanGestionView"></span>
+                            </div>
+                            <span class="help-block" id="helpErrorGestionView"></span>
+                        </div>
+                        <div class="col-sm-2" id="divMesView">
+                            <div class="block">Mes:
+                                <span id="spanMesView"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" id="divFinPartidaView">
+                            <div class="block">Fuente:
+                                <span id="spanFinPartidaView"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" id="divTipoPlanillaSalView">
+                            <div class="block">Tipo:
+                                <span id="spanTipoPlanillaView"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" id="divObservacionView">
+                            <div class="block">Observaci&oacute;n:
+                                <span id="spanObservacionView"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-6" id="divTipoExcepcionEdit">
-                    <label class="col-sm-3 control-label" for="lstTipoExcepcionEdit">Tipo *:</label>
-                    <div class="col-sm-6" form-group>
-                        <select id="lstTipoExcepcionEdit" class="form-control"></select>
-                        <span class="help-block" id="helpErrorTipoExcepcionEdit"></span>
+                    <div id="divCarga" style="display:none" align="center">
+                        <div id="divContador"></div>
+                        <img src="../images/cortinilla.gif" />
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6" id="divCodigoEdit">
-                    <label class="col-sm-6 control-label" for="txtCodigoEdit">C&oacute;digo *:</label>
-                    <div class="col-sm-6">
-                        <input type="text" id="txtCodigoEdit" name="txtCodigoEdit" class="form-control" placeholder="C&oacute;digo..">
-                        <span class="help-block" id="helpErrorCodigoEdit"></span>
-                    </div>
-                </div>
-                <div class="col-xs-6" id="divColorEdit">
-                    <label class="col-sm-3 control-label" for="txtColorEdit">Color *:</label>
-                    <div class="col-sm-6">
-                        <input type="text" id="txtColorEdit" name="txtColorEdit" class="kolorPicker form-control" value="#FFFFFF" placeholder="#FFFFFF">
-                        <span class="help-block" id="helpErrorColorEdit"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4" id="divDescuentoEdit">
-                    <label class="col-sm-6 control-label" for="chkDescuentoEdit">¿Aplicar descuento? *:</label>
-                    <div class="col-sm-6">
-                        <input type="checkbox" name="chkDescuentoEdit" id="chkDescuentoEdit" data-on-text="SI" data-off-text="NO">
-                        <span class="help-block" id="helpErrorDescuentoEdit"></span>
-                    </div>
-                </div>
-                <div class="col-xs-4" id="divCompensatoriaEdit">
-                    <label class="col-sm-6 control-label" for="chkCompensatoriaEdit">¿Debe compensar horas? *:</label>
-                    <div class="col-sm-6">
-                        <input type="checkbox" name="chkCompensatoriaEdit" id="chkCompensatoriaEdit" data-on-text="SI" data-off-text="NO">
-                        <span class="help-block" id="helpErrorCompensatoriaEdit"></span>
-                    </div>
-                </div>
-                <div class="col-xs-4" id="divGeneroEdit">
-                    <label class="col-sm-3 control-label" for="lstGeneroEdit">G&eacute;nero *:</label>
-                    <div class="col-sm-6">
-                        <select id="lstGeneroEdit" class="form-control"><option value="">Seleccionar...</option></select>
-                        <span class="help-block" id="helpErrorGeneroEdit"></span>
+                    <div id="divGridPlanillasSalView"></div>
+                    <div id="divBotonesExportacionView">
+                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewExcel" accesskey="i">
+                            <i class="fi fi-xls"></i>
+                            Exportar Excel
+                        </button>
+                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewPDF" accesskey="i">
+                            <i class="fi fi-pdf"></i>
+                            Exportar PDF
+                        </button>
                     </div>
                 </div>
             </div>
-        </fieldset>
-        <fieldset>
-            <legend><i class="fa fa-angle-right"></i> Frecuencia:</legend>
-            <div class="form-group" id="divFrecuenciaEdit">
-                <div class="col-sm-3" id="divCantidadEdit">
-                    Cantidad:
-                    <input type="text" name="txtCantidadEdit" id="txtCantidadEdit" class="form-control decimal">
-                    <span class="help-block" id="helpErrorCantidadEdit"></span>
-                </div>
-                <div class="col-sm-3" id="divUnidadEdit">
-                    Unidad:
-                    <select id="lstUnidadEdit" name="lstUnidadEdit" class="form-control"><option value="">Seleccionar...</option></select>
-                    <span class="help-block" id="helpErrorUnidadEdit"></span>
-                </div>
-                <div class="col-sm-3" id="divFraccionamientoEdit">
-                    Fraccionamiento:
-                    <select id="lstFraccionamientoEdit" name="lstFraccionamientoEdit" class="form-control" disabled><option value="" dataid-unidad="0">Seleccionar...</option></select>
-                    <span class="help-block" id="helpErrorFraccionamientoEdit"></span>
-                </div>
-                <div class="col-sm-3" id="divFrecuenciaEdit">
-                    Resultado:
-                    <span id="spanFrecuenciaEdit" class="form-control"></span>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend><i class="fa fa-angle-right"></i> &nbsp;</legend>
-            <div class="form-group div-excepciones" id="divObservacionEdit">
-                <label class="col-md-3 control-label" for="txtObservacionEdit">Observaciones:</label>
-                <div class="col-md-6">
-                    <textarea id="txtObservacionEdit" name="txtObservacionEdit" class="form-control" placeholder="Observaciones.."></textarea>
-                </div>
-                <span class="help-block" id="helpErrorObservacionEdit"></span>
-            </div>
-        </fieldset>
-        <div class="form-group form-actions">
-            <div class="col-md-8 col-md-offset-4">
-                <button id="btnGuardarExcepcionEdit" class="btn btn-sm btn-primary" type="button">
-                    <i class="fa fa-floppy-o"></i>
-                    Guardar
-                </button>
-                <button id="btnCancelarExcepcionEdit" class="btn btn-sm btn-warning" type="button">
-                    <i class="fa fa-repeat"></i>
-                    Cancelar
-                </button>
-            </div>
+            <!-- END Input Grid Title -->
+
         </div>
-        <input type="hidden" id="hdnIdExcepcionEdit" value="0">
+        <!-- END Input Grid Block -->
     </div>
 </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaSal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="formObservacionPlanillaSal" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="h4ModalObservacionPlanillaSal">Observaciones sobre la Planilla Salarial</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="div-observacion-planillasal" id="divObservacionPlanillaSal">
+                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaSal">Observaci&oacute;n:</label>
+                        <div class="col-md-10"  form-group>
+                            <textarea id="txtObservacionPlanillaSal" class="form-control"></textarea>
+                            <span class="help-block" id="helpErrorObservacionPlanillaSal"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarObservacionPlanillaSal" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarObservacionPlanillaSal" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaSalEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form-horizontal" id="formObservacionPlanillaSalEdit" data-toggle="validator" onsubmit="return false;"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="h4ModalObservacionPlanillaSalEdit">Observaciones sobre la Planilla Salarial</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="div-observacion-planillasal-edit" id="divObservacionPlanillaSalEdit">
+                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaSalEdit">Observaci&oacute;n:</label>
+                        <div class="col-md-10"  form-group>
+                            <textarea id="txtObservacionPlanillaSalEdit" class="form-control"></textarea>
+                            <span class="help-block" id="helpErrorObservacionPlanillaSalEdit"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarObservacionPlanillaSalEdit" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarObservacionPlanillaSalEdit" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
+            </div>
+            </form>
+        </div>
+    </div>
 </div>
 <!--</form></div>-->
 </body>

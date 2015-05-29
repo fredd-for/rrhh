@@ -8577,4 +8577,28 @@ class HorariosymarcacionesController extends ControllerBase
         }
         echo json_encode($tipos);
     }
+
+    /**
+     * Función para convertir un array a formato CSV.
+     * @param $input_array
+     * @param $output_file_name
+     * @param $delimiter
+     */
+    public function converToCsv($input_array, $output_file_name, $delimiter)
+    {
+        /** open raw memory as file, no need for temp files */
+        $temp_memory = fopen('php://memory', 'w');
+        /** loop through array  */
+        foreach ($input_array as $line) {
+            /** default php csv handler **/
+            fputcsv($temp_memory, $line, $delimiter);
+        }
+        /** rewrind the "file" with the csv lines **/
+        fseek($temp_memory, 0);
+        /** Modificar la cabecera para ser un archivo descargable **/
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachement; filename="' . $output_file_name . '";');
+        /** Enviar el archivo al navegador para descarga */
+        fpassthru($temp_memory);
+    }
 } 
