@@ -300,7 +300,9 @@ class ControlexcepcionesController extends ControllerBase
                 try {
                     $objControlExcepciones->estado = 3;
                     $objControlExcepciones->user_mod_id = $user_mod_id;
+                    $objControlExcepciones->user_apr_id = $user_mod_id;
                     $objControlExcepciones->fecha_mod = $hoy;
+                    $objControlExcepciones->fecha_apr = $hoy;
                     $ok = $objControlExcepciones->save();
                     if ($ok) {
                         $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se aprob&oacute; correctamente el registro del control de  excepci&oacute;n.');
@@ -413,6 +415,52 @@ class ControlexcepcionesController extends ControllerBase
             $msj = array('result' => 0, 'msj' => 'No existe cruce de horarios ni fechas.');
         } else {
             $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se envi&oacute; el identificador del registro del control de excepci&oacute;n.');
+        }
+        echo json_encode($msj);
+    }
+
+    /**
+     * Función para el registro de un determinado tipo de permiso para un perfil laboral en particular.
+     */
+    public function savemassivebyperfilAction()
+    {
+        $auth = $this->session->get('auth');
+        $user_reg_id = $auth['id'];
+        $msj = Array();
+        $this->view->disable();
+        if (isset($_POST["id"]) && $_POST["id"] > 0){
+            /**
+             * Registro del Control de Excepción masivo
+             */
+            $idPerfilLaboral = $_POST['id'];
+            $idExcepcion = $_POST['excepcion_id'];
+            $fechaIni = $_POST['fecha_ini'];
+            $horaIni = $_POST['hora_ini'];
+            $fechaFin = $_POST['fecha_fin'];
+            $horaFin = $_POST['hora_fin'];
+            $estado = 3;
+            $justificacion = $_POST['justificacion'];
+            $observacion = $_POST['observacion'];
+            if($idPerfilLaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
+                    try{
+                        $obj = new Controlexcepciones();
+                        $ok = $obj->registroMasivoPorPerfil($idPerfilLaboral,$fechaIni,$horaIni,$fechaFin,$horaFin,$justificacion,$observacion,$estado,$user_reg_id);
+                        if ($ok)  {
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se realiz&oacute; correctamente el registro masivo.');
+                        } else {
+                            $msj = array('result' => 0, 'msj' => 'Error: No se registr&oacute;.');
+                        }
+                    }catch (\Exception $e) {
+                        echo get_class($e), ": ", $e->getMessage(), "\n";
+                        echo " File=", $e->getFile(), "\n";
+                        echo " Line=", $e->getLine(), "\n";
+                        echo $e->getTraceAsString();
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro del control de excepci&oacute;n masivo.');
+                    }
+
+            }else{
+                $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
+            }
         }
         echo json_encode($msj);
     }

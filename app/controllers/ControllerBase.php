@@ -45,6 +45,8 @@ class ControllerBase extends Controller {
                     ->addCss('/js/jqwidgets/styles/jqx.blackberry.css')
                     ->addCss('/js/jqwidgets/styles/jqx.mobile.css')
                     ->addCss('/js/jqwidgets/styles/jqx.android.css')
+                    ->addCss('/js/select/bootstrap-select.css')
+                    ->addCss('/js/select/ajax-bootstrap-select.css')
 
                     /*Adicionado por Javier*/
                     //->addCss('/assets/css/jquery-ui.css')
@@ -108,6 +110,8 @@ class ControllerBase extends Controller {
                     ->addJs('/js/jqwidgets/jqxnotification.js')
                     ->addJs('/js/jqwidgets/jqxbuttongroup.js')
                     ->addJs('/js/bootbox.js')
+                    ->addJs('/js/select/bootstrap-select.js')
+                    ->addJs('/js/select/ajax-bootstrap-select.js')
             ;
             //menu
             $this->menu($this->_user->nivel);

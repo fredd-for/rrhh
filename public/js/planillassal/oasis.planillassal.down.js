@@ -3,20 +3,20 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-12-2014
+ *   Fecha Creación:  28-05-2015
  */
 /**
- * Función registrar la baja de un registro de excepción.
+ * Función registrar la baja de un registro de PlanillaSalarial.
  */
-function darDeBajaExcepcion(idExcepcion){
+function darDeBajaPlanillaSal(idPlanillaSal){
     var ok=true;
-    if(idExcepcion>0){
+    if(idPlanillaSal>0){
         var ok=$.ajax({
-            url:'/excepciones/down/',
+            url:'/planillassal/down/',
             type:'POST',
             datatype: 'json',
             async:false,
-            data:{id:idExcepcion},
+            data:{id:idPlanillaSal},
             success: function(data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
@@ -27,7 +27,7 @@ function darDeBajaExcepcion(idExcepcion){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#divGridExcepciones").jqxGrid("updatebounddata");
+                    $("#divGridPlanillasSal").jqxGrid("updatebounddata");
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.
