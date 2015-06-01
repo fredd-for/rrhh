@@ -113,10 +113,6 @@
                         <i class="fi fi-xls"></i>
                         Exportar Excel
                     </button>
-                    <button class="btn btn-sm btn-primary" type="button" id="btnExportarGenPDF" accesskey="i">
-                        <i class="fi fi-pdf"></i>
-                        Exportar PDF
-                    </button>
                     </div>
                 </div>
             </div>
@@ -125,15 +121,6 @@
         </div>
         <!-- END Input Grid Block -->
     </div>
-    <!--<div class="col-md-2">
-        <div class="block">
-            <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaSal" accesskey="g">
-                <i class="fi fi-pdf"></i>
-                Exportar PDF
-            </button>
-
-        </div>
-    </div>-->
 </div>
 <div class="section" id="divView">
     <div class="col-md-12">
@@ -143,48 +130,44 @@
             <div class="block-title">
                 <h2>Planillas Salariales Generadas</h2>
                 <div id='divWidgetPlanillasSalView'>
-                    <div class="row">
-                        <div class="col-sm-2" id="divGestionView">
-                            <div class="block">Gesti&oacute;n:
-                                <span id="spanGestionView"></span>
-                            </div>
-                            <span class="help-block" id="helpErrorGestionView"></span>
+                    <div id='divWidgetPlanillas'>
+                        <div align="right">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewExcel" accesskey="i">
+                                <i class="fi fi-xls"></i>
+                                Exportar Excel
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewPDF" accesskey="i">
+                                <i class="fi fi-pdf"></i>
+                                Exportar PDF
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesagruparTodoPlanillasSalView">
+                                <i class="fa fa-chain-broken"></i>
+                                Desagrupar Todo
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrarTodoPlanillasSalView">
+                                <i class="gi gi-sorting"></i>
+                                Desfiltrar Todo
+                            </button>
                         </div>
-                        <div class="col-sm-2" id="divMesView">
-                            <div class="block">Mes:
-                                <span id="spanMesView"></span>
+                        <div class="block">
+                            <div class="table-responsive">
+                                <table id="tblDatosPlanillaSal" class="table table-vcenter table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th style='text-align: center'>Estado</th>
+                                        <th style='text-align: center'>Gesti&oacute;n</th>
+                                        <th style='text-align: center'>Mes</th>
+                                        <th style='text-align: center'>Fuente</th>
+                                        <th style='text-align: center'>Tipo / N&uacute;mero</th>
+                                        <th style='text-align: center'>Observaci&oacute;n</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tbodyDatosPlanillaSal"></tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-sm-4" id="divFinPartidaView">
-                            <div class="block">Fuente:
-                                <span id="spanFinPartidaView"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-2" id="divTipoPlanillaSalView">
-                            <div class="block">Tipo:
-                                <span id="spanTipoPlanillaView"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-2" id="divObservacionView">
-                            <div class="block">Observaci&oacute;n:
-                                <span id="spanObservacionView"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="divCarga" style="display:none" align="center">
-                        <div id="divContador"></div>
-                        <img src="../images/cortinilla.gif" />
-                    </div>
-                    <div id="divGridPlanillasSalView"></div>
-                    <div id="divBotonesExportacionView">
-                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewExcel" accesskey="i">
-                            <i class="fi fi-xls"></i>
-                            Exportar Excel
-                        </button>
-                        <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewPDF" accesskey="i">
-                            <i class="fi fi-pdf"></i>
-                            Exportar PDF
-                        </button>
+                        <div id="divGridPlanillasSalView"></div>
+                        <input type="hidden" value="0" id="hdnIdPlanillaSal">
                     </div>
                 </div>
             </div>

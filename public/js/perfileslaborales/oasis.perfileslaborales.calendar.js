@@ -495,7 +495,7 @@ function cargarHorariosDisponibles(arrHorarios){
             var diasLaborales = val.dias_laborales;
             var hora_entrada = val.hora_entrada;
             var hora_salida = val.hora_salida;
-            calendarEvents.append('<li style="background-color: '+valColor+'" class="ui-draggable '+val.class+'" id="'+valId+'" data-horas_laborales="'+horasLaborales+'" data-dias_laborales="'+diasLaborales+'" data-hora_entrada="'+hora_entrada+'" data-hora_salida="'+hora_salida+'">' + $('<div />').text(eventInputVal).html() + '</li>');
+            calendarEvents.append('<li style="display: block;list-style: none;background-color: '+valColor+'" class="ui-draggable '+val.class+'" id="'+valId+'" data-horas_laborales="'+horasLaborales+'" data-dias_laborales="'+diasLaborales+'" data-hora_entrada="'+hora_entrada+'" data-hora_salida="'+hora_salida+'">' + $('<div />').text(eventInputVal).html() + '</li>');
 
             // Init Events
             initEvents();
@@ -788,7 +788,7 @@ function cargarTolerancias(accion,idTolerancia){
                 $.each(res, function (key, val) {
                     if (idTolerancia == val.id) {
                         $selected = 'selected';
-                        grilla = "<td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
+                        grilla = "<td>&nbsp;</td><td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
                     } else {
                         $selected = '';
                     }
@@ -819,7 +819,7 @@ function cargarTolerancias(accion,idTolerancia){
         grilla ="";
         $.each(arrTolerancias,function(key,val){
             if(val.id==$("#lstTolerancias").val()){
-                grilla = "<td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
+                grilla = "<td>&nbsp;</td><td class='text-center'>"+val.tolerancia+"</td><td class='text-center'>"+val.acumulacion_descripcion+"</td><td>"+val.consideracion_retraso_descripcion+"</td><td>"+val.descripcion+"</td><td>"+val.observacion+"</td>";
             }
         });
         if(grilla!="")$("#tr_tolerancia").append(grilla);
@@ -857,7 +857,9 @@ function cargarModalHorario(idHorario){
                         var hSal = val.hora_salida;
                         if(hEnt=="")hEnt = "00:00:00";
                         if(hSal=="")hSal = "00:00:00";
-                        $("#txtHorasLaborales").val(val.horas_laborales);
+                        var horasLaborales = Number(parseFloat(val.horas_laborales));
+                        horasLaborales = horasLaborales.toFixed(2);
+                        $("#txtHorasLaborales").val(horasLaborales);
                     });
                 }
             }

@@ -1,7 +1,20 @@
 </head>
 <body>
+<style>
+    .calendar-events li
+    {
+        list-style: none;
+        font-family: 'Trebuchet MS', verdana;
+        margin: 1px;
+        border: 1px solid #333;
+        text-align: center;
+        background: #fff;
+        display: block;
+        float: left;
+        color: #ccc;
+    }
+    </style>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Perfiles Laborales / Turnos / Calendarios / Cupos</b></h2>
-
 <div id="divMsjeExito" class="msjs-alert" hidden="hidden">
     <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
     <h4>
@@ -280,35 +293,39 @@
                     </h2>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="block-section">
-                            <div id="divArrastre" class="block-section text-center text-muted">
-                                <small><em><i class="fa fa-arrows"></i> Arrastre y suelte horarios en el calendario</em></small>
-                            </div>
-                            <div class="divHorariosDisponibles">
-                            <ul class="calendar-events" id="ulHorariosEnEspera">
-                            </div>
-                            </ul>
-                        </div>
-                        <!--<h6>Jornada Laboral:</h6>
-                        <select id="lstJornadasLaborales" class="form-control">
-                        </select>-->
-                        <div id="divLstTolerancias"><h6>Tipo de Tolerancia:</h6><select id="lstTolerancias" class="form-control"></select></div>
-                        <div id="divEstadoCalendario"></div><br>
+                    <div id="divArrastre" class="block-section text-center text-muted col-md-6">
+                        <small><em><i class="fa fa-arrows"></i> Arrastre y suelte horarios en el calendario</em></small>
                     </div>
-                    <div class="col-md-8">
-                        <div id="calendar"></div><br>
-                        <div id="divGrupoBotonesElaboracion" class="btn-group">
-                            <button id="btnGuardarElaboracionCalendario" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar Elaboraci&oacute;n</button>
-                            <button id="btnConcluirElaboracion" class="btn btn-info" type="button"><i class="fa fa-thumbs-o-up"></i> Concluir Elaboraci&oacute;n</button>
-                            <button id="btnCancelarCalendario" class="btnCancelarCalendario btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+                    <div id="divSectorEstado" style="text-align: center" class="col-md-6">
+                        <div id="divEstadoCalendario"></div>
+                    </div>
+                </div>
+                    <div class="row">
+                    <div id="divSectorHorariosDisponibles" class="col-md-6">
+                        <div class="divHorariosDisponibles">
+                            <ul class="calendar-events" id="ulHorariosEnEspera"></ul>
                         </div>
-                        </br>
-                        </br>
-                        <div id="divDatosTolerancia">
+                    </div>
+                    <div id="divSectorCalendario" class="col-md-6">
+                        <div id="calendar"></div><br>
+                    </div>
+                    <!--<h6>Jornada Laboral:</h6>
+                            <select id="lstJornadasLaborales" class="form-control">
+                            </select>-->
+                    </div>
+                <div class="row">
+                    <div id="divProgressBar" class="bars-container col-md-12">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div id="divDatosTolerancia" class="col-md-12">
                             <table id="tblGrillaTolerancia" class="table table-vcenter table-condensed table-bordered">
                                 <thead>
                                 <tr>
+                                    <th><div id="divLstTolerancias">Tolerancia: <br><select id="lstTolerancias" class="form-control"></select></div></th>
                                     <th class='text-center'>Minutos</th>
                                     <th class='text-center'>Acumulaci&oacute;n</th>
                                     <th class='text-center'>Consideraci&oacute;n</th>
@@ -316,32 +333,37 @@
                                     <th class='text-center'>Observaci&oacute;n</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr id="tr_tolerancia"></tr>
-                                </tbody>
+                                <tbody><tr id="tr_tolerancia"></tr></tbody>
                             </table>
                         </div>
-                        <br>
-                        <br>
-                        <div id="divGrupoBotonesAprobacion" class="btn-group">
-                            <button id="btnGuardarAprobacionCalendario" class="btn btn-success" type="button"><i class="fa fa-check"></i> Aprobar Elaboraci&oacute;n</button>
-                            <button id="btnVolverAElaboracionCalendario" class="btn btn-warning" type="button"><i class="fa fa-reply"></i> Volver a Elaboraci&oacute;n</button>
-                            <button id="btnCancelarAprobacionCalendario" class="btnCancelarCalendario btn btn-warning" type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
-                        </div>
                     </div>
-                    <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
-                    <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
-                    <input type="hidden" id="hdnIdTolerancia" value="0">
-                    <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
-                    <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
-                    <input type="hidden" id="hdnIdJornadaLaboral" value="1">
-                    <input type="hidden" id="hdnJornadaLaboralDiurna" value="8">
-                    <input type="hidden" id="hdnJornadaLaboralNocturna" value="7">
-                    <input type="hidden" id="hdnJornadaLaboralSemanal" value="48">
+                    <div class="row">
+                        <div id="divSectorBotones" style="text-align: center" class="col-md-12">
+                            <div id="divGrupoBotonesElaboracion" class="btn-group">
+                                <button id="btnGuardarElaboracionCalendario" class="btn btn-primary" type="button"><i class="fa fa-floppy-o"></i> Guardar Elaboraci&oacute;n</button>
+                                <button id="btnConcluirElaboracion" class="btn btn-info" type="button"><i class="fa fa-thumbs-o-up"></i> Concluir Elaboraci&oacute;n</button>
+                                <button id="btnCancelarCalendario" class="btnCancelarCalendario btn btn-warning"  type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+                            </div>
+                            <div id="divGrupoBotonesAprobacion" class="btn-group">
+                                <button id="btnGuardarAprobacionCalendario" class="btn btn-success" type="button"><i class="fa fa-check"></i> Aprobar Elaboraci&oacute;n</button>
+                                <button id="btnVolverAElaboracionCalendario" class="btn btn-warning" type="button"><i class="fa fa-reply"></i> Volver a Elaboraci&oacute;n</button>
+                                <button id="btnCancelarAprobacionCalendario" class="btnCancelarCalendario btn btn-warning" type="button"><i class="fa fa-repeat"></i> Cancelar / Volver a Turnos</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END FullCalendar Block -->
+        <input type="hidden" id="hdnFechaIniParaCalendario" value="00-00-0000">
+        <input type="hidden" id="hdnFechaFinParaCalendario" value="00-00-0000">
+        <input type="hidden" id="hdnIdTolerancia" value="0">
+        <input type="hidden" id="hdnIdPerfilLaboralParaCalendario" value="0">
+        <input type="hidden" id="hdnTipoHorarioParaCalendario" value="0">
+        <input type="hidden" id="hdnIdJornadaLaboral" value="1">
+        <input type="hidden" id="hdnJornadaLaboralDiurna" value="8">
+        <input type="hidden" id="hdnJornadaLaboralNocturna" value="7">
+        <input type="hidden" id="hdnJornadaLaboralSemanal" value="48">
+
+        <!-- END FullCalendar Block -->
             <!-- END FullCalendar Content -->
     </form>
 </div>

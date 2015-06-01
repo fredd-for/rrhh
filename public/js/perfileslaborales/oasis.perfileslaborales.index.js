@@ -42,20 +42,25 @@ $().ready(function () {
         var fechaIni = $("#hdnFechaIniParaCalendario").val();
         var fechaFin = $("#hdnFechaFinParaCalendario").val();
         var ok = validaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
-        if (ok) {
-            var okk = guardaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
-            if(okk){
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
-                $("#jqxgridturnos").jqxGrid("updatebounddata");
-                var msje = "Registro exitoso del calendario laboral.";
-                $("#divMsjePorSuccess").html("");
-                $("#divMsjePorSuccess").append(msje);
-                $("#divMsjeNotificacionSuccess").jqxNotification("open");
+            if (ok) {
+                setTimeout(function() {
+                var okk = guardaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
+                if(okk){
+                    setTimeout(function() {
+                        $("#divProgressBarRegistro").hide();
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    },3000);
+                    $("#jqxgridturnos").jqxGrid("updatebounddata");
+                    var msje = "Registro exitoso del calendario laboral.";
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(msje);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
+                }
+                },2000);
             }
-        }
     });
     $("#btnConcluirElaboracion").on("click",function(){
         var idPerfilLaboral = $("#hdnIdPerfilLaboralParaCalendario").val();
@@ -64,20 +69,25 @@ $().ready(function () {
         var fechaFin = $("#hdnFechaFinParaCalendario").val();
         var ok = validaFormularioRegistroCalendario(2,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
         if (ok) {
+            setTimeout(function() {
             if(confirm("¿Esta seguro de concluir la elaboración del calendario laboral? Considere que ya no podrá realizar modificaciones.")){
                 var okk = guardaFormularioRegistroCalendario(2,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
                 if(okk){
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
-                    $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    setTimeout(function() {
+                        $("#divProgressBarRegistro").hide();
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 1);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 2);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs('disableAt', 4);
+                        $('#jqxTabsPerfilesLaborales').jqxTabs({selectedItem: 3});
+                    },3000);
                     $("#jqxgridturnos").jqxGrid("updatebounddata");
                     var msje = "Conclusi&oacute;n exitosa de la elaboraci&oacute;n de los turnos dentro del calendario laboral.";
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(msje);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
                 }
-            }
+                }
+            },1000);
         }
     });
     $("#btnGuardarAprobacionCalendario").on("click",function () {

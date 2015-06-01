@@ -6,6 +6,7 @@
  *   Fecha Creación:  21-10-2014
  */
 $().ready(function () {
+    $("#divProgressBar").hide();
     var objParametro = {idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
     /**
      * Inicialmente se habilita solo la pestaña del listado
@@ -57,7 +58,10 @@ $().ready(function () {
             var gestion = $("#lstGestionGeneracionMarcaciones").val();
             var mes = $("#lstMesGeneracionMarcaciones").val();
             var tipo = $("#lstTipoGeneracionMarcaciones").val();
-            $("#divContador").html("");
+            $('.progress-bar', '.bars-container').each(function() {
+                var random = 0 + '%';
+                $(this).css('width', random).html(random);
+            });
             if(gestion>0&&mes>0&&tipo>0){
                 $("#popupGestionMesGeneracionMarcaciones").modal("hide");
                 var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
@@ -66,7 +70,7 @@ $().ready(function () {
                 var cantidad = rows.length;
                 for (var m = 0; m < rows.length; m++) {
                     if(m==0){
-                        $("#divCarga").css({display:'block'});
+                        $("#divProgressBar").show();
                     }
                     var row = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
                     var fechaIni = "01-"+mes+"-"+gestion;
@@ -89,9 +93,17 @@ $().ready(function () {
                     if(ok1&&ok2){
                         contador++;
                     }
-                    $("#divContador").html("("+contador_aux+":"+cantidad+")");
+                    /*$("#divContador").html("("+contador_aux+":"+cantidad+")");*/
+                    var porcentaje = parseFloat((100*contador_aux)/cantidad);
+                    porcentaje = porcentaje.toFixed(0);
+                    $('.progress-bar', '.bars-container').each(function() {
+                        var random = porcentaje + '%';
+                        $(this).css('width', random).html(random+" ["+contador_aux+":"+cantidad+"]");
+                    });
                 }
-                $('#divCarga').css('display','none');
+                setTimeout(function() {
+                    $("#divProgressBar").hide();
+                },3000);
                 if(contador>0&&contador==cantidad){
                     var msje = "Se generaron los registros de marcaci&oacute;n prevista y efectiva para "+contador+" registros de relaci&oacute;n laboral.";
                     $("#divMsjePorSuccess").html("");
@@ -1027,21 +1039,15 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
  */
 function OperaEvento(evento) {
     if ((evento.type == "keyup" || evento.type == "keydown") && evento.which == "27") {
-        $('#tabControlExcepciones').jqxTabs('enableAt', 0);
-        $('#tabControlExcepciones').jqxTabs('disableAt', 1);
-        $('#tabControlExcepciones').jqxTabs('disableAt', 2);
-        $('#tabControlExcepciones').jqxTabs('disableAt', 3);
-        $('#tabControlExcepciones').jqxTabs('disableAt', 4);
-        $('#tabControlExcepciones').jqxTabs('disableAt', 5);
+        $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
+        $('#divTabControlMarcaciones').jqxTabs('disableAt', 1);
+        $('#divTabControlMarcaciones').jqxTabs('disableAt', 2);
+        $('#divTabControlMarcaciones').jqxTabs('disableAt', 3);
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */
-        $('#tabControlExcepciones').jqxTabs({selectedItem: 0});
-
-        $("#popupWindowCargo").jqxWindow('close');
-        $("#popupWindowNuevaMovilidad").jqxWindow('close');
-        $("#lstTipoMemorandum").off();
-        $('#divGridRelaborales').jqxGrid('focus');
+        $('#divTabControlMarcaciones').jqxTabs({selectedItem: 0});
+        $("#divGridRelaborales").jqxGrid("updatebounddata");
     }
 }
 /**

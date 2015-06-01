@@ -7608,12 +7608,14 @@ class HorariosymarcacionesController extends ControllerBase
             $matrizEstadosHorariosCruzados = array();
             $swIncluyeOtroMes = false;
             $matrizFechas = array();
+            $matrizIdHorarios = array();
             $matrizInicioRangoEntrada = array();
             $matrizFinalRangoEntrada = array();
             $matrizInicioRangoSalida = array();
             $matrizFinalRangoSalida = array();
             $matrizInicioRangoSalidaCruzados = array();
             $matrizFinalRangoSalidaCruzados = array();
+            $matrizIdHorariosCruzados = array();
             if ($rangoFechas->count() > 0) {
                 #region Estableciendo los valores para las variables del objeto
                 foreach($rangoFechas as $rango) {
@@ -7631,6 +7633,7 @@ class HorariosymarcacionesController extends ControllerBase
                                 $grupoaux++;
                                 $matrizHorarios[$diaaux][$turnoaux][$grupoaux]=$v->hora_entrada;
                                 $matrizIdCalendarios[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                $matrizIdHorarios[$diaaux][$turnoaux][$grupoaux]=$v->id_horariolaboral;
                                 $matrizInicioRangoEntrada[$diaaux][$turnoaux][$grupoaux] = $v->hora_inicio_rango_ent;
                                 $matrizFinalRangoEntrada[$diaaux][$turnoaux][$grupoaux] = $v->hora_final_rango_ent;
                                 /**
@@ -7640,6 +7643,7 @@ class HorariosymarcacionesController extends ControllerBase
                                 $grupoaux++;
                                 $matrizHorarios[$diaaux][$turnoaux][$grupoaux]=$v->hora_salida;
                                 $matrizIdCalendarios[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                $matrizIdHorarios[$diaaux][$turnoaux][$grupoaux]=$v->id_horariolaboral;
                                 $matrizInicioRangoSalida[$diaaux][$turnoaux][$grupoaux] = $v->hora_inicio_rango_sal;
                                 $matrizFinalRangoSalida[$diaaux][$turnoaux][$grupoaux] = $v->hora_final_rango_sal;
                                 if($cantidadGrupos<$grupoaux)$cantidadGrupos=$grupoaux;
@@ -7650,6 +7654,7 @@ class HorariosymarcacionesController extends ControllerBase
                                 if(strtotime($v->hora_entrada)>strtotime($v->hora_salida)){
                                     $matrizHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->hora_salida;
                                     $matrizIdCalendariosHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->id_calendariolaboral;
+                                    $matrizIdHorariosCruzados[$diaaux][$turnoaux][$grupoaux]=$v->id_horariolaboral;
                                     $matrizInicioRangoSalidaCruzados[$diaaux][$turnoaux][$grupoaux] = $v->hora_inicio_rango_sal;
                                     $matrizFinalRangoSalidaCruzados[$diaaux][$turnoaux][$grupoaux] = $v->hora_final_rango_sal;
                                     if($diaaux==$ultimoDia)$swIncluyeOtroMes=true;
@@ -7954,13 +7959,15 @@ class HorariosymarcacionesController extends ControllerBase
                                 $horaMarcacionEntrada=null;
                                 $horaMarcacionSalida=null;
                                 $fecha = $matrizFechas[$dia];
+                                $idHorarioLaboral = $matrizIdHorarios[$dia][$turno][$grupoA];
                                 $hora_inicio_rango_ent = $matrizInicioRangoEntrada[$dia][$turno][$grupoA];
                                 $hora_final_rango_ent = $matrizFinalRangoEntrada[$dia][$turno][$grupoA];
                                 $hora_inicio_rango_sal = $matrizInicioRangoSalida[$dia][$turno][$grupoB];
                                 $hora_final_rango_sal = $matrizFinalRangoSalida[$dia][$turno][$grupoB];
-                                $resultE = $objME->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_ent,$hora_final_rango_ent);
-                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);
-
+                                /*$resultE = $objME->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_ent,$hora_final_rango_ent);
+                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);*/
+                                $resultE = $objME->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral);
+                                $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
                                 if(is_object($resultE)){
                                     foreach($resultE as $obe){
                                         $horaMarcacionEntrada = $obe->hora;
@@ -8031,7 +8038,9 @@ class HorariosymarcacionesController extends ControllerBase
                             if(isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                 $hora_inicio_rango_sal = $matrizInicioRangoSalidaCruzados[$dia-1][$turno][$grupoB];
                                 $hora_final_rango_sal = $matrizFinalRangoSalidaCruzados[$dia-1][$turno][$grupoB];
-                                $resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);
+                                $idHorarioLaboral = $matrizIdHorariosCruzados[$dia-1][$turno][$grupoB];
+                                //$resultS = $objMS->getOneMarcacionValida($idRelaboral,0,$fecha,$hora_inicio_rango_sal,$hora_final_rango_sal,1);
+                                $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
                                 if(is_object($resultS)){
                                     foreach($resultS as $obs){
                                         $horaMarcacionSalida = $obs->hora;

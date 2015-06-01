@@ -72,6 +72,10 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     // Registrar nuevo turno laboral.
                     $("#addrowbuttonturn").off();
                     $("#addrowbuttonturn").on('click', function () {
+                        $("#divProgressBar").hide();
+                        $("#divSectorHorariosDisponibles").show();
+                        $("#divSectorCalendario").removeClass("col-md-12");
+                        $("#divSectorCalendario").addClass("col-md-6");
                         /**
                          * Se habilita la vista del calendario laboral con la opcion de registrar nuevo
                          */
@@ -211,6 +215,12 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                      */
                     $("#updaterowbuttonturn").off();
                     $("#updaterowbuttonturn").on('click', function () {
+                        $("#divProgressBar").hide();
+                        $("#divSectorHorariosDisponibles").show();
+                        $("#divSectorCalendario").removeClass("col-md-12");
+                        $("#divSectorCalendario").addClass("col-md-6");
+                        $("#divSectorEstado").removeClass("col-md-12");
+                        $("#divSectorEstado").addClass("col-md-6");
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#jqxgridturnos').jqxGrid('getrowdata', selectedrowindex);
@@ -340,6 +350,13 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     });
                     $("#approverowbuttonturn").off();
                     $("#approverowbuttonturn").on('click', function () {
+                        $("#divProgressBar").hide();
+                        $("#divSectorHorariosDisponibles").show();
+                        $("#divSectorCalendario").removeClass("col-md-12");
+                        $("#divSectorCalendario").addClass("col-md-6");
+                        $("#divSectorEstado").removeClass("col-md-12");
+                        $("#divSectorEstado").addClass("col-md-6");
+
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#jqxgridturnos').jqxGrid('getrowdata', selectedrowindex);
@@ -464,6 +481,12 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     /* Ver el calendario registrado.*/
                     $("#viewrowbuttonturn").off();
                     $("#viewrowbuttonturn").on('click', function () {
+                        $("#divProgressBar").hide();
+                        $("#divSectorHorariosDisponibles").hide();
+                        $("#divSectorCalendario").removeClass("col-md-6");
+                        $("#divSectorCalendario").addClass("col-md-12");
+                        $("#divSectorEstado").removeClass("col-md-6");
+                        $("#divSectorEstado").addClass("col-md-12");
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#jqxgridturnos').jqxGrid('getrowdata', selectedrowindex);
@@ -590,6 +613,7 @@ function cargarGrillaTurnos(idPerfilLaboral,perfilLaboral,grupo,tipoHorario,tipo
                     });
                     $("#quotasrowbuttonturn").off();
                     $("#quotasrowbuttonturn").on('click', function () {
+                        $("#divProgressBar").hide();
                         var selectedrowindex = $("#jqxgridturnos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             $("#spanPrefijoCalendarioLaboral").html("Cupos por ");
