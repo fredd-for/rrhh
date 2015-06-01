@@ -145,7 +145,6 @@ function iniciarCalendarioLaboralConFeriados(arrFeriados,defaultGestion,defaultM
                         contP=0;
                         $("td.fc-"+dia).map(function (index, elem) {
                             contP++;
-                            var fechaCalAux = $(this).data("date");
                             var fechaCal = $(this).data("date");
                             var fechaIni = "";
                             var fechaFin = "";
@@ -155,18 +154,8 @@ function iniciarCalendarioLaboralConFeriados(arrFeriados,defaultGestion,defaultM
                                 fechaIni  = val.fecha_ini;
                                 fechaFin  = val.fecha_fin;
 
-                                var arrFechaCal = fechaCal.split("-");
-
-                                fechaCal = arrFechaCal[2]+"-"+arrFechaCal[1]+"-"+arrFechaCal[0];
-
-                                var arrFechaIni = fechaIni.split("-");
-                                fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
-
-                                var arrFechaFin = fechaFin.split("-");
-                                fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
-
                                 var sep="-";
-                                if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
+                                if (procesaTextoAFecha(fechaCal,sep)<=procesaTextoAFecha(fechaFin,sep) && procesaTextoAFecha(fechaCal,sep) >= procesaTextoAFecha(fechaIni,sep)) {
                                     celda.css("background-color", "orange");
                                     var elem = $(".fc-day-content");
                                     celda.append(val.feriado);
