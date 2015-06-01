@@ -116,6 +116,23 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
     }
 
     /**
+     * Función para la obtención del registro correspondiente a una planilla salarial.
+     * @param $idPlanillaSal
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function getOne($idPlanillaSal,$where='',$group=''){
+        if($idPlanillaSal>0){
+            $sql = "SELECT * FROM f_planillassal() WHERE id=".$idPlanillaSal;
+            if($where!='')$sql .= $where;
+            if($group!='')$sql .= $group;
+            $this->_db = new Fplanillassal();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
+    /**
      * Función para la obtención del listado de gestiones disponibles para la generación de planillas salariales.
      * @param null $fecha
      * @return Resultset

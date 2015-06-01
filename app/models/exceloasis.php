@@ -11,6 +11,7 @@ require_once('../app/libs/phpexcel180/PHPExcel/IOFactory.php');
 class exceloasis extends PHPExcel{
     public $title_rpt = '';
     public $title_total_rpt = '';
+    public $title_sheet_rpt = 'Reporte';
     public $header_title_estado_rpt = 'Estado Plurinacional de Bolivia';
     public $header_title_empresa_rpt = 'Empresa Estatal de Transporte por Cable "Mi Teleferico"';
     public $style_header_table = '';
@@ -113,12 +114,12 @@ class exceloasis extends PHPExcel{
         #endregion Estableciendo el lugar de los logotipos (Imágenes)
 
         #region para el establecimiento de las cabeceras y pie de páginas del documento
-        $this->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BReporte Relación laboral&RImpreso el &D');
+        $this->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BReporte '.$this->title_sheet_rpt.'&RImpreso el &D');
         $this->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $this->getProperties()->getTitle() . '&RPagina &P de &N');
         #endregion para el establecimiento de las cabeceras y pie de páginas del documento
 
         // Nombrando la primera pestaña
-        $this->getActiveSheet()->setTitle('Reporte');
+        $this->getActiveSheet()->setTitle($this->title_sheet_rpt);
     }
 
     /**
@@ -191,8 +192,8 @@ class exceloasis extends PHPExcel{
      * @param $fila Número de fila
      * @param $celdacolor Array con la definición del color asignado.
      */
-    function Row($data,$alignSelecteds,$formatTypes,$fila,$celdacolor = array())
-    {
+    function Row($data,$alignSelecteds,$formatTypes,$fila,$celdacolor = array(),$border=true)
+    {   $arr = array();
         for($i=0;$i<=count($data);$i++){
             if(isset($data[$i])&&isset($this->columnasExcel[$i])){
                 $dato = $data[$i];
@@ -212,7 +213,7 @@ class exceloasis extends PHPExcel{
                         'alignment' => array(
                                     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
                         ),
-                        'borders' => array(
+                        'borders' => ($border)?array(
                                 'top'     => array(
                                     'style' => PHPExcel_Style_Border::BORDER_THIN
                                 ),'left'     => array(
@@ -223,7 +224,7 @@ class exceloasis extends PHPExcel{
                                 ),'bottom'     => array(
                                     'style' => PHPExcel_Style_Border::BORDER_THIN
                                 )
-                        ),
+                        ):array(),
                         'fill' => array(
                         'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
                         'rotation'   => 90,

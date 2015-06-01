@@ -16,6 +16,11 @@
  */
 function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIniRango,fechaFinRango) {
     var ok = true;
+    /**
+     * Se establece el tipo de barra de progreso a mostrarse
+     */
+    $('.progress-bar').removeClass("progress-bar-success");
+    $('.progress-bar').addClass("progress-bar-info");
     var msje = "";
     $(".msjs-alert").hide();
     var idTolerancia = $("#lstTolerancias").val();
@@ -39,6 +44,15 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     //excesoHorasSemana = verificaExcesoHorasSemanales();
     excesoPromedioTresSemanas = calculaExcesoPromedioTresSemanas();
     if(cruce&&excesoPromedioTresSemanas){
+        var cantidad = 0;
+        $.each(arr,function(key,turno){
+            var valClass = turno.className+"";
+            var arrClass = valClass.split("_");
+            var clase = arrClass[0];
+            if(clase=='r'||clase=='n'){
+                cantidad++;
+            }
+        });
         $.each(arr,function(key,evento){
             var valClass = evento.className+"";
             var arrClass = valClass.split("_");
@@ -83,6 +97,15 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
                     }
                     break;
                 case "d":break;
+            }
+            if(dentroRango==1){
+                $("#divProgressBar").show();
+                var porcentaje = parseFloat((100*contadorEventos)/cantidad);
+                porcentaje = porcentaje.toFixed(0);
+                $('.progress-bar', '.bars-container').each(function() {
+                    var random = porcentaje + '%';
+                    $(this).css('width', random).html(random+" [Validaci&oacute;n: "+contadorEventos+" de "+cantidad+"]");
+                });
             }
         });
         if(contadorEventos==0){
@@ -163,6 +186,16 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
  * @returns {boolean}
  */
 function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIni,fechaFin){
+    $("#divProgressBar").hide();
+    /**
+     * Se establece el tipo de barra de progreso a mostrarse
+     */
+    $('.progress-bar').removeClass("progress-bar-info");
+    $('.progress-bar').addClass("progress-bar-success");
+    $('.progress-bar', '.bars-container').each(function() {
+        var random = 0 + '%';
+        $(this).css('width', random).html(random);
+    });
     var arr = $("#calendar").fullCalendar( 'clientEvents');
     var contadorEventos = 0;
     var mesIni = 0;
@@ -179,6 +212,15 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var idJornadaLaboral = 1;
     var ok = true;
     var okk= true;
+    var cantidad = 0;
+    $.each(arr,function(key,turno){
+        var valClass = turno.className+"";
+        var arrClass = valClass.split("_");
+        var clase = arrClass[0];
+        if(clase=='r'||clase=='n'){
+            cantidad++;
+        }
+    });
     $.each(arr,function(key,turno){
         var valClass = turno.className+"";
         var arrClass = valClass.split("_");
@@ -211,6 +253,16 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
                 if(!ok)okk=false;
                 break;
             case "d":break;
+        }
+        if(ok){
+            $("#divProgressBar").show();
+            var porcentaje = parseFloat((100*contadorEventos)/cantidad);
+            porcentaje = porcentaje.toFixed(0);
+            //
+            $('.progress-bar', '.bars-container').each(function() {
+                var random = porcentaje + '%';
+                $(this).css('width', random).html(random+" [Registro "+contadorEventos+" de "+cantidad+"]");
+            });
         }
        });
     return okk;

@@ -3,62 +3,58 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  23-12-2014
+ *   Fecha Creación:  29-05-2015
  */
-function exportarReporte(option){
+/**
+ * Función para la exportación de la planilla salarial en formato Excel.
+ * @param option
+ * @param idPlanillaSal
+ */
+function exportarReporte(option,idPlanillaSal){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
-    ubicacion = $('#jqxgridtolerancias').jqxGrid('getcolumn','ubicacion');
-    condicion = $('#jqxgridtolerancias').jqxGrid('getcolumn','condicion');
-    estado_descripcion = $('#jqxgridtolerancias').jqxGrid('getcolumn','estado_descripcion');
-    nombres = $('#jqxgridtolerancias').jqxGrid('getcolumn','nombres');
-    ci = $('#jqxgridtolerancias').jqxGrid('getcolumn','ci');
-    expd = $('#jqxgridtolerancias').jqxGrid('getcolumn','expd');
-    /*num_complemento = $('#jqxgridtolerancias').jqxGrid('getcolumn','num_complemento');*/
-    gerencia_administrativa = $('#jqxgridtolerancias').jqxGrid('getcolumn','gerencia_administrativa');
-    cargo = $('#jqxgridtolerancias').jqxGrid('getcolumn','cargo');
-    sueldo = $('#jqxgridtolerancias').jqxGrid('getcolumn','sueldo');
-    departamento_administrativo = $('#jqxgridtolerancias').jqxGrid('getcolumn','departamento_administrativo');
-    area = $('#jqxgridtolerancias').jqxGrid('getcolumn','area');
-    fin_partida = $('#jqxgridtolerancias').jqxGrid('getcolumn','fin_partida');
-    proceso_codigo = $('#jqxgridtolerancias').jqxGrid('getcolumn','proceso_codigo');
-    nivelsalarial = $('#jqxgridtolerancias').jqxGrid('getcolumn','nivelsalarial');
-    fecha_ini = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_incor');
-    fecha_fin = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_fin'),
-    fecha_baja = $('#jqxgridtolerancias').jqxGrid('getcolumn','fecha_baja');
-    motivo_baja = $('#jqxgridtolerancias').jqxGrid('getcolumn','motivo_baja');
-    observacion = $('#jqxgridtolerancias').jqxGrid('getcolumn','observacion');
 
-    columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
-    columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
+    estado_descripcion = $('#divGridPlanillasSalView').jqxGrid('getcolumn','estado_descripcion');
+    cargo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','cargo');
+    nombres = $('#divGridPlanillasSalView').jqxGrid('getcolumn','nombres');
+    ci = $('#divGridPlanillasSalView').jqxGrid('getcolumn','ci');
+    expd = $('#divGridPlanillasSalView').jqxGrid('getcolumn','expd');
+    sueldo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','sueldo');
+    dias_efectivos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','dias_efectivos');
+    lsgh = $('#divGridPlanillasSalView').jqxGrid('getcolumn','lsgh');
+    omision = $('#divGridPlanillasSalView').jqxGrid('getcolumn','omision');
+    abandono = $('#divGridPlanillasSalView').jqxGrid('getcolumn','abandono');
+    faltas = $('#divGridPlanillasSalView').jqxGrid('getcolumn','faltas');
+    atrasos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','atrasos');
+    faltas_atrasos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','faltas_atrasos');
+    otros = $('#divGridPlanillasSalView').jqxGrid('getcolumn','otros');
+    total_ganado = $('#divGridPlanillasSalView').jqxGrid('getcolumn','total_ganado');
+    total_liquido = $('#divGridPlanillasSalView').jqxGrid('getcolumn','total_liquido');
+
     columna[estado_descripcion.datafield] = {text: estado_descripcion.text, hidden: estado_descripcion.hidden};
+    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
     columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
     columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
-    /*columna[num_complemento.datafield] = {text: num_complemento.text, hidden: num_complemento.hidden};*/
-    columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
-    columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
-    columna[area.datafield] = {text: area.text, hidden: area.hidden};
-    columna[proceso_codigo.datafield] = {text: proceso_codigo.text, hidden: proceso_codigo.hidden};
-    columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
-    columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
-    columna[fecha_ini.datafield] = {text: fecha_ini.text, hidden: fecha_ini.hidden};
-    columna[fecha_incor.datafield] = {text: fecha_incor.text, hidden: fecha_incor.hidden};
-    columna[nivelsalarial.datafield] = {text: nivelsalarial.text, hidden: nivelsalarial.hidden};
-    columna[fecha_fin.datafield] = {text: fecha_fin.text, hidden: fecha_fin.hidden};
-    columna[fecha_baja.datafield] = {text: fecha_baja.text, hidden: fecha_baja.hidden};
-    columna[motivo_baja.datafield] = {text: motivo_baja.text, hidden: motivo_baja.hidden};
-    columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
+    columna[dias_efectivos.datafield] = {text: dias_efectivos.text, hidden: dias_efectivos.hidden};
+    columna[lsgh.datafield] = {text: lsgh.text, hidden: lsgh.hidden};
+    columna[omision.datafield] = {text: omision.text, hidden: omision.hidden};
+    columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};
+    columna[faltas.datafield] = {text: faltas.text, hidden: faltas.hidden};
+    columna[atrasos.datafield] = {text: atrasos.text, hidden: atrasos.hidden};
+    columna[faltas_atrasos.datafield] = {text: faltas_atrasos.text, hidden: faltas_atrasos.hidden};
+    columna[otros.datafield] = {text: otros.text, hidden: otros.hidden};
+    columna[total_ganado.datafield] = {text: total_ganado.text, hidden: total_ganado.hidden};
+    columna[total_liquido.datafield] = {text: total_liquido.text, hidden: total_liquido.hidden};
 
-    var groups = $('#jqxgridtolerancias').jqxGrid('groups');
+    var groups = $('#divGridPlanillasSalView').jqxGrid('groups');
     if(groups==null||groups=='')groups='null';
-    //var sorteds = $('#jqxgridtolerancias').jqxGrid('getsortcolumn');
+    //var sorteds = $('#divGridPlanillasSalView').jqxGrid('getsortcolumn');
 
-    var sortinformation = $('#jqxgridtolerancias').jqxGrid('getsortinformation');
+    var sortinformation = $('#divGridPlanillasSalView').jqxGrid('getsortinformation');
     if(sortinformation.sortcolumn!=undefined){
         // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
         var sortcolumn = sortinformation.sortcolumn;
@@ -68,8 +64,8 @@ function exportarReporte(option){
     }else ordenados='';
 
 
-    var rows = $('#jqxgridtolerancias').jqxGrid('getrows');
-    var filterGroups = $('#jqxgridtolerancias').jqxGrid('getfilterinformation');
+    var rows = $('#divGridPlanillasSalView').jqxGrid('getrows');
+    var filterGroups = $('#divGridPlanillasSalView').jqxGrid('getfilterinformation');
     var counter = 0;
     for (var i = 0; i < filterGroups.length; i++) {
         var filterGroup = filterGroups[i];
@@ -98,13 +94,11 @@ function exportarReporte(option){
     json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta="/horarioslaborales/exportexcel/";break;
-        case 2: ruta="/horarioslaborales/exportpdf/";break;
+        case 1: ruta="/planillassal/exportviewexcel/";break;
+        case 2: ruta="/planillassal/exportviewpdf/";break;
     }
-    /*if(option==1)ruta="/relaborales/print/";
-    elseif(option==2)ruta="/relaborales/print/";*/
     if(ruta!='')
-        window.open(ruta+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+        window.open(ruta+"/"+idPlanillaSal+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

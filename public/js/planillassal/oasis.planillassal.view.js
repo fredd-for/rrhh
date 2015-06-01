@@ -54,7 +54,7 @@ function mostrarPlanilla(idPlanillaSal){
                 source: dataAdapter,
                 sortable: true,
                 altRows: true,
-                //groupable: true,
+                groupable: true,
                 columnsresize: true,
                 pageable: true,
                 pagerMode: 'advanced',
@@ -132,7 +132,7 @@ function mostrarPlanilla(idPlanillaSal){
                         align: 'center',
                         cellsalign: 'right',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['sueldo'])){
                                     total = Number(parseFloat(record['sueldo']));
@@ -149,7 +149,7 @@ function mostrarPlanilla(idPlanillaSal){
                         align: 'center',
                         cellsalign: 'right',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['dias_efectivos'])){
                                     total = Number(parseFloat(record['dias_efectivos']));
@@ -167,7 +167,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['lsgh'])){
                                     total = Number(parseFloat(record['lsgh']));
@@ -185,7 +185,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['omision'])){
                                     total = Number(parseFloat(record['omision']));
@@ -203,7 +203,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['abandono'])){
                                     total = Number(parseFloat(record['abandono']));
@@ -221,7 +221,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['faltas'])){
                                     total = Number(parseFloat(record['faltas']));
@@ -239,7 +239,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['atrasos'])){
                                     total = Number(parseFloat(record['atrasos']));
@@ -257,7 +257,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoMonetario',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['faltas_atrasos'])){
                                     total = Number(parseFloat(record['faltas_atrasos']));
@@ -275,7 +275,7 @@ function mostrarPlanilla(idPlanillaSal){
                         cellsalign: 'right',
                         columngroup: 'DescuentoMonetario',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['otros'])){
                                     total = Number(parseFloat(record['otros']));
@@ -292,7 +292,7 @@ function mostrarPlanilla(idPlanillaSal){
                         align: 'center',
                         cellsalign: 'right',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['total_ganado'])){
                                     total = Number(parseFloat(record['total_ganado']));
@@ -309,7 +309,7 @@ function mostrarPlanilla(idPlanillaSal){
                         align: 'center',
                         cellsalign: 'right',
                         aggregates: [{
-                            '':function (aggregatedValue, currentValue, column, record) {
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
                                 var total = 0;
                                 if(!isNaN(record['total_liquido'])){
                                     total = Number(parseFloat(record['total_liquido']));
