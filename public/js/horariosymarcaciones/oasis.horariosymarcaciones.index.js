@@ -1580,7 +1580,6 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                                 }
                             });
                         });
-                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                         var fechaInicialCalendario = "";
                         var fechaFinalCalendario = "";
                         var moment = $('#calendar').fullCalendar('getDate');
@@ -1615,7 +1614,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                                     fechaIni  = val.fecha_ini;
                                     fechaFin  = val.fecha_fin;
 
-                                    var arrFechaCal = fechaCal.split("-");
+                                    /*var arrFechaCal = fechaCal.split("-");
 
                                     fechaCal = arrFechaCal[2]+"-"+arrFechaCal[1]+"-"+arrFechaCal[0];
 
@@ -1624,7 +1623,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
 
                                     var arrFechaFin = fechaFin.split("-");
                                     fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
-
+                                    */
                                     var sep="-";
                                     if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
                                         celda.css("background-color", "orange");
@@ -1636,8 +1635,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                                 });
                             });
                         });
-
-
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                         }
                     break;
                 case "agendaWeek":
@@ -1665,7 +1663,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
  * Función para calcular el total de horas por semana.
  */
 function sumarTotalHorasPorSemana(arrFechasPorSemana){
-    var arr = $("#calendar").fullCalendar( 'clientEvents');
+    var arr = $("#calendar").fullCalendar('clientEvents');
     var horasSemana1=0;
     var horasSemana2=0;
     var horasSemana3=0;
@@ -1684,7 +1682,6 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
     $("#tdSumaSemana4").css("background-color", "white");
     $("#tdSumaSemana5").css("background-color", "white");
     $("#tdSumaSemana6").css("background-color", "white");
-
     $.each(arr,function(key,turno){
         var fechaIni = $.fullCalendar.formatDate(turno.start,'dd-MM-yyyy');
         var fechaFin = $.fullCalendar.formatDate(turno.end,'dd-MM-yyyy');
@@ -1701,7 +1698,7 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana1 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 1 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 1 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
 
                 }
             }
@@ -1709,35 +1706,36 @@ function sumarTotalHorasPorSemana(arrFechasPorSemana){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana2 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 2 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 2 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
                 }
             }
             if(valor.semana==3){
+                //alert(procesaTextoAFecha(fechaIni,sep)+"<="+procesaTextoAFecha(valor.fecha,sep)+"\n && "+procesaTextoAFecha(valor.fecha,sep)+"<="+procesaTextoAFecha(fechaFin,sep));
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana3 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 3 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 3 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
                 }
             }
             if(valor.semana==4){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana4 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 4 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 4 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
                 }
             }
             if(valor.semana==5){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana5 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 5 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 5 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
                 }
             }
             if(valor.semana==6){
                 if(procesaTextoAFecha(fechaIni,sep)<=procesaTextoAFecha(valor.fecha,sep)
                     &&procesaTextoAFecha(valor.fecha,sep)<=procesaTextoAFecha(fechaFin,sep)){
                     horasSemana6 += parseFloat(turno.horas_laborales);
-                    //alert(turno.title+" entro en la semana 6 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);
+                    /*alert(turno.title+" entro en la semana 6 =>"+fechaIni+"<="+valor.fecha+"<="+fechaFin+" horas: "+turno.horas_laborales);*/
                 }
             }
         });
