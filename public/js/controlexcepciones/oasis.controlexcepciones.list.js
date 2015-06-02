@@ -43,6 +43,15 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
             {name: 'controlexcepcion_observacion', type: 'string'},
             {name: 'controlexcepcion_estado', type: 'string'},
             {name: 'controlexcepcion_estado_descripcion', type: 'string'},
+            {name: 'controlexcepcion_user_reg_id', type: 'numeric'},
+            {name: 'controlexcepcion_user_registrador', type: 'string'},
+            {name: 'controlexcepcion_fecha_reg', type: 'date'},
+            {name: 'controlexcepcion_user_apr_id', type: 'numeric'},
+            {name: 'controlexcepcion_user_aprobador', type: 'string'},
+            {name: 'controlexcepcion_fecha_apr', type: 'date'},
+            {name: 'controlexcepcion_user_mod_id', type: 'numeric'},
+            {name: 'controlexcepcion_user_modificador', type: 'string'},
+            {name: 'controlexcepcion_fecha_mod', type: 'date'},
             {name: 'excepcion_id', type: 'integer'},
             {name: 'excepcion', type: 'string'},
             {name: 'tipoexcepcion_id', type: 'integer'},
@@ -218,7 +227,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
 
                             $('#divTabControlExcepciones').jqxTabs({selectedItem: 4});
                             var idPerfilLaboral=0;
-                            var tipoHorario=2;
+                            var tipoHorario=3;
 
                             $("#spanPrefijoCalendarioLaboral").html("");
                             $("#spanSufijoCalendarioLaboral").html(" Vrs. Calendario de Excepciones (Individual)");
@@ -240,7 +249,8 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                             var fechaIni = "";
                             var fechaFin = "";
                             var contadorPerfiles = 0;
-                            var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                            //var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                            var arrHorariosRegistrados = [];
                             $("#calendar").html("");
                             var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaciones(dataRecordRelaboral,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                             sumarTotalHorasPorSemana(arrFechasPorSemana);
@@ -459,6 +469,44 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         datafield: 'compensatoria_descripcion',
                         width: 100,
                         align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Solicitante',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_user_registrador',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'justify',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Sol.',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_fecha_reg',
+                        width: 100,
+                        align: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Aprobador',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_user_aprobador',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'justify',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Apr.',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_fecha_apr',
+                        width: 100,
+                        align: 'center',
+                        cellsformat: 'dd-MM-yyyy',
                         cellsalign: 'center',
                         hidden: false
                     },

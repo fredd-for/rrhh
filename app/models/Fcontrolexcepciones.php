@@ -19,6 +19,15 @@ class Fcontrolexcepciones extends \Phalcon\Mvc\Model {
     public $controlexcepcion_observacion;
     public $controlexcepcion_estado;
     public $controlexcepcion_estado_descripcion;
+    public $controlexcepcion_user_reg_id;
+    public $controlexcepcion_user_registrador;
+    public $controlexcepcion_fecha_reg;
+    public $controlexcepcion_user_apr_id;
+    public $controlexcepcion_user_aprobador;
+    public $controlexcepcion_fecha_apr;
+    public $controlexcepcion_user_mod_id;
+    public $controlexcepcion_user_modificador;
+    public $controlexcepcion_fecha_mod;
     public $excepcion_id;
     public $excepcion;
     public $tipoexcepcion_id;
@@ -73,6 +82,15 @@ class Fcontrolexcepciones extends \Phalcon\Mvc\Model {
             'controlexcepcion_observacion'=>'controlexcepcion_observacion',
             'controlexcepcion_estado'=>'controlexcepcion_estado',
             'controlexcepcion_estado_descripcion'=>'controlexcepcion_estado_descripcion',
+            'controlexcepcion_user_reg_id'=>'controlexcepcion_user_reg_id',
+            'controlexcepcion_user_registrador'=>'controlexcepcion_user_registrador',
+            'controlexcepcion_fecha_reg'=>'controlexcepcion_fecha_reg',
+            'controlexcepcion_user_apr_id'=>'controlexcepcion_user_apr_id',
+            'controlexcepcion_user_aprobador'=>'controlexcepcion_user_aprobador',
+            'controlexcepcion_fecha_apr'=>'controlexcepcion_fecha_apr',
+            'controlexcepcion_user_mod_id'=>'controlexcepcion_user_mod_id',
+            'controlexcepcion_user_modificador'=>'controlexcepcion_user_modificador',
+            'controlexcepcion_fecha_mod'=>'controlexcepcion_fecha_mod',
             'excepcion'=>'excepcion_id',
             'excepcion'=>'excepcion',
             'tipoexcepcion_id'=>'tipoexcepcion_id',
@@ -113,7 +131,7 @@ class Fcontrolexcepciones extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_controlexcepciones()";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
-        $this->_db = new Fexcepciones();
+        $this->_db = new Fcontrolexcepciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 

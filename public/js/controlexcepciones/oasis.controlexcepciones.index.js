@@ -457,7 +457,7 @@ function definirGrillaParaListaRelaborales() {
                                 $('#divTabControlExcepciones').jqxTabs({selectedItem: 4});
 
                                 var idPerfilLaboral=0;
-                                var tipoHorario=2;
+                                var tipoHorario=3;
 
                                 $("#spanPrefijoCalendarioLaboral").html("");
                                 $("#spanSufijoCalendarioLaboral").html(" Vrs. Calendario de Excepciones (Individual)");
@@ -468,9 +468,9 @@ function definirGrillaParaListaRelaborales() {
                                 var fechaIni = "";
                                 var fechaFin = "";
                                 var contadorPerfiles = 0;
-                                var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                                //var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+                                var arrHorariosRegistrados = [];
                                 $("#calendar").html("");
-
                                 var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaciones(dataRecord,dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                                 sumarTotalHorasPorSemana(arrFechasPorSemana);
                                 } else {
@@ -1056,7 +1056,7 @@ function obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones
         case 2:ctrlAllDay=true;break;
     }
     $.ajax({
-        url: '/calendariolaboral/listallregisteredbyrelaboral',
+        url: '/calendariolaboral/listallregisteredbyrelaboralmixto',
         type: 'POST',
         datatype: 'json',
         async: false,
@@ -1444,6 +1444,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
                         var primeraFechaCalendario = "";
                         var segundaFechaCalendario = "";
                         arrFechasPorSemana= [];
+                        var gestionInicial= 0;
                         var contP=0;
                         var arrDias = ["mon","tue","wed","thu","fri","sat","sun"];
                         $.each(arrDias,function(k,dia){
@@ -1455,6 +1456,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
                                 if(fecha!=undefined){
                                     var arrFecha = fecha.split("-");
                                     fecha = arrFecha[2]+"-"+arrFecha[1]+"-"+arrFecha[0];
+                                    gestionInicial = arrFecha[0];
                                     switch (contP){
                                         case 1:{
                                             if(primeraFechaCalendario=="")primeraFechaCalendario = fecha;
@@ -1477,7 +1479,7 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
                                 }
                             });
                         });
-                        sumarTotalHorasPorSemana(arrFechasPorSemana);
+
                         var fechaInicialCalendario = "";
                         var fechaFinalCalendario = "";
                         var moment = $('#calendar').fullCalendar('getDate');
@@ -1489,6 +1491,51 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
                         $("#hdnFechaFinalCalendario").val(fechaFinalCalendario);
                         cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral,idRelaboral,primeraFechaCalendario,segundaFechaCalendario);
                         cargarExcepcionesEnCalendario(dataRecord,view.name,diasSemana,primeraFechaCalendario,segundaFechaCalendario);
+                        /**
+                         * Asignación de horarios por mes, inicialmente se borra todos los eventos registrados
+                         * a objeto de no repetir su renderización
+                         */
+                        $("#calendar").fullCalendar( 'removeEvents');
+                        var arrHorariosRegistradosEnMes = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(idRelaboral,0,tipoHorario,false,primeraFechaCalendario,segundaFechaCalendario,0);
+                        $("#calendar").fullCalendar('addEventSource', arrHorariosRegistradosEnMes);
+
+                        var arrFeriados = obtenerFeriadosRangoFechas(0,0,gestionInicial,primeraFechaCalendario,segundaFechaCalendario);
+                        $.each(arrDias,function(k,dia){
+                            contP=0;
+                            $("td.fc-"+dia).map(function (index, elem) {
+                                contP++;
+                                var fechaCalAux = $(this).data("date");
+                                var fechaCal = $(this).data("date");
+                                var fechaIni = "";
+                                var fechaFin = "";
+                                var celda = $(this);
+                                $.each(arrFeriados,function(key,val){
+
+                                    fechaIni  = val.fecha_ini;
+                                    fechaFin  = val.fecha_fin;
+
+                                    /*var arrFechaCal = fechaCal.split("-");
+
+                                     fechaCal = arrFechaCal[2]+"-"+arrFechaCal[1]+"-"+arrFechaCal[0];
+
+                                     var arrFechaIni = fechaIni.split("-");
+                                     fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
+
+                                     var arrFechaFin = fechaFin.split("-");
+                                     fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
+                                     */
+                                    var sep="-";
+                                    if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
+                                        celda.css("background-color", "orange");
+                                        var elem = $(".fc-day-content");
+                                        celda.append(val.feriado);
+                                        celda.append("</br>");
+                                        celda.append(val.descripcion);
+                                    }
+                                });
+                            });
+                        });
+                        sumarTotalHorasPorSemana(arrFechasPorSemana);
                     }
                     break;
                 case "agendaWeek":
@@ -1904,4 +1951,49 @@ function obtenerFechaMasDias(fecha,dias){
         }
     }).responseText;
     return fecha;
+}
+/**
+ * Función para la obtención de los feriados de acuerdo a un rango de fechas.
+ * @param dia
+ * @param mes
+ * @param gestion
+ * @param fechaIni
+ * @param fechaFin
+ * @returns {Array}
+ */
+function obtenerFeriadosRangoFechas(dia,mes,gestion,fechaIni,fechaFin){
+    var arrFeriados = [];
+    var prefijo = "r_";
+    if(gestion>0&&fechaIni!=""&&fechaFin!=""){
+        $.ajax({
+            url: '/feriados/listrange',
+            type: 'POST',
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {dia:dia,mes:mes,gestion:gestion,fecha_ini:fechaIni,fecha_fin:fechaFin},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        arrFeriados.push( {
+                            id:val.id,
+                            feriado:val.feriado,
+                            descripcion:val.descripcion,
+                            cantidad_dias:val.cantidad_dias,
+                            repetitivo:val.repetitivo,
+                            dia:val.dia,
+                            mes:val.mes,
+                            gestion:val.gestion,
+                            fecha_ini:val.fecha_ini,
+                            fecha_fin:val.fecha_fin,
+                            observacion:val.observacion
+                        });
+                    });
+                }
+            }
+        });
+
+    }
+    return arrFeriados;
 }
