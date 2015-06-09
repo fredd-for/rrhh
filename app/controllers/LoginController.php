@@ -67,6 +67,10 @@ class LoginController extends \Phalcon\Mvc\Controller {
     }    
     public function exitAction() {
         $this->session->remove('auth');
+        /**
+         * Añadido para el control de permisos 08/06/2015
+         */
+        $this->session->remove('permisos');
         $this->flash->success('Goodbye!');
         $this->response->redirect('/login');
     }

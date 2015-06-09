@@ -223,15 +223,5 @@ class OrganigramasController extends ControllerBase
 		$this->view->disable();
 		echo json_encode($msm);
 	}
-
-	public function deleteAction(){
-		$resul = Organigramas::findFirstById($_POST['id']);
-		$resul->baja_logica = 0;
-		$resul->save();
-		$this->view->disable();
-		echo json_encode();
-	}
-
-	
 }
 ?>

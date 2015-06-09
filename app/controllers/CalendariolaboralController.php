@@ -25,7 +25,6 @@ class CalendariolaboralController extends ControllerBase
         $this->assets->addCss('/assets/css/oasis.principal.css');
         $this->assets->addJs('/js/jquery.PrintArea.js');
         $this->assets->addCss('/assets/css/PrintArea.css');
-        //$this->assets->addJs('/js/calendariolaboral/language/language/es-MX.js');
     }
 
     /**
@@ -39,13 +38,29 @@ class CalendariolaboralController extends ControllerBase
             $idPerfilLaboral = $_POST["id"];
             $fecha_ini = $_POST["fecha_ini"];
             $fecha_fin = $_POST["fecha_fin"];
+            $fecha_hoy = date('d-m-Y');
             $resul = $obj->getAllRegisteredByPerfilLaboralRangoFechas($idPerfilLaboral,$fecha_ini,$fecha_fin);
-            //comprobamos si hay filas
+            $permisos = $this->obtenerPermisosPorControladorMasIdentificador(strtolower(str_replace("Controller.php","",basename(__FILE__))),"boolEsPosibleAccionarSobreHorariosEnFechasPasadas");
+            $obj = json_decode($permisos);
+            //comprobamos si hay registros
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
+                    $cantDias = $this->compararFechas($fecha_hoy,date("d-m-Y", strtotime($v->calendario_fecha_fin)));
+                    if($cantDias>0){
+                        $nuevo = $obj->n;
+                        $ver = $obj->v;
+                        $editar = $obj->e;
+                        $borrar = $obj->b;
+                    }else{
+                        $nuevo = $ver = $editar = $borrar = 1;
+                    }
                     $calendariolaboral[] = array(
                         'chk' => "",
                         'nro_row' => 0,
+                        'n'=>$nuevo,
+                        'v'=>$ver,
+                        'e'=>$editar,
+                        'b'=>$borrar,
                         'id_calendariolaboral'=>$v->id_calendariolaboral,
                         'calendario_fecha_ini'=>$v->calendario_fecha_ini,
                         'calendario_fecha_fin'=>$v->calendario_fecha_fin,
@@ -730,4 +745,35 @@ class CalendariolaboralController extends ControllerBase
         }
         echo json_encode($msj);
     }
+
+    /**
+     * Obtiene la cantidad de días de diferencia entre dos fechas.
+     * @param $primera
+     * @param $segunda
+     * @param string $sep
+     * @return int
+     */
+    public function compararFechas($primera, $segunda,$sep="-")
+    {
+        $valoresPrimera = explode ($sep, $primera);
+        $valoresSegunda = explode ($sep, $segunda);
+        $diaPrimera    = $valoresPrimera[0];
+        $mesPrimera  = $valoresPrimera[1];
+        $anyoPrimera   = $valoresPrimera[2];
+        $diaSegunda   = $valoresSegunda[0];
+        $mesSegunda = $valoresSegunda[1];
+        $anyoSegunda  = $valoresSegunda[2];
+        $diasPrimeraJuliano = gregoriantojd($mesPrimera, $diaPrimera, $anyoPrimera);
+        $diasSegundaJuliano = gregoriantojd($mesSegunda, $diaSegunda, $anyoSegunda);
+        if(!checkdate($mesPrimera, $diaPrimera, $anyoPrimera)){
+            // "La fecha ".$primera." no es válida";
+            return 0;
+        }elseif(!checkdate($mesSegunda, $diaSegunda, $anyoSegunda)){
+            // "La fecha ".$segunda." no es válida";
+            return 0;
+        }else{
+            return  $diasPrimeraJuliano - $diasSegundaJuliano;
+        }
+    }
+
 }

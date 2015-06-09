@@ -116,6 +116,7 @@ class ControllerBase extends Controller {
             //menu
             $this->menu($this->_user->nivel);
             $this->view->setVar('user', $this->_user);
+            $this->definePermisosAction();
         }
     }
 
@@ -146,7 +147,60 @@ class ControllerBase extends Controller {
         $menus = $mMenu->listaNivel($nivel);
         $this->view->setVar('menus', $menus);
     }
+    /**
+     * Función para definir la matriz de permisos por rol de usuario.
+     */
+    public function definePermisosAction(){
+        $auth = $this->session->get('auth');
+        $user_id = $auth['id'];
+        if($user_id>0){
+            $usuario = Usuarios::findFirstById($user_id);
+            if(is_object($usuario)){
+                $result = ControlPermisos::Find(array("nivel_id=".$usuario->nivel." AND estado>=1 AND baja_logica=1"));
+                $this->_registerPermissionSession($result);
+                return true;
+            }return false;
+        }
+        return false;
+    }
+    /**
+     * Función para el establecimiento de la variable de sesión para el control de permisos.
+     * @param $controlador
+     */
+    private function _registerPermissionSession($permisos) {
+        $arrPermisos = array();
+        if(count($permisos)>0){
+            foreach($permisos as $perm){
+                $arrPermisos[] = array(
+                    'id' => $perm->id,
+                    'controlador' => $perm->controlador,
+                    'nivel_id' => $perm->nivel_id,
+                    'tipo' => $perm->tipo,
+                    'identificador' => $perm->identificador,
+                    'permisos' => $perm->permisos,
+                    'descripcion' => $perm->descripcion,
+                    'observacion' => $perm->observacion);
+            }
+        }
+        $this->session->set('permisos', $arrPermisos);
+    }
 
+    /**
+     * Función para obtener los permisos sobre el controlador e identificador.
+     * @return mixed
+     */
+    public function obtenerPermisosPorControladorMasIdentificador($controlador,$identificador){
+        $resultado = '{"n":0,"v":1,"e":0,"b":0}';
+        $permisos = $this->session->get('permisos');
+        foreach($permisos as $clave => $valor){
+            if($valor["controlador"]==$controlador&&$valor["identificador"]==$identificador)
+            {
+                $resultado = $valor["permisos"];
+                break;
+            }
+        }
+        return $resultado;
+    }
     /* protected function menu($nivel) {
 
       $phql= "SELECT m.id, m.menu, m.descripcion, m.controlador,s.id as id_submenu  ,s.submenu,s.accion,s.descripcion,m.icon
