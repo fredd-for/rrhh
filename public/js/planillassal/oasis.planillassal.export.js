@@ -16,11 +16,18 @@ function exportarReporte(option,idPlanillaSal){
     agrupados = new Object();
     ordenados = new Object();
 
-    estado_descripcion = $('#divGridPlanillasSalView').jqxGrid('getcolumn','estado_descripcion');
+    gerencia_administrativa = $('#divGridPlanillasSalView').jqxGrid('getcolumn','gerencia_administrativa');
+    departamento_administrativo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','departamento_administrativo');
+    area = $('#divGridPlanillasSalView').jqxGrid('getcolumn','area');
+    ubicacion = $('#divGridPlanillasSalView').jqxGrid('getcolumn','ubicacion');
+    fin_partida = $('#divGridPlanillasSalView').jqxGrid('getcolumn','fin_partida');
+    procesocontratacion_codigo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','procesocontratacion_codigo');
     cargo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','cargo');
+    estado_descripcion = $('#divGridPlanillasSalView').jqxGrid('getcolumn','estado_descripcion');
     nombres = $('#divGridPlanillasSalView').jqxGrid('getcolumn','nombres');
     ci = $('#divGridPlanillasSalView').jqxGrid('getcolumn','ci');
     expd = $('#divGridPlanillasSalView').jqxGrid('getcolumn','expd');
+    nivel_salarial = $('#divGridPlanillasSalView').jqxGrid('getcolumn','nivel_salarial');
     sueldo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','sueldo');
     dias_efectivos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','dias_efectivos');
     lsgh = $('#divGridPlanillasSalView').jqxGrid('getcolumn','lsgh');
@@ -28,16 +35,24 @@ function exportarReporte(option,idPlanillaSal){
     abandono = $('#divGridPlanillasSalView').jqxGrid('getcolumn','abandono');
     faltas = $('#divGridPlanillasSalView').jqxGrid('getcolumn','faltas');
     atrasos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','atrasos');
-    faltas_atrasos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','faltas_atrasos');
     otros = $('#divGridPlanillasSalView').jqxGrid('getcolumn','otros');
+    total_descuentos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','total_descuentos');
+    aporte_laboral_afp = $('#divGridPlanillasSalView').jqxGrid('getcolumn','aporte_laboral_afp');
     total_ganado = $('#divGridPlanillasSalView').jqxGrid('getcolumn','total_ganado');
     total_liquido = $('#divGridPlanillasSalView').jqxGrid('getcolumn','total_liquido');
 
-    columna[estado_descripcion.datafield] = {text: estado_descripcion.text, hidden: estado_descripcion.hidden};
+    columna[gerencia_administrativa.datafield] = {text: gerencia_administrativa.text, hidden: gerencia_administrativa.hidden};
+    columna[departamento_administrativo.datafield] = {text: departamento_administrativo.text, hidden: departamento_administrativo.hidden};
+    columna[area.datafield] = {text: area.text, hidden: area.hidden};
+    columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
+    columna[fin_partida.datafield] = {text: fin_partida.text, hidden: fin_partida.hidden};
+    columna[procesocontratacion_codigo.datafield] = {text: procesocontratacion_codigo.text, hidden: procesocontratacion_codigo.hidden};
     columna[cargo.datafield] = {text: cargo.text, hidden: cargo.hidden};
+    columna[estado_descripcion.datafield] = {text: estado_descripcion.text, hidden: estado_descripcion.hidden};
     columna[nombres.datafield] = {text: nombres.text, hidden: nombres.hidden};
     columna[ci.datafield] = {text: ci.text, hidden: ci.hidden};
     columna[expd.datafield] = {text: expd.text, hidden: expd.hidden};
+    columna[nivel_salarial.datafield] = {text: nivel_salarial.text, hidden: nivel_salarial.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
     columna[dias_efectivos.datafield] = {text: dias_efectivos.text, hidden: dias_efectivos.hidden};
     columna[lsgh.datafield] = {text: lsgh.text, hidden: lsgh.hidden};
@@ -45,8 +60,9 @@ function exportarReporte(option,idPlanillaSal){
     columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};
     columna[faltas.datafield] = {text: faltas.text, hidden: faltas.hidden};
     columna[atrasos.datafield] = {text: atrasos.text, hidden: atrasos.hidden};
-    columna[faltas_atrasos.datafield] = {text: faltas_atrasos.text, hidden: faltas_atrasos.hidden};
     columna[otros.datafield] = {text: otros.text, hidden: otros.hidden};
+    columna[total_descuentos.datafield] = {text: total_descuentos.text, hidden: total_descuentos.hidden};
+    columna[aporte_laboral_afp.datafield] = {text: aporte_laboral_afp.text, hidden: aporte_laboral_afp.hidden};
     columna[total_ganado.datafield] = {text: total_ganado.text, hidden: total_ganado.hidden};
     columna[total_liquido.datafield] = {text: total_liquido.text, hidden: total_liquido.hidden};
 

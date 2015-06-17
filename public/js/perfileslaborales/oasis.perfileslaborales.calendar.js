@@ -305,6 +305,36 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
             sumarTotalHorasPorSemana(arrFechasPorSemana);
 
         },
+        eventRender: function(event, element) {
+            var clase = event.className+"";
+            var arrClass = clase.split("_");
+            var idTipoHorario = arrClass[1];
+            clase = arrClass[0];
+            if (clase!="b"){
+                /**
+                 * Se agrega un boton para ser eliminable con un sólo click.
+                 */
+                element.append( "<div align='right'><a class='closeon' style='background: #ffffff' title='Eliminar' href='#'><i title='Eliminar' class='hi hi-remove'></i></a></div>");
+                element.find(".closeon").click(function() {
+                    $('#calendar').fullCalendar('removeEvents',event._id);
+                    var idTurno = 0;
+                    if(event.id!=undefined){
+                        idTurno = event.id;
+                    }
+                    switch (clase){
+                        case "r":
+                        case "d":
+                            var okBaja = bajaTurnoEnCalendario(idTurno);
+                            break;
+                    }
+                    /**
+                     * Si se ha eliminado un horario, es necesario recalcular las horas por semana
+                     */
+                    sumarTotalHorasPorSemana(arrFechasPorSemana);
+                    return false;
+                });
+            }
+        },
         /*dayRender: function (date, cell) {},*/
         viewRender: function(view) {
             if(view.name=="month")
@@ -340,45 +370,9 @@ function iniciarCalendarioLaboral(accion,tipoHorario,arrHorariosRegistrados,defa
                 });
                 sumarTotalHorasPorSemana(arrFechasPorSemana);
             }
-        },
-        /**
-         * Función para la eliminación de un turno en caso de salirse del calendario.
-         * @param event
-         * @param jsEvent
-         * @param ui
-         * @param view
-         */
-        eventDragStop: function( event, jsEvent, ui, view ) {
-            var clase = event.className+"";
-            var arrClass = clase.split("_");
-            var idTipoHorario = arrClass[1];
-            clase = arrClass[0];
-            if (clase!="b"){
-                if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                    $('#calendar').fullCalendar('removeEvents', event._id);
-                }
-                /*if (isElemOverDiv(ui, $('#divDescartarTurno'))) {
-                    $('#calendar').fullCalendar('removeEvents', event.id);
-                }*/
-            }
         }
     });
     return arrFechasPorSemana;
-}
-var isEventOverDiv = function(x, y) {
-
-    var external_events = $('#divSectorCalendario');
-    var offset = external_events.offset();
-    offset.right = external_events.width() + offset.left;
-    offset.bottom = external_events.height() + offset.top;
-    //alert(x+"--"+y+"\n "+x+">="+offset.left+" && "+y+">="+offset.top+"\n"+x+"<= "+offset.right+"\n "+y+" <= "+offset .bottom);
-    // Compare
-    if (x >= offset.left
-        && y >= offset.top
-        && x <= offset.right
-        && y <= offset .bottom) { return true; }
-    return false;
-
 }
 /**
  * Función para inicializar las funcionalidad para el evento de arrastre y eliminación

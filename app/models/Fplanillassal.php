@@ -25,6 +25,7 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
     public $tipoplanilla_id;
     public $tipo_planilla;
     public $numero;
+    public $total_descuentos;
     public $total_ganado;
     public $total_liquido;
     public $cantidad_relaborales;

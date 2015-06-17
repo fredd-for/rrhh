@@ -508,30 +508,69 @@
                             <div class="panel-body form-horizontal">
                                 <!--<fieldset>
                                     <legend><i class="fa fa-angle-right"></i> Rango Fechas</legend>-->
-                                <div class="form-group">
-                                    <div class="div-asignacion-perfil" id="divUbicacionesAsignacionSingle">
-                                        <label class="col-sm-3 control-label" for="lstUbicacionesAsignacionSingle">Ubicaci&oacute;n:</label>
-                                        <div class="col-md-3">
-                                            <select id="lstUbicacionesAsignacionSingle" class="form-control"><option value="0" data-cant-nodos-hijos="0">Seleccionar...</option></select>
-                                            <span class="help-block" id="helpErrorUbicacionesAsignacionSingle"></span>
+                                <!-- Block -->
+                                <div class="block">
+                                    <!-- Block Title -->
+                                    <div class="block-title">
+                                        <h2><strong>Marcaci&oacute;n</strong> Entrada</h2>
+                                    </div>
+                                    <!-- END Block Title -->
+                                    <div class="form-group">
+                                        <div class="div-asignacion-perfil" id="divUbicacionesEntradaAsignacionSingle">
+                                            <label class="col-sm-3 control-label" for="lstUbicacionesEntradaAsignacionSingle">Ubicaci&oacute;n:</label>
+                                            <div class="col-md-3">
+                                                <select id="lstUbicacionesEntradaAsignacionSingle" class="form-control"><option value="0" data-cant-nodos-hijos="0">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorUbicacionesEntradaAsignacionSingle"></span>
+                                            </div>
+                                        </div>
+                                        <div class="div-asignacion-perfil" id="divEstacionesEntradaAsignacionSingle">
+                                            <label class="col-sm-3 control-label" for="lstEstacionesEntradaAsignacionSingle">Estaci&oacute;n:</label>
+                                            <div class="col-md-3">
+                                                <select id="lstEstacionesEntradaAsignacionSingle" class="form-control"><option value="0">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorEstacionesEntradaAsignacionSingle"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group div-move-relab" id="divTiposMarcacionesEntradaAsignacionSingle">
+                                            <label class="col-md-3 control-label" for="lstTiposMarcacionesEntradaAsignacionSingle">Puede marcar en:</label>
+                                            <div class="col-md-9">
+                                                <select id="lstTiposMarcacionesEntradaAsignacionSingle" class="form-control"><option value="">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorTiposMarcacionesEntradaAsignacionSingle"></span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="div-asignacion-perfil" id="divEstacionesAsignacionSingle">
-                                        <label class="col-sm-3 control-label" for="lstEstacionesAsignacionSingle">Estaci&oacute;n:</label>
-                                        <div class="col-md-3">
-                                            <select id="lstEstacionesAsignacionSingle" class="form-control"><option value="0">Seleccionar...</option></select>
-                                            <span class="help-block" id="helpErrorEstacionesAsignacionSingle"></span>
+                                </div>
+                                <!-- END Block -->
+                                <div class="block">
+                                    <!-- Block Title -->
+                                    <div class="block-title">
+                                        <h2><strong>Marcaci&oacute;n</strong> Salida</h2>
+                                    </div>
+                                    <!-- END Block Title -->
+                                    <div class="form-group">
+                                        <div class="div-asignacion-perfil" id="divUbicacionesSalidaAsignacionSingle">
+                                            <label class="col-sm-3 control-label" for="lstUbicacionesSalidaAsignacionSingle">Ubicaci&oacute;n:</label>
+                                            <div class="col-md-3">
+                                                <select id="lstUbicacionesSalidaAsignacionSingle" class="form-control"><option value="0" data-cant-nodos-hijos="0">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorUbicacionesSalidaAsignacionSingle"></span>
+                                            </div>
+                                        </div>
+                                        <div class="div-asignacion-perfil" id="divEstacionesSalidaAsignacionSingle">
+                                            <label class="col-sm-3 control-label" for="lstEstacionesSalidaAsignacionSingle">Estaci&oacute;n:</label>
+                                            <div class="col-md-3">
+                                                <select id="lstEstacionesSalidaAsignacionSingle" class="form-control"><option value="0">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorEstacionesSalidaAsignacionSingle"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group div-move-relab" id="divTiposMarcacionesSalidaAsignacionSingle">
+                                            <label class="col-md-3 control-label" for="lstTiposMarcacionesSalidaAsignacionSingle">Puede marcar en:</label>
+                                            <div class="col-md-9">
+                                                <select id="lstTiposMarcacionesSalidaAsignacionSingle" class="form-control"><option value="">Seleccionar...</option></select>
+                                                <span class="help-block" id="helpErrorTiposMarcacionesSalidaAsignacionSingle"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="form-group div-move-relab" id="divTiposMarcacionesAsignacionSingle">
-                                        <label class="col-md-3 control-label" for="lstTiposMarcacionesAsignacionSingle">Puede marcar en:</label>
-                                        <div class="col-md-9">
-                                            <select id="lstTiposMarcacionesAsignacionSingle" class="form-control"><option value="">Seleccionar...</option></select>
-                                            <span class="help-block" id="helpErrorTiposMarcacionesAsignacionSingle"></span>
-                                        </div>
-                                    </div>
                                     <div class="div-asignacion-perfil" id="divFechaIniAsignacionSingle">
                                         <label class="col-sm-3 control-label" for="txtFechaIniAsignacionSingle">Fecha Inicio:</label>
                                         <div class="col-md-3">

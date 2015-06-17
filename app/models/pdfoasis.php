@@ -484,7 +484,25 @@ class pdfoasis extends fpdf{
         }
         return $arrRes;
     }
-
+    /**
+     * Función para obtener las columnas establecidas para el cálculo de totales y seleccionadas para aparecer.
+     * @param $generalConfigForAllColumns
+     * @param $columns
+     * @param array $exclude
+     * @return array
+     */
+    function DefineSelectedTotalColsWithExclude($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if((!isset($val['hidden'])||$val['hidden']!=true)&&$widthAlignAll[$key]["totales"]===true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$key;
+                }
+            }
+        }
+        return $arrRes;
+    }
     /*
      * Función para la definición de los contenidos de la cabecera.
      * @param $widthAlignAll
@@ -521,6 +539,40 @@ class pdfoasis extends fpdf{
             }
         }
         return $arrRes;
+    }
+    /**
+     * Función para la obtención de la fila que contiene los totales
+     * @param $colSelecteds
+     * @param $colTotalSelecteds
+     * @param $arrTodosTotales
+     * @return array
+     */
+    public function generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales){
+        $arrTotales = array();
+        $sw = 0;
+        $clave = -1;
+        if(count($colSelecteds)>0&&count($colTotalSelecteds)>0){
+            foreach($colSelecteds as $val){
+                if(in_array($val,$colTotalSelecteds)){
+                    //echo "$val<------>".$colTotalSelecteds[$val]."&&".in_array($val,$colTotalSelecteds);
+                    $arrTotales [] = $arrTodosTotales[$val];
+                    $sw=1;
+                }else{
+                    $arrTotales [] = '';
+                }
+                if($sw==0){
+                    $clave++;
+                }
+            }
+            if($sw==1){
+                if($clave>=0){
+                    $arrTotales[$clave]="Totales:";
+                }
+            }else{
+                $arrTotales = array();
+            }
+        }
+        return $arrTotales;
     }
     /**
      * Función para conocer el listado de columnas para el resumen de totales

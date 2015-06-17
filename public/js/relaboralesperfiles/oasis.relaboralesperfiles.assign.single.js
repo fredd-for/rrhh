@@ -75,7 +75,18 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
             {name: 'relaboralperfil_observacion', type: 'string'},
             {name: 'relaboralperfil_estado', type: 'integer'},
             {name: 'relaboralperfil_estado_descripcion', type: 'string'},
-            {name: 'relaboralperfilmaquina_tipo_marcacion', type: 'integer'}
+            {name: 'relaboralperfilmaquina_maquina_entrada_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_tipo_marcacion_entrada', type: 'integer'},
+            {name: 'relaboralperfilmaquina_ubicacion_entrada_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_ubicacion_entrada', type: 'string'},
+            {name: 'relaboralperfilmaquina_estacion_entrada_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_estacion_entrada', type: 'string'},
+            {name: 'relaboralperfilmaquina_maquina_salida_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_tipo_marcacion_salida', type: 'integer'},
+            {name: 'relaboralperfilmaquina_ubicacion_salida_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_ubicacion_salida', type: 'string'},
+            {name: 'relaboralperfilmaquina_estacion_salida_id', type: 'integer'},
+            {name: 'relaboralperfilmaquina_estacion_salida', type: 'string'}
         ],
         url: '/relaboralesperfiles/listsingle?id='+idPerfilLaboral,
         cache: false
@@ -140,10 +151,18 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     if(dataRecord.fecha_incor!=null)
                                         fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
                                     var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
-                                    /*if(dataRecord.fecha_baja!=null){
+                                    if(dataRecord.fecha_baja!=null&&dataRecord.fecha_baja&&dataRecord.fecha_baja!=undefined){
                                         fechaMax = fechaConvertirAFormato(dataRecord.fecha_baja,"-");
-                                    }*/
-                                    generaModalAdicionAsignacionSinglePerfilLaboral(1,dataRecord.id_ubicacion,0,-1,"","",fechaMin,fechaMax,"");
+                                    }
+                                    /**
+                                     * En caso de que el registro sea nuevo para la persona, se considera la ubicación donde se ha registrado su contrato.
+                                     */
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(1,
+                                        dataRecord.relaboralperfil_ubicacion_id,
+                                        dataRecord.relaboralperfil_ubicacion_id,
+                                        dataRecord.relaboralperfil_estacion_id,
+                                        dataRecord.relaboralperfil_estacion_id,
+                                        -1,-1,"","",fechaMin,fechaMax,"");
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
                                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
                                 } else {
@@ -180,8 +199,15 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     if(dataRecord.fecha_incor!=null)
                                         fechaMin = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
                                     var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
-                                    var tipoMarcacion = dataRecord.relaboralperfilmaquina_tipo_marcacion;
-                                    generaModalAdicionAsignacionSinglePerfilLaboral(2,dataRecord.relaboralperfil_ubicacion_id,dataRecord.relaboralperfil_estacion_id,tipoMarcacion,fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
+                                    var tipoMarcacionEntrada = dataRecord.relaboralperfilmaquina_tipo_marcacion_entrada;
+                                    var tipoMarcacionSalida = dataRecord.relaboralperfilmaquina_tipo_marcacion_salida;
+                                    generaModalAdicionAsignacionSinglePerfilLaboral(2,
+                                        dataRecord.relaboralperfilmaquina_ubicacion_entrada_id,
+                                        dataRecord.relaboralperfilmaquina_ubicacion_salida_id,
+                                        dataRecord.relaboralperfilmaquina_estacion_salida_id,
+                                        dataRecord.relaboralperfilmaquina_estacion_salida_id,
+                                        tipoMarcacionEntrada,tipoMarcacionSalida,
+                                        fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);
                                     $("#hdnIdPerfilLaboralAsignacionSinglePerfil").val(idPerfilLaboral);
                                     $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val(dataRecord.relaboralperfil_id);
@@ -701,11 +727,11 @@ function obtenerFechaMasDias(fecha,dias){
  */
 function cargarUbicacionesPrincipalesAsignacionIndividual(accion,idUbicacion){
     var selected = "";
-    var sufijo = "";
-    if(accion==2)sufijo="";
-    $("#lstUbicacionesAsignacionSingle"+sufijo).html("");
-    $("#lstUbicacionesAsignacionSingle"+sufijo).append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
-    $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",true);
+    var selector = "Entrada";
+    if(accion==2)selector="Salida";
+    $("#lstUbicaciones"+selector+"AsignacionSingle").html("");
+    $("#lstUbicaciones"+selector+"AsignacionSingle").append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
+    $("#lstUbicaciones"+selector+"AsignacionSingle").prop("disabled",true);
     if(idUbicacion>0){
         $.ajax({
             url: '/ubicaciones/listprincipales/',
@@ -716,14 +742,14 @@ function cargarUbicacionesPrincipalesAsignacionIndividual(accion,idUbicacion){
             success: function (data) {
                 var res = jQuery.parseJSON(data);
                 if (res.length > 0) {
-                    $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",false);
+                    $("#lstUbicaciones"+selector+"AsignacionSingle").prop("disabled",false);
                     $.each(res, function (key, val) {
                         if(idUbicacion==val.id){
                             selected = "selected";
                         }else selected="";
-                        $("#lstUbicacionesAsignacionSingle"+sufijo).append("<option value='"+val.id+"' data-cant-nodos-hijos='"+val.cant_nodos_hijos+"' "+selected+">"+val.ubicacion+"</option>");
+                        $("#lstUbicaciones"+selector+"AsignacionSingle").append("<option value='"+val.id+"' data-cant-nodos-hijos='"+val.cant_nodos_hijos+"' "+selected+">"+val.ubicacion+"</option>");
                     });
-                }else $("#lstUbicacionesAsignacionSingle"+sufijo).prop("disabled",true);
+                }else $("#lstUbicaciones"+selector+"AsignacionSingle").prop("disabled",true);
             }
         });
     }
@@ -735,12 +761,12 @@ function cargarUbicacionesPrincipalesAsignacionIndividual(accion,idUbicacion){
  * @param idLinea
  */
 function cargarEstacionesAsignacionIndividual(accion,idUbicacion,idEstacion){
-    var sufijo = "";
-    if(accion==2) sufijo="";
-    $("#lstEstacionesAsignacionSingle"+sufijo).html("");
-    $("#lstEstacionesAsignacionSingle"+sufijo).append("<option value='0'>Seleccionar...</option>");
-    $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled","disabled");
-    $("#spanAsteriscoEstacionesAsignacionSingle"+sufijo).html("");
+    var selector = "Entrada";
+    if(accion==2) selector="Salida";
+    $("#lstEstaciones"+selector+"AsignacionSingle").html("");
+    $("#lstEstaciones"+selector+"AsignacionSingle").append("<option value='0'>Seleccionar...</option>");
+    $("#lstEstaciones"+selector+"AsignacionSingle").prop("disabled","disabled");
+    $("#spanAsteriscoEstaciones"+selector+"AsignacionSingle").html("");
     var selected = "";
     if(idUbicacion>0){
         $.ajax({
@@ -753,15 +779,15 @@ function cargarEstacionesAsignacionIndividual(accion,idUbicacion,idEstacion){
             success: function (data) {
                 var res = jQuery.parseJSON(data);
                 if (res.length > 0) {
-                    $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled",false);
-                    $("#spanAsteriscoEstacionesAsignacionSingle"+sufijo).text(" *");
+                    $("#lstEstaciones"+selector+"AsignacionSingle").prop("disabled",false);
+                    $("#spanAsteriscoEstaciones"+selector+"AsignacionSingle").text(" *");
                     $.each(res, function (key, val) {
                         if(idEstacion==val.id){
                             selected = "selected";
                         }else selected = "";
-                        $("#lstEstacionesAsignacionSingle"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.ubicacion+"</option>");
+                        $("#lstEstaciones"+selector+"AsignacionSingle").append("<option value='"+val.id+"' "+selected+">"+val.ubicacion+"</option>");
                     });
-                }else $("#lstEstacionesAsignacionSingle"+sufijo).prop("disabled","disabled");
+                }else $("#lstEstaciones"+selector+"AsignacionSingle").prop("disabled","disabled");
             }
         });
     }
@@ -769,14 +795,14 @@ function cargarEstacionesAsignacionIndividual(accion,idUbicacion,idEstacion){
 /**
  * Función para la generación de la ventana modal para el registro de una nueva asignación de perfil laboral de manera individual.
  * @param accion
- * @param idUbicacion
- * @param idEstacion
- * @param tipoMarcacion
+ * @param idUbicacionEntrada
+ * @param idEstacionEntrada
+ * @param tipoMarcacionEntrada
  * @param fechaIni
  * @param fechaFin
  * @param observacion
  */
-function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEstacion,tipoMarcacion,fechaIni,fechaFin,fechaMin,fechaMax,observacion){
+function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacionEntrada,idUbicacionSalida,idEstacionEntrada,idEstacionSalida,tipoMarcacionEntrada,tipoMarcacionSalida,fechaIni,fechaFin,fechaMin,fechaMax,observacion){
 
     $('#txtFechaIniAsignacionSingle').datepicker('remove');
     $('#txtFechaIniAsignacionSingle').datepicker({
@@ -795,64 +821,106 @@ function generaModalAdicionAsignacionSinglePerfilLaboral(accion,idUbicacion,idEs
     $('#txtFechaFinAsignacionSingle').data("date-max",fechaMax);
 
     if(accion==1){
-        $("#lstEstacionesAsignacionSingle").html("");
-        $("#lstEstacionesAsignacionSingle").append("<option value='0'>Seleccionar...</option>");
-        $("#lstEstacionesAsignacionSingle").prop("disabled",true);
+        $("#lstEstacionesEntradaAsignacionSingle").html("");
+        $("#lstEstacionesEntradaAsignacionSingle").append("<option value='0'>Seleccionar...</option>");
+        $("#lstEstacionesEntradaAsignacionSingle").prop("disabled",true);
+        $("#lstEstacionesSalidaAsignacionSingle").html("");
+        $("#lstEstacionesEntradaAsignacionSingle").append("<option value='0'>Seleccionar...</option>");
+        $("#lstEstacionesEntradaAsignacionSingle").prop("disabled",true);
         limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(1);
-        cargarUbicacionesPrincipalesAsignacionIndividual(1,idUbicacion);
-        cargarEstacionesAsignacionIndividual(1,idUbicacion,0);
-        $("#lstUbicacionesAsignacionSingle").off();
-        $("#lstUbicacionesAsignacionSingle").on("change",function(){
+        cargarUbicacionesPrincipalesAsignacionIndividual(1,idUbicacionEntrada);
+        cargarUbicacionesPrincipalesAsignacionIndividual(2,idUbicacionSalida);
+        cargarEstacionesAsignacionIndividual(1,idUbicacionEntrada,idEstacionEntrada);
+        cargarEstacionesAsignacionIndividual(2,idUbicacionSalida,idEstacionSalida);
+        $("#lstUbicacionesEntradaAsignacionSingle").off();
+        $("#lstUbicacionesEntradaAsignacionSingle").on("change",function(){
             cargarEstacionesAsignacionIndividual(1,$(this).val(),0);
         });
+        $("#lstUbicacionesSalidaAsignacionSingle").off();
+        $("#lstUbicacionesSalidaAsignacionSingle").on("change",function(){
+            cargarEstacionesAsignacionIndividual(2,$(this).val(),0);
+        });
+
         $("#txtFechaIniAsignacionSingle").val(fechaMin);
         $("#txtFechaFinAsignacionSingle").val(fechaMax);
-        cargarTiposMarcaciones(1,tipoMarcacion);
+        cargarTiposMarcaciones(1,tipoMarcacionEntrada);
+        cargarTiposMarcaciones(2,tipoMarcacionSalida);
         $("#txtObservacionAsignacionSingle").val("");
     }else{
         limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(2);
-        cargarUbicacionesPrincipalesAsignacionIndividual(2,idUbicacion);
-        cargarEstacionesAsignacionIndividual(2,idUbicacion,idEstacion);
-        $("#lstUbicacionesAsignacionSingle").off();
-        $("#lstUbicacionesAsignacionSingle").on("change",function(){
+        cargarUbicacionesPrincipalesAsignacionIndividual(1,idUbicacionEntrada);
+        cargarUbicacionesPrincipalesAsignacionIndividual(2,idUbicacionSalida);
+        cargarEstacionesAsignacionIndividual(1,idUbicacionEntrada,idEstacionEntrada);
+        cargarEstacionesAsignacionIndividual(2,idUbicacionSalida,idEstacionSalida);
+
+        $("#lstUbicacionesEntradaAsignacionSingle").off();
+        $("#lstUbicacionesEntradaAsignacionSingle").on("change",function(){
+            cargarEstacionesAsignacionIndividual(1,$(this).val(),0);
+        });
+        $("#lstUbicacionesSalidaAsignacionSingle").off();
+        $("#lstUbicacionesSalidaAsignacionSingle").on("change",function(){
             cargarEstacionesAsignacionIndividual(2,$(this).val(),0);
         });
         $("#txtFechaIniAsignacionSingle").datepicker("update",fechaIni);
         $("#txtFechaFinAsignacionSingle").datepicker("update",fechaFin);
-        cargarTiposMarcaciones(2,tipoMarcacion);
+        cargarTiposMarcaciones(1,tipoMarcacionEntrada);
+        cargarTiposMarcaciones(2,tipoMarcacionSalida);
         $("#txtObservacionAsignacionSingle").val(observacion);
     }
     $('#popupAsignacionPerfilLaboral').modal('show');
-    $("#lstUbicacionesAsignacionSingle").focus();
+    $("#lstUbicacionesEntradaAsignacionSingle").focus();
 }
 /**
  * Función para la validación del formulario de asignación de perfil laboral.
  * @param accion
  */
-function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin){
+function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,fechaIni,fechaFin){
     var ok = true;
-    var idUbicacion = $("#lstUbicacionesAsignacionSingle").val();
-    var ctrlEstacion = $("#lstUbicacionesAsignacionSingle option:selected").data("cant-nodos-hijos");
-    var idEstacion = $("#lstEstacionesAsignacionSingle").val();
+    var idUbicacionEntrada = $("#lstUbicacionesEntradaAsignacionSingle").val();
+    var ctrlEstacionEntrada = $("#lstUbicacionesEntradaAsignacionSingle option:selected").data("cant-nodos-hijos");
+    var idEstacionEntrada = $("#lstEstacionesEntradaAsignacionSingle").val();
+
+    var idUbicacionSalida = $("#lstUbicacionesSalidaAsignacionSingle").val();
+    var ctrlEstacionSalida = $("#lstUbicacionesSalidaAsignacionSingle option:selected").data("cant-nodos-hijos");
+    var idEstacionSalida = $("#lstEstacionesSalidaAsignacionSingle").val();
+
     var fechaIni = $("#txtFechaIniAsignacionSingle").val();
     var fechaFin = $("#txtFechaFinAsignacionSingle").val();
-    var tipoMarcacion = $("#lstTiposMarcacionesAsignacionSingle").val();
+    var tipoMarcacionEntrada = $("#lstTiposMarcacionesEntradaAsignacionSingle").val();
+    var tipoMarcacionSalida = $("#lstTiposMarcacionesSalidaAsignacionSingle").val();
     limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion);
     var enfoque = "";
-    if(idUbicacion<=0){
+    if(idUbicacionEntrada<=0){
         ok = false;
-        var msje = "Debe seleccionar la Ubicaci&oacute;n para la asignaci&oacute;n necesariamente.";
-        $("#divUbicacionesAsignacionSingle").addClass("has-error");
-        $("#helpErrorUbicacionesAsignacionSingle").html(msje);
-        if(enfoque==null)enfoque =$("#LstUbicacionesAsignacionSingle");
+        var msje = "Debe seleccionar la Ubicaci&oacute;n de Entrada para la asignaci&oacute;n necesariamente.";
+        $("#divUbicacionesEntradaAsignacionSingle").addClass("has-error");
+        $("#helpErrorUbicacionesEntradaAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#LstUbicacionesEntradaAsignacionSingle");
     }else{
-        if(ctrlEstacion>0){
-            if(idEstacion<=0){
+        if(ctrlEstacionEntrada>0){
+            if(idEstacionEntrada<=0){
                 ok = false;
-                var msje = "Debe seleccionar la Estaci&oacute;n para la asignaci&oacute;n necesariamente.";
-                $("#divEstacionesAsignacionSingle").addClass("has-error");
-                $("#helpErrorEstacionesAsignacionSingle").html(msje);
-                if(enfoque==null)enfoque =$("#LstEstacionesAsignacionSingle");
+                var msje = "Debe seleccionar la Estaci&oacute;n de Entrada para la asignaci&oacute;n necesariamente.";
+                $("#divEstacionesEntradaAsignacionSingle").addClass("has-error");
+                $("#helpErrorEstacionesEntradaAsignacionSingle").html(msje);
+                if(enfoque==null)enfoque =$("#LstEstacionesEntradaAsignacionSingle");
+            }
+        }
+    }
+    if(idUbicacionSalida<=0){
+        ok = false;
+        var msje = "Debe seleccionar la Ubicaci&oacute;n de Salida para la asignaci&oacute;n necesariamente.";
+        $("#divUbicacionesSalidaAsignacionSingle").addClass("has-error");
+        $("#helpErrorUbicacionesSalidaAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#LstUbicacionesSalidaAsignacionSingle");
+    }else{
+        if(ctrlEstacionSalida>0){
+            if(idEstacionSalida<=0){
+                ok = false;
+                var msje = "Debe seleccionar la Estaci&oacute;n de Salida para la asignaci&oacute;n necesariamente.";
+                $("#divEstacionesSalidaAsignacionSingle").addClass("has-error");
+                $("#helpErrorEstacionesSalidaAsignacionSingle").html(msje);
+                if(enfoque==null)enfoque =$("#LstEstacionesSalidaAsignacionSingle");
             }
         }
     }
@@ -900,14 +968,25 @@ function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,
 
         }
     }
-    if(tipoMarcacion<0||tipoMarcacion==''){
+    if(tipoMarcacionEntrada<0||tipoMarcacionEntrada==''){
         ok = false;
         var msje = "Debe seleccionar donde puede marcar su asistencia necesariamente.";
-        $("#divTiposMarcacionesAsignacionSingle").addClass("has-error");
-        $("#helpErrorTiposMarcacionesAsignacionSingle").html(msje);
-        if(enfoque==null)enfoque =$("#sltTiposMarcacionesAsignacionSingle");
+        $("#divTiposMarcacionesEntradaAsignacionSingle").addClass("has-error");
+        $("#helpErrorTiposMarcacionesEntradaAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#sltTiposMarcacionesEntradaAsignacionSingle");
     }
-    var ok2 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
+    if(tipoMarcacionSalida<0||tipoMarcacionSalida==''){
+        ok = false;
+        var msje = "Debe seleccionar donde puede marcar su asistencia necesariamente.";
+        $("#divTiposMarcacionesSalidaAsignacionSingle").addClass("has-error");
+        $("#helpErrorTiposMarcacionesSalidaAsignacionSingle").html(msje);
+        if(enfoque==null)enfoque =$("#sltTiposMarcacionesSalidaAsignacionSingle");
+    }
+    /**
+     * Se usa cualquier idUbicacionEntrada pero se puede usar también idUbicacionSalida de igual manera.
+     * @type {boolean}
+     */
+    var ok2 = verificaSobrePosicionDePerfiles(idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacionEntrada,fechaIni,fechaFin);
     if(ok2){
         ok=false;
         var msje = "Existe ya un registro de perfil con sobreposici&oacute;n de fechas con el perfil que intenta registrar para esta persona.";
@@ -924,12 +1003,18 @@ function validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,
 function limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion){
     var sufijo = "";
     if(accion==2)sufijo="";
+    
+    $("#divUbicacionesEntradaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorUbicacionesEntradaAsignacionSingle"+sufijo).html("");
 
-    $("#divUbicacionesAsignacionSingle"+sufijo).removeClass("has-error");
-    $("#helpErrorUbicacionesAsignacionSingle"+sufijo).html("");
+    $("#divUbicacionesSalidaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorUbicacionesSalidaAsignacionSingle"+sufijo).html("");
 
-    $("#divEstacionesAsignacionSingle"+sufijo).removeClass("has-error");
-    $("#helpErrorEstacionesAsignacionSingle"+sufijo).html("");
+    $("#divEstacionesEntradaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorEstacionesEntradaAsignacionSingle"+sufijo).html("");
+
+    $("#divEstacionesSalidaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorEstacionesSalidaAsignacionSingle"+sufijo).html("");
 
     $("#divFechaIniAsignacionSingle"+sufijo).removeClass("has-error");
     $("#helpErrorFechaIniAsignacionSingle"+sufijo).html("");
@@ -937,8 +1022,11 @@ function limpiarMensajesErrorPorValidacionAsignacionSinglePerfil(accion){
     $("#divFechaFinAsignacionSingle"+sufijo).removeClass("has-error");
     $("#helpErrorFechaFinAsignacionSingle"+sufijo).html("");
 
-    $("#divTiposMarcacionesAsignacionSingle"+sufijo).removeClass("has-error");
-    $("#helpErrorTiposMarcacionesAsignacionSingle"+sufijo).html("");
+    $("#divTiposMarcacionesEntradaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorTiposMarcacionesEntradaAsignacionSingle"+sufijo).html("");
+
+    $("#divTiposMarcacionesSalidaAsignacionSingle"+sufijo).removeClass("has-error");
+    $("#helpErrorTiposMarcacionesSalidaAsignacionSingle"+sufijo).html("");
 }
 
 /**
@@ -1331,11 +1419,11 @@ function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral
  */
 function cargarTiposMarcaciones(accion,tipoMarcacion){
     var selected = "";
-    var sufijo = "";
-    if(accion==2)sufijo="";
-    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).html("");
-    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).append("<option value='0' data-cant-nodos-hijos='0'>Seleccionar...</option>");
-    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",true);
+    var selector = "Entrada";
+    if(accion==2)selector="Salida";
+    $("#lstTiposMarcaciones"+selector+"AsignacionSingle").html("");
+    $("#lstTiposMarcaciones"+selector+"AsignacionSingle").append("<option value='-1' data-cant-nodos-hijos='0'>Seleccionar...</option>");
+    $("#lstTiposMarcaciones"+selector+"AsignacionSingle").prop("disabled",true);
     $.ajax({
         url: '/relaboralesperfiles/listtiposmarcaciones/',
         type: "POST",
@@ -1345,14 +1433,14 @@ function cargarTiposMarcaciones(accion,tipoMarcacion){
         success: function (data) {
             var res = jQuery.parseJSON(data);
             if (res.length > 0) {
-                $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",false);
+                $("#lstTiposMarcaciones"+selector+"AsignacionSingle").prop("disabled",false);
                 $.each(res, function (key, val) {
                     if(tipoMarcacion==val.tipo_marcacion){
                         selected = "selected";
                     }else selected="";
-                    $("#lstTiposMarcacionesAsignacionSingle"+sufijo).append("<option value='"+val.tipo_marcacion+"' "+selected+">"+val.tipo_marcacion_descripcion_html+"</option>");
+                    $("#lstTiposMarcaciones"+selector+"AsignacionSingle").append("<option value='"+val.tipo_marcacion+"' "+selected+">"+val.tipo_marcacion_descripcion_html+"</option>");
                 });
-            }else $("#lstTiposMarcacionesAsignacionSingle"+sufijo).prop("disabled",true);
+            }else $("#lstTiposMarcaciones"+selector+"AsignacionSingle").prop("disabled",true);
         }
     });
 }

@@ -228,7 +228,18 @@ class RelaboralesperfilesController extends ControllerBase{
                         'relaboralperfil_observacion' => $v->relaboralperfil_observacion,
                         'relaboralperfil_estado' => $v->relaboralperfil_estado,
                         'relaboralperfil_estado_descripcion' => ($v->relaboralperfil_id==null)?"SIN ASIGNACION":$v->relaboralperfil_estado_descripcion,
-                        'relaboralperfilmaquina_tipo_marcacion' => $v->relaboralperfilmaquina_tipo_marcacion
+                        'relaboralperfilmaquina_maquina_entrada_id' => $v->relaboralperfilmaquina_maquina_entrada_id,
+                        'relaboralperfilmaquina_tipo_marcacion_entrada' => $v->relaboralperfilmaquina_tipo_marcacion_entrada,
+                        'relaboralperfilmaquina_ubicacion_entrada_id' => $v->relaboralperfilmaquina_ubicacion_entrada_id,
+                        'relaboralperfilmaquina_ubicacion_entrada' => $v->relaboralperfilmaquina_ubicacion_entrada,
+                        'relaboralperfilmaquina_estacion_entrada_id' => $v->relaboralperfilmaquina_estacion_entrada_id,
+                        'relaboralperfilmaquina_estacion_entrada' => $v->relaboralperfilmaquina_estacion_entrada,
+                        'relaboralperfilmaquina_maquina_salida_id' => $v->relaboralperfilmaquina_maquina_salida_id,
+                        'relaboralperfilmaquina_tipo_marcacion_salida' => $v->relaboralperfilmaquina_tipo_marcacion_salida,
+                        'relaboralperfilmaquina_ubicacion_salida_id' => $v->relaboralperfilmaquina_ubicacion_salida_id,
+                        'relaboralperfilmaquina_ubicacion_salida' => $v->relaboralperfilmaquina_ubicacion_salida,
+                        'relaboralperfilmaquina_estacion_salida_id' => $v->relaboralperfilmaquina_estacion_salida_id,
+                        'relaboralperfilmaquina_estacion_salida' => $v->relaboralperfilmaquina_estacion_salida
                     );
                 }
             }
@@ -255,14 +266,16 @@ class RelaboralesperfilesController extends ControllerBase{
             $idRelaboralPerfil = $_POST["id"];
             $idRelaboral = $_POST["id_relaboral"];
             $idPerfilLaboral = $_POST['id_perfillaboral'];
-            $idUbicacion = $_POST['id_ubicacion'];
-            $tipoMarcacion = $_POST['tipo_marcacion'];
+            $idUbicacionEntrada = $_POST['id_ubicacion_entrada'];
+            $idUbicacionSalida = $_POST['id_ubicacion_salida'];
+            $tipoMarcacionEntrada = $_POST['tipo_marcacion_entrada'];
+            $tipoMarcacionSalida = $_POST['tipo_marcacion_salida'];
             $observacion = $_POST['observacion'];
-            if($idRelaboralPerfil>0&&$idPerfilLaboral>0&&$idRelaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacion>=0){
+            if($idRelaboralPerfil>0&&$idPerfilLaboral>0&&$idRelaboral>0&&$idUbicacionEntrada>0&&$idUbicacionSalida>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacionEntrada>=0&&$tipoMarcacionSalida>=0){
                 $objRelaboralPerfil = Relaboralesperfiles::findFirst(array("id=".$idRelaboralPerfil));
                 $objRelaboralPerfil->relaboral_id=$idRelaboral;
                 $objRelaboralPerfil->perfillaboral_id=$idPerfilLaboral;
-                $objRelaboralPerfil->ubicacion_id=$idUbicacion;
+                $objRelaboralPerfil->ubicacion_id=$idUbicacionEntrada;
                 $date1 = new DateTime($_POST['fecha_ini']);
                 $date2 = new DateTime($_POST['fecha_fin']);
                 $fechaIni = $date1->format('Y-m-d');
@@ -284,9 +297,14 @@ class RelaboralesperfilesController extends ControllerBase{
                          * Debido a la existencia de un sólo equipo biométrico por oficina central o estación para la primera versión del sistema se registra por defecto
                          * el equipo biométrico de acuerdo al lugar donde se encuentra.
                          */
-                        $objMaquina = Maquinas::findFirst(array("ubicacion_id=".$idUbicacion));
-                        if($objMaquina->id>0){
-                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina_id=".$objMaquina->id));
+                        $objMaquinaEntrada = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionEntrada));
+                        $objMaquinaSalida = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionSalida));
+                        if($objMaquinaEntrada->id>0&&$objMaquinaSalida->id>0){
+                            //$objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina__entrada_id=".$objMaquinaEntrada->id." AND maquina__salida_id=".$objMaquinaSalida->id));
+                            /**
+                             * Se establece la existencia de un sólo registro para una registro de marcación en máquina por registro de asignación de perfil.
+                             */
+                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id));
                             if($objRelaboralPerfilMaquinaAux!=null&&$objRelaboralPerfilMaquinaAux->id > 0){
                                 $objRelaboralPerfilMaquina = $objRelaboralPerfilMaquinaAux;
                                 $objRelaboralPerfilMaquina->user_mod_id=$user_mod_id;
@@ -297,8 +315,10 @@ class RelaboralesperfilesController extends ControllerBase{
                                 $objRelaboralPerfilMaquina->fecha_reg = $hoy;
                             }
                             $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
-                            $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
-                            $objRelaboralPerfilMaquina->tipo_marcacion = $tipoMarcacion;
+                            $objRelaboralPerfilMaquina->maquina_entrada_id = $objMaquinaEntrada->id;
+                            $objRelaboralPerfilMaquina->maquina_salida_id = $objMaquinaSalida->id;
+                            $objRelaboralPerfilMaquina->tipo_marcacion_entrada = $tipoMarcacionEntrada;
+                            $objRelaboralPerfilMaquina->tipo_marcacion_salida = $tipoMarcacionSalida;
                             $objRelaboralPerfilMaquina->estado=1;
                             $objRelaboralPerfilMaquina->baja_logica=1;
                             $objRelaboralPerfilMaquina->agrupador=0;
@@ -329,14 +349,16 @@ class RelaboralesperfilesController extends ControllerBase{
              */
             $idRelaboral = $_POST['id_relaboral'];
             $idPerfilLaboral = $_POST['id_perfillaboral'];
-            $idUbicacion = $_POST["id_ubicacion"];
+            $idUbicacionEntrada = $_POST["id_ubicacion_entrada"];
+            $idUbicacionSalida = $_POST["id_ubicacion_salida"];
             $fechaIni = $_POST['fecha_ini'];
             $fechaFin = $_POST['fecha_fin'];
-            $tipoMarcacion = $_POST['tipo_marcacion'];
+            $tipoMarcacionEntrada = $_POST['tipo_marcacion_entrada'];
+            $tipoMarcacionSalida = $_POST['tipo_marcacion_salida'];
             $observacion = $_POST['observacion'];
-            if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacion>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacion>=0){
-                $objAuxRelaboralPerfil = Relaboralesperfiles::findFirst(array("relaboral_id=".$idRelaboral." AND perfillaboral_id=".$idPerfilLaboral." AND ubicacion_id=".$idUbicacion." AND fecha_ini='".$fechaIni."' AND fecha_fin='".$fechaFin."' AND estado>=1 AND baja_logica=1"));
-                if($objAuxRelaboralPerfil==false){
+            if($idRelaboral>0&&$idPerfilLaboral>0&&$idUbicacionEntrada>0&&$idUbicacionEntrada>0&&$_POST['fecha_ini']!=''&&$_POST['fecha_fin']!=''&&$tipoMarcacionEntrada>=0&&$tipoMarcacionSalida>=0){
+                $objAuxRelaboralPerfil = Relaboralesperfiles::findFirst(array("relaboral_id=".$idRelaboral." AND perfillaboral_id=".$idPerfilLaboral." AND fecha_ini='".$fechaIni."' AND fecha_fin='".$fechaFin."' AND estado>=1 AND baja_logica=1"));
+                if(!is_object($objAuxRelaboralPerfil)){
                     $objRelaboralPerfil = new Relaboralesperfiles();
                     $objRelaboralPerfil->user_reg_id=$user_reg_id;
                     $objRelaboralPerfil->fecha_reg=$hoy;
@@ -354,7 +376,10 @@ class RelaboralesperfilesController extends ControllerBase{
                 }
                 $objRelaboralPerfil->relaboral_id = $idRelaboral;
                 $objRelaboralPerfil->perfillaboral_id=$idPerfilLaboral;
-                $objRelaboralPerfil->ubicacion_id=$idUbicacion;
+                /**
+                 * Este valor se almacena de forma previsoria, debido a que en un inicio no se requería especificar la máquina de marcación, sólo el lugar.
+                 */
+                $objRelaboralPerfil->ubicacion_id=$idUbicacionEntrada;
                 $date1 = new DateTime($_POST['fecha_ini']);
                 $date2 = new DateTime($_POST['fecha_fin']);
                 $fechaIni = $date1->format('Y-m-d');
@@ -370,9 +395,13 @@ class RelaboralesperfilesController extends ControllerBase{
                          * Debido a la existencia de un sólo equipo biométrico por oficina central o estación para la primera versión del sistema se registra por defecto
                          * el equipo biométrico de acuerdo al lugar donde se encuentra.
                          */
-                        $objMaquina = Maquinas::findFirst(array("ubicacion_id=".$idUbicacion));
-                        if($objMaquina->id>0){
-                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina_id=".$objMaquina->id));
+                        $objMaquinaEntrada = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionEntrada));
+                        $objMaquinaSalida = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionSalida));
+                        if($objMaquinaEntrada->id>0&&$objMaquinaSalida->id>0){
+                            /**
+                             * Se establece la existencia de un sólo registro para una registro de marcación en máquina por registro de asignación de perfil.
+                             */
+                            $objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id));
                             if($objRelaboralPerfilMaquinaAux!=null&&$objRelaboralPerfilMaquinaAux->id){
                                 $objRelaboralPerfilMaquina = $objRelaboralPerfilMaquinaAux;
                                 $objRelaboralPerfilMaquina->user_mod_id=$user_mod_id;
@@ -383,8 +412,10 @@ class RelaboralesperfilesController extends ControllerBase{
                                 $objRelaboralPerfilMaquina->fecha_reg = $hoy;
                             }
                             $objRelaboralPerfilMaquina->relaboralperfil_id = $objRelaboralPerfil->id;
-                            $objRelaboralPerfilMaquina->maquina_id = $objMaquina->id;
-                            $objRelaboralPerfilMaquina->tipo_marcacion = $tipoMarcacion;
+                            $objRelaboralPerfilMaquina->maquina_entrada_id = $objMaquinaEntrada->id;
+                            $objRelaboralPerfilMaquina->maquina_salida_id = $objMaquinaSalida->id;
+                            $objRelaboralPerfilMaquina->tipo_marcacion_entrada = $tipoMarcacionEntrada;
+                            $objRelaboralPerfilMaquina->tipo_marcacion_salida = $tipoMarcacionSalida;
                             $objRelaboralPerfilMaquina->estado=1;
                             $objRelaboralPerfilMaquina->baja_logica=1;
                             $objRelaboralPerfilMaquina->agrupador=0;
@@ -438,6 +469,7 @@ class RelaboralesperfilesController extends ControllerBase{
                 $objRelaboralesperfiles->user_mod_id = $user_mod_id;
                 $objRelaboralesperfiles->fecha_mod = $hoy;
                 if ($objRelaboralesperfiles->save()) {
+
                     /**
                      * Se modifica el estado del registro de relación laboral y perfil.
                      */

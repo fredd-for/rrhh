@@ -488,19 +488,23 @@ function guardaFormularioRegistroAsignacionGroupPerfilLaboral(accion,idPerfilLab
  * @param idRelaboralPerfil
  * @param idRelaboral
  * @param idPerfilLaboral
- * @param idUbicacion
- * @param idEstacion
+ * @param idUbicacionEntrada
+ * @param idUbicacionSalida
  * @param fechaIni
  * @param fechaFin
- * @param tipoMarcacion
+ * @param tipoMarcacionEntrada
+ * @param tipoMarcacionSalida
  * @param observacion
  */
-function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,tipoMarcacion,observacion){
+function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacionEntrada,idEstacionEntrada,idUbicacionSalida,idEstacionSalida,fechaIni,fechaFin,tipoMarcacionEntrada,tipoMarcacionSalida,observacion){
     var ok = false;
-    if(idEstacion>0){
-        idUbicacion = idEstacion;
+    if(idEstacionEntrada>0){
+        idUbicacionEntrada = idEstacionEntrada;
     }
-    if(idRelaboral>0&&idPerfilLaboral>0&&idUbicacion>0&&fechaIni!=''&&fechaFin!=''){
+    if(idEstacionSalida>0){
+        idUbicacionSalida = idEstacionSalida;
+    }
+    if(idRelaboral>0&&idPerfilLaboral>0&&idUbicacionEntrada>0&&idUbicacionSalida>0&&fechaIni!=''&&fechaFin!=''){
         $.ajax({
             url: '/relaboralesperfiles/save/',
             type: "POST",
@@ -511,10 +515,12 @@ function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelabo
                 id: idRelaboralPerfil,
                 id_relaboral:idRelaboral,
                 id_perfillaboral:idPerfilLaboral,
-                id_ubicacion:idUbicacion,
+                id_ubicacion_entrada:idUbicacionEntrada,
+                id_ubicacion_salida:idUbicacionSalida,
                 fecha_ini:fechaIni,
                 fecha_fin:fechaFin,
-                tipo_marcacion:tipoMarcacion,
+                tipo_marcacion_entrada:tipoMarcacionEntrada,
+                tipo_marcacion_salida:tipoMarcacionSalida,
                 observacion:observacion,
                 opcion:opcion
             },
@@ -526,10 +532,8 @@ function guardaRegistroAsignacionPerfilLaboral(opcion,idRelaboralPerfil,idRelabo
                 if (res.result == 1) {
                     ok = true;
                 }else{
-                    ok = false;
-                    var msje = res.msj;
                     $("#divMsjePorError").html("");
-                    $("#divMsjePorError").append(msje);
+                    $("#divMsjePorError").append(res.msj);
                     $("#divMsjeNotificacionError").jqxNotification("open");
                 }
             }

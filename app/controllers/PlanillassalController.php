@@ -205,6 +205,14 @@ class PlanillassalController extends ControllerBase{
                 foreach ($resul as $v) {
                     $planillassal[] = array(
                         'id_relaboral'=>$v->id_relaboral,
+                        'cargo'=>$v->cargo,
+                        'gerencia_administrativa'=>$v->gerencia_administrativa,
+                        'departamento_administrativo'=>$v->departamento_administrativo,
+                        'area'=>$v->area,
+                        'ubicacion'=>$v->ubicacion,
+                        'fin_partida'=>$v->fin_partida,
+                        'id_procesocontratacion'=>$v->id_procesocontratacion,
+                        'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
                         'nombres'=>$v->nombres,
                         'ci'=>$v->ci,
                         'expd'=>$v->expd,
@@ -220,6 +228,8 @@ class PlanillassalController extends ControllerBase{
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'cargo'=>$v->cargo,
+                        'total_descuentos'=>$v->total_descuentos,
+                        'aporte_laboral_afp'=>$v->aporte_laboral_afp,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'estado'=>$v->estado,
@@ -316,7 +326,7 @@ class PlanillassalController extends ControllerBase{
                             $descuento->abandono = $v->abandono;
                             $descuento->omision = $v->omision;
                             $descuento->retencion = $v->retencion;
-                            $descuento->total_descuentos = 0;
+                            $descuento->total_descuentos = $v->total_descuentos;
                             $descuento->otros = $v->otros;
                             $descuento->estado = 1;
                             $descuento->baja_logica=1;
@@ -404,9 +414,18 @@ class PlanillassalController extends ControllerBase{
                 foreach ($resul as $v) {
                     $planillassal[] = array(
                         'id_relaboral'=>$v->id_relaboral,
+                        'cargo'=>$v->cargo,
+                        'gerencia_administrativa'=>$v->gerencia_administrativa,
+                        'departamento_administrativo'=>$v->departamento_administrativo,
+                        'area'=>$v->area,
+                        'ubicacion'=>$v->ubicacion,
+                        'fin_partida'=>$v->fin_partida,
+                        'id_procesocontratacion'=>$v->id_procesocontratacion,
+                        'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
                         'nombres'=>$v->nombres,
                         'ci'=>$v->ci,
                         'expd'=>$v->expd,
+                        'nivel_salarial'=>$v->nivel_salarial,
                         'sueldo'=>str_replace(".00","",$v->sueldo),
                         'dias_efectivos'=>$v->dias_efectivos,
                         'faltas'=>$v->faltas,
@@ -416,9 +435,10 @@ class PlanillassalController extends ControllerBase{
                         'omision'=>$v->omision,
                         'abandono'=>$v->abandono,
                         'otros'=>$v->otros,
+                        'aporte_laboral_afp'=>$v->aporte_laboral_afp,
+                        'total_descuentos'=>$v->total_descuentos,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
-                        'cargo'=>$v->cargo,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'estado'=>$v->estado,
@@ -607,11 +627,18 @@ class PlanillassalController extends ControllerBase{
          */
         $generalConfigForAllColumns = array(
             'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
-            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>true),
-            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>true),
-            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>false),
+            'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'dias_efectivos' => array('title' => 'Dias Efec.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
@@ -619,8 +646,9 @@ class PlanillassalController extends ControllerBase{
             'abandono' => array('title' => 'Abandono', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'faltas' => array('title' => 'Faltas', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'atrasos' => array('title' => 'Atrasos', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'faltas_atrasos' => array('title' => 'F. & A.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'otros' => array('title' => 'Otros', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'total_descuentos' => array('title' => 'Total Desc.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'aporte_laboral_afp' => array('title' => 'Aporte AFP', 'width' => 10, 'align' => 'R', 'type' => 'varchar','totales'=>true),
             'total_ganado' => array('title' => 'T. Ganado', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'total_liquido' => array('title' => 'T. Liquido', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true)
         );
@@ -647,6 +675,7 @@ class PlanillassalController extends ControllerBase{
             $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
             $colTitleSelecteds = $excel->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTotalSelecteds = $excel->DefineSelectedTotalColsWithExclude($generalConfigForAllColumns, $columns, $agruparPor);
             $alignTitleSelecteds = $excel->DefineTitleAligns(count($colTitleSelecteds));
             $formatTypes = $excel->DefineTypeCols($generalConfigForAllColumns, $columns, $agruparPor);
             $gruposSeleccionadosActuales = $excel->DefineDefaultValuesForGroups($groups);
@@ -929,15 +958,24 @@ class PlanillassalController extends ControllerBase{
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
-            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalGanado = $totalLiquido = $totalCompensacion = 0;
+            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
             $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesplanillas = array();
             foreach ($resul as $v) {
                 $relaboralesplanillas[] = array(
                     'id_relaboral'=>$v->id_relaboral,
+                    'cargo'=>$v->cargo,
+                    'gerencia_administrativa'=>$v->gerencia_administrativa,
+                    'departamento_administrativo'=>$v->departamento_administrativo,
+                    'area'=>$v->area,
+                    'ubicacion'=>$v->ubicacion,
+                    'fin_partida'=>$v->fin_partida,
+                    'id_procesocontratacion'=>$v->id_procesocontratacion,
+                    'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
                     'nombres'=>$v->nombres,
                     'ci'=>$v->ci,
                     'expd'=>$v->expd,
+                    'nivel_salarial'=>$v->nivel_salarial,
                     'sueldo'=>str_replace(".00","",$v->sueldo),
                     'dias_efectivos'=>$v->dias_efectivos,
                     'faltas'=>$v->faltas,
@@ -947,15 +985,16 @@ class PlanillassalController extends ControllerBase{
                     'omision'=>$v->omision,
                     'abandono'=>$v->abandono,
                     'otros'=>$v->otros,
+                    'aporte_laboral_afp'=>$v->aporte_laboral_afp,
+                    'total_descuentos'=>$v->total_descuentos,
                     'total_ganado'=>$v->total_ganado,
                     'total_liquido'=>$v->total_liquido,
-                    'cargo'=>$v->cargo,
                     'total_ganado'=>$v->total_ganado,
                     'total_liquido'=>$v->total_liquido,
                     'estado'=>$v->estado,
                     'estado_descripcion'=>$v->estado_descripcion
                 );
-                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
                 if($v->sueldo!=''){
                     $haber=$v->sueldo;
                 }
@@ -980,6 +1019,12 @@ class PlanillassalController extends ControllerBase{
                 if($v->faltas_atrasos!=''){
                     $faltasAtrasos=$v->faltas_atrasos;
                 }
+                if($v->total_descuentos!=''){
+                    $totalDescuentos=$v->total_descuentos;
+                }
+                if($v->aporte_laboral_afp!=''){
+                    $aporteLaboralAfp=$v->aporte_laboral_afp;
+                }
                 if($v->otros!=''){
                     $otros=$v->otros;
                 }
@@ -997,11 +1042,25 @@ class PlanillassalController extends ControllerBase{
                 $totalFaltas += $faltas;
                 $totalAtrasos += $atrasos;
                 $totalFaltasAtrasos += $faltasAtrasos;
+                $totalTotalDescuentos += $totalDescuentos;
+                $totalAporteLaboralAFP += $aporteLaboralAfp;
                 $totalOtros += $otros;
                 $totalGanado += $ganado;
                 $totalLiquido += $liquido;
             }
-            $arrTotales = array("","","","","Totales:","",$totalHaberes,$totalDiasEfectivos,$totalLsgh,$totalOmision,$totalAbandono,$totalFaltas,$totalAtrasos,$totalFaltasAtrasos,$totalOtros,$totalGanado,$totalLiquido);
+            $arrTodosTotales = array("sueldo"=>$totalHaberes,
+                "dias_efectivos"=>$totalDiasEfectivos,
+                "lsgh"=>$totalLsgh,
+                "omision"=>$totalOmision,
+                "abandono"=>$totalAbandono,
+                "faltas"=>$totalFaltas,
+                "atrasos"=>$totalAtrasos,
+                "total_descuentos"=>$totalTotalDescuentos,
+                "aporte_laboral_afp"=>$totalAporteLaboralAFP,
+                "otros"=>$totalOtros,
+                "total_ganado"=>$totalGanado,
+                "total_liquido"=>$totalLiquido);
+            $arrTotales = $excel->generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales);
             #region Espacio para la definición de valores para la cabecera de la tabla
             $excel->FechaHoraReporte = date("d-m-Y H:i:s");
             $j = 0;
@@ -1082,13 +1141,16 @@ class PlanillassalController extends ControllerBase{
                     }
                     $j++;
                 }
-                $celdacolores = array();
-                foreach($arrTotales as $clave=>$valor){
-                    $celdacolores[$clave] = "87CEEB";
+                if(count($arrTotales)>0){
+                    $celdacolores = array();
+                    foreach($arrTotales as $clave=>$valor){
+                        $celdacolores[$clave] = "87CEEB";
+                        $alignSelectedsTotals[] = "R";
+                    }
+                    $excel->Row($arrTotales,$alignSelectedsTotals,$formatTypes,$fila,$celdacolores,false);
+                    $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                    $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
                 }
-                $excel->Row($arrTotales,$alignSelecteds,$formatTypes,$fila,$celdacolores,false);
-                $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
-                $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
             }
             $excel->ShowLeftFooter = true;
             if ($excel->debug == 0) {
@@ -1178,22 +1240,30 @@ class PlanillassalController extends ControllerBase{
          */
         $generalConfigForAllColumns = array(
             'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
-            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>true),
-            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>true),
-            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>false),
+            'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'dias_efectivos' => array('title' => 'D. Efec.', 'width' => 13, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'dias_efectivos' => array('title' => 'Dias Efec.', 'width' => 20, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'omision' => array('title' => 'Omision', 'width' => 14, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'abandono' => array('title' => 'Abandono', 'width' => 16, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'faltas' => array('title' => 'Faltas', 'width' => 12, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'atrasos' => array('title' => 'Atrasos', 'width' => 13, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'faltas_atrasos' => array('title' => 'F & A', 'width' => 12, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'otros' => array('title' => 'Otros', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'total_ganado' => array('title' => 'T. Ganado', 'width' => 16, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'total_liquido' => array('title' => 'T. Liquido', 'width' => 16, 'align' => 'R', 'type' => 'numeric','totales'=>true)
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'atrasos' => array('title' => 'Atrasos', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'otros' => array('title' => 'Otros', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'total_descuentos' => array('title' => 'T. Desc.', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'aporte_laboral_afp' => array('title' => 'AFP', 'width' => 15, 'align' => 'R', 'type' => 'varchar','totales'=>true),
+            'total_ganado' => array('title' => 'T. Gan.', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'total_liquido' => array('title' => 'T. Liq.', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
         $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
@@ -1227,6 +1297,7 @@ class PlanillassalController extends ControllerBase{
             $pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
             $alignSelecteds = $pdf->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $pdf->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTotalSelecteds = $pdf->DefineSelectedTotalColsWithExclude($generalConfigForAllColumns, $columns, $agruparPor);
             $colTitleSelecteds = $pdf->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
             $alignTitleSelecteds = $pdf->DefineTitleAligns(count($colTitleSelecteds));
             $gruposSeleccionadosActuales = $pdf->DefineDefaultValuesForGroups($groups);
@@ -1495,15 +1566,24 @@ class PlanillassalController extends ControllerBase{
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
-            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalGanado = $totalLiquido = $totalCompensacion = 0;
+            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
             $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesPlanillas = array();
             foreach ($resul as $v) {
                 $relaboralesPlanillas[] = array(
                     'id_relaboral'=>$v->id_relaboral,
+                    'cargo'=>$v->cargo,
+                    'gerencia_administrativa'=>$v->gerencia_administrativa,
+                    'departamento_administrativo'=>$v->departamento_administrativo,
+                    'area'=>$v->area,
+                    'ubicacion'=>$v->ubicacion,
+                    'fin_partida'=>$v->fin_partida,
+                    'id_procesocontratacion'=>$v->id_procesocontratacion,
+                    'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
                     'nombres'=>$v->nombres,
                     'ci'=>$v->ci,
                     'expd'=>$v->expd,
+                    'nivel_salarial'=>$v->nivel_salarial,
                     'sueldo'=>str_replace(".00","",$v->sueldo),
                     'dias_efectivos'=>$v->dias_efectivos,
                     'faltas'=>$v->faltas,
@@ -1513,15 +1593,16 @@ class PlanillassalController extends ControllerBase{
                     'omision'=>$v->omision,
                     'abandono'=>$v->abandono,
                     'otros'=>$v->otros,
+                    'aporte_laboral_afp'=>$v->aporte_laboral_afp,
+                    'total_descuentos'=>$v->total_descuentos,
                     'total_ganado'=>$v->total_ganado,
                     'total_liquido'=>$v->total_liquido,
-                    'cargo'=>$v->cargo,
                     'total_ganado'=>$v->total_ganado,
                     'total_liquido'=>$v->total_liquido,
                     'estado'=>$v->estado,
                     'estado_descripcion'=>$v->estado_descripcion
                 );
-                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
                 if($v->sueldo!=''){
                     $haber=$v->sueldo;
                 }
@@ -1546,6 +1627,12 @@ class PlanillassalController extends ControllerBase{
                 if($v->faltas_atrasos!=''){
                     $faltasAtrasos=$v->faltas_atrasos;
                 }
+                if($v->total_descuentos!=''){
+                    $totalDescuentos=$v->total_descuentos;
+                }
+                if($v->aporte_laboral_afp!=''){
+                    $aporteLaboralAfp=$v->aporte_laboral_afp;
+                }
                 if($v->otros!=''){
                     $otros=$v->otros;
                 }
@@ -1563,12 +1650,25 @@ class PlanillassalController extends ControllerBase{
                 $totalFaltas += $faltas;
                 $totalAtrasos += $atrasos;
                 $totalFaltasAtrasos += $faltasAtrasos;
+                $totalTotalDescuentos += $totalDescuentos;
+                $totalAporteLaboralAFP += $aporteLaboralAfp;
                 $totalOtros += $otros;
                 $totalGanado += $ganado;
                 $totalLiquido += $liquido;
             }
-            $arrTotales = array("","","","","Totales:","",$totalHaberes,$totalDiasEfectivos,$totalLsgh,$totalOmision,$totalAbandono,$totalFaltas,$totalAtrasos,$totalFaltasAtrasos,$totalOtros,$totalGanado,$totalLiquido);
-            //$pdf->Open("L");
+            $arrTodosTotales = array("sueldo"=>$totalHaberes,
+                "dias_efectivos"=>$totalDiasEfectivos,
+                "lsgh"=>$totalLsgh,
+                "omision"=>$totalOmision,
+                "abandono"=>$totalAbandono,
+                "faltas"=>$totalFaltas,
+                "atrasos"=>$totalAtrasos,
+                "total_descuentos"=>$totalTotalDescuentos,
+                "aporte_laboral_afp"=>$totalAporteLaboralAFP,
+                "otros"=>$totalOtros,
+                "total_ganado"=>$totalGanado,
+                "total_liquido"=>$totalLiquido);
+            $arrTotales = $pdf->generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales);
             /**
              * Si el ancho supera el establecido para una hoja tamaño carta, se la pone en posición horizontal
              */

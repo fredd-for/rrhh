@@ -96,7 +96,21 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
                         }else dentroRango=0;
                     }
                     break;
-                case "d":break;
+                case "b":
+                   /* contadorEventos++;
+                    var fechaIni = fechaConvertirAFormato(evento.start,'-');
+                    var fechaFin = "";
+                    if(evento.start!=null&&evento.end==null){
+                        fechaFin = fechaConvertirAFormato(evento.start,'-');
+                    }
+                    else fechaFin = fechaConvertirAFormato(evento.end,'-');
+                    var arrfechaIni = fechaIni.split("-");
+                    mesIni = arrfechaIni[1];
+                    var arrfechaFin = fechaFin.split("-");
+                    mesFin = arrfechaFin[1];
+                    arrMeses.push(mesIni);
+                    arrMeses.push(mesFin);*/
+                    break;
             }
             if(dentroRango==1){
                 $("#divProgressBar").show();

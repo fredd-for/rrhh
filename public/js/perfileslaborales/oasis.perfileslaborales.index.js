@@ -44,6 +44,7 @@ $().ready(function () {
         var ok = validaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
             if (ok) {
                 setTimeout(function() {
+                    $("#divProgressBar").hide();
                 var okk = guardaFormularioRegistroCalendario(1,idPerfilLaboral,tipoHorario,fechaIni,fechaFin);
                 if(okk){
                     setTimeout(function() {

@@ -28,31 +28,27 @@ $().ready(function () {
         if(accion==2){
             idRelaboralPerfil = $("#hdnIdRelaboralPerfilAsignacionSinglePerfil").val();
         }
-        var idUbicacion = $("#lstUbicacionesAsignacionSingle").val();
-        var idEstacion = $("#lstEstacionesAsignacionSingle").val();
+        var idUbicacionEntrada = $("#lstUbicacionesEntradaAsignacionSingle").val();
+        var idUbicacionSalida = $("#lstUbicacionesSalidaAsignacionSingle").val();
+        var idEstacionEntrada = $("#lstEstacionesEntradaAsignacionSingle").val();
+        var idEstacionSalida = $("#lstEstacionesSalidaAsignacionSingle").val();
         var fechaIni = $("#txtFechaIniAsignacionSingle").val();
         var fechaFin = $("#txtFechaFinAsignacionSingle").val();
-        var tipoMarcacion = $("#lstTiposMarcacionesAsignacionSingle").val();
+        var tipoMarcacionEntrada = $("#lstTiposMarcacionesEntradaAsignacionSingle").val();
+        var tipoMarcacionSalida = $("#lstTiposMarcacionesSalidaAsignacionSingle").val();
         var observacion = $("#txtObservacionAsignacionSingle").val();
-        var ok = validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,fechaIni,fechaFin);
+        var ok = validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,fechaIni,fechaFin);
         if(ok){
-            var okk = guardaRegistroAsignacionPerfilLaboral(1,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacion,idEstacion,fechaIni,fechaFin,tipoMarcacion,observacion);
+            var okk = guardaRegistroAsignacionPerfilLaboral(1,idRelaboralPerfil,idRelaboral,idPerfilLaboral,idUbicacionEntrada,idEstacionEntrada,idUbicacionSalida,idEstacionSalida,fechaIni,fechaFin,tipoMarcacionEntrada,tipoMarcacionSalida,observacion);
             if(okk){
                 $('#popupAsignacionPerfilLaboral').modal('hide');
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('enableAt', 1);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs({selectedItem: 1});
-
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 2);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 3);
-                $('#jqxTabsAsignacionPerfiles').jqxTabs('disableAt', 4);
-
                 $("#divGrillaAsignacionesIndividuales").jqxGrid("updatebounddata");
-                var msje = "";
-                if(accion==1) msje = "Registro de exitoso de la asignaci&oacute;n de Perfil.";
-                else msje = "Modificaci&oacute;n exitosa del registro de Perfil.";
 
+                var msj = "Registro exitos de la asignaci&oacute;n.";
+                if(accion==1)msj = "Registro exitoso de la asignaci&oacute;n.";
+                else msj = "Modificaci&oacute;n exitosa de la asignaci&oacute;n.";
                 $("#divMsjePorSuccess").html("");
-                $("#divMsjePorSuccess").append(msje);
+                $("#divMsjePorSuccess").append(msj);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");
             }
         }

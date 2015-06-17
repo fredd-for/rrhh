@@ -127,11 +127,16 @@ $().ready(function () {
         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'PlanillaSalPrevia');
     });
     $("#btnExportarViewExcel").on("click",function () {
+        var items = $("#divPlanilllaSalViewListBox").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
         var idPlanillaSal = $("#hdnIdPlanillaSal").val();
-        if(idPlanillaSal>0){
+        if(idPlanillaSal>0&&numColumnas > 0){
             exportarReporte(1,idPlanillaSal);
         }else {
-            alert("Debe seleccionar una planilla.");
+            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
         }
     });
     $("#btnExportarViewPDF").on("click",function () {

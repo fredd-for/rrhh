@@ -82,9 +82,16 @@ class exceloasis extends PHPExcel{
         $this->getActiveSheet()->getStyle('B1:B3')->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_BLUEMITELEFERICO);
 
         #region Combinación de celdas para la cabecera (3 primeras filas)
-        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'1:'.$this->penultimaLetraCabeceraTabla.'1');
-        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'2:'.$this->penultimaLetraCabeceraTabla.'2');
-        $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'3:'.$this->penultimaLetraCabeceraTabla.'3');
+        $key1 = array_search($this->segundaLetraCabeceraTabla, $this->columnasExcel);
+        $key2 = array_search($this->ultimaLetraCabeceraTabla, $this->columnasExcel);
+        if($key1<$key2){
+            /**
+             * En caso de que sólo se muestre una columna.
+             */
+            $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'1:'.$this->penultimaLetraCabeceraTabla.'1');
+            $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'2:'.$this->penultimaLetraCabeceraTabla.'2');
+            $this->getActiveSheet()->mergeCells($this->segundaLetraCabeceraTabla.'3:'.$this->penultimaLetraCabeceraTabla.'3');
+        }
         #endregion Combinación de celdas para la cabecera (3 primeras filas)
 
         #region Centrando los dos líneas que corresponden a las cabeceras.
@@ -416,6 +423,19 @@ class exceloasis extends PHPExcel{
      * @return array
      */
     function DefineCols($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        $arrRes[]="nro_row";
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$key;
+                }
+            }
+        }
+        return $arrRes;
+    }
+    function DefineTotalCols($widthAlignAll,$columns,$exclude=array()){
         $arrRes = Array();
         $arrRes[]="nro_row";
         foreach($columns as $key => $val){
@@ -780,6 +800,26 @@ class exceloasis extends PHPExcel{
         $this->setActiveSheetIndex(0);
 
     }
+
+    /**
+     * Función para obtener las columnas establecidas para el cálculo de totales y seleccionadas para aparecer.
+     * @param $generalConfigForAllColumns
+     * @param $columns
+     * @param array $exclude
+     * @return array
+     */
+    function DefineSelectedTotalColsWithExclude($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if((!isset($val['hidden'])||$val['hidden']!=true)&&$widthAlignAll[$key]["totales"]===true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$key;
+                }
+            }
+        }
+        return $arrRes;
+    }
     /**
      * Función para conocer el listado de columnas para el resumen de totales
      * @param $generalConfigForAllColumns
@@ -810,6 +850,40 @@ class exceloasis extends PHPExcel{
             }
         }
         return $arrRes;
+    }
+    /**
+     * Función para la obtención de la fila que contiene los totales
+     * @param $colSelecteds
+     * @param $colTotalSelecteds
+     * @param $arrTodosTotales
+     * @return array
+     */
+    public function generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales){
+        $arrTotales = array();
+        $sw = 0;
+        $clave = -1;
+        if(count($colSelecteds)>0&&count($colTotalSelecteds)>0){
+            foreach($colSelecteds as $val){
+                if(in_array($val,$colTotalSelecteds)){
+                    //echo "$val<------>".$colTotalSelecteds[$val]."&&".in_array($val,$colTotalSelecteds);
+                    $arrTotales [] = $arrTodosTotales[$val];
+                    $sw=1;
+                }else{
+                    $arrTotales [] = '';
+                }
+                if($sw==0){
+                    $clave++;
+                }
+            }
+            if($sw==1){
+                if($clave>=0){
+                    $arrTotales[$clave]="Totales:";
+                }
+            }else{
+                $arrTotales = array();
+            }
+        }
+        return $arrTotales;
     }
     #endregion nuevas funciones
 }

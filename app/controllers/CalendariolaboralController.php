@@ -46,7 +46,7 @@ class CalendariolaboralController extends ControllerBase
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
                     $cantDias = $this->compararFechas($fecha_hoy,date("d-m-Y", strtotime($v->calendario_fecha_fin)));
-                    if($cantDias>0){
+                    if($cantDias>=0){
                         $nuevo = $obj->n;
                         $ver = $obj->v;
                         $editar = $obj->e;

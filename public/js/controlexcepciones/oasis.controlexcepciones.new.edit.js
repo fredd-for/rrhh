@@ -84,6 +84,7 @@ function cargaListaDeExcepciones(opcion,idExcepcion){
     $("#lstExcepcion"+sufijo).html("");
     $("#lstExcepcion"+sufijo).append("<option value=''>Seleccionar..</option>");
     $("#lstExcepcion"+sufijo).prop("disabled",true);
+    var frecuencia = "";
     $.ajax({
         url: '/excepciones/list/',
         type: "POST",
@@ -97,7 +98,9 @@ function cargaListaDeExcepciones(opcion,idExcepcion){
                 $.each( res, function( key, val ) {
                     if(idExcepcion==val.id){selected="selected";
                     }else selected="";
-                    $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.excepcion+"</option>");
+                    if(val.frecuencia_descripcion!=''&&val.frecuencia_descripcion!=null)frecuencia = "(M&Aacute;XIMO "+val.frecuencia_descripcion+")";
+                    else frecuencia = "";
+                    $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+">"+val.excepcion+" "+frecuencia+"</option>");
                 });
             }
         }, //mostramos el error

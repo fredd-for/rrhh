@@ -18,11 +18,19 @@ function mostrarPlanilla(idPlanillaSal){
             {name: 'nro_row', type: 'integer'},
             {name: 'chk', type: 'bool'},
             {name: 'id_relaboral', type: 'integer'},
+            {name: 'gerencia_administrativa', type: 'string'},
+            {name: 'departamento_administrativo', type: 'string'},
+            {name: 'area', type: 'string'},
+            {name: 'ubicacion', type: 'string'},
+            {name: 'fin_partida', type: 'string'},
+            {name: 'procesocontratacion_codigo', type: 'string'},
+            {name: 'area', type: 'string'},
             {name: 'cargo', type: 'string'},
             {name: 'nombres', type: 'string'},
             {name: 'ci', type: 'string'},
             {name: 'expd', type: 'string'},
             {name: 'cargo', type: 'string'},
+            {name: 'nivel_salarial', type: 'string'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
@@ -32,6 +40,8 @@ function mostrarPlanilla(idPlanillaSal){
             {name: 'omision', type: 'numeric'},
             {name: 'abandono', type: 'numeric'},
             {name: 'otros', type: 'numeric'},
+            {name: 'aporte_laboral_afp', type: 'numeric'},
+            {name: 'total_descuentos', type: 'numeric'},
             {name: 'total_ganado', type: 'numeric'},
             {name: 'total_liquido', type: 'numeric'},
             {name: 'estado', type: 'string'},
@@ -82,12 +92,64 @@ function mostrarPlanilla(idPlanillaSal){
                          }]
                     },
                     {
+                        text: 'Gerencia',
+                        filtertype: 'checkedlist',
+                        datafield: 'gerencia_administrativa',
+                        width: 150,
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
+                        text: 'Departamento',
+                        filtertype: 'checkedlist',
+                        datafield: 'departamento_administrativo',
+                        width: 150,
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
+                        text: '&Aacute;rea',
+                        filtertype: 'checkedlist',
+                        datafield: 'area',
+                        width: 100,
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
+                        text: 'Ubicaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'ubicacion',
+                        width: 150,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
+                        text: 'Fuente',
+                        filtertype: 'checkedlist',
+                        datafield: 'fin_partida',
+                        width: 150,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
+                        text: 'Proceso',
+                        filtertype: 'checkedlist',
+                        datafield: 'procesocontratacion_codigo',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: true
+                    },
+                    {
                         text: 'Cargo',
                         filtertype: 'checkedlist',
                         datafield: 'cargo',
                         width: 100,
                         cellsalign: 'justify',
-                        align: 'center'
+                        align: 'center',
+                        hidden: true
                     },
                     {
                         text: 'Estado',
@@ -96,12 +158,13 @@ function mostrarPlanilla(idPlanillaSal){
                         width: 70,
                         cellsalign: 'center',
                         align: 'center',
-                        cellclassname: cellclass
+                        cellclassname: cellclass,
+                        hidden: true
                     },
                     {
-                        text: 'Nombres',
+                        text: 'Nombres y Apellidos',
                         datafield: 'nombres',
-                        width: 100,
+                        width: 150,
                         cellsalign: 'justify',
                         align: 'center'
                     },
@@ -123,6 +186,14 @@ function mostrarPlanilla(idPlanillaSal){
                         width: 30,
                         cellsalign: 'center',
                         align: 'center'
+                    },
+                    {
+                        text: 'Nivel Salarial',
+                        filtertype: 'checkedlist',
+                        datafield: 'nivel_salarial',
+                        width: 220,
+                        align: 'center',
+                        hidden: true
                     },
                     {
                         text: 'Haber',
@@ -249,24 +320,6 @@ function mostrarPlanilla(idPlanillaSal){
                         }]
                     },
                     {
-                        text: 'F. & A.',
-                        filtertype: 'checkedlist',
-                        datafield: 'faltas_atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['faltas_atrasos'])){
-                                    total = Number(parseFloat(record['faltas_atrasos']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
-                    },
-                    {
                         text: 'Otros',
                         filtertype: 'checkedlist',
                         datafield: 'otros',
@@ -279,6 +332,41 @@ function mostrarPlanilla(idPlanillaSal){
                                 var total = 0;
                                 if(!isNaN(record['otros'])){
                                     total = Number(parseFloat(record['otros']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
+                    },
+                    {
+                        text: 'Total',
+                        filtertype: 'checkedlist',
+                        datafield: 'total_descuentos',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoMonetario',
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['total_descuentos'])){
+                                    total = Number(parseFloat(record['total_descuentos']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
+                    },
+                    {
+                        text: 'Aporte AFP',
+                        filtertype: 'checkedlist',
+                        datafield: 'aporte_laboral_afp',
+                        width: 90,
+                        align: 'center',
+                        cellsalign: 'right',
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['aporte_laboral_afp'])){
+                                    total = Number(parseFloat(record['aporte_laboral_afp']));
                                 }
                                 return aggregatedValue + total;
                             }
@@ -321,11 +409,50 @@ function mostrarPlanilla(idPlanillaSal){
                 ],
                 columngroups:
                     [
-                        { text: 'Descuento en D&iacute;as', align: 'center', name: 'DescuentoDias' },
-                        { text: 'Descuento en Bs.', align: 'center', name: 'DescuentoMonetario' }
+                        { text: 'Descuentos en D&iacute;as', align: 'center', name: 'DescuentoDias' },
+                        { text: 'Descuentos en Bs.', align: 'center', name: 'DescuentoMonetario' }
                     ]
             });
+        var listSource = [
+            {label: 'Gerencia', value: 'gerencia_administrativa', checked: false},
+            {label: 'Departamento', value: 'departamento_administrativo', checked: false},
+            {label: '&Aacute;rea', value: 'area', checked: false},
+            {label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: false},
+            {label: 'Fuente', value: 'fin_partida', checked: false},
+            {label: 'proceso', value: 'proceso_codigo', checked: false},
+            {label: 'Cargo', value: 'cargo', checked: false},
+            {label: 'Estado', value: 'estado_descripcion', checked: false},
+            {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
+            {label: 'CI', value: 'ci', checked: true},
+            {label: 'Exp', value: 'expd', checked: true},
+            {label: 'Nivel Salarial', value: 'nivel_salarial', checked: false},
+            {label: 'Haber', value: 'sueldo', checked: true},
+            {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
+            {label: 'LSGHs', value: 'lsgh', checked: true},
+            {label: 'Omisi&oacute;n', value: 'omision', checked: true},
+            {label: 'Abandono', value: 'abandono', checked: true},
+            {label: 'Faltas', value: 'faltas', checked: true},
+            {label: 'Atrasos', value: 'atrasos', checked: true},
+            {label: 'Otros', value: 'otros', checked: true},
+            {label: 'Total Desc.', value: 'total_descuentos', checked: true},
+            {label: 'Aporte AFP', value: 'aporte_laboral_afp', checked: true},
+            {label: 'Total Ganado', value: 'total_ganado', checked: true},
+            {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true}
+        ];
+
+        $("#divPlanilllaSalViewListBox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#divPlanilllaSalViewListBox").on('checkChange', function (event) {
+            $("#divGridPlanillasSalView").jqxGrid('beginupdate');
+            if (event.args.checked) {
+                $("#divGridPlanillasSalView").jqxGrid('showcolumn', event.args.value);
+            }
+            else {
+                $("#divGridPlanillasSalView").jqxGrid('hidecolumn', event.args.value);
+            }
+            $("#divGridPlanillasSalView").jqxGrid('endupdate');
+        });
         $('#divGridPlanillasSalView').off();
+
         /**
          * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
          */

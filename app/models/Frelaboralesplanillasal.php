@@ -31,6 +31,8 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public $cargo;
     public $sueldo;
     public $convocatoria_tipo;
+    public $id_procesocontratacion;
+    public $procesocontratacion_codigo;
     public $id_finpartida;
     public $fin_partida;
     public $id_condicion;
@@ -97,6 +99,8 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
         'cargo'=>'cargo',
         'sueldo'=>'sueldo',
         'convocatoria_tipo'=>'convocatoria_tipo',
+        'id_procesocontratacion'=>'id_procesocontratacion',
+        'procesocontratacion_codigo'=>'procesocontratacion_codigo',
         'id_finpartida'=>'id_finpartida',
         'fin_partida'=>'fin_partida',
         'id_condicion'=>'id_condicion',
@@ -141,9 +145,9 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public function desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
         if($gestion>0&&$mes>0&&$idFinPartida>0){
             if($jsonIdRelaborales!='')
-                $sql = "SELECT * FROM f_relaborales_planillasal_generacion($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
+                $sql = "SELECT * FROM f_relaborales_planillasal_generacion_totales($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
             else
-                $sql = "SELECT * FROM f_relaborales_planillasal_generacion($gestion,$mes,$idFinPartida,NULL)";
+                $sql = "SELECT * FROM f_relaborales_planillasal_generacion_totales($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Fplanillassal();

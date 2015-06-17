@@ -505,9 +505,9 @@ function guardarRegistroEditado(){
                  */
                 $(".msjes").hide();
                 if(res.result==1){
-                    $("#divMsjeExito").show();
-                    $("#divMsjeExito").addClass('alert alert-success alert-dismissable');
-                    $("#aMsjeExito").html(res.msj);
+                    $("#divMsjePorSuccess").html("");
+                    $("#divMsjePorSuccess").append(res.msj);
+                    $("#divMsjeNotificacionSuccess").jqxNotification("open");
                     /**
                      * Se habilita nuevamente el listado actualizado con el registro realizado y
                      * se inhabilita el formulario para nuevo registro.
@@ -522,16 +522,16 @@ function guardarRegistroEditado(){
                     /**
                      * En caso de haberse presentado un error al momento de especificar la ubicación del trabajo
                      */
-                    $("#divMsjePeligro").show();
-                    $("#divMsjePeligro").addClass('alert alert-warning alert-dismissable');
-                    $("#aMsjePeligro").html(res.msj);
+                    $("#divMsjePorWarning").html("");
+                    $("#divMsjePorWarning").append(res.msj);
+                    $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }else{
                     /**
                      * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
                      */
-                    $("#divMsjeError").show();
-                    $("#divMsjeError").addClass('alert alert-danger alert-dismissable');
-                    $("#aMsjeError").html(res.msj);
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(res.msj);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
             }, //mostramos el error
