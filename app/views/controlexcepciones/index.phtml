@@ -208,24 +208,53 @@
             <h6><b>NOTA: </b>Los datos precedidos de asterisco son requerido de manera obligatoria (*).</h6>
     <div class="form-horizontal col-sm-12">
         <fieldset>
-            <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n</legend>
-            <div class="form-group div-control-excepciones" id="divExcepcionNew">
-                <label class="col-md-3 control-label" for="lstExcepcionNew">Excepci&oacute;n *:</label>
-                <div class="col-md-6">
+            <legend><i class="fa fa-angle-right"></i> Datos de Identificaci&oacute;n y Configuraci&oacute;n</legend>
+            <!-- Headings Block -->
+            <div class="block full">
+                <!-- Headings Title -->
+                <div class="block-title" id="divExcepcionNew">
                     <select id="lstExcepcionNew" class="form-control"><option value="">Seleccionar..</option></select>
+                    <span class="help-block" id="helpErrorExcepcionNew"></span>
                 </div>
-                <span class="help-block" id="helpErrorExcepcionNew"></span>
+
+                <div class="table-responsive">
+                    <div class="row headings-container">
+                        <table class="table table-vcenter">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center">Tipo</th>
+                                <th style="text-align: center">C&oacute;digo</th>
+                                <th style="text-align: center">Color</th>
+                                <th style="text-align: center">Descuento</th>
+                                <th style="text-align: center">Compensaci&oacute;n</th>
+                                <th style="text-align: center">Genero</th>
+                                <th style="text-align: center">Frecuencia</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyGrillaExcepciones"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <div class="col-xs-6" id="divFechaIniNew">
-                    <label class="col-sm-6 control-label" for="txtFechaIniNew">Fecha Inicio *:</label>
-                    <div class="col-sm-6">
+                <div class="div-control-excepciones" id="divFechaIniNew">
+                    <label class="col-sm-3 control-label" for="txtFechaIniNew">Fecha Inicio *:</label>
+                    <div class="col-sm-2">
                         <input type="text" id="txtFechaIniNew" name="txtFechaIniNew" class="form-control input-datepicker-close" placeholder="dd-mm-yyyy"  data-date-format="dd-mm-yyyy" type="text">
                         <span class="help-block" id="helpErrorFechaIniNew"></span>
                     </div>
                 </div>
+                <div class="div-control-excepciones" id="divFechaFinNew">
+                    <label class="col-sm-2 control-label" for="txtFechaFinNew">Fecha Final *:</label>
+                    <div class="col-sm-2">
+                        <input type="text" id="txtFechaFinNew" name="txtFechaFinNew" class="form-control  input-datepicker-close" placeholder="dd-mm-yyy"  data-date-format="dd-mm-yyyy" type="text">
+                        <span class="help-block" id="helpErrorFechaFinNew"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="div-control-excepciones" id="divHoraIniNew">
-                    <label class="col-sm-2 control-label" for="txtHoraIniNew">Hora Inicio *:</label>
+                    <label class="col-sm-3 control-label" for="txtHoraIniNew">Hora Inicio *:</label>
                     <div class="col-md-2">
                         <div class="input-group clockpicker">
                             <input type="text" id="txtHoraIniNew" class="form-control hora-ini-control-excepcion">
@@ -234,15 +263,6 @@
                         </span>
                         </div>
                         <span class="help-block" id="helpErrorHoraIniNew"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6" id="divFechaFinNew">
-                    <label class="col-sm-6 control-label" for="txtFechaFinNew">Fecha Final *:</label>
-                    <div class="col-sm-6">
-                        <input type="text" id="txtFechaFinNew" name="txtFechaFinNew" class="form-control  input-datepicker-close" placeholder="dd-mm-yyy"  data-date-format="dd-mm-yyyy" type="text">
-                        <span class="help-block" id="helpErrorFechaFinNew"></span>
                     </div>
                 </div>
                 <div class="div-control-excepciones" id="divHoraFinNew">
@@ -264,6 +284,25 @@
                     <textarea id="txtJustificacionNew" name="txtJustificacionNew" class="form-control" placeholder="Justificaci&oacute;n.."></textarea>
                 </div>
                 <span class="help-block" id="helpErrorJustificacionNew"></span>
+            </div>
+            <div id="divCompensacionNew">
+                <legend><i class="fa fa-angle-right"></i> Compensaci&oacute;n</legend>
+                <div class="row">
+                    <div class="div-control-excepciones" id="divCompensacionTurnoNew">
+                        <label class="col-sm-3 control-label" for="lstCompensacionTurnoNew">Turno *:</label>
+                        <div class="col-md-2">
+                            <select id="lstCompensacionTurnoNew" class="form-control"><option value="">Seleccionar..</option></select>
+                            <span class="help-block" id="helpErrorCompensacionTurnoNew"></span>
+                        </div>
+                    </div>
+                    <div class="div-control-excepciones" id="divCompensacionEntradaSalidaNew">
+                        <label class="col-sm-2 control-label" for="lstEntradaSalidaNew">Marcaci&oacute;n *:</label>
+                        <div class="col-md-2">
+                            <select id="lstEntradaSalidaNew" class="form-control"><option value="">Seleccionar..</option></select>
+                            <span class="help-block" id="helpErrorEntradaSalidaNew"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
     </fieldset>
         <fieldset>

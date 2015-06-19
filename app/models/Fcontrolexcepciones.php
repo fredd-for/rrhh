@@ -79,6 +79,8 @@ class Fcontrolexcepciones extends \Phalcon\Mvc\Model {
             'fecha_fin'=>'fecha_fin',
             'hora_fin'=>'hora_fin',
             'justificacion'=>'justificacion',
+            'turno'=>'turno',
+            'entrada_salida'=>'entrada_salida',
             'controlexcepcion_observacion'=>'controlexcepcion_observacion',
             'controlexcepcion_estado'=>'controlexcepcion_estado',
             'controlexcepcion_estado_descripcion'=>'controlexcepcion_estado_descripcion',
