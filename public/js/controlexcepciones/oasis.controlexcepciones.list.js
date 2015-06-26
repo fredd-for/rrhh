@@ -23,6 +23,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
     var idPersona=dataRecordRelaboral.id_persona;
     var nombres=dataRecordRelaboral.nombres;
     var ci=dataRecordRelaboral.ci;
+    var genero=dataRecordRelaboral.genero;
     var numComplemento=dataRecordRelaboral.num_complemento;
     var fechaIng=dataRecordRelaboral.fecha_ing;
     var fechaIncor=dataRecordRelaboral.fecha_incor;
@@ -40,6 +41,10 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
             {name: 'fecha_fin', type: 'date'},
             {name: 'hora_fin', type: 'time'},
             {name: 'justificacion', type: 'string'},
+            {name: 'turno', type: 'integer'},
+            {name: 'turno_descripcion', type: 'string'},
+            {name: 'entrada_salida', type: 'integer'},
+            {name: 'entrada_salida_descripcion', type: 'string'},
             {name: 'controlexcepcion_observacion', type: 'string'},
             {name: 'controlexcepcion_estado', type: 'string'},
             {name: 'controlexcepcion_estado_descripcion', type: 'string'},
@@ -110,7 +115,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                     $("#updateexceptrowbutton").jqxButton();
                     $("#deleteexceptrowbutton").jqxButton();
                     $("#turnexceptrowbutton").jqxButton();
-
+                    var genero_id = 0;
                     $("#hdnIdControlExcepcionEdit").val(0);
                     $("#hdnIdRelaboralNew").val(0);
                     $("#hdnIdRelaboralEdit").val(0);
@@ -124,8 +129,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $('#divTabControlExcepciones').jqxTabs('disableAt', 4);
 
                         $('#divTabControlExcepciones').jqxTabs({selectedItem: 2});
-
-                        inicializarFormularioControlExcepcionesNuevoEditar(1,idRelaboral,0,"","","","","");
+                        inicializarFormularioControlExcepcionesNuevoEditar(1,idRelaboral,0,"","","","","",0,-1,genero,"");
                         $("#hdnIdRelaboralNew").val(idRelaboral);
 
                         $("#lstExcepcionesNew").focus();
@@ -176,7 +180,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                     $("#hdnIdRelaboralEdit").val(idRelaboral);
                                     $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionControlExcepcion(2);
-                                    inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.observacion);
+                                    inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.turno,dataRecord.entrada_salida,genero,dataRecord.observacion);
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado ELABORADO necesariamente.";
                                     $("#divMsjePorError").html("");
@@ -467,6 +471,24 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         text: 'Compensar Horas',
                         filtertype: 'checkedlist',
                         datafield: 'compensatoria_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Turno',
+                        filtertype: 'checkedlist',
+                        datafield: 'turno_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'E/S',
+                        filtertype: 'checkedlist',
+                        datafield: 'entrada_salida_descripcion',
                         width: 100,
                         align: 'center',
                         cellsalign: 'center',

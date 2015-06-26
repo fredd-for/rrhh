@@ -15,9 +15,12 @@
  * @param fechaFin
  * @param horaFin
  * @param justificacion
+ * @param entrada
+ * @param entrada_salida
+ * @param genero_id
  * @param observacion
  */
-function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion,observacion){
+function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion,turno,entrada_salida,tipoGenero,observacion){
     var sufijo="New";
     if(opcion==2) sufijo="Edit";
 
@@ -70,13 +73,50 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
         e.stopPropagation();
         inputFin.clockpicker('show');
     });
-    cargaListaDeExcepciones(opcion,idExcepcion);
-    $("#tbodyGrillaExcepciones").html("");
-    cargarCompensacionTurnos(opcion,0);
-    cargarCompensacionEntradaSalida(opcion,-1);
+    cargaListaDeExcepciones(opcion,idExcepcion,tipoGenero);
+    $("#tbodyGrillaExcepciones"+sufijo).html("");
+    if(opcion==1){
+        $("#divCompensacionNew").hide();
+        cargarCompensacionTurnos(0,0);
+        cargarCompensacionEntradaSalida(0,-1);
+    }else{
+        var tipo_excepcion = "";
+        if($("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=null)
+            tipo_excepcion = $("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion");
+        var codigo = $("#lstExcepcion"+sufijo+" option:selected").data("codigo");
+        var color = $("#lstExcepcion"+sufijo+" option:selected").data("color");
+        var descuento = $("#lstExcepcion"+sufijo+" option:selected").data("descuento");
+        var descuento_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("descuento_descripcion");
+        var compensatoria = $("#lstExcepcion"+sufijo+" option:selected").data("compensatoria");
+        var compensatoria_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("compensatoria_descripcion");
+        var genero = $("#lstExcepcion"+sufijo+" option:selected").data("genero");
+        var cantidad = $("#lstExcepcion"+sufijo+" option:selected").data("cantidad");
+        var unidad = $("#lstExcepcion"+sufijo+" option:selected").data("unidad");
+        var fraccionamiento = $("#lstExcepcion"+sufijo+" option:selected").data("fraccionamiento");
+        var frecuencia_descripcion = "&nbsp;";
+        if($("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=null)
+            frecuencia_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion");
+        var grilla = "<tr>";
+        grilla += "<td style='text-align: center'>"+tipo_excepcion+"</td>";
+        grilla += "<td style='text-align: center'>"+codigo+"</td>";
+        grilla += "<td style='background: "+color+"'>&nbsp;</td>";
+        grilla += "<td style='text-align: center'>"+descuento_descripcion+"</td>";
+        grilla += "<td style='text-align: center'>"+compensatoria_descripcion+"</td>";
+        grilla += "<td style='text-align: center'>"+genero+"</td>";
+        grilla += "<td style='text-align: center'>"+frecuencia_descripcion+"</td>";
+        grilla += "</tr>";
+        $("#tbodyGrillaExcepciones"+sufijo).append(grilla);
+        if(compensatoria==1){
+            $("#divCompensacion"+sufijo).show();
+            cargarCompensacionTurnos(opcion,turno);
+            cargarCompensacionEntradaSalida(opcion,entrada_salida);
+        }else{
+            $("#divCompensacion"+sufijo).hide();
+        }
+    }
     $("#lstExcepcion"+sufijo).off();
     $("#lstExcepcion"+sufijo).on("change",function(){
-        $("#tbodyGrillaExcepciones").html("");
+        $("#tbodyGrillaExcepciones"+sufijo).html("");
         if(this.value!=''){
             var tipo_excepcion = "";
             if($("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=null)
@@ -103,7 +143,7 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             grilla += "<td style='text-align: center'>"+genero+"</td>";
             grilla += "<td style='text-align: center'>"+frecuencia_descripcion+"</td>";
             grilla += "</tr>";
-            $("#tbodyGrillaExcepciones").append(grilla);
+            $("#tbodyGrillaExcepciones"+sufijo).append(grilla);
             /**
              * En caso de que el valor implique la determinación de compensación de horas es necesario establecer en que turno se realizará y si será a la entrada o a la salida.
              */
@@ -112,7 +152,7 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
                 cargarCompensacionTurnos(opcion,0);
                 cargarCompensacionEntradaSalida(opcion,-1);
             }else{
-                $("#divCompensacionNew").hide();
+                $("#divCompensacion"+sufijo).hide();
             }
         }
     });
@@ -121,8 +161,9 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
  * Función para la obtención del listado de excepciones definidas en el sistema.
  * @param opcion      -- Valor que permite determinar el formulario en el que se ejecuta.
  * @param idExcepcion -- Identificador de la excepción que debería estar seleccionada por defecto en caso de que su valor sea mayor a cero.
+ * @param tipoGenero -- Variable para dar a conocer si se requiere sólo excepciones para el genero.
  */
-function cargaListaDeExcepciones(opcion,idExcepcion){
+function cargaListaDeExcepciones(opcion,idExcepcion,tipoGenero){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
     var selected = "";
@@ -134,6 +175,7 @@ function cargaListaDeExcepciones(opcion,idExcepcion){
         url: '/excepciones/list/',
         type: "POST",
         datatype: 'json',
+        data:{genero:tipoGenero},
         async: false,
         cache: false,
         success: function (data) {  //alert(data);
@@ -213,6 +255,16 @@ function validaFormularioControlExcepciones(opcion){
     var helpErrorJustificacion = $("#helpErrorJustificacion"+sufijo);
     var justificacion = $("#txtJustificacion"+sufijo).val();
 
+    var lstTurno = $("#lstCompensacionTurno"+sufijo);
+    var divTurno = $("#divCompensacionTurno"+sufijo);
+    var helpErrorTurno = $("#helpErrorCompensacionTurno"+sufijo);
+    var turno = $("#lstCompensacionTurno"+sufijo).val();
+
+    var lstEntradaSalida = $("#lstCompensacionEntradaSalida"+sufijo);
+    var divEntradaSalida = $("#divCompensacionEntradaSalida"+sufijo);
+    var helpErrorEntradaSalida = $("#helpErrorCompensacionEntradaSalida"+sufijo);
+    var entradaSalida = $("#lstCompensacionEntradaSalida"+sufijo).val();
+
     if (idExcepcion == ''||idExcepcion==0) {
         ok = false;
         var msje = "Debe seleccionar la excepci&oacute;n necesariamente.";
@@ -267,14 +319,28 @@ function validaFormularioControlExcepciones(opcion){
         helpErrorJustificacion.html(msje);
         if (enfoque == null)enfoque = txtJustificacion;
     }
+    if(compensatoria==1){
+        if(turno==0||turno==undefined){
+            ok = false;
+            var msje = "Debe seleccionar el turno en el cual se compensar&aacute; el permiso.";
+            divTurno.addClass("has-error");
+            helpErrorTurno.html(msje);
+            if (enfoque == null)enfoque = lstTurno;
+        }
+        if(entradaSalida<0||entradaSalida==''||entradaSalida==undefined){
+            ok = false;
+            var msje = "Debe seleccionar si lo compensaci&oacute;n se efecturar&aacute; en la Entrada o en la Salida del turno.";
+            divEntradaSalida.addClass("has-error");
+            helpErrorEntradaSalida.html(msje);
+            if (enfoque == null)enfoque = lstEntradaSalida;
+        }
+    }
     if (enfoque != null) {
         enfoque.focus();
     }
     var okk = verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion);
     if(!okk)ok=false;
-    //return ok;
-    return false;
-
+    return ok;
 }
 /**
  * Función para la limpieza de los mensajes de error debido a la validación del formulario.
@@ -294,6 +360,8 @@ function limpiarMensajesErrorPorValidacionControlExcepcion(opcion) {
     $("#divHoraFin"+sufijo).removeClass("has-error");
     $("#helpErrorHoraFin"+sufijo).html("");
     $("#divJustificacion"+sufijo).removeClass("has-error");
+    $("#divCompensacionTurno"+sufijo).removeClass("has-error");
+    $("#divCompensacionEntradaSalida"+sufijo).removeClass("has-error");
     $("#helpErrorJustificacion"+sufijo).html("");
 }
 
@@ -315,6 +383,14 @@ function guardaControlExcepciones(opcion) {
     var fechaFin = $("#txtFechaFin"+sufijo).val();
     var horaFin = $("#txtHoraFin"+sufijo).val();
     var justificacion = $("#txtJustificacion"+sufijo).val();
+
+    var turno = 0;
+    var entradaSalida=0;
+    var compensatoria = $("#lstExcepcion"+sufijo+" option:selected").data("compensatoria");
+    if(compensatoria==1){
+        turno = $("#lstCompensacionTurno"+sufijo).val();
+        entradaSalida = $("#lstCompensacionEntradaSalida"+sufijo).val();
+    }
     var observacion = $("#txtObservacion"+sufijo).val();
     if (idExcepcion != ''&&idExcepcion>0) {
         $.ajax({
@@ -332,6 +408,8 @@ function guardaControlExcepciones(opcion) {
                 fecha_fin:fechaFin,
                 hora_fin:horaFin,
                 justificacion:justificacion,
+                turno:turno,
+                entrada_salida:entradaSalida,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);
@@ -430,12 +508,18 @@ function cargarCompensacionTurnos(opcion,turno){
     var lista = "";
     var selected = "";
     $("#lstCompensacionTurno"+sufijo).html("");
-    for(var c=1;c<=2;c++){
-        if(turno==c)selected="selected";
-        else selected="";
-        lista += "<option value='"+c+"' "+selected+">"+c+"°</option>";
+    $("#lstCompensacionTurno"+sufijo).append("<option value=''>Seleccionar..</option>");
+    if(opcion>0){
+        $("#lstCompensacionTurno"+sufijo).prop("disabled",false);
+        for(var c=1;c<=2;c++){
+            if(turno==c)selected="selected";
+            else selected="";
+            lista += "<option value='"+c+"' "+selected+">"+c+"°</option>";
+        }
+        $("#lstCompensacionTurno"+sufijo).append(lista);
+    }else{
+        $("#lstCompensacionTurno"+sufijo).prop("disabled",true);
     }
-    $("#lstCompensacionTurno"+sufijo).append(lista);
 }
 /**
  * Función para el despliegue de los dos tipos de Marcación posible en un turno: Entrada (0) o Salida (1)
@@ -449,15 +533,21 @@ function cargarCompensacionEntradaSalida(opcion,entradaSalida){
     }
     var lista = "";
     var selected = "";
-    $("#lstEntradaSalida"+sufijo).html("");
-    if(entradaSalida==0){
-        selected = "selected";
+    $("#lstCompensacionEntradaSalida"+sufijo).html("");
+    $("#lstCompensacionEntradaSalida"+sufijo).append("<option value=''>Seleccionar..</option>");
+    if(opcion>0){
+        $("#lstCompensacionEntradaSalida"+sufijo).prop("disabled",false);
+        if(entradaSalida==0){
+            selected = "selected";
+        }
+        lista += "<option value='0' "+selected+">ENTRADA</option>";
+        selected = "";
+        if(entradaSalida==1){
+            selected = "selected";
+        }
+        lista += "<option value='1' "+selected+">SALIDA</option>";
+        $("#lstCompensacionEntradaSalida"+sufijo).append(lista);
+    }else{
+        $("#lstCompensacionEntradaSalida"+sufijo).prop("disabled",true);
     }
-    lista += "<option value='0' "+selected+">ENTRADA</option>";
-    selected = "";
-    if(entradaSalida==1){
-        selected = "selected";
-    }
-    lista += "<option value='1' "+selected+">SALIDA</option>";
-    $("#lstEntradaSalida"+sufijo).append(lista);
 }

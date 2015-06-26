@@ -1628,7 +1628,8 @@ function iniciarCalendarioLaboralPorRelaboralTurnosYExcepcionesParaVerAsignacion
                                     if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
                                         celda.css("background-color", "orange");
                                         var elem = $(".fc-day-content");
-                                        celda.append(val.feriado);
+                                        celda.append("</br>");
+                                        celda.append("(f) "+val.feriado);
                                         celda.append("</br>");
                                         celda.append(val.descripcion);
                                     }

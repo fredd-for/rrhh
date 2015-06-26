@@ -176,9 +176,9 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
     {
         if($fechaIni!=""&&$fechaFin!=""){
             $sql = "SELECT * FROM f_calendario_laboral_registrado_por_relaboral_mixto($idRelaboral,'$fechaIni','$fechaFin')";
+            $this->_db = new Fcalendariolaboral();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
-        $this->_db = new Fcalendariolaboral();
-        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
     /**

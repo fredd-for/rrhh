@@ -15,7 +15,7 @@ function cargarExcepcionesEnCalendario(dataRecord,tipoVista,diasSemana,fechaIni,
     var arrFechasCalendario = obtenerListadoFechasEnCalendario(dataRecord.id_relaboral,tipoVista,diasSemana,fechaIni,fechaFin);
     $.each(arrFechasCalendario,function(key,val){
         $("td[data-date="+val.fecha+"]").css("background-color",val.color);
-        $("td[data-date="+val.fecha+"]").append("</br> * "+val.excepcion);
+        $("td[data-date="+val.fecha+"]").append("</br> (e) "+val.excepcion+" ["+val.hora_ini+" a "+val.hora_fin+"]");
     });
 }
 

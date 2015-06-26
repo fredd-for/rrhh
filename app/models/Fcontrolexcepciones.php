@@ -16,6 +16,8 @@ class Fcontrolexcepciones extends \Phalcon\Mvc\Model {
     public $fecha_fin;
     public $hora_fin;
     public $justificacion;
+    public $turno;
+    public $entrada_salida;
     public $controlexcepcion_observacion;
     public $controlexcepcion_estado;
     public $controlexcepcion_estado_descripcion;

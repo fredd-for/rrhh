@@ -40,7 +40,7 @@ class ControlexcepcionesController extends ControllerBase
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.down.js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.move.js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.view.js');
-        $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.export.js');
+        $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.f_horariosymarcaciones_calculos_rango_mismo_mes(integer, integer, integer, integer, integer).js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.view.splitter.js');
     }
     /**
@@ -67,6 +67,10 @@ class ControlexcepcionesController extends ControllerBase
                         'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
                         'hora_fin'=>$v->hora_fin,
                         'justificacion'=>$v->justificacion,
+                        'turno'=>$v->turno,
+                        'turno_descripcion'=>$v->compensatoria==1?$v->turno!=null?$v->turno."°":null:null,
+                        'entrada_salida'=>$v->entrada_salida,
+                        'entrada_salida_descripcion'=>$v->compensatoria==1?$v->entrada_salida==0?"ENTRADA":"SALIDA":null,
                         'controlexcepcion_observacion'=>$v->controlexcepcion_observacion,
                         'controlexcepcion_estado'=>$v->controlexcepcion_estado,
                         'controlexcepcion_estado_descripcion'=>$v->controlexcepcion_estado_descripcion,
@@ -212,6 +216,8 @@ class ControlexcepcionesController extends ControllerBase
             $fechaFin = $_POST['fecha_fin'];
             $horaFin = $_POST['hora_fin'];
             $justificacion = $_POST['justificacion'];
+            $turno = $_POST['turno'];
+            $entradaSalida = $_POST['entrada_salida'];
             $observacion = $_POST['observacion'];
             if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
                 $objControlExcepciones = Controlexcepciones::findFirst(array("id=".$_POST["id"]));
@@ -225,6 +231,12 @@ class ControlexcepcionesController extends ControllerBase
                         $objControlExcepciones->hora_ini = $horaIni;
                         $objControlExcepciones->hora_fin = $horaFin;
                         $objControlExcepciones->justificacion=$justificacion;
+                        if($turno>0){
+                            $objControlExcepciones->turno=$turno;
+                        }else $objControlExcepciones->turno=null;
+                        if($entradaSalida>=0){
+                            $objControlExcepciones->entrada_salida=$entradaSalida;
+                        }else $objControlExcepciones->entrada_salida=null;
                         $objControlExcepciones->observacion=$observacion;
                         $objControlExcepciones->user_mod_id=$user_mod_id;
                         $objControlExcepciones->fecha_mod=$hoy;
@@ -258,6 +270,8 @@ class ControlexcepcionesController extends ControllerBase
             $fechaFin = $_POST['fecha_fin'];
             $horaFin = $_POST['hora_fin'];
             $justificacion = $_POST['justificacion'];
+            $turno = $_POST['turno'];
+            $entradaSalida = $_POST['entrada_salida'];
             $observacion = $_POST['observacion'];
             if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
                 $cantMismosDatos = Controlexcepciones::count(array("relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND hora_ini='".$horaIni."' AND fecha_fin = '".$fechaFin."' AND hora_fin='".$horaFin."' AND baja_logica=1 AND estado>=0"));
@@ -270,6 +284,12 @@ class ControlexcepcionesController extends ControllerBase
                     $objControlExcepciones->hora_ini = $horaIni;
                     $objControlExcepciones->hora_fin = $horaFin;
                     $objControlExcepciones->justificacion=$justificacion;
+                    if($turno>0){
+                        $objControlExcepciones->turno=$turno;
+                    }else $objControlExcepciones->turno=null;
+                    if($entradaSalida>=0){
+                        $objControlExcepciones->entrada_salida=$entradaSalida;
+                    }else $objControlExcepciones->entrada_salida=null;
                     $objControlExcepciones->observacion=$observacion;
                     $objControlExcepciones->estado=2;
                     $objControlExcepciones->baja_logica=1;

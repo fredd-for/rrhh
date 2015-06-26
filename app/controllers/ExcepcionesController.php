@@ -45,7 +45,19 @@ class ExcepcionesController extends ControllerBase
     {
         $this->view->disable();
         $obj = new Fexcepciones();
-        $resul = $obj->getAll();
+        $where = "";
+        if(isset($_POST["genero"])&&$_POST["genero"]!=''){
+            $genero = $_POST["genero"];
+            switch($genero){
+                case "F":
+                    $where = "WHERE genero_id IN (0,1)";
+                    break;
+                case "M":
+                    $where = "WHERE genero_id IN (0,2)";
+                    break;
+            }
+        }
+        $resul = $obj->getAll($where);
         $excepciones = Array();
         //comprobamos si hay filas
         if ($resul->count() > 0) {

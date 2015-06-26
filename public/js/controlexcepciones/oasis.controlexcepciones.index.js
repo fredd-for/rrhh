@@ -1513,22 +1513,12 @@ function iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignaci
 
                                     fechaIni  = val.fecha_ini;
                                     fechaFin  = val.fecha_fin;
-
-                                    /*var arrFechaCal = fechaCal.split("-");
-
-                                     fechaCal = arrFechaCal[2]+"-"+arrFechaCal[1]+"-"+arrFechaCal[0];
-
-                                     var arrFechaIni = fechaIni.split("-");
-                                     fechaIni = arrFechaIni[2]+"-"+arrFechaIni[1]+"-"+arrFechaIni[0];
-
-                                     var arrFechaFin = fechaFin.split("-");
-                                     fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
-                                     */
                                     var sep="-";
                                     if (procesaTextoAFecha(fechaCal,"-")<=procesaTextoAFecha(fechaFin,"-") && procesaTextoAFecha(fechaCal,"-") >= procesaTextoAFecha(fechaIni,"-")) {
                                         celda.css("background-color", "orange");
                                         var elem = $(".fc-day-content");
-                                        celda.append(val.feriado);
+                                        celda.append("</br>");
+                                        celda.append("(f)"+val.feriado);
                                         celda.append("</br>");
                                         celda.append(val.descripcion);
                                     }
