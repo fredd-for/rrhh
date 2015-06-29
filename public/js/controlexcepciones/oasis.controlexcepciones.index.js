@@ -909,7 +909,7 @@ function definirGrillaParaListaRelaborales() {
             {label: 'Fecha Fin', value: 'fecha_fin', checked: true},
             {label: 'Fecha Baja', value: 'fecha_baja', checked: true},
             {label: 'Motivo Baja', value: 'motivo_baja', checked: true},
-            {label: 'Observacion', value: 'observacion', checked: true},
+            {label: 'Observacion', value: 'observacion', checked: true}
         ];
         $("#jqxlistbox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
         $("#jqxlistbox").on('checkChange', function (event) {

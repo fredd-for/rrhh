@@ -39,8 +39,8 @@ class ControlexcepcionesController extends ControllerBase
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.turns.excepts.js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.down.js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.move.js');
+        $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.export.js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.view.js');
-        $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.f_horariosymarcaciones_calculos_rango_mismo_mes(integer, integer, integer, integer, integer).js');
         $this->assets->addJs('/js/controlexcepciones/oasis.controlexcepciones.view.splitter.js');
     }
     /**

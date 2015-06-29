@@ -10,28 +10,28 @@ function exportarReporte(option){
     filtros = new Object();
     agrupados = new Object();
     ordenados = new Object();
-    ubicacion = $('#jqxgrid').jqxGrid('getcolumn','ubicacion');
-    condicion = $('#jqxgrid').jqxGrid('getcolumn','condicion');
-    estado_descripcion = $('#jqxgrid').jqxGrid('getcolumn','estado_descripcion');
-    nombres = $('#jqxgrid').jqxGrid('getcolumn','nombres');
-    ci = $('#jqxgrid').jqxGrid('getcolumn','ci');
-    expd = $('#jqxgrid').jqxGrid('getcolumn','expd');
-    /*num_complemento = $('#jqxgrid').jqxGrid('getcolumn','num_complemento');*/
-    gerencia_administrativa = $('#jqxgrid').jqxGrid('getcolumn','gerencia_administrativa');
-    cargo = $('#jqxgrid').jqxGrid('getcolumn','cargo');
-    sueldo = $('#jqxgrid').jqxGrid('getcolumn','sueldo');
-    departamento_administrativo = $('#jqxgrid').jqxGrid('getcolumn','departamento_administrativo');
-    area = $('#jqxgrid').jqxGrid('getcolumn','area');
-    fin_partida = $('#jqxgrid').jqxGrid('getcolumn','fin_partida');
-    proceso_codigo = $('#jqxgrid').jqxGrid('getcolumn','proceso_codigo');
-    nivelsalarial = $('#jqxgrid').jqxGrid('getcolumn','nivelsalarial');
-    fecha_ing = $('#jqxgrid').jqxGrid('getcolumn','fecha_ing');
-    fecha_ini = $('#jqxgrid').jqxGrid('getcolumn','fecha_ini');
-    fecha_incor = $('#jqxgrid').jqxGrid('getcolumn','fecha_incor');
-    fecha_fin = $('#jqxgrid').jqxGrid('getcolumn','fecha_fin'),
-    fecha_baja = $('#jqxgrid').jqxGrid('getcolumn','fecha_baja');
-    motivo_baja = $('#jqxgrid').jqxGrid('getcolumn','motivo_baja');
-    observacion = $('#jqxgrid').jqxGrid('getcolumn','observacion');
+    ubicacion = $('#divGridRelaborales').jqxGrid('getcolumn','ubicacion');
+    condicion = $('#divGridRelaborales').jqxGrid('getcolumn','condicion');
+    estado_descripcion = $('#divGridRelaborales').jqxGrid('getcolumn','estado_descripcion');
+    nombres = $('#divGridRelaborales').jqxGrid('getcolumn','nombres');
+    ci = $('#divGridRelaborales').jqxGrid('getcolumn','ci');
+    expd = $('#divGridRelaborales').jqxGrid('getcolumn','expd');
+    /*num_complemento = $('#divGridRelaborales').jqxGrid('getcolumn','num_complemento');*/
+    gerencia_administrativa = $('#divGridRelaborales').jqxGrid('getcolumn','gerencia_administrativa');
+    cargo = $('#divGridRelaborales').jqxGrid('getcolumn','cargo');
+    sueldo = $('#divGridRelaborales').jqxGrid('getcolumn','sueldo');
+    departamento_administrativo = $('#divGridRelaborales').jqxGrid('getcolumn','departamento_administrativo');
+    area = $('#divGridRelaborales').jqxGrid('getcolumn','area');
+    fin_partida = $('#divGridRelaborales').jqxGrid('getcolumn','fin_partida');
+    proceso_codigo = $('#divGridRelaborales').jqxGrid('getcolumn','proceso_codigo');
+    nivelsalarial = $('#divGridRelaborales').jqxGrid('getcolumn','nivelsalarial');
+    fecha_ing = $('#divGridRelaborales').jqxGrid('getcolumn','fecha_ing');
+    fecha_ini = $('#divGridRelaborales').jqxGrid('getcolumn','fecha_ini');
+    fecha_incor = $('#divGridRelaborales').jqxGrid('getcolumn','fecha_incor');
+    fecha_fin = $('#divGridRelaborales').jqxGrid('getcolumn','fecha_fin'),
+    fecha_baja = $('#divGridRelaborales').jqxGrid('getcolumn','fecha_baja');
+    motivo_baja = $('#divGridRelaborales').jqxGrid('getcolumn','motivo_baja');
+    observacion = $('#divGridRelaborales').jqxGrid('getcolumn','observacion');
 
     columna[ubicacion.datafield] = {text: ubicacion.text, hidden: ubicacion.hidden};
     columna[condicion.datafield] = {text: condicion.text, hidden: condicion.hidden};
@@ -56,11 +56,11 @@ function exportarReporte(option){
     columna[motivo_baja.datafield] = {text: motivo_baja.text, hidden: motivo_baja.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
-    var groups = $('#jqxgrid').jqxGrid('groups');
+    var groups = $('#divGridRelaborales').jqxGrid('groups');
     if(groups==null||groups=='')groups='null';
-    //var sorteds = $('#jqxgrid').jqxGrid('getsortcolumn');
+    //var sorteds = $('#divGridRelaborales').jqxGrid('getsortcolumn');
 
-    var sortinformation = $('#jqxgrid').jqxGrid('getsortinformation');
+    var sortinformation = $('#divGridRelaborales').jqxGrid('getsortinformation');
     if(sortinformation.sortcolumn!=undefined){
         // The sortcolumn rep   resents the sort column's datafield. If there's no sort column, the sortcolumn is null.
         var sortcolumn = sortinformation.sortcolumn;
@@ -70,8 +70,8 @@ function exportarReporte(option){
     }else ordenados='';
 
 
-    var rows = $('#jqxgrid').jqxGrid('getrows');
-    var filterGroups = $('#jqxgrid').jqxGrid('getfilterinformation');
+    var rows = $('#divGridRelaborales').jqxGrid('getrows');
+    var filterGroups = $('#divGridRelaborales').jqxGrid('getfilterinformation');
     var counter = 0;
     for (var i = 0; i < filterGroups.length; i++) {
         var filterGroup = filterGroups[i];
