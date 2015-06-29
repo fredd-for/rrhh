@@ -156,7 +156,7 @@ class ControllerBase extends Controller {
         if($user_id>0){
             $usuario = Usuarios::findFirstById($user_id);
             if(is_object($usuario)){
-                $result = ControlPermisos::Find(array("nivel_id=".$usuario->nivel." AND estado>=1 AND baja_logica=1"));
+                $result = Controlpermisos::Find(array("nivel_id=".$usuario->nivel." AND estado>=1 AND baja_logica=1"));
                 $this->_registerPermissionSession($result);
                 return true;
             }return false;
