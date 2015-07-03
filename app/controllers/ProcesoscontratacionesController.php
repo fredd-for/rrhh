@@ -134,38 +134,42 @@ class ProcesoscontratacionesController extends ControllerBase
 				$resul2->pac_id = $v;
 				$resul2->proceso_contratacion_id = $resul->id;
 				$resul2->seguimiento_estado_id = 1;
-				$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
+				$resul2->codigo_proceso = $_POST['codigo_convocatoria'];
 				$resul2->estado = 1;
 				$resul2->user_reg_id = $auth['id'];
 				$resul2->organigrama_id = 0;
 				$resul2->fecha_reg = date("Y-m-d H:i:s");
 				$resul2->baja_logica = 1;
-				$resul2->save();
-
-			}
-
-			if ($this->request->hasFiles() == true) {
-				foreach ($this->request->getUploadedFiles() as $file) {
-                //Move the file into the application
-					$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
-					if($file->moveTo($path)) {
-						$resul3 = new Archivos();
-						$resul3->tipo_documento=0;
-						$resul3->persona_id = $resul->id;
-						$resul3->tipo_archivo = $file->getType();
-						$resul3->user_id = $auth['id'];
-						$resul3->nombre_archivo = date("Ymd_his").$file->getName();
-						$resul3->carpeta = 'AppData/convocatorias/';
-						$resul3->fecha = date("Y-m-d h:i:s");
-						$resul3->baja_logica = 1;
-						$resul3->tamanio = $file->getSize();
-						$resul3->save();
-                	//die("Archivo cargado correctamente.")	
-					} else {
-						die("Acurrio algun error.");	
-					} 
+				if (!$resul2->save()) {
+					$this->flashSession->error("Error: no se guardo en seguimientos...");
 				}
+				
+
+
 			}
+
+			// if ($this->request->hasFiles() == true) {
+			// 	foreach ($this->request->getUploadedFiles() as $file) {
+   //              //Move the file into the application
+			// 		$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
+			// 		if($file->moveTo($path)) {
+			// 			$resul3 = new Archivos();
+			// 			$resul3->tipo_documento=0;
+			// 			$resul3->persona_id = $resul->id;
+			// 			$resul3->tipo_archivo = $file->getType();
+			// 			$resul3->user_id = $auth['id'];
+			// 			$resul3->nombre_archivo = date("Ymd_his").$file->getName();
+			// 			$resul3->carpeta = 'AppData/convocatorias/';
+			// 			$resul3->fecha = date("Y-m-d h:i:s");
+			// 			$resul3->baja_logica = 1;
+			// 			$resul3->tamanio = $file->getSize();
+			// 			$resul3->save();
+   //              	//die("Archivo cargado correctamente.")	
+			// 		} else {
+			// 			die("Acurrio algun error.");	
+			// 		} 
+			// 	}
+			// }
 
 			$this->flashSession->success("Exito: Registro guardado correctamente...");
 
@@ -234,18 +238,18 @@ public function editAction($id)
 
 	$this->tag->setDefault("tipo", $resul->tipoconvocatoria_id);
 	$tipo = $this->tag->select(
-			array(
-				'tipo',
-				Parametros::find(array("parametro='procesoscontrataciones_tipo' and baja_logica=1 ",'order'=>'nivel ASC')),
-				'using' => array('nivel', "valor_1"),
-				'useEmpty' => false,
-				'emptyText' => '(Seleccionar)',
-				'emptyValue' => '0',
-				'class' => 'form-control',
-				'required' => 'required'
-				)
-			);
-		$this->view->setVar('tipo',$tipo);
+		array(
+			'tipo',
+			Parametros::find(array("parametro='procesoscontrataciones_tipo' and baja_logica=1 ",'order'=>'nivel ASC')),
+			'using' => array('nivel', "valor_1"),
+			'useEmpty' => false,
+			'emptyText' => '(Seleccionar)',
+			'emptyValue' => '0',
+			'class' => 'form-control',
+			'required' => 'required'
+			)
+		);
+	$this->view->setVar('tipo',$tipo);
 
 	if ($this->request->isPost()) {
 		$resul = Procesoscontrataciones::findFirstById($id);
@@ -264,61 +268,63 @@ public function editAction($id)
 				// $resul->user_reg_id = $auth['id'];
 				// $resul->fecha_reg = date("Y-m-d H:i:s");
 		if ($resul->save()) {
-			if($pac_id!=''){
+//			if($pac_id!=''){
 				$pac_id = explode(',', $_POST['pac_ids']);
-			$model = new Procesoscontrataciones();
-			$resul4 = $model->seguimientoCero($id);
-			foreach ($pac_id as $v) {
+				$model = new Procesoscontrataciones();
+				$resul4 = $model->seguimientoCero($id);
+				foreach ($pac_id as $v) {
 
-				$resul5=Seguimientos::findFirst(array('proceso_contratacion_id='.$id.' AND pac_id='.$v,'order'=>'id DESC','limit'=> 1));
-				if ($resul5!=false) {
-					$resul2=Seguimientos::findFirstById($resul5->id);
-					$resul2->baja_logica = 1;
-					$resul2->save();
-				}else{
-					$resul2 = new Seguimientos();
-					$resul2->pac_id = $v;
-					$resul2->proceso_contratacion_id = $resul->id;
-					$resul2->seguimiento_estado_id = 1;
-					$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
-					$resul2->estado = 1;
-					$resul2->user_reg_id = $auth['id'];
-					$resul2->organigrama_id = 0;
-					$resul2->fecha_reg = date("Y-m-d H:i:s");
-					$resul2->baja_logica = 1;
-					$resul2->save();	
-				}
-
-			}
-	
-			}
-			
-			if ($this->request->hasFiles() == true) {
-				foreach ($this->request->getUploadedFiles() as $file) {
-                //Move the file into the application
-					$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
-					if($file->moveTo($path)) {
-						if ($_POST['archivo_id']!='') {
-							$resul3 = Archivos::findFirstById($_POST['archivo_id']);	
-						}else{
-							$resul3= new Archivos();	
+					$resul5=Seguimientos::findFirst(array('proceso_contratacion_id='.$id.' AND pac_id='.$v,'order'=>'id DESC','limit'=> 1));
+					if ($resul5!=false) {
+						$resul2=Seguimientos::findFirstById($resul5->id);
+						$resul2->baja_logica = 1;
+						$resul2->save();
+					}else{
+						$resul2 = new Seguimientos();
+						$resul2->pac_id = $v;
+						$resul2->proceso_contratacion_id = $resul->id;
+						$resul2->seguimiento_estado_id = 1;
+						$resul2->codigo_proceso = $_POST['codigo_convocatoria2'];
+						$resul2->estado = 1;
+						$resul2->user_reg_id = $auth['id'];
+						$resul2->organigrama_id = 0;
+						$resul2->fecha_reg = date("Y-m-d H:i:s");
+						$resul2->baja_logica = 1;
+						if (!$resul2->save()) {
+							$this->flashSession->error("Error: no se guardo en seguimientos...");
 						}
-						$resul3->tipo_documento=0;
-						$resul3->persona_id = $resul->id;
-						$resul3->tipo_archivo = $file->getType();
-						$resul3->user_id = $auth['id'];
-						$resul3->nombre_archivo = date("Ymd_his").$file->getName();
-						$resul3->carpeta = 'AppData/convocatorias/';
-						$resul3->fecha = date("Y-m-d h:i:s");
-						$resul3->baja_logica = 1;
-						$resul3->tamanio = $file->getSize();
-						$resul3->save();
-                	//die("Archivo cargado correctamente.")	
-					} else {
-						die("Acurrio algun error.");	
-					} 
+					}
+
 				}
-			}
+				
+//			}
+			
+			// if ($this->request->hasFiles() == true) {
+			// 	foreach ($this->request->getUploadedFiles() as $file) {
+   //              //Move the file into the application
+			// 		$path = 'AppData/convocatorias/' . date("Ymd_his").$file->getName();
+			// 		if($file->moveTo($path)) {
+			// 			if ($_POST['archivo_id']!='') {
+			// 				$resul3 = Archivos::findFirstById($_POST['archivo_id']);	
+			// 			}else{
+			// 				$resul3= new Archivos();	
+			// 			}
+			// 			$resul3->tipo_documento=0;
+			// 			$resul3->persona_id = $resul->id;
+			// 			$resul3->tipo_archivo = $file->getType();
+			// 			$resul3->user_id = $auth['id'];
+			// 			$resul3->nombre_archivo = date("Ymd_his").$file->getName();
+			// 			$resul3->carpeta = 'AppData/convocatorias/';
+			// 			$resul3->fecha = date("Y-m-d h:i:s");
+			// 			$resul3->baja_logica = 1;
+			// 			$resul3->tamanio = $file->getSize();
+			// 			$resul3->save();
+   //              	//die("Archivo cargado correctamente.")	
+			// 		} else {
+			// 			die("Acurrio algun error.");	
+			// 		} 
+			// 	}
+			// }
 
 			$this->flashSession->success("Exito: Registro guardado correctamente...");
 

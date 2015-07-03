@@ -205,7 +205,7 @@ class Ppostulantes extends \Phalcon\Mvc\Model
 
     public function cargosConvocatoria()
     {
-        $sql = "SELECT p.id AS proceso_contratacion_id,s.id,CONCAT(p.codigo_proceso,' ',c.cargo) AS cargo
+        $sql = "SELECT p.id AS proceso_contratacion_id,s.id,CONCAT(p.codigo_proceso,' ',c.cargo) AS cargo, p.dominio
         FROM procesoscontrataciones p
         INNER JOIN seguimientos s ON p.id = s.proceso_contratacion_id AND s.baja_logica=1
         INNER JOIN pacs pa ON s.pac_id= pa.id

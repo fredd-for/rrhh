@@ -224,8 +224,8 @@ $("#add_pac").click(function(){
             				datatype: 'json',
             				data:{cargo_id:$("#cargo_id_pac").val()},
             				success: function(data) { 
-            					//alert(data);
-            					if(data>-1){
+            					// alert(data);
+            					if(data==1 || data==0){
             						bootbox.alert("<strong>¡Mensaje!</strong> El cargo ya esta en proceso o esta en el PACP.");
             					}else{
             						// $("#popupWindow_pac").jqxWindow('open');
