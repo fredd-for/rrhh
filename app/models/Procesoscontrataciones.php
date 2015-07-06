@@ -114,6 +114,12 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
     public $fecha_mod;
 
     /**
+     *
+     * @var string
+     */
+    public $dominio;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -144,7 +150,8 @@ class Procesoscontrataciones extends \Phalcon\Mvc\Model
             'user_reg_id' => 'user_reg_id', 
             'fecha_reg' => 'fecha_reg', 
             'user_mod_id' => 'user_mod_id', 
-            'fecha_mod' => 'fecha_mod'
+            'fecha_mod' => 'fecha_mod',
+            'dominio' => 'dominio'
         );
     }
 
