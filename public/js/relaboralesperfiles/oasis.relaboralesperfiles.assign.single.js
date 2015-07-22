@@ -201,11 +201,27 @@ function cargarGrillaAsignacionesIndividuales(idPerfilLaboral,perfilLaboral,grup
                                     var fechaMax = fechaConvertirAFormato(dataRecord.fecha_fin,"-");
                                     var tipoMarcacionEntrada = dataRecord.relaboralperfilmaquina_tipo_marcacion_entrada;
                                     var tipoMarcacionSalida = dataRecord.relaboralperfilmaquina_tipo_marcacion_salida;
+                                    var relaboralperfilmaquinaUbicacionEntradaId = dataRecord.relaboralperfil_ubicacion_id;
+                                    var relaboralperfilmaquinaUbicacionSalidaId = dataRecord.relaboralperfil_ubicacion_id;
+                                    var relaboralperfilmaquinaEstacionEntradaId = dataRecord.relaboralperfil_estacion_id;
+                                    var relaboralperfilmaquinaEstacionSalidaId = dataRecord.relaboralperfil_estacion_id;
+                                    if(dataRecord.relaboralperfilmaquina_ubicacion_entrada_id>0){
+                                        relaboralperfilmaquinaUbicacionEntradaId = dataRecord.relaboralperfilmaquina_ubicacion_entrada_id;
+                                    }
+                                    if(dataRecord.relaboralperfilmaquina_ubicacion_salida_id>0){
+                                        relaboralperfilmaquinaUbicacionSalidaId = dataRecord.relaboralperfilmaquina_ubicacion_salida_id;
+                                    }
+                                    if(dataRecord.relaboralperfilmaquina_estacion_entrada_id>0){
+                                        relaboralperfilmaquinaEstacionEntradaId = dataRecord.relaboralperfilmaquina_estacion_entrada_id;
+                                    }
+                                    if(dataRecord.relaboralperfilmaquina_estacion_salida_id>0){
+                                        relaboralperfilmaquinaEstacionSalidaId = dataRecord.relaboralperfilmaquina_estacion_salida_id;
+                                    }
                                     generaModalAdicionAsignacionSinglePerfilLaboral(2,
-                                        dataRecord.relaboralperfilmaquina_ubicacion_entrada_id,
-                                        dataRecord.relaboralperfilmaquina_ubicacion_salida_id,
-                                        dataRecord.relaboralperfilmaquina_estacion_salida_id,
-                                        dataRecord.relaboralperfilmaquina_estacion_salida_id,
+                                        relaboralperfilmaquinaUbicacionEntradaId,
+                                        relaboralperfilmaquinaUbicacionSalidaId,
+                                        relaboralperfilmaquinaEstacionEntradaId,
+                                        relaboralperfilmaquinaEstacionSalidaId,
                                         tipoMarcacionEntrada,tipoMarcacionSalida,
                                         fechaIni,fechaFin,fechaMin,fechaMax,dataRecord.relaboralperfil_observacion);
                                     $("#hdnIdRelaboralAsignacionSinglePerfil").val(dataRecord.id_relaboral);

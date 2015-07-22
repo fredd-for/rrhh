@@ -34,8 +34,8 @@ $().ready(function () {
         var idEstacionSalida = $("#lstEstacionesSalidaAsignacionSingle").val();
         var fechaIni = $("#txtFechaIniAsignacionSingle").val();
         var fechaFin = $("#txtFechaFinAsignacionSingle").val();
-        var tipoMarcacionEntrada = $("#lstTiposMarcacionesEntradaAsignacionSingle").val();
-        var tipoMarcacionSalida = $("#lstTiposMarcacionesSalidaAsignacionSingle").val();
+        var tipoMarcacionEntrada = $("#lstTiposMarcacionesEntradaAsignacionSingle option:selected").val();
+        var tipoMarcacionSalida = $("#lstTiposMarcacionesSalidaAsignacionSingle option:selected").val();
         var observacion = $("#txtObservacionAsignacionSingle").val();
         var ok = validaFormularioAsignacionSinglePerfilLaboral(accion,idRelaboralPerfil,idRelaboral,idPerfilLaboral,fechaIni,fechaFin);
         if(ok){
@@ -679,7 +679,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         columntype: 'textbox',
                         filtertype: 'input',
                         datafield: 'perfil_laboral',
-                        width: 150,
+                        width: 250,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
@@ -697,7 +697,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         text: 'Tipo Horario',
                         filtertype: 'checkedlist',
                         datafield: 'tipo_horario_descripcion',
-                        width: 250,
+                        width: 200,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false

@@ -299,7 +299,8 @@ class RelaboralesperfilesController extends ControllerBase{
                          */
                         $objMaquinaEntrada = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionEntrada));
                         $objMaquinaSalida = Maquinas::findFirst(array("ubicacion_id=".$idUbicacionSalida));
-                        if($objMaquinaEntrada->id>0&&$objMaquinaSalida->id>0){
+                        //if($objMaquinaEntrada->id>0&&$objMaquinaSalida->id>0){
+                        if(is_object($objMaquinaEntrada)&&is_object($objMaquinaSalida)){
                             //$objRelaboralPerfilMaquinaAux = Relaboralesperfilesmaquinas::findFirst(array("relaboralperfil_id=".$objRelaboralPerfil->id." AND maquina__entrada_id=".$objMaquinaEntrada->id." AND maquina__salida_id=".$objMaquinaSalida->id));
                             /**
                              * Se establece la existencia de un sólo registro para una registro de marcación en máquina por registro de asignación de perfil.

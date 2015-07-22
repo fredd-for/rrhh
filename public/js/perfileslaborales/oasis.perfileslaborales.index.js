@@ -600,7 +600,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         columntype: 'textbox',
                         filtertype: 'input',
                         datafield: 'perfil_laboral',
-                        width: 150,
+                        width: 250,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
@@ -618,7 +618,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         text: 'Tipo Horario',
                         filtertype: 'checkedlist',
                         datafield: 'tipo_horario_descripcion',
-                        width: 250,
+                        width: 200,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
