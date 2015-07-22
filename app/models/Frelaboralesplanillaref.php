@@ -1,12 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: GGE-JLOZA
- * Date: 27/05/2015
- * Time: 04:33 PM
- */
+/*
+*   Oasis - Sistema de Gestión para Recursos Humanos
+*   Empresa Estatal de Transporte por Cable "Mi Teleférico"
+*   Versión:  1.0.0
+*   Usuario Creador: Lic. Javier Loza
+*   Fecha Creación:  06-07-2015
+*/
 use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
-class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
+class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
     public $id_relaboral;
     public $gestion;
     public $mes;
@@ -46,18 +47,11 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public $estado;
     public $estado_descripcion;
     public $dias_efectivos;
-    public $bonos;
     public $faltas;
-    public $atrasos;
-    public $faltas_atrasos;
     public $lsgh;
-    public $abandono;
-    public $omision;
     public $otros;
+    public $form110impref_id;
     public $rc_iva;
-    public $rentencion;
-    public $compensacion;
-    public $aporte_laboral_afp;
     public $total_descuentos;
     public $total_ganado;
     public $total_liquido;
@@ -67,7 +61,7 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
      */
     public function initialize()
     {
-        $this->_db = new Frelaboralesplanillasal();
+        $this->_db = new Frelaboralesplanillaref();
     }
     /**
      * Independent Column Mapping.
@@ -75,60 +69,55 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public function columnMap()
     {
         return array(
-    'id_relaboral'=>'id_relaboral',
-        'gestion'=>'gestion',
-        'mes'=>'mes',
-        'mes_nombre'=>'mes_nombre',
-        'nombres'=>'nombres',
-        'ci'=>'ci',
-        'expd'=>'expd',
-        'id_gerencia_administrativa'=>'id_gerencia_administrativa',
-        'gerencia_administrativa'=>'gerencia_administrativa',
-        'id_departamento_administrativo'=>'id_departamento_administrativo',
-        'departamento_administrativo'=>'departamento_administrativo',
-        'id_organigrama'=>'id_organigrama',
-        'unidad_administrativa'=>'unidad_administrativa',
-        'organigrama_sigla'=>'organigrama_sigla',
-        'organigrama_orden'=>'organigrama_orden',
-        'id_area'=>'id_area',
-        'area'=>'area',
-        'id_ubicacion'=>'id_ubicacion',
-        'ubicacion'=>'ubicacion',
-        'id_nivelsalarial'=>'id_nivelsalarial',
-        'nivel_salarial'=>'nivel_salarial',
-        'cargo'=>'cargo',
-        'sueldo'=>'sueldo',
-        'convocatoria_tipo'=>'convocatoria_tipo',
-        'id_procesocontratacion'=>'id_procesocontratacion',
-        'procesocontratacion_codigo'=>'procesocontratacion_codigo',
-        'id_finpartida'=>'id_finpartida',
-        'fin_partida'=>'fin_partida',
-        'id_condicion'=>'id_condicion',
-        'condicion'=>'condicion',
-        'tiene_item'=>'tiene_item',
-        'tiene_contrato_vigente'=>'tiene_contrato_vigente',
-        'fecha_ini'=>'fecha_ini',
-        'fecha_incor'=>'fecha_incor',
-        'fecha_fin'=>'fecha_fin',
-        'fecha_baja'=>'fecha_baja',
-        'estado'=>'estado',
-        'estado_descripcion'=>'estado_descripcion',
-        'dias_efectivos'=>'dias_efectivos',
-        'bonos'=>'bonos',
-        'faltas'=>'faltas',
-        'atrasos'=>'atrasos',
-        'faltas_atrasos'=>'faltas_atrasos',
-        'lsgh'=>'lsgh',
-        'abandono'=>'abandono',
-        'omision'=>'omision',
-        'otros'=>'otros',
-        'rc_iva'=>'rc_iva',
-        'rentencion'=>'rentencion',
-        'compensacion'=>'compensacion',
-        'aporte_laboral_afp'=>'aporte_laboral_afp',
-        'total_descuentos'=>'total_descuentos',
-        'total_ganado'=>'total_ganado',
-        'total_liquido'=>'total_liquido'
+            'id_relaboral'=>'id_relaboral',
+            'gestion'=>'gestion',
+            'mes'=>'mes',
+            'mes_nombre'=>'mes_nombre',
+            'nombres'=>'nombres',
+            'ci'=>'ci',
+            'expd'=>'expd',
+            'id_gerencia_administrativa'=>'id_gerencia_administrativa',
+            'gerencia_administrativa'=>'gerencia_administrativa',
+            'id_departamento_administrativo'=>'id_departamento_administrativo',
+            'departamento_administrativo'=>'departamento_administrativo',
+            'id_organigrama'=>'id_organigrama',
+            'unidad_administrativa'=>'unidad_administrativa',
+            'organigrama_sigla'=>'organigrama_sigla',
+            'organigrama_orden'=>'organigrama_orden',
+            'id_area'=>'id_area',
+            'area'=>'area',
+            'id_ubicacion'=>'id_ubicacion',
+            'ubicacion'=>'ubicacion',
+            'id_nivelsalarial'=>'id_nivelsalarial',
+            'nivel_salarial'=>'nivel_salarial',
+            'cargo'=>'cargo',
+            'sueldo'=>'sueldo',
+            'convocatoria_tipo'=>'convocatoria_tipo',
+            'id_procesocontratacion'=>'id_procesocontratacion',
+            'procesocontratacion_codigo'=>'procesocontratacion_codigo',
+            'id_finpartida'=>'id_finpartida',
+            'fin_partida'=>'fin_partida',
+            'id_condicion'=>'id_condicion',
+            'condicion'=>'condicion',
+            'tiene_item'=>'tiene_item',
+            'tiene_contrato_vigente'=>'tiene_contrato_vigente',
+            'fecha_ini'=>'fecha_ini',
+            'fecha_incor'=>'fecha_incor',
+            'fecha_fin'=>'fecha_fin',
+            'fecha_baja'=>'fecha_baja',
+            'estado'=>'estado',
+            'estado_descripcion'=>'estado_descripcion',
+            'dias_efectivos'=>'dias_efectivos',
+            'faltas'=>'faltas',
+            'lsgh'=>'lsgh',
+            'otros'=>'otros',
+            'form110impref_id'=>'form110impref_id',
+            'rc_iva'=>'rc_iva',
+            'rentencion'=>'rentencion',
+            'aporte_laboral_afp'=>'aporte_laboral_afp',
+            'total_descuentos'=>'total_descuentos',
+            'total_ganado'=>'total_ganado',
+            'total_liquido'=>'total_liquido'
         );
     }
     private $_db;
@@ -145,9 +134,9 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public function desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
         if($gestion>0&&$mes>0&&$idFinPartida>0){
             if($jsonIdRelaborales!='')
-                $sql = "SELECT * FROM f_relaborales_planillasal_generacion_totales($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
+                $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
             else
-                $sql = "SELECT * FROM f_relaborales_planillasal_generacion($gestion,$mes,$idFinPartida,NULL)";
+                $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Fplanillassal();

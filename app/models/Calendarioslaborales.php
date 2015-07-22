@@ -60,6 +60,7 @@ class Calendarioslaborales extends \Phalcon\Mvc\Model
     }
     /**
      * Función para obtener el par fecha de inicio y finalización de un calendario en una gestión y mes determinados.
+     * Esta función es útil para aquellos casos en que existe marcaciones cruzadas de un mes a otro.
      * @param $gestion
      * @param $mes
      * @return Resultset
@@ -71,4 +72,53 @@ class Calendarioslaborales extends \Phalcon\Mvc\Model
         }
     }
 
+    /**
+     * Función para la obtención del último identificador del registro de calendarios laborales en el día previo.
+     * Esta función es útil para aquellos casos en que existe marcaciones cruzadas de un mes a otro.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return integer|null
+     */
+    public function getUltimoIdCalendarioLaboralEntradaDiaPrevio($idRelaboral,$fecha){
+        if($idRelaboral>0&&$fecha!=''){
+            $sql = "SELECT id_calendariolaboral FROM f_calendario_laboral_registrado_por_relaboral(0,$idRelaboral)";
+            $sql .= "WHERE (CAST((DATE '".$fecha."' - INTERVAL '1 DAY') AS DATE)) BETWEEN calendario_fecha_ini and calendario_fecha_fin ";
+            $sql .= "ORDER BY hora_entrada DESC LIMIT 1";
+            $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $res[0]->id_calendariolaboral;
+        }else return null;
+    }
+
+    /**
+     * Función para la obtención de la última hora de entrada del registro de calendarios laborales en el día previo.
+     * Esta función es útil para aquellos casos en que existe marcaciones cruzadas de un mes a otro.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return integer|null
+     */
+    public function getUltimaHoraSalidaPendienteDiaPrevio($idRelaboral,$fecha){
+        if($idRelaboral>0&&$fecha!=''){
+            $sql = "SELECT hora_salida FROM f_calendario_laboral_registrado_por_relaboral(0,$idRelaboral)";
+            $sql .= "WHERE (CAST((DATE '".$fecha."' - INTERVAL '1 DAY') AS DATE)) BETWEEN calendario_fecha_ini and calendario_fecha_fin ";
+            $sql .= "ORDER BY hora_entrada DESC LIMIT 1";
+            $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $res[0]->hora_salida;
+        } return null;
+    }
+    /**
+     * Función para la obtención del identificador del registro de horario laboral correspondiente al día previo.
+     * Esta función es útil para aquellos casos en que existe marcaciones cruzadas de un mes a otro.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return null
+     */
+    public function getUltimoIdHorarioLaboralPendienteDiaPrevio($idRelaboral,$fecha){
+        if($idRelaboral>0&&$fecha!=''){
+            $sql = "SELECT id_horariolaboral FROM f_calendario_laboral_registrado_por_relaboral(0,$idRelaboral)";
+            $sql .= "WHERE (CAST((DATE '".$fecha."' - INTERVAL '1 DAY') AS DATE)) BETWEEN calendario_fecha_ini and calendario_fecha_fin ";
+            $sql .= "ORDER BY hora_entrada DESC LIMIT 1";
+            $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $res[0]->id_horariolaboral;
+        } return null;
+    }
 }

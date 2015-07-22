@@ -626,7 +626,6 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
-
     /**
      * Función para la obtención en un sólo resultado el conjunto de feriados en un día en particular.
      * @param $gestion

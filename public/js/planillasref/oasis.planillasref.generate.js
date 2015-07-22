@@ -3,10 +3,11 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  29-04-2015
+ *   Fecha Creación:  06-07-2015
  */
 /**
  * Función para la carga del combo de gestiones en función de si es para la generación de nuevas planillas o para la vista de planillas generadas.
+ * Dada que la función es indistinta para planillas salariales y de refrigerio son usadas para este propósito.
  * @param option
  */
 function cargarGestiones(option,g){
@@ -39,7 +40,8 @@ function cargarGestiones(option,g){
     else $("#lstGestion"+sufijo).prop("disabled",true);
 }
 /**
- * Función para obtener el listado de meses disponibles para la generación de planillas salariales en consideración a una gestion en particular.
+ * Función para obtener el listado de meses disponibles para la generación de planillas de refrigerio
+ * en consideración a una gestion en particular.
  * @param option
  * @param g
  * @param m
@@ -54,7 +56,7 @@ function cargarMeses(option,g,m){
     var selected = "";
     if(g>0){
         $.ajax({
-            url: '/planillassal/getmesesgeneracion/',
+            url: '/planillasref/getmesesgeneracion/',
             type: "POST",
             datatype: 'json',
             async: false,
@@ -76,7 +78,7 @@ function cargarMeses(option,g,m){
     else $("#lstMes"+sufijo).prop("disabled",true);
 }
 /**
- * Función para la obtención del listado de financiamientos por partida disponibles para la generación de planillas salariales en consideración a una gestion en particular.
+ * Función para la obtención del listado de financiamientos por partida disponibles para la generación de planillas de refrigerio en consideración a una gestion en particular.
  * @param option
  * @param g
  * @param m
@@ -92,7 +94,7 @@ function cargarFinPartidas(option,g,m,idFinPartida){
     var selected = "";
     if(g>0&&m>0){
         $.ajax({
-            url: '/planillassal/getfinpartidasgeneracion/',
+            url: '/planillasref/getfinpartidasgeneracion/',
             type: "POST",
             datatype: 'json',
             async: false,
@@ -125,14 +127,13 @@ function cargarTiposDePlanilla(option,g,m,idFinPartida,idTipoPlanilla){
     var sufijo = "Gen";
     if(option==2)sufijo = "View";
     var lista = "";
-    $("#lstTipoPlanillaSal"+sufijo).html("");
-    $("#lstTipoPlanillaSal"+sufijo).append("<option value=''>Seleccionar</option>");
-    $("#lstTipoPlanillaSal"+sufijo).prop("disabled",false);
+    $("#lstTipoPlanillaRef"+sufijo).html("");
+    $("#lstTipoPlanillaRef"+sufijo).append("<option value=''>Seleccionar</option>");
+    $("#lstTipoPlanillaRef"+sufijo).prop("disabled",false);
     var selected = "";
     if(g>0&&m>0&&idFinPartida>0){
-        //$("#lstTipoPlanillaSal"+sufijo).html("");
         $.ajax({
-            url: '/planillassal/gettiposplanillassal/',
+            url: '/planillasref/gettiposplanillasref/',
             type: "POST",
             datatype: 'json',
             async: false,
@@ -150,14 +151,14 @@ function cargarTiposDePlanilla(option,g,m,idFinPartida,idTipoPlanilla){
             }
         });
     }
-    if(lista!='')$("#lstTipoPlanillaSal"+sufijo).append(lista);
-    else $("#lstTipoPlanillaSal"+sufijo).prop("disabled",true);
+    if(lista!='')$("#lstTipoPlanillaRef"+sufijo).append(lista);
+    else $("#lstTipoPlanillaRef"+sufijo).prop("disabled",true);
 }
 /**
- * Función para la limpieza de los formularios de generación y vista de planillas salariales.
+ * Función para la limpieza de los formularios de generación y vista de Planillas de Refrigerio.
  * @param option
  */
-function limpiarFormularioPlanillaSal(option){
+function limpiarFormularioPlanillaRef(option){
     var ok = true;
     var sufijo = "Gen";
     var accion = "generaci&oacute;n";
@@ -172,15 +173,15 @@ function limpiarFormularioPlanillaSal(option){
     $("#divFinPartida"+sufijo).removeClass("has-error");
     $("#helpErrorFinPartida"+sufijo).html("");
 
-    $("#divTipoPlanillaSal"+sufijo).removeClass("has-error");
-    $("#helpErrorTipoPlanillaSal"+sufijo).html("");
+    $("#divTipoPlanillaRef"+sufijo).removeClass("has-error");
+    $("#helpErrorTipoPlanillaRef"+sufijo).html("");
 }
 /**
- * Función para validar los formularios para la generación y vista de Planillas Salariales.
+ * Función para validar los formularios para la generación y vista de Planillas de Refrigerio.
  * @param option
  * @returns {boolean}
  */
-function validaFormularioPlanillaSal(option){
+function validaFormularioPlanillaRef(option){
     var ok = true;
     var sufijo = "Gen";
     var accion = "generaci&oacute;n";
@@ -200,10 +201,10 @@ function validaFormularioPlanillaSal(option){
     var idFinPartida = $("#lstFinPartida"+sufijo).val();
     var helpErrorFinPartida = $("#helpErrorFinPartida"+sufijo);
 
-    var divTipoPlanilla = $("#divTipoPlanillaSal"+sufijo);
-    var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
-    var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo).data("numero");
-    var helpErrorTipoPlanilla = $("#helpErrorTipoPlanillaSal"+sufijo);
+    var divTipoPlanilla = $("#divTipoPlanillaRef"+sufijo);
+    var idTipoPlanilla = $("#lstTipoPlanillaRef"+sufijo).val();
+    var numeroPlanilla = $("#lstTipoPlanillaRef"+sufijo).data("numero");
+    var helpErrorTipoPlanilla = $("#helpErrorTipoPlanillaRef"+sufijo);
 
     if(gestion==''||gestion==0){
         ok = false;
@@ -232,15 +233,15 @@ function validaFormularioPlanillaSal(option){
     return ok;
 }
 /**
- * Función para la generación de la planilla salarial.
+ * Función para la generación de la Planilla de Refrigerio.
  */
-function desplegarPlanillaPreviaSal(){
+function desplegarPlanillaPreviaRef(){
     var sufijo = "Gen";
     var gestion = $("#lstGestion"+sufijo).val();
     var mes = $("#lstMes"+sufijo).val();
     var idFinPartida = $("#lstFinPartida"+sufijo).val();
-    var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
-    var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
+    var idTipoPlanilla = $("#lstTipoPlanillaRef"+sufijo).val();
+    var numeroPlanilla = $("#lstTipoPlanillaRef"+sufijo+" option:selected").data("numero");
     var source =
     {
         datatype: "json",
@@ -267,7 +268,7 @@ function desplegarPlanillaPreviaSal(){
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/planillassal/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla,
+        url: '/planillasref/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -276,7 +277,7 @@ function desplegarPlanillaPreviaSal(){
     cargarRegistrosLaborales();
     function cargarRegistrosLaborales() {
         var theme = prepareSimulator("grid");
-        $("#divGridPlanillasSalGen").jqxGrid(
+        $("#divGridPlanillasRefGen").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -500,27 +501,27 @@ function desplegarPlanillaPreviaSal(){
                         { text: 'Descuento en Bs.', align: 'center', name: 'DescuentoMonetario' }
                     ]
             });
-        $('#divGridPlanillasSalGen').off();
+        $('#divGridPlanillasRefGen').off();
         /**
          * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
          */
-        $("#divGridPlanillasSalGen").on("bindingcomplete",function(){
-            var rows = $('#divGridPlanillasSalGen').jqxGrid('getrows');
+        $("#divGridPlanillasRefGen").on("bindingcomplete",function(){
+            var rows = $('#divGridPlanillasRefGen').jqxGrid('getrows');
             if(rows.length>0){
-                $("#btnGenerarPlanillaSal").show();
+                $("#btnGenerarPlanillaRef").show();
             }else{
-                $("#btnGenerarPlanillaSal").hide();
+                $("#btnGenerarPlanillaRef").hide();
             }
         });
 
-        $('#divGridPlanillasSalGen').on('rowselect', function (event) {
+        $('#divGridPlanillasRefGen').on('rowselect', function (event) {
             calcularTotales();
         });
-        $('#divGridPlanillasSalGen').on('rowunselect', function (event) {
+        $('#divGridPlanillasRefGen').on('rowunselect', function (event) {
             calcularTotales()
         });
         function calcularTotales(){
-            var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
+            var rows = $("#divGridPlanillasRefGen").jqxGrid('selectedrowindexes');
             var totalConsiderados = 0;
             var totalHaberes = 0;
             var totalDiasEfectivos = 0;
@@ -535,7 +536,7 @@ function desplegarPlanillaPreviaSal(){
             var totalTotalLiquido = 0;
             $.each(rows,function(key,val){
                 var rowindex = val;
-                var dataRecord = $("#divGridPlanillasSalGen").jqxGrid('getrowdata', rowindex);
+                var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowindex);
                 /**
                  * Control de la correcta aplicación.
                  * En caso de que no se haya calculado los días efectivos, se entiende que aún no se tiene

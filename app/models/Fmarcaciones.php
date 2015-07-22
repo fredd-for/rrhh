@@ -28,7 +28,6 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
     public $fecha_fin_rango;
 
     public function initialize() {
-        //$this->setSchema("");
         $this->_db = new Fmarcaciones();
     }
     /**
@@ -232,6 +231,49 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
     public function getUltimaFecha($mes,$gestion)
     {   if($gestion>0&&$mes>0) {
             $sql = "SELECT f_ultimo_dia_mes FROM f_ultimo_dia_mes($mes,$gestion) ";
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+    /**
+     * Función para el control de la existencia de al menos una marcación cruzada inicial en el rango de fechas para el registro de relación laboral.
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return integer
+     */
+    public function controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin)
+    {   if($idRelaboral>0&&$fechaIni!=''&&$fechaFin!='') {
+            $sql = "SELECT f_existe_marcacion_mixta_inicial_en_rango_fechas as resultado from f_existe_marcacion_mixta_inicial_en_rango_fechas(".$idRelaboral.",'".$fechaIni."','".$fechaFin."')";
+            $this->_db = new Fmarcaciones();
+            $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $res[0]->resultado;
+        } return 0;
+    }
+
+    /**
+     * Función que verifica la existencia de una marcación prevista cruzada y una marcación regular en una misma fecha.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return Resultset
+     */
+    public function controlExisteMarcacionMixta($idRelaboral,$fecha)
+    {   if($idRelaboral>0&&$fecha!='') {
+            $sql = "SELECT f_existe_marcacion_mixta as resultado from f_existe_marcacion_mixta(".$idRelaboral.",'".$fecha."')";
+            $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $res[0]->resultado;
+        }
+    }
+
+    /**
+     * Función para la obtención del identificador del horario laboral del dia anterior, considerando que este es cruzado
+     * que significa que en la fecha previa se tenía una marcación de entrada y en la fecha actual la marcación de salida.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return Resultset
+     */
+    public function obtenerIdHorarioLaboralCruzadoDiaPrevio($idRelaboral,$fecha)
+    {   if($idRelaboral>0&&$fecha!='') {
+            $sql = "SELECT f_obtener_id_horariolaboral_cruzado_dia_previo as id_horariolaboral from f_obtener_id_horariolaboral_cruzado_dia_previo($idRelaboral,'$fecha')";
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

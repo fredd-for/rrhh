@@ -623,7 +623,7 @@ function definirGrillaParaListaPerfilesLaborales() {
                         align: 'center',
                         hidden: false
                     },
-                    {text: 'Observacion', datafield: 'observacion', width: 100, hidden: false},
+                    {text: 'Observaci&oacute;n', datafield: 'observacion', width: 300, align:'center',hidden: false},
                 ]
             });
     }

@@ -3,7 +3,7 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  29-04-2014
+ *   Fecha Creación:  21-07-2015
  */
 $().ready(function () {
 
@@ -20,19 +20,21 @@ $().ready(function () {
      * Control para la obtención de la planilla previa
      */
     $("#btnGenerarPlanillaPreviaSal").on("click",function(){
+        $("#hdnSwPlanillaCalculada").val(0);
          limpiarFormularioPlanillaSal(1);
          var ok = validaFormularioPlanillaSal(1);
          if (ok){
-             desplegarPlanillaPreviaSal();
+             desplegarPlanillaPreviaSal('');
          }
     });
     /**
-     * Control para el control de los registros seleccionados
+     * Control para la obtención de la planilla calculada para el personal seleccionado.
      */
-    $("#btnGenerarPlanillaSal").on("click",function(){
+    $("#btnCalcularPlanillaPreviaSal").on("click",function(){
         var cantidadRegistrosValidos = 0;
+        $("#hdnSwPlanillaCalculada").val(0)
         limpiarFormularioPlanillaSal(1);
-        var ok = validaFormularioPlanillaSal(1);
+        var ok = validaFormularioPlanillaSal(2);
         if (ok){
             var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
             if(rows.length>0){
@@ -49,38 +51,99 @@ $().ready(function () {
                 if(cantidadRegistrosValidos>0){
                     listaIdRelaborales += separador;
                     listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
-                    var sufijo = "Gen";
-                    var gestion = $("#lstGestion"+sufijo).val();
-                    var mes = $("#lstMes"+sufijo).val();
-                    var idFinPartida = $("#lstFinPartida"+sufijo).val();
-                    var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
-                    var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
-                    var observacion = "";
-                    $("#popupObservacionPlanillaSal").modal("show");
-                    $("#txtObservacionPlanillaSal").focus();
-                    $("#btnAplicarObservacionPlanillaSal").off();
-                    $("#btnAplicarObservacionPlanillaSal").on("click",function(){
-                        $("#popupObservacionPlanillaSal").modal("hide");
-                        observacion = $("#txtObservacionPlanillaSal").val();
-                        ok = generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
-                        if(ok){
-                            $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
-                            $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-                            $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
-                            $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
-                            $("#divGridPlanillasSal").jqxGrid("updatebounddata","cells");
-                        }
-
-                    });
+                    ok = desplegarPlanillaPreviaSal(listaIdRelaborales);
+                    $("#hdnSwPlanillaCalculada").val(1);
                 }else{
-                    var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para la generaci&oacute;n de la Planilla Salarial.";
+                    var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla Salarial.";
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(msje);
                     $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
             }else{
-                var msje = "Debe seleccionar al menos un registro para la generaci&oacute;n de la Planilla Salarial.";
+                var msje = "Debe seleccionar al menos un registro para el c&aacute;lculo de la Planilla Salarial.";
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(msje);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
+        }
+    });
+    /**
+     * Control para el control de los registros seleccionados
+     */
+    $("#btnGenerarPlanillaSal").on("click",function(){
+        var cantidadRegistrosValidos = 0;
+        var cantidadRegistrosInvalidos = 0;
+        limpiarFormularioPlanillaSal(1);
+        var ok = validaFormularioPlanillaSal(1);
+        if (ok){
+            /**
+             * Inicialmente se verifica que se haya ejecutado el calculo de la planilla.
+             */
+            if($("#hdnSwPlanillaCalculada").val()==1){
+
+                var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
+                if(rows.length>0){
+                    var listaIdRelaborales = '';
+                    var separador = '|';
+                    var selectedRecords = new Array();
+                    for (var m = 0; m < rows.length; m++) {
+                        var dataRecord = $("#divGridPlanillasSalGen").jqxGrid('getrowdata', rows[m]);
+                        if(dataRecord.dias_efectivos>0){
+                            cantidadRegistrosValidos++;
+                            listaIdRelaborales += dataRecord.id_relaboral + separador;
+                        }else{
+                            cantidadRegistrosInvalidos++;
+                        }
+                    }
+                    if(cantidadRegistrosValidos>0){
+
+                        if(cantidadRegistrosInvalidos>0){
+                            if(confirm("Se ha(n) seleccionado "+cantidadRegistrosInvalidos+" registro(s) con dias efectivos no calculables. ¿Aún desea generar la planilla omitiendo estos registros?"))
+                            {
+                                listaIdRelaborales += separador;
+                                listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
+                                var sufijo = "Gen";
+                                var gestion = $("#lstGestion"+sufijo).val();
+                                var mes = $("#lstMes"+sufijo).val();
+                                var idFinPartida = $("#lstFinPartida"+sufijo).val();
+                                var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
+                                var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
+                                var observacion = "";
+                                $("#popupObservacionPlanillaSal").modal("show");
+                                $("#txtObservacionPlanillaSal").focus();
+                                $("#btnAplicarObservacionPlanillaSal").off();
+                                $("#btnAplicarObservacionPlanillaSal").on("click",function(){
+                                    $("#popupObservacionPlanillaSal").modal("hide");
+                                    observacion = $("#txtObservacionPlanillaSal").val();
+                                    ok = generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
+                                    if(ok){
+                                        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+                                        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+                                        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
+                                        $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
+                                        $("#divGridPlanillasSal").jqxGrid("updatebounddata","cells");
+                                    }
+
+                                });
+                            }
+                        }
+                    }else{
+                        var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para la generaci&oacute;n de la Planilla Salarial.";
+                        $("#divMsjePorError").html("");
+                        $("#divMsjePorError").append(msje);
+                        $("#divMsjeNotificacionError").jqxNotification("open");
+                    }
+
+                }else{
+                    var msje = "Debe seleccionar al menos un registro para la generaci&oacute;n de la Planilla Salarial.";
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(msje);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
+                }
+
+            }else{
+                var msje = "Debe solicitar inicialmente el c&aacute;lculo de la planilla inicialmente para poder generar la planilla respectiva..";
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(msje);
                 $("#divMsjeNotificacionError").jqxNotification("open");
@@ -287,6 +350,7 @@ function definirGrillaParaListaPlanillas() {
                     $("#viewplanrowbutton").jqxButton();
 
                     $("#hdnIdPlanillaSal").val(0);
+                    $("#hdnSwPlanillaCalculada").val(0);
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {
@@ -309,21 +373,25 @@ function definirGrillaParaListaPlanillas() {
                             cargarFinPartidas(1,$("#lstGestionGen").val(),0,0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),0,0,0);
                             $("#btnGenerarPlanillaSal").hide();
+                            $("#btnCalcularPlanillaPreviaSal").hide();
                         });
                         $("#lstMesGen").off();
                         $("#lstMesGen").on("change",function(){
                             cargarFinPartidas(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0,0);
                             $("#btnGenerarPlanillaSal").hide();
+                            $("#btnCalcularPlanillaPreviaSal").hide();
                         });
                         $("#lstFinPartidaGen").off();
                         $("#lstFinPartidaGen").on("change",function(){
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),$("#lstFinPartidaGen").val(),0);
                             $("#btnGenerarPlanillaSal").hide();
+                            $("#btnCalcularPlanillaPreviaSal").hide();
                         });
                         $("#lstTipoPlanillaSalGen").off();
                         $("#lstTipoPlanillaSalGen").on("change",function(){
                             $("#btnGenerarPlanillaSal").hide();
+                            $("#btnCalcularPlanillaPreviaSal").hide();
                         });
                     });
                     /* Ver registro.*/

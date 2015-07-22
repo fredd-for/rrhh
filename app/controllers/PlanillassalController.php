@@ -186,6 +186,8 @@ class PlanillassalController extends ControllerBase{
         $idFinPartida = 0;
         $idTipoPlanilla = 0;
         $numeroPlanilla = 0;
+        $jsonIdRelaborales='';
+        $arrIdRelaborales = array();
         if(isset($_GET["gestion"])&&$_GET["gestion"]>0)
             $gestion = $_GET["gestion"];
         if(isset($_GET["mes"])&&$_GET["mes"]>0)
@@ -196,9 +198,20 @@ class PlanillassalController extends ControllerBase{
             $idTipoPlanilla = $_GET["id_tipoplanilla"];
         if(isset($_GET["numero"])&&$_GET["numero"]>0)
             $numeroPlanilla = $_GET["numero"];
+
+        if(isset($_GET["id_relaborales"])&&$_GET["id_relaborales"]!=''){
+            $arrIdRelaborales = explode("|",$_GET["id_relaborales"]);
+        }
+        if(count($arrIdRelaborales)>0){
+            $jsonIdRelaborales = '{';
+            foreach($arrIdRelaborales as $clave => $idRelaboral){
+                $jsonIdRelaborales .= '"'.$clave.'":'.$idRelaboral.',';
+            }
+            $jsonIdRelaborales .= ',';
+            $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+            $jsonIdRelaborales .= '}';
+        }
         if($gestion>0&&$mes>0&&$idFinPartida>0&&$idTipoPlanilla>0&&$numeroPlanilla>=0){
-            //$jsonIdRelaborales = json_encode(array("0"=>0));
-            $jsonIdRelaborales = '';
             $resul = $obj->desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
@@ -315,10 +328,18 @@ class PlanillassalController extends ControllerBase{
                     if($planillasal->save()){
                         foreach ($resul as $v) {
                             #region registro del descuento correspondiente
-                            $descuento = new Descuentos();
-                            $descuento->relaboral_id = $v->id_relaboral;
-                            $descuento->gestion = $v->gestion;
-                            $descuento->mes = $v->mes;
+                            $descuento = Horariosymarcaciones::findFirst(array("relaboral_id=".$v->id_relaboral." AND gestion=".$v->gestion." AND mes=".$v->mes));
+                            if(!is_object($descuento)){
+                                $descuento = new Descuentos();
+                                $descuento->relaboral_id = $v->id_relaboral;
+                                $descuento->gestion = $v->gestion;
+                                $descuento->mes = $v->mes;
+                                $descuento->user_reg_id=$user_reg_id;
+                                $descuento->fecha_reg=$hoy;
+                            }else{
+                                $descuento->user_mod_id=$user_reg_id;
+                                $descuento->fecha_mod=$hoy;
+                            }
                             $descuento->faltas = $v->faltas;
                             $descuento->atrasos = $v->atrasos;
                             $descuento->lsgh = $v->lsgh;
@@ -331,8 +352,6 @@ class PlanillassalController extends ControllerBase{
                             $descuento->estado = 1;
                             $descuento->baja_logica=1;
                             $descuento->agrupador=0;
-                            $descuento->user_reg_id=$user_reg_id;
-                            $descuento->fecha_reg=$hoy;
                             $descuento->faltas_atrasos = $v->faltas_atrasos!=null?$v->faltas_atrasos:0;
                             if ($descuento->save()) {
                                 #region registro del pago salarial

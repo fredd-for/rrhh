@@ -234,7 +234,7 @@ function validaFormularioPlanillaSal(option){
 /**
  * Función para la generación de la planilla salarial.
  */
-function desplegarPlanillaPreviaSal(){
+function desplegarPlanillaPreviaSal(idRelaborales){
     var sufijo = "Gen";
     var gestion = $("#lstGestion"+sufijo).val();
     var mes = $("#lstMes"+sufijo).val();
@@ -275,7 +275,7 @@ function desplegarPlanillaPreviaSal(){
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/planillassal/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla,
+        url: '/planillassal/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla+'&id_relaborales='+idRelaborales,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -548,7 +548,7 @@ function desplegarPlanillaPreviaSal(){
                      }
                      },
                     {
-                        text: 'Aporte AFP',
+                        text: 'Descuento AFP',
                         filtertype: 'checkedlist',
                         datafield: 'aporte_laboral_afp',
                         width: 90,
@@ -639,10 +639,17 @@ function desplegarPlanillaPreviaSal(){
         $("#divGridPlanillasSalGen").on("bindingcomplete",function(){
             var rows = $('#divGridPlanillasSalGen').jqxGrid('getrows');
             if(rows.length>0){
-                $("#btnGenerarPlanillaSal").show();
+                $("#btnCalcularPlanillaPreviaSal").show();
+                if($("#hdnSwPlanillaCalculada").val()==1){
+                    $("#btnGenerarPlanillaSal").show();
+                }else{
+                    $("#btnGenerarPlanillaSal").hide();
+                }
             }else{
                 $("#btnGenerarPlanillaSal").hide();
+                $("#btnCalcularPlanillaPreviaSal").hide();
             }
+            $("#divGridPlanillasSalGen").jqxGrid('clearselection');
         });
 
         $('#divGridPlanillasSalGen').on('rowselect', function (event) {
@@ -680,40 +687,41 @@ function desplegarPlanillaPreviaSal(){
                     if(dataRecord.id_relaboral>0){
                         totalConsiderados++;
                     }
-                    if(!isNaN(dataRecord.sueldo)){
+                    if(!isNaN(dataRecord.sueldo)&&dataRecord.sueldo!=null){
                         totalHaberes += Number(parseFloat(dataRecord.sueldo));
                     }
-                    if(!isNaN(dataRecord.dias_efectivos)){
+                    if(!isNaN(dataRecord.dias_efectivos)&&dataRecord.dias_efectivos!=null){
                         totalDiasEfectivos += Number(parseFloat(dataRecord.dias_efectivos));
                     }
-                    if(!isNaN(dataRecord.faltas)){
+                    if(!isNaN(dataRecord.faltas)&&dataRecord.faltas!=null){
                         totalFaltas += Number(parseFloat(dataRecord.faltas));
                     }
-                    if(!isNaN(dataRecord.atrasos)){
+
+                    if(!isNaN(dataRecord.atrasos)&&dataRecord.atrasos!=null){
                         totalAtrasos += Number(parseFloat(dataRecord.atrasos));
                     }
-                    if(!isNaN(dataRecord.total_descuentos)){
+                    if(!isNaN(dataRecord.total_descuentos)&&dataRecord.total_descuentos!=null){
                         totalTotalDescuentos += Number(parseFloat(dataRecord.total_descuentos));
                     }
-                    if(!isNaN(dataRecord.aporte_laboral_afp)){
+                    if(!isNaN(dataRecord.aporte_laboral_afp)&&dataRecord.aporte_laboral_afp!=null){
                         totalAporteLaboralAFP += Number(parseFloat(dataRecord.aporte_laboral_afp));
                     }
-                    if(!isNaN(dataRecord.lsgh)){
+                    if(!isNaN(dataRecord.lsgh)&&dataRecord.lsgh!=null){
                         totalLsgh += Number(parseFloat(dataRecord.lsgh));
                     }
-                    if(!isNaN(dataRecord.omision)){
+                    if(!isNaN(dataRecord.omision)&&dataRecord.omision!=null){
                         totalOmisiones += Number(parseFloat(dataRecord.omision));
                     }
-                    if(!isNaN(dataRecord.abandono)){
+                    if(!isNaN(dataRecord.abandono)&&dataRecord.abandono!=null){
                         totalAbandonos += Number(parseFloat(dataRecord.abandono));
                     }
-                    if(!isNaN(dataRecord.otros)){
+                    if(!isNaN(dataRecord.otros)&&dataRecord.otros!=null){
                         totalOtros += Number(parseFloat(dataRecord.otros));
                     }
-                    if(!isNaN(dataRecord.total_ganado)){
+                    if(!isNaN(dataRecord.total_ganado)&&dataRecord.total_ganado!=null){
                         totalTotalGanado += Number(parseFloat(dataRecord.total_ganado));
                     }
-                    if(!isNaN(dataRecord.total_liquido)){
+                    if(!isNaN(dataRecord.total_liquido)&&dataRecord.total_liquido!=null){
                         totalTotalLiquido += Number(parseFloat(dataRecord.total_liquido));
                     }
                 }
@@ -758,35 +766,7 @@ function desplegarPlanillaPreviaSal(){
             $("#divTotalTotalLiquido").text("");
             $("#divTotalTotalLiquido").text(totalTotalLiquido.toFixed(2));
         }
-        /*$("#excelExport").jqxButton();
-         $("#xmlExport").jqxButton();
-         $("#csvExport").jqxButton();
-         $("#tsvExport").jqxButton();
-         $("#htmlExport").jqxButton();
-         $("#jsonExport").jqxButton();
-         $("#pdfExport").jqxButton();
-
-         $("#excelExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xls', 'jqxGrid');
-         });
-         $("#xmlExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'jqxGrid');
-         });
-         $("#csvExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'csv', 'jqxGrid');
-         });
-         $("#tsvExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'tsv', 'jqxGrid');
-         });
-         $("#htmlExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'html', 'jqxGrid');
-         });
-         $("#jsonExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'json', 'jqxGrid');
-         });
-         $("#pdfExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'pdf', 'jqxGrid');
-         });*/
+        return true;
     }
 }
 /**

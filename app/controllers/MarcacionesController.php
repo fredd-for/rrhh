@@ -415,7 +415,11 @@ class MarcacionesController extends ControllerBase
     public function borrarRangoEnTabla($ci,$fechaIni,$fechaFin)
     {
         $db = $this->getDI()->get('db');
-        $sql = "DELETE FROM marcaciones where fecha BETWEEN '$fechaIni' AND '$fechaFin'";
+        /**
+         * Se agrega el control de eliminación de registros con agrupador = 0 debido a que en caso de que una persona sea eliminada del biométrico
+         * y/o sea dado de baja no se modifique más sus registros.
+         */
+        $sql = "DELETE FROM marcaciones where fecha BETWEEN '$fechaIni' AND '$fechaFin' AND agrupador=0";
         if($ci!=''&&$ci>0)$sql.=" AND persona_id=(SELECT id FROM personas WHERE CI='$ci' LIMIT 1)";
         $success = $db->execute($sql);
         return $success;
@@ -485,7 +489,11 @@ class MarcacionesController extends ControllerBase
                 $sqlB = "";
                 while ( $result = sqlsrv_fetch_array ($stmt) ) {
                     $tot++;
-                    $persona = Personas::findFirst(array("ci LIKE '".trim($result ["CI"])."'"));
+                    if($ci!=''&&$ci!=null)
+                        $persona = Personas::findFirst(array("ci LIKE '".trim($ci)."'"));
+                    else
+                        $persona = Personas::findFirst(array("ci LIKE '".trim($result ["CI"])."'"));
+
                     $maquina = Maquinas::findFirst(array("num_serie LIKE '".trim($result ["CODIGO_MAQUINA"])."'"));
                     $idPersona=$idMaquina=0;
                     if($persona){$idPersona = $persona->id;}

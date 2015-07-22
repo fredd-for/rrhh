@@ -1,7 +1,7 @@
 </head>
 <body>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n Planillas de Refrigerio</b></h2>
-<div id='divTabPlanillasSal'>
+<div id='divTabPlanillasRef'>
 <ul>
     <li id="liList">Listado</li>
     <li id="liNew">Generaci&oacute;n</li>
@@ -40,7 +40,7 @@
                             Desfiltrar Todo
                         </button>
                     </div>
-                    <div id="divGridPlanillasSal"></div>
+                    <div id="divGridPlanillasRef"></div>
                 </div>
             </div>
             <!-- END Input Grid Title -->
@@ -55,7 +55,7 @@
                 <br>
                 <input type="checkbox" id="chkAllCols"> Todas / Ninguna
             </div>
-            <div id="listBoxPlanillasSal"></div>
+            <div id="listBoxPlanillasRef"></div>
         </div>
     </div>
 </div>
@@ -65,8 +65,8 @@
         <div class="block">
             <!-- Input Grid Title -->
             <div class="block-title">
-                <h2>Generaci&oacute;n de Planillas Salariales</h2>
-                <div id='divWidgetPlanillasSal'>
+                <h2>Generaci&oacute;n de Planillas de Refrigerio</h2>
+                <div id='divWidgetPlanillasRef'>
                     <div class="row">
                         <div class="col-sm-2" id="divGestionGen">
                             <div class="block">Gesti&oacute;n:
@@ -86,18 +86,18 @@
                             </div>
                             <span class="help-block" id="helpErrorFinPartidaGen"></span>
                         </div>
-                        <div class="col-sm-2" id="divTipoPlanillaSalGen">
+                        <div class="col-sm-2" id="divTipoPlanillaRefGen">
                             <div class="block">Tipo:
-                                <select id="lstTipoPlanillaSalGen" class="form-control"><option value="">Seleccionar...</option></select>
+                                <select id="lstTipoPlanillaRefGen" class="form-control"><option value="">Seleccionar...</option></select>
                             </div>
-                            <span class="help-block" id="helpErrorTipoPlanillaSalGen"></span>
+                            <span class="help-block" id="helpErrorTipoPlanillaRefGen"></span>
                         </div>
                         <div class="col-sm-2">
-                            <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaPreviaSal" accesskey="d">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaPreviaRef" accesskey="d">
                                 <i class="gi gi-search"></i>
                                 Buscar
                             </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaSal" accesskey="g">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaRef" accesskey="g">
                                 <i class="hi hi-cog"></i>
                                 Generar
                             </button>
@@ -107,7 +107,7 @@
                         <div id="divContador"></div>
                         <img src="../images/barra_carga.gif" />
                     </div>
-                    <div id="divGridPlanillasSalGen"></div>
+                    <div id="divGridPlanillasRefGen"></div>
                     <div id="divBotonesExportacion">
                     <button class="btn btn-sm btn-primary" type="button" id="btnExportarGenExcel" accesskey="i">
                         <i class="fi fi-xls"></i>
@@ -128,8 +128,8 @@
         <div class="block">
             <!-- Input Grid Title -->
             <div class="block-title">
-                <h2>Planillas Salariales Generadas</h2>
-                <div id='divWidgetPlanillasSalView'>
+                <h2>Planillas de Refrigerio Generadas</h2>
+                <div id='divWidgetPlanillasRefView'>
                     <div id='divWidgetPlanillas'>
                         <div align="right">
                             <button class="btn btn-sm btn-primary" type="button" id="btnExportarViewExcel" accesskey="i">
@@ -140,18 +140,18 @@
                                 <i class="fi fi-pdf"></i>
                                 Exportar PDF
                             </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnDesagruparTodoPlanillasSalView">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesagruparTodoPlanillasRefView">
                                 <i class="fa fa-chain-broken"></i>
                                 Desagrupar Todo
                             </button>
-                            <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrarTodoPlanillasSalView">
+                            <button class="btn btn-sm btn-primary" type="button" id="btnDesfiltrarTodoPlanillasRefView">
                                 <i class="gi gi-sorting"></i>
                                 Desfiltrar Todo
                             </button>
                         </div>
                         <div class="block">
                             <div class="table-responsive">
-                                <table id="tblDatosPlanillaSal" class="table table-vcenter table-striped">
+                                <table id="tblDatosPlanillaRef" class="table table-vcenter table-striped">
                                     <thead>
                                     <tr>
                                         <th style='text-align: center'>Estado</th>
@@ -162,12 +162,12 @@
                                         <th style='text-align: center'>Observaci&oacute;n</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="tbodyDatosPlanillaSal"></tbody>
+                                    <tbody id="tbodyDatosPlanillaRef"></tbody>
                                 </table>
                             </div>
                         </div>
-                        <div id="divGridPlanillasSalView"></div>
-                        <input type="hidden" value="0" id="hdnIdPlanillaSal">
+                        <div id="divGridPlanillasRefView"></div>
+                        <input type="hidden" value="0" id="hdnIdPlanillaRef">
                     </div>
                 </div>
             </div>
@@ -178,55 +178,55 @@
     </div>
 </div>
 </div>
-<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaSal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaRef" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="form-horizontal" id="formObservacionPlanillaSal" data-toggle="validator" onsubmit="return false;"/>
+            <form class="form-horizontal" id="formObservacionPlanillaRef" data-toggle="validator" onsubmit="return false;"/>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title" id="h4ModalObservacionPlanillaSal">Observaciones sobre la Planilla Salarial</h4>
+                <h4 class="modal-title" id="h4ModalObservacionPlanillaRef">Observaciones sobre la Planilla de Refrigerio</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="div-observacion-planillasal" id="divObservacionPlanillaSal">
-                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaSal">Observaci&oacute;n:</label>
+                    <div class="div-observacion-planillaref" id="divObservacionPlanillaRef">
+                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaRef">Observaci&oacute;n:</label>
                         <div class="col-md-10"  form-group>
-                            <textarea id="txtObservacionPlanillaSal" class="form-control"></textarea>
-                            <span class="help-block" id="helpErrorObservacionPlanillaSal"></span>
+                            <textarea id="txtObservacionPlanillaRef" class="form-control"></textarea>
+                            <span class="help-block" id="helpErrorObservacionPlanillaRef"></span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnCerrarObservacionPlanillaSal" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
-                <button type="button" id="btnAplicarObservacionPlanillaSal" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
+                <button type="button" id="btnCerrarObservacionPlanillaRef" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarObservacionPlanillaRef" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
             </div>
             </form>
         </div>
     </div>
 </div>
-<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaSalEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="popupObservacionPlanillaRefEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="form-horizontal" id="formObservacionPlanillaSalEdit" data-toggle="validator" onsubmit="return false;"/>
+            <form class="form-horizontal" id="formObservacionPlanillaRefEdit" data-toggle="validator" onsubmit="return false;"/>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title" id="h4ModalObservacionPlanillaSalEdit">Observaciones sobre la Planilla Salarial</h4>
+                <h4 class="modal-title" id="h4ModalObservacionPlanillaRefEdit">Observaciones sobre la Planilla de Refrigerio</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="div-observacion-planillasal-edit" id="divObservacionPlanillaSalEdit">
-                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaSalEdit">Observaci&oacute;n:</label>
+                    <div class="div-observacion-planillaref-edit" id="divObservacionPlanillaRefEdit">
+                        <label class="col-sm-2 control-label" for="txtObservacionPlanillaRefEdit">Observaci&oacute;n:</label>
                         <div class="col-md-10"  form-group>
-                            <textarea id="txtObservacionPlanillaSalEdit" class="form-control"></textarea>
-                            <span class="help-block" id="helpErrorObservacionPlanillaSalEdit"></span>
+                            <textarea id="txtObservacionPlanillaRefEdit" class="form-control"></textarea>
+                            <span class="help-block" id="helpErrorObservacionPlanillaRefEdit"></span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnCerrarObservacionPlanillaSalEdit" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
-                <button type="button" id="btnAplicarObservacionPlanillaSalEdit" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
+                <button type="button" id="btnCerrarObservacionPlanillaRefEdit" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-compress"></i>Cerrar</button>
+                <button type="button" id="btnAplicarObservacionPlanillaRefEdit" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i>Aplicar</button>
             </div>
             </form>
         </div>

@@ -10,37 +10,37 @@ $().ready(function () {
     /**
      * Inicialmente se habilita solo la pestaña del listado
      */
-    $('#divTabPlanillasSal').jqxTabs('theme', 'oasis');
-    $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
-    $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-    $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
+    $('#divTabPlanillasRef').jqxTabs('theme', 'oasis');
+    $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
+    $('#divTabPlanillasRef').jqxTabs('disableAt', 1);
+    $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
 
-    definirGrillaParaListaPlanillas();
+    definirGrillaParaListaPlanillasDeRefrigerio();
     /**
      * Control para la obtención de la planilla previa
      */
-    $("#btnGenerarPlanillaPreviaSal").on("click",function(){
-         limpiarFormularioPlanillaSal(1);
-         var ok = validaFormularioPlanillaSal(1);
+    $("#btnGenerarPlanillaPreviaRef").on("click",function(){
+         limpiarFormularioPlanillaRef(1);
+         var ok = validaFormularioPlanillaRef(1);
          if (ok){
-             desplegarPlanillaPreviaSal();
+             desplegarPlanillaPreviaRef();
          }
     });
     /**
      * Control para el control de los registros seleccionados
      */
-    $("#btnGenerarPlanillaSal").on("click",function(){
+    $("#btnGenerarPlanillaRef").on("click",function(){
         var cantidadRegistrosValidos = 0;
         limpiarFormularioPlanillaSal(1);
-        var ok = validaFormularioPlanillaSal(1);
+        var ok = validaFormularioPlanillaRef(1);
         if (ok){
-            var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
+            var rows = $("#divGridPlanillasRefGen").jqxGrid('selectedrowindexes');
             if(rows.length>0){
                 var listaIdRelaborales = '';
                 var separador = '|';
                 var selectedRecords = new Array();
                 for (var m = 0; m < rows.length; m++) {
-                    var dataRecord = $("#divGridPlanillasSalGen").jqxGrid('getrowdata', rows[m]);
+                    var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rows[m]);
                     if(dataRecord.dias_efectivos>0){
                         cantidadRegistrosValidos++;
                         listaIdRelaborales += dataRecord.id_relaboral + separador;
@@ -53,34 +53,34 @@ $().ready(function () {
                     var gestion = $("#lstGestion"+sufijo).val();
                     var mes = $("#lstMes"+sufijo).val();
                     var idFinPartida = $("#lstFinPartida"+sufijo).val();
-                    var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
-                    var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
+                    var idTipoPlanilla = $("#lstTipoPlanillaRef"+sufijo).val();
+                    var numeroPlanilla = $("#lstTipoPlanillaRef"+sufijo+" option:selected").data("numero");
                     var observacion = "";
-                    $("#popupObservacionPlanillaSal").modal("show");
-                    $("#txtObservacionPlanillaSal").focus();
-                    $("#btnAplicarObservacionPlanillaSal").off();
-                    $("#btnAplicarObservacionPlanillaSal").on("click",function(){
-                        $("#popupObservacionPlanillaSal").modal("hide");
-                        observacion = $("#txtObservacionPlanillaSal").val();
+                    $("#popupObservacionPlanillaRef").modal("show");
+                    $("#txtObservacionPlanillaRef").focus();
+                    $("#btnAplicarObservacionPlanillaRef").off();
+                    $("#btnAplicarObservacionPlanillaRef").on("click",function(){
+                        $("#popupObservacionPlanillaRef").modal("hide");
+                        observacion = $("#txtObservacionPlanillaRef").val();
                         ok = generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
                         if(ok){
-                            $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
-                            $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-                            $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
-                            $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
-                            $("#divGridPlanillasSal").jqxGrid("updatebounddata","cells");
+                            $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
+                            $('#divTabPlanillasRef').jqxTabs('disableAt', 1);
+                            $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
+                            $('#divTabPlanillasRef').jqxTabs({selectedItem: 0});
+                            $("#divGridPlanillasRef").jqxGrid("updatebounddata","cells");
                         }
 
                     });
                 }else{
-                    var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para la generaci&oacute;n de la Planilla Salarial.";
+                    var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para la generaci&oacute;n de la Planilla de Refrigerio.";
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(msje);
                     $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
             }else{
-                var msje = "Debe seleccionar al menos un registro para la generaci&oacute;n de la Planilla Salarial.";
+                var msje = "Debe seleccionar al menos un registro para la generaci&oacute;n de la Planilla de Refrigerio.";
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(msje);
                 $("#divMsjeNotificacionError").jqxNotification("open");
@@ -123,8 +123,8 @@ $().ready(function () {
         $("#msjs-alert").hide();
     });
     $("#btnExportarGenExcel").on("click",function () {
-        /*$("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xls', 'jqxGrid');*/
-        $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'PlanillaSalPrevia');
+        /*$("#divGridPlanillasRefGen").jqxGrid('exportdata', 'xls', 'jqxGrid');*/
+        $("#divGridPlanillasRefGen").jqxGrid('exportdata', 'xml', 'PlanillaSalPrevia');
     });
     $("#btnExportarViewExcel").on("click",function () {
         var idPlanillaSal = $("#hdnIdPlanillaSal").val();
@@ -166,19 +166,19 @@ $().ready(function () {
         $("#btnCancelarExcepcionEdit").click();
     });
     $('#btnDesfiltrartodo').click(function () {
-        $("#divGridPlanillasSal").jqxGrid('clearfilters');
+        $("#divGridPlanillasRef").jqxGrid('clearfilters');
     });
     $('#btnDesfiltrarTodoPlanillasSalView').click(function () {
-        $("#divGridPlanillasSalView").jqxGrid('clearfilters');
+        $("#divGridPlanillasRefView").jqxGrid('clearfilters');
     });
     $('#btnDesagrupartodo').click(function () {
-        $('#divGridPlanillasSal').jqxGrid('cleargroups');
+        $('#divGridPlanillasRef').jqxGrid('cleargroups');
     });
     $('#btnDesagruparTodoPlanillasSalView').click(function () {
-        $('#divGridPlanillasSalView').jqxGrid('cleargroups');
+        $('#divGridPlanillasRefView').jqxGrid('cleargroups');
     });
     $('#btnDesagruparTodoMovilidad').click(function () {
-        $('#divGridPlanillasSalmovilidad').jqxGrid('cleargroups');
+        $('#divGridPlanillasRefmovilidad').jqxGrid('cleargroups');
     });
     /*
      *   Función para la inserción obligatoria de datos numéricos en los campos de clase.
@@ -215,9 +215,9 @@ $().ready(function () {
     $(document).keyup(OperaEvento);
 });
 /**
- * Función para definir la grilla principal (listado) para la gestión de planillas.
+ * Función para definir la grilla principal (listado) de refrigerios para la gestión de planillas de refrigerio.
  */
-function definirGrillaParaListaPlanillas() {
+function definirGrillaParaListaPlanillasDeRefrigerio() {
     var source =
     {
         datatype: "json",
@@ -241,14 +241,14 @@ function definirGrillaParaListaPlanillas() {
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/planillassal/list',
+        url: '/planillasref/list',
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeTolerancias();
     function cargarRegistrosDeTolerancias() {
         var theme = prepareSimulator("grid");
-        $("#divGridPlanillasSal").jqxGrid(
+        $("#divGridPlanillasRef").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -281,21 +281,21 @@ function definirGrillaParaListaPlanillas() {
                     $("#deleteplanrowbutton").jqxButton();
                     $("#viewplanrowbutton").jqxButton();
 
-                    $("#hdnIdPlanillaSal").val(0);
+                    $("#hdnIdPlanillaRef").val(0);
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {
-                        $('#divTabPlanillasSal').jqxTabs('enableAt', 1);
-                        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
-                        $('#divTabPlanillasSal').jqxTabs({selectedItem: 1});
-                        $("#divGridPlanillasSalGen").jqxGrid('clear');
-                        $('#divGridPlanillasSalGen').jqxGrid('selectallrows',false);
-                        limpiarFormularioPlanillaSal(1);
+                        $('#divTabPlanillasRef').jqxTabs('enableAt', 1);
+                        $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
+                        $('#divTabPlanillasRef').jqxTabs({selectedItem: 1});
+                        $("#divGridPlanillasRefGen").jqxGrid('clear');
+                        $('#divGridPlanillasRefGen').jqxGrid('selectallrows',false);
+                        limpiarFormularioPlanillaRef(1);
                         cargarGestiones(1,0);
                         cargarMeses(1,0,0);
                         cargarFinPartidas(1,0,0,0);
                         cargarTiposDePlanilla(1,0,0,0,0);
-                        desplegarPlanillaPreviaSal();
+                        desplegarPlanillaPreviaRef();
                         $("#lstGestionGen").focus();
 
                         $("#lstGestionGen").off();
@@ -303,43 +303,43 @@ function definirGrillaParaListaPlanillas() {
                             cargarMeses(1,$("#lstGestionGen").val(),0);
                             cargarFinPartidas(1,$("#lstGestionGen").val(),0,0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),0,0,0);
-                            $("#btnGenerarPlanillaSal").hide();
+                            $("#btnGenerarPlanillaRef").hide();
                         });
                         $("#lstMesGen").off();
                         $("#lstMesGen").on("change",function(){
                             cargarFinPartidas(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0,0);
-                            $("#btnGenerarPlanillaSal").hide();
+                            $("#btnGenerarPlanillaRef").hide();
                         });
                         $("#lstFinPartidaGen").off();
                         $("#lstFinPartidaGen").on("change",function(){
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),$("#lstFinPartidaGen").val(),0);
-                            $("#btnGenerarPlanillaSal").hide();
+                            $("#btnGenerarPlanillaRef").hide();
                         });
-                        $("#lstTipoPlanillaSalGen").off();
-                        $("#lstTipoPlanillaSalGen").on("change",function(){
-                            $("#btnGenerarPlanillaSal").hide();
+                        $("#lstTipoPlanillaRefGen").off();
+                        $("#lstTipoPlanillaRefGen").on("change",function(){
+                            $("#btnGenerarPlanillaRef").hide();
                         });
                     });
                     /* Ver registro.*/
                     $("#editplanrowbutton").off();
                     $("#editplanrowbutton").on('click', function () {
-                        var selectedrowindex = $("#divGridPlanillasSal").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridPlanillasRef").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPlanillasSal').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridPlanillasRef').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 /**
                                  * Se admite la modificación del registro de la observación de la planilla si su estado es GENERADO O VERIFICADO
                                  */
                                 if(dataRecord.estado==1||dataRecord.estado==2){
                                     var observacion = "";
-                                    $("#popupObservacionPlanillaSalEdit").modal("show");
-                                    $("#txtObservacionPlanillaSalEdit").focus();
-                                    $("#txtObservacionPlanillaSalEdit").val(dataRecord.observacion);
-                                    $("#btnAplicarObservacionPlanillaSalEdit").off();
-                                    $("#btnAplicarObservacionPlanillaSalEdit").on("click",function(){
-                                        $("#popupObservacionPlanillaSalEdit").modal("hide");
-                                        observacion = $("#txtObservacionPlanillaSalEdit").val();
+                                    $("#popupObservacionPlanillaRefEdit").modal("show");
+                                    $("#txtObservacionPlanillaRefEdit").focus();
+                                    $("#txtObservacionPlanillaRefEdit").val(dataRecord.observacion);
+                                    $("#btnAplicarObservacionPlanillaRefEdit").off();
+                                    $("#btnAplicarObservacionPlanillaRefEdit").on("click",function(){
+                                        $("#popupObservacionPlanillaRefEdit").modal("hide");
+                                        observacion = $("#txtObservacionPlanillaRefEdit").val();
                                         modificarObservacionEnPlanillaSal(dataRecord.id,0,observacion);
                                     });
                                 }else{
@@ -364,38 +364,38 @@ function definirGrillaParaListaPlanillas() {
                     /* Ver registro.*/
                     $("#viewplanrowbutton").off();
                     $("#viewplanrowbutton").on('click', function () {
-                        var selectedrowindex = $("#divGridPlanillasSal").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridPlanillasRef").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPlanillasSal').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridPlanillasRef').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
-                                $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-                                $('#divTabPlanillasSal').jqxTabs('enableAt', 2);
-                                $('#divTabPlanillasSal').jqxTabs({selectedItem: 2});
-                                $("#tbodyDatosPlanillaSal").html("");
+                                $('#divTabPlanillasRef').jqxTabs('disableAt', 1);
+                                $('#divTabPlanillasRef').jqxTabs('enableAt', 2);
+                                $('#divTabPlanillasRef').jqxTabs({selectedItem: 2});
+                                $("#tbodyDatosPlanillaRef").html("");
                                 var obs = "";
-                                $("#tbodyDatosPlanillaSal").append("<tr class='success'>");
-                                $("#tbodyDatosPlanillaSal").append("<td style='text-align: center'>"+dataRecord.estado_descripcion+"</td>");
-                                $("#tbodyDatosPlanillaSal").append("<td style='text-align: center'>"+dataRecord.gestion+"</td>");
-                                $("#tbodyDatosPlanillaSal").append("<td style='text-align: center'>"+dataRecord.mes_nombre+"</td>");
-                                $("#tbodyDatosPlanillaSal").append("<td>"+dataRecord.fin_partida+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("<tr class='success'>");
+                                $("#tbodyDatosPlanillaRef").append("<td style='text-align: center'>"+dataRecord.estado_descripcion+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("<td style='text-align: center'>"+dataRecord.gestion+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("<td style='text-align: center'>"+dataRecord.mes_nombre+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("<td>"+dataRecord.fin_partida+"</td>");
                                 var tipoPlanilla = dataRecord.tipo_planilla;
                                 if(dataRecord.numero>0){
                                     tipoPlanilla += " ("+dataRecord.numero+")";
                                 }
-                                $("#tbodyDatosPlanillaSal").append("<td style='text-align: center'>"+tipoPlanilla+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("<td style='text-align: center'>"+tipoPlanilla+"</td>");
                                 if(dataRecord.observacion!=null)obs=dataRecord.observacion;
-                                $("#tbodyDatosPlanillaSal").append("<td>"+obs+"</td>");
-                                $("#tbodyDatosPlanillaSal").append("</tr>");
-                                $("#hdnIdPlanillaSal").val(dataRecord.id);
+                                $("#tbodyDatosPlanillaRef").append("<td>"+obs+"</td>");
+                                $("#tbodyDatosPlanillaRef").append("</tr>");
+                                $("#hdnIdPlanillaRef").val(dataRecord.id);
                                 mostrarPlanilla(dataRecord.id);
                             }else{
-                                var msje = "Debe seleccionar un registro de Planilla Salarial necesariamente.";
+                                var msje = "Debe seleccionar un registro de Planilla de Refrigerio necesariamente.";
                                 $("#divMsjePorError").html("");
                                 $("#divMsjePorError").append(msje);
                                 $("#divMsjeNotificacionError").jqxNotification("open");
                             }
                         } else {
-                            var msje = "Debe seleccionar un registro de Planilla Salarial necesariamente.";
+                            var msje = "Debe seleccionar un registro de Planilla de Refrigerio necesariamente.";
                             $("#divMsjePorError").html("");
                             $("#divMsjePorError").append(msje);
                             $("#divMsjeNotificacionError").jqxNotification("open");
@@ -403,9 +403,9 @@ function definirGrillaParaListaPlanillas() {
                     });
                     /*Aprobar registro.*/
                     $("#approveplanrowbutton").on('click', function () {
-                     var selectedrowindex = $("#divGridPlanillasSal").jqxGrid('getselectedrowindex');
+                     var selectedrowindex = $("#divGridPlanillasRef").jqxGrid('getselectedrowindex');
                      if (selectedrowindex >= 0) {
-                     var dataRecord = $('#divGridPlanillasSal').jqxGrid('getrowdata', selectedrowindex);
+                     var dataRecord = $('#divGridPlanillasRef').jqxGrid('getrowdata', selectedrowindex);
                      if (dataRecord != undefined) {
                      if (dataRecord.estado == 1 || dataRecord.estado == 2) {
                      if (confirm("¿Esta segur@ de aprobar esta planilla?")) {
@@ -427,15 +427,15 @@ function definirGrillaParaListaPlanillas() {
                      });
                     /* Dar de baja un registro.*/
                     $("#deleteplanrowbutton").on('click', function () {
-                        var selectedrowindex = $("#divGridPlanillasSal").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridPlanillasRef").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridPlanillasSal').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridPlanillasRef').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 /*
                                  *  Para dar de baja un registro, este debe estar inicialmente en estado GENERADA o VERIFICADA
                                  */
                                 if (dataRecord.estado == 1 || dataRecord.estado == 2) {
-                                    if (confirm("Esta seguro de dar de baja registro de Planilla Salarial?"))
+                                    if (confirm("Esta seguro de dar de baja registro de Planilla de Refrigerio?"))
                                         darDeBajaPlanillaSal(dataRecord.id);
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado GENERADA o VERIFICADA inicialmente.";
@@ -575,16 +575,16 @@ function definirGrillaParaListaPlanillas() {
             {label: 'Cantidad', value: 'cantidad_relaborales', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
-        $("#listBoxPlanillasSal").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
-        $("#listBoxPlanillasSal").on('checkChange', function (event) {
-            $("#divGridPlanillasSal").jqxGrid('beginupdate');
+        $("#listBoxPlanillasRef").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#listBoxPlanillasRef").on('checkChange', function (event) {
+            $("#divGridPlanillasRef").jqxGrid('beginupdate');
             if (event.args.checked) {
-                $("#divGridPlanillasSal").jqxGrid('showcolumn', event.args.value);
+                $("#divGridPlanillasRef").jqxGrid('showcolumn', event.args.value);
             }
             else {
-                $("#divGridPlanillasSal").jqxGrid('hidecolumn', event.args.value);
+                $("#divGridPlanillasRef").jqxGrid('hidecolumn', event.args.value);
             }
-            $("#divGridPlanillasSal").jqxGrid('endupdate');
+            $("#divGridPlanillasRef").jqxGrid('endupdate');
         });
     }
 }
@@ -607,14 +607,14 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
  */
 function OperaEvento(evento) {
     if ((evento.type == "keyup" || evento.type == "keydown") && evento.which == "27") {
-        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
-        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
+        $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
+        $('#divTabPlanillasRef').jqxTabs('disableAt', 1);
+        $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
 
         /**
          * Saltamos a la pantalla principal en caso de presionarse ESC
          */
-        $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
+        $('#divTabPlanillasRef').jqxTabs({selectedItem: 0});
     }
 }
 

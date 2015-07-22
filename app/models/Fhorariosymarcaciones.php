@@ -343,7 +343,6 @@ class Fhorariosymarcaciones extends \Phalcon\Mvc\Model {
         $sql = "SELECT * FROM f_horariosymarcaciones_calculos_totales_global() ";
         if($where!='')$sql .= $where;
         if($group!='')$sql .= $group;
-        //echo "<p>---->".$sql."</p>";
         $this->_db = new Fhorariosymarcaciones();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

@@ -80,7 +80,7 @@
                             </div>
                             <span class="help-block" id="helpErrorMesGen"></span>
                         </div>
-                        <div class="col-sm-4" id="divFinPartidaGen">
+                        <div class="col-sm-6" id="divFinPartidaGen">
                             <div class="block">Fuente:
                                 <select id="lstFinPartidaGen" class="form-control"><option value="">Seleccionar...</option></select>
                             </div>
@@ -92,10 +92,16 @@
                             </div>
                             <span class="help-block" id="helpErrorTipoPlanillaSalGen"></span>
                         </div>
-                        <div class="col-sm-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
                             <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaPreviaSal" accesskey="d">
                                 <i class="gi gi-search"></i>
                                 Buscar
+                            </button>
+                            <button class="btn btn-sm btn-primary" type="button" id="btnCalcularPlanillaPreviaSal" accesskey="d">
+                                <i class="gi gi-calculator"></i>
+                                Calcular
                             </button>
                             <button class="btn btn-sm btn-primary" type="button" id="btnGenerarPlanillaSal" accesskey="g">
                                 <i class="hi hi-cog"></i>
@@ -114,6 +120,7 @@
                         Exportar Excel
                     </button>
                     </div>
+                    <input type="hidden" id="hdnSwPlanillaCalculada" value="0">
                 </div>
             </div>
             <!-- END Input Grid Title -->

@@ -1870,12 +1870,14 @@ function cargarGrillaAsignacionIndividualFechasUbicacionEstacion(idPerfilLaboral
                         var fechaFin = arrFechaFin[2]+"-"+arrFechaFin[1]+"-"+arrFechaFin[0];
                         var estacion = "";
                         var perfilLaboral = val.perfil_laboral;
+                        var observacion = '';
                         var grupo='';
                         if(val.perfil_laboral_grupo!=''&&val.perfil_laboral_grupo!=null)
                         grupo = val.perfil_laboral_grupo;
                         var estadoDescripcion = val.calendario_estado_descripcion;
                         if(val.relaboralperfil_estacion!=null)estacion=val.relaboralperfil_estacion;
-                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+perfilLaboral+"</td><td style='text-align: center'>"+grupo+"</td><td style='text-align: center'>"+estadoDescripcion+"</td><td style='text-align: center'>"+fechaIni+" al "+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+estacion+"</td><td style='text-align: center'>"+val.hora_entrada+" a "+val.hora_salida+"</td><td class='hidden-xs'>"+val.relaboralperfil_observacion+"</td></tr>");
+                        if(val.relaboralperfil_observacion!=null)observacion = val.relaboralperfil_observacion;
+                        $("#tbody_asignacion_single").append("<tr><td style='text-align: center'>"+contador+"</td><td style='text-align: center'>"+perfilLaboral+"</td><td style='text-align: center'>"+grupo+"</td><td style='text-align: center'>"+estadoDescripcion+"</td><td style='text-align: center'>"+fechaIni+" al "+fechaFin+"</td><td style='text-align: center'>"+val.relaboralperfil_ubicacion+"</td><td style='text-align: center'>"+estacion+"</td><td style='text-align: center'>"+val.hora_entrada+" a "+val.hora_salida+"</td><td class='hidden-xs'>"+observacion+"</td></tr>");
                         contador++;
                     });
                 }

@@ -150,7 +150,30 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
      */
     public function getAllRegisteredByPerfilAndRelaboralRangoFechas($idPerfilRelaboral,$idRelaboral,$fechaIni,$fechaFin)
     {
-        $sql = "SELECT * FROM f_calendario_laboral_registrado_por_relaboral($idPerfilRelaboral,$idRelaboral)";
+        $sql = "SELECT f.*,(CASE WHEN f.hora_entrada>f.hora_salida THEN 1 ELSE 0 END) AS horario_cruzado FROM f_calendario_laboral_registrado_por_relaboral($idPerfilRelaboral,$idRelaboral) f";
+        if($fechaIni!=""&&$fechaFin!=""){
+            $sql .= " WHERE f.calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR f.calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+            $sql .= " OR '".$fechaIni."' BETWEEN f.calendario_fecha_ini and f.calendario_fecha_fin";
+            $sql .= " OR '".$fechaFin."' BETWEEN f.calendario_fecha_ini and f.calendario_fecha_fin";
+        }
+        $sql .= " ORDER BY f.calendario_fecha_ini,f.hora_entrada,f.calendario_fecha_fin,f.hora_entrada";
+        $this->_db = new Fcalendariolaboral();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del listado de horarios laborales registrados en el calendario laboral
+     * para un determinado registro de relación laboral.
+     * @param $idPerfilRelaboral
+     * @param $idRelaboral
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getAllRegisteredByPerfilAndRelaboralRangoFechasControlCruce($idPerfilRelaboral,$idRelaboral,$fechaIni,$fechaFin)
+    {
+        $sql = "SELECT fecha,dia,tipo_horario,hora_entrada,hora FROM f_calendario_laboral_registrado_por_relaboral($idPerfilRelaboral,$idRelaboral)";
         if($fechaIni!=""&&$fechaFin!=""){
             $sql .= " WHERE calendario_fecha_ini BETWEEN '".$fechaIni."' and '".$fechaFin."'";
             $sql .= " OR calendario_fecha_fin BETWEEN '".$fechaIni."' and '".$fechaFin."'";
@@ -158,11 +181,9 @@ class Fcalendariolaboral  extends \Phalcon\Mvc\Model {
             $sql .= " OR '".$fechaFin."' BETWEEN calendario_fecha_ini and calendario_fecha_fin";
         }
         $sql .= " ORDER BY calendario_fecha_ini,hora_entrada,calendario_fecha_fin,hora_entrada";
-        //echo "<p>--->".$sql;
         $this->_db = new Fcalendariolaboral();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
-
     /**
      * Función para la obtención del listado de horarios para un calendario definido entre una fecha de inicio y finalización. Se considera que para el caso
      * de un tipo de horario multiple se mantenga la disposición normal y para tipos de horario continuo o discontinuo se particione los horarios de con una
