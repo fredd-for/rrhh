@@ -328,7 +328,7 @@ class PlanillassalController extends ControllerBase{
                     if($planillasal->save()){
                         foreach ($resul as $v) {
                             #region registro del descuento correspondiente
-                            $descuento = Horariosymarcaciones::findFirst(array("relaboral_id=".$v->id_relaboral." AND gestion=".$v->gestion." AND mes=".$v->mes));
+                            $descuento = Descuentos::findFirst(array("relaboral_id=".$v->id_relaboral." AND gestion=".$v->gestion." AND mes=".$v->mes));
                             if(!is_object($descuento)){
                                 $descuento = new Descuentos();
                                 $descuento->relaboral_id = $v->id_relaboral;

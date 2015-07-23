@@ -127,6 +127,32 @@ $().ready(function () {
 
                                 });
                             }
+                        }else{
+                            listaIdRelaborales += separador;
+                            listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
+                            var sufijo = "Gen";
+                            var gestion = $("#lstGestion"+sufijo).val();
+                            var mes = $("#lstMes"+sufijo).val();
+                            var idFinPartida = $("#lstFinPartida"+sufijo).val();
+                            var idTipoPlanilla = $("#lstTipoPlanillaSal"+sufijo).val();
+                            var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
+                            var observacion = "";
+                            $("#popupObservacionPlanillaSal").modal("show");
+                            $("#txtObservacionPlanillaSal").focus();
+                            $("#btnAplicarObservacionPlanillaSal").off();
+                            $("#btnAplicarObservacionPlanillaSal").on("click",function(){
+                                $("#popupObservacionPlanillaSal").modal("hide");
+                                observacion = $("#txtObservacionPlanillaSal").val();
+                                ok = generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
+                                if(ok){
+                                    $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
+                                    $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
+                                    $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
+                                    $('#divTabPlanillasSal').jqxTabs({selectedItem: 0});
+                                    $("#divGridPlanillasSal").jqxGrid("updatebounddata","cells");
+                                }
+
+                            });
                         }
                     }else{
                         var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para la generaci&oacute;n de la Planilla Salarial.";
