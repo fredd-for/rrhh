@@ -30,6 +30,7 @@ function exportarReporte(option,idPlanillaSal){
     nivel_salarial = $('#divGridPlanillasSalView').jqxGrid('getcolumn','nivel_salarial');
     sueldo = $('#divGridPlanillasSalView').jqxGrid('getcolumn','sueldo');
     dias_efectivos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','dias_efectivos');
+    bonos = $('#divGridPlanillasSalView').jqxGrid('getcolumn','bonos');
     lsgh = $('#divGridPlanillasSalView').jqxGrid('getcolumn','lsgh');
     omision = $('#divGridPlanillasSalView').jqxGrid('getcolumn','omision');
     abandono = $('#divGridPlanillasSalView').jqxGrid('getcolumn','abandono');
@@ -55,6 +56,7 @@ function exportarReporte(option,idPlanillaSal){
     columna[nivel_salarial.datafield] = {text: nivel_salarial.text, hidden: nivel_salarial.hidden};
     columna[sueldo.datafield] = {text: sueldo.text, hidden: sueldo.hidden};
     columna[dias_efectivos.datafield] = {text: dias_efectivos.text, hidden: dias_efectivos.hidden};
+    columna[bonos.datafield] = {text: bonos.text, hidden: bonos.hidden};
     columna[lsgh.datafield] = {text: lsgh.text, hidden: lsgh.hidden};
     columna[omision.datafield] = {text: omision.text, hidden: omision.hidden};
     columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};

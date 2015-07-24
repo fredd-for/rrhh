@@ -1,43 +1,6 @@
 </head>
 <body>
 <h2 style="padding-top: 0px; width: 100%;"><b>Gesti&oacute;n de Excepciones</b></h2>
-
-<div id="divMsjeExito" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-check-circle"></i>
-        &Eacute;xito!
-    </h4>
-    Solicitud completada!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeExito"></a>
-</div>
-<div id="divMsjeInformacion" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-info-circle"></i>
-        Atenci&oacute;n!
-    </h4>
-    Algo que considerar!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeInformacion"></a>
-</div>
-<div id="divMsjePeligro" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-exclamation-circle"></i>
-        Cuidado!
-    </h4>
-    Considere lo siguiente!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjePeligro"></a>
-</div>
-<div id="divMsjeError" class="msjs-alert" hidden="hidden">
-    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-    <h4>
-        <i class="fa fa-times-circle"></i>
-        Error!
-    </h4>
-    Solicitud inv&aacute;lida!
-    <a class="alert-link" href="javascript:void(0)" id="aMsjeError"></a>
-</div>
 <div id='divTabExcepciones'>
 <ul>
     <li id="liList">Listado</li>
@@ -150,6 +113,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-6" id="divHorarioNew">
+                        <label class="col-sm-6 control-label" for="chkHorarioNew">¿Solicitar Horario? *:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="chkHorarioNew" id="chkHorarioNew" data-on-text="SI" data-off-text="NO">
+                            <span class="help-block" id="helpErrorHorarioNew"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4" id="divRefrigerioNew">
+                        <label class="col-sm-6 control-label" for="chkRefrigerioNew">¿Pagar Refrigerio? *:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="chkRefrigerioNew" id="chkRefrigerioNew" data-on-text="SI" data-off-text="NO">
+                            <span class="help-block" id="helpErrorRefrigerioNew"></span>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
             <fieldset>
                 <legend><i class="fa fa-angle-right"></i> Frecuencia:</legend>
@@ -256,6 +235,22 @@
                     <div class="col-sm-6">
                         <select id="lstGeneroEdit" class="form-control"><option value="">Seleccionar...</option></select>
                         <span class="help-block" id="helpErrorGeneroEdit"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" id="divHorarioEdit">
+                    <label class="col-sm-6 control-label" for="chkHorarioEdit">¿Solicitar Horario? *:</label>
+                    <div class="col-sm-6">
+                        <input type="checkbox" name="chkHorarioEdit" id="chkHorarioEdit" data-on-text="SI" data-off-text="NO">
+                        <span class="help-block" id="helpErrorHorarioEdit"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4" id="divRefrigerioEdit">
+                    <label class="col-sm-6 control-label" for="chkRefrigerioEdit">¿Pagar Refrigerio? *:</label>
+                    <div class="col-sm-6">
+                        <input type="checkbox" name="chkRefrigerioEdit" id="chkRefrigerioEdit" data-on-text="SI" data-off-text="NO">
+                        <span class="help-block" id="helpErrorRefrigerioEdit"></span>
                     </div>
                 </div>
             </div>

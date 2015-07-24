@@ -162,6 +162,8 @@ class PlanillasrefController extends ControllerBase{
         $idFinPartida = 0;
         $idTipoPlanilla = 0;
         $numeroPlanilla = 0;
+        $jsonIdRelaborales = '';
+        $arrIdRelaborales = array();
         if(isset($_GET["gestion"])&&$_GET["gestion"]>0)
             $gestion = $_GET["gestion"];
         if(isset($_GET["mes"])&&$_GET["mes"]>0)
@@ -172,10 +174,21 @@ class PlanillasrefController extends ControllerBase{
             $idTipoPlanilla = $_GET["id_tipoplanilla"];
         if(isset($_GET["numero"])&&$_GET["numero"]>0)
             $numeroPlanilla = $_GET["numero"];
+        if(isset($_GET["id_relaborales"])&&$_GET["id_relaborales"]!=''){
+            $arrIdRelaborales = explode("|",$_GET["id_relaborales"]);
+        }
+        if(count($arrIdRelaborales)>0){
+            $jsonIdRelaborales = '{';
+            foreach($arrIdRelaborales as $clave => $idRelaboral){
+                $jsonIdRelaborales .= '"'.$clave.'":'.$idRelaboral.',';
+            }
+            $jsonIdRelaborales .= ',';
+            $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+            $jsonIdRelaborales .= '}';
+        }
         if($gestion>0&&$mes>0&&$idFinPartida>0&&$idTipoPlanilla>0&&$numeroPlanilla>=0){
-            //$jsonIdRelaborales = json_encode(array("0"=>0));
-            $jsonIdRelaborales = '';
-            $resul = $obj->desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
+
+            $resul = $obj->desplegarPlanillaPreviaRef($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -195,17 +208,12 @@ class PlanillasrefController extends ControllerBase{
                         'sueldo'=>$v->sueldo,
                         'dias_efectivos'=>$v->dias_efectivos,
                         'faltas'=>$v->faltas,
-                        'atrasos'=>$v->atrasos,
-                        'faltas_atrasos'=>$v->faltas_atrasos,
                         'lsgh'=>$v->lsgh,
-                        'omision'=>$v->omision,
-                        'abandono'=>$v->abandono,
                         'otros'=>$v->otros,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'cargo'=>$v->cargo,
                         'total_descuentos'=>$v->total_descuentos,
-                        'aporte_laboral_afp'=>$v->aporte_laboral_afp,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'estado'=>$v->estado,

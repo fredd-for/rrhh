@@ -131,12 +131,12 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
      * @param string $group
      * @return Resultset
      */
-    public function desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
+    public function desplegarPlanillaPreviaRef($gestion,$mes,$idFinPartida,$jsonIdRelaborales,$where='',$group=''){
         if($gestion>0&&$mes>0&&$idFinPartida>0){
             if($jsonIdRelaborales!='')
                 $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
             else
-                $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,NULL)";
+                $sql = "SELECT * FROM f_relaborales_planillaref_generacion($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Fplanillassal();
@@ -150,7 +150,7 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
      * @param string $group
      * @return Resultset
      */
-    public function desplegarPlanillaEfectiva($idPlanillaSal,$where='',$group=''){
+    public function desplegarPlanillaEfectivaRef($idPlanillaSal,$where='',$group=''){
         if($idPlanillaSal>0){
             $sql = "SELECT * FROM f_relaborales_planillasal($idPlanillaSal)";
             if($where!='')$sql .= $where;

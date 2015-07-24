@@ -163,6 +163,10 @@ function definirGrillaParaListaExcepciones() {
             {name: 'compensatoria_descripcion', type: 'string'},
             {name: 'redondeo', type: 'integer'},
             {name: 'redondeo_descripcion', type: 'string'},
+            {name: 'horario', type: 'integer'},
+            {name: 'horario_descripcion', type: 'string'},
+            {name: 'refrigerio', type: 'integer'},
+            {name: 'refrigerio_descripcion', type: 'string'},
             {name: 'codigo', type: 'string'},
             {name: 'color', type: 'string'},
             {name: 'observacion', type: 'string'},
@@ -214,7 +218,7 @@ function definirGrillaParaListaExcepciones() {
 
                         $('#divTabExcepciones').jqxTabs({selectedItem: 1});
                         limpiarMensajesErrorPorValidacionExcepcion(1);
-                        inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",0,0,-1);
+                        inicializaFormularioExcepcionesNuevoEditar(1,"",0,"","#FFFFFF",0,0,0,0,-1);
                         inicializarDatosDuracion(1,"","","");
                         inicializarCamposParaNuevoRegistroExcepcion();
                         $("#txtExcepcionNew").focus();
@@ -263,7 +267,7 @@ function definirGrillaParaListaExcepciones() {
 
                                     $("#hdnIdExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionExcepcion(2);
-                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,dataRecord.descuento,dataRecord.compensatoria,dataRecord.genero_id);
+                                    inicializaFormularioExcepcionesNuevoEditar(2,dataRecord.excepcion,dataRecord.tipoexcepcion_id,dataRecord.codigo,dataRecord.color,dataRecord.descuento,dataRecord.compensatoria,dataRecord.horario,dataRecord.refrigerio,dataRecord.genero_id);
                                     inicializarDatosDuracion(2,dataRecord.cantidad,dataRecord.unidad,dataRecord.fraccionamiento);
                                     $("#txtExcepcionEdit").val(dataRecord.excepcion);
                                     $("#txtObservacionEdit").val(dataRecord.observacion);
@@ -341,7 +345,6 @@ function definirGrillaParaListaExcepciones() {
                     },
                     {
                         text: 'Excepci&oacute;n',
-                        filtertype: 'checkedlist',
                         datafield: 'excepcion',
                         width: 200,
                         cellsalign: 'justify',
@@ -350,7 +353,6 @@ function definirGrillaParaListaExcepciones() {
                     },
                     {
                         text: 'C&oacute;digo',
-                        filtertype: 'checkedlist',
                         datafield: 'codigo',
                         width: 120,
                         align: 'center',
@@ -386,7 +388,7 @@ function definirGrillaParaListaExcepciones() {
                         hidden: false
                     },
                     {
-                        text: 'Descontar Horas',
+                        text: 'Desc. Horas',
                         filtertype: 'checkedlist',
                         datafield: 'descuento_descripcion',
                         width: 100,
@@ -395,9 +397,27 @@ function definirGrillaParaListaExcepciones() {
                         hidden: false
                     },
                     {
-                        text: 'Compensar Horas',
+                        text: 'Comp. Horas',
                         filtertype: 'checkedlist',
                         datafield: 'compensatoria_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Contr. Horario',
+                        filtertype: 'checkedlist',
+                        datafield: 'horario_descripcion',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Refrigerio',
+                        filtertype: 'checkedlist',
+                        datafield: 'refrigerio_descripcion',
                         width: 100,
                         align: 'center',
                         cellsalign: 'center',
@@ -423,6 +443,8 @@ function definirGrillaParaListaExcepciones() {
             {label: 'Frecuencia', value: 'frecuencia_descripcion', checked: true},
             {label: 'Descontar Horas', value: 'descuento_descripcion', checked: true},
             {label: 'Compensar Horas', value: 'compensatoria_descripcion', checked: true},
+            {label: 'Cotrolar Horario', value: 'horario_descripcion', checked: true},
+            {label: 'Refrigerio', value: 'refrigerio_descripcion', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#listBoxExcepciones").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});

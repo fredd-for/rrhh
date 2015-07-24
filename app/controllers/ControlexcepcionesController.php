@@ -99,6 +99,10 @@ class ControlexcepcionesController extends ControllerBase
                         'frecuencia_descripcion'=>$v->frecuencia_descripcion,
                         'redondeo'=>$v->redondeo,
                         'redondeo_descripcion'=>$v->redondeo_descripcion,
+                        'horario'=>$v->horario,
+                        'horario_descripcion'=>$v->horario_descripcion,
+                        'refrigerio'=>$v->refrigerio,
+                        'refrigerio_descripcion'=>$v->refrigerio_descripcion,
                         'observacion'=>$v->observacion,
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
@@ -169,6 +173,10 @@ class ControlexcepcionesController extends ControllerBase
                         'frecuencia_descripcion'=>$v->frecuencia_descripcion,
                         'redondeo'=>$v->redondeo,
                         'redondeo_descripcion'=>$v->redondeo_descripcion,
+                        'horario'=>$v->horario,
+                        'horario_descripcion'=>$v->horario_descripcion,
+                        'refrigerio'=>$v->refrigerio,
+                        'refrigerio_descripcion'=>$v->refrigerio_descripcion,
                         'observacion'=>$v->observacion,
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
@@ -218,12 +226,26 @@ class ControlexcepcionesController extends ControllerBase
             $justificacion = $_POST['justificacion'];
             $turno = $_POST['turno'];
             $entradaSalida = $_POST['entrada_salida'];
+            $horario = $_POST['horario'];
             $observacion = $_POST['observacion'];
-            if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
+            if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$fechaFin!=''&&$justificacion!=''){
                 $objControlExcepciones = Controlexcepciones::findFirst(array("id=".$_POST["id"]));
                 if(count($objControlExcepciones)>0){
-                    $cantMismosDatos = Controlexcepciones::count(array("id!=".$_POST["id"]." AND relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND hora_ini='".$horaIni."' AND fecha_fin = '".$fechaFin."' AND hora_fin='".$horaFin."' AND baja_logica=1 AND estado>=0"));
+                    if($horario==1)
+                        $cantMismosDatos = Controlexcepciones::count(array("id!=".$_POST["id"]." AND relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND hora_ini='".$horaIni."' AND fecha_fin = '".$fechaFin."' AND hora_fin='".$horaFin."' AND baja_logica=1 AND estado>=0"));
+                    else
+                        $cantMismosDatos = Controlexcepciones::count(array("id!=".$_POST["id"]." AND relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND fecha_fin = '".$fechaFin."' AND baja_logica=1 AND estado>=0"));
                     if($cantMismosDatos==0){
+                        if($horario==0){
+                            $datetimeIni = new DateTime();
+                            $datetimeIni->setTime(0,0, 0);
+                            $datetimeIni->format('H:i:s');
+                            $horaIni = $datetimeIni->format('H:i:s');
+                            $datetimeFin = new DateTime();
+                            $datetimeFin->setTime(23,59,59);
+                            $datetimeFin->format('H:i:s');
+                            $horaFin = $datetimeFin->format('H:i:s');
+                        }
                         $objControlExcepciones->relaboral_id = $idRelaboral;
                         $objControlExcepciones->excepcion_id = $idExcepcion;
                         $objControlExcepciones->fecha_ini = $fechaIni;
@@ -272,10 +294,24 @@ class ControlexcepcionesController extends ControllerBase
             $justificacion = $_POST['justificacion'];
             $turno = $_POST['turno'];
             $entradaSalida = $_POST['entrada_salida'];
+            $horario = $_POST['horario'];
             $observacion = $_POST['observacion'];
-            if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
-                $cantMismosDatos = Controlexcepciones::count(array("relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND hora_ini='".$horaIni."' AND fecha_fin = '".$fechaFin."' AND hora_fin='".$horaFin."' AND baja_logica=1 AND estado>=0"));
+            if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$fechaFin!=''&&$justificacion!=''){
+                if($horario==1)
+                    $cantMismosDatos = Controlexcepciones::count(array("relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND hora_ini='".$horaIni."' AND fecha_fin = '".$fechaFin."' AND hora_fin='".$horaFin."' AND baja_logica=1 AND estado>=0"));
+                else
+                    $cantMismosDatos = Controlexcepciones::count(array("relaboral_id=".$idRelaboral." AND excepcion_id = ".$idExcepcion." AND fecha_ini='".$fechaIni."' AND fecha_fin = '".$fechaFin."' AND baja_logica=1 AND estado>=0"));
                 if($cantMismosDatos==0){
+                    if($horario==0){
+                        $datetimeIni = new DateTime();
+                        $datetimeIni->setTime(0,0, 0);
+                        $datetimeIni->format('H:i:s');
+                        $horaIni = $datetimeIni->format('H:i:s');
+                        $datetimeFin = new DateTime();
+                        $datetimeFin->setTime(23,59,59);
+                        $datetimeFin->format('H:i:s');
+                        $horaFin = $datetimeFin->format('H:i:s');
+                    }
                     $objControlExcepciones = new Controlexcepciones();
                     $objControlExcepciones->relaboral_id = $idRelaboral;
                     $objControlExcepciones->excepcion_id = $idExcepcion;
@@ -408,9 +444,10 @@ class ControlexcepcionesController extends ControllerBase
         echo json_encode($msj);
     }
     /**
-     * Función para la verificación
+     * Función para la verificación del cruce entre las excepciones registradas para un persona y adicionalmente
+     * el control de la aplicabilidad del otorgamiento del permiso controlando que la frecuencia de uso no exceda lo permitido.
      */
-    public function verificacruceAction(){
+    public function verificacruceexcesousoAction(){
         $auth = $this->session->get('auth');
         $user_mod_id = $auth['id'];
         $msj = Array();
@@ -423,8 +460,9 @@ class ControlexcepcionesController extends ControllerBase
         $horaIni = $_POST['hora_ini'];
         $fechaFin = $_POST['fecha_fin'];
         $horaFin = $_POST['hora_fin'];
+        $horario = $_POST['horario'];
         $justificacion = $_POST['justificacion'];
-        if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$horaIni!=''&&$fechaFin!=''&&$horaFin!=''&&$justificacion!=''){
+        if($idRelaboral>0&&$idExcepcion>0&&$fechaIni!=''&&$fechaFin!=''&&$justificacion!=''){
             /**
              * Se realiza la verificación sobre el cruce de horarios y fechas de los controles de excepción existentes y la que se intenta registrar o modificar.
              */

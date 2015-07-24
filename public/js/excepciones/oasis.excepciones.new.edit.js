@@ -14,9 +14,11 @@
  * @param color
  * @param descuento
  * @param compensatoria
+ * @param horario
+ * @param refrigerio
  * @param idGenero
  */
-function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,descuento, compensatoria,idGenero){
+function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,descuento, compensatoria,horario,refrigerio,idGenero){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
     $("#txtColor"+sufijo).colorpicker()
@@ -29,6 +31,8 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
 
     $("#chkDescuento"+sufijo).bootstrapSwitch();
     $("#chkCompensatoria"+sufijo).bootstrapSwitch();
+    $("#chkHorario"+sufijo).bootstrapSwitch();
+    $("#chkRefrigerio"+sufijo).bootstrapSwitch();
     $("#txtCantidad"+sufijo).numeric();
 
     $("#txtExcepcion"+sufijo).val(excepcion);
@@ -44,6 +48,14 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
     if(compensatoria==1){
         $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",true)
     }else $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",false)
+
+    if(horario==1){
+        $("#chkHorario"+sufijo).bootstrapSwitch("state",true)
+    }else $("#chkHorario"+sufijo).bootstrapSwitch("state",false)
+
+    if(refrigerio==1){
+        $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",true)
+    }else $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",false)
 
     cargarTiposGeneros(opcion,idGenero);
 }
@@ -255,6 +267,22 @@ function validaFormularioExcepcion(opcion) {
         compensatoria = "1";
     }
 
+    var chkHorario = $("#chkHorario"+sufijo);
+    var divHorario = $("#divHorario"+sufijo);
+    var helpErrorHorario = $("#helpErrorHorario"+sufijo);
+    var horario = "0";
+    if($("#chkHorario"+sufijo).bootstrapSwitch("state")){
+        horario = "1";
+    }
+
+    var chkRefrigerio = $("#chkRefrigerio"+sufijo);
+    var divRefrigerio = $("#divRefrigerio"+sufijo);
+    var helpErrorRefrigerio = $("#helpErrorRefrigerio"+sufijo);
+    var refrigerio = "0";
+    if($("#chkRefrigerio"+sufijo).bootstrapSwitch("state")){
+        refrigerio = "1";
+    }
+
     var lstGenero = $("#lstGenero"+sufijo);
     var divGenero = $("#divGenero"+sufijo);
     var helpErrorGenero = $("#helpErrorGenero"+sufijo);
@@ -382,6 +410,10 @@ function limpiarMensajesErrorPorValidacionExcepcion(opcion) {
     $("#helpErrorUnidad"+sufijo).html("");
     $("#divFraccionamiento"+sufijo).removeClass("has-error");
     $("#helpErrorFraccionamiento"+sufijo).html("");
+    $("#divHorario"+sufijo).removeClass("has-error");
+    $("#helpErrorHorario"+sufijo).html("");
+    $("#divRefrigerio"+sufijo).removeClass("has-error");
+    $("#helpErrorRefrigerio"+sufijo).html("");
 }
 /**
  * Función para guardar el registro de la excepción.
@@ -409,6 +441,17 @@ function guardaExcepcion(opcion){
     if($("#chkCompensatoria"+sufijo).bootstrapSwitch("state")){
         compensatoria = 1;
     }
+
+    var horario = 0;
+    if($("#chkHorario"+sufijo).bootstrapSwitch("state")){
+        horario = 1;
+    }
+
+    var refrigerio = 0;
+    if($("#chkRefrigerio"+sufijo).bootstrapSwitch("state")){
+        refrigerio = 1;
+    }
+
     var genero = $("#lstGenero"+sufijo).val();
     var cantidad = $("#txtCantidad"+sufijo).val();
     var unidad = $("#lstUnidad"+sufijo).val();
@@ -435,6 +478,8 @@ function guardaExcepcion(opcion){
                 unidad:unidad,
                 fraccionamiento:fraccionamiento,
                 redondeo:redondeo,
+                horario:horario,
+                refrigerio:refrigerio,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);

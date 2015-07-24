@@ -77,6 +77,7 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
     $("#tbodyGrillaExcepciones"+sufijo).html("");
     if(opcion==1){
         $("#divCompensacionNew").hide();
+        $("#divHorariosNew").hide();
         cargarCompensacionTurnos(0,0);
         cargarCompensacionEntradaSalida(0,-1);
     }else{
@@ -93,6 +94,10 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
         var cantidad = $("#lstExcepcion"+sufijo+" option:selected").data("cantidad");
         var unidad = $("#lstExcepcion"+sufijo+" option:selected").data("unidad");
         var fraccionamiento = $("#lstExcepcion"+sufijo+" option:selected").data("fraccionamiento");
+        var horario = $("#lstExcepcion"+sufijo+" option:selected").data("horario");
+        var horario_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("horario_descripcion");
+        var refrigerio = $("#lstExcepcion"+sufijo+" option:selected").data("refrigerio");
+        var refrigerio_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("refrigerio_descripcion");
         var frecuencia_descripcion = "&nbsp;";
         if($("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=null)
             frecuencia_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion");
@@ -103,6 +108,8 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
         grilla += "<td style='text-align: center'>"+descuento_descripcion+"</td>";
         grilla += "<td style='text-align: center'>"+compensatoria_descripcion+"</td>";
         grilla += "<td style='text-align: center'>"+genero+"</td>";
+        grilla += "<td style='text-align: center'>"+horario_descripcion+"</td>";
+        grilla += "<td style='text-align: center'>"+refrigerio_descripcion+"</td>";
         grilla += "<td style='text-align: center'>"+frecuencia_descripcion+"</td>";
         grilla += "</tr>";
         $("#tbodyGrillaExcepciones"+sufijo).append(grilla);
@@ -112,6 +119,11 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             cargarCompensacionEntradaSalida(opcion,entrada_salida);
         }else{
             $("#divCompensacion"+sufijo).hide();
+        }
+        if(horario==1){
+            $("#divHorarios"+sufijo).show();
+        }else{
+            $("#divHorarios"+sufijo).hide();
         }
     }
     $("#lstExcepcion"+sufijo).off();
@@ -131,6 +143,10 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             var cantidad = $("#lstExcepcion"+sufijo+" option:selected").data("cantidad");
             var unidad = $("#lstExcepcion"+sufijo+" option:selected").data("unidad");
             var fraccionamiento = $("#lstExcepcion"+sufijo+" option:selected").data("fraccionamiento");
+            var horario = $("#lstExcepcion"+sufijo+" option:selected").data("horario");
+            var horario_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("horario_descripcion");
+            var refrigerio = $("#lstExcepcion"+sufijo+" option:selected").data("refrigerio");
+            var refrigerio_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("refrigerio_descripcion");
             var frecuencia_descripcion = "&nbsp;";
             if($("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion")!=null)
                 frecuencia_descripcion = $("#lstExcepcion"+sufijo+" option:selected").data("frecuencia_descripcion");
@@ -141,6 +157,8 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             grilla += "<td style='text-align: center'>"+descuento_descripcion+"</td>";
             grilla += "<td style='text-align: center'>"+compensatoria_descripcion+"</td>";
             grilla += "<td style='text-align: center'>"+genero+"</td>";
+            grilla += "<td style='text-align: center'>"+horario_descripcion+"</td>";
+            grilla += "<td style='text-align: center'>"+refrigerio_descripcion+"</td>";
             grilla += "<td style='text-align: center'>"+frecuencia_descripcion+"</td>";
             grilla += "</tr>";
             $("#tbodyGrillaExcepciones"+sufijo).append(grilla);
@@ -154,6 +172,12 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             }else{
                 $("#divCompensacion"+sufijo).hide();
             }
+            if(horario==1){
+                $("#divHorarios"+sufijo).show();
+            }else{
+                $("#divHorarios"+sufijo).hide();
+            }
+            $("#txtFechaIni"+sufijo).focus();
         }
     });
 }
@@ -187,7 +211,7 @@ function cargaListaDeExcepciones(opcion,idExcepcion,tipoGenero){
                     }else selected="";
                     if(val.frecuencia_descripcion!=''&&val.frecuencia_descripcion!=null)frecuencia = "(M&Aacute;XIMO "+val.frecuencia_descripcion+")";
                     else frecuencia = "";
-                    $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+" data-tipo_excepcion='"+val.tipo_excepcion+"' data-codigo='"+val.codigo+"' data-color='"+val.color+"' data-descuento='"+val.descuento+"' data-descuento_descripcion='"+val.descuento_descripcion+"' data-compensatoria='"+val.compensatoria+"' data-compensatoria_descripcion='"+val.compensatoria_descripcion+"' data-genero='"+val.genero+"' data-cantidad='"+val.cantidad+"' data-unidad='"+val.unidad+"' data-fraccionamiento='"+val.fraccionamiento+"' data-frecuencia_descripcion='"+val.frecuencia_descripcion+"'>"+val.excepcion+" "+frecuencia+"</option>");
+                    $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+" data-tipo_excepcion='"+val.tipo_excepcion+"' data-codigo='"+val.codigo+"' data-color='"+val.color+"' data-descuento='"+val.descuento+"' data-descuento_descripcion='"+val.descuento_descripcion+"' data-compensatoria='"+val.compensatoria+"' data-compensatoria_descripcion='"+val.compensatoria_descripcion+"' data-genero='"+val.genero+"' data-cantidad='"+val.cantidad+"' data-unidad='"+val.unidad+"' data-fraccionamiento='"+val.fraccionamiento+"' data-frecuencia_descripcion='"+val.frecuencia_descripcion+"' data-horario='"+val.horario+"' data-horario_descripcion='"+val.horario_descripcion+"' data-refrigerio='"+val.refrigerio+"' data-refrigerio_descripcion='"+val.refrigerio_descripcion+"'>"+val.excepcion+" "+frecuencia+"</option>");
                 });
             }
         }, //mostramos el error
@@ -229,6 +253,8 @@ function validaFormularioControlExcepciones(opcion){
     var cantidad = $("#lstExcepcion"+sufijo+" option:selected").data("cantidad");
     var unidad = $("#lstExcepcion"+sufijo+" option:selected").data("unidad");
     var fraccionamiento = $("#lstExcepcion"+sufijo+" option:selected").data("fraccionamiento");
+    var horario = $("#lstExcepcion"+sufijo+" option:selected").data("horario");
+    var refrigerio = $("#lstExcepcion"+sufijo+" option:selected").data("refrigerio");
 
     var txtFechaIni = $("#txtFechaIni"+sufijo);
     var divFechaIni = $("#divFechaIni"+sufijo);
@@ -279,26 +305,12 @@ function validaFormularioControlExcepciones(opcion){
         helpErrorFechaIni.html(msje);
         if (enfoque == null)enfoque = txtFechaIni;
     }
-    if(horaIni==''){
-        ok = false;
-        var msje = "Debe seleccionar la fecha de inicio de la excepci&oacute;n.";
-        divHoraIni.addClass("has-error");
-        helpErrorHoraIni.html(msje);
-        if (enfoque == null)enfoque = txtHoraIni;
-    }
     if(fechaFin==''){
         ok = false;
         var msje = "Debe seleccionar la fecha de finalizaci&oacute;n de la excepci&oacute;n.";
         divFechaFin.addClass("has-error");
         helpErrorFechaFin.html(msje);
         if (enfoque == null)enfoque = txtFechaFin;
-    }
-    if(horaFin==''){
-        ok = false;
-        var msje = "Debe seleccionar la fecha de finalizaci&oacute;n de la excepci&oacute;n.";
-        divHoraFin.addClass("has-error");
-        helpErrorHoraFin.html(msje);
-        if (enfoque == null)enfoque = txtHoraFin;
     }
     var sep="-";
     if(procesaTextoAFecha(fechaFin,sep)<procesaTextoAFecha(fechaIni,sep)){
@@ -335,10 +347,26 @@ function validaFormularioControlExcepciones(opcion){
             if (enfoque == null)enfoque = lstEntradaSalida;
         }
     }
+    if(horario==1){
+        if(horaIni==''){
+            ok = false;
+            var msje = "Debe seleccionar la hora de inicio de la excepci&oacute;n.";
+            divHoraIni.addClass("has-error");
+            helpErrorHoraIni.html(msje);
+            if (enfoque == null)enfoque = txtHoraIni;
+        }
+        if(horaFin==''){
+            ok = false;
+            var msje = "Debe seleccionar la hora de finalizaci&oacute;n de la excepci&oacute;n.";
+            divHoraFin.addClass("has-error");
+            helpErrorHoraFin.html(msje);
+            if (enfoque == null)enfoque = txtHoraFin;
+        }
+    }
     if (enfoque != null) {
         enfoque.focus();
     }
-    var okk = verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion);
+    var okk = verificaCruceDeHorariosYExcesoEnUso(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,horario,justificacion);
     if(!okk)ok=false;
     return ok;
 }
@@ -391,6 +419,9 @@ function guardaControlExcepciones(opcion) {
         turno = $("#lstCompensacionTurno"+sufijo).val();
         entradaSalida = $("#lstCompensacionEntradaSalida"+sufijo).val();
     }
+
+    var horario = $("#lstExcepcion"+sufijo+" option:selected").data("horario");
+
     var observacion = $("#txtObservacion"+sufijo).val();
     if (idExcepcion != ''&&idExcepcion>0) {
         $.ajax({
@@ -410,6 +441,7 @@ function guardaControlExcepciones(opcion) {
                 justificacion:justificacion,
                 turno:turno,
                 entrada_salida:entradaSalida,
+                horario:horario,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);
@@ -443,6 +475,7 @@ function guardaControlExcepciones(opcion) {
 }
 /**
  * Función para la verificación de la no existencia de cruce de horarios en cuanto a la aplicación de las excepciones para una determinada persona.
+ * Considerando adicionalmente que sea aplicable el permiso controlando que no se haya excedido la cantidad permitida en un lapso de tiempo.
  * @param idControlExcepcion
  * @param idRelaboral
  * @param idExcepcion
@@ -450,12 +483,13 @@ function guardaControlExcepciones(opcion) {
  * @param horaIni
  * @param fechaFin
  * @param horaFin
+ * @param horario
  * @param justificacion
  */
-function verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,justificacion){
+function verificaCruceDeHorariosYExcesoEnUso(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,horario,justificacion){
     var ok = false;
     $.ajax({
-        url: '/controlexcepciones/verificacruce/',
+        url: '/controlexcepciones/verificacruceexcesouso/',
         type: "POST",
         datatype: 'json',
         async: false,
@@ -469,6 +503,7 @@ function verificaCruceDeHorarios(idControlExcepcion,idRelaboral,idExcepcion,fech
             hora_ini:horaIni,
             fecha_fin:fechaFin,
             hora_fin:horaFin,
+            horario:horario,
             justificacion:justificacion
         },
         success: function (data) {  //alert(data);

@@ -33,6 +33,7 @@ function mostrarPlanilla(idPlanillaSal){
             {name: 'nivel_salarial', type: 'string'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
+            {name: 'bonos', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'atrasos', type: 'numeric'},
             {name: 'faltas_atrasos', type: 'numeric'},
@@ -230,6 +231,24 @@ function mostrarPlanilla(idPlanillaSal){
                         }]
                     },
                     {
+                        text: 'Bono Ant.',
+                        filtertype: 'checkedlist',
+                        datafield: 'bonos',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['bonos'])){
+                                    total = Number(parseFloat(record['bonos']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }],
+                        hidden:true
+                    },
+                    {
                         text: 'LSGHs',
                         filtertype: 'checkedlist',
                         datafield: 'lsgh',
@@ -356,7 +375,7 @@ function mostrarPlanilla(idPlanillaSal){
                         }]
                     },
                     {
-                        text: 'Aporte AFP',
+                        text: 'Desc. AFP',
                         filtertype: 'checkedlist',
                         datafield: 'aporte_laboral_afp',
                         width: 90,
@@ -428,6 +447,7 @@ function mostrarPlanilla(idPlanillaSal){
             {label: 'Nivel Salarial', value: 'nivel_salarial', checked: false},
             {label: 'Haber', value: 'sueldo', checked: true},
             {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
+            {label: 'Bono Ant.', value: 'bonos', checked: false},
             {label: 'LSGHs', value: 'lsgh', checked: true},
             {label: 'Omisi&oacute;n', value: 'omision', checked: true},
             {label: 'Abandono', value: 'abandono', checked: true},
@@ -435,7 +455,7 @@ function mostrarPlanilla(idPlanillaSal){
             {label: 'Atrasos', value: 'atrasos', checked: true},
             {label: 'Otros', value: 'otros', checked: true},
             {label: 'Total Desc.', value: 'total_descuentos', checked: true},
-            {label: 'Aporte AFP', value: 'aporte_laboral_afp', checked: true},
+            {label: 'Desc. AFP', value: 'aporte_laboral_afp', checked: true},
             {label: 'Total Ganado', value: 'total_ganado', checked: true},
             {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true}
         ];

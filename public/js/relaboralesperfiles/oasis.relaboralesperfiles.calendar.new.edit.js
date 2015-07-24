@@ -158,11 +158,11 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
  * @param opcion
  * @param idPerfilLaboral
  * @param tipoHorario
- * @param fechaIni
- * @param fechaFin
+ * @param fechaIniMin
+ * @param fechaFinMax
  * @returns {boolean}
  */
-function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIni,fechaFin){
+function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIniMin,fechaFinMax){
     var arr = $("#calendar").fullCalendar( 'clientEvents');
     var contadorEventos = 0;
     var mesIni = 0;

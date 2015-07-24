@@ -20,11 +20,13 @@ $().ready(function () {
      * Control para la obtención de la planilla previa
      */
     $("#btnGenerarPlanillaPreviaSal").on("click",function(){
-        $("#hdnSwPlanillaCalculada").val(0);
+        $("#hdnSwPlanillaSalCalculada").val(0);
          limpiarFormularioPlanillaSal(1);
          var ok = validaFormularioPlanillaSal(1);
          if (ok){
              desplegarPlanillaPreviaSal('');
+         }else{
+             $("#divGridPlanillasSalGen").jqxGrid('clear');
          }
     });
     /**
@@ -32,7 +34,7 @@ $().ready(function () {
      */
     $("#btnCalcularPlanillaPreviaSal").on("click",function(){
         var cantidadRegistrosValidos = 0;
-        $("#hdnSwPlanillaCalculada").val(0)
+        $("#hdnSwPlanillaSalCalculada").val(0)
         limpiarFormularioPlanillaSal(1);
         var ok = validaFormularioPlanillaSal(2);
         if (ok){
@@ -52,7 +54,7 @@ $().ready(function () {
                     listaIdRelaborales += separador;
                     listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
                     ok = desplegarPlanillaPreviaSal(listaIdRelaborales);
-                    $("#hdnSwPlanillaCalculada").val(1);
+                    $("#hdnSwPlanillaSalCalculada").val(1);
                 }else{
                     var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla Salarial.";
                     $("#divMsjePorError").html("");
@@ -80,7 +82,7 @@ $().ready(function () {
             /**
              * Inicialmente se verifica que se haya ejecutado el calculo de la planilla.
              */
-            if($("#hdnSwPlanillaCalculada").val()==1){
+            if($("#hdnSwPlanillaSalCalculada").val()==1){
 
                 var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
                 if(rows.length>0){
@@ -111,6 +113,7 @@ $().ready(function () {
                                 var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
                                 var observacion = "";
                                 $("#popupObservacionPlanillaSal").modal("show");
+                                $("#txtObservacionPlanillaSal").val("");
                                 $("#txtObservacionPlanillaSal").focus();
                                 $("#btnAplicarObservacionPlanillaSal").off();
                                 $("#btnAplicarObservacionPlanillaSal").on("click",function(){
@@ -138,6 +141,7 @@ $().ready(function () {
                             var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
                             var observacion = "";
                             $("#popupObservacionPlanillaSal").modal("show");
+                            $("#txtObservacionPlanillaSal").val("");
                             $("#txtObservacionPlanillaSal").focus();
                             $("#btnAplicarObservacionPlanillaSal").off();
                             $("#btnAplicarObservacionPlanillaSal").on("click",function(){
@@ -376,7 +380,7 @@ function definirGrillaParaListaPlanillas() {
                     $("#viewplanrowbutton").jqxButton();
 
                     $("#hdnIdPlanillaSal").val(0);
-                    $("#hdnSwPlanillaCalculada").val(0);
+                    $("#hdnSwPlanillaSalCalculada").val(0);
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {

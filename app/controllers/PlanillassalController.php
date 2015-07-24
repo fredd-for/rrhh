@@ -231,6 +231,7 @@ class PlanillassalController extends ControllerBase{
                         'expd'=>$v->expd,
                         'sueldo'=>$v->sueldo,
                         'dias_efectivos'=>$v->dias_efectivos,
+                        'bonos'=>$v->bonos,
                         'faltas'=>$v->faltas,
                         'atrasos'=>$v->atrasos,
                         'faltas_atrasos'=>$v->faltas_atrasos,
@@ -447,6 +448,7 @@ class PlanillassalController extends ControllerBase{
                         'nivel_salarial'=>$v->nivel_salarial,
                         'sueldo'=>str_replace(".00","",$v->sueldo),
                         'dias_efectivos'=>$v->dias_efectivos,
+                        'bonos'=>$v->bonos,
                         'faltas'=>$v->faltas,
                         'atrasos'=>$v->atrasos,
                         'faltas_atrasos'=>$v->faltas_atrasos,
@@ -660,6 +662,7 @@ class PlanillassalController extends ControllerBase{
             'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'dias_efectivos' => array('title' => 'Dias Efec.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'bonos' => array('title' => 'Bono Ant.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'omision' => array('title' => 'Omision', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'abandono' => array('title' => 'Abandono', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
@@ -667,7 +670,7 @@ class PlanillassalController extends ControllerBase{
             'atrasos' => array('title' => 'Atrasos', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'otros' => array('title' => 'Otros', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'total_descuentos' => array('title' => 'Total Desc.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
-            'aporte_laboral_afp' => array('title' => 'Aporte AFP', 'width' => 10, 'align' => 'R', 'type' => 'varchar','totales'=>true),
+            'aporte_laboral_afp' => array('title' => 'Desc. AFP', 'width' => 10, 'align' => 'R', 'type' => 'varchar','totales'=>true),
             'total_ganado' => array('title' => 'T. Ganado', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'total_liquido' => array('title' => 'T. Liquido', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true)
         );
@@ -977,7 +980,7 @@ class PlanillassalController extends ControllerBase{
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
-            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
+            $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
             $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesplanillas = array();
             foreach ($resul as $v) {
@@ -997,6 +1000,7 @@ class PlanillassalController extends ControllerBase{
                     'nivel_salarial'=>$v->nivel_salarial,
                     'sueldo'=>str_replace(".00","",$v->sueldo),
                     'dias_efectivos'=>$v->dias_efectivos,
+                    'bonos'=>$v->bonos,
                     'faltas'=>$v->faltas,
                     'atrasos'=>$v->atrasos,
                     'faltas_atrasos'=>$v->faltas_atrasos,
@@ -1013,12 +1017,15 @@ class PlanillassalController extends ControllerBase{
                     'estado'=>$v->estado,
                     'estado_descripcion'=>$v->estado_descripcion
                 );
-                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                $haber = $diasEfectivos = $bonosAntiguedad = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
                 if($v->sueldo!=''){
                     $haber=$v->sueldo;
                 }
                 if($v->dias_efectivos!=''){
                     $diasEfectivos=$v->dias_efectivos;
+                }
+                if($v->bonos!=''){
+                    $bonosAntiguedad=$v->bonos;
                 }
                 if($v->lsgh!=''){
                     $lsgh=$v->lsgh;
@@ -1055,6 +1062,7 @@ class PlanillassalController extends ControllerBase{
                 }
                 $totalHaberes += $haber;
                 $totalDiasEfectivos += $diasEfectivos;
+                $totalBonosAntiguedad += $bonosAntiguedad;
                 $totalLsgh += $lsgh;
                 $totalOmision += $omision;
                 $totalAbandono += $abandono;
@@ -1069,6 +1077,7 @@ class PlanillassalController extends ControllerBase{
             }
             $arrTodosTotales = array("sueldo"=>$totalHaberes,
                 "dias_efectivos"=>$totalDiasEfectivos,
+                "bonos"=>$totalBonosAntiguedad,
                 "lsgh"=>$totalLsgh,
                 "omision"=>$totalOmision,
                 "abandono"=>$totalAbandono,
@@ -1273,6 +1282,7 @@ class PlanillassalController extends ControllerBase{
             'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'dias_efectivos' => array('title' => 'Dias Efec.', 'width' => 20, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'bonos' => array('title' => 'Bono Ant.', 'width' => 20, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
             'abandono' => array('title' => 'Abandono', 'width' => 16, 'align' => 'R', 'type' => 'numeric','totales'=>true),
@@ -1585,7 +1595,7 @@ class PlanillassalController extends ControllerBase{
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
-            $totalHaberes = $totalDiasEfectivos = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
+            $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad =  $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
             $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesPlanillas = array();
             foreach ($resul as $v) {
@@ -1605,6 +1615,7 @@ class PlanillassalController extends ControllerBase{
                     'nivel_salarial'=>$v->nivel_salarial,
                     'sueldo'=>str_replace(".00","",$v->sueldo),
                     'dias_efectivos'=>$v->dias_efectivos,
+                    'bonos'=>$v->bonos,
                     'faltas'=>$v->faltas,
                     'atrasos'=>$v->atrasos,
                     'faltas_atrasos'=>$v->faltas_atrasos,
@@ -1621,12 +1632,15 @@ class PlanillassalController extends ControllerBase{
                     'estado'=>$v->estado,
                     'estado_descripcion'=>$v->estado_descripcion
                 );
-                $haber = $diasEfectivos = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                $haber = $diasEfectivos = $bonosAntiguedad = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
                 if($v->sueldo!=''){
                     $haber=$v->sueldo;
                 }
                 if($v->dias_efectivos!=''){
                     $diasEfectivos=$v->dias_efectivos;
+                }
+                if($v->bonos!=''){
+                    $bonosAntiguedad=$v->bonos;
                 }
                 if($v->lsgh!=''){
                     $lsgh=$v->lsgh;
@@ -1663,6 +1677,7 @@ class PlanillassalController extends ControllerBase{
                 }
                 $totalHaberes += $haber;
                 $totalDiasEfectivos += $diasEfectivos;
+                $totalBonosAntiguedad += $bonosAntiguedad;
                 $totalLsgh += $lsgh;
                 $totalOmision += $omision;
                 $totalAbandono += $abandono;
@@ -1677,6 +1692,7 @@ class PlanillassalController extends ControllerBase{
             }
             $arrTodosTotales = array("sueldo"=>$totalHaberes,
                 "dias_efectivos"=>$totalDiasEfectivos,
+                "bonos"=>$totalBonosAntiguedad,
                 "lsgh"=>$totalLsgh,
                 "omision"=>$totalOmision,
                 "abandono"=>$totalAbandono,

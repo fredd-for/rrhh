@@ -477,19 +477,19 @@ class CalendariolaboralController extends ControllerBase
                         $objCalendarioLaboral->tolerancia_id=null;
                         break;
                     case 2:
+                        //Si se envía la opción 2, quiere decir que se desea concluir la elaboración del calendario.
                         if($idTolerancia>0){
                             $objCalendarioLaboral->tolerancia_id=$idTolerancia;
                         }
-                        //Si se envía la opción 2, quiere decir que se desea concluir la elaboración del calendario.
                         $objCalendarioLaboral->estado=2;
                         $objCalendarioLaboral->user_elab_id=$user_mod_id;
                         $objCalendarioLaboral->fecha_elab=$hoy;
                         break;
                     case 3:
+                        //Si se envía la opción 3, quiere decir que se desea aprobar la elaboración del calendario.
                         if($idTolerancia>0){
                             $objCalendarioLaboral->tolerancia_id=$idTolerancia;
                         }
-                        //Si se envía la opción 2, quiere decir que se desea concluir la elaboración del calendario.
                         $objCalendarioLaboral->estado=3;
                         $objCalendarioLaboral->user_apr_id=$user_mod_id;
                         $objCalendarioLaboral->fecha_apr=$hoy;

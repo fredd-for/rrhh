@@ -261,6 +261,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             {name: 'cargo', type: 'string'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
+            {name: 'bonos', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'atrasos', type: 'numeric'},
             {name: 'faltas_atrasos', type: 'numeric'},
@@ -457,6 +458,19 @@ function desplegarPlanillaPreviaSal(idRelaborales){
                         }
                     },
                     {
+                        text: 'Bono Ant.',
+                        filtertype: 'checkedlist',
+                        datafield: 'bonos',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalBonoAntiguedad" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        },
+                        hidden: true
+                    },
+                    {
                         text: 'Faltas',
                         filtertype: 'checkedlist',
                         datafield: 'faltas',
@@ -548,7 +562,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
                      }
                      },
                     {
-                        text: 'Descuento AFP',
+                        text: 'Desc. AFP',
                         filtertype: 'checkedlist',
                         datafield: 'aporte_laboral_afp',
                         width: 90,
@@ -606,6 +620,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             {label: 'Nivel Salarial', value: 'nivelsalarial', checked: false},
             {label: 'Haber', value: 'sueldo', checked: true},
             {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
+            {label: 'Bono Ant.', value: 'bonos', checked: false},
             {label: 'LSGHs', value: 'lsgh', checked: true},
             {label: 'Omisi&oacute;n', value: 'omision', checked: true},
             {label: 'Abandono', value: 'abandono', checked: true},
@@ -613,7 +628,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             {label: 'Atrasos', value: 'atrasos', checked: true},
             {label: 'Otros', value: 'otros', checked: true},
             {label: 'Total Desc.', value: 'total_descuentos', checked: true},
-            {label: 'Aporte AFP', value: 'aporte_laboral_afp', checked: true},
+            {label: 'Desc. AFP', value: 'aporte_laboral_afp', checked: true},
             {label: 'Total Ganado', value: 'total_ganado', checked: true},
             {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true},
             {label: 'Observacion', value: 'observacion', checked: false},
@@ -640,7 +655,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             var rows = $('#divGridPlanillasSalGen').jqxGrid('getrows');
             if(rows.length>0){
                 $("#btnCalcularPlanillaPreviaSal").show();
-                if($("#hdnSwPlanillaCalculada").val()==1){
+                if($("#hdnSwPlanillaSalCalculada").val()==1){
                     $("#btnGenerarPlanillaSal").show();
                 }else{
                     $("#btnGenerarPlanillaSal").hide();
@@ -663,6 +678,7 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             var totalConsiderados = 0;
             var totalHaberes = 0;
             var totalDiasEfectivos = 0;
+            var totalBonoAntiguedad = 0;
             var totalFaltas = 0;
             var totalAtrasos = 0;
             var totalFaltasAtrasos = 0;
@@ -692,6 +708,9 @@ function desplegarPlanillaPreviaSal(idRelaborales){
                     }
                     if(!isNaN(dataRecord.dias_efectivos)&&dataRecord.dias_efectivos!=null){
                         totalDiasEfectivos += Number(parseFloat(dataRecord.dias_efectivos));
+                    }
+                    if(!isNaN(dataRecord.bonos)&&dataRecord.bonos!=null){
+                        totalBonoAntiguedad += Number(parseFloat(dataRecord.bonos));
                     }
                     if(!isNaN(dataRecord.faltas)&&dataRecord.faltas!=null){
                         totalFaltas += Number(parseFloat(dataRecord.faltas));
@@ -735,6 +754,9 @@ function desplegarPlanillaPreviaSal(idRelaborales){
 
             $("#divTotalDiasEfectivos").text("");
             $("#divTotalDiasEfectivos").text(totalDiasEfectivos.toFixed(2));
+
+            $("#divTotalBonoAntiguedad").text("");
+            $("#divTotalBonoAntiguedad").text(totalBonoAntiguedad.toFixed(2));
 
             $("#divTotalFaltas").text("");
             $("#divTotalFaltas").text(totalFaltas.toFixed(2));

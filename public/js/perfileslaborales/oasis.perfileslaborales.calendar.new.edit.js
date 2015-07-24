@@ -195,11 +195,11 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
  * @param opcion
  * @param idPerfilLaboral
  * @param tipoHorario
- * @param fechaIni
- * @param fechaFin
+ * @param fechaIniMin
+ * @param fechaFinMax
  * @returns {boolean}
  */
-function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIni,fechaFin){
+function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,fechaIniMin,fechaFinMax){
     $("#divProgressBar").hide();
     /**
      * Se establece el tipo de barra de progreso a mostrarse
@@ -227,12 +227,25 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     var ok = true;
     var okk= true;
     var cantidad = 0;
+    var arrfechaCalendario = fechaIniMin.split("-");
+    var mesCalendario = parseInt(arrfechaCalendario[1]);
+    var gestionCalendario = parseInt(arrfechaCalendario[2]);
     $.each(arr,function(key,turno){
         var valClass = turno.className+"";
         var arrClass = valClass.split("_");
         var clase = arrClass[0];
         if(clase=='r'||clase=='n'){
             cantidad++;
+        }else{
+            if(clase=='b'){
+                var fechaIni = fechaConvertirAFormato(turno.start,'-');
+                var arrfechaIni = fechaIni.split("-");
+                var mesIni = parseInt(arrfechaIni[1]);
+                var gestionIni = parseInt(arrfechaIni[2]);
+                if(mesIni==mesCalendario&&gestionIni==gestionCalendario){
+                    cantidad++;
+                }
+            }
         }
     });
     $.each(arr,function(key,turno){
@@ -252,7 +265,8 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
         }
         else fechaFin = fechaConvertirAFormato(turno.end,'-');
         var arrfechaIni = fechaIni.split("-");
-        mesIni = arrfechaIni[1];
+        mesIni = parseInt(arrfechaIni[1]);
+        var gestionIni = parseInt(arrfechaIni[2]);
         var arrfechaFin = fechaFin.split("-");
         mesFin = arrfechaFin[1];
         switch (clase){
@@ -260,6 +274,13 @@ function guardaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
                 contadorEventos++;
                 ok = guardarTurnoEnCalendario(opcion,idCalendarioLaboral,idPerfilLaboral,idTipoHorario,idTolerancia,idJornadaLaboral,fechaIni,fechaFin,'');
                 if(!ok)okk=false;
+                break;
+            case "b":
+                if(mesIni==mesCalendario&&gestionIni==gestionCalendario){
+                    contadorEventos++;
+                    ok = guardarTurnoEnCalendario(opcion,idCalendarioLaboral,idPerfilLaboral,idTipoHorario,idTolerancia,idJornadaLaboral,fechaIni,fechaFin,'');
+                    if(!ok)okk=false;
+                }
                 break;
             case "n":
                 contadorEventos++;

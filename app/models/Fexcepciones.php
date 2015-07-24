@@ -26,6 +26,10 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
     public $frecuencia_descripcion;
     public $redondeo;
     public $redondeo_descripcion;
+    public $horario;
+    public $horario_descripcion;
+    public $refrigerio;
+    public $refrigerio_descripcion;
     public $observacion;
     public $estado;
     public $estado_descripcion;
@@ -68,6 +72,10 @@ class Fexcepciones extends \Phalcon\Mvc\Model {
             'frecuencia_descripcion'=>'frecuencia_descripcion',
             'redondeo'=>'redondeo',
             'redondeo_descripcion'=>'redondeo_descripcion',
+            'horario'=>'horario',
+            'horario_descripcion'=>'horario_descripcion',
+            'refrigerio'=>'refrigerio',
+            'refrigerio_descripcion'=>'refrigerio_descripcion',
             'observacion'=>'observacion',
             'estado'=>'estado',
             'estado_descripcion'=>'estado_descripcion',
