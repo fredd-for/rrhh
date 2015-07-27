@@ -184,7 +184,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                     $("#hdnIdRelaboralEdit").val(idRelaboral);
                                     $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
                                     limpiarMensajesErrorPorValidacionControlExcepcion(2);
-                                    inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.turno,dataRecord.entrada_salida,genero,dataRecord.observacion);
+                                    inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.turno,dataRecord.entrada_salida,genero,dataRecord.controlexcepcion_observacion);
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado ELABORADO necesariamente.";
                                     $("#divMsjePorError").html("");
