@@ -443,7 +443,8 @@ function desplegarPlanillaPreviaSal(idRelaborales){
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalHaberes" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
-                        }
+                        },
+                        hidden:true
                     },
                     {
                         text: 'D&iacute;as Efectivos',
@@ -614,11 +615,11 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             {label: 'Proceso', value: 'procesocontratacion_codigo', checked: false},
             {label: 'Cargo', value: 'cargo', checked: false},
             {label: 'Estado', value: 'estado_descripcion', checked: false},
-            {label: 'Nombres y Apellidos', value: 'nombres', checked: false},
+            {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
             {label: 'CI', value: 'ci', checked: true},
             {label: 'Exp', value: 'expd', checked: true},
             {label: 'Nivel Salarial', value: 'nivelsalarial', checked: false},
-            {label: 'Haber', value: 'sueldo', checked: true},
+            {label: 'Haber', value: 'sueldo', checked: false},
             {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
             {label: 'Bono Ant.', value: 'bonos', checked: false},
             {label: 'LSGHs', value: 'lsgh', checked: true},

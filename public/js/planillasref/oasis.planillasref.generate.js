@@ -208,25 +208,25 @@ function validaFormularioPlanillaRef(option){
 
     if(gestion==''||gestion==0){
         ok = false;
-        var msje = "Debe seleccionar la gesti&oacute;n para la "+accion+" de la planilla.";
+        var msje = "Debe seleccionar la gesti&oacute;n para la "+accion+" de la Planilla de Refrigerio.";
         divGestion.addClass("has-error");
         helpErrorGestion.html(msje);
     }
     if(mes==''||mes==0){
         ok = false;
-        var msje = "Debe seleccionar el mes para la "+accion+" de la planilla.";
+        var msje = "Debe seleccionar el mes para la "+accion+" de la Planilla de Refrigerio.";
         divMes.addClass("has-error");
         helpErrorMes.html(msje);
     }
     if(idFinPartida==''||idFinPartida==0){
         ok = false;
-        var msje = "Debe seleccionar la Fuente para la "+accion+" de la planilla.";
+        var msje = "Debe seleccionar la Fuente para la "+accion+" de la Planilla de Refrigerio.";
         divFinPartida.addClass("has-error");
         helpErrorFinPartida.html(msje);
     }
     if(idTipoPlanilla==''||idTipoPlanilla==0){
         ok = false;
-        var msje = "Debe seleccionar la Fuente para la "+accion+" de la planilla.";
+        var msje = "Debe seleccionar la Fuente para la "+accion+" de la Planilla de Refrigerio.";
         divTipoPlanilla.addClass("has-error");
         helpErrorTipoPlanilla.html(msje);
     }
@@ -234,8 +234,9 @@ function validaFormularioPlanillaRef(option){
 }
 /**
  * Función para la generación de la Planilla de Refrigerio.
+ * @param idRelaborales
  */
-function desplegarPlanillaPreviaRef(){
+function desplegarPlanillaPreviaRef(idRelaborales){
     var sufijo = "Gen";
     var gestion = $("#lstGestion"+sufijo).val();
     var mes = $("#lstMes"+sufijo).val();
@@ -256,6 +257,7 @@ function desplegarPlanillaPreviaRef(){
             {name: 'cargo', type: 'string'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
+            {name: 'monto_diario', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'atrasos', type: 'numeric'},
             {name: 'faltas_atrasos', type: 'numeric'},
@@ -268,7 +270,7 @@ function desplegarPlanillaPreviaRef(){
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/planillasref/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla,
+        url: '/planillasref/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla+'&id_relaborales='+idRelaborales,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -318,7 +320,8 @@ function desplegarPlanillaPreviaRef(){
                         datafield: 'cargo',
                         width: 100,
                         cellsalign: 'justify',
-                        align: 'center'
+                        align: 'center',
+                        hidden:true
                     },
                     {
                         text: 'Estado',
@@ -327,7 +330,8 @@ function desplegarPlanillaPreviaRef(){
                         width: 70,
                         cellsalign: 'center',
                         align: 'center',
-                        cellclassname: cellclass
+                        cellclassname: cellclass,
+                        hidden:true
                     },
                     {
                         text: 'Nombres',
@@ -380,6 +384,18 @@ function desplegarPlanillaPreviaRef(){
                         }
                     },
                     {
+                        text: 'Monto Diario',
+                        filtertype: 'checkedlist',
+                        datafield: 'monto_diario',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalMontosDiarios" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
                         text: 'LSGHs',
                         filtertype: 'checkedlist',
                         datafield: 'lsgh',
@@ -389,32 +405,6 @@ function desplegarPlanillaPreviaRef(){
                         columngroup: 'DescuentoDias',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalLsgh" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
-                        text: 'Omisi&oacute;n',
-                        filtertype: 'checkedlist',
-                        datafield: 'omision',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalOmision" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
-                        text: 'Abandono',
-                        filtertype: 'checkedlist',
-                        datafield: 'abandono',
-                        width: 65,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalAbandono" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
@@ -432,32 +422,6 @@ function desplegarPlanillaPreviaRef(){
                         }
                     },
                     {
-                        text: 'Atrasos',
-                        filtertype: 'checkedlist',
-                        datafield: 'atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
-                        text: 'F. & A.',
-                        filtertype: 'checkedlist',
-                        datafield: 'faltas_atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalFaltasAtrasos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
-                    },
-                    {
                         text: 'Otros',
                         filtertype: 'checkedlist',
                         datafield: 'otros',
@@ -467,6 +431,32 @@ function desplegarPlanillaPreviaRef(){
                         columngroup: 'DescuentoMonetario',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'RC-IVA',
+                        filtertype: 'checkedlist',
+                        datafield: 'rc_iva',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'ImpuestoRefrigerio',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalRcIva" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Retenci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'retencion',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        columngroup: 'ImpuestoRefrigerio',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalRetencion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
@@ -497,10 +487,51 @@ function desplegarPlanillaPreviaRef(){
                 ],
                 columngroups:
                     [
-                        { text: 'Descuento en D&iacute;as', align: 'center', name: 'DescuentoDias' },
-                        { text: 'Descuento en Bs.', align: 'center', name: 'DescuentoMonetario' }
+                        { text: 'Desc. D&iacute;as', align: 'center', name: 'DescuentoDias' },
+                        { text: 'Desc. Bs.', align: 'center', name: 'DescuentoMonetario' },
+                        { text: 'Impuestos', align: 'center', name: 'ImpuestoRefrigerio' }
                     ]
             });
+
+        var listSource = [
+            {label: 'Gerencia', value: 'gerencia_administrativa', checked: false},
+            {label: 'Departamento', value: 'departamento_administrativo', checked: false},
+            {label: '&Aacute;rea', value: 'area', checked: false},
+            {label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: false},
+            {label: 'Fuente', value: 'fin_partida', checked: false},
+            {label: 'Proceso', value: 'procesocontratacion_codigo', checked: false},
+            {label: 'Cargo', value: 'cargo', checked: false},
+            {label: 'Estado', value: 'estado_descripcion', checked: false},
+            {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
+            {label: 'CI', value: 'ci', checked: true},
+            {label: 'Exp', value: 'expd', checked: true},
+            {label: 'Nivel Salarial', value: 'nivelsalarial', checked: false},
+            {label: 'Haber', value: 'sueldo', checked: true},
+            {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
+            {label: 'Monto Diario', value: 'monto_diario', checked: true},
+            {label: 'LSGHs', value: 'lsgh', checked: true},
+            {label: 'Faltas', value: 'faltas', checked: true},
+            {label: 'Otros', value: 'otros', checked: true},
+            {label: 'RC-IVA', value: 'rc_iva', checked: true},
+            {label: 'Retenci&oacute;n', value: 'retencion', checked: true},
+            {label: 'Total Ganado', value: 'total_ganado', checked: true},
+            {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true},
+            {label: 'Observacion', value: 'observacion', checked: false},
+        ];
+
+        $("#divPlanilllaRefGenListBox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#divPlanilllaRefGenListBox").on('checkChange', function (event) {
+            $("#divGridPlanillasRefGen").jqxGrid('beginupdate');
+            if (event.args.checked) {
+                $("#divGridPlanillasRefGen").jqxGrid('showcolumn', event.args.value);
+            }
+            else {
+                $("#divGridPlanillasRefGen").jqxGrid('hidecolumn', event.args.value);
+            }
+            $("#divGridPlanillasRefGen").jqxGrid('endupdate');
+        });
+
+
         $('#divGridPlanillasRefGen').off();
         /**
          * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
@@ -508,10 +539,17 @@ function desplegarPlanillaPreviaRef(){
         $("#divGridPlanillasRefGen").on("bindingcomplete",function(){
             var rows = $('#divGridPlanillasRefGen').jqxGrid('getrows');
             if(rows.length>0){
-                $("#btnGenerarPlanillaRef").show();
+                $("#btnCalcularPlanillaPreviaRef").show();
+                if($("#hdnSwPlanillaRefCalculada").val()==1){
+                    $("#btnGenerarPlanillaRef").show();
+                }else{
+                    $("#btnGenerarPlanillaRef").hide();
+                }
             }else{
                 $("#btnGenerarPlanillaRef").hide();
+                $("#btnCalcularPlanillaPreviaRef").hide();
             }
+            $("#divGridPlanillasRefGen").jqxGrid('clearselection');
         });
 
         $('#divGridPlanillasRefGen').on('rowselect', function (event) {
@@ -527,11 +565,10 @@ function desplegarPlanillaPreviaRef(){
             var totalDiasEfectivos = 0;
             var totalFaltas = 0;
             var totalAtrasos = 0;
-            var totalFaltasAtrasos = 0;
-            var totalOmisiones = 0;
-            var totalAbandonos = 0;
             var totalLsgh = 0;
             var totalOtros = 0;
+            var totalRcIva = 0;
+            var totalRetenciones = 0;
             var totalTotalGanado = 0;
             var totalTotalLiquido = 0;
             $.each(rows,function(key,val){
@@ -547,37 +584,35 @@ function desplegarPlanillaPreviaRef(){
                     if(dataRecord.id_relaboral>0){
                         totalConsiderados++;
                     }
-                    if(!isNaN(dataRecord.sueldo)){
+                    if(!isNaN(dataRecord.sueldo)&&dataRecord.sueldo!=null){
                         totalHaberes += Number(parseFloat(dataRecord.sueldo));
                     }
-                    if(!isNaN(dataRecord.dias_efectivos)){
+                    if(!isNaN(dataRecord.dias_efectivos)&&dataRecord.dias_efectivos!=null){
                         totalDiasEfectivos += Number(parseFloat(dataRecord.dias_efectivos));
                     }
-                    if(!isNaN(dataRecord.faltas)){
+                    if(!isNaN(dataRecord.faltas)&&dataRecord.faltas!=null){
                         totalFaltas += Number(parseFloat(dataRecord.faltas));
                     }
-                    if(!isNaN(dataRecord.atrasos)){
+                    if(!isNaN(dataRecord.atrasos)&&dataRecord.atrasos!=null){
                         totalAtrasos += Number(parseFloat(dataRecord.atrasos));
                     }
-                    if(!isNaN(dataRecord.faltas_atrasos)){
-                        totalFaltasAtrasos += Number(parseFloat(dataRecord.faltas_atrasos));
-                    }
-                    if(!isNaN(dataRecord.lsgh)){
+                    if(!isNaN(dataRecord.lsgh)&&dataRecord.lsgh!=null){
                         totalLsgh += Number(parseFloat(dataRecord.lsgh));
                     }
-                    if(!isNaN(dataRecord.omision)){
-                        totalOmisiones += Number(parseFloat(dataRecord.omision));
+                    if(!isNaN(dataRecord.rc_iva)&&dataRecord.rc_iva!=null){
+                        totalRcIva += Number(parseFloat(dataRecord.rc_iva));
                     }
-                    if(!isNaN(dataRecord.abandono)){
-                        totalAbandonos += Number(parseFloat(dataRecord.abandono));
+                    if(!isNaN(dataRecord.retencion)&&dataRecord.retencion!=null){
+                        totalRetenciones += Number(parseFloat(dataRecord.retencion));
                     }
-                    if(!isNaN(dataRecord.otros)){
+
+                    if(!isNaN(dataRecord.otros)&&dataRecord.otros!=null){
                         totalOtros += Number(parseFloat(dataRecord.otros));
                     }
-                    if(!isNaN(dataRecord.total_ganado)){
+                    if(!isNaN(dataRecord.total_ganado)&&dataRecord.total_ganado!=null){
                         totalTotalGanado += Number(parseFloat(dataRecord.total_ganado));
                     }
-                    if(!isNaN(dataRecord.total_liquido)){
+                    if(!isNaN(dataRecord.total_liquido)&&dataRecord.total_liquido!=null){
                         totalTotalLiquido += Number(parseFloat(dataRecord.total_liquido));
                     }
                 }
@@ -598,17 +633,11 @@ function desplegarPlanillaPreviaRef(){
             $("#divTotalAtrasos").text("");
             $("#divTotalAtrasos").text(totalAtrasos.toFixed(2));
 
-            $("#divTotalFaltasAtrasos").text("");
-            $("#divTotalFaltasAtrasos").text(totalFaltasAtrasos.toFixed(2));
+            $("#divTotalRcIva").text("");
+            $("#divTotalRcIva").text(totalRcIva.toFixed(2));
 
-            $("#divTotalLsgh").text("");
-            $("#divTotalLsgh").text(totalLsgh.toFixed(2));
-
-            $("#divTotalOmision").text("");
-            $("#divTotalOmision").text(totalOmisiones.toFixed(2));
-
-            $("#divTotalAbandono").text("");
-            $("#divTotalAbandono").text(totalAbandonos.toFixed(2));
+            $("#divTotalRetencion").text("");
+            $("#divTotalRetencion").text(totalRetenciones.toFixed(2));
 
             $("#divTotalOtros").text("");
             $("#divTotalOtros").text(totalOtros.toFixed(2));

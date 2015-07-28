@@ -3,7 +3,7 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
- *   Fecha Creación:  29-04-2014
+ *   Fecha Creación:  27-07-2015
  */
 $().ready(function () {
 
@@ -17,15 +17,62 @@ $().ready(function () {
 
     definirGrillaParaListaPlanillasDeRefrigerio();
     /**
-     * Control para la obtención de la planilla previa
+     * Control para la obtención de la Planilla Salarial previa.
      */
     $("#btnGenerarPlanillaPreviaRef").on("click",function(){
-         limpiarFormularioPlanillaRef(1);
-         var ok = validaFormularioPlanillaRef(1);
-         if (ok){
-             desplegarPlanillaPreviaRef();
-         }
+        $("#hdnSwPlanillaRefCalculada").val(0);
+        limpiarFormularioPlanillaRef(1);
+        var ok = validaFormularioPlanillaRef(1);
+        if (ok){
+            desplegarPlanillaPreviaRef('');
+        }else{
+            $("#divGridPlanillasRefGen").jqxGrid('clear');
+        }
     });
+
+    /**
+     * Control para la obtención de la planilla calculada para el personal seleccionado.
+     */
+    $("#btnCalcularPlanillaPreviaRef").on("click",function(){
+        var cantidadRegistrosValidos = 0;
+        $("#hdnSwPlanillaRefCalculada").val(0)
+        limpiarFormularioPlanillaRef(1);
+        var ok = validaFormularioPlanillaRef(2);
+        if (ok){
+            var rows = $("#divGridPlanillasRefGen").jqxGrid('selectedrowindexes');
+            if(rows.length>0){
+                var listaIdRelaborales = '';
+                var separador = '|';
+                var selectedRecords = new Array();
+                for (var m = 0; m < rows.length; m++) {
+                    var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rows[m]);
+                    //if(dataRecord.dias_efectivos>0){
+                        cantidadRegistrosValidos++;
+                        listaIdRelaborales += dataRecord.id_relaboral + separador;
+                    //}
+                }
+                if(cantidadRegistrosValidos>=0){
+                    listaIdRelaborales += separador;
+                    listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
+                    ok = desplegarPlanillaPreviaRef(listaIdRelaborales);
+                    $("#hdnSwPlanillaRefCalculada").val(1);
+                }else{
+                    var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla de Refrigerio.";
+                    $("#divMsjePorError").html("");
+                    $("#divMsjePorError").append(msje);
+                    $("#divMsjeNotificacionError").jqxNotification("open");
+                }
+
+            }else{
+                var msje = "Debe seleccionar al menos un registro para el c&aacute;lculo de la Planilla de Refrigerio.";
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(msje);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+            }
+        }
+    });
+
+
     /**
      * Control para el control de los registros seleccionados
      */
@@ -89,9 +136,9 @@ $().ready(function () {
     });
 
     $("#liList").on("click",function () {
-        $('#divTabPlanillasSal').jqxTabs('enableAt', 0);
-        $('#divTabPlanillasSal').jqxTabs('disableAt', 1);
-        $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
+        $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
+        $('#divTabPlanillasRef').jqxTabs('disableAt', 1);
+        $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
         $("#msjs-alert").hide();
     });
     $("#btnGuardarExcepcionEdit").on("click",function () {
@@ -151,14 +198,14 @@ $().ready(function () {
         if (numColumnas > 0) exportarReporte(2);
         else {
             alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#listBoxPlanillasSal").focus();
+            $("#listBoxPlanillasRef").focus();
         }
     });
     $("#chkAllCols").click(function () {
         if (this.checked == true) {
-            $("#listBoxPlanillasSal").jqxListBox('checkAll');
+            $("#listBoxPlanillasRef").jqxListBox('checkAll');
         } else {
-            $("#listBoxPlanillasSal").jqxListBox('uncheckAll');
+            $("#listBoxPlanillasRef").jqxListBox('uncheckAll');
         }
     });
     $("#liList").click(function () {
@@ -285,6 +332,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {
+                        $("#btnCalcularPlanillaPreviaRef").hide();
                         $('#divTabPlanillasRef').jqxTabs('enableAt', 1);
                         $('#divTabPlanillasRef').jqxTabs('disableAt', 2);
                         $('#divTabPlanillasRef').jqxTabs({selectedItem: 1});
@@ -304,21 +352,25 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                             cargarFinPartidas(1,$("#lstGestionGen").val(),0,0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),0,0,0);
                             $("#btnGenerarPlanillaRef").hide();
+                            $("#btnCalcularPlanillaPreviaRef").hide();
                         });
                         $("#lstMesGen").off();
                         $("#lstMesGen").on("change",function(){
                             cargarFinPartidas(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0);
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),0,0);
                             $("#btnGenerarPlanillaRef").hide();
+                            $("#btnCalcularPlanillaPreviaRef").hide();
                         });
                         $("#lstFinPartidaGen").off();
                         $("#lstFinPartidaGen").on("change",function(){
                             cargarTiposDePlanilla(1,$("#lstGestionGen").val(),$("#lstMesGen").val(),$("#lstFinPartidaGen").val(),0);
                             $("#btnGenerarPlanillaRef").hide();
+                            $("#btnCalcularPlanillaPreviaRef").hide();
                         });
                         $("#lstTipoPlanillaRefGen").off();
                         $("#lstTipoPlanillaRefGen").on("change",function(){
                             $("#btnGenerarPlanillaRef").hide();
+                            $("#btnCalcularPlanillaPreviaRef").hide();
                         });
                     });
                     /* Ver registro.*/

@@ -207,6 +207,7 @@ class PlanillasrefController extends ControllerBase{
                         'expd'=>$v->expd,
                         'sueldo'=>$v->sueldo,
                         'dias_efectivos'=>$v->dias_efectivos,
+                        'monto_diario'=>$v->monto_diario,
                         'faltas'=>$v->faltas,
                         'lsgh'=>$v->lsgh,
                         'otros'=>$v->otros,

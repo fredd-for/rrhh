@@ -17,7 +17,7 @@ $().ready(function () {
 
     definirGrillaParaListaPlanillas();
     /**
-     * Control para la obtención de la planilla previa
+     * Control para la obtención de la Planilla Salarial previa.
      */
     $("#btnGenerarPlanillaPreviaSal").on("click",function(){
         $("#hdnSwPlanillaSalCalculada").val(0);
@@ -384,6 +384,7 @@ function definirGrillaParaListaPlanillas() {
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {
+                        $("#btnCalcularPlanillaPreviaSal").hide();
                         $('#divTabPlanillasSal').jqxTabs('enableAt', 1);
                         $('#divTabPlanillasSal').jqxTabs('disableAt', 2);
                         $('#divTabPlanillasSal').jqxTabs({selectedItem: 1});

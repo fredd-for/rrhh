@@ -9583,7 +9583,11 @@ class HorariosymarcacionesController extends ControllerBase
                                             $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
                                         }
                                     }else{
-                                        $resultS= null;
+                                        if($ctrlMarcacion==0){
+                                            $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
+                                        }else{
+                                            $resultS= null;
+                                        }
                                     }
                                 }else{
                                     $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
