@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
-        <meta name="author" content="Ivan MArcelo">
+        <meta name="author" content="Ivan Marcelo">
         <meta name="keyword" content="">
         <link rel="shortcut icon" href="img/favicon.png">
         <?php echo $this->tag->getTitle(); ?>
@@ -27,15 +27,16 @@
             <div id="sidebar" class="">
                 <div class="sidebar-scroll">
                     <div class="sidebar-content">
-                        <a href="/dashboard" class="sidebar-brand">
+                        <a href="./index.php" class="sidebar-brand">
                             <!--<i class="fa fa-refresh text-white"></i><strong>SIR-MT </strong>v1-->
-                            <i class="fa fa-refresh text-white"></i><strong>OASIS </strong>v1.0
+                            <i class="fa fa-refresh text-white"></i><strong>Sist. RRHH </strong>v1.0
                         </a>
                         <div class="sidebar-section sidebar-user clearfix">
                             <div class="sidebar-user-avatar">
                                 <a href="/usuario/profile">
                                     <!--<img src="/assets/img/placeholders/avatars/avatar2.jpg" alt="avatar" />-->
-                                    <img src="/assets/img/placeholders/avatars/imagen_acefalo.jpg" alt="avatar" />
+                                    <!--<img src="/assets/img/placeholders/avatars/imagen_acefalo.jpg" alt="avatar" />-->
+                                    <img src="<?php echo $ruta; ?>" alt="<?php echo $user->username; ?>" />
                                 </a>
                             </div>
                             <div class="sidebar-user-name"><?php echo $user->username; ?></div>
@@ -43,6 +44,7 @@
                                 <!--<a href="/usuario/profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                                 <a href="/usuario/mensajes" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
                                 <a href="/usuario/password" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Cambiar contraseña"><i class="gi gi-cogwheel"></i></a>-->
+                                <a href="../index.php" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Inicio"><i class="hi hi-home"></i></a>
                                 <a href="/usuario/logout" data-toggle="tooltip" data-placement="bottom" title="Cerrar sesión"><i class="gi gi-exit"></i></a>
                             </div>
                         </div>
@@ -183,7 +185,7 @@
                     </div>
                     </form>
                     <ul class="nav navbar-nav-custom pull-right">
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="gi gi-settings"></i>
                             </a>
@@ -208,17 +210,18 @@
                                     <button class="btn btn-sm btn-block btn-primary" id="options-header-bottom">Fixed Side/Header (Bottom)</button>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="dropdown">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/assets/img/placeholders/avatars/avatar2.jpg" alt="<?php echo $user->nombre ?>" /> <i class="fa fa-angle-down"></i>
+                                <!--<img src="/assets/img/placeholders/avatars/avatar2.jpg" alt="<?php /*echo $user->nombre */?>" /> <i class="fa fa-angle-down"></i>-->
+                                <img src="<?php echo $ruta; ?>" alt="<?php echo $user->username; ?>" alt="<?php /*echo $user->nombre */?>"/><i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-                                <li class="dropdown-header text-center">Account</li>
-                                <li>
+                                <li class="dropdown-header text-center">Mi Cuenta</li>
+                                <!--<li>
                                     <a href="./page_ready_timeline.php.html">
                                         <i class="fa fa-clock-o fa-fw pull-right"></i>
-                                        <span class="badge pull-right">10</span>
+                                        <span class="badge pull-right">010</span>
                                         Updates
                                     </a>
                                     <a href="./page_ready_inbox.php.html">
@@ -234,9 +237,9 @@
                                         <span class="badge pull-right">11</span>
                                         FAQ
                                     </a>
-                                </li>
+                                </li>-->
                                 <li class="divider"></li>
-                                <li>
+                                <!--<li>
                                     <a href="./page_ready_user_profile.php.html">
                                         <i class="fa fa-user fa-fw pull-right"></i>
                                         Profile
@@ -246,11 +249,11 @@
                                         Settings
                                     </a>
                                 </li>
-                                <li class="divider"></li>
+                                <li class="divider"></li>-->
                                 <li>
-                                    <a href="./login.php.html"><i class="fa fa-ban fa-fw pull-right"></i> Logout</a>
+                                    <a href="/usuario/logout"><i class="fa fa-ban fa-fw pull-right"></i> Salir</a>
                                 </li>
-                                <li class="dropdown-header text-center">Activity</li>
+                                <!--<li class="dropdown-header text-center">Activity</li>
                                 <li>
                                     <div class="alert alert-success alert-alt">
                                         <small>5 min ago</small><br />
@@ -268,7 +271,7 @@
                                         <small>Yesterday</small><br />
                                         <i class="fa fa-bug fa-fw"></i> <a href="javascript:void(0)" class="alert-link">New bug submitted</a>
                                     </div>
-                                </li>
+                                </li>-->
                             </ul>
                         </li>
                     </ul>

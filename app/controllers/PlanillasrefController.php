@@ -33,6 +33,7 @@ class PlanillasrefController extends ControllerBase{
         $this->assets->addJs('/js/planillasref/oasis.planillasref.approve.js');
         $this->assets->addJs('/js/planillasref/oasis.planillasref.export.js');
         $this->assets->addJs('/js/planillasref/oasis.planillasref.down.js');
+        $this->assets->addJs('/js/planillasref/oasis.planillasref.impuestos.js');
     }
     /**
      * Función para la obtención del listado de planillas registradas en el sistema.
@@ -163,6 +164,8 @@ class PlanillasrefController extends ControllerBase{
         $idTipoPlanilla = 0;
         $numeroPlanilla = 0;
         $jsonIdRelaborales = '';
+        $auth = $this->session->get('auth');
+        $idUsuario = $auth['id'];
         $arrIdRelaborales = array();
         if(isset($_GET["gestion"])&&$_GET["gestion"]>0)
             $gestion = $_GET["gestion"];
@@ -192,7 +195,11 @@ class PlanillasrefController extends ControllerBase{
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
+
+                    $opcion = '';
+                    if($v->total_ganado>0)$opcion = '<a href="#" class="btnForm110" id="'.$v->id_relaboral.'" onclick="abrirVentanaModalForm110ImpRef('.$v->id_relaboral.','.$v->gestion.','.$v->mes.','.$idUsuario.');"><i class="fa fa-file-text-o fa-2x text-info" title="Registrar Formulario 110"></i></a>';
                     $planillassal[] = array(
+                        'opcion'=>$opcion,
                         'id_relaboral'=>$v->id_relaboral,
                         'cargo'=>$v->cargo,
                         'gerencia_administrativa'=>$v->gerencia_administrativa,
@@ -210,7 +217,14 @@ class PlanillasrefController extends ControllerBase{
                         'monto_diario'=>$v->monto_diario,
                         'faltas'=>$v->faltas,
                         'lsgh'=>$v->lsgh,
+                        'vacacion'=>$v->vacacion,
                         'otros'=>$v->otros,
+                        'id_form110impref'=>$v->id_form110impref,
+                        'importe'=>$v->importe,
+                        'rc_iva'=>$v->rc_iva,
+                        'retencion'=>$v->retencion,
+                        'form110impref_observacion'=>$v->form110impref_observacion,
+                        'fecha_form'=>$v->fecha_form,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
                         'cargo'=>$v->cargo,
@@ -245,6 +259,7 @@ class PlanillasrefController extends ControllerBase{
         $numeroPlanilla = 0;
         $arrIdRelaborales = array();
         $observacion = "";
+        $jsonIdRelaborales="";
         if(isset($_POST["gestion"])&&$_POST["gestion"]>0)
             $gestion = $_POST["gestion"];
         if(isset($_POST["mes"])&&$_POST["mes"]>0)
@@ -274,30 +289,30 @@ class PlanillasrefController extends ControllerBase{
             $resul = $obj->desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
-                $planillasal = new Planillassal();
-                $planillasal->da_id = 1;//Valor prefijado mientras no se tenga en la institución más Direcciones Administrativas
-                $planillasal->ejecutora_id = 1;//Valor prefijado mientras no se tenga en la institución de más unidades ejecutoras.
-                $planillasal->regional_id = 1; //Valor prefijado mientras no se tenga en la institución de más regionales.
-                $planillasal->gestion = $gestion;
-                $planillasal->mes = $mes;
-                $planillasal->finpartida_id = $idFinPartida;
-                $planillasal->tipoplanilla_id=$idTipoPlanilla;
-                $planillasal->numero=$numeroPlanilla;
-                $planillasal->total_ganado=0;
-                $planillasal->total_liquido=0;
+                $planillaref = new Planillasref();
+                $planillaref->da_id = 1;//Valor prefijado mientras no se tenga en la institución más Direcciones Administrativas
+                $planillaref->ejecutora_id = 1;//Valor prefijado mientras no se tenga en la institución de más unidades ejecutoras.
+                $planillaref->regional_id = 1; //Valor prefijado mientras no se tenga en la institución de más regionales.
+                $planillaref->gestion = $gestion;
+                $planillaref->mes = $mes;
+                $planillaref->finpartida_id = $idFinPartida;
+                $planillaref->tipoplanilla_id=$idTipoPlanilla;
+                $planillaref->numero=$numeroPlanilla;
+                $planillaref->total_ganado=0;
+                $planillaref->total_liquido=0;
                 if($observacion!=''){
-                    $planillasal->observacion=$observacion;;
+                    $planillaref->observacion=$observacion;;
                 }
-                $planillasal->estado=1;
-                $planillasal->baja_logica=1;
-                $planillasal->agrupador=0;
-                $planillasal->user_reg_id=$user_reg_id;
-                $planillasal->fecha_reg=$hoy;
+                $planillaref->estado=1;
+                $planillaref->baja_logica=1;
+                $planillaref->agrupador=0;
+                $planillaref->user_reg_id=$user_reg_id;
+                $planillaref->fecha_reg=$hoy;
                 $totalGanado = 0;
                 $totalLiquido = 0;
                 $cantidadPlanillados = 0;
                 try{
-                    if($planillasal->save()){
+                    if($planillaref->save()){
                         foreach ($resul as $v) {
                             #region registro del descuento correspondiente
                             $descuento = new Descuentos();
@@ -321,23 +336,23 @@ class PlanillasrefController extends ControllerBase{
                             $descuento->faltas_atrasos = $v->faltas_atrasos!=null?$v->faltas_atrasos:0;
                             if ($descuento->save()) {
                                 #region registro del pago salarial
-                                $pagossal = new Pagossal();
-                                $pagossal->relaboral_id = $v->id_relaboral;
-                                $pagossal->planillasal_id = $planillasal->id;
-                                $pagossal->descuento_id = $descuento->id;
-                                $pagossal->dias_efectivos = $v->dias_efectivos;
-                                $pagossal->aporte_laboral_afp = $v->aporte_laboral_afp;
-                                $pagossal->ganado = $v->total_ganado;
+                                $pagosref = new Pagossal();
+                                $pagosref->relaboral_id = $v->id_relaboral;
+                                $pagosref->planillasal_id = $planillaref->id;
+                                $pagosref->descuento_id = $descuento->id;
+                                $pagosref->dias_efectivos = $v->dias_efectivos;
+                                $pagosref->aporte_laboral_afp = $v->aporte_laboral_afp;
+                                $pagosref->ganado = $v->total_ganado;
                                 $totalGanado += $v->total_ganado;
-                                $pagossal->liquido = $v->total_liquido;
+                                $pagosref->liquido = $v->total_liquido;
                                 $totalLiquido += $v->total_liquido;
-                                $pagossal->estado = 1;
-                                $pagossal->baja_logica = 1;
-                                $pagossal->agrupador = 0;
-                                $pagossal->user_reg_id = $user_reg_id;
-                                $pagossal->fecha_reg = $hoy;
+                                $pagosref->estado = 1;
+                                $pagosref->baja_logica = 1;
+                                $pagosref->agrupador = 0;
+                                $pagosref->user_reg_id = $user_reg_id;
+                                $pagosref->fecha_reg = $hoy;
 
-                                if ($pagossal->save()) {
+                                if ($pagosref->save()) {
                                     /**
                                      * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
                                      * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
@@ -351,9 +366,9 @@ class PlanillasrefController extends ControllerBase{
                             #endregion registro del descuento correspondiente
                         }
                         if($cantidadPlanillados==count($resul)){
-                            $planillasal->total_ganado = $totalGanado;
-                            $planillasal->total_liquido = $totalLiquido;
-                            if($planillasal->save()){
+                            $planillaref->total_ganado = $totalGanado;
+                            $planillaref->total_liquido = $totalLiquido;
+                            if($planillaref->save()){
                                 $msj = array('result' => 1, 'msj' => 'Generaci&oacute;n exitosa de la Planilla Salarial con '.$cantidadPlanillados.' registros considerados.');
                             }
                         }else{
@@ -361,8 +376,8 @@ class PlanillasrefController extends ControllerBase{
                              * Se eliminan todos los pagos que se pudieran haber registrado con la planilla.
                              */
                             $db = $this->getDI()->get('db');
-                            $db->execute("DELETE FROM pagossal WHERE planillasal_id=".$planillasal->id);
-                            $db->execute("DELETE FROM planillassal WHERE id=".$planillasal->id);
+                            $db->execute("DELETE FROM pagossal WHERE planillasal_id=".$planillaref->id);
+                            $db->execute("DELETE FROM planillassal WHERE id=".$planillaref->id);
                             $msj = array('result' => 0, 'msj' => 'Error 1: No se guard&oacute; el registro de la planilla debido a errores en datos enviados.');
                         }
                     }else{
@@ -417,6 +432,7 @@ class PlanillasrefController extends ControllerBase{
                         'atrasos'=>$v->atrasos,
                         'faltas_atrasos'=>$v->faltas_atrasos,
                         'lsgh'=>$v->lsgh,
+                        'vacacion'=>$v->vacacion,
                         'omision'=>$v->omision,
                         'abandono'=>$v->abandono,
                         'otros'=>$v->otros,

@@ -246,10 +246,29 @@ function desplegarPlanillaPreviaRef(idRelaborales){
     var source =
     {
         datatype: "json",
+        /**
+         * Editable
+         * @param rowid
+         * @param rowdata
+         * @param commit
+         */
+        updaterow: function (rowid, rowdata, commit) {
+            // synchronize with the server - send update command
+            // call commit with parameter true if the synchronization with the server is successful
+            // and with parameter false if the synchronization failder.
+            commit(true);
+        },
         datafields: [
             {name: 'nro_row', type: 'integer'},
             {name: 'chk', type: 'bool'},
+            {name: 'opcion', type: 'string'},
             {name: 'id_relaboral', type: 'integer'},
+            {name: 'gerencia_administrativa', type: 'string'},
+            {name: 'departamento_administrativo', type: 'string'},
+            {name: 'area', type: 'string'},
+            {name: 'ubicacion', type: 'string'},
+            {name: 'fin_partida', type: 'string'},
+            {name: 'proceso_codigo', type: 'string'},
             {name: 'cargo', type: 'string'},
             {name: 'nombres', type: 'string'},
             {name: 'ci', type: 'string'},
@@ -260,11 +279,15 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             {name: 'monto_diario', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'atrasos', type: 'numeric'},
-            {name: 'faltas_atrasos', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
-            {name: 'omision', type: 'numeric'},
-            {name: 'abandono', type: 'numeric'},
+            {name: 'vacacion', type: 'numeric'},
             {name: 'otros', type: 'numeric'},
+            {name: 'id_form110impref', type: 'numeric'},
+            {name: 'importe', type: 'numeric'},
+            {name: 'rc_iva', type: 'numeric'},
+            {name: 'retencion', type: 'numeric'},
+            {name: 'form110impref_observacion', type: 'string'},
+            {name: 'fecha_form', type: 'date'},
             {name: 'total_ganado', type: 'numeric'},
             {name: 'total_liquido', type: 'numeric'},
             {name: 'estado', type: 'string'},
@@ -285,6 +308,10 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                 width: '100%',
                 height: '100%',
                 source: dataAdapter,
+                /**
+                 * Editable
+                 */
+                editable: true,
                 sortable: true,
                 altRows: true,
                 //groupable: true,
@@ -308,11 +335,59 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         width: 40,
                         cellsalign: 'center',
                         align: 'center',
+                        editable:false,
                         cellsrenderer: rownumberrenderer,
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalConsiderados" style="float: center; margin: 4px; overflow: hidden;">0</div>';
                             return renderstring;
                         }
+                    },
+                    {
+                        text: 'Gerencia',
+                        filtertype: 'checkedlist',
+                        datafield: 'gerencia_administrativa',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Departamento',
+                        filtertype: 'checkedlist',
+                        datafield: 'departamento_administrativo',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: '&Aacute;rea',
+                        filtertype: 'checkedlist',
+                        datafield: 'area',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Proceso',
+                        filtertype: 'checkedlist',
+                        datafield: 'proceso_codigo',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Fuente',
+                        filtertype: 'checkedlist',
+                        datafield: 'fin_partida',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        editable:false,
+                        hidden: true
                     },
                     {
                         text: 'Cargo',
@@ -321,6 +396,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         width: 100,
                         cellsalign: 'justify',
                         align: 'center',
+                        editable:false,
                         hidden:true
                     },
                     {
@@ -330,6 +406,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         width: 70,
                         cellsalign: 'center',
                         align: 'center',
+                        editable:false,
                         cellclassname: cellclass,
                         hidden:true
                     },
@@ -338,13 +415,16 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'nombres',
                         width: 100,
                         cellsalign: 'justify',
-                        align: 'center'
+                        align: 'center',
+                        editable:false,
+                        editable:false
                     },
                     {
                         text: 'CI',
                         datafield: 'ci',
                         width: 70,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'center',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotal" style="float: right; margin: 4px; overflow: hidden;">Totales:</div>';
@@ -357,7 +437,8 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'expd',
                         width: 30,
                         cellsalign: 'center',
-                        align: 'center'
+                        align: 'center',
+                        editable:false
                     },
                     {
                         text: 'Haber',
@@ -365,18 +446,21 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'sueldo',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalHaberes" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
-                        }
+                        },
+                        hidden:true
                     },
                     {
                         text: 'D&iacute;as Efectivos',
                         filtertype: 'checkedlist',
                         datafield: 'dias_efectivos',
-                        width: 60,
+                        width: 40,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalDiasEfectivos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
@@ -385,9 +469,10 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                     },
                     {
                         text: 'Monto Diario',
+                        editable:false,
                         filtertype: 'checkedlist',
                         datafield: 'monto_diario',
-                        width: 60,
+                        width: 40,
                         align: 'center',
                         cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
@@ -401,6 +486,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'lsgh',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregatesrenderer: function (aggregates) {
@@ -414,10 +500,25 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'faltas',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalFaltas" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Vacaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'vacacion',
+                        width: 60,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoDias',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalVacacion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
@@ -427,10 +528,82 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'otros',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoMonetario',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: '',
+                        datafield: 'opcion',
+                        width: 10,
+                        sortable: false,
+                        editable:false,
+                        showfilterrow: false,
+                        filterable: false,
+                        columntype: 'string',
+                        columngroup: 'ImpuestoRefrigerio',
+                        cellsrenderer: function (rowline) {
+                            var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
+                            if (dataRecord.total_ganado > 0) {
+                                if($("#hdnSwPlanillaRefCalculada").val()==1){
+                                    return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='openVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
+                                }else return "";
+                            }
+                            else return "";
+                        }
+                    },
+                    {
+                        text: 'Importe',
+                        filtertype: 'checkedlist',
+                        datafield: 'importe',
+                        width: 60,
+                        align: 'center',
+                        cellsalign: 'right',
+                        cellsformat: 'f2',
+                        columngroup: 'ImpuestoRefrigerio',
+                        columntype: 'numberinput',
+                        validation: function (cell, value) {
+                            if (value < 0) {
+                                return { result: false, message: "El monto debe ser mayor o igual a cero" };
+                            }else{
+                                var rowdata = $("#divGridPlanillasRefGen").jqxGrid("getrowdata", cell.row);
+                                var total_ganado = 0;
+                                 var retencion = 0;
+                                 var rc_iva_debido = 0;
+                                 var total_liquido = 0;
+                                 if(rowdata.total_ganado>0&&rowdata.total_ganado!=null){
+                                    total_ganado = rowdata.total_ganado;
+                                 }
+                                var rc_iva = value *  0.13;
+                                 if(total_ganado>0){
+                                     rc_iva_debido = total_ganado * 0.13;
+                                     retencion = rc_iva_debido - rc_iva;
+                                     if(retencion<0){
+                                        retencion=0;
+                                     }
+                                     total_liquido = parseFloat(total_ganado) - retencion;
+                                     //guardarForm110ImpRef(rowdata.id_relaboral,rowdata.gestion,rowdata.mes,1,rowdata.monto_diario,value,retencion,'',rowdata.form110impref_observacion);
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'rc_iva', dataAdapter.formatNumber(rc_iva, "f2"));
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'retencion', dataAdapter.formatNumber(retencion, "f2"));
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'total_liquido',dataAdapter.formatNumber(total_liquido, "f2"));
+                                 }else {
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'rc_iva', dataAdapter.formatNumber(rc_iva, "f2"));
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'retencion', dataAdapter.formatNumber(null, "f2"));
+                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'total_liquido',dataAdapter.formatNumber(null, "f2"));
+                                 }
+                            }
+                            return true;
+                        },
+                        hidden:true,
+                        createeditor: function (row, cellvalue, editor) {
+                            editor.jqxNumberInput({ digits: 3 });
+                        },
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalForm110" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
                         }
                     },
@@ -440,6 +613,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'rc_iva',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'ImpuestoRefrigerio',
                         aggregatesrenderer: function (aggregates) {
@@ -453,6 +627,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         datafield: 'retencion',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'ImpuestoRefrigerio',
                         aggregatesrenderer: function (aggregates) {
@@ -461,11 +636,50 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         }
                     },
                     {
+                        text: 'Fecha F. 110',
+                        datafield: 'fecha_form',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        columntype: 'datetimeinput',
+                        validation: function (cell, value) {
+                            if(value !=null&&value!=''){
+                                var d = new Date();
+                                var mes = d.getMonth()+1;
+                                var dia = d.getDate();
+                                var gestion = d.getFullYear();
+                                var day = value.getDate();
+                                var month = value.getMonth()+1;
+                                var year = value.getFullYear();
+                                var sep = '-';
+                                var fechaActual = dia+"-"+mes+"-"+gestion;
+                                var fechaForm = day+"-"+month+"-"+year;
+                                if(procesaTextoAFecha(fechaForm, sep) > procesaTextoAFecha(fechaActual, sep)){
+                                    return { result: false, message: "La fecha del registro debe ser igual o anterior a la fecha presente:"+ fechaActual };
+                                }
+                                return true;
+                            }return false;
+                        },
+                        hidden: true
+                    },
+                    {
+                        text: 'F. 110 Obs.',
+                        datafield: 'form110impref_observacion',
+                        width: 90,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        hidden:true
+                    },
+                    {
                         text: 'Total Ganado',
                         filtertype: 'checkedlist',
                         datafield: 'total_ganado',
-                        width: 90,
+                        width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalTotalGanado" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
@@ -476,8 +690,9 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         text: 'Total L&iacute;quido',
                         filtertype: 'checkedlist',
                         datafield: 'total_liquido',
-                        width: 90,
+                        width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalTotalLiquido" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
@@ -492,7 +707,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         { text: 'Impuestos', align: 'center', name: 'ImpuestoRefrigerio' }
                     ]
             });
-
         var listSource = [
             {label: 'Gerencia', value: 'gerencia_administrativa', checked: false},
             {label: 'Departamento', value: 'departamento_administrativo', checked: false},
@@ -506,14 +720,18 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             {label: 'CI', value: 'ci', checked: true},
             {label: 'Exp', value: 'expd', checked: true},
             {label: 'Nivel Salarial', value: 'nivelsalarial', checked: false},
-            {label: 'Haber', value: 'sueldo', checked: true},
+            {label: 'Haber', value: 'sueldo', checked: false},
             {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
             {label: 'Monto Diario', value: 'monto_diario', checked: true},
             {label: 'LSGHs', value: 'lsgh', checked: true},
             {label: 'Faltas', value: 'faltas', checked: true},
+            {label: 'Vacaci&oacute;n', value: 'vacacion', checked: true},
             {label: 'Otros', value: 'otros', checked: true},
+            {label: 'Importe', value: 'importe', checked: false},
             {label: 'RC-IVA', value: 'rc_iva', checked: true},
             {label: 'Retenci&oacute;n', value: 'retencion', checked: true},
+            {label: 'Fecha F. 110', value: 'fecha_form', checked: false},
+            {label: 'F. 110 Obs.', value: 'form110impref_observacion', checked: false},
             {label: 'Total Ganado', value: 'total_ganado', checked: true},
             {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true},
             {label: 'Observacion', value: 'observacion', checked: false},
@@ -530,14 +748,16 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             }
             $("#divGridPlanillasRefGen").jqxGrid('endupdate');
         });
-
-
         $('#divGridPlanillasRefGen').off();
         /**
          * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
          */
         $("#divGridPlanillasRefGen").on("bindingcomplete",function(){
             var rows = $('#divGridPlanillasRefGen').jqxGrid('getrows');
+            /*
+            $(".btnForm110").on("click",function(){
+                $("#popupObservacionPlanillaRefEdit").modal("show");
+            });*/
             if(rows.length>0){
                 $("#btnCalcularPlanillaPreviaRef").show();
                 if($("#hdnSwPlanillaRefCalculada").val()==1){
@@ -563,11 +783,14 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             var totalConsiderados = 0;
             var totalHaberes = 0;
             var totalDiasEfectivos = 0;
+            var totalMontosDiarios = 0;
             var totalFaltas = 0;
             var totalAtrasos = 0;
             var totalLsgh = 0;
+            var totalVacacion = 0;
             var totalOtros = 0;
             var totalRcIva = 0;
+            var totalImporte = 0;
             var totalRetenciones = 0;
             var totalTotalGanado = 0;
             var totalTotalLiquido = 0;
@@ -590,6 +813,9 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                     if(!isNaN(dataRecord.dias_efectivos)&&dataRecord.dias_efectivos!=null){
                         totalDiasEfectivos += Number(parseFloat(dataRecord.dias_efectivos));
                     }
+                    if(!isNaN(dataRecord.monto_diario)&&dataRecord.monto_diario!=null){
+                        totalMontosDiarios += Number(parseFloat(dataRecord.monto_diario));
+                    }
                     if(!isNaN(dataRecord.faltas)&&dataRecord.faltas!=null){
                         totalFaltas += Number(parseFloat(dataRecord.faltas));
                     }
@@ -599,6 +825,15 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                     if(!isNaN(dataRecord.lsgh)&&dataRecord.lsgh!=null){
                         totalLsgh += Number(parseFloat(dataRecord.lsgh));
                     }
+                    if(!isNaN(dataRecord.vacacion)&&dataRecord.vacacion!=null){
+                        totalVacacion += Number(parseFloat(dataRecord.vacacion));
+                    }
+                    if(!isNaN(dataRecord.otros)&&dataRecord.otros!=null){
+                        totalOtros += Number(parseFloat(dataRecord.otros));
+                    }
+                    if(!isNaN(dataRecord.importe)&&dataRecord.importe!=null){
+                        totalImporte += Number(parseFloat(dataRecord.importe));
+                    }
                     if(!isNaN(dataRecord.rc_iva)&&dataRecord.rc_iva!=null){
                         totalRcIva += Number(parseFloat(dataRecord.rc_iva));
                     }
@@ -606,9 +841,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         totalRetenciones += Number(parseFloat(dataRecord.retencion));
                     }
 
-                    if(!isNaN(dataRecord.otros)&&dataRecord.otros!=null){
-                        totalOtros += Number(parseFloat(dataRecord.otros));
-                    }
                     if(!isNaN(dataRecord.total_ganado)&&dataRecord.total_ganado!=null){
                         totalTotalGanado += Number(parseFloat(dataRecord.total_ganado));
                     }
@@ -624,6 +856,9 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             $("#divTotalHaberes").text("");
             $("#divTotalHaberes").text(totalHaberes.toFixed(2));
 
+            $("#divTotalMontosDiarios").text("");
+            $("#divTotalMontosDiarios").text(totalMontosDiarios.toFixed(2));
+
             $("#divTotalDiasEfectivos").text("");
             $("#divTotalDiasEfectivos").text(totalDiasEfectivos.toFixed(2));
 
@@ -633,11 +868,20 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             $("#divTotalAtrasos").text("");
             $("#divTotalAtrasos").text(totalAtrasos.toFixed(2));
 
+            $("#divTotalImporte").text("");
+            $("#divTotalImporte").text(totalImporte.toFixed(2));
+
             $("#divTotalRcIva").text("");
             $("#divTotalRcIva").text(totalRcIva.toFixed(2));
 
             $("#divTotalRetencion").text("");
             $("#divTotalRetencion").text(totalRetenciones.toFixed(2));
+
+            $("#divTotalLsgh").text("");
+            $("#divTotalLsgh").text(totalLsgh.toFixed(2));
+
+            $("#divTotalVacacion").text("");
+            $("#divTotalVacacion").text(totalVacacion.toFixed(2));
 
             $("#divTotalOtros").text("");
             $("#divTotalOtros").text(totalOtros.toFixed(2));
@@ -648,35 +892,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             $("#divTotalTotalLiquido").text("");
             $("#divTotalTotalLiquido").text(totalTotalLiquido.toFixed(2));
         }
-        /*$("#excelExport").jqxButton();
-         $("#xmlExport").jqxButton();
-         $("#csvExport").jqxButton();
-         $("#tsvExport").jqxButton();
-         $("#htmlExport").jqxButton();
-         $("#jsonExport").jqxButton();
-         $("#pdfExport").jqxButton();
-
-         $("#excelExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xls', 'jqxGrid');
-         });
-         $("#xmlExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'xml', 'jqxGrid');
-         });
-         $("#csvExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'csv', 'jqxGrid');
-         });
-         $("#tsvExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'tsv', 'jqxGrid');
-         });
-         $("#htmlExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'html', 'jqxGrid');
-         });
-         $("#jsonExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'json', 'jqxGrid');
-         });
-         $("#pdfExport").on("click",function () {
-         $("#divGridPlanillasSalGen").jqxGrid('exportdata', 'pdf', 'jqxGrid');
-         });*/
     }
 }
 /**
@@ -690,11 +905,11 @@ function desplegarPlanillaPreviaRef(idRelaborales){
  * @param observacion
  * @returns {boolean}
  */
-function generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,idRelaborales,observacion){
+function generarPlanillaDeRefrigerio(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,idRelaborales,observacion){
     var ok=false;
-    if(gestion>0&&mes>0&&idFinPartida>0&&numeroPlanilla>=0){
+    if(gestion>0&&mes>0&&idFinPartida>0&&numeroPlanilla>=0&&idRelaborales!=''){
         $.ajax({
-            url: '/planillassal/genplanilla/',
+            url: '/planillasref/genplanilla/',
             type: "POST",
             datatype: 'json',
             async: false,
@@ -730,4 +945,15 @@ function generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroP
         });
     }
     return ok;
+}
+/**
+ * Función para convertir un texto con el formato dd-MM-yyyy al formato MM/dd/yyyy
+ * @param date
+ * @param sep
+ * @returns {number}
+ */
+function procesaTextoAFecha(date, sep) {
+    var parts = date.split(sep);
+    var date = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
+    return date.getTime();
 }

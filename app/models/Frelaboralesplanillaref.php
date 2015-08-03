@@ -49,9 +49,14 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
     public $dias_efectivos;
     public $faltas;
     public $lsgh;
+    public $vacacion;
     public $otros;
-    public $form110impref_id;
+    public $id_form110impref;
+    public $importe;
     public $rc_iva;
+    public $retencion;
+    public $form110impref_observacion;
+    public $fecha_form;
     public $total_descuentos;
     public $total_ganado;
     public $total_liquido;
@@ -110,11 +115,14 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
             'dias_efectivos'=>'dias_efectivos',
             'faltas'=>'faltas',
             'lsgh'=>'lsgh',
+            'vacacion'=>'vacacion',
             'otros'=>'otros',
-            'form110impref_id'=>'form110impref_id',
+            'id_form110impref'=>'id_form110impref',
+            'importe'=>'importe',
             'rc_iva'=>'rc_iva',
             'rentencion'=>'rentencion',
-            'aporte_laboral_afp'=>'aporte_laboral_afp',
+            'form110impref_observacion'=>'form110impref_observacion',
+            'fecha_form'=>'fecha_form',
             'total_descuentos'=>'total_descuentos',
             'total_ganado'=>'total_ganado',
             'total_liquido'=>'total_liquido'
@@ -139,23 +147,23 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
                 $sql = "SELECT * FROM f_relaborales_planillaref_generacion($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-            $this->_db = new Fplanillassal();
+            $this->_db = new Frelaboralesplanillaref();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
     /**
      * Función para el despliegue de la planilla salarial generada (efectiva) de acuerdo al identificador de planilla enviado como parámetro.
-     * @param $idPlanillaSal
+     * @param $idPlanillaRef
      * @param string $where
      * @param string $group
      * @return Resultset
      */
-    public function desplegarPlanillaEfectivaRef($idPlanillaSal,$where='',$group=''){
-        if($idPlanillaSal>0){
-            $sql = "SELECT * FROM f_relaborales_planillasal($idPlanillaSal)";
+    public function desplegarPlanillaEfectivaRef($idPlanillaRef,$where='',$group=''){
+        if($idPlanillaRef>0){
+            $sql = "SELECT * FROM f_relaborales_planillaref($idPlanillaRef)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-            $this->_db = new Fplanillassal();
+            $this->_db = new Frelaboralesplanillaref();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }

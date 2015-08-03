@@ -9562,6 +9562,9 @@ class HorariosymarcacionesController extends ControllerBase
                                 $horaMarcacionSalida=null;
                                 $fecha = $matrizFechas[$dia];
                                 $idHorarioLaboral = $matrizIdHorarios[$dia][$turno][$grupoA];
+                                /*if($dia==24){
+                                    echo "-->".$idHorarioLaboral;
+                                }*/
                                 $resultE = $objME->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral);
                                 if($dia==1){
                                     /**

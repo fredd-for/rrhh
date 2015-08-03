@@ -46,10 +46,8 @@ $().ready(function () {
                 var selectedRecords = new Array();
                 for (var m = 0; m < rows.length; m++) {
                     var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rows[m]);
-                    //if(dataRecord.dias_efectivos>0){
-                        cantidadRegistrosValidos++;
-                        listaIdRelaborales += dataRecord.id_relaboral + separador;
-                    //}
+                    cantidadRegistrosValidos++;
+                    listaIdRelaborales += dataRecord.id_relaboral + separador;
                 }
                 if(cantidadRegistrosValidos>=0){
                     listaIdRelaborales += separador;
@@ -109,7 +107,7 @@ $().ready(function () {
                     $("#btnAplicarObservacionPlanillaRef").on("click",function(){
                         $("#popupObservacionPlanillaRef").modal("hide");
                         observacion = $("#txtObservacionPlanillaRef").val();
-                        ok = generarPlanillaSalarial(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
+                        ok = generarPlanillaDeRefrigerio(gestion,mes,idFinPartida,idTipoPlanilla,numeroPlanilla,listaIdRelaborales,observacion);
                         if(ok){
                             $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
                             $('#divTabPlanillasRef').jqxTabs('disableAt', 1);

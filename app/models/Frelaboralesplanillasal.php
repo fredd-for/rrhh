@@ -150,7 +150,7 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
                 $sql = "SELECT * FROM f_relaborales_planillasal_generacion($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-            $this->_db = new Fplanillassal();
+            $this->_db = new Frelaboralesplanillasal();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
@@ -166,7 +166,7 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
             $sql = "SELECT * FROM f_relaborales_planillasal($idPlanillaSal)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-            $this->_db = new Fplanillassal();
+            $this->_db = new Frelaboralesplanillasal();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
