@@ -18,6 +18,7 @@ class ControllerBase extends Controller {
     }
 
     protected function initialize() {
+
         $auth = $this->session->get('auth');
         if (!isset($auth['id'])) {
             $this->response->redirect('/login');
@@ -117,6 +118,29 @@ class ControllerBase extends Controller {
             $this->menu($this->_user->nivel);
             $this->view->setVar('user', $this->_user);
             $this->definePermisosAction();
+
+            /**
+             * Agregado para el control de las fotografías del usuario actual
+             */
+            $idUsuario = $this->_user->id;
+            $usuario = Usuarios::findFirstById($idUsuario);
+            $ci_usuario = $usuario->cedula_identidad;
+            $ruta = "";
+            $rutaImagenesCredenciales = "/images/personal/";
+            $extencionImagenesCredenciales = ".jpg";
+            $num_complemento = "";
+            /*if (isset($_POST["num_complemento"])) {
+                $num_complemento = $_POST["num_complemento"];
+            }*/
+            if (isset($ci_usuario)) {
+                $ruta = "";
+                $nombreImagenArchivo = $rutaImagenesCredenciales . trim($ci_usuario);
+                if ($num_complemento != "") $nombreImagenArchivo = $nombreImagenArchivo . trim($num_complemento);
+                $ruta = $nombreImagenArchivo . $extencionImagenesCredenciales;
+                if (!file_exists(getcwd() . $ruta))$ruta = '/images/perfil-profesional.jpg';
+                $this->view->setVar('ruta', $ruta);
+            }
+
         }
     }
 

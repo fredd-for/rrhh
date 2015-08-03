@@ -201,6 +201,8 @@ class PlanillasrefController extends ControllerBase{
                     $planillassal[] = array(
                         'opcion'=>$opcion,
                         'id_relaboral'=>$v->id_relaboral,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
                         'cargo'=>$v->cargo,
                         'gerencia_administrativa'=>$v->gerencia_administrativa,
                         'departamento_administrativo'=>$v->departamento_administrativo,
@@ -414,6 +416,8 @@ class PlanillasrefController extends ControllerBase{
                 foreach ($resul as $v) {
                     $planillassal[] = array(
                         'id_relaboral'=>$v->id_relaboral,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
                         'cargo'=>$v->cargo,
                         'gerencia_administrativa'=>$v->gerencia_administrativa,
                         'departamento_administrativo'=>$v->departamento_administrativo,

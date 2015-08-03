@@ -263,6 +263,8 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             {name: 'chk', type: 'bool'},
             {name: 'opcion', type: 'string'},
             {name: 'id_relaboral', type: 'integer'},
+            {name: 'gestion', type: 'integer'},
+            {name: 'mes', type: 'integer'},
             {name: 'gerencia_administrativa', type: 'string'},
             {name: 'departamento_administrativo', type: 'string'},
             {name: 'area', type: 'string'},
@@ -550,7 +552,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                             var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
                             if (dataRecord.total_ganado > 0) {
                                 if($("#hdnSwPlanillaRefCalculada").val()==1){
-                                    return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='openVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
+                                    return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='abrirVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
                                 }else return "";
                             }
                             else return "";
@@ -754,10 +756,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
          */
         $("#divGridPlanillasRefGen").on("bindingcomplete",function(){
             var rows = $('#divGridPlanillasRefGen').jqxGrid('getrows');
-            /*
-            $(".btnForm110").on("click",function(){
-                $("#popupObservacionPlanillaRefEdit").modal("show");
-            });*/
             if(rows.length>0){
                 $("#btnCalcularPlanillaPreviaRef").show();
                 if($("#hdnSwPlanillaRefCalculada").val()==1){

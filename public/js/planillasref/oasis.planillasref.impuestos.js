@@ -12,12 +12,20 @@
  * @param mes
  * @param idUsuario
  */
-function abrirVentanaModalForm110ImpRef(idRelaboral,gestion,mes,idUsuario){
-    $("#popupFormulario110ImpRef").modal("show");
-    limpiarVentanaModalForm110ImpRef();
-    //var form110Object = { id: $.trim($(this).text()), color: $(this).css('background-color') };
-    var form110Object = getOneForm110ImpRef(idRelaboral,gestion,mes);
-
+function abrirVentanaModalForm110ImpRef(rowline){
+    if(rowline>=0){
+        var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
+        limpiarVentanaModalForm110ImpRef();
+        alert(dataRecord.gestion+"--"+dataRecord.mes);
+        var form110Object = getOneForm110ImpRef(dataRecord.id_form110impref,dataRecord.id_relaboral,dataRecord.gestion,dataRecord.mes);
+        if(form110Object.id>0){
+            $("#txtImporte").val(form110Object.importe);
+            $("#txtImpuesto").val(form110Object.impuesto);
+            $("#txtFechaForm").val(form110Object.fecha_form);
+            $("#txtObservacion").val(form110Object.observacion);
+        }
+        $("#popupFormulario110ImpRef").modal("show");
+    }
 }
 /**
  * Función para limpiar el formulario Modal para el Registro de Formularios 110 de Refrigerios.
@@ -30,12 +38,36 @@ function limpiarVentanaModalForm110ImpRef(){
 }
 /**
  * Función para la obtención de los datos correspondientes al registro de pago de formulario 110 por impuesto de refrigerio.
+ * @param id
  * @param idRelaboral
  * @param gestion
  * @param mes
  */
-function getOneForm110ImpRef(idRelaboral,gestion,mes){
+function getOneForm110ImpRef(id,idRelaboral,gestion,mes){
+    var objForm110ImpRef = {id:0,relaboral_id:0,gestion:0,mes:0,cantidad:0,monto_diario:0,importe:0,impuesto:0,retencion:0,fecha_form:null,
+        codigo:null,observacion:null,estado:0};
+    $.ajax({
+        url:'/form110impref/getoneforrelaboral/',
+        type:"POST",
+        datatype: 'json',
+        async:false,
+        cache:false,
+        data:{id:id,
+            id_relaboral:idRelaboral,
+            gestion:gestion,
+            mes:mes
+        },
+        success: function(data) {  //alert(data);
 
+            var res = jQuery.parseJSON(data);
+            if(res.length>0){
+                objForm110ImpRef = {id:res.id,relaboral_id:res.relaboral_id,gestion:res.gestion,mes:res.mes,cantidad:res.cantidad,monto_diario:res.monto_diario,importe:res.importe,impuesto:res.impuesto,retencion:res.retencion,fecha_form:res.fecha_form,
+                    codigo:res.codigo,observacion:res.observacion,estado:res.estado};
+            }
+        }, //mostramos el error
+        error: function() { alert('Se ha producido un error Inesperado'); }
+    });
+    return objForm110ImpRef;
 }
 function openVentanaModalForm110ImpRef(row){
     var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', row);

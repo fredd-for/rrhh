@@ -27,8 +27,25 @@ class Form110imprefController extends ControllerBase{
         $obj = new Form110impref();
         $idRelaboral = 0;
         $form110impref = Array();
-        if(isset($_POST["id_relaboral"])&&$_POST["id_relaboral"]>0){
-            $resul = Form110impref::findFirst("relaboral_id=".$idRelaboral);
+        $id = 0;
+        $idRelaboral = 0;
+        $gestion = 0;
+        $mes = 0;
+        if(isset($_POST["id"])&&$_POST["id"]>0)
+        {
+            $id = $_POST["id"];
+        }
+        if(isset($_POST["gestion"])&&$_POST["gestion"]>0)
+        {
+            $gestion = $_POST["gestion"];
+        }
+        if(isset($_POST["mes"])&&$_POST["mes"]>0)
+        {
+            $mes = $_POST["mes"];
+        }
+        if(isset($_POST["id_relaboral"])&&$_POST["id_relaboral"]>0&&$gestion>0&&$mes>0){
+            if($id>0) $resul = Form110impref::findFirstById($id);
+            else $resul = Form110impref::findFirst("relaboral_id=".$idRelaboral." AND gestion=".$gestion." AND mes=".$mes);
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
                     $form110impref[] = array(
@@ -42,7 +59,7 @@ class Form110imprefController extends ControllerBase{
                         'importe'=>$v->importe,
                         'impuesto'=>$v->impuesto,
                         'retencion'=>$v->retencion,
-                        'fecha_form'=>$v->fecha_form,
+                        'fecha_form'=>$v->fecha_form != "" ? date("d-m-Y", strtotime($v->fecha_form)) : "",
                         'codigo'=>$v->codigo,
                         'observacion'=>$v->observacion!=null?$v->observacion:'',
                         'estado'=> $v->estado,
@@ -59,5 +76,4 @@ class Form110imprefController extends ControllerBase{
         }
         echo json_encode($form110impref);
     }
-
 } 
