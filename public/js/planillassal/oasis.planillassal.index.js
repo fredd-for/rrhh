@@ -113,6 +113,10 @@ $().ready(function () {
                                 var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
                                 var observacion = "";
                                 $("#popupObservacionPlanillaSal").modal("show");
+                                $('#popupObservacionPlanillaSal').on('shown.bs.modal', function () {
+                                    $("#txtObservacionPlanillaSal").focus();
+                                });
+
                                 $("#txtObservacionPlanillaSal").val("");
                                 $("#txtObservacionPlanillaSal").focus();
                                 $("#btnAplicarObservacionPlanillaSal").off();
@@ -141,6 +145,9 @@ $().ready(function () {
                             var numeroPlanilla = $("#lstTipoPlanillaSal"+sufijo+" option:selected").data("numero");
                             var observacion = "";
                             $("#popupObservacionPlanillaSal").modal("show");
+                            $('#popupObservacionPlanillaSal').on('shown.bs.modal', function () {
+                                $("#txtObservacionPlanillaSal").focus();
+                            });
                             $("#txtObservacionPlanillaSal").val("");
                             $("#txtObservacionPlanillaSal").focus();
                             $("#btnAplicarObservacionPlanillaSal").off();
@@ -438,8 +445,11 @@ function definirGrillaParaListaPlanillas() {
                                 if(dataRecord.estado==1||dataRecord.estado==2){
                                     var observacion = "";
                                     $("#popupObservacionPlanillaSalEdit").modal("show");
-                                    $("#txtObservacionPlanillaSalEdit").focus();
                                     $("#txtObservacionPlanillaSalEdit").val(dataRecord.observacion);
+                                    $('#popupObservacionPlanillaSalEdit').on('shown.bs.modal', function () {
+                                        $("#txtObservacionPlanillaSalEdit").focus();
+                                    });
+
                                     $("#btnAplicarObservacionPlanillaSalEdit").off();
                                     $("#btnAplicarObservacionPlanillaSalEdit").on("click",function(){
                                         $("#popupObservacionPlanillaSalEdit").modal("hide");

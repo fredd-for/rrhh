@@ -76,7 +76,7 @@ $().ready(function () {
      */
     $("#btnGenerarPlanillaRef").on("click",function(){
         var cantidadRegistrosValidos = 0;
-        limpiarFormularioPlanillaSal(1);
+        limpiarFormularioPlanillaRef(1);
         var ok = validaFormularioPlanillaRef(1);
         if (ok){
             var rows = $("#divGridPlanillasRefGen").jqxGrid('selectedrowindexes');
@@ -102,7 +102,9 @@ $().ready(function () {
                     var numeroPlanilla = $("#lstTipoPlanillaRef"+sufijo+" option:selected").data("numero");
                     var observacion = "";
                     $("#popupObservacionPlanillaRef").modal("show");
-                    $("#txtObservacionPlanillaRef").focus();
+                    $('#popupObservacionPlanillaRef').on('shown.bs.modal', function () {
+                        $("#txtObservacionPlanillaRef").focus();
+                    });
                     $("#btnAplicarObservacionPlanillaRef").off();
                     $("#btnAplicarObservacionPlanillaRef").on("click",function(){
                         $("#popupObservacionPlanillaRef").modal("hide");

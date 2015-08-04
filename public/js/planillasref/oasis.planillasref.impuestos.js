@@ -55,7 +55,7 @@ function abrirVentanaModalForm110ImpRef(rowline){
         $("#popupFormulario110ImpRef").modal("show");
         $('#popupFormulario110ImpRef').on('shown.bs.modal', function () {
             $("#txtImporte").focus();
-        })
+        });
         $("#lblTotalGanado").text(dataRecord.total_ganado);
 
         $("#txtImporte").on("change",function(){
