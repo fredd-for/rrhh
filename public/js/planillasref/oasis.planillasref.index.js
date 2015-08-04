@@ -132,7 +132,16 @@ $().ready(function () {
             }
         }
     });
-
+    $("#btnGuardarForm110ImpRef").on("click",function(){
+        var ok = validaFormulario110ImpRef();
+        if (ok){
+            var ok2 = guardarFormulario110ImpRef();
+            if(ok2){
+                actualizaFila();
+                $("#popupFormulario110ImpRef").modal("hide");
+            }
+        }
+    });
     $("#liList").on("click",function () {
         $('#divTabPlanillasRef').jqxTabs('enableAt', 0);
         $('#divTabPlanillasRef').jqxTabs('disableAt', 1);

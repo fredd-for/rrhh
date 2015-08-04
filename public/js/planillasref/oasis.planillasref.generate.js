@@ -424,7 +424,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                     {
                         text: 'CI',
                         datafield: 'ci',
-                        width: 70,
+                        width: 60,
                         align: 'center',
                         editable:false,
                         cellsalign: 'center',
@@ -486,7 +486,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         text: 'LSGHs',
                         filtertype: 'checkedlist',
                         datafield: 'lsgh',
-                        width: 60,
+                        width: 50,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
@@ -500,7 +500,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         text: 'Faltas',
                         filtertype: 'checkedlist',
                         datafield: 'faltas',
-                        width: 60,
+                        width: 50,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
@@ -511,10 +511,10 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         }
                     },
                     {
-                        text: 'Vacaci&oacute;n',
+                        text: 'Vac.',
                         filtertype: 'checkedlist',
                         datafield: 'vacacion',
-                        width: 60,
+                        width: 50,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
@@ -528,7 +528,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         text: 'Otros',
                         filtertype: 'checkedlist',
                         datafield: 'otros',
-                        width: 60,
+                        width: 50,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
@@ -645,6 +645,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         cellsalign: 'center',
                         cellsformat: 'dd-MM-yyyy',
                         align: 'center',
+                        editable:false,
                         columntype: 'datetimeinput',
                         validation: function (cell, value) {
                             if(value !=null&&value!=''){
@@ -676,7 +677,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         hidden:true
                     },
                     {
-                        text: 'Total Ganado',
+                        text: 'T. Ganado',
                         filtertype: 'checkedlist',
                         datafield: 'total_ganado',
                         width: 60,
@@ -689,7 +690,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         }
                     },
                     {
-                        text: 'Total L&iacute;quido',
+                        text: 'T. L&iacute;quido',
                         filtertype: 'checkedlist',
                         datafield: 'total_liquido',
                         width: 60,

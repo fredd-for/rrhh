@@ -144,7 +144,7 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
             if($jsonIdRelaborales!='')
                 $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,'$jsonIdRelaborales')";
             else
-                $sql = "SELECT * FROM f_relaborales_planillaref_generacion($gestion,$mes,$idFinPartida,NULL)";
+                $sql = "SELECT * FROM f_relaborales_planillaref_generacion_totales($gestion,$mes,$idFinPartida,NULL)";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Frelaboralesplanillaref();

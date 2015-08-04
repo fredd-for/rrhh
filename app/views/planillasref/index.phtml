@@ -272,13 +272,13 @@
                         <div class="panel panel-default">
                             <input type="hidden" name="perfil_id" id="perfil_id" value="">
                             <div class="panel-heading">
-                                RC - IVA POR REFRIGERIOS
+                                RC - IVA POR REFRIGERIOS POR EL TOTAL GANADO: <strong><label id="lblTotalGanado"></label> Bs.</strong>
                             </div>
                             <div class="panel-body form-horizontal">
                                 <fieldset>
                                     <div class="form-group">
                                         <div class="div-form110-imp-sal" id="divImporte">
-                                            <label class="col-sm-2 control-label" for="txtImporte">Importe (Bs.):</label>
+                                            <label class="col-sm-2 control-label" for="txtImporte">Importe (Bs.)*:</label>
                                             <div class="col-md-2">
                                                 <input id="txtImporte" name="txtImporte" class="form-control" placeholder="0" type="text">
                                                 <span class="help-block" id="helpErrorImporte"></span>
@@ -291,23 +291,35 @@
                                                 <span class="help-block" id="helpErrorImpuesto"></span>
                                             </div>
                                         </div>
+                                        <div class="div-form110-imp-sal" id="divRetencion">
+                                            <label class="col-sm-2 control-label" for="txtRetencion">Retenci&oacute;n:</label>
+                                            <div class="col-md-2">
+                                                <input id="txtRetencion" name="txtRetencion" class="form-control" placeholder="0" type="text" readonly>
+                                                <span class="help-block" id="helpErrorRetencion"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="div-form110-imp-sal" id="divFechaForm">
-                                            <label class="col-sm-2 control-label" for="txtFechaForm">Fecha Fin:</label>
+                                            <label class="col-sm-2 control-label" for="txtFechaForm">Fecha *:</label>
                                             <div class="col-md-2">
                                                 <input id="txtFechaForm" name="txtFechaForm" class="form-control input-datepicker-close" placeholder="dd-mm-aaaa" data-date-format="dd-mm-yyyy" type="text">
                                                 <span class="help-block" id="helpErrorFechaForm"></span>
                                             </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <legend><i class="fa fa-angle-right"></i> Observaciones</legend>
-                                    <div class="form-group div-move-relab" id="divObservacion">
-                                        <label class="col-md-3 control-label" for="txtObservacion">Observaciones:</label>
-                                        <div class="col-md-6">
-                                            <textarea id="txtObservacion" name="txtObservacion" class="form-control" placeholder="Observaciones.."></textarea>
+                                        <div class="form-group div-move-relab" id="divObservacion">
+                                            <label class="col-md-2 control-label" for="txtObservacion">Observaciones:</label>
+                                            <div class="col-md-5">
+                                                <textarea id="txtObservacion" name="txtObservacion" class="form-control" placeholder="Observaciones.."></textarea>
+                                            </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" value="" id="hdnRowLine">
+                                    <input type="hidden" value="0" id="hdnIdRelaboralForm110ImpRef">
+                                    <input type="hidden" value="0" id="hdnIdForm110ImpRef">
+                                    <input type="hidden" value="0" id="hdnTotalGanadoForm110ImpRef">
+                                    <input type="hidden" value="0" id="hdnGestionForm110ImpRef">
+                                    <input type="hidden" value="0" id="hdnMesForm110ImpRef">
                                 </fieldset>
                             </div>
                         </div>

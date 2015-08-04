@@ -13,28 +13,79 @@
  * @param idUsuario
  */
 function abrirVentanaModalForm110ImpRef(rowline){
+    $("#txtImporte").val("");
+    $("#txtImpuesto").val("");
+    $("#txtFechaForm").val("");
+    $("#txtObservacion").val("");
+    $("#hdnRowLine").val(rowline);
+    $("#hdnIdForm110ImpRef").val(0);
+    $("#hdnIdRelaboralForm110ImpRef").val(0);
+    $("#hdnTotalGanadoForm110ImpRef").val(0);
+    $("#hdnGestionForm110ImpRef").val(0);
+    $("#hdnMesForm110ImpRef").val(0);
+    limpiarVentanaModalForm110ImpRef();
     if(rowline>=0){
         var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
-        limpiarVentanaModalForm110ImpRef();
-        alert(dataRecord.gestion+"--"+dataRecord.mes);
+        var rcIvaDebido = Math.round(parseFloat(dataRecord.total_ganado*0.13),2)
         var form110Object = getOneForm110ImpRef(dataRecord.id_form110impref,dataRecord.id_relaboral,dataRecord.gestion,dataRecord.mes);
+        if(dataRecord.id_form110impref>0){
+            $("#hdnIdForm110ImpRef").val(parseInt(dataRecord.id_form110impref));
+        }
+        if(dataRecord.id_relaboral>0){
+            $("#hdnIdRelaboralForm110ImpRef").val(dataRecord.id_relaboral);
+        }
+        if(dataRecord.total_ganado>0){
+            $("#hdnTotalGanadoForm110ImpRef").val(parseInt(dataRecord.total_ganado));
+        }
+        if(dataRecord.gestion>0){
+            $("#hdnGestionForm110ImpRef").val(dataRecord.gestion);
+        }
+        if(dataRecord.mes>0){
+            $("#hdnMesForm110ImpRef").val(dataRecord.mes);
+        }
         if(form110Object.id>0){
             $("#txtImporte").val(form110Object.importe);
             $("#txtImpuesto").val(form110Object.impuesto);
+            $("#txtRetencion").val(form110Object.retencion);
             $("#txtFechaForm").val(form110Object.fecha_form);
             $("#txtObservacion").val(form110Object.observacion);
+        }else{
+            $("#txtRetencion").val(rcIvaDebido);
         }
         $("#popupFormulario110ImpRef").modal("show");
+        $('#popupFormulario110ImpRef').on('shown.bs.modal', function () {
+            $("#txtImporte").focus();
+        })
+        $("#lblTotalGanado").text(dataRecord.total_ganado);
+
+        $("#txtImporte").on("change",function(){
+            var importe = $("#txtImporte").val();
+            var impuesto = Math.round(parseFloat(importe*0.13),2);
+            $("#txtImpuesto").val(impuesto);
+            var retencion = rcIvaDebido - impuesto;
+            if(retencion<0){
+                retencion = 0;
+            }
+            $("#txtRetencion").val(retencion);
+        });
     }
 }
 /**
  * Función para limpiar el formulario Modal para el Registro de Formularios 110 de Refrigerios.
  */
 function limpiarVentanaModalForm110ImpRef(){
-    $("#txtImporte").val("");
-    $("#txtImpuesto").val("");
-    $("#txtFechaForm").val("");
-    $("#txtObservacion").val("");
+
+    $("#divImporte").removeClass("has-error");
+    $("#helpErrorImporte").html("");
+
+    $("#divImpuesto").removeClass("has-error");
+    $("#helpErrorImpuesto").html("");
+
+    $("#divFechaForm").removeClass("has-error");
+    $("#helpErrorFechaForm").html("");
+
+    $("#divObservacion").removeClass("has-error");
+    $("#helpErrorObservacion").html("");
 }
 /**
  * Función para la obtención de los datos correspondientes al registro de pago de formulario 110 por impuesto de refrigerio.
@@ -61,44 +112,79 @@ function getOneForm110ImpRef(id,idRelaboral,gestion,mes){
 
             var res = jQuery.parseJSON(data);
             if(res.length>0){
-                objForm110ImpRef = {id:res.id,relaboral_id:res.relaboral_id,gestion:res.gestion,mes:res.mes,cantidad:res.cantidad,monto_diario:res.monto_diario,importe:res.importe,impuesto:res.impuesto,retencion:res.retencion,fecha_form:res.fecha_form,
-                    codigo:res.codigo,observacion:res.observacion,estado:res.estado};
+                $.each(res, function (key, val) {
+                    objForm110ImpRef = {id:val.id,relaboral_id:val.relaboral_id,gestion:val.gestion,mes:val.mes,cantidad:val.cantidad,monto_diario:val.monto_diario,importe:val.importe,impuesto:val.impuesto,retencion:val.retencion,fecha_form:val.fecha_form,
+                        codigo:val.codigo,observacion:val.observacion,estado:val.estado};
+                });
             }
+            return objForm110ImpRef;
         }, //mostramos el error
         error: function() { alert('Se ha producido un error Inesperado'); }
     });
     return objForm110ImpRef;
 }
-function openVentanaModalForm110ImpRef(row){
-    var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', row);
-    //dataRecord.id_relaboral
-    $("#popupFormulario110ImpRef").modal("show");
-    $("#txtImporte").focus();
+/**
+ * Función para la validación del formulario de registro de Formulario 110 de impuestos por refrigerio.
+ * @returns {boolean}
+ */
+function validaFormulario110ImpRef(){
+    var ok = true;
+    limpiarVentanaModalForm110ImpRef();
+    var divImporte = $("#divImporte");
+    var importe = $("#txtImporte").val();
+    var txtImporte = $("#txtImporte");
+    var helpErrorImporte = $("#helpErrorImporte");
 
+    var divFecha = $("#divFechaForm");
+    var fecha = $("#txtFechaForm").val();
+    var txtFechaForm = $("#txtFechaForm");
+    var helpErrorFecha = $("#helpErrorFechaForm");
+    var enfoque=null;
+    if(importe==''||importe<0){
+        ok = false;
+        var msje = "Debe seleccionar un monto mayor igual a cero para ser registrado en el sistema.";
+        divImporte.addClass("has-error");
+        helpErrorImporte.html(msje);
+        if(enfoque==null)enfoque = txtImporte;
+    }
+    if(fecha==''){
+        ok = false;
+        var msje = "Debe seleccionar la fecha correspondiente del formulario 110.";
+        divFecha.addClass("has-error");
+        helpErrorFecha.html(msje);
+        if(enfoque==null)enfoque = txtFechaForm;
+    }
+    return ok;
 }
 /**
- * Función para la obtención de los datos referentes al formulario de impuestos 110 por refrigerios.
- * @param idRelaboral
+ * Función para el almacenamiento del registro de Formulario 110 por Impuesto de Refrigerios.
+ * @returns {boolean}
  */
-function obtenerDatosImpuestoRefrigerioPorRelaboralGestionMes(idRelaboral){
-    if(idRelaboral>0){
-        $.ajax({
-            url:'/form110impref/getoneforrelaboral/',
-            type:"POST",
+function guardarFormulario110ImpRef(){
+    var ok=true;
+    var idForm110ImpRef = $("#hdnIdForm110ImpRef").val();
+    var idRelaboral = $("#hdnIdRelaboralForm110ImpRef").val();
+    var totalGanado = $("#hdnTotalGanadoForm110ImpRef").val();
+    var importe = $("#txtImporte").val();
+    var gestion = $("#hdnGestionForm110ImpRef").val();
+    var mes = $("#hdnMesForm110ImpRef").val();
+    var fechaForm = $("#txtFechaForm").val();
+    var cantidad = 1;
+    var observacion = $("#txtObservacion").val();
+    if(idRelaboral>0&&gestion>0&&mes>0&&fechaForm!=''){
+        var ok=$.ajax({
+            url:'/form110impref/save/',
+            type:'POST',
             datatype: 'json',
             async:false,
-            cache:false,
-            data:{id:0,
-                id_persona:idPersona,
-                id_cargo:idCargo,
-                num_contrato:numContrato,
-                id_area:idArea,
-                id_ubicacion:idUbicacion,
-                id_regional:idRegional,
-                id_procesocontratacion:idProceso,
-                fecha_inicio:fechaIni,
-                fecha_incor:fechaIncor,
-                fecha_fin:fechaFin,
+            data:{id:idForm110ImpRef,
+                id_relaboral:idRelaboral,
+                total_ganado:totalGanado,
+                cantidad:cantidad,
+                importe:importe,
+                gestion:gestion,
+                mes:mes,
+                fecha_form:fechaForm,
                 observacion:observacion
             },
             success: function(data) {  //alert(data);
@@ -116,10 +202,7 @@ function obtenerDatosImpuestoRefrigerioPorRelaboralGestionMes(idRelaboral){
                      * Se habilita nuevamente el listado actualizado con el registro realizado y
                      * se inhabilita el formulario para nuevo registro.
                      */
-                    $('#jqxTabs').jqxTabs('enableAt', 0);
-                    $('#jqxTabs').jqxTabs('disableAt', 1);
-                    deshabilitarCamposParaNuevoRegistroDeRelacionLaboral();
-                    $("#jqxgrid").jqxGrid("updatebounddata");
+                    /*$("#divGridPlanillasRefGen").jqxGrid("updatebounddata");*/
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de especificar la ubicación del trabajo
@@ -139,5 +222,55 @@ function obtenerDatosImpuestoRefrigerioPorRelaboralGestionMes(idRelaboral){
             }, //mostramos el error
             error: function() { alert('Se ha producido un error Inesperado'); }
         });
+    }else {
+        ok = false;
     }
+    return ok;
+}
+/**
+ * Función para la actualización de una fila de la grilla
+ * @returns {boolean}
+ */
+function actualizaFila(){
+    var ok=false;
+    var rowLine = $("#hdnRowLine").val();
+    if(rowLine>=0){
+        var idRelaboral = $("#hdnIdRelaboralForm110ImpRef").val();
+        var totalGanado = $("#hdnTotalGanadoForm110ImpRef").val();
+        var importe = $("#txtImporte").val();
+        var gestion = $("#hdnGestionForm110ImpRef").val();
+        var mes = $("#hdnMesForm110ImpRef").val();
+        var fechaForm = $("#txtFechaForm").val();
+        fechaForm = procesaTextoAFecha(fechaForm,"-");
+        var observacion = $("#txtObservacion").val();
+        var rc_iva_debido = totalGanado * 0.13;
+        var impuesto = importe * 0.13;
+        var retencion = rc_iva_debido - impuesto;
+        if(retencion<0){
+            retencion = 0;
+        }
+        var totalLiquido = totalGanado - retencion;
+        if(idRelaboral>0&&gestion>0&&mes>0&&fechaForm!=''){
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'importe', Math.round(importe,2));
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'rc_iva', Math.round(impuesto,2));
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'retencion', Math.round(retencion,2));
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'form110impref_observacion', observacion);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'fecha_form', fechaForm);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'total_liquido', Math.round(totalLiquido));
+
+            ok=true;
+        }
+    }
+    return ok;
+}
+/**
+ * Función para convertir un texto con el formato dd-MM-yyyy al formato MM/dd/yyyy
+ * @param date Cadena con la fecha
+ * @param sep Separador
+ * @returns {number}
+ */
+function procesaTextoAFecha(date, sep) {
+    var parts = date.split(sep);
+    var date = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
+    return date.getTime();
 }
