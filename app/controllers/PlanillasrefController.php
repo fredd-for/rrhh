@@ -248,7 +248,7 @@ class PlanillasrefController extends ControllerBase{
      */
     public function genplanillaAction(){
         $this->view->disable();
-        $obj = new Frelaboralesplanillasal();
+        $obj = new Frelaboralesplanillaref();
         $auth = $this->session->get('auth');
         $user_reg_id = $auth['id'];
         $msj = Array();
@@ -288,7 +288,7 @@ class PlanillasrefController extends ControllerBase{
             $jsonIdRelaborales .= '}';
         }
         if($gestion>0&&$mes>0&&$idFinPartida>0&&$idTipoPlanilla>0&&$numeroPlanilla>=0&&$jsonIdRelaborales!=''){
-            $resul = $obj->desplegarPlanillaPrevia($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
+            $resul = $obj->desplegarPlanillaPreviaRef($gestion,$mes,$idFinPartida,$jsonIdRelaborales);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 $planillaref = new Planillasref();
@@ -317,33 +317,31 @@ class PlanillasrefController extends ControllerBase{
                     if($planillaref->save()){
                         foreach ($resul as $v) {
                             #region registro del descuento correspondiente
-                            $descuento = new Descuentos();
-                            $descuento->relaboral_id = $v->id_relaboral;
-                            $descuento->gestion = $v->gestion;
-                            $descuento->mes = $v->mes;
-                            $descuento->faltas = $v->faltas;
-                            $descuento->atrasos = $v->atrasos;
-                            $descuento->lsgh = $v->lsgh;
-                            $descuento->omision = $v->omision;
-                            $descuento->abandono = $v->abandono;
-                            $descuento->omision = $v->omision;
-                            $descuento->retencion = $v->retencion;
-                            $descuento->total_descuentos = $v->total_descuentos;
-                            $descuento->otros = $v->otros;
-                            $descuento->estado = 1;
-                            $descuento->baja_logica=1;
-                            $descuento->agrupador=0;
-                            $descuento->user_reg_id=$user_reg_id;
-                            $descuento->fecha_reg=$hoy;
-                            $descuento->faltas_atrasos = $v->faltas_atrasos!=null?$v->faltas_atrasos:0;
-                            if ($descuento->save()) {
+                            $descuentoref = new Descuentosref();
+                            $descuentoref->relaboral_id = $v->id_relaboral;
+                            $descuentoref->gestion = $v->gestion;
+                            $descuentoref->mes = $v->mes;
+                            $descuentoref->faltas = $v->faltas;
+                            $descuentoref->vacacion = $v->vacacion;
+                            $descuentoref->lsgh = $v->lsgh;
+                            $descuentoref->otros = $v->otros;
+                            $descuentoref->total_descuentos = $v->total_descuentos;
+                            $descuentoref->estado = 1;
+                            $descuentoref->baja_logica=1;
+                            $descuentoref->agrupador=0;
+                            $descuentoref->user_reg_id=$user_reg_id;
+                            $descuentoref->fecha_reg=$hoy;
+                            if ($descuentoref->save()) {
                                 #region registro del pago salarial
-                                $pagosref = new Pagossal();
+
+                                $pagosref = new Pagosref();
                                 $pagosref->relaboral_id = $v->id_relaboral;
-                                $pagosref->planillasal_id = $planillaref->id;
-                                $pagosref->descuento_id = $descuento->id;
+                                $pagosref->planillaref_id = $planillaref->id;
+                                $pagosref->descuentoref_id = $descuentoref->id;
+                                if($v->id_form110impref!=null&&$v->id_form110impref>0){
+                                    $pagosref->form110impref_id = $v->id_form110impref;
+                                }
                                 $pagosref->dias_efectivos = $v->dias_efectivos;
-                                $pagosref->aporte_laboral_afp = $v->aporte_laboral_afp;
                                 $pagosref->ganado = $v->total_ganado;
                                 $totalGanado += $v->total_ganado;
                                 $pagosref->liquido = $v->total_liquido;
@@ -359,28 +357,30 @@ class PlanillasrefController extends ControllerBase{
                                      * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
                                      * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
                                      */
-                                    $obj = new Horariosymarcaciones();
+                                    /*$obj = new Horariosymarcaciones();
                                     $ok = $obj->planillarHorariosYMarcaciones($v->id_relaboral,$gestion,$mes);
-                                    if($ok)$cantidadPlanillados++;
+                                    if($ok)$cantidadPlanillados++;*/
+                                    $cantidadPlanillados++;
                                 }else break;
                                 #endregion registro del pago salarial
                             }else break;
                             #endregion registro del descuento correspondiente
                         }
+                        echo "<p>-->$cantidadPlanillados==".count($resul);
                         if($cantidadPlanillados==count($resul)){
                             $planillaref->total_ganado = $totalGanado;
                             $planillaref->total_liquido = $totalLiquido;
                             if($planillaref->save()){
-                                $msj = array('result' => 1, 'msj' => 'Generaci&oacute;n exitosa de la Planilla Salarial con '.$cantidadPlanillados.' registros considerados.');
+                                $msj = array('result' => 1, 'msj' => 'Generaci&oacute;n exitosa de la Planilla de Refrigerios con '.$cantidadPlanillados.' registros considerados.');
                             }
                         }else{
                             /**
                              * Se eliminan todos los pagos que se pudieran haber registrado con la planilla.
                              */
                             $db = $this->getDI()->get('db');
-                            $db->execute("DELETE FROM pagossal WHERE planillasal_id=".$planillaref->id);
-                            $db->execute("DELETE FROM planillassal WHERE id=".$planillaref->id);
-                            $msj = array('result' => 0, 'msj' => 'Error 1: No se guard&oacute; el registro de la planilla debido a errores en datos enviados.');
+                            $db->execute("DELETE FROM pagosref WHERE planillaref_id=".$planillaref->id);
+                            $db->execute("DELETE FROM planillasref WHERE id=".$planillaref->id);
+                            $msj = array('result' => 0, 'msj' => 'Error 1: No se guard&oacute; el registro de la Planilla de Refrigerio debido a errores en datos enviados.');
                         }
                     }else{
                         $msj = array('result' => 0, 'msj' => 'Error 2: No se guard&oacute; el registro debido a datos erroneos enviados.');
@@ -390,11 +390,11 @@ class PlanillasrefController extends ControllerBase{
                     echo " File=", $e->getFile(), "\n";
                     echo " Line=", $e->getLine(), "\n";
                     echo $e->getTraceAsString();
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de planilla salarial.');
+                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de Planilla de Refrigerio.');
                 }
 
             }else{
-                $msj = array('result' => 0, 'msj' => 'No se consider&oacute; ning&uacute;n registro para la planilla salarial.');
+                $msj = array('result' => 0, 'msj' => 'No se consider&oacute; ning&uacute;n registro para la Planilla de Refrigerio.');
             }
         }
         echo json_encode($msj);
