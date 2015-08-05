@@ -11,11 +11,11 @@
  * @param observacion
  * @returns {boolean}
  */
-function modificarObservacionEnPlanillaSal(idPlanilla,opcion,observacion){
+function modificarObservacionEnPlanillaRef(idPlanilla,opcion,observacion){
     var ok=false;
     if(idPlanilla>0){
         var ok=$.ajax({
-            url:'/planillassal/edit/',
+            url:'/planillasref/edit/',
             type:'POST',
             datatype: 'json',
             async:false,
@@ -30,7 +30,7 @@ function modificarObservacionEnPlanillaSal(idPlanilla,opcion,observacion){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#divGridPlanillasSal").jqxGrid("updatebounddata");
+                    $("#divGridPlanillasRef").jqxGrid("updatebounddata");
                     return true;
                 } else if(res.result==0){
                     /**

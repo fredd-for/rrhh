@@ -250,7 +250,7 @@ class PlanillasrefController extends ControllerBase{
         $this->view->disable();
         $obj = new Frelaboralesplanillaref();
         $auth = $this->session->get('auth');
-        $user_reg_id = $auth['id'];
+        $user_reg_id = $user_mod_id = $auth['id'];
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
         $planillassal = Array();
@@ -317,10 +317,19 @@ class PlanillasrefController extends ControllerBase{
                     if($planillaref->save()){
                         foreach ($resul as $v) {
                             #region registro del descuento correspondiente
-                            $descuentoref = new Descuentosref();
-                            $descuentoref->relaboral_id = $v->id_relaboral;
-                            $descuentoref->gestion = $v->gestion;
-                            $descuentoref->mes = $v->mes;
+                            $descuentoref = Descuentosref::findFirst(array("relaboral_id=".$v->id_relaboral." AND gestion=".$v->gestion." AND mes=".$v->mes));
+                            if(is_object($descuentoref)){
+                                $descuentoref->user_mod_id=$user_mod_id;
+                                $descuentoref->fecha_mod=$hoy;
+                            }else{
+                                $descuentoref = new Descuentosref();
+                                $descuentoref->relaboral_id = $v->id_relaboral;
+                                $descuentoref->gestion = $v->gestion;
+                                $descuentoref->mes = $v->mes;
+                                $descuentoref->user_reg_id=$user_reg_id;
+                                $descuentoref->fecha_reg=$hoy;
+
+                            }
                             $descuentoref->faltas = $v->faltas;
                             $descuentoref->vacacion = $v->vacacion;
                             $descuentoref->lsgh = $v->lsgh;
@@ -329,8 +338,7 @@ class PlanillasrefController extends ControllerBase{
                             $descuentoref->estado = 1;
                             $descuentoref->baja_logica=1;
                             $descuentoref->agrupador=0;
-                            $descuentoref->user_reg_id=$user_reg_id;
-                            $descuentoref->fecha_reg=$hoy;
+
                             if ($descuentoref->save()) {
                                 #region registro del pago salarial
 
@@ -342,9 +350,9 @@ class PlanillasrefController extends ControllerBase{
                                     $pagosref->form110impref_id = $v->id_form110impref;
                                 }
                                 $pagosref->dias_efectivos = $v->dias_efectivos;
-                                $pagosref->ganado = $v->total_ganado;
+                                $pagosref->total_ganado = $v->total_ganado;
                                 $totalGanado += $v->total_ganado;
-                                $pagosref->liquido = $v->total_liquido;
+                                $pagosref->total_liquido = $v->total_liquido;
                                 $totalLiquido += $v->total_liquido;
                                 $pagosref->estado = 1;
                                 $pagosref->baja_logica = 1;
@@ -357,16 +365,14 @@ class PlanillasrefController extends ControllerBase{
                                      * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
                                      * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
                                      */
-                                    /*$obj = new Horariosymarcaciones();
-                                    $ok = $obj->planillarHorariosYMarcaciones($v->id_relaboral,$gestion,$mes);
-                                    if($ok)$cantidadPlanillados++;*/
-                                    $cantidadPlanillados++;
+                                    $obj = new Horariosymarcaciones();
+                                    $ok = $obj->planillarHorariosYMarcacionesPorRefrigerios($v->id_relaboral,$gestion,$mes);
+                                    if($ok)$cantidadPlanillados++;
                                 }else break;
                                 #endregion registro del pago salarial
                             }else break;
                             #endregion registro del descuento correspondiente
                         }
-                        echo "<p>-->$cantidadPlanillados==".count($resul);
                         if($cantidadPlanillados==count($resul)){
                             $planillaref->total_ganado = $totalGanado;
                             $planillaref->total_liquido = $totalLiquido;
@@ -404,13 +410,13 @@ class PlanillasrefController extends ControllerBase{
      */
     public function displayplanefectivaAction(){
         $this->view->disable();
-        $obj = new Frelaboralesplanillasal();
+        $obj = new Frelaboralesplanillaref();
         $planillassal = Array();
-        $idPlanillaSal = 0;
+        $idPlanillaRef = 0;
         if(isset($_GET["id"])&&$_GET["id"]>0)
-            $idPlanillaSal = $_GET["id"];
-        if($idPlanillaSal>0){
-            $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal);
+            $idPlanillaRef = $_GET["id"];
+        if($idPlanillaRef>0){
+            $resul = $obj->desplegarPlanillaRefEfectiva($idPlanillaRef);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -429,25 +435,28 @@ class PlanillasrefController extends ControllerBase{
                         'nombres'=>$v->nombres,
                         'ci'=>$v->ci,
                         'expd'=>$v->expd,
-                        'nivel_salarial'=>$v->nivel_salarial,
-                        'sueldo'=>str_replace(".00","",$v->sueldo),
+                        'sueldo'=>$v->sueldo,
                         'dias_efectivos'=>$v->dias_efectivos,
+                        'monto_diario'=>$v->monto_diario,
                         'faltas'=>$v->faltas,
-                        'atrasos'=>$v->atrasos,
-                        'faltas_atrasos'=>$v->faltas_atrasos,
                         'lsgh'=>$v->lsgh,
                         'vacacion'=>$v->vacacion,
-                        'omision'=>$v->omision,
-                        'abandono'=>$v->abandono,
                         'otros'=>$v->otros,
-                        'aporte_laboral_afp'=>$v->aporte_laboral_afp,
+                        'id_form110impref'=>$v->id_form110impref,
+                        'importe'=>$v->importe,
+                        'rc_iva'=>$v->rc_iva,
+                        'retencion'=>$v->retencion,
+                        'form110impref_observacion'=>$v->form110impref_observacion,
+                        'fecha_form'=>$v->fecha_form,
+                        'total_ganado'=>$v->total_ganado,
+                        'total_liquido'=>$v->total_liquido,
+                        'cargo'=>$v->cargo,
                         'total_descuentos'=>$v->total_descuentos,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
-                        'total_ganado'=>$v->total_ganado,
-                        'total_liquido'=>$v->total_liquido,
                         'estado'=>$v->estado,
-                        'estado_descripcion'=>$v->estado_descripcion
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'available'=>false
                     );
                 }
             }
@@ -466,40 +475,40 @@ class PlanillasrefController extends ControllerBase{
         $user_mod_id = $auth['id'];
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
-        $idPlanillaSal = 0;
+        $idPlanillaRef = 0;
         $observacion = "";
         $opcion = 0;
         $ok=true;
         if(isset($_POST["id"])&&$_POST["id"]>0)
-            $idPlanillaSal = $_POST["id"];
+            $idPlanillaRef = $_POST["id"];
         if(isset($_POST["opcion"])&&$_POST["opcion"]>0)
             $opcion = $_POST["opcion"];
         if(isset($_POST["observacion"])&&$_POST["observacion"]!='')
             $observacion = $_POST["observacion"];
-        if($idPlanillaSal>0){
+        if($idPlanillaRef>0){
             /**
              * Se modifica el registro de planilla salarial
              */
             if($opcion==0||$opcion==2) {
                 try{
-                    $planillasal = Planillassal::findFirstById($idPlanillaSal);
-                    if($planillasal->id>0){
-                        $planillasal->observacion = $observacion;
-                        $planillasal->user_mod_id = $user_mod_id;
-                        $planillasal->fecha_reg = $hoy;
-                        $ok=$planillasal->save();
-                        if($ok)$ms = 'Modificaci&oacute;n exitosa del registro de planilla salarial.';
-                        else $ms = 'No se pudo modificar el registro de planilla salarial.';
+                    $planillasref = Planillasref::findFirstById($idPlanillaRef);
+                    if($planillasref->id>0){
+                        $planillasref->observacion = $observacion;
+                        $planillasref->user_mod_id = $user_mod_id;
+                        $planillasref->fecha_reg = $hoy;
+                        $ok=$planillasref->save();
+                        if($ok)$ms = 'Modificaci&oacute;n exitosa del registro de planilla de refrigerio.';
+                        else $ms = 'No se pudo modificar el registro de planilla de refrigerio.';
                     }else{
                         $ok=false;
-                        $ms = 'No se pudo modificar el registro de planilla salarial debido a que no se encontr&oacute;.';
+                        $ms = 'No se pudo modificar el registro de planilla de refrigerio debido a que no se encontr&oacute;.';
                     }
                 }catch (\Exception $e) {
                     echo get_class($e), ": ", $e->getMessage(), "\n";
                     echo " File=", $e->getFile(), "\n";
                     echo " Line=", $e->getLine(), "\n";
                     echo $e->getTraceAsString();
-                    $ms = 'Error cr&iacute;tico: No se modific&oacute; el registro de planilla salarial.';
+                    $ms = 'Error cr&iacute;tico: No se modific&oacute; el registro de planilla de refrigerio.';
                 }
             }
             if($ok){
@@ -510,7 +519,7 @@ class PlanillasrefController extends ControllerBase{
                     if($ms!='')$ms .= ' ';
                     try{
                         $db = $this->getDI()->get('db');
-                        $ok=$db->execute("UPDATE TABLE pagossal SET observacion='$observacion',user_mod_id=".$user_mod_id.",fecha_mod=CURRENT_DATE WHERE planillasal_id=".$idPlanillaSal);
+                        $ok=$db->execute("UPDATE TABLE pagossal SET observacion='$observacion',user_mod_id=".$user_mod_id.",fecha_mod=CURRENT_DATE WHERE planillasal_id=".$idPlanillaRef);
                         if($ok)$ms .= 'Modificaci&oacute; exitosa de los Pagos Salariales relacionados a la planilla salarial.';
                         else $ms .= 'No se pudo modificar los registros de Pagos Salariales relacionados a la planilla salarial.';
                     }catch (\Exception $e) {
@@ -530,7 +539,7 @@ class PlanillasrefController extends ControllerBase{
     }
 
     /**
-     * Función para aprobar un registro de Planilla Salarial.
+     * Función para aprobar un registro de Planilla de Refrigerio.
      */
     public function approveAction(){
         $this->view->disable();
@@ -538,28 +547,28 @@ class PlanillasrefController extends ControllerBase{
         $user_apr_id = $auth['id'];
         $msj = Array();
         $hoy = date("Y-m-d H:i:s");
-        $idPlanillaSal = 0;
+        $idPlanillaRef = 0;
         $ok=true;
         if(isset($_POST["id"])&&$_POST["id"]>0)
-            $idPlanillaSal = $_POST["id"];
-        if($idPlanillaSal>0){
+            $idPlanillaRef = $_POST["id"];
+        if($idPlanillaRef>0){
             try{
-                $planillasal = Planillassal::findFirstById($idPlanillaSal);
-                if($planillasal->id>0){
-                    $planillasal->estado = 3;
-                    $planillasal->user_apr_id = $user_apr_id;
-                    $planillasal->fecha_apr = $hoy;
-                    $planillasal->save();
+                $planillaref = Planillasref::findFirstById($idPlanillaRef);
+                if($planillaref->id>0){
+                    $planillaref->estado = 3;
+                    $planillaref->user_apr_id = $user_apr_id;
+                    $planillaref->fecha_apr = $hoy;
+                    $planillaref->save();
                     $msj = array('result' => 1, 'msj' => 'Aprobaci&oacute;n exitosa del registro.');
                 }else{
-                    $msj = array('result' => 0, 'msj' => 'Error: No se pudo aprobar el registro de Planilla Salarial.');
+                    $msj = array('result' => 0, 'msj' => 'Error: No se pudo aprobar el registro de Planilla de Refrigerio.');
                 }
             }catch (\Exception $e) {
                 echo get_class($e), ": ", $e->getMessage(), "\n";
                 echo " File=", $e->getFile(), "\n";
                 echo " Line=", $e->getLine(), "\n";
                 echo $e->getTraceAsString();
-                $msj = array('result' => 0, 'msj' => 'Error cr&iacute;tico: No se pudo aprobar el registro de Planilla Salarial debido a un error en los datos enviados.');
+                $msj = array('result' => 0, 'msj' => 'Error cr&iacute;tico: No se pudo aprobar el registro de Planilla de Refrigerio debido a un error en los datos enviados.');
             }
         }
         echo json_encode($msj);
@@ -606,4 +615,5 @@ class PlanillasrefController extends ControllerBase{
         }
         echo json_encode($msj);
     }
+
 } 

@@ -378,7 +378,7 @@ class PlanillassalController extends ControllerBase{
                                      * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
                                      */
                                     $obj = new Horariosymarcaciones();
-                                    $ok = $obj->planillarHorariosYMarcaciones($v->id_relaboral,$gestion,$mes);
+                                    $ok = $obj->planillarHorariosYMarcacionesPorSalarios($v->id_relaboral,$gestion,$mes);
                                     if($ok)$cantidadPlanillados++;
                                 }else break;
                                 #endregion registro del pago salarial
@@ -428,7 +428,7 @@ class PlanillassalController extends ControllerBase{
         if(isset($_GET["id"])&&$_GET["id"]>0)
             $idPlanillaSal = $_GET["id"];
         if($idPlanillaSal>0){
-            $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal);
+            $resul = $obj->desplegarPlanillaSalEfectiva($idPlanillaSal);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -981,7 +981,7 @@ class PlanillassalController extends ControllerBase{
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
             $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
-            $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
+            $resul = $obj->desplegarPlanillaSalEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesplanillas = array();
             foreach ($resul as $v) {
                 $relaboralesplanillas[] = array(
@@ -1596,7 +1596,7 @@ class PlanillassalController extends ControllerBase{
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
             $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad =  $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
-            $resul = $obj->desplegarPlanillaEfectiva($idPlanillaSal,$where,$groups);
+            $resul = $obj->desplegarPlanillaSalEfectiva($idPlanillaSal,$where,$groups);
             $relaboralesPlanillas = array();
             foreach ($resul as $v) {
                 $relaboralesPlanillas[] = array(

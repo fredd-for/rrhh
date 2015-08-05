@@ -6,12 +6,12 @@
  *   Fecha Creación:  26-05-2015
  */
 /**
- * Función para aprobar un registro de planilla salarial.
+ * Función para aprobar un registro de planilla de refrigerio.
  */
-function aprobarRegistroPlanillaSal(idPlanilla){
+function aprobarRegistroPlanillaRef(idPlanilla){
     var ok = false;
     $.ajax({
-        url:'/planillassal/approve/',
+        url:'/planillasref/approve/',
         type:'POST',
         datatype: 'json',
         async:false,
@@ -28,7 +28,7 @@ function aprobarRegistroPlanillaSal(idPlanilla){
                 $("#divMsjePorSuccess").html("");
                 $("#divMsjePorSuccess").append(res.msj);
                 $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                $("#divGridPlanillasSal").jqxGrid("updatebounddata");
+                $("#divGridPlanillasRef").jqxGrid("updatebounddata");
                 ok=true;
             } else if(res.result==0){
                 $("#divMsjePorWarning").html("");

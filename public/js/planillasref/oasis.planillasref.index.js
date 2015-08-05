@@ -395,13 +395,16 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                                 if(dataRecord.estado==1||dataRecord.estado==2){
                                     var observacion = "";
                                     $("#popupObservacionPlanillaRefEdit").modal("show");
+                                    $('#popupObservacionPlanillaRefEdit').on('shown.bs.modal', function () {
+                                        $("#txtObservacionPlanillaRefEdit").focus();
+                                    });
                                     $("#txtObservacionPlanillaRefEdit").focus();
                                     $("#txtObservacionPlanillaRefEdit").val(dataRecord.observacion);
                                     $("#btnAplicarObservacionPlanillaRefEdit").off();
                                     $("#btnAplicarObservacionPlanillaRefEdit").on("click",function(){
                                         $("#popupObservacionPlanillaRefEdit").modal("hide");
                                         observacion = $("#txtObservacionPlanillaRefEdit").val();
-                                        modificarObservacionEnPlanillaSal(dataRecord.id,0,observacion);
+                                        modificarObservacionEnPlanillaRef(dataRecord.id,0,observacion);
                                     });
                                 }else{
                                     var msje = "Debe seleccionar un registro de Planilla Salarial en estado GENERADA O VERIFICADA para poder modificar la observaci&oacute;n de la observaci&oacute;n de la planilla.";
@@ -448,7 +451,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                                 $("#tbodyDatosPlanillaRef").append("<td>"+obs+"</td>");
                                 $("#tbodyDatosPlanillaRef").append("</tr>");
                                 $("#hdnIdPlanillaRef").val(dataRecord.id);
-                                mostrarPlanilla(dataRecord.id);
+                                mostrarPlanillaDeRefrigerio(dataRecord.id);
                             }else{
                                 var msje = "Debe seleccionar un registro de Planilla de Refrigerio necesariamente.";
                                 $("#divMsjePorError").html("");
@@ -470,7 +473,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                      if (dataRecord != undefined) {
                      if (dataRecord.estado == 1 || dataRecord.estado == 2) {
                      if (confirm("¿Esta segur@ de aprobar esta planilla?")) {
-                         aprobarRegistroPlanillaSal(dataRecord.id);
+                         aprobarRegistroPlanillaRef(dataRecord.id);
                      }
                      } else {
                              var msje = "Debe seleccionar un registro con estado GENERADA o VERIFICADA para posibilitar la aprobaci&oacute;n del registro.";
@@ -497,7 +500,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                                  */
                                 if (dataRecord.estado == 1 || dataRecord.estado == 2) {
                                     if (confirm("Esta seguro de dar de baja registro de Planilla de Refrigerio?"))
-                                        darDeBajaPlanillaSal(dataRecord.id);
+                                        darDeBajaPlanillaRef(dataRecord.id);
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado GENERADA o VERIFICADA inicialmente.";
                                     $("#divMsjePorError").html("");

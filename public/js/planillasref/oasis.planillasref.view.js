@@ -7,17 +7,26 @@
  */
 
 /**
- * Función para desplegar la planilla generada en función del identificador de la planilla salarial enviada como parámetro.
- * @param idPlanillaSal
+ * Función para desplegar la planilla generada en función del identificador de la planilla de refrigerio enviada como parámetro.
+ * @param idPlanillaRef
  */
-function mostrarPlanilla(idPlanillaSal){
+function mostrarPlanillaDeRefrigerio(idPlanillaRef){
     var source =
     {
         datatype: "json",
         datafields: [
             {name: 'nro_row', type: 'integer'},
             {name: 'chk', type: 'bool'},
+            {name: 'opcion', type: 'string'},
             {name: 'id_relaboral', type: 'integer'},
+            {name: 'gestion', type: 'integer'},
+            {name: 'mes', type: 'integer'},
+            {name: 'gerencia_administrativa', type: 'string'},
+            {name: 'departamento_administrativo', type: 'string'},
+            {name: 'area', type: 'string'},
+            {name: 'ubicacion', type: 'string'},
+            {name: 'fin_partida', type: 'string'},
+            {name: 'proceso_codigo', type: 'string'},
             {name: 'cargo', type: 'string'},
             {name: 'nombres', type: 'string'},
             {name: 'ci', type: 'string'},
@@ -25,19 +34,24 @@ function mostrarPlanilla(idPlanillaSal){
             {name: 'cargo', type: 'string'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
+            {name: 'monto_diario', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'atrasos', type: 'numeric'},
-            {name: 'faltas_atrasos', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
-            {name: 'omision', type: 'numeric'},
-            {name: 'abandono', type: 'numeric'},
+            {name: 'vacacion', type: 'numeric'},
             {name: 'otros', type: 'numeric'},
+            {name: 'id_form110impref', type: 'numeric'},
+            {name: 'importe', type: 'numeric'},
+            {name: 'rc_iva', type: 'numeric'},
+            {name: 'retencion', type: 'numeric'},
+            {name: 'form110impref_observacion', type: 'string'},
+            {name: 'fecha_form', type: 'date'},
             {name: 'total_ganado', type: 'numeric'},
             {name: 'total_liquido', type: 'numeric'},
             {name: 'estado', type: 'string'},
             {name: 'estado_descripcion', type: 'string'}
         ],
-        url: '/planillassal/displayplanefectiva?id='+idPlanillaSal,
+        url: '/planillasref/displayplanefectiva?id='+idPlanillaRef,
         cache: false
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
@@ -46,7 +60,7 @@ function mostrarPlanilla(idPlanillaSal){
     cargarRegistrosLaborales();
     function cargarRegistrosLaborales() {
         var theme = prepareSimulator("grid");
-        $("#divGridPlanillasSalView").jqxGrid(
+        $("#divGridPlanillasRefView").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
@@ -74,12 +88,59 @@ function mostrarPlanilla(idPlanillaSal){
                         width: 40,
                         cellsalign: 'center',
                         align: 'center',
+                        editable:false,
                         cellsrenderer: rownumberrenderer,
-                        aggregates: [{
-                         '#':function (aggregatedValue, currentValue, column, record) {
-                            return aggregatedValue + 1;
-                            }
-                         }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalConsiderados" style="float: center; margin: 4px; overflow: hidden;">0</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Gerencia',
+                        filtertype: 'checkedlist',
+                        datafield: 'gerencia_administrativa',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Departamento',
+                        filtertype: 'checkedlist',
+                        datafield: 'departamento_administrativo',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: '&Aacute;rea',
+                        filtertype: 'checkedlist',
+                        datafield: 'area',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Proceso',
+                        filtertype: 'checkedlist',
+                        datafield: 'proceso_codigo',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
+                        text: 'Fuente',
+                        filtertype: 'checkedlist',
+                        datafield: 'fin_partida',
+                        width: 220,
+                        cellsalign: 'center',
+                        align: 'center',
+                        editable:false,
+                        hidden: true
                     },
                     {
                         text: 'Cargo',
@@ -87,7 +148,9 @@ function mostrarPlanilla(idPlanillaSal){
                         datafield: 'cargo',
                         width: 100,
                         cellsalign: 'justify',
-                        align: 'center'
+                        align: 'center',
+                        editable:false,
+                        hidden:true
                     },
                     {
                         text: 'Estado',
@@ -96,23 +159,28 @@ function mostrarPlanilla(idPlanillaSal){
                         width: 70,
                         cellsalign: 'center',
                         align: 'center',
-                        cellclassname: cellclass
+                        editable:false,
+                        cellclassname: cellclass,
+                        hidden:true
                     },
                     {
                         text: 'Nombres',
                         datafield: 'nombres',
                         width: 100,
                         cellsalign: 'justify',
-                        align: 'center'
+                        align: 'center',
+                        editable:false,
+                        editable:false
                     },
                     {
                         text: 'CI',
                         datafield: 'ci',
-                        width: 70,
+                        width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'center',
                         aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalView" style="float: right; margin: 4px; overflow: hidden;">Totales:</div>';
+                            var renderstring ='<div id="divTotal" style="float: right; margin: 4px; overflow: hidden;">Totales:</div>';
                             return renderstring;
                         }
                     },
@@ -122,7 +190,8 @@ function mostrarPlanilla(idPlanillaSal){
                         datafield: 'expd',
                         width: 30,
                         cellsalign: 'center',
-                        align: 'center'
+                        align: 'center',
+                        editable:false
                     },
                     {
                         text: 'Haber',
@@ -130,202 +199,242 @@ function mostrarPlanilla(idPlanillaSal){
                         datafield: 'sueldo',
                         width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['sueldo'])){
-                                    total = Number(parseFloat(record['sueldo']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalHaberes" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        },
+                        hidden:true
                     },
                     {
                         text: 'D&iacute;as Efectivos',
                         filtertype: 'checkedlist',
                         datafield: 'dias_efectivos',
-                        width: 60,
+                        width: 40,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalDiasEfectivos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Monto Diario',
+                        editable:false,
+                        filtertype: 'checkedlist',
+                        datafield: 'monto_diario',
+                        width: 40,
                         align: 'center',
                         cellsalign: 'right',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['dias_efectivos'])){
-                                    total = Number(parseFloat(record['dias_efectivos']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalMontosDiarios" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
                         text: 'LSGHs',
                         filtertype: 'checkedlist',
                         datafield: 'lsgh',
-                        width: 60,
+                        width: 50,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['lsgh'])){
-                                    total = Number(parseFloat(record['lsgh']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
-                    },
-                    {
-                        text: 'Omisi&oacute;n',
-                        filtertype: 'checkedlist',
-                        datafield: 'omision',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoDias',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['omision'])){
-                                    total = Number(parseFloat(record['omision']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
-                    },
-                    {
-                        text: 'Abandono',
-                        filtertype: 'checkedlist',
-                        datafield: 'abandono',
-                        width: 65,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoDias',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['abandono'])){
-                                    total = Number(parseFloat(record['abandono']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalLsgh" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
                         text: 'Faltas',
                         filtertype: 'checkedlist',
                         datafield: 'faltas',
-                        width: 60,
+                        width: 50,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['faltas'])){
-                                    total = Number(parseFloat(record['faltas']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalFaltas" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
-                        text: 'Atrasos',
+                        text: 'Vac.',
                         filtertype: 'checkedlist',
-                        datafield: 'atrasos',
-                        width: 60,
+                        datafield: 'vacacion',
+                        width: 50,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregates: [{
-                            'Dias':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['atrasos'])){
-                                    total = Number(parseFloat(record['atrasos']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
-                    },
-                    {
-                        text: 'F. & A.',
-                        filtertype: 'checkedlist',
-                        datafield: 'faltas_atrasos',
-                        width: 60,
-                        align: 'center',
-                        cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['faltas_atrasos'])){
-                                    total = Number(parseFloat(record['faltas_atrasos']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalVacacion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
                         text: 'Otros',
                         filtertype: 'checkedlist',
                         datafield: 'otros',
+                        width: 50,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        columngroup: 'DescuentoMonetario',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Importe',
+                        filtertype: 'checkedlist',
+                        datafield: 'importe',
                         width: 60,
                         align: 'center',
                         cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['otros'])){
-                                    total = Number(parseFloat(record['otros']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        cellsformat: 'f2',
+                        columngroup: 'ImpuestoRefrigerio',
+                        columntype: 'numberinput',
+                        hidden:true,
+                        createeditor: function (row, cellvalue, editor) {
+                            editor.jqxNumberInput({ digits: 3 });
+                        },
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalForm110" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
-                        text: 'Total Ganado',
+                        text: 'RC-IVA',
+                        filtertype: 'checkedlist',
+                        datafield: 'rc_iva',
+                        width: 60,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        columngroup: 'ImpuestoRefrigerio',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalRcIva" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Retenci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'retencion',
+                        width: 60,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        columngroup: 'ImpuestoRefrigerio',
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalRetencion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
+                    },
+                    {
+                        text: 'Fecha F. 110',
+                        datafield: 'fecha_form',
+                        filtertype: 'range',
+                        width: 100,
+                        cellsalign: 'center',
+                        cellsformat: 'dd-MM-yyyy',
+                        align: 'center',
+                        editable:false,
+                        columntype: 'datetimeinput',
+                        hidden: true
+                    },
+                    {
+                        text: 'F. 110 Obs.',
+                        datafield: 'form110impref_observacion',
+                        width: 90,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        hidden:true
+                    },
+                    {
+                        text: 'T. Ganado',
                         filtertype: 'checkedlist',
                         datafield: 'total_ganado',
-                        width: 90,
+                        width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['total_ganado'])){
-                                    total = Number(parseFloat(record['total_ganado']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalTotalGanado" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     },
                     {
-                        text: 'Total L&iacute;quido',
+                        text: 'T. L&iacute;quido',
                         filtertype: 'checkedlist',
                         datafield: 'total_liquido',
-                        width: 90,
+                        width: 60,
                         align: 'center',
+                        editable:false,
                         cellsalign: 'right',
-                        aggregates: [{
-                            'Bs.':function (aggregatedValue, currentValue, column, record) {
-                                var total = 0;
-                                if(!isNaN(record['total_liquido'])){
-                                    total = Number(parseFloat(record['total_liquido']));
-                                }
-                                return aggregatedValue + total;
-                            }
-                        }]
+                        aggregatesrenderer: function (aggregates) {
+                            var renderstring ='<div id="divTotalTotalLiquido" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
+                            return renderstring;
+                        }
                     }
                 ],
                 columngroups:
                     [
-                        { text: 'Descuento en D&iacute;as', align: 'center', name: 'DescuentoDias' },
-                        { text: 'Descuento en Bs.', align: 'center', name: 'DescuentoMonetario' }
+                        { text: 'Desc. D&iacute;as', align: 'center', name: 'DescuentoDias' },
+                        { text: 'Desc. Bs.', align: 'center', name: 'DescuentoMonetario' },
+                        { text: 'Impuestos', align: 'center', name: 'ImpuestoRefrigerio' }
                     ]
             });
-        $('#divGridPlanillasSalView').off();
+        var listSource = [
+            {label: 'Gerencia', value: 'gerencia_administrativa', checked: false},
+            {label: 'Departamento', value: 'departamento_administrativo', checked: false},
+            {label: '&Aacute;rea', value: 'area', checked: false},
+            {label: 'Ubicaci&oacute;n', value: 'ubicacion', checked: false},
+            {label: 'Fuente', value: 'fin_partida', checked: false},
+            {label: 'Proceso', value: 'procesocontratacion_codigo', checked: false},
+            {label: 'Cargo', value: 'cargo', checked: false},
+            {label: 'Estado', value: 'estado_descripcion', checked: false},
+            {label: 'Nombres y Apellidos', value: 'nombres', checked: true},
+            {label: 'CI', value: 'ci', checked: true},
+            {label: 'Exp', value: 'expd', checked: true},
+            {label: 'Nivel Salarial', value: 'nivelsalarial', checked: false},
+            {label: 'Haber', value: 'sueldo', checked: false},
+            {label: 'Di&aacute;s Efec.', value: 'dias_efectivos', checked: true},
+            {label: 'Monto Diario', value: 'monto_diario', checked: true},
+            {label: 'LSGHs', value: 'lsgh', checked: true},
+            {label: 'Faltas', value: 'faltas', checked: true},
+            {label: 'Vacaci&oacute;n', value: 'vacacion', checked: true},
+            {label: 'Otros', value: 'otros', checked: true},
+            {label: 'Importe', value: 'importe', checked: false},
+            {label: 'RC-IVA', value: 'rc_iva', checked: true},
+            {label: 'Retenci&oacute;n', value: 'retencion', checked: true},
+            {label: 'Fecha F. 110', value: 'fecha_form', checked: false},
+            {label: 'F. 110 Obs.', value: 'form110impref_observacion', checked: false},
+            {label: 'Total Ganado', value: 'total_ganado', checked: true},
+            {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true},
+            {label: 'Observacion', value: 'observacion', checked: false},
+        ];
+
+        $("#divPlanilllaRefViewListBox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
+        $("#divPlanilllaRefViewListBox").on('checkChange', function (event) {
+            $("#divGridPlanillasRefView").jqxGrid('beginupdate');
+            if (event.args.checked) {
+                $("#divGridPlanillasRefView").jqxGrid('showcolumn', event.args.value);
+            }
+            else {
+                $("#divGridPlanillasRefView").jqxGrid('hidecolumn', event.args.value);
+            }
+            $("#divGridPlanillasRefView").jqxGrid('endupdate');
+        });
+
+
+        $('#divGridPlanillasRefView').off();
         /**
          * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
          */

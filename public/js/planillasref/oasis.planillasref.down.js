@@ -8,15 +8,15 @@
 /**
  * Función registrar la baja de un registro de PlanillaSalarial.
  */
-function darDeBajaPlanillaSal(idPlanillaSal){
+function darDeBajaPlanillaRef(idPlanillaRef){
     var ok=true;
-    if(idPlanillaSal>0){
+    if(idPlanillaRef>0){
         var ok=$.ajax({
             url:'/planillassal/down/',
             type:'POST',
             datatype: 'json',
             async:false,
-            data:{id:idPlanillaSal},
+            data:{id:idPlanillaRef},
             success: function(data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
@@ -27,7 +27,7 @@ function darDeBajaPlanillaSal(idPlanillaSal){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
-                    $("#divGridPlanillasSal").jqxGrid("updatebounddata");
+                    $("#divGridPlanillasRef").jqxGrid("updatebounddata");
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.

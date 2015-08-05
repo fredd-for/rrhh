@@ -161,7 +161,7 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
      * @param string $group
      * @return Resultset
      */
-    public function desplegarPlanillaEfectiva($idPlanillaSal,$where='',$group=''){
+    public function desplegarPlanillaSalEfectiva($idPlanillaSal,$where='',$group=''){
         if($idPlanillaSal>0){
             $sql = "SELECT * FROM f_relaborales_planillasal($idPlanillaSal)";
             if($where!='')$sql .= $where;

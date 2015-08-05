@@ -158,7 +158,7 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
      * @param string $group
      * @return Resultset
      */
-    public function desplegarPlanillaEfectivaRef($idPlanillaRef,$where='',$group=''){
+    public function desplegarPlanillaRefEfectiva($idPlanillaRef,$where='',$group=''){
         if($idPlanillaRef>0){
             $sql = "SELECT * FROM f_relaborales_planillaref($idPlanillaRef)";
             if($where!='')$sql .= $where;
