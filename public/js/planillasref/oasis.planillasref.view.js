@@ -32,11 +32,11 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
             {name: 'ci', type: 'string'},
             {name: 'expd', type: 'string'},
             {name: 'cargo', type: 'string'},
+            {name: 'nivelsalarial', type: 'numeric'},
             {name: 'sueldo', type: 'numeric'},
             {name: 'dias_efectivos', type: 'numeric'},
             {name: 'monto_diario', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
-            {name: 'atrasos', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
             {name: 'vacacion', type: 'numeric'},
             {name: 'otros', type: 'numeric'},
@@ -215,10 +215,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalDiasEfectivos" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['dias_efectivos'])){
+                                    total = Number(parseFloat(record['dias_efectivos']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Monto Diario',
@@ -228,10 +233,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         width: 40,
                         align: 'center',
                         cellsalign: 'right',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalMontosDiarios" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['monto_diario'])){
+                                    total = Number(parseFloat(record['monto_diario']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'LSGHs',
@@ -242,10 +252,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalLsgh" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['lsgh'])){
+                                    total = Number(parseFloat(record['lsgh']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Faltas',
@@ -256,10 +271,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalFaltas" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['faltas'])){
+                                    total = Number(parseFloat(record['faltas']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Vac.',
@@ -270,10 +290,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         editable:false,
                         cellsalign: 'right',
                         columngroup: 'DescuentoDias',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalVacacion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['vacacion'])){
+                                    total = Number(parseFloat(record['vacacion']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Otros',
@@ -283,11 +308,16 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        columngroup: 'DescuentoDias',
+                        aggregates: [{
+                            'Dias':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['otros'])){
+                                    total = Number(parseFloat(record['otros']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Importe',
@@ -300,13 +330,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         columngroup: 'ImpuestoRefrigerio',
                         columntype: 'numberinput',
                         hidden:true,
-                        createeditor: function (row, cellvalue, editor) {
-                            editor.jqxNumberInput({ digits: 3 });
-                        },
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalForm110" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['importe'])){
+                                    total = Number(parseFloat(record['importe']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'RC-IVA',
@@ -317,10 +349,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         editable:false,
                         cellsalign: 'right',
                         columngroup: 'ImpuestoRefrigerio',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalRcIva" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['rc_iva'])){
+                                    total = Number(parseFloat(record['rc_iva']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Retenci&oacute;n',
@@ -331,10 +368,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         editable:false,
                         cellsalign: 'right',
                         columngroup: 'ImpuestoRefrigerio',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalRetencion" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['retencion'])){
+                                    total = Number(parseFloat(record['retencion']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
                         text: 'Fecha F. 110',
@@ -358,36 +400,45 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         hidden:true
                     },
                     {
-                        text: 'T. Ganado',
+                        text: 'Ganado',
                         filtertype: 'checkedlist',
                         datafield: 'total_ganado',
                         width: 60,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalTotalGanado" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['total_ganado'])){
+                                    total = Number(parseFloat(record['total_ganado']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     },
                     {
-                        text: 'T. L&iacute;quido',
+                        text: 'L&iacute;quido',
                         filtertype: 'checkedlist',
                         datafield: 'total_liquido',
                         width: 60,
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
-                        aggregatesrenderer: function (aggregates) {
-                            var renderstring ='<div id="divTotalTotalLiquido" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
-                            return renderstring;
-                        }
+                        aggregates: [{
+                            'Bs.':function (aggregatedValue, currentValue, column, record) {
+                                var total = 0;
+                                if(!isNaN(record['total_liquido'])){
+                                    total = Number(parseFloat(record['total_liquido']));
+                                }
+                                return aggregatedValue + total;
+                            }
+                        }]
                     }
                 ],
                 columngroups:
                     [
-                        { text: 'Desc. D&iacute;as', align: 'center', name: 'DescuentoDias' },
-                        { text: 'Desc. Bs.', align: 'center', name: 'DescuentoMonetario' },
+                        { text: 'Descuento en D&iacute;as', align: 'center', name: 'DescuentoDias' },
                         { text: 'Impuestos', align: 'center', name: 'ImpuestoRefrigerio' }
                     ]
             });

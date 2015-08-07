@@ -26,7 +26,8 @@ function abrirVentanaModalForm110ImpRef(rowline){
     limpiarVentanaModalForm110ImpRef();
     if(rowline>=0){
         var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
-        var rcIvaDebido = Math.round(parseFloat(dataRecord.total_ganado*0.13),2)
+        var rcIvaDebido = dataRecord.total_ganado*0.13;
+        rcIvaDebido = rcIvaDebido.toFixed(2);
         var form110Object = getOneForm110ImpRef(dataRecord.id_form110impref,dataRecord.id_relaboral,dataRecord.gestion,dataRecord.mes);
         if(dataRecord.id_form110impref>0){
             $("#hdnIdForm110ImpRef").val(parseInt(dataRecord.id_form110impref));
@@ -57,16 +58,25 @@ function abrirVentanaModalForm110ImpRef(rowline){
             $("#txtImporte").focus();
         });
         $("#lblTotalGanado").text(dataRecord.total_ganado);
-
+        $("#txtImporte").off();
         $("#txtImporte").on("change",function(){
             var importe = $("#txtImporte").val();
-            var impuesto = Math.round(parseFloat(importe*0.13),2);
+            var impuesto = importe*0.13;
+            impuesto = impuesto.toFixed(2)
             $("#txtImpuesto").val(impuesto);
             var retencion = rcIvaDebido - impuesto;
+            retencion = retencion.toFixed(2);
             if(retencion<0){
                 retencion = 0;
             }
             $("#txtRetencion").val(retencion);
+        });
+        var regexDateValidator = function (fecha) {
+            return (fecha).match(/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/);
+        }
+        $("#txtFechaForm").on("blur",function(){
+            accept = regexDateValidator($(this).val());
+            if (!accept) $(this).val('');
         });
     }
 }
@@ -146,6 +156,14 @@ function validaFormulario110ImpRef(){
         divImporte.addClass("has-error");
         helpErrorImporte.html(msje);
         if(enfoque==null)enfoque = txtImporte;
+    }else{
+        if(isNaN(importe)){
+            ok = false;
+            var msje = "Debe seleccionar un monto mayor igual a cero para ser registrado en el sistema, no carácteres alfanum&eacute;ricos.";
+            divImporte.addClass("has-error");
+            helpErrorImporte.html(msje);
+            if(enfoque==null)enfoque = txtImporte;
+        }
     }
     if(fecha==''){
         ok = false;
@@ -204,6 +222,7 @@ function guardarFormulario110ImpRef(){
                      */
                     /*$("#divGridPlanillasRefGen").jqxGrid("updatebounddata");*/
                 } else if(res.result==0){
+                    var ok=false;
                     /**
                      * En caso de haberse presentado un error al momento de especificar la ubicación del trabajo
                      */
@@ -211,6 +230,7 @@ function guardarFormulario110ImpRef(){
                     $("#divMsjePorWarning").append(res.msj);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }else{
+                    var ok=false;
                     /**
                      * En caso de haberse presentado un error crítico al momento de registrarse la relación laboral
                      */
@@ -233,31 +253,44 @@ function guardarFormulario110ImpRef(){
  */
 function actualizaFila(){
     var ok=false;
-    var rowLine = $("#hdnRowLine").val();
-    if(rowLine>=0){
-        var idRelaboral = $("#hdnIdRelaboralForm110ImpRef").val();
-        var totalGanado = $("#hdnTotalGanadoForm110ImpRef").val();
-        var importe = $("#txtImporte").val();
-        var gestion = $("#hdnGestionForm110ImpRef").val();
-        var mes = $("#hdnMesForm110ImpRef").val();
+    var rowindex = $("#hdnRowLine").val();
+    if(rowindex>=0){
+        var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowindex);
+        var idRelaboral = dataRecord.id_relaboral;
+        var idForm110ImpRef = 0;
+        if(dataRecord.id_form110impref!=null&&dataRecord.id_form110impref>0)
+        var totalGanado = dataRecord.total_ganado;
+        var gestion = dataRecord.gestion;
+        var mes = dataRecord.mes;
+        var form110Object = getOneForm110ImpRef(idForm110ImpRef,idRelaboral,gestion,mes);
+        var importe = Math.round($("#txtImporte").val(),2);
         var fechaForm = $("#txtFechaForm").val();
         fechaForm = procesaTextoAFecha(fechaForm,"-");
         var observacion = $("#txtObservacion").val();
         var rc_iva_debido = totalGanado * 0.13;
         var impuesto = importe * 0.13;
+        impuesto = impuesto.toFixed(2);
         var retencion = rc_iva_debido - impuesto;
+        retencion = retencion.toFixed(2);
+        if(form110Object.id>0){
+            importe = form110Object.importe;
+            fechaForm = form110Object.fecha_form;
+            observacion = form110Object.observacion
+            impuesto = form110Object.impuesto;
+            retencion = form110Object.retencion;
+        }
         if(retencion<0){
             retencion = 0;
         }
-        var totalLiquido = totalGanado - retencion;
+        var totalLiquido = parseFloat(totalGanado - retencion);
+        totalLiquido = totalLiquido.toFixed(2);
         if(idRelaboral>0&&gestion>0&&mes>0&&fechaForm!=''){
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'importe', Math.round(importe,2));
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'rc_iva', Math.round(impuesto,2));
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'retencion', Math.round(retencion,2));
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'form110impref_observacion', observacion);
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'fecha_form', fechaForm);
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowLine, 'total_liquido', Math.round(totalLiquido));
-
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'importe', importe);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'rc_iva', impuesto);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'retencion', retencion);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'form110impref_observacion', observacion);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'fecha_form', fechaForm);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'total_liquido', totalLiquido);
             ok=true;
         }
     }

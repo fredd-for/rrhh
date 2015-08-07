@@ -340,36 +340,69 @@ class PlanillasrefController extends ControllerBase{
                             $descuentoref->agrupador=0;
 
                             if ($descuentoref->save()) {
-                                #region registro del pago salarial
 
-                                $pagosref = new Pagosref();
-                                $pagosref->relaboral_id = $v->id_relaboral;
-                                $pagosref->planillaref_id = $planillaref->id;
-                                $pagosref->descuentoref_id = $descuentoref->id;
-                                if($v->id_form110impref!=null&&$v->id_form110impref>0){
-                                    $pagosref->form110impref_id = $v->id_form110impref;
+                                #region Control de registro de impuestos por refrigerios
+
+                                $objForm110ImpRef = Form110impref::findFirst(array("relaboral_id=" . $v->id_relaboral . " AND gestion=" . $gestion . " AND mes=" . $mes));
+                                $okForm = true;
+                                if (!is_object($objForm110ImpRef)){
+                                    $objForm110ImpRef = new Form110impref();
+                                    $objForm110ImpRef->relaboral_id = $v->id_relaboral;
+                                    $objForm110ImpRef->gestion = $gestion;
+                                    $objForm110ImpRef->mes = $mes;
+                                    $objForm110ImpRef->cantidad = 1;
+                                    $objForm110ImpRef->monto_diario = $v->monto_diario;
+                                    $objForm110ImpRef->importe = 0;
+                                    $objForm110ImpRef->importe = $v->importe;
+                                    $objForm110ImpRef->impuesto = $v->rc_iva;
+                                    $objForm110ImpRef->retencion = $v->retencion;
+                                    $objForm110ImpRef->fecha_form = $hoy;
+                                    $objForm110ImpRef->observacion = "REGISTRO AUTOMATICO DEBIDO A QUE NO PRESENTO FORMULARIO 110";
+                                    $objForm110ImpRef->estado = 1;
+                                    $objForm110ImpRef->baja_logica = 1;
+                                    $objForm110ImpRef->agrupador = 0;
+                                    $objForm110ImpRef->user_reg_id = $user_reg_id;
+                                    $objForm110ImpRef->fecha_reg = $hoy;
+                                    try {
+                                        $okForm = $objForm110ImpRef->save();
+                                    } catch (\Exception $e) {
+                                        $okForm = false;
+                                    }
                                 }
-                                $pagosref->dias_efectivos = $v->dias_efectivos;
-                                $pagosref->total_ganado = $v->total_ganado;
-                                $totalGanado += $v->total_ganado;
-                                $pagosref->total_liquido = $v->total_liquido;
-                                $totalLiquido += $v->total_liquido;
-                                $pagosref->estado = 1;
-                                $pagosref->baja_logica = 1;
-                                $pagosref->agrupador = 0;
-                                $pagosref->user_reg_id = $user_reg_id;
-                                $pagosref->fecha_reg = $hoy;
+                                #endregion Control de registro de impuestos por refrigerios
+                                if(is_object($objForm110ImpRef)&&$objForm110ImpRef->id>0){
+                                    #region registro del pago salarial
+                                    $pagosref = new Pagosref();
+                                    $pagosref->form110impref_id = $objForm110ImpRef->id;
+                                    $pagosref->relaboral_id = $v->id_relaboral;
+                                    $pagosref->planillaref_id = $planillaref->id;
+                                    $pagosref->descuentoref_id = $descuentoref->id;
+                                    if($v->id_form110impref!=null&&$v->id_form110impref>0){
+                                        $pagosref->form110impref_id = $v->id_form110impref;
+                                    }
+                                    $pagosref->dias_efectivos = $v->dias_efectivos;
+                                    $pagosref->total_ganado = $v->total_ganado;
+                                    $totalGanado += $v->total_ganado;
+                                    $pagosref->total_liquido = $v->total_liquido;
+                                    $totalLiquido += $v->total_liquido;
+                                    $pagosref->estado = 1;
+                                    $pagosref->baja_logica = 1;
+                                    $pagosref->agrupador = 0;
+                                    $pagosref->user_reg_id = $user_reg_id;
+                                    $pagosref->fecha_reg = $hoy;
 
-                                if ($pagosref->save()) {
-                                    /**
-                                     * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
-                                     * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
-                                     */
-                                    $obj = new Horariosymarcaciones();
-                                    $ok = $obj->planillarHorariosYMarcacionesPorRefrigerios($v->id_relaboral,$gestion,$mes);
-                                    if($ok)$cantidadPlanillados++;
-                                }else break;
-                                #endregion registro del pago salarial
+                                    if ($pagosref->save()) {
+                                        /**
+                                         * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
+                                         * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
+                                         */
+                                        $obj = new Horariosymarcaciones();
+                                        $ok = $obj->planillarHorariosYMarcacionesPorRefrigerios($v->id_relaboral,$gestion,$mes);
+                                        if($ok&&$okForm)$cantidadPlanillados++;
+                                        //$cantidadPlanillados++;
+                                    }else break;
+                                    #endregion registro del pago salarial
+                                }
                             }else break;
                             #endregion registro del descuento correspondiente
                         }
@@ -386,7 +419,10 @@ class PlanillasrefController extends ControllerBase{
                             $db = $this->getDI()->get('db');
                             $db->execute("DELETE FROM pagosref WHERE planillaref_id=".$planillaref->id);
                             $db->execute("DELETE FROM planillasref WHERE id=".$planillaref->id);
-                            $msj = array('result' => 0, 'msj' => 'Error 1: No se guard&oacute; el registro de la Planilla de Refrigerio debido a errores en datos enviados.');
+                            $m = 'Error 1: No se guard&oacute; el registro de la Planilla de Refrigerio debido a errores en datos enviados.';
+                            if(!$okForm)$m.=' Sin embargo, no se registraron algunos formularios 110 por retenci&oacute;n. Comuniquese con el Administrador';
+                            $msj = array('result' => 0, 'msj' => $m);
+
                         }
                     }else{
                         $msj = array('result' => 0, 'msj' => 'Error 2: No se guard&oacute; el registro debido a datos erroneos enviados.');
@@ -614,6 +650,633 @@ class PlanillasrefController extends ControllerBase{
             $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de la Planilla Salarial.');
         }
         echo json_encode($msj);
+    }
+    /**
+     * Función para la exportación de la Planilla Salarial generada, verificada o aprobada a formato Excel.
+     * @param $idPlanillaSal
+     * @param $n_rows
+     * @param $columns
+     * @param $filtros
+     * @param $groups
+     * @param $sorteds
+     */
+    public function exportviewexcelAction($idPlanillaSal,$n_rows, $columns, $filtros,$groups,$sorteds)
+    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
+        if($groups=='null'||$groups==null)$groups="";
+        $sorteds = base64_decode(str_pad(strtr($sorteds, '-_', '+/'), strlen($sorteds) % 4, '=', STR_PAD_RIGHT));
+        $columns = json_decode($columns, true);
+        $filtros = json_decode($filtros, true);
+        $sub_keys = array_keys($columns);//echo $sub_keys[0];
+        $n_col = count($columns);//echo$keys[1];
+        $sorteds = json_decode($sorteds, true);
+        /**
+         * Especificando la configuración de las columnas
+         */
+        $generalConfigForAllColumns = array(
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>false),
+            'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'dias_efectivos' => array('title' => 'Dias Efec.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'monto_diario' => array('title' => 'Monto Diario', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'faltas' => array('title' => 'Faltas', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'vacacion' => array('title' => 'Vacacion', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'otros' => array('title' => 'Otros', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'importe' => array('title' => 'Importe', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'rc_iva' => array('title' => 'RC-IVA', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'retencion' => array('title' => 'Retencion', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'fecha_form' => array('title' => 'Fecha F. 110', 'width' => 10, 'align' => 'R', 'type' => 'date','totales'=>true),
+            'form110impref_observacion' => array('title' => 'F. 110 Obs.', 'width' => 10, 'align' => 'R', 'type' => 'string','totales'=>false),
+            'total_ganado' => array('title' => 'T. Ganado', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'total_liquido' => array('title' => 'T. Liquido', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'observacion' => array('title' => 'Observacion', 'width' => 10, 'align' => 'R', 'type' => 'string','totales'=>false)
+        );
+        $agruparPor = ($groups!="")?explode(",",$groups):array();
+        $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
+        $ancho = 0;
+        if(count($widthsSelecteds)>0) {
+            foreach ($widthsSelecteds as $w) {
+                $ancho = $ancho + $w;
+            }
+            $excel = new exceloasis();
+            $excel->tableWidth = $ancho;
+            #region Proceso de generación del documento Excel
+            $excel->debug = 0;
+            $objP = new Fplanillassal();
+            $planillasal = $objP->getOne($idPlanillaSal);
+            $cabecera = 'PLANILLA SALARIAL '.$planillasal[0]->gestion.' '.$planillasal[0]->mes_nombre.' "'.$planillasal[0]->fin_partida.'" '.$planillasal[0]->tipo_planilla.' ';
+            if($planillasal[0]->numero>0){
+                $cabecera .= '('.$planillasal[0]->numero.') ';
+            }
+            $excel->title_rpt = utf8_decode($cabecera);
+            $excel->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+            $excel->title_sheet_rpt = "Planilla Salarial";
+            $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
+            $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTitleSelecteds = $excel->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTotalSelecteds = $excel->DefineSelectedTotalColsWithExclude($generalConfigForAllColumns, $columns, $agruparPor);
+            $alignTitleSelecteds = $excel->DefineTitleAligns(count($colTitleSelecteds));
+            $formatTypes = $excel->DefineTypeCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $gruposSeleccionadosActuales = $excel->DefineDefaultValuesForGroups($groups);
+            $excel->generalConfigForAllColumns = $generalConfigForAllColumns;
+            $excel->colTitleSelecteds = $colTitleSelecteds;
+            $excel->widthsSelecteds = $widthsSelecteds;
+            $excel->alignSelecteds = $alignSelecteds;
+            $excel->alignTitleSelecteds = $alignTitleSelecteds;
+
+            $cantCol = count($colTitleSelecteds);
+            $excel->ultimaLetraCabeceraTabla = $excel->columnasExcel[$cantCol-1];
+            $excel->penultimaLetraCabeceraTabla = $excel->columnasExcel[$cantCol-2];
+            $excel->numFilaCabeceraTabla = 4;
+            $excel->primeraLetraCabeceraTabla = "A";
+            $excel->segundaLetraCabeceraTabla = "B";
+            $excel->celdaInicial = $excel->primeraLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
+            $excel->celdaFinal = $excel->ultimaLetraCabeceraTabla.$excel->numFilaCabeceraTabla;
+            if($cantCol<=9){
+                $excel->defineOrientation("V");
+                $excel->defineSize("C");
+            }elseif($cantCol<=13){
+                $excel->defineOrientation("H");
+                $excel->defineSize("C");
+            }else{
+                $excel->defineOrientation("H");
+                $excel->defineSize("O");
+            }
+            if ($excel->debug == 1) {
+                echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^idPlanillaSal^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+                echo "<p>".$idPlanillaSal;
+                echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>" . $groups;
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($sorteds);
+                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
+            }
+            $where = '';
+            $yaConsiderados = array();
+            for ($k = 0; $k < count($filtros); $k++) {
+                $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+                $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+
+                for ($j = 0; $j < $n_col; $j++) {
+                    if ($sub_keys[$j] == $filtros[$k]['columna']) {
+                        $col_fil = $columns[$sub_keys[$j]]['text'];
+                    }
+                }
+                if ($filtros[$k]['tipo'] == 'datefilter') {
+                    $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
+                }
+                $cond_fil = ' ' . $col_fil;
+                if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+
+                    if (strlen($where) > 0) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'NOT_EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'CONTAINS':
+                                $where .= ' AND ';
+                                break;
+                            case 'EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                        }
+                    }
+                }
+                if ($cant > 1) {
+                    if ($excel->debug == 1) {
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                        print_r($yaConsiderados);
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                    }
+                    if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $cond_fil .= utf8_encode(" que sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                                break;
+                            case 'NOT_EMPTY':
+                                $cond_fil .= utf8_encode(" que no sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                                break;
+                            case 'CONTAINS':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                                break;
+                            case 'EQUAL':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    if ($excel->debug == 1) {
+
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                        echo $filtros[$k]['columna'] . "-->" . $col;
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                    }
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        } else $where .= " OR ";
+                                    }
+                                }
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    //$fecha = date("Y-m-d", $col);
+                                    $fecha = $col;
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                                $where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";
+                                                break;
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                if ($ini == 0) {
+                                                    $where .= $filtros[$k]['columna'] . " BETWEEN ";
+                                                } else {
+                                                    $where .= " AND ";
+                                                }
+                                                $where .= "'" . $fecha . "'";
+
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                                $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                                break;
+                        }
+                        $yaConsiderados[] = $filtros[$k]['columna'];
+                    }
+                } else {
+                    switch ($filtros[$k]['condicion']) {
+                        case 'EMPTY':
+                            $cond_fil .= utf8_encode(" que sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                            break;
+                        case 'NOT_EMPTY':
+                            $cond_fil .= utf8_encode(" que no sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                            break;
+                        case 'CONTAINS':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                            break;
+                        case 'EQUAL':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                    case 'int4':
+                                    case 'numeric':
+                                    case 'date':
+                                        //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                    case 'varchar':
+                                    case 'bpchar':
+                                        //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                }
+                            }
+                            break;
+                        case 'GREATER_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                        case 'LESS_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                    }
+                }
+
+            }
+            $obj = new Frelaboralesplanillasal();
+            if ($where != "") $where = " WHERE " . $where;
+            $groups_aux = "";
+            if ($groups != "") {
+                /**
+                 * Se verifica que no se considere la columna nombres debido a que contenido ya esta ordenado por las
+                 * columnas p_apellido, s_apellido, c_apellido, p_anombre, s_nombre, t_nombre
+                 */
+                if (strrpos($groups, "nombres")) {
+                    if (strrpos($groups, ",")) {
+                        $arr = explode(",", $groups);
+                        foreach ($arr as $val) {
+                            if ($val != "nombres")
+                                $groups_aux[] = $val;
+                        }
+                        $groups = implode(",", $groups_aux);
+                    } else $groups = "";
+                }
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    if ($groups != "") $groups .= ",";
+                    $coma = "";
+                    if ($excel->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                }
+                if ($groups != "")
+                    $groups = " ORDER BY " . $groups . ",nombres,gestion,mes";
+                if ($excel->debug == 1) echo "<p>La consulta es: " . $groups . "<p>";
+            } else {
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    $coma = "";
+                    if ($excel->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                    $groups = " ORDER BY " . $groups;
+                }
+
+            }
+            if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
+            if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
+            $arrTotales = array();
+            $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
+            $resul = $obj->desplegarPlanillaRefEfectiva($idPlanillaSal,$where,$groups);
+            $relaboralesplanillas = array();
+            foreach ($resul as $v) {
+                $relaboralesplanillas[] = array(
+                    'id_relaboral'=>$v->id_relaboral,
+                    'gestion'=>$v->gestion,
+                    'mes'=>$v->mes,
+                    'cargo'=>$v->cargo,
+                    'gerencia_administrativa'=>$v->gerencia_administrativa,
+                    'departamento_administrativo'=>$v->departamento_administrativo,
+                    'area'=>$v->area,
+                    'ubicacion'=>$v->ubicacion,
+                    'fin_partida'=>$v->fin_partida,
+                    'id_procesocontratacion'=>$v->id_procesocontratacion,
+                    'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
+                    'nombres'=>$v->nombres,
+                    'ci'=>$v->ci,
+                    'expd'=>$v->expd,
+                    'sueldo'=>$v->sueldo,
+                    'dias_efectivos'=>$v->dias_efectivos,
+                    'monto_diario'=>$v->monto_diario,
+                    'faltas'=>$v->faltas,
+                    'lsgh'=>$v->lsgh,
+                    'vacacion'=>$v->vacacion,
+                    'otros'=>$v->otros,
+                    'id_form110impref'=>$v->id_form110impref,
+                    'importe'=>$v->importe,
+                    'rc_iva'=>$v->rc_iva,
+                    'retencion'=>$v->retencion,
+                    'form110impref_observacion'=>$v->form110impref_observacion,
+                    'fecha_form'=>$v->fecha_form,
+                    'total_ganado'=>$v->total_ganado,
+                    'total_liquido'=>$v->total_liquido,
+                    'cargo'=>$v->cargo,
+                    'total_descuentos'=>$v->total_descuentos,
+                    'total_ganado'=>$v->total_ganado,
+                    'total_liquido'=>$v->total_liquido,
+                    'estado'=>$v->estado,
+                    'estado_descripcion'=>$v->estado_descripcion
+                );
+                $haber = $diasEfectivos = $bonosAntiguedad = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                if($v->sueldo!=''){
+                    $haber=$v->sueldo;
+                }
+                if($v->dias_efectivos!=''){
+                    $diasEfectivos=$v->dias_efectivos;
+                }
+                if($v->bonos!=''){
+                    $bonosAntiguedad=$v->bonos;
+                }
+                if($v->lsgh!=''){
+                    $lsgh=$v->lsgh;
+                }
+                if($v->omision!=''){
+                    $omision=$v->omision;
+                }
+                if($v->abandono!=''){
+                    $abandono=$v->abandono;
+                }
+                if($v->faltas!=''){
+                    $faltas=$v->faltas;
+                }
+                if($v->atrasos!=''){
+                    $atrasos=$v->atrasos;
+                }
+                if($v->faltas_atrasos!=''){
+                    $faltasAtrasos=$v->faltas_atrasos;
+                }
+                if($v->total_descuentos!=''){
+                    $totalDescuentos=$v->total_descuentos;
+                }
+                if($v->aporte_laboral_afp!=''){
+                    $aporteLaboralAfp=$v->aporte_laboral_afp;
+                }
+                if($v->otros!=''){
+                    $otros=$v->otros;
+                }
+                if($v->total_ganado!=''){
+                    $ganado=$v->total_ganado;
+                }
+                if($v->total_liquido!=''){
+                    $liquido=$v->total_liquido;
+                }
+                $totalHaberes += $haber;
+                $totalDiasEfectivos += $diasEfectivos;
+                $totalBonosAntiguedad += $bonosAntiguedad;
+                $totalLsgh += $lsgh;
+                $totalOmision += $omision;
+                $totalAbandono += $abandono;
+                $totalFaltas += $faltas;
+                $totalAtrasos += $atrasos;
+                $totalFaltasAtrasos += $faltasAtrasos;
+                $totalTotalDescuentos += $totalDescuentos;
+                $totalAporteLaboralAFP += $aporteLaboralAfp;
+                $totalOtros += $otros;
+                $totalGanado += $ganado;
+                $totalLiquido += $liquido;
+            }
+            $arrTodosTotales = array("sueldo"=>$totalHaberes,
+                "dias_efectivos"=>$totalDiasEfectivos,
+                "bonos"=>$totalBonosAntiguedad,
+                "lsgh"=>$totalLsgh,
+                "omision"=>$totalOmision,
+                "abandono"=>$totalAbandono,
+                "faltas"=>$totalFaltas,
+                "atrasos"=>$totalAtrasos,
+                "total_descuentos"=>$totalTotalDescuentos,
+                "aporte_laboral_afp"=>$totalAporteLaboralAFP,
+                "otros"=>$totalOtros,
+                "total_ganado"=>$totalGanado,
+                "total_liquido"=>$totalLiquido);
+            $arrTotales = $excel->generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales);
+            #region Espacio para la definición de valores para la cabecera de la tabla
+            $excel->FechaHoraReporte = date("d-m-Y H:i:s");
+            $j = 0;
+            $agrupadores = array();
+            if ($groups != "")
+                $agrupadores = explode(",", $groups);
+
+            $dondeCambio = array();
+            $queCambio = array();
+            $excel->header();
+            $fila=$excel->numFilaCabeceraTabla;
+            if (count($relaboralesplanillas) > 0){
+                $excel->RowTitle($colTitleSelecteds,$fila);
+                $celdaInicial=$excel->primeraLetraCabeceraTabla.$fila;
+                $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                if ($excel->debug == 1) {
+                    echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                    print_r($relaboralesplanillas);
+                    echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                }
+                foreach ($relaboralesplanillas as $i => $val) {
+                    if (count($agrupadores) > 0) {
+                        if ($excel->debug == 1) {
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                            print_r($gruposSeleccionadosActuales);
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                        }
+                        $agregarAgrupador = 0;
+                        $aux = array();
+                        $dondeCambio = array();
+                        foreach ($gruposSeleccionadosActuales as $key => $valor) {
+                            if ($valor != $val[$key]) {
+                                $agregarAgrupador = 1;
+                                $aux[$key] = $val[$key];
+                                $dondeCambio[] = $key;
+                                $queCambio[$key] = $val[$key];
+                            } else {
+                                $aux[$key] = $val[$key];
+                            }
+                        }
+                        $gruposSeleccionadosActuales = $aux;
+                        if ($agregarAgrupador == 1) {
+                            $agr = $excel->DefineTitleColsByGroups($generalConfigForAllColumns, $dondeCambio, $queCambio);
+                            if($excel->debug==1){
+                                echo "<p>+++++++++++++++++++++++++++AGRUPADO POR++++++++++++++++++++++++++++++++++++++++<p></p>";
+                                print_r($agr);
+                                echo "<p>+++++++++++++++++++++++++++AGRUPADO POR++++++++++++++++++++++++++++++++++++++++<p></p>";
+                            }
+                            $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
+                            $fila++;
+                            /*
+                             * Si es que hay agrupadores, se inicia el conteo desde donde empieza el agrupador
+                             */
+                            $celdaInicial=$excel->primeraLetraCabeceraTabla.$fila;
+                            $excel->Agrupador($agr,$fila);
+                            $excel->RowTitle($colTitleSelecteds,$fila);
+                        }
+                        $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                        $rowData = $excel->DefineRows($j + 1, $relaboralesplanillas[$j], $colSelecteds);
+                        if ($excel->debug == 1) {
+                            echo "<p>···································FILA·················································<p></p>";
+                            print_r($rowData);
+                            echo "<p>···································FILA·················································<p></p>";
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $fila++;
+
+                    } else {
+                        $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                        $rowData = $excel->DefineRows($j + 1, $val, $colSelecteds);
+                        if ($excel->debug == 1) {
+                            echo "<p>···································FILA DATA·················································<p></p>";
+                            print_r($rowData);
+                            echo "<p>···································FILA DATA·················································<p></p>";
+                        }
+                        $excel->Row($rowData,$alignSelecteds,$formatTypes,$fila);
+                        $fila++;
+                    }
+                    $j++;
+                }
+                if(count($arrTotales)>0){
+                    $celdacolores = array();
+                    foreach($arrTotales as $clave=>$valor){
+                        $celdacolores[$clave] = "87CEEB";
+                        $alignSelectedsTotals[] = "R";
+                    }
+                    $excel->Row($arrTotales,$alignSelectedsTotals,$formatTypes,$fila,$celdacolores,false);
+                    $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
+                    $excel->borderGroup($celdaInicial,$celdaFinalDiagonalTabla);
+                }
+            }
+            $excel->ShowLeftFooter = true;
+            if ($excel->debug == 0) {
+                $excel->display("AppData/planillaSalarial.xls","I");
+            }
+            #endregion Proceso de generación del documento PDF
+        }
+    }
+    /**
+     * Función para la generación del array con los anchos de columna definido, en consideración a las columnas mostradas.
+     * @param $generalWiths Array de los anchos y alineaciones de columnas disponibles.
+     * @param $columns Array de las columnas con las propiedades de oculto (hidden:1) y visible (hidden:null).
+     * @return array Array con el listado de anchos por columna a desplegarse.
+     */
+    function DefineWidths($widthAlignAll,$columns,$exclude=array()){
+        $arrRes = Array();
+        $arrRes[]=8;
+        foreach($columns as $key => $val){
+            if(isset($widthAlignAll[$key])){
+                if(!isset($val['hidden'])||$val['hidden']!=true){
+                    if(!in_array($key,$exclude)||count($exclude)==0)
+                        $arrRes[]=$widthAlignAll[$key]['width'];
+                }
+            }
+        }
+        return $arrRes;
+    }
+    /*
+     * Función para obtener la cantidad de veces que se considera una misma columna en el filtrado.
+     * @param $columna
+     * @param $array
+     * @return int
+     */
+    function obtieneCantidadVecesConsideracionPorColumnaEnFiltros($columna, $array)
+    {
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $cont++;
+                }
+            }
+        }
+        return $cont;
+    }
+
+    /**
+     * Función para la obtención de los valores considerados en el filtro enviado.
+     * @param $columna Nombre de la columna
+     * @param $array Array con los registro de busquedas.
+     * @return array Array con los valores considerados en el filtrado enviado.
+     */
+    function obtieneValoresConsideradosPorColumnaEnFiltros($columna, $array)
+    {
+        $arr_col = array();
+        $cont = 0;
+        if (count($array) >= 1) {
+            foreach ($array as $key => $val) {
+                if (in_array($columna, $val)) {
+                    $arr_col[] = $val["valor"];
+                }
+            }
+        }
+        return $arr_col;
     }
 
 } 

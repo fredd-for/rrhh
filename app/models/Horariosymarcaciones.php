@@ -41,7 +41,7 @@ class Horariosymarcaciones extends \Phalcon\Mvc\Model {
     public function planillarHorariosYMarcacionesPorRefrigerios($idRelaboral,$gestion,$mes){
         if($idRelaboral>0&&$gestion>0&&$mes>0) {
             $db = $this->getDI()->get('db');
-            $res = $db->execute("SELECT f_horariosymarcaciones_planillar_por_refrigerios AS resultado FROM f_horariosymarcaciones_planillar($idRelaboral,$gestion,$mes)");
+            $res = $db->execute("SELECT f_horariosymarcaciones_planillar_por_refrigerios AS resultado FROM f_horariosymarcaciones_planillar_por_refrigerios($idRelaboral,$gestion,$mes)");
             return $res;
         }return false;
     }

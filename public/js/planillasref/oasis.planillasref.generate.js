@@ -532,7 +532,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         align: 'center',
                         editable:false,
                         cellsalign: 'right',
-                        columngroup: 'DescuentoMonetario',
+                        columngroup: 'DescuentoDias',
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalOtros" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
@@ -568,42 +568,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         cellsformat: 'f2',
                         columngroup: 'ImpuestoRefrigerio',
                         columntype: 'numberinput',
-                        validation: function (cell, value) {
-                            if (value < 0) {
-                                return { result: false, message: "El monto debe ser mayor o igual a cero" };
-                            }else{
-                                var rowdata = $("#divGridPlanillasRefGen").jqxGrid("getrowdata", cell.row);
-                                var total_ganado = 0;
-                                 var retencion = 0;
-                                 var rc_iva_debido = 0;
-                                 var total_liquido = 0;
-                                 if(rowdata.total_ganado>0&&rowdata.total_ganado!=null){
-                                    total_ganado = rowdata.total_ganado;
-                                 }
-                                var rc_iva = value *  0.13;
-                                 if(total_ganado>0){
-                                     rc_iva_debido = total_ganado * 0.13;
-                                     retencion = rc_iva_debido - rc_iva;
-                                     if(retencion<0){
-                                        retencion=0;
-                                     }
-                                     total_liquido = parseFloat(total_ganado) - retencion;
-                                     //guardarForm110ImpRef(rowdata.id_relaboral,rowdata.gestion,rowdata.mes,1,rowdata.monto_diario,value,retencion,'',rowdata.form110impref_observacion);
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'rc_iva', dataAdapter.formatNumber(rc_iva, "f2"));
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'retencion', dataAdapter.formatNumber(retencion, "f2"));
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'total_liquido',dataAdapter.formatNumber(total_liquido, "f2"));
-                                 }else {
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'rc_iva', dataAdapter.formatNumber(rc_iva, "f2"));
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'retencion', dataAdapter.formatNumber(null, "f2"));
-                                     $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', cell.row, 'total_liquido',dataAdapter.formatNumber(null, "f2"));
-                                 }
-                            }
-                            return true;
-                        },
                         hidden:true,
-                        createeditor: function (row, cellvalue, editor) {
-                            editor.jqxNumberInput({ digits: 3 });
-                        },
                         aggregatesrenderer: function (aggregates) {
                             var renderstring ='<div id="divTotalForm110" style="float: right; margin: 4px; overflow: hidden;">0.00</div>';
                             return renderstring;
@@ -647,24 +612,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         align: 'center',
                         editable:false,
                         columntype: 'datetimeinput',
-                        validation: function (cell, value) {
-                            if(value !=null&&value!=''){
-                                var d = new Date();
-                                var mes = d.getMonth()+1;
-                                var dia = d.getDate();
-                                var gestion = d.getFullYear();
-                                var day = value.getDate();
-                                var month = value.getMonth()+1;
-                                var year = value.getFullYear();
-                                var sep = '-';
-                                var fechaActual = dia+"-"+mes+"-"+gestion;
-                                var fechaForm = day+"-"+month+"-"+year;
-                                if(procesaTextoAFecha(fechaForm, sep) > procesaTextoAFecha(fechaActual, sep)){
-                                    return { result: false, message: "La fecha del registro debe ser igual o anterior a la fecha presente:"+ fechaActual };
-                                }
-                                return true;
-                            }return false;
-                        },
                         hidden: true
                     },
                     {
@@ -677,7 +624,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         hidden:true
                     },
                     {
-                        text: 'T. Ganado',
+                        text: 'Ganado',
                         filtertype: 'checkedlist',
                         datafield: 'total_ganado',
                         width: 60,
@@ -690,7 +637,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         }
                     },
                     {
-                        text: 'T. L&iacute;quido',
+                        text: 'L&iacute;quido',
                         filtertype: 'checkedlist',
                         datafield: 'total_liquido',
                         width: 60,
@@ -706,7 +653,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                 columngroups:
                     [
                         { text: 'Desc. D&iacute;as', align: 'center', name: 'DescuentoDias' },
-                        { text: 'Desc. Bs.', align: 'center', name: 'DescuentoMonetario' },
                         { text: 'Impuestos', align: 'center', name: 'ImpuestoRefrigerio' }
                     ]
             });

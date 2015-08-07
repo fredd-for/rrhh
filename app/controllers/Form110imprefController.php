@@ -108,13 +108,15 @@ class Form110imprefController extends ControllerBase{
             $totalGanado = $_POST['total_ganado'];
             $observacion = $_POST['observacion'];
             $fechaForm = $_POST['fecha_form'];
+            $arrFechaForm = explode("-",$fechaForm);
+            if(checkdate($arrFechaForm[1],$arrFechaForm[0],$arrFechaForm[2])){
             if($idRelaboral>0){
                 $objForm110ImpRef = Form110impref::findFirstById($_POST["id"]);
                 if(count($objForm110ImpRef)>0){
                     $objForm110ImpRef->importe = $importe;
                     $rcIvaDebido = $totalGanado * 0.13;
-                    $impuesto =  $importe * 0.13;
-                    $retencion = $rcIvaDebido - $impuesto;
+                    $impuesto =  round($importe * 0.13,2);
+                    $retencion = round($rcIvaDebido - $impuesto,2);
                     if($rcIvaDebido<0){
                         $retencion = 0;
                     }
@@ -144,6 +146,9 @@ class Form110imprefController extends ControllerBase{
             }else{
                 $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
             }
+            }else{
+                $msj = array('result' => 0, 'msj' => 'Error: La fecha enviada para el registro no es correcta.');
+            }
         }else{
             /**
              * Registro nuevo del formulario 110 por impuesto de refrigerio
@@ -162,54 +167,57 @@ class Form110imprefController extends ControllerBase{
                 $montoDiario = $objMontoDiario->readAttribute('nivel');
             }
             if($montoDiario==0)$montoDiario=17;
-            if($idRelaboral>0&&$gestion>0&&$mes>0){
-                $objForm110ImpRef = Form110impref::findFirst(array("relaboral_id=".$idRelaboral." AND gestion=".$gestion." AND mes=".$mes));
-                if(is_object($objForm110ImpRef)){
-                    $objForm110ImpRef->user_mod_id=$user_mod_id;
-                    $objForm110ImpRef->fecha_mod=$hoy;
-                }else{
-                    $objForm110ImpRef = new Form110impref();
-                    $objForm110ImpRef->user_reg_id=$user_reg_id;
-                    $objForm110ImpRef->fecha_reg=$hoy;
-                }
-                $objForm110ImpRef->relaboral_id = $idRelaboral;
-                $objForm110ImpRef->gestion = $gestion;
-                $objForm110ImpRef->mes = $mes;
-                $objForm110ImpRef->cantidad = $cantidad;
-                $objForm110ImpRef->monto_diario = $montoDiario;
-                $objForm110ImpRef->importe = $importe;
-
-                $rcIvaDebido = $totalGanado * 0.13;
-                $impuesto =  $importe * 0.13;
-                $retencion = $rcIvaDebido - $impuesto;
-                if($rcIvaDebido<0){
-                    $retencion = 0;
-                }
-                $objForm110ImpRef->impuesto = $impuesto;
-                $objForm110ImpRef->retencion = $retencion;
-
-                $objForm110ImpRef->fecha_form = $fechaForm;
-                $objForm110ImpRef->observacion = $observacion;
-                $objForm110ImpRef->estado = 1;
-                $objForm110ImpRef->baja_logica = 1;
-                $objForm110ImpRef->agrupador = 0;
-                try{
-                    $ok = $objForm110ImpRef->save();
-                    if ($ok)  {
-                        $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente el registro del Formulario 110 de Impuestos por Refrigerio.');
+            $arrFechaForm = explode("-",$fechaForm);
+            if(checkdate($arrFechaForm[1],$arrFechaForm[0],$arrFechaForm[2])) {
+                if ($idRelaboral > 0 && $gestion > 0 && $mes > 0) {
+                    $objForm110ImpRef = Form110impref::findFirst(array("relaboral_id=" . $idRelaboral . " AND gestion=" . $gestion . " AND mes=" . $mes));
+                    if (is_object($objForm110ImpRef)) {
+                        $objForm110ImpRef->user_mod_id = $user_mod_id;
+                        $objForm110ImpRef->fecha_mod = $hoy;
                     } else {
-                        $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el registro de Formulario 110 de Impuestos por Refrigerio.');
+                        $objForm110ImpRef = new Form110impref();
+                        $objForm110ImpRef->user_reg_id = $user_reg_id;
+                        $objForm110ImpRef->fecha_reg = $hoy;
                     }
-                }catch (\Exception $e) {
-                    echo get_class($e), ": ", $e->getMessage(), "\n";
-                    echo " File=", $e->getFile(), "\n";
-                    echo " Line=", $e->getLine(), "\n";
-                    echo $e->getTraceAsString();
-                    $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de Formulario 110 de Impuestos por Refrigerio.');
+                    $objForm110ImpRef->relaboral_id = $idRelaboral;
+                    $objForm110ImpRef->gestion = $gestion;
+                    $objForm110ImpRef->mes = $mes;
+                    $objForm110ImpRef->cantidad = $cantidad;
+                    $objForm110ImpRef->monto_diario = $montoDiario;
+                    $objForm110ImpRef->importe = $importe;
+
+                    $rcIvaDebido = $totalGanado * 0.13;
+                    $impuesto = $importe * 0.13;
+                    $retencion = $rcIvaDebido - $impuesto;
+                    if ($rcIvaDebido < 0) {
+                        $retencion = 0;
+                    }
+                    $objForm110ImpRef->impuesto = $impuesto;
+                    $objForm110ImpRef->retencion = $retencion;
+
+                    $objForm110ImpRef->fecha_form = $fechaForm;
+                    $objForm110ImpRef->observacion = $observacion;
+                    $objForm110ImpRef->estado = 1;
+                    $objForm110ImpRef->baja_logica = 1;
+                    $objForm110ImpRef->agrupador = 0;
+                    try {
+                        $ok = $objForm110ImpRef->save();
+                        if ($ok) {
+                            $msj = array('result' => 1, 'msj' => '&Eacute;xito: Se guard&oacute; correctamente el registro del Formulario 110 de Impuestos por Refrigerio.');
+                        } else {
+                            $msj = array('result' => 0, 'msj' => 'Error: No se guard&oacute; el registro de Formulario 110 de Impuestos por Refrigerio.');
+                        }
+                    } catch (\Exception $e) {
+                        echo get_class($e), ": ", $e->getMessage(), "\n";
+                        echo " File=", $e->getFile(), "\n";
+                        echo " Line=", $e->getLine(), "\n";
+                        echo $e->getTraceAsString();
+                        $msj = array('result' => -1, 'msj' => 'Error cr&iacute;tico: No se guard&oacute; el registro de Formulario 110 de Impuestos por Refrigerio.');
+                    }
+                } else {
+                    $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
                 }
-            }else{
-                $msj = array('result' => 0, 'msj' => 'Error: Los datos enviados no cumplen los criterios necesarios para su registro.');
-            }
+            }else $msj = array('result' => 0, 'msj' => 'La fecha enviada para el registro no es correcta.');
         }
         echo json_encode($msj);
     }

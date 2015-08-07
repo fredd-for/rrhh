@@ -101,6 +101,7 @@ $().ready(function () {
                     var idTipoPlanilla = $("#lstTipoPlanillaRef"+sufijo).val();
                     var numeroPlanilla = $("#lstTipoPlanillaRef"+sufijo+" option:selected").data("numero");
                     var observacion = "";
+                    $("#txtObservacionPlanillaRef").val("");
                     $("#popupObservacionPlanillaRef").modal("show");
                     $('#popupObservacionPlanillaRef').on('shown.bs.modal', function () {
                         $("#txtObservacionPlanillaRef").focus();
@@ -183,9 +184,9 @@ $().ready(function () {
         $("#divGridPlanillasRefGen").jqxGrid('exportdata', 'xml', 'PlanillaSalPrevia');
     });
     $("#btnExportarViewExcel").on("click",function () {
-        var idPlanillaSal = $("#hdnIdPlanillaSal").val();
-        if(idPlanillaSal>0){
-            exportarReporte(1,idPlanillaSal);
+        var idPlanillaRef = $("#hdnIdPlanillaRef").val();
+        if(idPlanillaRef>0){
+            exportarReporte(1,idPlanillaRef);
         }else {
             alert("Debe seleccionar una planilla.");
         }
