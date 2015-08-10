@@ -23,11 +23,12 @@ function abrirVentanaModalForm110ImpRef(rowline){
     $("#hdnTotalGanadoForm110ImpRef").val(0);
     $("#hdnGestionForm110ImpRef").val(0);
     $("#hdnMesForm110ImpRef").val(0);
+    var redondeo = 0;
     limpiarVentanaModalForm110ImpRef();
     if(rowline>=0){
         var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
         var rcIvaDebido = dataRecord.total_ganado*0.13;
-        rcIvaDebido = rcIvaDebido.toFixed(2);
+        rcIvaDebido = rcIvaDebido.toFixed(redondeo);
         var form110Object = getOneForm110ImpRef(dataRecord.id_form110impref,dataRecord.id_relaboral,dataRecord.gestion,dataRecord.mes);
         if(dataRecord.id_form110impref>0){
             $("#hdnIdForm110ImpRef").val(parseInt(dataRecord.id_form110impref));
@@ -62,10 +63,10 @@ function abrirVentanaModalForm110ImpRef(rowline){
         $("#txtImporte").on("change",function(){
             var importe = $("#txtImporte").val();
             var impuesto = importe*0.13;
-            impuesto = impuesto.toFixed(2)
+            impuesto = impuesto.toFixed(redondeo)
             $("#txtImpuesto").val(impuesto);
             var retencion = rcIvaDebido - impuesto;
-            retencion = retencion.toFixed(2);
+            retencion = retencion.toFixed(redondeo);
             if(retencion<0){
                 retencion = 0;
             }
@@ -253,6 +254,7 @@ function guardarFormulario110ImpRef(){
  */
 function actualizaFila(){
     var ok=false;
+    var redondeo = 0;
     var rowindex = $("#hdnRowLine").val();
     if(rowindex>=0){
         var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowindex);
@@ -270,8 +272,10 @@ function actualizaFila(){
         var rc_iva_debido = totalGanado * 0.13;
         var impuesto = importe * 0.13;
         impuesto = impuesto.toFixed(2);
+        /*impuesto = Math.round(impuesto,redondeo);*/
         var retencion = rc_iva_debido - impuesto;
         retencion = retencion.toFixed(2);
+        /*retencion = Math.round(retencion,redondeo);*/
         if(form110Object.id>0){
             importe = form110Object.importe;
             fechaForm = form110Object.fecha_form;
@@ -282,15 +286,19 @@ function actualizaFila(){
         if(retencion<0){
             retencion = 0;
         }
-        var totalLiquido = parseFloat(totalGanado - retencion);
+        var totalLiquido = parseFloat(dataRecord.total_ganado) - parseFloat(retencion);
         totalLiquido = totalLiquido.toFixed(2);
+        /*if(isNaN(totalLiquido)){
+            alert("::"+dataRecord.total_ganado+"-->"+parseFloat(totalGanado)+" <-> "+parseFloat(retencion));
+        }*/
+        /*totalLiquido = Math.round(totalLiquido,redondeo);*/
         if(idRelaboral>0&&gestion>0&&mes>0&&fechaForm!=''){
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'importe', importe);
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'rc_iva', impuesto);
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'retencion', retencion);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'importe', Math.round(importe,0));
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'rc_iva', Math.round(impuesto,0));
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'retencion', Math.round(retencion,0));
             $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'form110impref_observacion', observacion);
             $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'fecha_form', fechaForm);
-            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'total_liquido', totalLiquido);
+            $("#divGridPlanillasRefGen").jqxGrid('setcellvalue', rowindex, 'total_liquido', Math.round(totalLiquido,0));
             ok=true;
         }
     }

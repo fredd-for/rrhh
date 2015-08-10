@@ -115,9 +115,9 @@ class Form110imprefController extends ControllerBase{
                 if(count($objForm110ImpRef)>0){
                     $objForm110ImpRef->importe = $importe;
                     $rcIvaDebido = $totalGanado * 0.13;
-                    $impuesto =  round($importe * 0.13,2);
-                    $retencion = round($rcIvaDebido - $impuesto,2);
-                    if($rcIvaDebido<0){
+                    $impuesto =  round($importe * 0.13,0);
+                    $retencion = round($rcIvaDebido - $impuesto,0);
+                    if($retencion<0){
                         $retencion = 0;
                     }
                     $objForm110ImpRef->impuesto = $impuesto;
@@ -187,9 +187,9 @@ class Form110imprefController extends ControllerBase{
                     $objForm110ImpRef->importe = $importe;
 
                     $rcIvaDebido = $totalGanado * 0.13;
-                    $impuesto = $importe * 0.13;
-                    $retencion = $rcIvaDebido - $impuesto;
-                    if ($rcIvaDebido < 0) {
+                    $impuesto = round($importe * 0.13,0);
+                    $retencion = round($rcIvaDebido - $impuesto,0);
+                    if ($retencion < 0) {
                         $retencion = 0;
                     }
                     $objForm110ImpRef->impuesto = $impuesto;

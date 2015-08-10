@@ -638,7 +638,7 @@ class exceloasis extends PHPExcel{
         $cantColTotal = count($totalColSelecteds);
         $primeraLetra="A";
         $ultimaLetra="A";
-        $letraInicioTotales="K";
+        $letraInicioTotales="L";
         $letrasUsadas = array();
         foreach($this->columnasExcel as $letra){
             $this->getActiveSheet()->setCellValue($letra.$fila, $totalTitleColSelecteds[$i]);
@@ -757,7 +757,7 @@ class exceloasis extends PHPExcel{
         );
         #region Sector para añadir la fila de totales globales
         //$this->getActiveSheet()->mergeCells('A'.$fila.':0'.$fila);
-        $this->getActiveSheet()->getStyle($primeraLetra.$fila.':K'.$fila)->applyFromArray(
+        $this->getActiveSheet()->getStyle($primeraLetra.$fila.':'.$letraInicioTotales.$fila)->applyFromArray(
             array(
                 'font'    => array(
                     'bold'      => true

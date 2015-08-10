@@ -118,7 +118,7 @@ class ControllerBase extends Controller {
             $this->menu($this->_user->nivel);
             $this->view->setVar('user', $this->_user);
             $this->definePermisosAction();
-
+            #region Modificación de
             /**
              * Agregado para el control de las fotografías del usuario actual
              */

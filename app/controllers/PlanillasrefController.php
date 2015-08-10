@@ -350,24 +350,32 @@ class PlanillasrefController extends ControllerBase{
                                     $objForm110ImpRef->relaboral_id = $v->id_relaboral;
                                     $objForm110ImpRef->gestion = $gestion;
                                     $objForm110ImpRef->mes = $mes;
+                                    $objForm110ImpRef->observacion = "REGISTRO AUTOMATICO DEBIDO A QUE NO PRESENTO FORMULARIO 110";
+                                    $objForm110ImpRef->user_reg_id = $user_reg_id;
+                                    $objForm110ImpRef->fecha_reg = $hoy;
+                                }else{
+                                    $objForm110ImpRef->user_mod_id = $user_mod_id;
+                                    $objForm110ImpRef->fecha_mod = $hoy;
+                                }
                                     $objForm110ImpRef->cantidad = 1;
                                     $objForm110ImpRef->monto_diario = $v->monto_diario;
-                                    $objForm110ImpRef->importe = 0;
                                     $objForm110ImpRef->importe = $v->importe;
                                     $objForm110ImpRef->impuesto = $v->rc_iva;
-                                    $objForm110ImpRef->retencion = $v->retencion;
+                                    $rc_iva_debido = $v->total_ganado * 0.13;
+                                    $retencion = $rc_iva_debido - $v->importe*0.13;
+                                    if($retencion<0){
+                                        $retencion = 0;
+                                    }
+                                    //$objForm110ImpRef->retencion = $v->retencion;
+                                    $objForm110ImpRef->retencion = $retencion;
                                     $objForm110ImpRef->fecha_form = $hoy;
-                                    $objForm110ImpRef->observacion = "REGISTRO AUTOMATICO DEBIDO A QUE NO PRESENTO FORMULARIO 110";
                                     $objForm110ImpRef->estado = 1;
                                     $objForm110ImpRef->baja_logica = 1;
                                     $objForm110ImpRef->agrupador = 0;
-                                    $objForm110ImpRef->user_reg_id = $user_reg_id;
-                                    $objForm110ImpRef->fecha_reg = $hoy;
-                                    try {
-                                        $okForm = $objForm110ImpRef->save();
-                                    } catch (\Exception $e) {
-                                        $okForm = false;
-                                    }
+                                try {
+                                    $okForm = $objForm110ImpRef->save();
+                                } catch (\Exception $e) {
+                                    $okForm = false;
                                 }
                                 #endregion Control de registro de impuestos por refrigerios
                                 if(is_object($objForm110ImpRef)&&$objForm110ImpRef->id>0){
@@ -723,7 +731,7 @@ class PlanillasrefController extends ControllerBase{
             }
             $excel->title_rpt = utf8_decode($cabecera);
             $excel->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
-            $excel->title_sheet_rpt = "Planilla Salarial";
+            $excel->title_sheet_rpt = "Planilla de Refrigerio";
             $alignSelecteds = $excel->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
             $colSelecteds = $excel->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
             $colTitleSelecteds = $excel->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
@@ -955,7 +963,7 @@ class PlanillasrefController extends ControllerBase{
                 }
 
             }
-            $obj = new Frelaboralesplanillasal();
+            $obj = new Frelaboralesplanillaref();
             if ($where != "") $where = " WHERE " . $where;
             $groups_aux = "";
             if ($groups != "") {
