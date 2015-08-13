@@ -240,19 +240,30 @@
 
                     <h2>Listado General para C&aacute;lculos</h2>
                     <div>
+                        <div class="form-group" style="overflow-y: auto; height:50px; ">
+                            <div class="col-md-12">
+                                <input id="txtCiCalculo" name="txtCiCalculo" class="form-control pull-left" placeholder="Docs. Identidad" type="text" data-role="tagsinput">
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-md-2">
+                                <h3 class="animation-hatch">
+                                    <!--<br>-->
+                                    <small>
+                                        <strong id="strongCantidadCis"></strong>
+                                    </small>
+                                    &nbsp;
+                                    <i class="gi gi-group"></i>
+                                </h3>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="input-group input-daterange" data-date-format="dd-mm-yyyy">
                                     <input id="txtFechaIniCalculo" name="txtFechaIniCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Desde" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
-                                    <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->Al</span>
+                                    <span class="input-group-addon"><!--<i class="fa fa-angle-right"></i>-->A</span>
                                     <input id="txtFechaFinCalculo" name="txtFechaFinCalculo" class="form-control input-datepicker-close text-center" data-date-format="dd-mm-yyyy" placeholder="Hasta" data-date-min="01-01-2015" data-date-max="31-01-2015" type="text">
                                 </div>
                             </div>
-                            &nbsp;
-                            <div class="col-sm-2">
-                                <input id="txtCiCalculo" name="txtCiCalculo" class="form-control" placeholder="Doc. Identidad" type="text">
-                            </div>
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <button class="btn btn-sm btn-primary" type="button" id="btnCalcular" accesskey="c">
                                     <i class="fa fa-gears"></i>
                                     Calcular

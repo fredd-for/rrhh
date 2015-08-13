@@ -123,6 +123,15 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         hidden: true
                     },
                     {
+                        text: 'Ubicaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'ubicacion',
+                        width: 220,
+                        align: 'center',
+                        editable:false,
+                        hidden: true
+                    },
+                    {
                         text: 'Proceso',
                         filtertype: 'checkedlist',
                         datafield: 'proceso_codigo',
@@ -192,6 +201,16 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                         cellsalign: 'center',
                         align: 'center',
                         editable:false
+                    },
+                    {
+                        text: 'Nivel Salarial',
+                        filtertype: 'checkedlist',
+                        datafield: 'nivelsalarial',
+                        width: 60,
+                        align: 'center',
+                        editable:false,
+                        cellsalign: 'right',
+                        hidden:true
                     },
                     {
                         text: 'Haber',

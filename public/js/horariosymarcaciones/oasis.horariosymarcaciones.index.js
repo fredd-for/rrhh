@@ -156,12 +156,20 @@ $().ready(function () {
         var ci = $("#txtCiCalculo").val();
         var fechaIni=$("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
-            exportarReporteCalculosHorariosYMarcaciones(1,ci,fechaIni,fechaFin);
-        else {
-            alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
-            $("#divListBoxCalculos").focus();
+        var listadoCis = $("#txtCiCalculo").val()+"";
+        var cantidadSeleccionada = 0;
+        if(listadoCis!=''){
+            var arr = listadoCis.split(',');
+            cantidadSeleccionada=arr.length;
         }
+        if(cantidadSeleccionada>0){
+            if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0)
+                exportarReporteCalculosHorariosYMarcaciones(1,ci,fechaIni,fechaFin);
+            else {
+                alert("Debe seleccionar al menos una columna para la obtención del reporte solicitado.");
+                $("#divListBoxCalculos").focus();
+            }
+        }else alert("Debe seleccionar al menos un persona de la cual se obtendrá el reporte solicitado.");
     });
     $("#btnExportarMarcacionesPDF").click(function () {
         var items = $("#divListBoxMarcaciones").jqxListBox('getCheckedItems');
@@ -241,25 +249,57 @@ $().ready(function () {
         }
     });
     $("#btnCalcular").on("click",function(){
-        //var objParametro = getParametroVacio();
+        var objParametro = getParametroVacio();
+        var items = $("#divListBoxCalculos").jqxListBox('getCheckedItems');
+        var numColumnas = 0;
+        $.each(items, function (index, value) {
+            numColumnas++;
+        });
         var fechaIni = $("#txtFechaIniCalculo").val();
         var fechaFin = $("#txtFechaFinCalculo").val();
-        var ci = $("#txtCiCalculo").val();
-        var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin}
-        if(fechaIni!=''&&fechaFin!=''){
-            definirGrillaMarcacionesYCalculos(objParametro);
-        }else{
-            var msje = "Debe seleccionar las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.";
-            $("#divMsjePorError").html("");
-            $("#divMsjePorError").append(msje);
-            $("#divMsjeNotificacionError").jqxNotification("open");
-            if(fechaIni!='')$("#txtFechaFinCalculo").focus();
-            else $("#txtFechaIniCalculo").focus();
+        var listadoCis = $("#txtCiCalculo").val()+"";
+        var cantidadSeleccionada = 0;
+        if(listadoCis!=''){
+            var arr = listadoCis.split(',');
+            cantidadSeleccionada=arr.length;
         }
+        if(cantidadSeleccionada>0){
+            if (fechaIni!=''&&fechaIni!=undefined&&fechaFin!=''&&fechaFin!=undefined&&numColumnas > 0){
+                var objParametro = {ci:listadoCis,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:fechaIni,fechaFin:fechaFin};
+                definirGrillaMarcacionesYCalculos(objParametro); }
+        else {
+                var msje = "Debe seleccionar las fechas para el rango en el cual se obtendr&aacute; el c&aacute;lculo.";
+                $("#divMsjePorError").html("");
+                $("#divMsjePorError").append(msje);
+                $("#divMsjeNotificacionError").jqxNotification("open");
+                if(fechaIni!='')$("#txtFechaFinCalculo").focus();
+                else $("#txtFechaIniCalculo").focus();
+            }
+        }else alert("Debe seleccionar al menos un persona de la cual se obtendrá el reporte solicitado.");
     });
     $('#popupGeneradorMarcacionDebida').on('hidden.bs.modal', function () {
         $("#divGridControlMarcaciones").jqxGrid("updatebounddata");
     })
+    /**
+     * Evento activado cuando se adicionan carnet's al campo de selección
+     */
+    $("#txtCiCalculo").on('itemAdded', function(event) {
+        var listado = $("#txtCiCalculo").val()+"";
+        if(listado!=''){
+            var arr = listado.split(',');
+            $("#strongCantidadCis").text(arr.length);
+        }else $("#strongCantidadCis").text(0);
+    });
+    /**
+     * Evento activado cuando se descartan carnet's al campo de selección
+     */
+    $("#txtCiCalculo").on('itemRemoved', function(event) {
+        var listado = $("#txtCiCalculo").val()+"";
+        if(listado!=''){
+            var arr = listado.split(',');
+            $("#strongCantidadCis").text(arr.length);
+        }else $("#strongCantidadCis").text(0);
+    });
 
     $("#liList,#btnCancelarTurnAndExcept,#btnVolverDesdeCalculos").click(function () {
         $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
@@ -534,17 +574,17 @@ function definirGrillaParaListaRelaborales() {
                         $("#txtFechaFinCalculo").datepicker("update","");
                         $("#txtFechaFinCalculo").val('').datepicker('update');
                         $("#txtCiCalculo").val("");
-                        var ci = 0;
-                        var selectedrowindex = $("#divGridRelaborales").jqxGrid('getselectedrowindex');
-                        if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridRelaborales').jqxGrid('getrowdata', selectedrowindex);
-                            if (dataRecord != undefined) {
-                                ci = dataRecord.ci;
-                                $("#txtCiCalculo").val(ci);
-                            }
+                        var ci = '';
+                        $("#strongCantidadCis").text(0);
+                        $("#txtCiCalculo").tagsinput('removeAll');
+                        var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
+                        for (var m = 0; m < rows.length; m++) {
+                            var dataRecord = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
+                            $("#txtCiCalculo").tagsinput('add', dataRecord.ci);
                         }
                         var objParametro = {ci:ci,idOrganigrama : 0,idArea:0,idUbicacion:0,idMaquina:0,idRelaboral:0,fechaIni:'',fechaFin:''}
                         definirGrillaMarcacionesYCalculos(objParametro);
+                        $("#txtFechaIniCalculo").focus();
                     });
                     /* Ver registro.*/
                     $("#turnrowbutton").off();

@@ -10,7 +10,7 @@
  * @param option
  * @param idPlanillaRef
  */
-function exportarReporte(option,idPlanillaRef){
+function exportarReportePlanillasRef(option,idPlanillaRef){
     columna = new Object();
     filtros = new Object();
     agrupados = new Object();
@@ -114,8 +114,8 @@ function exportarReporte(option,idPlanillaRef){
     json_sorteds= json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta="/planillasref/exportviewexcel/";break;
-        case 2: ruta="/planillasref/exportviewpdf/";break;
+        case 1: ruta="/planillasref/exportviewexcel";break;
+        case 2: ruta="/planillasref/exportviewpdf";break;
     }
     if(ruta!='')
         window.open(ruta+"/"+idPlanillaRef+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");

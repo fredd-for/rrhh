@@ -328,7 +328,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                 showaggregates: true,
                 autorowheight: true,
                 selectionmode:'checkbox',
-                pagesize: 20,
+                pagesize: 10,
                 columns: [
                     {
                         text: 'Nro.',

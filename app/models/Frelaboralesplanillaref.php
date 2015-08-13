@@ -152,7 +152,7 @@ class Frelaboralesplanillaref  extends \Phalcon\Mvc\Model {
         }
     }
     /**
-     * Función para el despliegue de la planilla salarial generada (efectiva) de acuerdo al identificador de planilla enviado como parámetro.
+     * Función para el despliegue de la planilla de refrigerio generada (efectiva) de acuerdo al identificador de planilla enviado como parámetro.
      * @param $idPlanillaRef
      * @param string $where
      * @param string $group
