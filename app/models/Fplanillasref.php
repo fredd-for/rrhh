@@ -101,6 +101,22 @@ class Fplanillasref extends \Phalcon\Mvc\Model {
     }
     private $_db;
     /**
+     * Función para la obtención del registro correspondiente a una planilla de refrigerio.
+     * @param $idPlanillaRef
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function getOne($idPlanillaRef,$where='',$group=''){
+        if($idPlanillaRef>0){
+            $sql = "SELECT * FROM f_planillasref() WHERE id=".$idPlanillaRef;
+            if($where!='')$sql .= $where;
+            if($group!='')$sql .= $group;
+            $this->_db = new Fplanillassal();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+    /**
      * Función para la obtención del listado de planillas de refrigerio generadas a un momento en particular.
      * @param string $where
      * @param string $group
@@ -149,5 +165,23 @@ class Fplanillasref extends \Phalcon\Mvc\Model {
             $sql = "SELECT * FROM f_listado_tipos_planillas_diponibles_generacion_planillasref($gestion,$mes,$idFinPartida)";
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
+    }
+    /**
+     * Función para la obtención del listado de identificadores de relación laboral considerando los carnets y fechas enviadas como parámetros.
+     * @param $carnetsJson
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getIdRelaboralesEnJsonPorCarnets($carnetsJson,$fechaIni,$fechaFin){
+        $sql = "SELECT r.id FROM personas p ";
+        $sql .= "INNER JOIN relaborales r ON p.id = r.persona_id ";
+        $sql .= "WHERE p.ci IN (SELECT CAST(value AS CHARACTER VARYING) FROM JSON_EACH(CAST('$carnetsJson' AS JSON))) ";
+        $sql .= "AND r.fecha_incor IS NOT NULL AND (";
+        $sql .= "r.fecha_incor BETWEEN '$fechaIni' AND '$fechaFin' ";
+        $sql .= "OR '$fechaIni' BETWEEN r.fecha_incor AND (CASE WHEN r.fecha_baja IS NOT NULL THEN r.fecha_baja ELSE r.fecha_fin END) ";
+        $sql .= "OR '$fechaFin' BETWEEN r.fecha_incor AND (CASE WHEN r.fecha_baja IS NOT NULL THEN r.fecha_baja ELSE r.fecha_fin END)) ";
+        $sql .= "GROUP BY r.id";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 } 

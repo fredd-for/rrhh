@@ -186,15 +186,15 @@ $().ready(function () {
     $("#btnExportarViewExcel").on("click",function () {
         var idPlanillaRef = $("#hdnIdPlanillaRef").val();
         if(idPlanillaRef>0){
-            exportarReporte(1,idPlanillaRef);
+            exportarReportePlanillasRef(1,idPlanillaRef);
         }else {
             alert("Debe seleccionar una planilla.");
         }
     });
     $("#btnExportarViewPDF").on("click",function () {
-        var idPlanillaSal = $("#hdnIdPlanillaSal").val();
-        if(idPlanillaSal>0){
-            exportarReporte(2,idPlanillaSal);
+        var idPlanillaRef = $("#hdnIdPlanillaRef").val();
+        if(idPlanillaRef>0){
+            exportarReportePlanillasRef(2,idPlanillaRef);
         }else {
             alert("Debe seleccionar una planilla.");
         }
@@ -339,6 +339,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                     $("#viewplanrowbutton").jqxButton();
 
                     $("#hdnIdPlanillaRef").val(0);
+                    $("#hdnSwPlanillaRefCalculada").val(0)
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {

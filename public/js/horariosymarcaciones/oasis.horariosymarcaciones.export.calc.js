@@ -279,8 +279,8 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     json_sorteds = json_sorteds.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
     var ruta='';
     switch (option){
-        case 1: ruta = "/horariosymarcaciones/exportcalculosexcel/";break;
-        case 2: ruta = "/horariosymarcaciones/exportcalculospdf/";break;
+        case 1: ruta = "/horariosymarcaciones/exportcalculosexcel";break;
+        case 2: ruta = "/horariosymarcaciones/exportcalculospdf";break;
     }
     if(carnet==''||carnet==null)carnet=0;
     if(ruta!='')

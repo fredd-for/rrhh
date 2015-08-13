@@ -362,7 +362,7 @@ class PlanillasrefController extends ControllerBase{
                                     $objForm110ImpRef->importe = $v->importe;
                                     $objForm110ImpRef->impuesto = $v->rc_iva;
                                     $rc_iva_debido = $v->total_ganado * 0.13;
-                                    $retencion = $rc_iva_debido - $v->importe*0.13;
+                                    $retencion = round($rc_iva_debido - $v->importe*0.13,0);
                                     if($retencion<0){
                                         $retencion = 0;
                                     }
@@ -660,15 +660,15 @@ class PlanillasrefController extends ControllerBase{
         echo json_encode($msj);
     }
     /**
-     * Función para la exportación de la Planilla Salarial generada, verificada o aprobada a formato Excel.
-     * @param $idPlanillaSal
+     * Función para la exportación de la Planilla de Refrigerio generada, verificada o aprobada a formato Excel.
+     * @param $idPlanillaRef
      * @param $n_rows
      * @param $columns
      * @param $filtros
      * @param $groups
      * @param $sorteds
      */
-    public function exportviewexcelAction($idPlanillaSal,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportviewexcelAction($idPlanillaRef,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -723,9 +723,9 @@ class PlanillasrefController extends ControllerBase{
             $excel->tableWidth = $ancho;
             #region Proceso de generación del documento Excel
             $excel->debug = 0;
-            $objP = new Fplanillassal();
-            $planillasal = $objP->getOne($idPlanillaSal);
-            $cabecera = 'PLANILLA SALARIAL '.$planillasal[0]->gestion.' '.$planillasal[0]->mes_nombre.' "'.$planillasal[0]->fin_partida.'" '.$planillasal[0]->tipo_planilla.' ';
+            $objP = new Fplanillasref();
+            $planillasal = $objP->getOne($idPlanillaRef);
+            $cabecera = 'PLANILLA DE REFRIGERIO '.$planillasal[0]->gestion.' '.$planillasal[0]->mes_nombre.' "'.$planillasal[0]->fin_partida.'" '.$planillasal[0]->tipo_planilla.' ';
             if($planillasal[0]->numero>0){
                 $cabecera .= '('.$planillasal[0]->numero.') ';
             }
@@ -765,7 +765,7 @@ class PlanillasrefController extends ControllerBase{
             }
             if ($excel->debug == 1) {
                 echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^idPlanillaSal^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
-                echo "<p>".$idPlanillaSal;
+                echo "<p>".$idPlanillaRef;
                 echo "<p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
                 echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
                 print_r($columns);
@@ -1018,11 +1018,11 @@ class PlanillasrefController extends ControllerBase{
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
             $arrTotales = array();
-            $totalHaberes = $totalDiasEfectivos = $totalBonosAntiguedad = $totalLsgh = $totalOmision = $totalAbandono = $totalFaltas  = $totalAtrasos = $totalFaltasAtrasos = $totalOtros = $totalTotalDescuentos = $totalAporteLaboralAFP = $totalGanado = $totalLiquido = $totalCompensacion = 0;
-            $resul = $obj->desplegarPlanillaRefEfectiva($idPlanillaSal,$where,$groups);
-            $relaboralesplanillas = array();
+            $totalHaberes = $totalDiasEfectivos = $totalMontoDiario = $totalLsgh = $totalFaltas  = $totalVacaciones = $totalOtros = $totalImporte = $totalImpuesto = $totalRetencion = $totalGanado = $totalLiquido = 0;
+            $resul = $obj->desplegarPlanillaRefEfectiva($idPlanillaRef,$where,$groups);
+            $relaboralesplanillasref = array();
             foreach ($resul as $v) {
-                $relaboralesplanillas[] = array(
+                $relaboralesplanillasref[] = array(
                     'id_relaboral'=>$v->id_relaboral,
                     'gestion'=>$v->gestion,
                     'mes'=>$v->mes,
@@ -1059,42 +1059,36 @@ class PlanillasrefController extends ControllerBase{
                     'estado'=>$v->estado,
                     'estado_descripcion'=>$v->estado_descripcion
                 );
-                $haber = $diasEfectivos = $bonosAntiguedad = $faltas = $atrasos = $faltasAtrasos = $otros = $totalDescuentos = $aporteLaboralAfp = $abandono = $omision = $lsgh = $ganado = $liquido = 0;
+                $haber = $diasEfectivos = $montoDiario = $lsgh = $faltas = $vacacion = $otros = $importe = $impuesto = $retencion = $ganado = $liquido = 0;
                 if($v->sueldo!=''){
                     $haber=$v->sueldo;
                 }
                 if($v->dias_efectivos!=''){
                     $diasEfectivos=$v->dias_efectivos;
                 }
-                if($v->bonos!=''){
-                    $bonosAntiguedad=$v->bonos;
+                if($v->monto_diario!=''){
+                    $montoDiario=$v->monto_diario;
                 }
                 if($v->lsgh!=''){
                     $lsgh=$v->lsgh;
                 }
-                if($v->omision!=''){
-                    $omision=$v->omision;
-                }
-                if($v->abandono!=''){
-                    $abandono=$v->abandono;
-                }
                 if($v->faltas!=''){
                     $faltas=$v->faltas;
                 }
-                if($v->atrasos!=''){
-                    $atrasos=$v->atrasos;
-                }
-                if($v->faltas_atrasos!=''){
-                    $faltasAtrasos=$v->faltas_atrasos;
-                }
-                if($v->total_descuentos!=''){
-                    $totalDescuentos=$v->total_descuentos;
-                }
-                if($v->aporte_laboral_afp!=''){
-                    $aporteLaboralAfp=$v->aporte_laboral_afp;
+                if($v->vacacion!=''){
+                    $vacacion=$v->vacacion;
                 }
                 if($v->otros!=''){
                     $otros=$v->otros;
+                }
+                if($v->importe!=''){
+                    $importe=$v->importe;
+                }
+                if($v->rc_iva!=''){
+                    $impuesto=$v->rc_iva;
+                }
+                if($v->retencion!=''){
+                    $retencion=$v->retencion;
                 }
                 if($v->total_ganado!=''){
                     $ganado=$v->total_ganado;
@@ -1104,30 +1098,27 @@ class PlanillasrefController extends ControllerBase{
                 }
                 $totalHaberes += $haber;
                 $totalDiasEfectivos += $diasEfectivos;
-                $totalBonosAntiguedad += $bonosAntiguedad;
+                $totalMontoDiario += $montoDiario;
                 $totalLsgh += $lsgh;
-                $totalOmision += $omision;
-                $totalAbandono += $abandono;
                 $totalFaltas += $faltas;
-                $totalAtrasos += $atrasos;
-                $totalFaltasAtrasos += $faltasAtrasos;
-                $totalTotalDescuentos += $totalDescuentos;
-                $totalAporteLaboralAFP += $aporteLaboralAfp;
+                $totalVacaciones += $vacacion;
                 $totalOtros += $otros;
+                $totalImporte += $importe;
+                $totalImpuesto += $impuesto;
+                $totalRetencion += $retencion;
                 $totalGanado += $ganado;
                 $totalLiquido += $liquido;
             }
             $arrTodosTotales = array("sueldo"=>$totalHaberes,
                 "dias_efectivos"=>$totalDiasEfectivos,
-                "bonos"=>$totalBonosAntiguedad,
+                "monto_diario"=>$totalMontoDiario,
                 "lsgh"=>$totalLsgh,
-                "omision"=>$totalOmision,
-                "abandono"=>$totalAbandono,
                 "faltas"=>$totalFaltas,
-                "atrasos"=>$totalAtrasos,
-                "total_descuentos"=>$totalTotalDescuentos,
-                "aporte_laboral_afp"=>$totalAporteLaboralAFP,
+                "vacacion"=>$totalVacaciones,
                 "otros"=>$totalOtros,
+                "importe"=>$totalImporte,
+                "rc_iva"=>$totalImpuesto,
+                "retencion"=>$totalRetencion,
                 "total_ganado"=>$totalGanado,
                 "total_liquido"=>$totalLiquido);
             $arrTotales = $excel->generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales);
@@ -1142,16 +1133,16 @@ class PlanillasrefController extends ControllerBase{
             $queCambio = array();
             $excel->header();
             $fila=$excel->numFilaCabeceraTabla;
-            if (count($relaboralesplanillas) > 0){
+            if (count($relaboralesplanillasref) > 0){
                 $excel->RowTitle($colTitleSelecteds,$fila);
                 $celdaInicial=$excel->primeraLetraCabeceraTabla.$fila;
                 $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
                 if ($excel->debug == 1) {
                     echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
-                    print_r($relaboralesplanillas);
+                    print_r($relaboralesplanillasref);
                     echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
                 }
-                foreach ($relaboralesplanillas as $i => $val) {
+                foreach ($relaboralesplanillasref as $i => $val) {
                     if (count($agrupadores) > 0) {
                         if ($excel->debug == 1) {
                             echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
@@ -1189,7 +1180,7 @@ class PlanillasrefController extends ControllerBase{
                             $excel->RowTitle($colTitleSelecteds,$fila);
                         }
                         $celdaFinalDiagonalTabla=$excel->ultimaLetraCabeceraTabla.$fila;
-                        $rowData = $excel->DefineRows($j + 1, $relaboralesplanillas[$j], $colSelecteds);
+                        $rowData = $excel->DefineRows($j + 1, $relaboralesplanillasref[$j], $colSelecteds);
                         if ($excel->debug == 1) {
                             echo "<p>···································FILA·················································<p></p>";
                             print_r($rowData);
@@ -1224,7 +1215,7 @@ class PlanillasrefController extends ControllerBase{
             }
             $excel->ShowLeftFooter = true;
             if ($excel->debug == 0) {
-                $excel->display("AppData/planillaSalarial.xls","I");
+                $excel->display("AppData/planillaDeRefrigerio.xls","I");
             }
             #endregion Proceso de generación del documento PDF
         }
@@ -1286,5 +1277,538 @@ class PlanillasrefController extends ControllerBase{
         }
         return $arr_col;
     }
+    /**
+     * @param $n_rows
+     * @param $columns
+     * @param $filtros
+     * @param $groups
+     * @param $sorteds
+     */
+    public function exportviewpdfAction($idPlanillaRef,$n_rows, $columns, $filtros,$groups,$sorteds)
+    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+        $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
+        if($groups=='null'||$groups==null)$groups="";
+        $sorteds = base64_decode(str_pad(strtr($sorteds, '-_', '+/'), strlen($sorteds) % 4, '=', STR_PAD_RIGHT));
+        $columns = json_decode($columns, true);
+        $filtros = json_decode($filtros, true);
+        $sub_keys = array_keys($columns);//echo $sub_keys[0];
+        $n_col = count($columns);//echo$keys[1];
+        $sorteds = json_decode($sorteds, true);
+        /**
+         * Especificando la configuración de las columnas
+         */
+        $generalConfigForAllColumns = array(
+            'nro_row' => array('title' => 'Nro.', 'width' => 8, 'title-align'=>'C','align' => 'C', 'type' => 'int4','totales'=>false),
+            'gerencia_administrativa' => array('title' => 'Gerencia', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'departamento_administrativo' => array('title' => 'Departamento', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'area' => array('title' => 'Area', 'width' => 20, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
+            'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'expd' => array('title' => 'Exp.', 'width' => 8, 'align' => 'C', 'type' => 'bpchar','totales'=>false),
+            'nivel_salarial' => array('title' => 'Nivel Salarial', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
+            'sueldo' => array('title' => 'Haber', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'dias_efectivos' => array('title' => 'D. Efec.', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'monto_diario' => array('title' => 'M/D', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'lsgh' => array('title' => 'LSGH', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'vacacion' => array('title' => 'Vac.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'otros' => array('title' => 'Otros', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'importe' => array('title' => 'Importe', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'rc_iva' => array('title' => 'RC-IVA', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'retencion' => array('title' => 'Ret.', 'width' => 10, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'fecha_form' => array('title' => 'Fecha F. 110', 'width' => 10, 'align' => 'R', 'type' => 'date','totales'=>true),
+            'form110impref_observacion' => array('title' => 'F. 110 Obs.', 'width' => 10, 'align' => 'R', 'type' => 'string','totales'=>false),
+            'total_ganado' => array('title' => 'Ganado', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'total_liquido' => array('title' => 'Liquido', 'width' => 15, 'align' => 'R', 'type' => 'numeric','totales'=>true),
+            'observacion' => array('title' => 'Observacion', 'width' => 10, 'align' => 'R', 'type' => 'string','totales'=>false)
+        );
+        $agruparPor = ($groups!="")?explode(",",$groups):array();
+        $widthsSelecteds = $this->DefineWidths($generalConfigForAllColumns, $columns,$agruparPor);
+        $ancho = 0;
+        if(count($widthsSelecteds)>0) {
+            foreach ($widthsSelecteds as $w) {
+                $ancho = $ancho + $w;
+            }
+            if ($ancho > 215.9) {
+                if ($ancho > 270) {
+                    $pdf = new pdfoasis('L', 'mm', 'Legal');
+                    $pdf->pageWidth = 355;
+                } else {
+                    $pdf = new pdfoasis('L', 'mm', 'Letter');
+                    $pdf->pageWidth = 280;
+                }
+            } else {
+                $pdf = new pdfoasis('P', 'mm', 'Letter');
+                $pdf->pageWidth = 215.9;
+            }
+            $pdf->tableWidth = $ancho;
+            #region Proceso de generación del documento PDF
+            $pdf->debug = 0;
+            $objP = new Fplanillasref();
+            $planillaref = $objP->getOne($idPlanillaRef);
+            $cabecera = 'PLANILLA DE REFRIGERIO '.$planillaref[0]->gestion.' '.$planillaref[0]->mes_nombre.' "'.$planillaref[0]->fin_partida.'" '.$planillaref[0]->tipo_planilla.' ';
+            if($planillaref[0]->numero>0){
+                $cabecera .= '('.$planillaref[0]->numero.') ';
+            }
+            $pdf->title_rpt = utf8_decode($cabecera);
+            $pdf->header_title_empresa_rpt = utf8_decode('Empresa Estatal de Transporte por Cable "Mi Teleférico"');
+            $alignSelecteds = $pdf->DefineAligns($generalConfigForAllColumns, $columns, $agruparPor);
+            $colSelecteds = $pdf->DefineCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTotalSelecteds = $pdf->DefineSelectedTotalColsWithExclude($generalConfigForAllColumns, $columns, $agruparPor);
+            $colTitleSelecteds = $pdf->DefineTitleCols($generalConfigForAllColumns, $columns, $agruparPor);
+            $alignTitleSelecteds = $pdf->DefineTitleAligns(count($colTitleSelecteds));
+            $gruposSeleccionadosActuales = $pdf->DefineDefaultValuesForGroups($groups);
+            $pdf->generalConfigForAllColumns = $generalConfigForAllColumns;
+            $pdf->colTitleSelecteds = $colTitleSelecteds;
+            $pdf->widthsSelecteds = $widthsSelecteds;
+            $pdf->alignSelecteds = $alignSelecteds;
+            $pdf->alignTitleSelecteds = $alignTitleSelecteds;
+            if ($pdf->debug == 1) {
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::COLUMNAS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($columns);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::FILTROS::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($filtros);
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::GRUPOS::::::::::::::::::::::::::::::::::::::::::::<p>";
+                echo "<p>" . $groups;
+                echo "<p>::::::::::::::::::::::::::::::::::::::::::::ORDEN::::::::::::::::::::::::::::::::::::::::::::<p>";
+                print_r($sorteds);
+                echo "<p>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::<p>";
+            }
+            $where = '';
+            $yaConsiderados = array();
+            for ($k = 0; $k < count($filtros); $k++) {
+                $cant = $this->obtieneCantidadVecesConsideracionPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
+                $arr_val = $this->obtieneValoresConsideradosPorColumnaEnFiltros($filtros[$k]['columna'], $filtros);
 
+                for ($j = 0; $j < $n_col; $j++) {
+                    if ($sub_keys[$j] == $filtros[$k]['columna']) {
+                        $col_fil = $columns[$sub_keys[$j]]['text'];
+                    }
+                }
+                if ($filtros[$k]['tipo'] == 'datefilter') {
+                    $filtros[$k]['valor'] = date("Y-m-d", strtotime($filtros[$k]['valor']));
+                }
+                $cond_fil = ' ' . $col_fil;
+                if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+
+                    if (strlen($where) > 0) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'NOT_EMPTY':
+                                $where .= ' AND ';
+                                break;
+                            case 'CONTAINS':
+                                $where .= ' AND ';
+                                break;
+                            case 'EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $where .= ' AND ';
+                                break;
+                        }
+                    }
+                }
+                if ($cant > 1) {
+                    if ($pdf->debug == 1) {
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                        print_r($yaConsiderados);
+                        echo "<p>::::::::::::::::::::::::::::::::::::YA CONSIDERADOS:::::::::::::::::::::::::::::::::::::::::::::::<p>";
+                    }
+                    if (!in_array($filtros[$k]['columna'], $yaConsiderados)) {
+                        switch ($filtros[$k]['condicion']) {
+                            case 'EMPTY':
+                                $cond_fil .= utf8_encode(" que sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                                break;
+                            case 'NOT_EMPTY':
+                                $cond_fil .= utf8_encode(" que no sea vacía ");
+                                $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                                break;
+                            case 'CONTAINS':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                if ($filtros[$k]['columna'] == "nombres") {
+                                    $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                                } else {
+                                    $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                                }
+                                break;
+                            case 'EQUAL':
+                                $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    if ($pdf->debug == 1) {
+
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                        echo $filtros[$k]['columna'] . "-->" . $col;
+                                        echo "<p>.........................recorriendo las columnas multiseleccionadas: .............................................";
+                                    }
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " = '" . $col . "'";
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        } else $where .= " OR ";
+                                    }
+                                }
+                                break;
+                            case 'GREATER_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                                $ini = 0;
+                                foreach ($arr_val as $col) {
+                                    //$fecha = date("Y-m-d", $col);
+                                    $fecha = $col;
+                                    if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                        //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        if ($ini == 0) {
+                                            $where .= " (";
+                                        }
+                                        switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                            case 'int4':
+                                            case 'numeric':
+                                                $where .= $filtros[$k]['columna'] . " = '" . $fecha . "'";
+                                                break;
+                                            case 'date':
+                                                //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                                if ($ini == 0) {
+                                                    $where .= $filtros[$k]['columna'] . " BETWEEN ";
+                                                } else {
+                                                    $where .= " AND ";
+                                                }
+                                                $where .= "'" . $fecha . "'";
+
+                                                break;
+                                            case 'varchar':
+                                            case 'bpchar':
+                                                //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                                $where .= $filtros[$k]['columna'] . " ILIKE '" . $col . "'";
+                                                break;
+                                        }
+                                        $ini++;
+                                        if ($ini == count($arr_val)) {
+                                            $where .= ") ";
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'LESS_THAN_OR_EQUAL':
+                                $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                                $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                                break;
+                        }
+                        $yaConsiderados[] = $filtros[$k]['columna'];
+                    }
+                } else {
+                    switch ($filtros[$k]['condicion']) {
+                        case 'EMPTY':
+                            $cond_fil .= utf8_encode(" que sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NULL OR " . $filtros[$k]['columna'] . " ILIKE '')";
+                            break;
+                        case 'NOT_EMPTY':
+                            $cond_fil .= utf8_encode(" que no sea vacía ");
+                            $where .= "(" . $filtros[$k]['columna'] . " IS NOT NULL OR " . $filtros[$k]['columna'] . " NOT ILIKE '')";
+                            break;
+                        case 'CONTAINS':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if ($filtros[$k]['columna'] == "nombres") {
+                                $where .= "(p_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR t_nombre ILIKE '%" . $filtros[$k]['valor'] . "%' OR p_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR s_apellido ILIKE '%" . $filtros[$k]['valor'] . "%' OR c_apellido ILIKE '%" . $filtros[$k]['valor'] . "%')";
+                            } else {
+                                $where .= $filtros[$k]['columna'] . " ILIKE '%" . $filtros[$k]['valor'] . "%'";
+                            }
+                            break;
+                        case 'EQUAL':
+                            $cond_fil .= utf8_encode(" que contenga el valor:  " . $filtros[$k]['valor']);
+                            if (isset($generalConfigForAllColumns[$filtros[$k]['columna']]['type'])) {
+                                //$where .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                switch (@$generalConfigForAllColumns[$filtros[$k]['columna']]['type']) {
+                                    case 'int4':
+                                    case 'numeric':
+                                    case 'date':
+                                        //$whereEqueals .= $filtros[$k]['columna']." = '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " = '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                    case 'varchar':
+                                    case 'bpchar':
+                                        //$whereEqueals .= $filtros[$k]['columna']." ILIKE '".$filtros[$k]['valor']."'";
+                                        $where .= $filtros[$k]['columna'] . " ILIKE '" . $filtros[$k]['valor'] . "'";
+                                        break;
+                                }
+                            }
+                            break;
+                        case 'GREATER_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea mayor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' >= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                        case 'LESS_THAN_OR_EQUAL':
+                            $cond_fil .= utf8_encode(" que sea menor o igual que:  " . $filtros[$k]['valor']);
+                            $where .= $filtros[$k]['columna'] . ' <= "' . $filtros[$k]['valor'] . '"';
+                            break;
+                    }
+                }
+
+            }
+            $obj = new Frelaboralesplanillaref();
+            if ($where != "") $where = " WHERE " . $where;
+            $groups_aux = "";
+            if ($groups != "") {
+                /**
+                 * Se verifica que no se considere la columna nombres debido a que contenido ya esta ordenado por las
+                 * columnas p_apellido, s_apellido, c_apellido, p_anombre, s_nombre, t_nombre
+                 */
+                if (strrpos($groups, "nombres")) {
+                    if (strrpos($groups, ",")) {
+                        $arr = explode(",", $groups);
+                        foreach ($arr as $val) {
+                            if ($val != "nombres")
+                                $groups_aux[] = $val;
+                        }
+                        $groups = implode(",", $groups_aux);
+                    } else $groups = "";
+                }
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    if ($groups != "") $groups .= ",";
+                    $coma = "";
+                    if ($pdf->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                }
+                if ($groups != "")
+                    $groups = " ORDER BY " . $groups . ",nombres,gestion,mes";
+                if ($pdf->debug == 1) echo "<p>La consulta es: " . $groups . "<p>";
+            } else {
+                if (is_array($sorteds) && count($sorteds) > 0) {
+                    $coma = "";
+                    if ($pdf->debug == 1) {
+                        echo "<p>===========================================Orden======================================</p>";
+                        print_r($sorteds);
+                        echo "<p>===========================================Orden======================================</p>";
+                    }
+                    foreach ($sorteds as $ord => $orden) {
+                        $groups .= $coma . $ord;
+                        if ($orden['asc'] == '') $groups .= " ASC"; else$groups .= " DESC";
+                        $coma = ",";
+                    }
+                    $groups = " ORDER BY " . $groups;
+                }
+
+            }
+            if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
+            if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
+            $arrTotales = array();
+            $totalHaberes = $totalDiasEfectivos = $totalMontoDiario = $totalLsgh = $totalFaltas  = $totalVacaciones = $totalOtros = $totalImporte = $totalImpuesto = $totalRetencion = $totalGanado = $totalLiquido = 0;
+            $resul = $obj->desplegarPlanillaRefEfectiva($idPlanillaRef,$where,$groups);
+            $relaboralesPlanillas = array();
+            foreach ($resul as $v) {
+                $relaboralesPlanillas[] = array(
+                    'id_relaboral'=>$v->id_relaboral,
+                    'gestion'=>$v->gestion,
+                    'mes'=>$v->mes,
+                    'cargo'=>$v->cargo,
+                    'gerencia_administrativa'=>$v->gerencia_administrativa,
+                    'departamento_administrativo'=>$v->departamento_administrativo,
+                    'area'=>$v->area,
+                    'ubicacion'=>$v->ubicacion,
+                    'fin_partida'=>$v->fin_partida,
+                    'id_procesocontratacion'=>$v->id_procesocontratacion,
+                    'procesocontratacion_codigo'=>$v->procesocontratacion_codigo,
+                    'nombres'=>$v->nombres,
+                    'ci'=>$v->ci,
+                    'expd'=>$v->expd,
+                    'sueldo'=>$v->sueldo,
+                    'dias_efectivos'=>$v->dias_efectivos,
+                    'monto_diario'=>$v->monto_diario,
+                    'faltas'=>$v->faltas,
+                    'lsgh'=>$v->lsgh,
+                    'vacacion'=>$v->vacacion,
+                    'otros'=>$v->otros,
+                    'id_form110impref'=>$v->id_form110impref,
+                    'importe'=>$v->importe,
+                    'rc_iva'=>$v->rc_iva,
+                    'retencion'=>$v->retencion,
+                    'form110impref_observacion'=>$v->form110impref_observacion,
+                    'fecha_form'=>$v->fecha_form,
+                    'total_ganado'=>$v->total_ganado,
+                    'total_liquido'=>$v->total_liquido,
+                    'cargo'=>$v->cargo,
+                    'total_descuentos'=>$v->total_descuentos,
+                    'total_ganado'=>$v->total_ganado,
+                    'total_liquido'=>$v->total_liquido,
+                    'estado'=>$v->estado,
+                    'estado_descripcion'=>$v->estado_descripcion
+                );
+                $haber = $diasEfectivos = $montoDiario = $lsgh = $faltas = $vacacion = $otros = $importe = $impuesto = $retencion = $ganado = $liquido = 0;
+                if($v->sueldo!=''){
+                    $haber=$v->sueldo;
+                }
+                if($v->dias_efectivos!=''){
+                    $diasEfectivos=$v->dias_efectivos;
+                }
+                if($v->monto_diario!=''){
+                    $montoDiario=$v->monto_diario;
+                }
+                if($v->lsgh!=''){
+                    $lsgh=$v->lsgh;
+                }
+                if($v->faltas!=''){
+                    $faltas=$v->faltas;
+                }
+                if($v->vacacion!=''){
+                    $vacacion=$v->vacacion;
+                }
+                if($v->otros!=''){
+                    $otros=$v->otros;
+                }
+                if($v->importe!=''){
+                    $importe=$v->importe;
+                }
+                if($v->rc_iva!=''){
+                    $impuesto=$v->rc_iva;
+                }
+                if($v->retencion!=''){
+                    $retencion=$v->retencion;
+                }
+                if($v->total_ganado!=''){
+                    $ganado=$v->total_ganado;
+                }
+                if($v->total_liquido!=''){
+                    $liquido=$v->total_liquido;
+                }
+                $totalHaberes += $haber;
+                $totalDiasEfectivos += $diasEfectivos;
+                $totalMontoDiario += $montoDiario;
+                $totalLsgh += $lsgh;
+                $totalFaltas += $faltas;
+                $totalVacaciones += $vacacion;
+                $totalOtros += $otros;
+                $totalImporte += $importe;
+                $totalImpuesto += $impuesto;
+                $totalRetencion += $retencion;
+                $totalGanado += $ganado;
+                $totalLiquido += $liquido;
+            }
+            $arrTodosTotales = array("sueldo"=>$totalHaberes,
+                "dias_efectivos"=>$totalDiasEfectivos,
+                "monto_diario"=>$totalMontoDiario,
+                "lsgh"=>$totalLsgh,
+                "faltas"=>$totalFaltas,
+                "vacacion"=>$totalVacaciones,
+                "otros"=>$totalOtros,
+                "importe"=>$totalImporte,
+                "rc_iva"=>$totalImpuesto,
+                "retencion"=>$totalRetencion,
+                "total_ganado"=>$totalGanado,
+                "total_liquido"=>$totalLiquido);
+            $arrTotales = $pdf->generaFilaTotales($colSelecteds,$colTotalSelecteds,$arrTodosTotales);
+            /**
+             * Si el ancho supera el establecido para una hoja tamaño carta, se la pone en posición horizontal
+             */
+
+            $pdf->AddPage();
+            if ($pdf->debug == 1) {
+                echo "<p>El ancho es:: " . $ancho;
+            }
+            #region Espacio para la definición de valores para la cabecera de la tabla
+            $pdf->FechaHoraReporte = date("d-m-Y H:i:s");
+            $j = 0;
+            $agrupadores = array();
+            //echo "<p>++++++++++>".$groups;
+            if ($groups != "")
+                $agrupadores = explode(",", $groups);
+
+            $dondeCambio = array();
+            $queCambio = array();
+
+            if (count($relaboralesPlanillas) > 0){
+                foreach ($relaboralesPlanillas as $i => $val) {
+                    if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
+                    if (count($agrupadores) > 0) {
+                        if ($pdf->debug == 1) {
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                            print_r($gruposSeleccionadosActuales);
+                            echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
+                        }
+                        $agregarAgrupador = 0;
+                        $aux = array();
+                        $dondeCambio = array();
+                        foreach ($gruposSeleccionadosActuales as $key => $valor) {
+                            if ($valor != $val[$key]) {
+                                $agregarAgrupador = 1;
+                                $aux[$key] = $val[$key];
+                                $dondeCambio[] = $key;
+                                $queCambio[$key] = $val[$key];
+                            } else {
+                                $aux[$key] = $val[$key];
+                            }
+                        }
+                        $gruposSeleccionadosActuales = $aux;
+                        if ($agregarAgrupador == 1) {
+                            $pdf->Ln();
+                            $pdf->DefineColorHeaderTable();
+                            $pdf->SetAligns($alignTitleSelecteds);
+                            //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                            $agr = $pdf->DefineTitleColsByGroups($generalConfigForAllColumns, $dondeCambio, $queCambio);
+                            $pdf->Agrupador($agr);
+                            $pdf->RowTitle($colTitleSelecteds);
+                        }
+                        $pdf->DefineColorBodyTable();
+                        $pdf->SetAligns($alignSelecteds);
+                        if (($pdf->pageWidth - $pdf->tableWidth) > 0) $pdf->SetX(($pdf->pageWidth - $pdf->tableWidth) / 2);
+                        $rowData = $pdf->DefineRows($j + 1, $relaboralesPlanillas[$j], $colSelecteds);
+                        $pdf->Row($rowData);
+
+                    } else {
+                        //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                        $pdf->DefineColorBodyTable();
+                        $pdf->SetAligns($alignSelecteds);
+                        $rowData = $pdf->DefineRows($j + 1, $val, $colSelecteds);
+                        $pdf->Row($rowData);
+                    }
+                    //if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                    $j++;
+                }
+                if(($pdf->pageWidth-$pdf->tableWidth)>0)$pdf->SetX(($pdf->pageWidth-$pdf->tableWidth)/2);
+                /**
+                 * Añade totales
+                 */
+                $pdf->Row($arrTotales);
+            }
+            $pdf->ShowLeftFooter = true;
+            if($pdf->debug==0)$pdf->Output('planillaDeRefrigerio.pdf','I');
+            #endregion Proceso de generación del documento PDF
+        }
+    }
 } 

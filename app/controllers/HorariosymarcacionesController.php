@@ -44,6 +44,9 @@ class HorariosymarcacionesController extends ControllerBase
         $this->assets->addJs('/js/horariosymarcaciones/oasis.horariosymarcaciones.export.marc.js');
         $this->assets->addJs('/js/horariosymarcaciones/oasis.horariosymarcaciones.export.calc.js');
         $this->assets->addJs('/js/horariosymarcaciones/oasis.horariosymarcaciones.view.splitter.js');
+
+        $this->assets->addJs('/js/tagsimput/bootstrap-tagsinput.js');
+        $this->assets->addCss('/js/tagsimput/bootstrap-tagsinput.css');
     }
     /**
      * Función para la obtención del listado de registros de control de marcaciones.
@@ -700,23 +703,57 @@ class HorariosymarcacionesController extends ControllerBase
     {
         $this->view->disable();
         $horariosymarcaciones = Array();
-        if(isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])){
+        if(isset($_GET["fecha_ini"])&&isset($_GET["fecha_fin"])&&isset($_GET["ci"])&&$_GET["ci"]!=''){
             $where = "";
             $idRelaboral = 0;
-            $ci = "";
+            $carnetAux = "";
             if(isset($_GET["id_relaboral"])&&$_GET["id_relaboral"]>0)
                 $idRelaboral=$_GET["id_relaboral"];
             if(isset($_GET["ci"])&&$_GET["ci"]>0&&$_GET["ci"]!='undefined')
-                $ci=$_GET["ci"];
+                $carnetAux=$_GET["ci"];
             $fechaIni =$_GET["fecha_ini"];
             $fechaFin =$_GET["fecha_fin"];
 
             $obj = new Frelaboraleshorariosymarcaciones();
             $idRelaboral=0;
-            if($ci!=''&&$ci!=0){
+            /*if($ci!=''&&$ci!=0){
                 $where = " WHERE ci='".$ci."'";
+            }*/
+            $jsonIdRelaborales = "";
+            if($carnetAux!=''){
+                /*if($where!='')$where.=" AND ci='".$CarnetAux."'";
+                else $where.=" WHERE ci='".$CarnetAux."'";*/
+
+                $arrCis = explode(",",$carnetAux);
+                $jsonCis = "";
+                if(count($arrCis)>0){
+                    $jsonCis = '{';
+                    foreach($arrCis as $clave => $carnet){
+                        $jsonCis .= '"'.$clave.'":'.$carnet.',';
+                    }
+                    $jsonCis .= ',';
+                    $jsonCis = str_replace(",,","",$jsonCis);
+                    $jsonCis .= '}';
+                }else{
+                    $jsonCis .= '{"0":'.$carnetAux.'}';
+                }
+                $objHM = new Fplanillasref();
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $jsonIdRelaborales = "";
+                if(is_object($arrIdRelaborales)){
+                    $clave=0;
+                    $jsonIdRelaborales = '{';
+                    foreach($arrIdRelaborales as $reg){
+                        $jsonIdRelaborales .= '"'.$clave.'":'.$reg->id.',';
+                        $clave++;
+                    }
+                    $jsonIdRelaborales .= ',';
+                    $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+                    $jsonIdRelaborales .= '}';
+                }
             }
-            $resul = $obj->getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where);
+
+            $resul = $obj->getAllByRangeTwoMonth($jsonIdRelaborales,$fechaIni,$fechaFin,$where);
             //comprobamos si hay filas
             if ($resul->count() > 0) {
                 foreach ($resul as $v) {
@@ -2855,7 +2892,7 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para la exportación del reporte con cálculos en rango de fechas en formato Excel.
-     * @param $idRelaboralAux Número de carnet de identidad
+     * @param $carnetAux Número de carnet de identidad
      * @param $fechaIni Fecha de inicio del rango para el reporte.
      * @param $fechaFin Fecha de finalización del rango para el reporte.
      * @param $columns Array con las columnas mostradas en el reporte
@@ -2863,7 +2900,7 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    public function exportcalculosexcelAction($idRelaboralAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculosexcelAction($carnetAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -3276,13 +3313,41 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($idRelaboralAux!=''&&$idRelaboralAux!=0){
-                if($where!='')$where.=" AND ci='".$idRelaboralAux."'";
-                else $where.=" WHERE ci='".$idRelaboralAux."'";
+            if($carnetAux!=''){
+                /*if($where!='')$where.=" AND ci='".$CarnetAux."'";
+                else $where.=" WHERE ci='".$CarnetAux."'";*/
+
+                $arrCis = explode(",",$carnetAux);
+                $jsonCis = "";
+                if(count($arrCis)>0){
+                    $jsonCis = '{';
+                    foreach($arrCis as $clave => $carnet){
+                        $jsonCis .= '"'.$clave.'":'.$carnet.',';
+                    }
+                    $jsonCis .= ',';
+                    $jsonCis = str_replace(",,","",$jsonCis);
+                    $jsonCis .= '}';
+                }else{
+                    $jsonCis .= '{"0":'.$carnetAux.'}';
+                }
+                $objHM = new Fplanillasref();
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $jsonIdRelaborales = "";
+                if(is_object($arrIdRelaborales)){
+                    $clave=0;
+                    $jsonIdRelaborales = '{';
+                    foreach($arrIdRelaborales as $reg){
+                        $jsonIdRelaborales .= '"'.$clave.'":'.$reg->id.',';
+                        $clave++;
+                    }
+                    $jsonIdRelaborales .= ',';
+                    $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+                    $jsonIdRelaborales .= '}';
+                }
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllByRangeTwoMonth(0,$fechaIni,$fechaFin,$where,$groups);
+            $resul = $obj->getAllByRangeTwoMonth($jsonIdRelaborales,$fechaIni,$fechaFin,$where,$groups);
             $arrTotales = array();
             $horariosymarcaciones = array();
             $totalAtrasos = $totalFaltas = $totalAbandono = $totalOmision = $totalLsgh = $totalAgrupador = $totalCompensacion = 0;
@@ -4072,14 +4137,14 @@ class HorariosymarcacionesController extends ControllerBase
                     print_r($horariosymarcaciones);
                     echo "<p>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<p></p>";
                 }
-                $arrIdRelaborales = Array();
+                $arrCis = Array();
                 $numeradorRelaboral = 0;
                 foreach ($horariosymarcaciones as $i => $val) {
                     /**
                      * Se agrega un control para modificar el contandor cuando se cambio de contrato.
                      */
-                    if(isset($val["relaboral_id"])&&!in_array($val["relaboral_id"],$arrIdRelaborales)){
-                        $arrIdRelaborales[]=$val["relaboral_id"];
+                    if(isset($val["relaboral_id"])&&!in_array($val["relaboral_id"],$arrCis)){
+                        $arrCis[]=$val["relaboral_id"];
                         $numeradorRelaboral++;
                     }
 
@@ -5301,7 +5366,7 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para el despliegue del reporte de cálculos de marcaciones en formato PDF.
-     * @param $ci Carnet de identidad.
+     * @param $carnetAux Carnet de identidad.
      * @param $fechaIni Fecha de inicio del rango del reporte.
      * @param $fechaFin Fecha de finalización del rango del reporte.
      * @param $n_rows Cantidad de registros.
@@ -5310,7 +5375,7 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups Array de las agrupaciones aplicadas.
      * @param $sorteds Array de los órdenes aplicados.
      */
-    public function exportcalculospdfAction($ci,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculospdfAction($carnetAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -5409,7 +5474,7 @@ class HorariosymarcacionesController extends ControllerBase
             'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
-            'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'agrupador' => array('title' => 'M/Prev.', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'observacion' => array('title' => 'Obs.', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false)
         );
         $agruparPor = ($groups!="")?explode(",",$groups):array();
@@ -5715,13 +5780,40 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($ci!=''&&$ci!=0){
-                if($where!='')$where.=" AND ci='".$ci."'";
-                else $where.=" WHERE ci='".$ci."'";
+            if($carnetAux!=''){
+                /*if($where!='')$where.=" AND ci='".$carnetAux."'";
+                else $where.=" WHERE ci='".$carnetAux."'";*/
+                $arrCis = explode(",",$carnetAux);
+                $jsonCis = "";
+                if(count($arrCis)>0){
+                    $jsonCis = '{';
+                    foreach($arrCis as $clave => $carnet){
+                        $jsonCis .= '"'.$clave.'":'.$carnet.',';
+                    }
+                    $jsonCis .= ',';
+                    $jsonCis = str_replace(",,","",$jsonCis);
+                    $jsonCis .= '}';
+                }else{
+                    $jsonCis .= '{"0":'.$carnetAux.'}';
+                }
+                $objHM = new Fplanillasref();
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $jsonIdRelaborales = "";
+                if(is_object($arrIdRelaborales)){
+                    $clave=0;
+                    $jsonIdRelaborales = '{';
+                    foreach($arrIdRelaborales as $reg){
+                        $jsonIdRelaborales .= '"'.$clave.'":'.$reg->id.',';
+                        $clave++;
+                    }
+                    $jsonIdRelaborales .= ',';
+                    $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+                    $jsonIdRelaborales .= '}';
+                }
             }
             if ($pdf->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($pdf->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
-            $resul = $obj->getAllByRangeTwoMonth(0,$fechaIni,$fechaFin,$where,$groups);
+            $resul = $obj->getAllByRangeTwoMonth($jsonIdRelaborales,$fechaIni,$fechaFin,$where,$groups);
 
             $arrTotales = array();
             $horariosymarcaciones = array();

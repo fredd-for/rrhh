@@ -589,20 +589,17 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
 
     /**
      * Función para la obtención del conjunto de registros que cumple el criterio de búsqueda de acuerdo a un rango de fechas y/o un registro de relación laboral determinado.
-     * @param $idRelaboral
+     * @param $jsonIdRelaborales
      * @param $fechaIni
      * @param $fechaFin
      * @param string $where
      * @param string $group
      * @return Resultset
      */
-    public function getAllByRangeTwoMonth($idRelaboral,$fechaIni,$fechaFin,$where='',$group='')
+    public function getAllByRangeTwoMonth($jsonIdRelaborales,$fechaIni,$fechaFin,$where='',$group='')
     {
-        if($idRelaboral>=0&&$fechaIni!=''&&$fechaFin!=''){
-            $sql = "SELECT r.nombres,r.ci,r.expd,r.cargo,r.sueldo,r.condicion,r.gerencia_administrativa,r.departamento_administrativo,r.area,r.ubicacion, ";
-            $sql .= "h.estado_descripcion as estado_descripcion,h.* FROM f_relaborales() r ";
-            $sql .= "INNER JOIN f_horariosymarcaciones_calculos_rango_fechas(r.id_relaboral,'".$fechaIni."','".$fechaFin."') h ON ";
-            $sql .= "h.relaboral_id = r.id_relaboral ";
+        if($jsonIdRelaborales!=''&&$fechaIni!=''&&$fechaFin!=''){
+            $sql = "SELECT * FROM f_horariosymarcaciones_mas_relaborales(CAST('$jsonIdRelaborales' AS json),'".$fechaIni."','".$fechaFin."')";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Frelaboraleshorariosymarcaciones();
