@@ -628,7 +628,7 @@ class exceloasis extends PHPExcel{
      * @param int $totalCompensacion
      * @throws Exception
      */
-    function agregarPaginaTotales($arrListado=array(),$totalColSelecteds=array(),$totalTitleColSelecteds=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalAgrupador=0,$totalCompensacion=0){
+    function agregarPaginaTotales($arrListado=array(),$totalColSelecteds=array(),$totalTitleColSelecteds=array(),$totalAtrasos=0,$totalAtrasados=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalAgrupador=0,$totalDescanso=0,$totalCompensacion=0){
 
         $this->createSheet();
         $this->setActiveSheetIndex(1);
@@ -701,7 +701,7 @@ class exceloasis extends PHPExcel{
         // Rename second worksheet
         $this->getActiveSheet()->setTitle('Totales');
 
-        $penultimaLetraCabeceraTabla="O";
+        $penultimaLetraCabeceraTabla="Q";
         $this->getActiveSheet()->setCellValue('B1', 'Estado Plurinacional de Bolivia');
         $this->getActiveSheet()->setCellValue('B2', 'Empresa Estatal de Transporte Por Cable "Mi Teleférico"');
         $this->getActiveSheet()->setCellValue('B3', ($this->title_rpt!=false&&$this->title_rpt!='')?$this->title_rpt:'Reporte Relación Laboral');
@@ -780,7 +780,7 @@ class exceloasis extends PHPExcel{
         $sw=false;
         $h=0;
         $k=0;
-        $arrCantidadesTotales = array("Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador);
+        $arrCantidadesTotales = array("Totales:",$totalAtrasos,$totalAtrasados,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador,$totalDescanso);
         foreach($letrasUsadas as $letra){
             if($letraInicioTotales==$letra)$sw=true;
             if($sw){

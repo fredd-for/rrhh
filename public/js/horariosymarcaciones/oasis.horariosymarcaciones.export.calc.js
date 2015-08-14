@@ -161,11 +161,13 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
 
     ultimo_dia = $('#divGridControlCalculos').jqxGrid('getcolumn','ultimo_dia');
     atrasos = $('#divGridControlCalculos').jqxGrid('getcolumn','atrasos');
+    atrasados = $('#divGridControlCalculos').jqxGrid('getcolumn','atrasados');
     faltas = $('#divGridControlCalculos').jqxGrid('getcolumn','faltas');
     abandono = $('#divGridControlCalculos').jqxGrid('getcolumn','abandono');
     omision = $('#divGridControlCalculos').jqxGrid('getcolumn','omision');
     lsgh = $('#divGridControlCalculos').jqxGrid('getcolumn','lsgh');
     compensacion = $('#divGridControlCalculos').jqxGrid('getcolumn','compensacion');
+    descanso = $('#divGridControlCalculos').jqxGrid('getcolumn','descanso');
     observacion = $('#divGridControlCalculos').jqxGrid('getcolumn','observacion');
     estado = $('#divGridControlCalculos').jqxGrid('getcolumn','estado');
     estado_descripcion = $('#divGridControlCalculos').jqxGrid('getcolumn','estado_descripcion');
@@ -223,6 +225,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
 
     columna[ultimo_dia.datafield] = {text: ultimo_dia.text, hidden: ultimo_dia.hidden};
     columna[atrasos.datafield] = {text: atrasos.text, hidden: atrasos.hidden};
+    columna[atrasados.datafield] = {text: atrasados.text, hidden: atrasados.hidden};
     columna[faltas.datafield] = {text: faltas.text, hidden: faltas.hidden};
     columna[abandono.datafield] = {text: abandono.text, hidden: abandono.hidden};
     columna[omision.datafield] = {text: omision.text, hidden: omision.hidden};
@@ -232,6 +235,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
      * @type {{text: jQuery.text, hidden: *}}
      */
     columna[agrupador.datafield] = {text: agrupador.text, hidden: agrupador.hidden};
+    columna[descanso.datafield] = {text: descanso.text, hidden: descanso.hidden};
     columna[observacion.datafield] = {text: observacion.text, hidden: observacion.hidden};
 
 

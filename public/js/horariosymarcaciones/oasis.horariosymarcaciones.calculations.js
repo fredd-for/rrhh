@@ -207,11 +207,13 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
             {name: 'estado31_descripcion', type: 'string'},
             {name: 'ultimo_dia', type: 'integer'},
             {name: 'atrasos', type: 'numeric'},
+            {name: 'atrasados', type: 'numeric'},
             {name: 'faltas', type: 'numeric'},
             {name: 'abandono', type: 'numeric'},
             {name: 'omision', type: 'numeric'},
             {name: 'lsgh', type: 'numeric'},
             {name: 'compensacion', type: 'numeric'},
+            {name: 'descanso', type: 'numeric'},
             {name: 'agrupador', type: 'integer'},
             {name: 'observacion', type: 'string'},
             {name: 'estado', type: 'string'},
@@ -899,6 +901,15 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         hidden: false
                     },
                     {
+                        text: 'Atrasados',
+                        filtertype: 'checkedlist',
+                        datafield: 'atrasados',
+                        width: 70,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
                         text: 'Faltas',
                         filtertype: 'checkedlist',
                         datafield: 'faltas',
@@ -938,6 +949,15 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                         text: 'Marc. Previstas',
                         filtertype: 'checkedlist',
                         datafield: 'agrupador',
+                        width: 70,
+                        cellsalign: 'center',
+                        align: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Descanso',
+                        filtertype: 'checkedlist',
+                        datafield: 'descanso',
                         width: 70,
                         cellsalign: 'center',
                         align: 'center',
@@ -1002,11 +1022,13 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
             {label: 'D&iacute;a 31', value: 'd31', checked: true},
             {label: '&Uacute;ltimo D&iacute;a', value: 'ultimo_dia', checked: true},
             {label: 'Atrasos', value: 'atrasos', checked: true},
+            {label: 'Atrasados', value: 'atrasados', checked: true},
             {label: 'Faltas', value: 'faltas', checked: true},
             {label: 'Abandono', value: 'abandono', checked: true},
             {label: 'Omisi&oacute;n', value: 'omision', checked: true},
             {label: 'LSGH', value: 'lsgh', checked: true},
             {label: 'Marc. Previstas', value: 'agrupador', checked: true},
+            {label: 'Descanso', value: 'descanso', checked: true},
             {label: 'Observaci&oacute;n', value: 'observacion', checked: true}
         ];
         $("#divListBoxCalculos").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
