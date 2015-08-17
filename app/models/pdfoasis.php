@@ -756,7 +756,7 @@ class pdfoasis extends fpdf{
      * @param int $totalLsgh
      * @param int $totalCompensacion
      */
-    function agregarPaginaTotales($arrListado=array(),$totalAtrasos=0,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalAgrupador=0,$totalCompensacion=0){
+    function agregarPaginaTotales($arrListado=array(),$totalAtrasos=0,$totalAtrasados,$totalFaltas=0,$totalAbandono=0,$totalOmision=0,$totalLsgh=0,$totalAgrupador=0,$totalDescanso,$totalCompensacion=0){
         $this->AddTotalPage();
         $this->RowTotalTitle($this->totalColTitleSelecteds);
         $cc=0;
@@ -764,14 +764,14 @@ class pdfoasis extends fpdf{
                     foreach ($valor2 as $clave1 => $valor1) {
                         foreach ($valor1 as $clave => $valor) {
                             $cc++;
-                            $arrMostrable=array($cc,$valor["nombres"],$valor["ci"],$valor["expd"],$valor["gerencia_administrativa"],$valor["departamento_administrativo"],$valor["area"],$valor["cargo"],str_replace(".00","",$valor["sueldo"]),$valor["gestion"],$valor["mes_nombre"],$valor["atrasos"],$valor["faltas"],$valor["abandono"],$valor["omision"],$valor["lsgh"],$valor["agrupador"]);
+                            $arrMostrable=array($cc,$valor["nombres"],$valor["ci"],$valor["expd"],$valor["gerencia_administrativa"],$valor["departamento_administrativo"],$valor["area"],$valor["cargo"],str_replace(".00","",$valor["sueldo"]),$valor["gestion"],$valor["mes_nombre"],$valor["atrasos"],$valor["atrasados"],$valor["faltas"],$valor["abandono"],$valor["omision"],$valor["lsgh"],$valor["agrupador"],$valor["descanso"]);
                             $this->RowTotal($arrMostrable);
                         }
                     }
                 }
                 if($cc>0){
                     $this->DefineColorHeaderTable();
-                    $arrMostrable=array("","","","","","","","","","","Totales:",$totalAtrasos,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador);
+                    $arrMostrable=array("","","","","","","","","","","Totales:",$totalAtrasos,$totalAtrasados,$totalFaltas,$totalAbandono,$totalOmision,$totalLsgh,$totalAgrupador,$totalDescanso);
                     $this->RowTotal($arrMostrable);
                 }
     }

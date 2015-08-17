@@ -235,6 +235,7 @@ class PlanillasrefController extends ControllerBase{
                         'total_liquido'=>$v->total_liquido,
                         'estado'=>$v->estado,
                         'estado_descripcion'=>$v->estado_descripcion,
+                        'cargar_formulario_110' => $jsonIdRelaborales==''?0:1,
                         'available'=>false
                     );
                 }
