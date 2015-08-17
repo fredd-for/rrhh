@@ -293,7 +293,8 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             {name: 'total_ganado', type: 'numeric'},
             {name: 'total_liquido', type: 'numeric'},
             {name: 'estado', type: 'string'},
-            {name: 'estado_descripcion', type: 'string'}
+            {name: 'estado_descripcion', type: 'string'},
+            {name: 'cargar_formulario_110', type: 'numeric'}
         ],
         url: '/planillasref/displayplanprevia?gestion='+gestion+'&mes='+mes+'&id_finpartida='+idFinPartida+'&id_tipoplanilla='+idTipoPlanilla+'&numero='+numeroPlanilla+'&id_relaborales='+idRelaborales,
         cache: false
@@ -550,10 +551,8 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         columngroup: 'ImpuestoRefrigerio',
                         cellsrenderer: function (rowline) {
                             var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
-                            if (dataRecord.total_ganado > 0) {
-                                if($("#hdnSwPlanillaRefCalculada").val()==1){
-                                    return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='abrirVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
-                                }else return "";
+                            if (dataRecord.total_ganado > 0 && dataRecord.cargar_formulario_110==1) {
+                                return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='abrirVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
                             }
                             else return "";
                         }
