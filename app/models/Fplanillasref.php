@@ -176,7 +176,7 @@ class Fplanillasref extends \Phalcon\Mvc\Model {
     public function getIdRelaboralesEnJsonPorCarnets($carnetsJson,$fechaIni,$fechaFin){
         $sql = "SELECT r.id FROM personas p ";
         $sql .= "INNER JOIN relaborales r ON p.id = r.persona_id ";
-        $sql .= "WHERE p.ci IN (SELECT CAST(value AS CHARACTER VARYING) FROM JSON_EACH(CAST('$carnetsJson' AS JSON))) ";
+        $sql .= "WHERE CAST('\"'||p.ci||'\"' AS CHARACTER VARYING) IN (SELECT CAST(value AS CHARACTER VARYING) FROM JSON_EACH(CAST('$carnetsJson' AS JSON))) ";
         $sql .= "AND r.fecha_incor IS NOT NULL AND (";
         $sql .= "r.fecha_incor BETWEEN '$fechaIni' AND '$fechaFin' ";
         $sql .= "OR '$fechaIni' BETWEEN r.fecha_incor AND (CASE WHEN r.fecha_baja IS NOT NULL THEN r.fecha_baja ELSE r.fecha_fin END) ";
