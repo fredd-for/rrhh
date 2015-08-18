@@ -552,6 +552,7 @@ function desplegarPlanillaPreviaRef(idRelaborales){
                         cellsrenderer: function (rowline) {
                             var dataRecord = $("#divGridPlanillasRefGen").jqxGrid('getrowdata', rowline);
                             if (dataRecord.total_ganado > 0 && dataRecord.cargar_formulario_110==1) {
+                                $("#btnGenerarPlanillaRef").show();
                                 return "<div style='width: 100%' align='center'><a href='#' class='btnForm110' id='"+rowline+"' onclick='abrirVentanaModalForm110ImpRef("+rowline+");'><i class='fa fa-file-text-o fa-2x text-info' title='Registrar Formulario 110'></i></a></div>";
                             }
                             else return "";
