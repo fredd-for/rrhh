@@ -225,13 +225,16 @@ $().ready(function () {
     $('#btnDesfiltrartodo').click(function () {
         $("#divGridPlanillasRef").jqxGrid('clearfilters');
     });
-    $('#btnDesfiltrarTodoPlanillasSalView').click(function () {
+    $('#btnDesfiltrarTodoPlanillasRefView').click(function () {
         $("#divGridPlanillasRefView").jqxGrid('clearfilters');
+    });
+    $('#btnDesfiltrarTodoPlanillasRefGen').click(function () {
+        $("#divGridPlanillasRefGen").jqxGrid('clearfilters');
     });
     $('#btnDesagrupartodo').click(function () {
         $('#divGridPlanillasRef').jqxGrid('cleargroups');
     });
-    $('#btnDesagruparTodoPlanillasSalView').click(function () {
+    $('#btnDesagruparTodoPlanillasRefView').click(function () {
         $('#divGridPlanillasRefView').jqxGrid('cleargroups');
     });
     $('#btnDesagruparTodoMovilidad').click(function () {

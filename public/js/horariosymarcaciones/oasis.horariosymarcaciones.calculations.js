@@ -264,9 +264,9 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
 
                     $("#calendarrowbutton").off();
                     $("#calendarrowbutton").on("click",function(){
-                        var selectedrowindex = $("#divGridControlMarcaciones").jqxGrid('getselectedrowindex');
+                        var selectedrowindex = $("#divGridControlCalculos").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
-                            var dataRecord = $('#divGridControlMarcaciones').jqxGrid('getrowdata', selectedrowindex);
+                            var dataRecord = $('#divGridControlCalculos').jqxGrid('getrowdata', selectedrowindex);
                             if(dataRecord!=undefined){
                                 if(dataRecord.gestion!=null&&dataRecord.gestion!=undefined){
                                     $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
