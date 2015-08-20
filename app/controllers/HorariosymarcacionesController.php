@@ -3586,7 +3586,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
                 #endregion Sector para almacenamiento de los totales
                 #region Sector para adicionar una fila para Excepciones
-                if($v->modalidadmarcacion_id==3){
+                if($v->modalidadmarcacion_id==6){
                     $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
                         if($v->calendariolaboral1_id>0){
                             $res1 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id,1);
@@ -4025,563 +4025,124 @@ class HorariosymarcacionesController extends ControllerBase
                                 }
                             }
                         }
-                }else{
-                    if($v->modalidadmarcacion_id==6){
-                        if($v->calendariolaboral1_id>0&&$d1==''){
-                            $res1 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id,1);
-                            if(is_object($res1)&&$res1->count()>0){
-                                foreach($res1 as $r1){
-                                    $d1 .= $r1->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe1 = $obj->getFeriadosEnDia($v->gestion,$v->mes,1,1);
-                            if(is_object($fe1)&&$fe1->count()>0){
-                                foreach($fe1 as $f1){
-                                    $d1 .= $f1->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral2_id>0&&$d2==''){
-                            $res2 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
-                            if(is_object($res2)&&$res2->count()>0){
-                                foreach($res2 as $r2){
-                                    $d2 .= $r2->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe2 = $obj->getFeriadosEnDia($v->gestion,$v->mes,2,1);
-                            if(is_object($fe2)&&$fe2->count()>0){
-                                foreach($fe2 as $f2){
-                                    $d2 .= $f2->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral3_id>0&&$d3==''){
-                            $res3 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
-                            if(is_object($res3)&&$res3->count()>0){
-                                foreach($res3 as $r3){
-                                    $d3 .= $r3->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe3 = $obj->getFeriadosEnDia($v->gestion,$v->mes,3,1);
-                            if(is_object($fe3)&&$fe3->count()>0){
-                                foreach($fe3 as $f3){
-                                    $d3 .= $f3->f_feriados_en_dia;
-                                }
-                            }
-                        }
 
-                        if($v->calendariolaboral4_id>0&&$d4==''){
-                            $res4 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
-                            if(is_object($res4)&&$res4->count()>0){
-                                foreach($res4 as $r4){
-                                    $d4 .= $r4->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe4 = $obj->getFeriadosEnDia($v->gestion,$v->mes,4,1);
-                            if(is_object($fe4)&&$fe4->count()>0){
-                                foreach($fe4 as $f4){
-                                    $d4 .= $f4->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral5_id>0&&$d5==''){
-                            $res5 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
-                            if(is_object($res5)&&$res5->count()>0){
-                                foreach($res5 as $r5){
-                                    $d5 .= $r5->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe5 = $obj->getFeriadosEnDia($v->gestion,$v->mes,5,1);
-                            if(is_object($fe5)&&$fe5->count()>0){
-                                foreach($fe5 as $f5){
-                                    $d5 .= $f5->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral6_id>0&&$d6==''){
-                            $res6 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
-                            if(is_object($res6)&&$res6->count()>0){
-                                foreach($res6 as $r6){
-                                    $d6 .= $r6->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe6 = $obj->getFeriadosEnDia($v->gestion,$v->mes,6,1);
-                            if(is_object($fe6)&&$fe6->count()>0){
-                                foreach($fe6 as $f6){
-                                    $d6 .= $f6->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral7_id>0&&$d7==''){
-                            $res7 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
-                            if(is_object($res7)&&$res7->count()>0){
-                                foreach($res7 as $r7){
-                                    $d7 .= $r7->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe7 = $obj->getFeriadosEnDia($v->gestion,$v->mes,7,1);
-                            if(is_object($fe7)&&$fe7->count()>0){
-                                foreach($fe7 as $f7){
-                                    $d7 .= $f7->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral8_id>0&&$d8==''){
-                            $res8 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
-                            if(is_object($res8)&&$res8->count()>0){
-                                foreach($res8 as $r8){
-                                    if($d8!=$r8->f_excepciones_en_dia)
-                                    $d8 .= $r8->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe8 = $obj->getFeriadosEnDia($v->gestion,$v->mes,8,1);
-                            if(is_object($fe8)&&$fe8->count()>0){
-                                foreach($fe8 as $f8){
-                                    $d8 .= $f8->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral9_id>0&&$d9==''){
-                            $res9 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
-                            if(is_object($res9)&&$res9->count()>0){
-                                foreach($res9 as $r9){
-                                    $d9 .= $r9->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe9 = $obj->getFeriadosEnDia($v->gestion,$v->mes,9,1);
-                            if(is_object($fe9)&&$fe9->count()>0){
-                                foreach($fe9 as $f9){
-                                    $d9 .= $f9->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral10_id>0&&$d10==''){
-                            $res10 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
-                            if(is_object($res10)&&$res10->count()>0){
-                                foreach($res10 as $r10){
-                                    $d10 .= $r10->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe10 = $obj->getFeriadosEnDia($v->gestion,$v->mes,10,1);
-                            if(is_object($fe10)&&$fe10->count()>0){
-                                foreach($fe10 as $f10){
-                                    $d10 .= $f10->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral11_id>0&&$d11==''){
-                            $res11 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
-                            if(is_object($res11)&&$res11->count()>0){
-                                foreach($res11 as $r11){
-                                    $d11 .= $r11->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe11 = $obj->getFeriadosEnDia($v->gestion,$v->mes,11,1);
-                            if(is_object($fe11)&&$fe11->count()>0){
-                                foreach($fe11 as $f11){
-                                    $d11 .= $f11->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral12_id>0&&$d12==''){
-                            $res12 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
-                            if(is_object($res12)&&$res12->count()>0){
-                                foreach($res12 as $r12){
-                                    $d12 .= $r12->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe12 = $obj->getFeriadosEnDia($v->gestion,$v->mes,12,1);
-                            if(is_object($fe12)&&$fe12->count()>0){
-                                foreach($fe12 as $f12){
-                                    $d12 .= $f12->f_feriados_en_dia;
-                                }
-                            }
-                        }
+                    $horariosymarcaciones[] = array(
+                        #region Columnas de procedimiento f_relaborales()
+                        'id_relaboral' => $v->id_relaboral,
+                        'id_persona' => $v->id_persona,
+                        'p_nombre' => $v->p_nombre,
+                        's_nombre' => $v->s_nombre,
+                        't_nombre' => $v->t_nombre,
+                        'p_apellido' => $v->p_apellido,
+                        's_apellido' => $v->s_apellido,
+                        'c_apellido' => $v->c_apellido,
+                        'nombres' => $v->nombres,
+                        'ci' => $v->ci,
+                        'expd' => $v->expd,
+                        'cargo' => $v->cargo,
+                        'sueldo' => str_replace(".00", "", $v->sueldo),
+                        'condicion' => $v->condicion,
+                        'gerencia_administrativa' => $v->gerencia_administrativa,
+                        'departamento_administrativo' => $v->departamento_administrativo,
+                        'area' => $v->area,
+                        'ubicacion' => $v->ubicacion,
+                        #endregion Columnas de procedimiento f_relaborales()
 
-                        if($v->calendariolaboral13_id>0&&$d13==''){
-                            $res13 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
-                            if(is_object($res13)&&$res13->count()>0){
-                                foreach($res13 as $r13){
-                                    $d13 .= $r13->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe13 = $obj->getFeriadosEnDia($v->gestion,$v->mes,13,1);
-                            if(is_object($fe13)&&$fe13->count()>0){
-                                foreach($fe13 as $f13){
-                                    $d13 .= $f13->f_feriados_en_dia;
-                                }
-                            }
-                        }
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>"e",
+                        'clasemarcacion_descripcion'=>"EXCEPCIONES / FERIADOS",
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>"EXCEPCIONES / FERIADOS",
+                        'd1'=>$d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>null,
+                        'atrasados'=>null,
+                        'faltas'=>null,
+                        'abandono'=>null,
+                        'omision'=>null,
+                        'lsgh'=>null,
+                        'compensacion'=>null,
+                        'descanso'=>null,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>null,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
 
-                        if($v->calendariolaboral14_id>0&&$d14==''){
-                            $res14 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
-                            if(is_object($res14)&&$res14->count()>0){
-                                foreach($res14 as $r14){
-                                    $d14 .= $r14->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe14 = $obj->getFeriadosEnDia($v->gestion,$v->mes,14,1);
-                            if(is_object($fe14)&&$fe14->count()>0){
-                                foreach($fe14 as $f14){
-                                    $d14 .= $f14->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral15_id>0&&$d15==''){
-                            $res15 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
-                            if(is_object($res15)&&$res15->count()>0){
-                                foreach($res15 as $r15){
-                                    $d15 .= $r15->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe15 = $obj->getFeriadosEnDia($v->gestion,$v->mes,15,1);
-                            if(is_object($fe15)&&$fe15->count()>0){
-                                foreach($fe15 as $f15){
-                                    $d15 .= $f15->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral16_id>0&&$d16==''){
-                            $res16 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
-                            if(is_object($res16)&&$res16->count()>0){
-                                foreach($res16 as $r16){
-                                    $d16 .= $r16->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe16 = $obj->getFeriadosEnDia($v->gestion,$v->mes,16,1);
-                            if(is_object($fe16)&&$fe16->count()>0){
-                                foreach($fe16 as $f16){
-                                    $d16 .= $f16->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral17_id>0&&$d17==''){
-                            $res17 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
-                            if(is_object($res17)&&$res17->count()>0){
-                                foreach($res17 as $r17){
-                                    $d17 .= $r17->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe17 = $obj->getFeriadosEnDia($v->gestion,$v->mes,17,1);
-                            if(is_object($fe17)&&$fe17->count()>0){
-                                foreach($fe17 as $f17){
-                                    $d17 .= $f17->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral18_id>0&&$d18==''){
-                            $res18 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
-                            if(is_object($res18)&&$res18->count()>0){
-                                foreach($res18 as $r){
-                                    $d18 .= $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe18 = $obj->getFeriadosEnDia($v->gestion,$v->mes,18,1);
-                            if(is_object($fe18)&&$fe18->count()>0){
-                                foreach($fe18 as $f18){
-                                    $d18 .= $f18->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral19_id>0&&$d19==''){
-                            $res19 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
-                            if(is_object($res19)&&$res19->count()>0){
-                                foreach($res19 as $r){
-                                    $d19 .= $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe19 = $obj->getFeriadosEnDia($v->gestion,$v->mes,19,1);
-                            if(is_object($fe19)&&$fe19->count()>0){
-                                foreach($fe19 as $f19){
-                                    $d19 .= $f19->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral20_id>0&&$d20==''){
-                            $res20 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
-                            if(is_object($res20)&&$res20->count()>0){
-                                foreach($res20 as $r){
-                                    $d20 .= $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe20 = $obj->getFeriadosEnDia($v->gestion,$v->mes,20,1);
-                            if(is_object($fe20)&&$fe20->count()>0){
-                                foreach($fe20 as $f20){
-                                    $d20 .= $f20->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral21_id>0&&$d21==''){
-                            $res21 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
-                            if(is_object($res21)&&$res21->count()>0){
-                                foreach($res21 as $r21){
-                                    $d21 .= $r21->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe21 = $obj->getFeriadosEnDia($v->gestion,$v->mes,21,1);
-                            if(is_object($fe21)&&$fe21->count()>0){
-                                foreach($fe21 as $f21){
-                                    $d21 .= $f21->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral22_id>0&&$d22==''){
-                            $res22 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
-                            if(is_object($res22)&&$res22->count()>0){
-                                foreach($res22 as $r22){
-                                    $d22 .= $r22->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe22 = $obj->getFeriadosEnDia($v->gestion,$v->mes,22,1);
-                            if(is_object($fe22)&&$fe22->count()>0){
-                                foreach($fe22 as $f22){
-                                    $d22 .= $f22->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral23_id>0&&$d23==''){
-                            $res23 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
-                            if(is_object($res23)&&$res23->count()>0){
-                                foreach($res23 as $r23){
-                                    $d23 .= $r23->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe23 = $obj->getFeriadosEnDia($v->gestion,$v->mes,23,1);
-                            if(is_object($fe23)&&$fe23->count()>0){
-                                foreach($fe23 as $f23){
-                                    $d23 .= $f23->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral24_id>0&&$d24==''){
-                            $res24 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
-                            if(is_object($res24)&&$res24->count()>0){
-                                foreach($res24 as $r24){
-                                    $d24 .= $r24->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe24 = $obj->getFeriadosEnDia($v->gestion,$v->mes,24,1);
-                            if(is_object($fe24)&&$fe24->count()>0){
-                                foreach($fe24 as $f24){
-                                    $d24 .= $f24->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral25_id>0&&$d25==''){
-                            $res25 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
-                            if(is_object($res25)&&$res25->count()>0){
-                                foreach($res25 as $r25){
-                                    $d25 .= $r25->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe25 = $obj->getFeriadosEnDia($v->gestion,$v->mes,25,1);
-                            if(is_object($fe25)&&$fe25->count()>0){
-                                foreach($fe25 as $f25){
-                                    $d25 .= $f25->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral26_id>0&&$d26==''){
-                            $res26 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
-                            if(is_object($res26)&&$res26->count()>0){
-                                foreach($res26 as $r26){
-                                    $d26 .= $r26->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe26 = $obj->getFeriadosEnDia($v->gestion,$v->mes,26,1);
-                            if(is_object($fe26)&&$fe26->count()>0){
-                                foreach($fe26 as $f26){
-                                    $d26 .= $f26->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral27_id>0&&$d27==''){
-                            $res27 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
-                            if(is_object($res27)&&$res27->count()>0){
-                                foreach($res27 as $r27){
-                                    $d27 .= $r27->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe27 = $obj->getFeriadosEnDia($v->gestion,$v->mes,27,1);
-                            if(is_object($fe27)&&$fe27->count()>0){
-                                foreach($fe27 as $f27){
-                                    $d27 .= $f27->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral28_id>0&&$d28==''){
-                            $res28 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
-                            if(is_object($res28)&&$res28->count()>0){
-                                foreach($res28 as $r28){
-                                    $d28 .= $r28->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe28 = $obj->getFeriadosEnDia($v->gestion,$v->mes,28,1);
-                            if(is_object($fe28)&&$fe28->count()>0){
-                                foreach($fe28 as $f28){
-                                    $d28 .= $f28->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral29_id>0&&$d29==''){
-                            $res29 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
-                            if(is_object($res29)&&$res29->count()>0){
-                                foreach($res29 as $r29){
-                                    $d29 .= $r29->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe29 = $obj->getFeriadosEnDia($v->gestion,$v->mes,29,1);
-                            if(is_object($fe29)&&$fe29->count()>0){
-                                foreach($fe29 as $f29){
-                                    $d29 .= $f29->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral30_id>0&&$d30==''){
-                            $res30 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
-                            if(is_object($res30)&&$res30->count()>0){
-                                foreach($res30 as $r30){
-                                    $d30 .= $r30->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe30 = $obj->getFeriadosEnDia($v->gestion,$v->mes,30,1);
-                            if(is_object($fe30)&&$fe30->count()>0){
-                                foreach($fe30 as $f30){
-                                    $d30 .= $f30->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        if($v->calendariolaboral31_id>0&&$d31==''){
-                            $res31 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
-                            if(is_object($res31)&&$res31->count()>0){
-                                foreach($res31 as $r31){
-                                    $d31 .= $r31->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe31 = $obj->getFeriadosEnDia($v->gestion,$v->mes,31,1);
-                            if(is_object($fe31)&&$fe31->count()>0){
-                                foreach($fe31 as $f31){
-                                    $d31 .= $f31->f_feriados_en_dia;
-                                }
-                            }
-                        }
-                        $horariosymarcaciones[] = array(
-                            #region Columnas de procedimiento f_relaborales()
-                            'id_relaboral' => $v->id_relaboral,
-                            'id_persona' => $v->id_persona,
-                            'p_nombre' => $v->p_nombre,
-                            's_nombre' => $v->s_nombre,
-                            't_nombre' => $v->t_nombre,
-                            'p_apellido' => $v->p_apellido,
-                            's_apellido' => $v->s_apellido,
-                            'c_apellido' => $v->c_apellido,
-                            'nombres' => $v->nombres,
-                            'ci' => $v->ci,
-                            'expd' => $v->expd,
-                            'cargo' => $v->cargo,
-                            'sueldo' => str_replace(".00", "", $v->sueldo),
-                            'condicion' => $v->condicion,
-                            'gerencia_administrativa' => $v->gerencia_administrativa,
-                            'departamento_administrativo' => $v->departamento_administrativo,
-                            'area' => $v->area,
-                            'ubicacion' => $v->ubicacion,
-                            #endregion Columnas de procedimiento f_relaborales()
-
-                            'id'=>$v->id_horarioymarcacion,
-                            'relaboral_id'=>$v->relaboral_id,
-                            'gestion'=>$v->gestion,
-                            'mes'=>$v->mes,
-                            'mes_nombre'=>$v->mes_nombre,
-                            'turno'=>$v->turno,
-                            'grupo'=>$v->grupo,
-                            'clasemarcacion'=>"e",
-                            'clasemarcacion_descripcion'=>"EXCEPCIONES / FERIADOS",
-                            'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
-                            'modalidad_marcacion'=>"EXCEPCIONES / FERIADOS",
-                            'd1'=>$d1,
-                            'calendariolaboral1_id'=>$v->calendariolaboral1_id,
-                            'd2'=>$d2,
-                            'calendariolaboral2_id'=>$v->calendariolaboral2_id,
-                            'd3'=>$d3,
-                            'calendariolaboral3_id'=>$v->calendariolaboral3_id,
-                            'd4'=>$d4,
-                            'calendariolaboral4_id'=>$v->calendariolaboral4_id,
-                            'd5'=>$d5,
-                            'calendariolaboral5_id'=>$v->calendariolaboral5_id,
-                            'd6'=>$d6,
-                            'calendariolaboral6_id'=>$v->calendariolaboral6_id,
-                            'd7'=>$d7,
-                            'calendariolaboral7_id'=>$v->calendariolaboral7_id,
-                            'd8'=>$d8,
-                            'calendariolaboral8_id'=>$v->calendariolaboral8_id,
-                            'd9'=>$d9,
-                            'calendariolaboral9_id'=>$v->calendariolaboral9_id,
-                            'd10'=>$d10,
-                            'calendariolaboral10_id'=>$v->calendariolaboral10_id,
-                            'd11'=>$d11,
-                            'calendariolaboral11_id'=>$v->calendariolaboral11_id,
-                            'd12'=>$d12,
-                            'calendariolaboral12_id'=>$v->calendariolaboral12_id,
-                            'd13'=>$d13,
-                            'calendariolaboral13_id'=>$v->calendariolaboral13_id,
-                            'd14'=>$d14,
-                            'calendariolaboral14_id'=>$v->calendariolaboral14_id,
-                            'd15'=>$d15,
-                            'calendariolaboral15_id'=>$v->calendariolaboral15_id,
-                            'd16'=>$d16,
-                            'calendariolaboral16_id'=>$v->calendariolaboral16_id,
-                            'd17'=>$d17,
-                            'calendariolaboral17_id'=>$v->calendariolaboral17_id,
-                            'd18'=>$d18,
-                            'calendariolaboral18_id'=>$v->calendariolaboral18_id,
-                            'd19'=>$d19,
-                            'calendariolaboral19_id'=>$v->calendariolaboral19_id,
-                            'd20'=>$d20,
-                            'calendariolaboral20_id'=>$v->calendariolaboral20_id,
-                            'd21'=>$d21,
-                            'calendariolaboral21_id'=>$v->calendariolaboral21_id,
-                            'd22'=>$d22,
-                            'calendariolaboral22_id'=>$v->calendariolaboral22_id,
-                            'd23'=>$d23,
-                            'calendariolaboral23_id'=>$v->calendariolaboral23_id,
-                            'd24'=>$d24,
-                            'calendariolaboral24_id'=>$v->calendariolaboral24_id,
-                            'd25'=>$d25,
-                            'calendariolaboral25_id'=>$v->calendariolaboral25_id,
-                            'd26'=>$d26,
-                            'calendariolaboral26_id'=>$v->calendariolaboral26_id,
-                            'd27'=>$d27,
-                            'calendariolaboral27_id'=>$v->calendariolaboral27_id,
-                            'd28'=>$d28,
-                            'calendariolaboral28_id'=>$v->calendariolaboral28_id,
-                            'd29'=>$d29,
-                            'calendariolaboral29_id'=>$v->calendariolaboral29_id,
-                            'd30'=>$d30,
-                            'calendariolaboral30_id'=>$v->calendariolaboral30_id,
-                            'd31'=>$d31,
-                            'calendariolaboral31_id'=>$v->calendariolaboral31_id,
-                            'ultimo_dia'=>$v->ultimo_dia,
-                            'atrasos'=>null,
-                            'atrasados'=>null,
-                            'faltas'=>null,
-                            'abandono'=>null,
-                            'omision'=>null,
-                            'lsgh'=>null,
-                            'compensacion'=>null,
-                            'descanso'=>null,
-                            'observacion'=>$v->observacion,
-                            'estado'=>$v->estado,
-                            'estado_descripcion'=>$v->estado_descripcion,
-                            'baja_logica'=>$v->baja_logica,
-                            'agrupador'=>null,
-                            'user_reg_id'=>$v->user_reg_id,
-                            'fecha_reg'=>$v->fecha_reg,
-                            'user_apr_id'=>$v->user_apr_id,
-                            'fecha_apr'=>$v->fecha_apr,
-                            'user_mod_id'=>$v->user_mod_id,
-                            'fecha_mod'=>$v->fecha_mod,
-                        );
-                    }
                 }
                 #endregion sector para adicionar una fila para Excepciones
             }
@@ -7508,7 +7069,6 @@ class HorariosymarcacionesController extends ControllerBase
                     $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalida .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalidaAux .= "estado>=1 AND baja_logica=1 ";
-
                     /**
                      * Se hace una consulta para ver los registro de entrada y salida válidos
                      */

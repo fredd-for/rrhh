@@ -42,7 +42,7 @@ function validaFormularioRegistroCalendario(opcion,idPerfilLaboral,tipoHorario,f
     }
     else cruce = prevenirCruceDeHorariosEnVariosMeses(idPerfilLaboral,fechaIniRango,fechaFinRango);
     //excesoHorasSemana = verificaExcesoHorasSemanales();
-    excesoPromedioTresSemanas = calculaExcesoPromedioTresSemanas();
+    //excesoPromedioTresSemanas = calculaExcesoPromedioTresSemanas();
     if(cruce&&excesoPromedioTresSemanas){
         var cantidad = 0;
         $.each(arr,function(key,turno){
