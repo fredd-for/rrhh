@@ -705,11 +705,6 @@ function desplegarPlanillaPreviaRef(idRelaborales){
             var rows = $('#divGridPlanillasRefGen').jqxGrid('getrows');
             if(rows.length>0){
                 $("#btnCalcularPlanillaPreviaRef").show();
-                if($("#hdnSwPlanillaRefCalculada").val()==1){
-                    $("#btnGenerarPlanillaRef").show();
-                }else{
-                    $("#btnGenerarPlanillaRef").hide();
-                }
             }else{
                 $("#btnGenerarPlanillaRef").hide();
                 $("#btnCalcularPlanillaPreviaRef").hide();

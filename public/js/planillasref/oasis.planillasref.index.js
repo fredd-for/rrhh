@@ -20,7 +20,7 @@ $().ready(function () {
      * Control para la obtención de la Planilla Salarial previa.
      */
     $("#btnGenerarPlanillaPreviaRef").on("click",function(){
-        $("#hdnSwPlanillaRefCalculada").val(0);
+        $("#btnGenerarPlanillaRef").hide();
         limpiarFormularioPlanillaRef(1);
         var ok = validaFormularioPlanillaRef(1);
         if (ok){
@@ -35,7 +35,6 @@ $().ready(function () {
      */
     $("#btnCalcularPlanillaPreviaRef").on("click",function(){
         var cantidadRegistrosValidos = 0;
-        $("#hdnSwPlanillaRefCalculada").val(0)
         limpiarFormularioPlanillaRef(1);
         var ok = validaFormularioPlanillaRef(2);
         if (ok){
@@ -52,8 +51,9 @@ $().ready(function () {
                 if(cantidadRegistrosValidos>=0){
                     listaIdRelaborales += separador;
                     listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
-                    ok = desplegarPlanillaPreviaRef(listaIdRelaborales);
-                    $("#hdnSwPlanillaRefCalculada").val(1);
+
+                    desplegarPlanillaPreviaRef(listaIdRelaborales);
+                    $("#btnGenerarPlanillaRef").show();
                 }else{
                     var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla de Refrigerio.";
                     $("#divMsjePorError").html("");
@@ -342,7 +342,6 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                     $("#viewplanrowbutton").jqxButton();
 
                     $("#hdnIdPlanillaRef").val(0);
-                    $("#hdnSwPlanillaRefCalculada").val(0)
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {
