@@ -78,4 +78,26 @@ class Horarioslaborales extends \Phalcon\Mvc\Model {
         );
     }
 
+    /**
+     * Función para la obtención del registro correspondiente al último horario con cruce de horario del día previo a una fecha.
+     * @param $idRelaboral
+     * @param $fecha
+     * @return Resultset
+     */
+    public function obtenerUltimoIdCalendarioYHorarioCruzadoEnDiaPrevio($idRelaboral,$fecha)
+    {
+        if($idRelaboral>0&&$fecha!=''){
+            $sql = "SELECT cl.id as id_calendariolaboral,hl.id as id_horariolaboral,hl.hora_entrada,hl.hora_salida from calendarioslaborales cl ";
+            $sql .= "INNER JOIN perfileslaborales pl on cl.perfillaboral_id = pl.id ";
+            $sql .= "INNER JOIN relaboralesperfiles rp on rp.perfillaboral_id = pl.id ";
+            $sql .= "INNER JOIN horarioslaborales hl ON cl.horariolaboral_id = hl.id ";
+            $sql .= "WHERE rp.relaboral_id = ".$idRelaboral." ";
+            $sql .= "AND CAST(CAST('".$fecha."' AS DATE)-interval '1 DAY' AS DATE) BETWEEN cl.fecha_ini AND cl.fecha_fin ";
+            $sql .= "AND CAST(CAST('".$fecha."' AS DATE) -interval '1 DAY' AS DATE) BETWEEN rp.fecha_ini AND rp.fecha_fin ";
+            $sql .= "AND hl.hora_entrada>hl.hora_salida LIMIT 1 ";
+            $this->_db = new Fhorarioslaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
+
 } 

@@ -7294,6 +7294,27 @@ class HorariosymarcacionesController extends ControllerBase
                                     case 1 :if($objMEntrada->estado1 ==null||$objMEntrada->estado1 <=1){$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$matrizHorarios[$dia][$turno][$grupoA];
                                         if(!isset($matrizHorariosCruzados[$dia][$turno][$grupoB])){
                                             $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 = $matrizEstados[$dia][$turno][$grupoB];$objMSalida->d1 =$matrizHorarios[$dia][$turno][$grupoB];
+                                        }else{
+                                            if($existeMarcacionCruzadaMixtaInicialEnMes==0){
+                                                $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$dia."-".$mes."-".$gestion);
+                                                if($ctrlMarcacion==3){
+                                                    if($objMSalida->estado1==null||$objMSalida->estado1<=1){
+                                                        $objHorario = new Horarioslaborales();
+                                                        $objCalHor = $objHorario->obtenerUltimoIdCalendarioYHorarioCruzadoEnDiaPrevio($idRelaboral,$dia."-".$mes."-".$gestion);
+                                                        if(is_object($objCalHor)){
+                                                            $objMSalida->estado1 = 1;
+                                                            $objMSalida->d1 = $objCalHor[0]->hora_salida;
+                                                            $objMSalida->calendariolaboral1_id = $objCalHor[0]->id_calendariolaboral;
+                                                        }
+                                                    }
+                                                }else{
+                                                    $objMSalida->calendariolaboral1_id=null;
+                                                    $objMSalida->estado1 = null;
+                                                    $objMSalida->d1 = null;
+                                                }
+                                            }else{
+
+                                            }
                                         }
                                     }break;
                                     case 2 :if($objMEntrada->estado2 ==null||$objMEntrada->estado2 <=1){$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d2 =$matrizHorarios[$dia][$turno][$grupoB];}break;
@@ -7323,9 +7344,9 @@ class HorariosymarcacionesController extends ControllerBase
                                     case 26:if($objMEntrada->estado26 ==null||$objMEntrada->estado26 <=1){$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d26=$matrizHorarios[$dia][$turno][$grupoB];}break;
                                     case 27:if($objMEntrada->estado27 ==null||$objMEntrada->estado27 <=1){$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d27=$matrizHorarios[$dia][$turno][$grupoB];}break;
                                     case 28:if($objMEntrada->estado28 ==null||$objMEntrada->estado28 <=1){$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d28=$matrizHorarios[$dia][$turno][$grupoB];}break;
-                                    case 29:if($objMEntrada->estado29 ==null||$objMEntrada->estado29 <=1){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$matrizHorarios[$dia][$turno][$grupoB];}break;
-                                    case 30:if($objMEntrada->estado30 ==null||$objMEntrada->estado30 <=1){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$matrizHorarios[$dia][$turno][$grupoB];}break;
-                                    case 31:if($objMEntrada->estado31 ==null||$objMEntrada->estado31 <=1){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 29:if($ultimoDia>=29&&$objMEntrada->estado29 ==null||$objMEntrada->estado29 <=1){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 30:if($ultimoDia>=30&&$objMEntrada->estado30 ==null||$objMEntrada->estado30 <=1){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$matrizHorarios[$dia][$turno][$grupoB];}break;
+                                    case 31:if($ultimoDia>=31&&$objMEntrada->estado31 ==null||$objMEntrada->estado31 <=1){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$matrizHorarios[$dia][$turno][$grupoA];$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$matrizHorarios[$dia][$turno][$grupoB];}break;
                                 }
                             }
                         }
@@ -7339,9 +7360,9 @@ class HorariosymarcacionesController extends ControllerBase
                                         /**
                                          * Asignación momentanea
                                          */
-                                        $objMSalida->calendariolaboral1_id=null;
+                                        /*$objMSalida->calendariolaboral1_id=null;
                                         $objMSalida->estado1=null;
-                                        $objMSalida->d1=null;
+                                        $objMSalida->d1=null;*/
                                         break;
                                     case 2 :if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
@@ -7642,7 +7663,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalida->d28 = null;
                                         }
                                     }break;
-                                    case 29:if($objMSalida->estado29 ==null||$objMSalida->estado29 <=1){
+                                    case 29:if($ultimoDia>=29&&($objMSalida->estado29 ==null||$objMSalida->estado29 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado29 = $matrizEstados[$dia-1][$turno][$grupoB];
@@ -7653,7 +7674,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalida->d29 = null;
                                         }
                                     }break;
-                                    case 30:if($objMSalida->estado30 ==null||$objMSalida->estado30 <=1){
+                                    case 30:if($ultimoDia>=30&&($objMSalida->estado30 ==null||$objMSalida->estado30 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado30 = $matrizEstados[$dia-1][$turno][$grupoB];
@@ -7664,7 +7685,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalida->d30 = null;
                                         }
                                     }break;
-                                    case 31:if($objMSalida->estado31 ==null||$objMSalida->estado31 <=1){
+                                    case 31:if($ultimoDia>=31&&($objMSalida->estado31 ==null||$objMSalida->estado31 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado31 = $matrizEstados[$dia-1][$turno][$grupoB];
@@ -7676,12 +7697,6 @@ class HorariosymarcacionesController extends ControllerBase
                                         }
                                     }break;
                                 }
-                                if($existeMarcacionCruzadaMixtaInicialEnMes==1){
-                                    //echo "<p>----->>>>>".$dia;
-
-
-                                }
-
                             }
                         if($existeMarcacionCruzadaMixtaInicialEnMes==1){
 
@@ -8008,7 +8023,10 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalidaAux->d28 = null;
                                         }
                                     }break;
-                                    case 29:if($objMSalidaAux->estado29 ==null||$objMSalidaAux->estado29 <=1){
+                                    /**
+                                     * Se adiciona el control de los 29 días o más debido a que no todos los meses llegan hasta esa fecha
+                                     */
+                                    case 29:if($ultimoDia>=29&&($objMSalidaAux->estado29 ==null||$objMSalidaAux->estado29 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])) {
                                             $objMSalidaAux->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][1][-1];
                                             $objMSalidaAux->estado29 = $matrizEstadosCruzados[$dia-1][1][-1];;
@@ -8019,7 +8037,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalidaAux->d29 = null;
                                         }
                                     }break;
-                                    case 30:if($objMSalidaAux->estado30 ==null||$objMSalidaAux->estado30 <=1){
+                                    case 30:if($ultimoDia>=30&&($objMSalidaAux->estado30 ==null||$objMSalidaAux->estado30 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])) {
                                             $objMSalidaAux->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][1][-1];
                                             $objMSalidaAux->estado30 = $matrizEstadosCruzados[$dia-1][1][-1];;
@@ -8030,7 +8048,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             $objMSalidaAux->d30 = null;
                                         }
                                     }break;
-                                    case 31:if($objMSalidaAux->estado31 ==null||$objMSalidaAux->estado31 <=1){
+                                    case 31:if($ultimoDia>=31&&($objMSalidaAux->estado31 ==null||$objMSalidaAux->estado31 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])) {
                                             $objMSalidaAux->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][1][-1];
                                             $objMSalidaAux->estado31 = $matrizEstadosCruzados[$dia-1][1][-1];;
@@ -8050,12 +8068,14 @@ class HorariosymarcacionesController extends ControllerBase
                     if($existeMarcacionCruzadaMixtaInicialEnMes==1){
                         $objMSalidaAux->modalidadmarcacion_id = 4;
                     }
-                    $objMEntrada->ultimo_dia=$diaaux;$objMSalida->ultimo_dia=$diaaux;
+                    //$objMEntrada->ultimo_dia=$diaaux;$objMSalida->ultimo_dia=$diaaux;
+                    $objMEntrada->ultimo_dia=$ultimoDia;$objMSalida->ultimo_dia=$ultimoDia;
                     $objMEntrada->estado=1;$objMSalida->estado=1;
                     $objMEntrada->baja_logica=1;$objMSalida->baja_logica=1;
                     $objMEntrada->agrupador=0;$objMSalida->agrupador=0;
                     if($existeMarcacionCruzadaMixtaInicialEnMes==1){
-                        $objMSalidaAux->ultimo_dia=$diaaux;
+                        //$objMSalidaAux->ultimo_dia=$diaaux;
+                        $objMSalidaAux->ultimo_dia=$ultimoDia;
                         $objMSalidaAux->estado=1;
                         $objMSalidaAux->baja_logica=1;
                         $objMSalidaAux->agrupador=0;
@@ -9320,6 +9340,13 @@ class HorariosymarcacionesController extends ControllerBase
             $objRango = new Ffechasrango();
             $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
             $objM = new Fmarcaciones();
+            $fechas = $objM->getUltimaFecha($mes,$gestion);
+            if(is_object($fechas)&&$fechas->count()>0){
+                foreach($fechas as $fecha){
+                    $arrFecha= explode("-",$fecha->f_ultimo_dia_mes);
+                    $ultimoDia = $arrFecha[2];
+                }
+            }
             /**
              * Se hace un control de la existencia de al menos una marcación mixta inicial en el rango del mes completo a objeto de
              * prever el registro de marcaciones mixtas iniciales (Marcaciones de salida que proceden del turno del día anterior y
@@ -9706,39 +9733,8 @@ class HorariosymarcacionesController extends ControllerBase
                                 $horaMarcacionSalida=null;
                                 $fecha = $matrizFechas[$dia];
                                 $idHorarioLaboral = $matrizIdHorarios[$dia][$turno][$grupoA];
-                                /*if($dia==24){
-                                    echo "-->".$idHorarioLaboral;
-                                }*/
                                 $resultE = $objME->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral);
-                                if($dia==1){
-                                    /**
-                                     * Cálculos para el control de marcaciones cruzadas en mes previo
-                                     */
-                                    $rsMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
-                                    $ctrlMarcacion=null;
-                                    if(is_object($rsMarcacion)){
-                                        foreach($rsMarcacion as $ctrl){
-                                            $ctrlMarcacion = $ctrl->f_existe_marcacion_mixta;
-                                        }
-                                    }
-                                    if($ctrlMarcacion==3){
-                                        $resultMarc = $objM->obtenerIdHorarioLaboralCruzadoDiaPrevio($idRelaboral,$fecha);
-                                        if(is_object($resultMarc)){
-                                            foreach($resultMarc as $res){
-                                                $idHorarioLaboral = $res->id_horariolaboral;
-                                            }
-                                            $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
-                                        }
-                                    }else{
-                                        if($ctrlMarcacion==0){
-                                            $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
-                                        }else{
-                                            $resultS= null;
-                                        }
-                                    }
-                                }else{
-                                    $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
-                                }
+                                $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
                                 if(is_object($resultE)){
                                     foreach($resultE as $obe){
                                         $horaMarcacionEntrada = $obe->hora;
@@ -9754,7 +9750,48 @@ class HorariosymarcacionesController extends ControllerBase
                                     $horaMarcacionSalida=null;
                                 }
                                 switch($dia){
-                                    case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;$objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d1 =$horaMarcacionSalida;break;
+                                    case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;
+                                        if($existeMarcacionCruzadaMixtaInicialEnMes==0){
+                                            /**
+                                             * Cálculos para el control de marcaciones cruzadas en mes previo
+                                             */
+                                            $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
+                                            if($ctrlMarcacion==3){
+                                                /*$resultMarc = $objM->obtenerIdHorarioLaboralCruzadoDiaPrevio($idRelaboral,$fecha);
+                                                if(is_object($resultMarc)){
+                                                    foreach($resultMarc as $res){
+                                                        $idHorarioLaboral = $res->id_horariolaboral;
+                                                    }
+                                                    $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
+                                                }*/
+
+                                                $objHorario = new Horarioslaborales();
+                                                $objCalHor = $objHorario->obtenerUltimoIdCalendarioYHorarioCruzadoEnDiaPrevio($idRelaboral,$dia."-".$mes."-".$gestion);
+                                                if(is_object($objCalHor)){
+                                                    $objMSalida->estado1 = 1;
+                                                    $objMSalida->calendariolaboral1_id = $objCalHor[0]->id_calendariolaboral;
+                                                }
+                                            }else{
+                                                if($ctrlMarcacion==0){
+                                                    $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
+                                                }else{
+                                                    $resultS= null;
+                                                }
+                                            }
+                                            if(is_object($resultS)){
+                                                foreach($resultS as $obs){
+                                                    $horaMarcacionSalida = $obs->hora;
+                                                }
+                                            }else{
+                                                $horaMarcacionSalida=null;
+                                            }
+                                            $objMSalida->d1 =$horaMarcacionSalida;
+                                        }else{
+                                            $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB];
+                                            $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];
+                                            $objMSalida->d1 =$horaMarcacionSalida;
+                                        }
+                                        break;
                                     case 2 :$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$horaMarcacionEntrada;$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d2 =$horaMarcacionSalida;break;
                                     case 3 :$objMEntrada->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado3 =1;$objMEntrada->d3 =$horaMarcacionEntrada;$objMSalida->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado3 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d3 =$horaMarcacionSalida;break;
                                     case 4 :$objMEntrada->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado4 =1;$objMEntrada->d4 =$horaMarcacionEntrada;$objMSalida->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado4 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d4 =$horaMarcacionSalida;break;
@@ -9782,9 +9819,9 @@ class HorariosymarcacionesController extends ControllerBase
                                     case 26:$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$horaMarcacionEntrada;$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d26=$horaMarcacionSalida;break;
                                     case 27:$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$horaMarcacionEntrada;$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d27=$horaMarcacionSalida;break;
                                     case 28:$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$horaMarcacionEntrada;$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d28=$horaMarcacionSalida;break;
-                                    case 29:$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$horaMarcacionEntrada;$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$horaMarcacionSalida;break;
-                                    case 30:$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$horaMarcacionSalida;break;
-                                    case 31:$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$horaMarcacionSalida;break;
+                                    case 29:if($ultimoDia>=29){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$horaMarcacionEntrada;$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$horaMarcacionSalida;}break;
+                                    case 30:if($ultimoDia>=30){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$horaMarcacionSalida;}break;
+                                    case 31:if($ultimoDia>=31){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$horaMarcacionSalida;}break;
                                 }
                             }
                         }
@@ -10165,7 +10202,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 29:if($objMSalida->estado29 ==null||$objMSalida->estado29 <=1){
+                                    case 29:if($ultimoDia>=29&&($objMSalida->estado29 ==null||$objMSalida->estado29 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado29 = 1;
@@ -10178,7 +10215,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 30:if($objMSalida->estado30 ==null||$objMSalida->estado30 <=1){
+                                    case 30:if($ultimoDia>=30&&($objMSalida->estado30 ==null||$objMSalida->estado30 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado30 = 1;
@@ -10191,7 +10228,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 31:if($objMSalida->estado31 ==null||$objMSalida->estado31 <=1){
+                                    case 31:if($ultimoDia>=31&&($objMSalida->estado31 ==null||$objMSalida->estado31 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalida->estado31 = 1;
@@ -10604,7 +10641,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 29:if($objMSalidaAux->estado29 ==null||$objMSalidaAux->estado29 <=1){
+                                    case 29:if($ultimoDia>=29&&($objMSalidaAux->estado29 ==null||$objMSalidaAux->estado29 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalidaAux->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalidaAux->estado29 = 1;
@@ -10617,7 +10654,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 30:if($objMSalidaAux->estado30 ==null||$objMSalidaAux->estado30 <=1){
+                                    case 30:if($ultimoDia>=30&&($objMSalidaAux->estado30 ==null||$objMSalidaAux->estado30 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalidaAux->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalidaAux->estado30 = 1;
@@ -10630,7 +10667,7 @@ class HorariosymarcacionesController extends ControllerBase
                                             }
                                         }
                                     }break;
-                                    case 31:if($objMSalidaAux->estado31 ==null||$objMSalidaAux->estado31 <=1){
+                                    case 31:if($ultimoDia>=31&&($objMSalidaAux->estado31 ==null||$objMSalidaAux->estado31 <=1)){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
                                             $objMSalidaAux->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
                                             $objMSalidaAux->estado31 = 1;
@@ -10652,12 +10689,14 @@ class HorariosymarcacionesController extends ControllerBase
                     $objMSalida->modalidadmarcacion_id = 5;
                     if($existeMarcacionCruzadaMixtaInicialEnMes==1){
                         $objMSalidaAux->modalidadmarcacion_id = 5;
-                        $objMSalidaAux->ultimo_dia=$diaaux;
+                        $objMSalidaAux->ultimo_dia=$ultimoDia;
+                        //$objMSalidaAux->ultimo_dia=$diaaux;
                         $objMSalidaAux->estado=1;
                         $objMSalidaAux->baja_logica=1;
                         $objMSalidaAux->agrupador=0;
                     }
-                    $objMEntrada->ultimo_dia=$diaaux;$objMSalida->ultimo_dia=$diaaux;
+                    //$objMEntrada->ultimo_dia=$diaaux;$objMSalida->ultimo_dia=$diaaux;
+                    $objMEntrada->ultimo_dia=$ultimoDia;$objMSalida->ultimo_dia=$ultimoDia;
                     $objMEntrada->estado=1;$objMSalida->estado=1;
                     $objMEntrada->baja_logica=1;$objMSalida->baja_logica=1;
                     $objMEntrada->agrupador=0;$objMSalida->agrupador=0;

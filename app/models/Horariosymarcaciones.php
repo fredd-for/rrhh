@@ -45,4 +45,20 @@ class Horariosymarcaciones extends \Phalcon\Mvc\Model {
             return $res;
         }return false;
     }
+    /**
+     * Funcion para la obtencion de la marcacion valida en base al calculo de marcaciones registradas y los datos implicados debido al identificador del horario laboral correspondiente.
+     * @param $idRelaboral
+     * @param $idMaquina
+     * @param $fecha
+     * @param $idHorarioLaboral
+     * @param int $entradaSalida
+     * @return Resultset
+     */
+    public function obtenerHorarioValido($idRelaboral,$fecha,$entradaSalida=0){
+        if($idRelaboral>0&&$fecha!=null&&$fecha!=''){
+            $sql = "SELECT * FROM f_obtener_marcacion_valida_por_id_horariolaboral($idRelaboral,$idMaquina,'$fecha',$idHorarioLaboral,$entradaSalida) ";
+            $this->_db = new Marcaciones();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        }
+    }
 } 
