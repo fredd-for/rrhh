@@ -926,4 +926,33 @@ public function cropAction(){
         $this->view->disable();
     }
 
+    /**
+     * Función para la obtención del listado de identificadores de personas de acuerdo al listado de carnets enviados.
+     * @return string
+     */
+    public function lstidpersonasAction(){
+        $this->view->disable();
+        $lstCi = "";
+        $lstIdPersonas = "";
+        if($_POST["carnets"]){
+            $arrCarnets = explode(",",$_POST["carnets"]);
+            if(count($arrCarnets)>0){
+                foreach($arrCarnets as $ci){
+                    $lstCi .= "'$ci',";
+                }
+                $lstCi .= ",";
+                $lstCi = str_replace(",,","",$lstCi);
+                $objP = Personas::Find("ci IN (".$lstCi.")");
+                if(is_object($objP)){
+                    foreach($objP as $p){
+                        $lstIdPersonas .= $p->id.",";
+                    }
+                    $lstIdPersonas.=",";
+                    $lstIdPersonas = str_replace(",,","",$lstIdPersonas);
+                }
+            }
+        }
+        echo $lstIdPersonas;
+    }
+
 }

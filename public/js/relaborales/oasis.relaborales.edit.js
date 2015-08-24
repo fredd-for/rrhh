@@ -172,8 +172,7 @@ function cargarAreasAdministrativasParaEditar(idPadre,idAreaPredeterminada){
             type:'POST',
             datatype: 'json',
             async:false,
-            data:{id_padre:idPadre
-            },
+            data:{id_padre:idPadre},
             success: function(data) {
                 var res = jQuery.parseJSON(data);
                 if(res.length>0){

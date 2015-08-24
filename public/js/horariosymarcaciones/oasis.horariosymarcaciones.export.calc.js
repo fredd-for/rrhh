@@ -286,9 +286,10 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
         case 1: ruta = "/horariosymarcaciones/exportcalculosexcel";break;
         case 2: ruta = "/horariosymarcaciones/exportcalculospdf";break;
     }
-    if(carnet==''||carnet==null)carnet=0;
-    if(ruta!='')
-        window.open(ruta+"/"+carnet+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+    var id_personas = obtenerIdPersonasPorCarnets(carnet);
+    //if(carnet==''||carnet==null)carnet=0;
+    if(id_personas==''||id_personas==null)id_personas=0;
+    if(ruta!='')window.open(ruta+"/"+id_personas+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/
@@ -358,3 +359,21 @@ function utf8_encode(argString) {
 
     return utftext;
 };
+/**
+ * Función para obtener el listado de identificadores de personas anidados por comas.
+ * @param lstCarnets
+ * @returns {*}
+ */
+function obtenerIdPersonasPorCarnets(lstCarnets){
+    var lstIdPersonas = $.ajax({
+        url:'/personas/lstidpersonas',
+        type:'POST',
+        datatype: 'html',
+        cache:false,
+        async:false,
+        data:{carnets:lstCarnets},
+        success: function(data) {
+        }
+    }).responseText;
+    return lstIdPersonas;
+}

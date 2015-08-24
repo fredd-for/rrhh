@@ -2894,7 +2894,7 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para la exportación del reporte con cálculos en rango de fechas en formato Excel.
-     * @param $carnetAux Número de carnet de identidad
+     * @param $lstIdpersonasAux Listado de identificadores de personas.
      * @param $fechaIni Fecha de inicio del rango para el reporte.
      * @param $fechaFin Fecha de finalización del rango para el reporte.
      * @param $columns Array con las columnas mostradas en el reporte
@@ -2902,7 +2902,7 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    public function exportcalculosexcelAction($carnetAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculosexcelAction($lstIdpersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -3317,11 +3317,8 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($carnetAux!=''){
-                /*if($where!='')$where.=" AND ci='".$CarnetAux."'";
-                else $where.=" WHERE ci='".$CarnetAux."'";*/
-
-                $arrCis = explode(",",$carnetAux);
+            if($lstIdpersonasAux!=''){
+                /*$arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -3333,9 +3330,10 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '}';
                 }else{
                     $jsonCis .= '{"0":"'.$carnetAux.'"}';
-                }
+                }*/
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdpersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
@@ -5401,7 +5399,7 @@ class HorariosymarcacionesController extends ControllerBase
     }
     /**
      * Función para el despliegue del reporte de cálculos de marcaciones en formato PDF.
-     * @param $carnetAux Carnet de identidad.
+     * @param $lstIdPersonasAux Listado de identificadores de personas.
      * @param $fechaIni Fecha de inicio del rango del reporte.
      * @param $fechaFin Fecha de finalización del rango del reporte.
      * @param $n_rows Cantidad de registros.
@@ -5410,7 +5408,7 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups Array de las agrupaciones aplicadas.
      * @param $sorteds Array de los órdenes aplicados.
      */
-    public function exportcalculospdfAction($carnetAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculospdfAction($lstIdPersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
@@ -5817,10 +5815,10 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($carnetAux!=''){
+            if($lstIdPersonasAux!=''){
                 /*if($where!='')$where.=" AND ci='".$carnetAux."'";
                 else $where.=" WHERE ci='".$carnetAux."'";*/
-                $arrCis = explode(",",$carnetAux);
+                /*$arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -5832,9 +5830,9 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '}';
                 }else{
                     $jsonCis .= '{"0":'.$carnetAux.'}';
-                }
+                }*/
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
                 if(is_object($arrIdRelaborales)){
                     $clave=0;

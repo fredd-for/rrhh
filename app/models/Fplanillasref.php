@@ -184,4 +184,24 @@ class Fplanillasref extends \Phalcon\Mvc\Model {
         $sql .= "GROUP BY r.id";
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
+
+    /**
+     * Función para la obtención del listado de identificadores de relación laboral considerando los carnets y fechas enviadas como parámetros.
+     * @param $lstIdPersonas
+     * @param $fechaIni
+     * @param $fechaFin
+     * @return Resultset
+     */
+    public function getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonas,$fechaIni,$fechaFin){
+        $sql = "SELECT r.id FROM personas p ";
+        $sql .= "INNER JOIN relaborales r ON p.id = r.persona_id ";
+        //$sql .= "WHERE CAST('\"'||p.ci||'\"' AS CHARACTER VARYING) IN (SELECT CAST(value AS CHARACTER VARYING) FROM JSON_EACH(CAST('$lstIdPersonas' AS JSON))) ";
+        $sql .= "WHERE p.id IN ($lstIdPersonas) ";
+        $sql .= "AND r.fecha_incor IS NOT NULL AND (";
+        $sql .= "r.fecha_incor BETWEEN '$fechaIni' AND '$fechaFin' ";
+        $sql .= "OR '$fechaIni' BETWEEN r.fecha_incor AND (CASE WHEN r.fecha_baja IS NOT NULL THEN r.fecha_baja ELSE r.fecha_fin END) ";
+        $sql .= "OR '$fechaFin' BETWEEN r.fecha_incor AND (CASE WHEN r.fecha_baja IS NOT NULL THEN r.fecha_baja ELSE r.fecha_fin END)) ";
+        $sql .= "GROUP BY r.id";
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 } 
