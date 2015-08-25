@@ -125,7 +125,36 @@ $().ready(function () {
         placement: 'bottom',
         align: 'left',
         autoclose: true,
-        'default': 'now'
+        'default': 'now',
+        afterDone: function() {
+            if($("#txtHoraSalHorario").val()=='00:00'||$("#txtHoraSalHorario").val()=='00:00:00')
+                $("#txtHoraSalHorario").val("23:59");
+        }
+    });
+    /**
+     * Funciónes de control agregadas debido a que el registro de la hora '00:00' y similares
+     * para la hora de salida provoca errores al momento del registro.
+     */
+    $("#txtHoraSalHorario").on("click",function(){
+        if($("#txtHoraSalHorario").val()=='00:00'||$("#txtHoraSalHorario").val()=='24:00'||$("#txtHoraSalHorario").val()=='00:00:00'||$("#txtHoraSalHorario").val()=='24:00:00'){
+            $("#txtHoraSalHorario").val("23:59");
+        }
+
+    });
+    $("#txtHoraSalHorario").on("blur",function(){
+        if($("#txtHoraSalHorario").val()=='00:00'||$("#txtHoraSalHorario").val()=='24:00'||$("#txtHoraSalHorario").val()=='00:00:00'||$("#txtHoraSalHorario").val()=='24:00:00'){
+            $("#txtHoraSalHorario").val("23:59");
+        }
+    });
+    $("#txtHoraSalHorarioEditar").on("click",function(){
+        if($("#txtHoraSalHorarioEditar").val()=='00:00'||$("#txtHoraSalHorario").val()=='24:00'||$("#txtHoraSalHorario").val()=='00:00:00'||$("#txtHoraSalHorario").val()=='24:00:00'){
+            $("#txtHoraSalHorarioEditar").val("23:59");
+        }
+    });
+    $("#txtHoraSalHorarioEditar").on("blur",function(){
+        if($("#txtHoraSalHorarioEditar").val()=='00:00'||$("#txtHoraSalHorario").val()=='24:00'||$("#txtHoraSalHorario").val()=='00:00:00'||$("#txtHoraSalHorario").val()=='24:00:00'){
+            $("#txtHoraSalHorarioEditar").val("23:59");
+        }
     });
     $("#aHoraSalidaEditar").on("click",function(e){
         e.stopPropagation();
@@ -151,32 +180,9 @@ $().ready(function () {
         e.stopPropagation();
         inputSalidaEditar.clockpicker('show');
     });
-
     $(".hora-entrada-salida").on("change",function (){
         determinaNombreHorario(1);
         aplicarCalculosParaRangoMarcaciones(1);
-
-        /*var horaEntrada = $("#txtHoraEntHorario").val();
-        var horaSalida = $("#txtHoraSalHorario").val();
-        if(horaEntrada=="")horaEntrada="00:00:00";
-        if(horaSalida=="")horaSalida="00:00:00";
-        var cantidadHorasLaborales = calcularCantidadHorasLaborales(horaEntrada,horaSalida);
-        $("#txtHorasLaborales").val(cantidadHorasLaborales);
-        determinaNombreHorario(1);
-        var horaInicioEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario").val(),-60,0);
-        if(horaInicioEntrada!=''){
-            $("#txtHoraInicioRangoEnt").val(horaInicioEntrada);
-        }
-        var auxCantidadHorasLaborales = parseFloat(cantidadHorasLaborales);
-        if(auxCantidadHorasLaborales>0){
-            var mitadCantidadHorasLaborales = parseFloat(auxCantidadHorasLaborales/2);
-            var mitadCantidadMinutosLaborales = parseFloat(mitadCantidadHorasLaborales*60);
-            var horaFinEntrada = sumarMinutosSegundosAHora($("#txtHoraEntHorario").val(),mitadCantidadMinutosLaborales,0);
-            $("#txtHoraFinalizacionRangoEnt").val(horaFinEntrada);
-            var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEnt").val(),0,1);
-            $("#txtHoraInicioRangoSal").val(horaInicioSalida);
-        }
-        $("#txtHoraFinalizacionRangoSal").val("23:59:59");*/
     });
     $("#txtHoraFinalizacionRangoEnt").on("change",function(){
         var horaInicioSalida = sumarMinutosSegundosAHora($("#txtHoraFinalizacionRangoEnt").val(),0,1);
@@ -714,6 +720,7 @@ function determinaNombreHorario(opcion){
     var nombre = "";
     var horaEntrada = $("#txtHoraEntHorario"+sufijo).val();
     var horaSalida = $("#txtHoraSalHorario"+sufijo).val();
+    if (horaSalida=='00:00'||horaSalida=='00:00:00')horaSalida='23:59';
     if(horaEntrada!=""&&horaSalida!=""){
         var arrHoraEntrada = horaEntrada.split(":");
         horaEntrada = arrHoraEntrada[0]+":"+arrHoraEntrada[1];

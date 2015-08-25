@@ -6921,6 +6921,15 @@ class HorariosymarcacionesController extends ControllerBase
             $objM = new Fmarcaciones();
             $ultimoDia=0;
             /**
+             * Se dan de baja todos los registros a objeto de anular aquellos registros que pueden haberse generado por demás,
+             * de tal manera que sólo se activen nuevamente los que fueron procesados
+             */
+            $db = $this->getDI()->get('db');
+            $sql = "UPDATE horariosymarcaciones SET baja_logica = 0 WHERE relaboral_id=".$idRelaboral;
+            $sql .= " AND gestion = ".$gestion." AND mes=".$mes." AND modalidadmarcacion_id IN (1,4)";
+            $db->execute($sql);
+
+            /**
              * Se hace un control de la existencia de al menos una marcación mixta inicial en el rango del mes completo a objeto de
              * prever el registro de marcaciones mixtas iniciales (Marcaciones de salida que proceden del turno del día anterior y
              * que salen del registro de marcaciones normales de salidas establecidas pues genera incoherencia.
@@ -7064,9 +7073,16 @@ class HorariosymarcacionesController extends ControllerBase
                     $consultaEntrada .= "modalidadmarcacion_id = 1 AND ";
                     $consultaSalida .= "modalidadmarcacion_id = 4 AND ";
                     $consultaSalidaAux .= "modalidadmarcacion_id = 4 AND ";
-                    $consultaEntrada .= "estado>=1 AND baja_logica=1 ";
+                    /*$consultaEntrada .= "estado>=1 AND baja_logica=1 ";
                     $consultaSalida .= "estado>=1 AND baja_logica=1 ";
-                    $consultaSalidaAux .= "estado>=1 AND baja_logica=1 ";
+                    $consultaSalidaAux .= "estado>=1 AND baja_logica=1 ";*/
+                    /**
+                     * Inicialmente se habian puesto con baja_logica todos los registros referentes para que no aparecieran en los reportes
+                     * si no corresponden, pero si corresponden vuelven simplemente a ser activados.
+                     */
+                    $consultaEntrada .= "estado>=1";
+                    $consultaSalida .= "estado>=1";
+                    $consultaSalidaAux .= "estado>=1";
                     /**
                      * Se hace una consulta para ver los registro de entrada y salida válidos
                      */
@@ -9335,6 +9351,14 @@ class HorariosymarcacionesController extends ControllerBase
             $entradas = 0;
             $salidas = 0;
             $ultimoDia=0;
+            /**
+             * Se dan de baja todos los registros a objeto de anular aquellos registros que pueden haberse generado por demás,
+             * de tal manera que sólo se activen nuevamente los que fueron procesados
+             */
+            $db = $this->getDI()->get('db');
+            $sql = "UPDATE horariosymarcaciones SET baja_logica = 0 WHERE relaboral_id=".$idRelaboral;
+            $sql .= " AND gestion = ".$gestion." AND mes=".$mes." AND modalidadmarcacion_id IN (2,5)";
+            $db->execute($sql);
             $objRango = new Ffechasrango();
             $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
             $objM = new Fmarcaciones();
