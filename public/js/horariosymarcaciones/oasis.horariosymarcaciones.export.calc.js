@@ -289,7 +289,17 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     var id_personas = obtenerIdPersonasPorCarnets(carnet);
     //if(carnet==''||carnet==null)carnet=0;
     if(id_personas==''||id_personas==null)id_personas=0;
-    if(ruta!='')window.open(ruta+"/"+id_personas+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+    //if(ruta!='')window.open(ruta+"/"+id_personas+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
+    $("#formHorariosYMarcacionesCal").prop("action",ruta);
+    $("#id_personas").text(id_personas);
+    $("#fecha_ini").val(fechaIni);
+    $("#fecha_fin").val(fechaFin);
+    $("#n_rows").val(n_rows);
+    $("#columns").val(json_columns);
+    $("#filters").val(json_filter);
+    $("#groups").val(json_groups);
+    $("#sorteds").val(json_sorteds);
+    $("#formHorariosYMarcacionesCal").submit();
 }
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/

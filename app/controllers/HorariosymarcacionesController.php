@@ -2902,8 +2902,18 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    public function exportcalculosexcelAction($lstIdpersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
-    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+    //public function exportcalculosexcelAction($lstIdpersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculosexcelAction()
+    {   $this->view->disable();
+        $lstIdpersonasAux=$_POST["id_personas"];
+        $fechaIni=$_POST["fecha_ini"];
+        $fechaFin=$_POST["fecha_fin"];
+        $n_rows=$_POST["n_rows"];
+        $columns=$_POST["columns"];
+        $filtros=$_POST["filters"];
+        $groups=$_POST["groups"];
+        $sorteds=$_POST["sorteds"];
+        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
         if($groups=='null'||$groups==null)$groups="";
@@ -5408,8 +5418,18 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups Array de las agrupaciones aplicadas.
      * @param $sorteds Array de los órdenes aplicados.
      */
-    public function exportcalculospdfAction($lstIdPersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
-    {   $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
+    //public function exportcalculospdfAction($lstIdPersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
+    public function exportcalculospdfAction()
+    {   $this->view->disable();
+        $lstIdpersonasAux=$_POST["id_personas"];
+        $fechaIni=$_POST["fecha_ini"];
+        $fechaFin=$_POST["fecha_fin"];
+        $n_rows=$_POST["n_rows"];
+        $columns=$_POST["columns"];
+        $filtros=$_POST["filters"];
+        $groups=$_POST["groups"];
+        $sorteds=$_POST["sorteds"];
+        $columns = base64_decode(str_pad(strtr($columns, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $filtros = base64_decode(str_pad(strtr($filtros, '-_', '+/'), strlen($columns) % 4, '=', STR_PAD_RIGHT));
         $groups = base64_decode(str_pad(strtr($groups, '-_', '+/'), strlen($groups) % 4, '=', STR_PAD_RIGHT));
         if($groups=='null'||$groups==null)$groups="";
