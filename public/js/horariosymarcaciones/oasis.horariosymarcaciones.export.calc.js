@@ -286,9 +286,9 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
         case 1: ruta = "/horariosymarcaciones/exportcalculosexcel";break;
         case 2: ruta = "/horariosymarcaciones/exportcalculospdf";break;
     }
-    var id_personas = obtenerIdPersonasPorCarnets(carnet);
-    //if(carnet==''||carnet==null)carnet=0;
-    if(id_personas==''||id_personas==null)id_personas=0;
+    //var id_personas = obtenerIdPersonasPorCarnets(carnet);
+    if(carnet==''||carnet==null)carnet=0;
+    //if(id_personas==''||id_personas==null)id_personas=0;
     //if(ruta!='')window.open(ruta+"/"+id_personas+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
     $("#formHorariosYMarcacionesCal").prop("action",ruta);
     $("#carnets").text(carnet);
