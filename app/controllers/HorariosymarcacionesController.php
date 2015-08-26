@@ -5853,7 +5853,7 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '{"0":'.$carnetAux.'}';
                 }
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($carnetAux,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
                 //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
                 if(is_object($arrIdRelaborales)){
