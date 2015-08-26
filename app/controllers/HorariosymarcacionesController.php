@@ -739,7 +739,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
                 $objHM = new Fplanillasref();
                 $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
-                $jsonIdRelaborales = "";
+                $jsonIdRelaborales = '{"0":0}';
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
                     $jsonIdRelaborales = '{';
@@ -3343,9 +3343,8 @@ class HorariosymarcacionesController extends ControllerBase
                 }
                 $objHM = new Fplanillasref();
                 $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
-                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdpersonasAux,$fechaIni,$fechaFin);
-                $jsonIdRelaborales = "";
-                if(count($arrIdRelaborales)>0){
+                $jsonIdRelaborales = '{"0":0}';
+                if(is_object($arrIdRelaborales)){
                     $clave=0;
                     $jsonIdRelaborales = '{';
                     foreach($arrIdRelaborales as $reg){
@@ -3353,8 +3352,7 @@ class HorariosymarcacionesController extends ControllerBase
                         $clave++;
                     }
                     $jsonIdRelaborales .= ',';
-                    $jsonIdRelaborales = str_replace(',,','',$jsonIdRelaborales);
-                    $jsonIdRelaborales = str_replace('{,}','{"0":0}',$jsonIdRelaborales);
+                    $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
                     $jsonIdRelaborales .= '}';
                 }
             }
@@ -5837,25 +5835,22 @@ class HorariosymarcacionesController extends ControllerBase
 
             }
             if($carnetAux!=''){
-                /*if($where!='')$where.=" AND ci='".$carnetAux."'";
-                else $where.=" WHERE ci='".$carnetAux."'";*/
                 $arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
                     foreach($arrCis as $clave => $carnet){
-                        $jsonCis .= '"'.$clave.'":'.$carnet.',';
+                        $jsonCis .= '"'.$clave.'":"'.$carnet.'",';
                     }
                     $jsonCis .= ',';
                     $jsonCis = str_replace(",,","",$jsonCis);
                     $jsonCis .= '}';
                 }else{
-                    $jsonCis .= '{"0":'.$carnetAux.'}';
+                    $jsonCis .= '{"0":"'.$carnetAux.'"}';
                 }
                 $objHM = new Fplanillasref();
                 $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
-                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonasAux,$fechaIni,$fechaFin);
-                $jsonIdRelaborales = "";
+                $jsonIdRelaborales = '{"0":0}';
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
                     $jsonIdRelaborales = '{';
