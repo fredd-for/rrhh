@@ -366,21 +366,3 @@ function utf8_encode(argString) {
 
     return utftext;
 };
-/**
- * Función para obtener el listado de identificadores de personas anidados por comas.
- * @param lstCarnets
- * @returns {*}
- */
-function obtenerIdPersonasPorCarnets(lstCarnets){
-    var lstIdPersonas = $.ajax({
-        url:'/personas/lstidpersonas',
-        type:'POST',
-        datatype: 'html',
-        cache:false,
-        async:false,
-        data:{carnets:lstCarnets},
-        success: function(data) {
-        }
-    }).responseText;
-    return lstIdPersonas;
-}
