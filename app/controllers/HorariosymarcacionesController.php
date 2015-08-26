@@ -3345,7 +3345,7 @@ class HorariosymarcacionesController extends ControllerBase
                 //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
                 $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdpersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
-                if(is_object($arrIdRelaborales)){
+                if(count($arrIdRelaborales)>0){
                     $clave=0;
                     $jsonIdRelaborales = '{';
                     foreach($arrIdRelaborales as $reg){
@@ -3353,7 +3353,8 @@ class HorariosymarcacionesController extends ControllerBase
                         $clave++;
                     }
                     $jsonIdRelaborales .= ',';
-                    $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
+                    $jsonIdRelaborales = str_replace(',,','',$jsonIdRelaborales);
+                    $jsonIdRelaborales = str_replace('{,}','{"0":0}',$jsonIdRelaborales);
                     $jsonIdRelaborales .= '}';
                 }
             }
