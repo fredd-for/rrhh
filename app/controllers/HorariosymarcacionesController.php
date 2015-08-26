@@ -2905,7 +2905,6 @@ class HorariosymarcacionesController extends ControllerBase
     //public function exportcalculosexcelAction($lstIdpersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     public function exportcalculosexcelAction()
     {   $this->view->disable();
-        $lstIdpersonasAux=$_POST["id_personas"];
         $carnetAux=$_POST["carnets"];
         $fechaIni=$_POST["fecha_ini"];
         $fechaFin=$_POST["fecha_fin"];
@@ -5423,7 +5422,7 @@ class HorariosymarcacionesController extends ControllerBase
     //public function exportcalculospdfAction($lstIdPersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     public function exportcalculospdfAction()
     {   $this->view->disable();
-        $lstIdpersonasAux=$_POST["id_personas"];
+        $carnetAux=$_POST["carnets"];
         $fechaIni=$_POST["fecha_ini"];
         $fechaFin=$_POST["fecha_fin"];
         $n_rows=$_POST["n_rows"];
@@ -5837,10 +5836,10 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($lstIdPersonasAux!=''){
+            if($carnetAux!=''){
                 /*if($where!='')$where.=" AND ci='".$carnetAux."'";
                 else $where.=" WHERE ci='".$carnetAux."'";*/
-                /*$arrCis = explode(",",$carnetAux);
+                $arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -5852,9 +5851,10 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '}';
                 }else{
                     $jsonCis .= '{"0":'.$carnetAux.'}';
-                }*/
+                }
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonasAux,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($carnetAux,$fechaIni,$fechaFin);
+                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
