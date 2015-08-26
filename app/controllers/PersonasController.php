@@ -959,7 +959,7 @@ public function cropAction(){
         $this->view->disable();
         $lstCi = "";
         $lstIdPersonas = "";
-        if($_POST["carnets"]){
+        if(isset($_POST["carnets"])){
             $arrCarnets = explode(",",$_POST["carnets"]);
             if(count($arrCarnets)>0){
                 foreach($arrCarnets as $ci){
