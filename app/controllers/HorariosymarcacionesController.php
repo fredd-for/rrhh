@@ -5836,7 +5836,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($lstIdPersonasAux!=''){
+            if($lstIdpersonasAux!=''){
                 /*if($where!='')$where.=" AND ci='".$carnetAux."'";
                 else $where.=" WHERE ci='".$carnetAux."'";*/
                 /*$arrCis = explode(",",$carnetAux);

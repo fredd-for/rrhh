@@ -291,6 +291,7 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     if(id_personas==''||id_personas==null)id_personas=0;
     //if(ruta!='')window.open(ruta+"/"+id_personas+"/"+fechaIni+"/"+fechaFin+"/"+n_rows+"/"+json_columns+"/"+json_filter+"/"+json_groups+"/"+json_sorteds ,"_blank");
     $("#formHorariosYMarcacionesCal").prop("action",ruta);
+    $("#carnets").text(carnet);
     $("#id_personas").text(id_personas);
     $("#fecha_ini").val(fechaIni);
     $("#fecha_fin").val(fechaFin);
