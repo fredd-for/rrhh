@@ -289,7 +289,6 @@ function exportarReporteCalculosHorariosYMarcaciones(option,carnet,fechaIni,fech
     if(carnet==''||carnet==null)carnet=0;
     $("#formHorariosYMarcacionesCal").prop("action",ruta);
     $("#carnets").text(carnet);
-    $("#id_personas").text(id_personas);
     $("#fecha_ini").val(fechaIni);
     $("#fecha_fin").val(fechaFin);
     $("#n_rows").val(n_rows);
