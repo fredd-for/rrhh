@@ -2906,6 +2906,7 @@ class HorariosymarcacionesController extends ControllerBase
     public function exportcalculosexcelAction()
     {   $this->view->disable();
         $lstIdpersonasAux=$_POST["id_personas"];
+        $carnetAux=$_POST["carnets"];
         $fechaIni=$_POST["fecha_ini"];
         $fechaFin=$_POST["fecha_fin"];
         $n_rows=$_POST["n_rows"];
@@ -3327,8 +3328,8 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($lstIdpersonasAux!=''){
-                /*$arrCis = explode(",",$carnetAux);
+            if($carnetAux!=''){
+                $arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -3340,10 +3341,10 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '}';
                 }else{
                     $jsonCis .= '{"0":"'.$carnetAux.'"}';
-                }*/
+                }
                 $objHM = new Fplanillasref();
-                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdpersonasAux,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                //$arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdpersonasAux,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = "";
                 if(count($arrIdRelaborales)>0){
                     $clave=0;
@@ -5836,7 +5837,7 @@ class HorariosymarcacionesController extends ControllerBase
                 }
 
             }
-            if($lstIdpersonasAux!=''){
+            if($lstIdPersonasAux!=''){
                 /*if($where!='')$where.=" AND ci='".$carnetAux."'";
                 else $where.=" WHERE ci='".$carnetAux."'";*/
                 /*$arrCis = explode(",",$carnetAux);
