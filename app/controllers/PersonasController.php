@@ -140,8 +140,8 @@ class PersonasController extends ControllerBase {
     public function editarAction($id) {
 
         $this->assets->addCss('/media/plugins/form-stepy/jquery.stepy.css')
-                    ->addCss('/js/dropzone/css/dropzone.css')
-                    ->addCss('/js/jscrop/css/jquery.Jcrop.css');
+        ->addCss('/js/dropzone/css/dropzone.css')
+        ->addCss('/js/jscrop/css/jquery.Jcrop.css');
         $this->assets
         ->addJs('/media/plugins/form-validation/jquery.validate.min.js')
         ->addJs('/media/plugins/form-stepy/jquery.stepy.js')
@@ -260,11 +260,36 @@ class PersonasController extends ControllerBase {
             'e_mail_per' => $res->e_mail_per,
             'e_mail_inst' => $res->e_mail_inst,
             'interno_inst' => $res->interno_inst
-        );
-        $this->view->setVar('personas', $datos_personal);
-        
-        // $this->view->setVar('personas',$resul);
-    }
+            );
+            $this->view->setVar('personas', $datos_personal);
+
+            $expd = trim($datos_personal['expd']);
+            $this->tag->setDefault("expd", $expd);
+            $expd=$this->tag->selectStatic(array('expd',
+                array(
+                    'LP' => 'LP',
+                    'OR' => 'OR',
+                    'CBA' => 'CBA',
+                    'TRJ' => 'TRJ',
+                    'PND' => 'PDO',
+                    'SC' => 'SC',
+                    'BN' => 'BN',
+                    'PT' => 'PT',
+                    'CH' => 'CH'),
+                "class" => 'form-control',
+                'useEmpty' => false,
+                'emptyText' => '[Lugar Expedicion]',
+                'emptyValue' => '',
+                'required' => 'required',
+                'title' => 'Campo requerido'
+            ));
+
+            $this->view->setVar('expd',$expd);
+
+
+
+
+}
 
     // public function editarAction($id_personas) {
     //     $resul = new personas();

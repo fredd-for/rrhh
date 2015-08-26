@@ -94,7 +94,8 @@ function cargar(){
                 { text: 'Denominacion', datafield: 'denominacion', filtertype: 'input',width: '15%' },
                 { text: 'Ordenador', datafield: 'ordenador', filtertype: 'number',width: '5%' },
                 { text: 'Cargo', datafield: 'cargo', filtertype: 'input',width: '30%' },
-                { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '8%', cellsalign: 'right', align: 'right'},
+                // { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'number',width: '8%', cellsalign: 'right', align: 'right'},
+                { text: 'Salario Mensual', datafield: 'sueldo', filtertype: 'input',width: '8%', cellsformat: 'c2',cellsalign: 'right',align:'center'},
                 { text: 'Item', datafield: 'codigo', filtertype: 'input',width: '5%' },
                 { text: 'Estado', datafield: 'estado', filtertype: 'checkedlist',width: '7%' },
                 { text: 'Tipo Cargo', datafield: 'condicion', filtertype: 'checkedlist',width: '10%' },
@@ -804,7 +805,7 @@ function exportarPacReporte(option){
 					<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
 					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
 					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
-					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copear Cargo</button>
+					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copiar Cargo</button>
 					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte PDF</button>
 					<button class="btn btn-sm btn-primary" type="button" id="rep_excel"><i class="fa fa-book fa-fw"></i> Reporte Excel</button>
         </div>

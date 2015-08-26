@@ -157,25 +157,27 @@ use Phalcon\Tag; ?>
                                                         <div class="col-md-3">
                                                             <div class="input-group col-md-12">                              
                                                                 <?php
-                                                                $this->tag->setDefault("expd", $personas['expd']);
-                                                                echo Tag::selectStatic(array('expd',
-                                                                    array(
-                                                                        'LP' => 'LP',
-                                                                        'OR' => 'OR',
-                                                                        'CBA' => 'CBA',
-                                                                        'TRJ' => 'TRJ',
-                                                                        'PND' => 'PDO',
-                                                                        'SC' => 'SC',
-                                                                        'BNI' => 'BN',
-                                                                        'PTS' => 'PT',
-                                                                        'SUC' => 'SUC'),
-                                                                    "class" => 'form-control',
-                                                                    'useEmpty' => false,
-                                                                    'emptyText' => '[Lugar Expedicion]',
-                                                                    'emptyValue' => '',
-                                                                    'required' => 'required',
-                                                                    'title' => 'Campo requerido'
-                                                                ));
+                                                                echo $expd;
+                                                                // $this->tag->setDefault("expd", $personas['expd']);
+                                                                // echo Tag::selectStatic(array('expd',
+                                                                //     array(
+                                                                //         'LP' => 'LP',
+                                                                //         'OR' => 'OR',
+                                                                //         'CBA' => 'CBA',
+                                                                //         'TRJ' => 'TRJ',
+                                                                //         'PND' => 'PDO',
+                                                                //         'SC' => 'SC',
+                                                                //         'BN' => 'BN',
+                                                                //         'PT' => 'PT',
+                                                                //         'CH' => 'CH'),
+                                                                //     "class" => 'form-control',
+                                                                //     'useEmpty' => false,
+                                                                //     'emptyText' => '[Lugar Expedicion]',
+                                                                //     'emptyValue' => '',
+                                                                //     'required' => 'required',
+                                                                //     'title' => 'Campo requerido'
+                                                                // ));
+
                                                                 ?>
                                                             </div>  
                                                         </div>  
