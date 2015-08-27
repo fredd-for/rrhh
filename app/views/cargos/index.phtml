@@ -213,6 +213,8 @@ $("#delete").click(function(){
 	}
 });
 
+
+
 $("#add_pac").click(function(){
             	if($("#cargo_id_pac").val()!=""){
             		if ($("#estado_cargo").val()=='ADJUDICADO') {
@@ -495,6 +497,43 @@ $('#testForm').validate({
         }
     });
 
+
+$("#update_escala").click(function(){
+		$('#myModal_update').modal('show');        		
+});
+
+
+$('#testForm_update').validate({
+ 	rules: {
+ 		resolucion_escala_id: {
+ 			required: true
+ 		},
+ 		fin_partida_id: {
+ 			required: true
+ 		}
+ 	},
+ 	highlight: function (element) {
+ 		$(element).closest('.control-group').removeClass('success').addClass('error');
+ 	},
+ 	success: function (element) {
+        //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+        element.addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+    },
+    submitHandler: function (form) {
+		var v=$.ajax({
+			url:'/cargos/updateescala/',
+			type:'POST',
+			datatype: 'json',
+			data:{res_min_id:$("#rm_id").val(),fin_partida_id:$('#fin_partida_id').val(),resolucion_escala_id:$("#resolucion_escala_id")},
+						success: function(data) { //cargar2(); //alert(data); 
+												}, //mostramos el error
+												error: function() { alert('Se ha producido un error Inesperado'); }
+											});
+		
+		$('#myModal_update').modal('hide');
+        return false; // ajax used, block the normal submit
+        }
+    });
 
 /***********Reporte PDF**************/
 // $("#rep_pdf").click(function(){
@@ -799,15 +838,20 @@ function exportarPacReporte(option){
 
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-10">
         <div class="pull-left">
-            <button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
-					<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
-					<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
-					<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
-					<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copiar Cargo</button>
-					<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte PDF</button>
-					<button class="btn btn-sm btn-primary" type="button" id="rep_excel"><i class="fa fa-book fa-fw"></i> Reporte Excel</button>
+        	<button class="btn btn-sm btn-primary" type="button" id="add"><i class="fa fa-plus fa-fw"></i>Adicionar</button>
+        	<button class="btn btn-sm btn-warning" type="button" id="edit"><i class="fa fa-pencil fa-fw"></i> Editar</button>
+        	<button class="btn btn-sm btn-danger" type="button" id="delete"><i class="fa fa-trash-o fa-fw"></i> Eliminar</button>
+        	<button class="btn btn-sm btn-primary" type="button" id="add_pac"><i class="fa fa-sign-in fa-fw"></i> Asignar PACP</button>
+        	<button class="btn btn-sm btn-primary" type="button" id="copy"><i class="fa fa-files-o fa-fw"></i> Copiar Cargo</button>
+        	<button class="btn btn-sm btn-primary" type="button" id="update_escala"><i class="fa fa-files-o fa-fw"></i> Actualizar Escala Salarial</button>
+
+        	
+        </div>
+        <div class="pull-right">
+        	<button class="btn btn-sm btn-primary" type="button" id="rep_pdf"><i class="fa fa-book fa-fw"></i> Reporte PDF</button>
+        	<button class="btn btn-sm btn-primary" type="button" id="rep_excel"><i class="fa fa-book fa-fw"></i> Reporte Excel</button>
         </div>
     </div>
 </div>
@@ -1110,6 +1154,44 @@ function exportarPacReporte(option){
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 				<!-- <button type="submit" class="btn btn-primary" id="exportar_excel">Exportar Excel</button> -->
 				<button type="submit" class="btn btn-primary" id="exportar_pac_pdf">Exportar PDF</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!-- end  modal -->
+
+<!-- Modal Actualizar escala salarial-->
+
+<div class="modal fade" id="myModal_update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form class="form-horizontal" id="testForm_update" data-toggle="validator"/>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" >ACTUALIZAR ESCALA SALARIAL</h4>
+			</div>
+			<div class="modal-body">
+				<input type="text" name="rm_id" id="rm_id" value="<?php echo $resolucion_ministerial_id ?>">
+				<div class="form-group">
+					<label class="col-md-4 control-label" >Actualizar Según Resolución Ministerial</label>
+					<div class="col-md-8">
+						<?php  echo $resolucion_ministerial_escala ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" >Fuente de Financiamiento</label>
+					<div class="col-md-8">
+						<?php  echo $finpartida ?>
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary" id="actualizar">Guardar</button>
 			</div>
 		</form>
 	</div>
