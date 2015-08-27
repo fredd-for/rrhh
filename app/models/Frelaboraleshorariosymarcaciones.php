@@ -599,6 +599,7 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
     public function getAllByRangeTwoMonth($jsonIdRelaborales,$fechaIni,$fechaFin,$where='',$group='')
     {
         if($jsonIdRelaborales!=''&&$fechaIni!=''&&$fechaFin!=''){
+            //$jsonIdRelaborales = '{"66":229}';
             $sql = "SELECT * FROM f_horariosymarcaciones_mas_relaborales(CAST('$jsonIdRelaborales' AS json),'".$fechaIni."','".$fechaFin."')";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;

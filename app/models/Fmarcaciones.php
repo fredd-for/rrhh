@@ -251,6 +251,22 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
     }
 
     /**
+     * Función para el control de la existencia de al menos una marcación cruzada inicial en una determinada gestión y mes para el registro de relación laboral.
+     * @param $idRelaboral
+     * @param $gestion
+     * @param $mes
+     * @return int
+     */
+    public function controlExisteMarcacionMixtaInicialEnGestionMes($idRelaboral,$gestion,$mes)
+    {   if($idRelaboral>0&&$gestion>0&&$mes>0) {
+        $sql = "SELECT f_existe_marcacion_mixta_inicial_en_gestion_mes as resultado from f_existe_marcacion_mixta_inicial_en_gestion_mes(".$idRelaboral.",$gestion,$mes)";
+        $this->_db = new Fmarcaciones();
+        $res = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        return $res[0]->resultado;
+    } return 0;
+    }
+
+    /**
      * Función que verifica la existencia de una marcación prevista cruzada y una marcación regular en una misma fecha.
      * @param $idRelaboral
      * @param $fecha

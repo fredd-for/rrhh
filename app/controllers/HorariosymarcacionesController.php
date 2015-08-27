@@ -3328,7 +3328,7 @@ class HorariosymarcacionesController extends ControllerBase
 
             }
             if($carnetAux!=''){
-                $arrCis = explode(",",$carnetAux);
+                /*$arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -3342,7 +3342,27 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '{"0":"'.$carnetAux.'"}';
                 }
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);*/
+                $lstCi = "";
+                $lstIdPersonas = "";
+                $arrCarnets = explode(",",$carnetAux);
+                if(count($arrCarnets)>0){
+                    foreach($arrCarnets as $ci){
+                        $lstCi .= "'$ci',";
+                    }
+                    $lstCi .= ",";
+                    $lstCi = str_replace(",,","",$lstCi);
+                    $objP = Personas::Find("ci IN (".$lstCi.")");
+                    if(is_object($objP)){
+                        foreach($objP as $p){
+                            $lstIdPersonas .= $p->id.",";
+                        }
+                        $lstIdPersonas.=",";
+                        $lstIdPersonas = str_replace(",,","",$lstIdPersonas);
+                    }
+                }
+                $objHM = new Fplanillasref();
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonas,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = '{"0":0}';
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
@@ -3355,6 +3375,7 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonIdRelaborales = str_replace(",,","",$jsonIdRelaborales);
                     $jsonIdRelaborales .= '}';
                 }
+                $jsonIdRelaborales = str_replace('{,}','{"0":0}',$jsonIdRelaborales);
             }
             if ($excel->debug == 1) echo "<p>WHERE------------------------->" . $where . "<p>";
             if ($excel->debug == 1) echo "<p>GROUP BY------------------------->" . $groups . "<p>";
@@ -5835,7 +5856,7 @@ class HorariosymarcacionesController extends ControllerBase
 
             }
             if($carnetAux!=''){
-                $arrCis = explode(",",$carnetAux);
+                /*$arrCis = explode(",",$carnetAux);
                 $jsonCis = "";
                 if(count($arrCis)>0){
                     $jsonCis = '{';
@@ -5849,7 +5870,27 @@ class HorariosymarcacionesController extends ControllerBase
                     $jsonCis .= '{"0":"'.$carnetAux.'"}';
                 }
                 $objHM = new Fplanillasref();
-                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorCarnets($jsonCis,$fechaIni,$fechaFin);*/
+                $lstCi = "";
+                $lstIdPersonas = "";
+                $arrCarnets = explode(",",$carnetAux);
+                if(count($arrCarnets)>0){
+                    foreach($arrCarnets as $ci){
+                        $lstCi .= "'$ci',";
+                    }
+                    $lstCi .= ",";
+                    $lstCi = str_replace(",,","",$lstCi);
+                    $objP = Personas::Find("ci IN (".$lstCi.")");
+                    if(is_object($objP)){
+                        foreach($objP as $p){
+                            $lstIdPersonas .= $p->id.",";
+                        }
+                        $lstIdPersonas.=",";
+                        $lstIdPersonas = str_replace(",,","",$lstIdPersonas);
+                    }
+                }
+                $objHM = new Fplanillasref();
+                $arrIdRelaborales = $objHM->getIdRelaboralesEnJsonPorIdPersonas($lstIdPersonas,$fechaIni,$fechaFin);
                 $jsonIdRelaborales = '{"0":0}';
                 if(is_object($arrIdRelaborales)){
                     $clave=0;
@@ -6951,7 +6992,8 @@ class HorariosymarcacionesController extends ControllerBase
              * prever el registro de marcaciones mixtas iniciales (Marcaciones de salida que proceden del turno del día anterior y
              * que salen del registro de marcaciones normales de salidas establecidas pues genera incoherencia.
              */
-            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
+            //$existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
+            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnGestionMes($idRelaboral,$gestion,$mes);
             $fechas = $objM->getUltimaFecha($mes,$gestion);
             if(is_object($fechas)&&$fechas->count()>0){
                 foreach($fechas as $fecha){
@@ -8174,7 +8216,8 @@ class HorariosymarcacionesController extends ControllerBase
              * prever el registro de marcaciones mixtas iniciales (Marcaciones de salida que proceden del turno del día anterior y
              * que salen del registro de marcaciones normales de salidas establecidas pues genera incoherencia.
              */
-            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
+            //$existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
+            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnGestionMes($idRelaboral,$gestion,$mes);
             $fechas = $objM->getUltimaFecha($mes,$gestion);
             if(is_object($fechas)&&$fechas->count()>0){
                 foreach($fechas as $fecha){
@@ -9368,6 +9411,7 @@ class HorariosymarcacionesController extends ControllerBase
             $entradas = 0;
             $salidas = 0;
             $ultimoDia=0;
+            $objM = new Fmarcaciones();
             /**
              * Se dan de baja todos los registros a objeto de anular aquellos registros que pueden haberse generado por demás,
              * de tal manera que sólo se activen nuevamente los que fueron procesados
@@ -9378,7 +9422,7 @@ class HorariosymarcacionesController extends ControllerBase
             $db->execute($sql);
             $objRango = new Ffechasrango();
             $rangoFechas = $objRango->getAll($fechaIni,$fechaFin);
-            $objM = new Fmarcaciones();
+
             $fechas = $objM->getUltimaFecha($mes,$gestion);
             if(is_object($fechas)&&$fechas->count()>0){
                 foreach($fechas as $fecha){
@@ -9391,7 +9435,8 @@ class HorariosymarcacionesController extends ControllerBase
              * prever el registro de marcaciones mixtas iniciales (Marcaciones de salida que proceden del turno del día anterior y
              * que salen del registro de marcaciones normales de salidas establecidas pues genera incoherencia.
              */
-            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
+            $existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnGestionMes($idRelaboral,$gestion,$mes);
+            //$existeMarcacionCruzadaMixtaInicialEnMes = $objM->controlExisteMarcacionMixtaInicialEnRango($idRelaboral,$fechaIni,$fechaFin);
             $matrizHorarios = array();
             $matrizIdCalendarios = array();
             $matrizDiasSemana = array();
@@ -10287,10 +10332,16 @@ class HorariosymarcacionesController extends ControllerBase
                         else{
                             #region Cálculo de las marcaciones para las salidas con cruce y además se presenta una marcación cruzada inicial que amerita la existencia de un registro adicional de ingresos
                             if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
-                                //$diaCruzado = $dia-1;
                                 $horaMarcacionSalida=null;
                                 if(isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                     $idHorarioLaboral = $matrizIdHorariosCruzados[$dia-1][$turno][$grupoB];
+                                    /**
+                                     * Se reconsidera el cálculo debido a que la obtención de la marcación ya toma en cuenta
+                                     * horarios cruzados.
+                                     */
+                                    if($dia>1){
+                                        $fecha = $matrizFechas[$dia-1];
+                                    }
                                     $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
                                     if(is_object($resultS)){
                                         foreach($resultS as $obs){
