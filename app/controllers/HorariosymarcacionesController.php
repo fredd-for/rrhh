@@ -3504,10 +3504,7 @@ class HorariosymarcacionesController extends ControllerBase
                 );
                 #region Sector para almacenamiento de los totales
                 if($v->modalidadmarcacion_id==3||$v->modalidadmarcacion_id==6){
-                    $atrasos = $faltas = $abandono = $omision = $lsgh = $compensacion = 0;
-                    if($v->atrasos!=''){
-                        $atrasos=$v->atrasos;
-                    }
+                    $faltas = $abandono = $omision = $lsgh = $compensacion = 0;
                     if($v->faltas!=''){
                         $faltas=$v->faltas;
                     }
@@ -3523,7 +3520,6 @@ class HorariosymarcacionesController extends ControllerBase
                     if($v->compensacion!=''){
                         $compensacion=$v->compensacion;
                     }
-                    $totalAtrasos += $atrasos;
                     $totalFaltas += $faltas;
                     $totalAbandono += $abandono;
                     $totalOmision += $omision;
@@ -3547,11 +3543,6 @@ class HorariosymarcacionesController extends ControllerBase
                     /*echo "<p>---------------------------------------------------------------------</p>";
                     echo "1) ".$atrasos.", 2) ".$faltas.", 3) ".$abandono.", 4) ".$omision.", 5) ".$lsgh.", 6) ".$compensacion;
                     echo "<p>---------------------------------------------------------------------</p>";*/
-                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"]>0){
-                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] + $atrasos;
-                    }else{
-                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $atrasos;
-                    }
 
                     if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"]>0){
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["faltas"] + $faltas;
@@ -3583,7 +3574,10 @@ class HorariosymarcacionesController extends ControllerBase
                  * Sumatoria de las marcaciones previstas por persona
                  */
                 if($v->clasemarcacion=='T'){
-                    $agrupador = $atrasados = $descanso =  0;
+                    $atrasos = $agrupador = $atrasados = $descanso =  0;
+                    if($v->atrasos!=''){
+                        $atrasos=$v->atrasos;
+                    }
                     if($v->agrupador!=''){
                         $agrupador=$v->agrupador;
                     }
@@ -3593,9 +3587,15 @@ class HorariosymarcacionesController extends ControllerBase
                     if($v->descanso!=''){
                         $descanso=$v->descanso;
                     }
+                    $totalAtrasos += $atrasos;
                     $totalAgrupador += $agrupador;
                     $totalAtrasados += $atrasados;
                     $totalDescanso += $descanso;
+                    if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"]>0){
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] + $atrasos;
+                    }else{
+                        $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["atrasos"] = $atrasos;
+                    }
                     if(isset($arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"])&&$arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"]>0){
                         $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] = $arrTotales[$v->relaboral_id][$v->gestion][$v->mes]["agrupador"] + $agrupador;
                     }else{
