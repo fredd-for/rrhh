@@ -122,6 +122,11 @@ class Cargos extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $ordenador;
+    /**
+     *
+     * @var integer
+     */
+    public $nivelsalarial_id;
 
     /**
      * Initialize method for model.
@@ -156,7 +161,8 @@ class Cargos extends \Phalcon\Mvc\Model
             'asistente' => 'asistente',
             'jefe' => 'jefe',
             'resolucion_ministerial_id' => 'resolucion_ministerial_id',
-            'ordenador' => 'ordenador'
+            'ordenador' => 'ordenador',
+            'nivelsalarial_id' => 'nivelsalarial_id',
         );
     }
 
@@ -343,4 +349,9 @@ class Cargos extends \Phalcon\Mvc\Model
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    public function update_escala($sql)
+    {
+        $this->_db = new Cargos();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }

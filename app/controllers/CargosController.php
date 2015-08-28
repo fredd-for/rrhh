@@ -99,7 +99,7 @@ class CargosController extends ControllerBase
 		$finpartida = $this->tag->select(
 			array(
 				'fin_partida_id',
-				Finpartidas::find(array('baja_logica=1','order' => 'id ASC')),
+				Finpartidas::find(array('baja_logica=1 and agrupador=1','order' => 'id ASC')),
 				'using' => array('id', "denominacion"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
@@ -112,7 +112,7 @@ class CargosController extends ControllerBase
 		$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
-				Nivelsalariales::find(array('baja_logica=1',"order"=>"id ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname")),
+				Nivelsalariales::find(array('baja_logica=1 and activo=1',"order"=>"id ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname,nivel")),
 				//Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "fullname"),
 				'useEmpty' => true,
@@ -143,6 +143,7 @@ class CargosController extends ControllerBase
 
 		$resolucion_ministerial0 = Resoluciones::findFirst(array("uso=1 and activo=1 and baja_logica=1"));
 		$this->view->setVar('tipo_resolucion',$resolucion_ministerial0->tipo_resolucion);
+		$this->view->setVar('resolucion_ministerial_id',$resolucion_ministerial0->id);
 
 		$this->tag->setDefault("resolucion_ministerial_id", $resolucion_ministerial0->id);
         $resolucion_ministerial = $this->tag->select(
@@ -158,6 +159,21 @@ class CargosController extends ControllerBase
 			);
 
 		$this->view->setVar('resolucion_ministerial',$resolucion_ministerial);
+
+
+        $resolucion_ministerial_escala = $this->tag->select(
+			array(
+				'resolucion_escala_id',
+				Resoluciones::find(array('uso=2 and baja_logica=1',"order"=>"id ASC")),
+				'using' => array('id', "tipo_resolucion"),
+				'useEmpty' => true,
+				'emptyText' => '(Selecionar)',
+				'emptyValue' => '',
+				'class' => 'form-control',
+				)
+			);
+
+		$this->view->setVar('resolucion_ministerial_escala',$resolucion_ministerial_escala);
 
 
 		// $organigrama = $this->tag->select(
@@ -2034,6 +2050,31 @@ public function exportarPdfAction($n_rows, $columns, $filtros,$groups,$sorteds)
 			$options.='<option value="'.$v->id.'" '.$checked.'>'.$v->cargo.'</option>';
 		}
                 echo $options; 
+	}
+
+	public function updateescalaAction()
+	{
+		// if (isset($_POST['fin_partida_id'])) {
+		// 	$fin_partida_id=$_POST['fin_partida_id'];
+		// 	$resolucion_ministerial_id = $_POST['res_min_id'];
+		// 	$resolucion_escala_id = $_POST['resolucion_escala_id'];
+		// 	$model = new Cargos();
+
+		// 	$sql = "UPDATE cargos SET nivelsalarial_id = (SELECT id FROM nivelsalariales n WHERE n.resolucion_id='$resolucion_escala_id' AND n.baja_logica=1 AND n.nivel=codigo_nivel) 
+  //       			WHERE baja_logica = 1 AND resolucion_ministerial_id ='$resolucion_ministerial_id' AND fin_partida_id = '$fin_partida_id'";
+  //       	// echo $sql;
+		// 	$resul = $model->update_escala($sql);
+		// 	$msm = 'actulaizado correctamente';
+		// 	// if($resul == true){
+		// 	// 	$msm = 'Actualizado correctamente';
+		// 	// }else{
+		// 	// 	$msm = 'NO se actualizado. Coordine con el administrador del sistema';
+		// 	// }
+		// }	
+		// $msm="prueba";
+		// echo $msm;
+		$this->view->disable();
+		echo json_encode();
 	}
 	
 }

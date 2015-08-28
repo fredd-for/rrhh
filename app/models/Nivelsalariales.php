@@ -132,7 +132,7 @@ class Nivelsalariales extends \Phalcon\Mvc\Model
 CASE n.activo WHEN '1' THEN 'ACTIVO' ELSE 'INACTIVO' END as activo1, n.fecha_ini,n.fecha_fin,
 (SELECT id FROM nivelsalariales WHERE nivel=n.nivel AND baja_logica=1 AND activo=1) as nivelsalarial_id_existente
 FROM nivelsalariales n, resoluciones r 
-WHERE n.baja_logica=1 AND n.resolucion_id=r.id order by n.nivel asc, n.id asc";
+WHERE n.baja_logica=1 AND n.resolucion_id=r.id order by n.activo desc ,n.nivel asc";
         $this->_db = new Nivelsalariales();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
