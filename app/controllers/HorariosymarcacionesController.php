@@ -3352,7 +3352,7 @@ class HorariosymarcacionesController extends ControllerBase
                     }
                     $lstCi .= ",";
                     $lstCi = str_replace(",,","",$lstCi);
-                    $objP = Personas::Find("ci IN (".$lstCi.")");
+                    $objP = personas::Find("ci IN (".$lstCi.")");
                     if(is_object($objP)){
                         foreach($objP as $p){
                             $lstIdPersonas .= $p->id.",";
@@ -5880,7 +5880,7 @@ class HorariosymarcacionesController extends ControllerBase
                     }
                     $lstCi .= ",";
                     $lstCi = str_replace(",,","",$lstCi);
-                    $objP = Personas::Find("ci IN (".$lstCi.")");
+                    $objP = personas::Find("ci IN (".$lstCi.")");
                     if(is_object($objP)){
                         foreach($objP as $p){
                             $lstIdPersonas .= $p->id.",";
