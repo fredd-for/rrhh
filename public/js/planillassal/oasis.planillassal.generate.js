@@ -656,13 +656,8 @@ function desplegarPlanillaPreviaSal(idRelaborales){
             var rows = $('#divGridPlanillasSalGen').jqxGrid('getrows');
             if(rows.length>0){
                 $("#btnCalcularPlanillaPreviaSal").show();
-                if($("#hdnSwPlanillaSalCalculada").val()==1){
-                    $("#btnGenerarPlanillaSal").show();
-                }else{
-                    $("#btnGenerarPlanillaSal").hide();
-                }
+
             }else{
-                $("#btnGenerarPlanillaSal").hide();
                 $("#btnCalcularPlanillaPreviaSal").hide();
             }
             $("#divGridPlanillasSalGen").jqxGrid('clearselection');

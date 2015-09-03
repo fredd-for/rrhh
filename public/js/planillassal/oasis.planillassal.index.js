@@ -20,7 +20,7 @@ $().ready(function () {
      * Control para la obtención de la Planilla Salarial previa.
      */
     $("#btnGenerarPlanillaPreviaSal").on("click",function(){
-        $("#hdnSwPlanillaSalCalculada").val(0);
+        $("#btnGenerarPlanillaSal").hide();
          limpiarFormularioPlanillaSal(1);
          var ok = validaFormularioPlanillaSal(1);
          if (ok){
@@ -53,9 +53,10 @@ $().ready(function () {
                 if(cantidadRegistrosValidos>0){
                     listaIdRelaborales += separador;
                     listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
-                    ok = desplegarPlanillaPreviaSal(listaIdRelaborales);
-                    $("#hdnSwPlanillaSalCalculada").val(1);
+                    desplegarPlanillaPreviaSal(listaIdRelaborales);
+                    $("#btnGenerarPlanillaSal").show();
                 }else{
+                    $("#btnGenerarPlanillaSal").hide();
                     var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla Salarial.";
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(msje);
@@ -82,7 +83,7 @@ $().ready(function () {
             /**
              * Inicialmente se verifica que se haya ejecutado el calculo de la planilla.
              */
-            if($("#hdnSwPlanillaSalCalculada").val()==1){
+            //if($("#hdnSwPlanillaSalCalculada").val()==1){
 
                 var rows = $("#divGridPlanillasSalGen").jqxGrid('selectedrowindexes');
                 if(rows.length>0){
@@ -179,12 +180,12 @@ $().ready(function () {
                     $("#divMsjeNotificacionError").jqxNotification("open");
                 }
 
-            }else{
+            /*}else{
                 var msje = "Debe solicitar inicialmente el c&aacute;lculo de la planilla inicialmente para poder generar la planilla respectiva..";
                 $("#divMsjePorError").html("");
                 $("#divMsjePorError").append(msje);
                 $("#divMsjeNotificacionError").jqxNotification("open");
-            }
+            }*/
         }
     });
 
