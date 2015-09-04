@@ -34,7 +34,6 @@ $().ready(function () {
      */
     $("#btnCalcularPlanillaPreviaSal").on("click",function(){
         var cantidadRegistrosValidos = 0;
-        $("#hdnSwPlanillaSalCalculada").val(0)
         limpiarFormularioPlanillaSal(1);
         var ok = validaFormularioPlanillaSal(2);
         if (ok){
@@ -56,7 +55,6 @@ $().ready(function () {
                     desplegarPlanillaPreviaSal(listaIdRelaborales);
                     $("#btnGenerarPlanillaSal").show();
                 }else{
-                    $("#btnGenerarPlanillaSal").hide();
                     var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla Salarial.";
                     $("#divMsjePorError").html("");
                     $("#divMsjePorError").append(msje);

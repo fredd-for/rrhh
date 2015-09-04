@@ -182,4 +182,28 @@ class Fplanillassal extends \Phalcon\Mvc\Model {
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }
     }
+    /**
+     * Función para el registro de acumulación de sanciones por gestión, mes y registro de relación laboral, considerando
+     * las fechas de corte establecidas para planillas salariales.
+     * @param $idRelaboral
+     * @param $gestion
+     * @param $mes
+     * @param $atrasos
+     * @param $faltas
+     * @param $abandono
+     * @param $omision
+     * @param $lsgh
+     * @param $otros
+     * @param $observacion
+     * @param $idUsuario
+     * @return Resultset
+     */
+    public function registraAcumulacionSancion($idRelaboral,$gestion,$mes,$atrasos=0,$faltas=0,$abandono=0,$omision=0,$lsgh=0,$otros=0,$observacion,$idUsuario)
+    {   if($idRelaboral>0&&$gestion>0&&$mes>0&&$idUsuario>0) {
+            $sql = "SELECT f_registra_acumulacionsancion AS resultado FROM f_registra_acumulacionsancion($idRelaboral,$gestion,$mes,$atrasos,$faltas,$abandono,$omision,$lsgh,$otros,'$observacion',$idUsuario)";
+            $this->_db = new Fplanillassal();
+            $arr = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $arr[0]->resultado;
+        }
+    }
 }

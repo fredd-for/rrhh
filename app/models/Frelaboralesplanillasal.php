@@ -48,11 +48,15 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
     public $dias_efectivos;
     public $bonos;
     public $faltas;
+    public $faltas_rip;
     public $atrasos;
+    public $atrasos_rip;
     public $faltas_atrasos;
     public $lsgh;
     public $abandono;
+    public $abandono_rip;
     public $omision;
+    public $omision_rip;
     public $otros;
     public $rc_iva;
     public $rentencion;
@@ -116,11 +120,15 @@ class Frelaboralesplanillasal  extends \Phalcon\Mvc\Model {
         'dias_efectivos'=>'dias_efectivos',
         'bonos'=>'bonos',
         'faltas'=>'faltas',
+        'faltas_rip'=>'faltas_rip',
         'atrasos'=>'atrasos',
+        'atrasos_rip'=>'atrasos_rip',
         'faltas_atrasos'=>'faltas_atrasos',
         'lsgh'=>'lsgh',
         'abandono'=>'abandono',
+        'abandono_rip'=>'abandono_rip',
         'omision'=>'omision',
+        'omision_rip'=>'omision_rip',
         'otros'=>'otros',
         'rc_iva'=>'rc_iva',
         'rentencion'=>'rentencion',
