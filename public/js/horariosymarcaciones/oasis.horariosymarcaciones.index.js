@@ -93,7 +93,6 @@ $().ready(function () {
                     if(ok1&&ok2){
                         contador++;
                     }
-                    /*$("#divContador").html("("+contador_aux+":"+cantidad+")");*/
                     var porcentaje = parseFloat((100*contador_aux)/cantidad);
                     porcentaje = porcentaje.toFixed(0);
                     $('.progress-bar', '.bars-container').each(function() {
@@ -115,8 +114,6 @@ $().ready(function () {
                     $("#divMsjePorWarning").append(msje);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }
-            }else{
-
             }
     });
     $("#btnGuardarBaja").click(function () {
