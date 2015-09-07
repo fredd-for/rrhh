@@ -275,6 +275,9 @@ $().ready(function () {
     $('#btnDesfiltrarTodoPlanillasSalView').click(function () {
         $("#divGridPlanillasSalView").jqxGrid('clearfilters');
     });
+    $('#btnDesfiltrarTodoPlanillasSalGen').click(function () {
+        $("#divGridPlanillasSalGen").jqxGrid('clearfilters');
+    });
     $('#btnDesagrupartodo').click(function () {
         $('#divGridPlanillasSal').jqxGrid('cleargroups');
     });
@@ -500,6 +503,7 @@ function definirGrillaParaListaPlanillas() {
                                 $("#tbodyDatosPlanillaSal").append("<td>"+obs+"</td>");
                                 $("#tbodyDatosPlanillaSal").append("</tr>");
                                 $("#hdnIdPlanillaSal").val(dataRecord.id);
+                                $('#divPlanilllaSalViewListBox').jqxListBox('refresh');
                                 mostrarPlanilla(dataRecord.id);
                             }else{
                                 var msje = "Debe seleccionar un registro de Planilla Salarial necesariamente.";

@@ -455,6 +455,7 @@ function definirGrillaParaListaPlanillasDeRefrigerio() {
                                 $("#tbodyDatosPlanillaRef").append("<td>"+obs+"</td>");
                                 $("#tbodyDatosPlanillaRef").append("</tr>");
                                 $("#hdnIdPlanillaRef").val(dataRecord.id);
+                                $('#divPlanilllaRefViewListBox').jqxListBox('refresh');
                                 mostrarPlanillaDeRefrigerio(dataRecord.id);
                             }else{
                                 var msje = "Debe seleccionar un registro de Planilla de Refrigerio necesariamente.";

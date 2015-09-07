@@ -490,7 +490,6 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
             {label: 'Total L&iacute;quido', value: 'total_liquido', checked: true},
             {label: 'Observacion', value: 'observacion', checked: false},
         ];
-
         $("#divPlanilllaRefViewListBox").jqxListBox({source: listSource, width: "100%", height: 430, checkboxes: true});
         $("#divPlanilllaRefViewListBox").on('checkChange', function (event) {
             $("#divGridPlanillasRefView").jqxGrid('beginupdate');
@@ -501,20 +500,6 @@ function mostrarPlanillaDeRefrigerio(idPlanillaRef){
                 $("#divGridPlanillasRefView").jqxGrid('hidecolumn', event.args.value);
             }
             $("#divGridPlanillasRefView").jqxGrid('endupdate');
-        });
-
-
-        $('#divGridPlanillasRefView').off();
-        /**
-         * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
-         */
-        $("#divGridPlanillasSalView").on("bindingcomplete",function(){
-            var rows = $('#divGridPlanillasSalView').jqxGrid('getrows');
-            if(rows.length>0){
-                $("#btnGenerarPlanillaSalView").show();
-            }else{
-                $("#btnGenerarPlanillaSalView").hide();
-            }
         });
     }
 }
