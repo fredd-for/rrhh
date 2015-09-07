@@ -472,17 +472,5 @@ function mostrarPlanilla(idPlanillaSal){
             $("#divGridPlanillasSalView").jqxGrid('endupdate');
         });
         $('#divGridPlanillasSalView').off();
-
-        /**
-         * Control cuando se completa la construcción de la grilla correspondiente a la planilla previa.
-         */
-        $("#divGridPlanillasSalView").on("bindingcomplete",function(){
-            var rows = $('#divGridPlanillasSalView').jqxGrid('getrows');
-            if(rows.length>0){
-                $("#btnGenerarPlanillaSalView").show();
-            }else{
-                $("#btnGenerarPlanillaSalView").hide();
-            }
-        });
     }
 }

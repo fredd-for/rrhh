@@ -4170,7 +4170,6 @@ class HorariosymarcacionesController extends ControllerBase
                         'user_mod_id'=>$v->user_mod_id,
                         'fecha_mod'=>$v->fecha_mod,
                     );
-
                 }
                 #endregion sector para adicionar una fila para Excepciones
             }
@@ -9930,10 +9929,14 @@ class HorariosymarcacionesController extends ControllerBase
                                 $horaMarcacionSalida=null;
                                 if(isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                     $idHorarioLaboral = $matrizIdHorariosCruzados[$dia-1][$turno][$grupoB];
-                                    $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
-                                    if(is_object($resultS)){
-                                        foreach($resultS as $obs){
-                                            $horaMarcacionSalida = $obs->hora;
+                                    if($dia>1){
+                                        $diaAux = $dia-1;
+                                        $fechaAux = $diaAux."-".$mes."-".$gestion;
+                                        $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fechaAux,$idHorarioLaboral,1);
+                                        if(is_object($resultS)){
+                                            foreach($resultS as $obs){
+                                                $horaMarcacionSalida = $obs->hora;
+                                            }
                                         }
                                     }
                                 }

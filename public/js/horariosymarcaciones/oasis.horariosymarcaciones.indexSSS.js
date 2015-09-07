@@ -93,6 +93,7 @@ $().ready(function () {
                     if(ok1&&ok2){
                         contador++;
                     }
+                    /*$("#divContador").html("("+contador_aux+":"+cantidad+")");*/
                     var porcentaje = parseFloat((100*contador_aux)/cantidad);
                     porcentaje = porcentaje.toFixed(0);
                     $('.progress-bar', '.bars-container').each(function() {
@@ -114,6 +115,8 @@ $().ready(function () {
                     $("#divMsjePorWarning").append(msje);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }
+            }else{
+
             }
     });
     $("#btnGuardarBaja").click(function () {
@@ -605,11 +608,6 @@ function definirGrillaParaListaRelaborales() {
                                 var defaultDia = date.getDate();
                                 var defaultMes = date.getMonth();
                                 var defaultGestion = date.getFullYear();
-                                if(dataRecord.estado==0){
-                                    defaultDia = (dataRecord.fecha_baja).getDate();
-                                    defaultMes = (dataRecord.fecha_baja).getMonth();
-                                    defaultGestion = (dataRecord.fecha_baja).getFullYear();
-                                }
                                 var contadorPerfiles = 0;
                                 var idPerfilLaboral=0;
                                 var tipoHorario=3;
@@ -693,7 +691,7 @@ function definirGrillaParaListaRelaborales() {
                                    $("#ddFechaBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_baja,"-")+"&nbsp;");
                                    $("#dtMotivoBajaTurnAndExcept").show();
                                    $("#ddMotivoBajaTurnAndExcept").show();
-                                   $("#ddMotivoBajaTurnAndExcept").html(dataRecord.motivo_baja+"&nbsp;");
+                                   $("#ddMotivoBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecord.motivo_baja,"-")+"&nbsp;");
                                }else{
                                    $("#dtFechaBajaTurnAndExcept").hide();
                                    $("#ddFechaBajaTurnAndExcept").hide();

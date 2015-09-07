@@ -77,7 +77,13 @@
                                 <a href="javascript:void(0)" class="themed-background-dark-fire themed-border-fire" data-theme="css/themes/fire.css" data-toggle="tooltip" title="Fire"></a>
                             </li>
                         </ul>-->
-                        <ul class="sidebar-nav">                            
+                        <ul class="sidebar-nav">
+                            <li>
+                                <a class=" active" href="../index.php">
+                                    <i class="gi gi-stopwatch sidebar-nav-icon"></i>
+                                    Dashboard
+                                </a>
+                            </li>
                             <?php
                             // Creating a router
                             $router = new \Phalcon\Mvc\Router();
@@ -93,7 +99,7 @@
                             endforeach;
                             $sm = 0;
                             ?>
-                            <?php foreach ($menus as $m): ?>    
+                            <?php foreach ($menus as $m): ?>
 
                                 <?php if ($id != $m->id): ?>
 
@@ -101,28 +107,28 @@
 
                                         <li>
                                             <?php if ($controller == $m->controlador): ?>
-                                                <a href="#" class="sidebar-nav-menu active" class1="" ><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a> 
+                                                <a href="#" class="sidebar-nav-menu active" class1="" ><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a>
                                             <?php else: ?>
-                                                <a href="#" class="sidebar-nav-menu" class1="" ><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a> 
+                                                <a href="#" class="sidebar-nav-menu" class1="" ><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a>
                                             <?php endif; ?>
 
-                                            <ul> 
+                                            <ul>
                                                 <?php
                                                 ksort($menu[$m->id]);
                                                 foreach ($menu[$m->id] as $k => $v):
                                                     ?>
                                                     <li>
-                                                        <a href="/<?php echo $m->controlador; ?>/<?php echo $menu[$m->id][$k]['accion']; ?>" title="<?php echo $menu[$m->id][$k]['descripcion']; ?>"><?php echo $menu[$m->id][$k]['submenu']; ?></a>        
-                                                    </li>    
+                                                        <a href="/<?php echo $m->controlador; ?>/<?php echo $menu[$m->id][$k]['accion']; ?>" title="<?php echo $menu[$m->id][$k]['descripcion']; ?>"><?php echo $menu[$m->id][$k]['submenu']; ?></a>
+                                                    </li>
                                                 <?php endforeach; ?>
                                             </ul>
                                         </li>
                                     <?php else: ?>
-                                        <li>   
+                                        <li>
                                             <?php if ($controller == $m->controlador): ?>
-                                                <a href="/<?php echo $m->controlador; ?>" class="active " ><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a> 
+                                                <a href="/<?php echo $m->controlador; ?>" class="active " ><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a>
                                             <?php else: ?>
-                                                <a href="/<?php echo $m->controlador; ?>" class=" " ><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a> 
+                                                <a href="/<?php echo $m->controlador; ?>" class=" " ><i class="<?php echo $m->icon ?> "></i> <?php echo $m->menu; ?></a>
                                             <?php endif; ?>
 
                                         </li>
@@ -130,7 +136,7 @@
                                     <?php
                                     $id = $m->id;
                                 endif;
-                                ?>  
+                                ?>
                             <?php endforeach; ?>
                         </ul>
                         <!--<div class="sidebar-header">
@@ -164,9 +170,12 @@
                 <header class="navbar navbar-default navbar-fixed-top">
                     <ul class="nav navbar-nav-custom">
                         <li class="hidden-xs hidden-sm">
-                            <a href="javascript:void(0)" id="sidebar-toggle-lg">
-                                <i class="fa fa-list-ul fa-fw"></i>
+                            <a onclick="App.sidebar('toggle-sidebar');" href="javascript:void(0)">
+                                <i class="fa fa-bars fa-fw"></i>
                             </a>
+                            <!--<a href="javascript:void(0)" id="sidebar-toggle-lg">
+                                <i class="fa fa-list-ul fa-fw"></i>
+                            </a>-->
                         </li>
                         <li class="hidden-md hidden-lg">
                             <a href="javascript:void(0)" id="sidebar-toggle-sm">

@@ -233,11 +233,15 @@ class PlanillassalController extends ControllerBase{
                         'dias_efectivos'=>$v->dias_efectivos,
                         'bonos'=>$v->bonos,
                         'faltas'=>$v->faltas,
+                        'faltas_rip'=>$v->faltas_rip,
                         'atrasos'=>$v->atrasos,
+                        'atrasos_rip'=>$v->atrasos_rip,
                         'faltas_atrasos'=>$v->faltas_atrasos,
                         'lsgh'=>$v->lsgh,
                         'omision'=>$v->omision,
+                        'omision_rip'=>$v->omision_rip,
                         'abandono'=>$v->abandono,
+                        'abandono_rip'=>$v->abandono_rip,
                         'otros'=>$v->otros,
                         'total_ganado'=>$v->total_ganado,
                         'total_liquido'=>$v->total_liquido,
@@ -341,12 +345,16 @@ class PlanillassalController extends ControllerBase{
                                 $descuento->user_mod_id=$user_reg_id;
                                 $descuento->fecha_mod=$hoy;
                             }
-                            $descuento->faltas = $v->faltas;
-                            $descuento->atrasos = $v->atrasos;
+                            /**
+                             * Se registra el monto calculado considerando en RIP (Reglamente Interno de Personal)
+                             * En los montos que sean pertinentes. Se reconoce a las variables con este tratamiento en aquellas que tienen el sufijo "_rip"
+                             */
+                            $descuento->faltas = $v->faltas_rip;
+                            $descuento->atrasos = $v->atrasos_rip;
                             $descuento->lsgh = $v->lsgh;
-                            $descuento->omision = $v->omision;
-                            $descuento->abandono = $v->abandono;
-                            $descuento->omision = $v->omision;
+                            $descuento->omision = $v->omision_rip;
+                            $descuento->abandono = $v->abandono_rip;
+                            $descuento->omision = $v->omision_rip;
                             $descuento->retencion = $v->retencion;
                             $descuento->total_descuentos = $v->total_descuentos;
                             $descuento->otros = $v->otros;
@@ -373,6 +381,15 @@ class PlanillassalController extends ControllerBase{
                                 $pagossal->fecha_reg = $hoy;
 
                                 if ($pagossal->save()) {
+                                    #region Se define al registro de relación laboral como pagado
+                                    $db = $this->getDI()->get('db');
+                                    $db->execute("UPDATE relaborales SET pagado=1 WHERE id=".$v->id_relaboral);
+                                    $objFP = new Fplanillassal();
+                                    $okac = $objFP->registraAcumulacionSancion($v->id_relaboral,$gestion,$mes,$v->atrasos,$v->faltas,$v->abandono,$v->omision,$v->lsgh,$v->otros,'',$user_reg_id);
+                                    #endregion
+                                    #region Actualización del acumulador de sanciones
+
+                                    #endregion Actualización del acumulador de sanciones
                                     /**
                                      * Una vez registrada la planilla se debe planillar los registros de horarios y marcaciones,
                                      * que consiste en poner en un estado PLANILLADO en el rango correspondiente para el registro de horarios y marcaciones
@@ -654,7 +671,7 @@ class PlanillassalController extends ControllerBase{
             'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
-            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
@@ -1274,7 +1291,7 @@ class PlanillassalController extends ControllerBase{
             'ubicacion' => array('title' => 'Ubicacion', 'width' => 20, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'fin_partida' => array('title' => 'Fuente', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'procesocontratacion_codigo' => array('title' => 'Proceso', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
-            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>true),
+            'cargo' => array('title' => 'Cargo', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'estado_descripcion' => array('title' => 'Estado', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
             'nombres' => array('title' => 'Nombres', 'width' => 30, 'align' => 'L', 'type' => 'varchar','totales'=>false),
             'ci' => array('title' => 'CI', 'width' => 15, 'align' => 'C', 'type' => 'varchar','totales'=>false),
