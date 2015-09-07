@@ -223,7 +223,7 @@ class Cargos extends \Phalcon\Mvc\Model
         INNER JOIN cargos c ON p.cargo_id=c.id
         INNER JOIN resoluciones re ON c.resolucion_ministerial_id=re.id
         INNER JOIN organigramas o ON c.organigrama_id=o.id
-        INNER JOIN nivelsalariales n ON c.codigo_nivel=n.nivel AND n.activo=1
+        INNER JOIN nivelsalariales n ON c.nivelsalarial_id=n.id
         LEFT JOIN seguimientos s ON s.pac_id=p.id AND s.baja_logica=1
         LEFT JOIN seguimientosestados se ON s.seguimiento_estado_id=se.id
         WHERE p.baja_logica=1  AND (se.estado is NULL OR proceso_contratacion_id='$proceso_contratacion_id') order by p.fecha_ini asc";
