@@ -269,7 +269,7 @@ class Cargos extends \Phalcon\Mvc\Model
 
         $sql = "SELECT c.*, r.estado as estado1
                 FROM cargos c
-                LEFT JOIN relaborales r ON c.id = r.cargo_id AND r.baja_logica = 1
+                LEFT JOIN relaborales r ON c.id = r.cargo_id AND r.baja_logica = 1 AND r.estado = 1
                 WHERE c.baja_logica = 1 AND c.depende_id = '$depende_id' " . $where;
         $this->_db = new Cargos();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
