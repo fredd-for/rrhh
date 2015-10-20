@@ -112,12 +112,13 @@ class CargosController extends ControllerBase
 		$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
-				Nivelsalariales::find(array('baja_logica=1 and activo=1',"order"=>"id ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname,nivel")),
+				Nivelsalariales::find(array('baja_logica=1 and activo=1',"order"=>"nivel ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname,nivel")),
 				//Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
 				'using' => array('id', "fullname"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
+				'nivel' => 'nivel',
 				'class' => 'form-control'
 				)
 			);
@@ -205,6 +206,7 @@ public function listAction()
 			'unidad_administrativa' => $v->unidad_administrativa,
 			'organigrama_id' => $v->organigrama_id,
 			'codigo_nivel' => $v->codigo_nivel,
+			'nivelsalarial_id' => $v->nivelsalarial_id,
 			'codigo' => $v->codigo,
 			'ordenador' => $v->ordenador,
 			'cargo' => $v->cargo,
@@ -269,9 +271,12 @@ public function listfinpartidaAction()
 public function getSueldoAction()
 {
 		$resul=Nivelsalariales::findFirstById($_POST['id']);
-		
+		$datos=array(
+			'sueldo' => floatval($resul->sueldo),
+			'nivel' => $resul->nivel,
+			);
 		$this->view->disable();
-	echo json_encode(floatval($resul->sueldo));
+	echo json_encode($datos);
 }
 
 public function saveAction()
@@ -289,7 +294,8 @@ public function saveAction()
 			$resul->codigo = $_POST['codigo'];
 			$resul->ordenador = $_POST['ordenador'];
 			$resul->cargo = $_POST['cargo'];
-			$resul->codigo_nivel = $_POST['codigo_nivel'];
+			$resul->codigo_nivel = $_POST['nivel'];
+			$resul->nivelsalarial_id = $_POST['codigo_nivel'];
 			$resul->fin_partida_id=$_POST['fin_partida_id'];
 			$resul->user_mod_id = $auth['id'];
 			$resul->fecha_mod = date("Y-m-d H:i:s");
@@ -312,7 +318,8 @@ public function saveAction()
 			$resul->codigo = $_POST['codigo'];
 			$resul->ordenador = $_POST['ordenador'];
 			$resul->cargo = $_POST['cargo'];
-			$resul->codigo_nivel = $_POST['codigo_nivel'];
+			$resul->codigo_nivel = $_POST['nivel'];
+			$resul->nivelsalarial_id = $_POST['codigo_nivel'];
 			$resul->cargo_estado_id = 1;
 			$resul->estado = 0;
 			$resul->baja_logica = 1;
