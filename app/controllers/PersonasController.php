@@ -210,8 +210,8 @@ class PersonasController extends ControllerBase {
                 $contacto->e_mail_inst = $this->request->getPost('email_i');
                 $contacto->telefono_emerg = $this->request->getPost('t_emergencia');
                 $contacto->persona_emerg = $this->request->getPost('p_emergencia');
-                $contacto->relacion_emerg = $this->request->getPost('p_emergencia');
-                // $contacto->estado = 0;
+                $contacto->relacion_emerg = $this->request->getPost('r_emergencia');
+                //$contacto->estado = 1;
                 // $contacto->baja_logica = 1;
                 if ($contacto->save()) {
                     $this->flashSession->success("Registro guardado satisfactoriamente...!");
@@ -259,7 +259,10 @@ class PersonasController extends ControllerBase {
             'celular_inst' => $res->celular_inst,
             'e_mail_per' => $res->e_mail_per,
             'e_mail_inst' => $res->e_mail_inst,
-            'interno_inst' => $res->interno_inst
+            'interno_inst' => $res->interno_inst,
+            't_emergencia'=>$res->telefono_emerg,
+            'p_emergencia'=>$res->persona_emerg,
+            'r_emergencia'=>$res->relacion_emerg
             );
             $this->view->setVar('personas', $datos_personal);
 

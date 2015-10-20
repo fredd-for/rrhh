@@ -26,7 +26,7 @@ class IndexController extends ControllerBase
         /**
          * Procesos Pendientes de Conclusión
          */
-        $hoy = date("d-m-Y");
+        $hoy = date("Y-m-d");
         $procesos_pendientes = Procesoscontrataciones::find("fecha_concl>='".$hoy."' AND normativamod_id IN (1,2,5,6) AND tipoconvocatoria_id=1");
         $this->view->setVar('procesos_pendientes', $procesos_pendientes->count());
 
