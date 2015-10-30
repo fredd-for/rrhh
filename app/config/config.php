@@ -1,13 +1,14 @@
 <?php
 $option=1;
 switch($option){
-    case 1:$HOST="localhost";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
-    case 2:$HOST="192.168.10.158";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";
-        break;
-    default:$HOST="localhost";$USERNAME="oasisuser";$PASSWORD="oasispass";$DBNAME="bd_rrhh";
+    case 1:$HOST="192.168.100.116";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
+    /*case 1:$HOST="192.168.10.8";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;*/
+    case 2:$HOST="192.168.10.158";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
+    case 3:$HOST="localhost";$USERNAME="oasisuser";$PASSWORD="oasispass";$DBNAME="bd_rrhh_proof";break;
+    default:$HOST="localhost";$USERNAME="oasisuser";$PASSWORD="oasispass";$DBNAME="bd_rrhh_a";
 }
 return new \Phalcon\Config(array(
-    'database' => array(
+   'database' => array(
         'adapter'     => 'Postgresql',
         'host'        => $HOST,
         'username'    => $USERNAME,

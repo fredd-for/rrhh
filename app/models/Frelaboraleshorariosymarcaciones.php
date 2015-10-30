@@ -602,7 +602,6 @@ class Frelaboraleshorariosymarcaciones extends \Phalcon\Mvc\Model {
             $sql = "SELECT * FROM f_horariosymarcaciones_mas_relaborales(CAST('$jsonIdRelaborales' AS json),'".$fechaIni."','".$fechaFin."')";
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
-            //echo "<p>-------->".$sql;
             $this->_db = new Frelaboraleshorariosymarcaciones();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         }

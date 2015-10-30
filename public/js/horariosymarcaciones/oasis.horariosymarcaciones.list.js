@@ -1183,8 +1183,11 @@ function cargarHorariosMarcacionesGeneradosCruzada(idRelaboral,clasemarcacionA,c
  * @param fechaIni
  * @param fechaFin
  * @param clasemarcacion
+ * @param estado
+ * @param fechaIncor
+ * @param fechaBaja
  */
-function generarMarcacion(opcion,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion){
+function generarMarcacion(opcion,idRelaboral,gestion,mes,fechaIni,fechaFin,clasemarcacion,estado,fechaIncor,fechaBaja){
     var action = "";
     switch (clasemarcacion){
         case 'H':action="generarmarcacionprevista";break;
@@ -1207,7 +1210,10 @@ function generarMarcacion(opcion,idRelaboral,gestion,mes,fechaIni,fechaFin,clase
                 mes:mes,
                 fecha_ini:fechaIni,
                 fecha_fin:fechaFin,
-                clasemarcacion:clasemarcacion
+                clasemarcacion:clasemarcacion,
+                estado:estado,
+                fecha_incor:fechaIncor,
+                fecha_baja:fechaBaja
             },
             success: function (data) {
                 var res = jQuery.parseJSON(data);
