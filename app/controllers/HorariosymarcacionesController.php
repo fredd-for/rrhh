@@ -7046,7 +7046,7 @@ class HorariosymarcacionesController extends ControllerBase
             $idRelaboral = $_POST["id_relaboral"];
             $gestion = $_POST["gestion"];
             $mes = $_POST["mes"];
-            $fechaIni = $_POST["fecha_ini"];
+            $fechaIni = "01-".$mes."-".$gestion;
             $fechaFin = $_POST["fecha_fin"];
             $clasemarcacion = $_POST["clasemarcacion"];
             $objFCL = new Fcalendariolaboral();
@@ -7064,6 +7064,7 @@ class HorariosymarcacionesController extends ControllerBase
                 foreach($fechas as $fecha){
                     $arrFecha= explode("-",$fecha->f_ultimo_dia_mes);
                     $ultimoDia = $arrFecha[2];
+                    $fechaFin = $ultimoDia."-".$mes."-".$gestion;
                 }
             }
             $cantidadGrupos = 0;
