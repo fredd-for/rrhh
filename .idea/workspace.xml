@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b819b0c6-3ff8-42c2-8099-2e426102c1b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/AppData/reporte_marcaciones.xls" afterPath="$PROJECT_DIR$/public/AppData/reporte_marcaciones.xls" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelect.js" afterPath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelect.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelectList.js" afterPath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelectList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelectRequest.js" afterPath="$PROJECT_DIR$/public/select/src/js/classes/AjaxBootstrapSelectRequest.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/Gruntfile.js" afterPath="$PROJECT_DIR$/public/select/Gruntfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php" afterPath="$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/a11yhelp.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/a11yhelp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/about/dialogs/about.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/about/dialogs/about.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/af.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/af.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.en-US.js" afterPath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.en-US.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.en-US.min.js" afterPath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.en-US.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.es-ES.js" afterPath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.es-ES.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.es-ES.min.js" afterPath="$PROJECT_DIR$/public/select/dist/js/locale/ajax-bootstrap-select.es-ES.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/select/ajax-bootstrap-select.js" afterPath="$PROJECT_DIR$/public/js/select/ajax-bootstrap-select.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/ajax-bootstrap-select.js" afterPath="$PROJECT_DIR$/public/select/dist/js/ajax-bootstrap-select.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/dist/js/ajax-bootstrap-select.min.js" afterPath="$PROJECT_DIR$/public/select/dist/js/ajax-bootstrap-select.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.defaults.js" afterPath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.defaults.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.js" afterPath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/link/dialogs/anchor.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/link/dialogs/anchor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ar.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ar.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ar.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/bg.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/bg.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/bg.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/bg.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/bg.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/bg.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/bn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/bn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/select/bootstrap-select.js" afterPath="$PROJECT_DIR$/public/js/select/bootstrap-select.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/slider/bootstrap-slider.js" afterPath="$PROJECT_DIR$/public/js/slider/bootstrap-slider.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/tagsimput/bootstrap-tagsinput-angular.min.js" afterPath="$PROJECT_DIR$/public/js/tagsimput/bootstrap-tagsinput-angular.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/tagsimput/bootstrap-tagsinput.min.js" afterPath="$PROJECT_DIR$/public/js/tagsimput/bootstrap-tagsinput.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/bs.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/bs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/build-config.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/build-config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/button.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/button.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/checkbox.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/checkbox.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/ckeditor.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/ckeditor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/colordialog/dialogs/colordialog.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/colordialog/dialogs/colordialog.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/config.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.php" afterPath="$PROJECT_DIR$/app/config/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/cs.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/cs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/cs.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/cs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/cs.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/cs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/cy.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/cy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/cy.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/cy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/cy.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/cy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/da.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/da.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/da.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/da.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/api-docs/data-f1c8ba2bbb327dae904991c8eb25fd94.js" afterPath="$PROJECT_DIR$/public/select/api-docs/data-f1c8ba2bbb327dae904991c8eb25fd94.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/example/dataset.jsonp.js" afterPath="$PROJECT_DIR$/public/select/example/dataset.jsonp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/de.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/de.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/de.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/de.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/de.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/de.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/pastefromword/filter/default.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/pastefromword/filter/default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/templates/templates/default.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/templates/templates/default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/dialog/dialogDefinition.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/dialog/dialogDefinition.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/div/dialogs/div.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/div/dialogs/div.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/el.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/el.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/el.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/el.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/el.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/el.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.locale/en-US.js" afterPath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.locale/en-US.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/en-au.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/en-au.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/en-ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/en-ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/en-gb.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/en-gb.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/en.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/en.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/en.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/en.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/en.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/en.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/eo.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/eo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/eo.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/eo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/eo.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/eo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.locale/es-ES.js" afterPath="$PROJECT_DIR$/public/select/src/js/ajaxSelectPicker.locale/es-ES.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/es.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/es.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/es.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/es.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/es.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/es.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/et.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/et.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/et.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/et.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/et.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/et.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/eu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/eu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/api-docs/extjs/ext-all.js" afterPath="$PROJECT_DIR$/public/select/api-docs/extjs/ext-all.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/fa.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/fa.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fa.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fa.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fa.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fa.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/fi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/fi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/find/dialogs/find.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/find/dialogs/find.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/flash/dialogs/flash.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/flash/dialogs/flash.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/fo.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/fo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/form.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/form.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/fr-ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/fr-ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fr-ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fr-ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fr-ca.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fr-ca.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/fr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/gl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/gl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/gl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/gl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/gl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/gl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/gu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/gu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/gu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/gu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/he.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/he.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/he.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/he.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/he.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/he.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/hi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/hi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/hiddenfield.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/hiddenfield.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/hr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/hr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/hr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/hr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/hu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/hu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/hu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/hu.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/hu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/id.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/id.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/id.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/id.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/id.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/id.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/iframe/dialogs/iframe.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/iframe/dialogs/iframe.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/image/dialogs/image.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/image/dialogs/image.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/is.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/is.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/it.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/it.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/it.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/it.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/it.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/it.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ja.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ja.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ja.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ja.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ja.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ja.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/adapters/jquery.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/adapters/jquery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ka.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ka.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/km.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/km.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/km.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/km.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/km.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/km.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ko.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ko.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ko.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ko.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ku.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ku.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ku.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ku.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ku.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ku.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/samples/assets/uilanguages/languages.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/samples/assets/uilanguages/languages.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/link/dialogs/link.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/link/dialogs/link.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/liststyle/dialogs/liststyle.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/liststyle/dialogs/liststyle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/lt.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/lt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/lt.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/lt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/lv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/lv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/lv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/lv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/lv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/lv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/mk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/mk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/mk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/mk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/mn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/mn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/mn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/mn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ms.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ms.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/nb.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/nb.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/nb.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/nb.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/nb.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/nb.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/nl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/nl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/nl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/nl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/nl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/nl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/no.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/no.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/no.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/no.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/no.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/no.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js" afterPath="$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.list.js" afterPath="$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.list.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/scayt/dialogs/options.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/scayt/dialogs/options.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/clipboard/dialogs/paste.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/clipboard/dialogs/paste.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/pl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/pl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/select/api-docs/resources/prettify/prettify.js" afterPath="$PROJECT_DIR$/public/select/api-docs/resources/prettify/prettify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.properties" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/project.properties" afterPath="$PROJECT_DIR$/nbproject/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/pt-br.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/pt-br.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pt-br.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pt-br.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pt-br.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pt-br.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/pt.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/pt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pt.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/pt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pt.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/pt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/radio.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/radio.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ro.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ro.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ro.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ro.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ru.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ru.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ru.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ru.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ru.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ru.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/select.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/select.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/si.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/si.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/si.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/si.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/si.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/si.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sl.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/smiley/dialogs/smiley.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/smiley/dialogs/smiley.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/specialchar.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/specialchar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sq.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sq.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sq.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sq.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sq.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sq.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sr-latn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sr-latn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sr-latn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sr-latn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/sv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/sv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/sv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sv.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/sv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/samples/plugins/htmlwriter/assets/outputforflash/swfobject.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/samples/plugins/htmlwriter/assets/outputforflash/swfobject.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/table/dialogs/table.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/table/dialogs/table.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/tabletools/dialogs/tableCell.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/tabletools/dialogs/tableCell.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/templates/dialogs/templates.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/templates/dialogs/templates.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/textarea.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/textarea.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/textfield.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/forms/dialogs/textfield.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/th.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/th.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/th.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/th.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/th.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/th.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/tr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/tr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/tr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/tr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/tr.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/tr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/ug.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/ug.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ug.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/ug.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ug.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/ug.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/progress/uiProgress.js" afterPath="$PROJECT_DIR$/public/js/progress/uiProgress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/uk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/uk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/uk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/uk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/uk.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/uk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/vi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/vi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/vi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/vi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/vi.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/vi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/wsc/dialogs/wsc.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/wsc/dialogs/wsc.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/wsc/dialogs/wsc_ie.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/wsc/dialogs/wsc_ie.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/zh-cn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/zh-cn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/zh-cn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/zh-cn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/zh-cn.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/zh-cn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/lang/zh.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/lang/zh.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/zh.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/a11yhelp/dialogs/lang/zh.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/zh.js" afterPath="$PROJECT_DIR$/public/js/ckeditor/plugins/specialchar/dialogs/lang/zh.js" />
+    </list>
+    <ignored path="rrhh.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_TOOLBAR" value="true" />
+    <option name="FLATTEN" value="false" />
+    <option name="GROUP_BY_TYPE" value="true" />
+    <option name="SORT_CHILDREN" value="false" />
+    <option name="SHOW_TABLE_CONSTRAINTS" value="true" />
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="rrhh" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.34085214" vertical-offset="0" max-vertical-offset="798">
+              <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HorariosymarcacionesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-17.0" vertical-offset="160973" max-vertical-offset="187510">
+              <caret line="9501" column="42" selection-start-line="9501" selection-start-column="42" selection-end-line="9501" selection-end-column="42" />
+              <folding>
+                <marker date="1446676118421" expanded="true" signature="434184:434251" placeholder="UPDATE horar..." />
+                <marker date="1446676118421" expanded="true" signature="535815:535867" placeholder="DELETE FROM ..." />
+                <marker date="1446676118421" expanded="true" signature="655368:655435" placeholder="UPDATE horar..." />
+                <marker date="1446676118421" expanded="true" signature="771871:771923" placeholder="DELETE FROM ..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oasis.horariosymarcaciones.list.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.list.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4284" max-vertical-offset="22338">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1432321993794" expanded="false" signature="42946:42964" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43024:43042" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43116:43134" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43195:43213" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43280:43298" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43368:43386" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="43698:43716" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="44019:44037" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="44255:44273" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="44512:44530" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="44747:44765" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="45053:45071" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="46038:46056" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="46345:46363" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="46581:46599" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="46844:46862" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="53880:53898" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="53958:53976" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="54050:54068" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="54129:54147" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="54214:54232" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="54302:54320" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="54663:54681" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="55006:55024" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="55278:55296" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="55543:55561" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="55778:55796" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="56092:56110" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="57193:57211" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="57501:57519" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="58027:58045" placeholder="..." />
+                <marker date="1432321993794" expanded="false" signature="58298:58316" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oasis.horariosymarcaciones.index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1173" max-vertical-offset="39423">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1446673629547" expanded="true" signature="44500:44511" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="45562:45573" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="46619:46630" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="47856:47867" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="48922:48933" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="49976:49987" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="95533:95545" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="95814:95853" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="96134:96152" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="96370:96409" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99533:99551" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99581:99599" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99634:99652" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99679:99697" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99736:99754" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99800:99818" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99869:99887" placeholder="..." />
+                <marker date="1446673629547" expanded="true" signature="99917:99935" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Marcaciones.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Marcaciones.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="1122">
+              <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+              <folding>
+                <marker date="1446241322215" expanded="true" signature="1020:1200" placeholder="SELECT CASE ..f_obtener_marcacion_valida..." />
+                <marker date="1446241322215" expanded="true" signature="1855:1976" placeholder="SELECT * FRO..f_obtener_marcacion_valida..." />
+                <marker date="1446241322215" expanded="true" signature="2725:2854" placeholder="SELECT * FRO..f_obtener_marcacion_valida_por_id_horariolaboral..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostgreSQL - bd_rrhh@localhost" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="true" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js" />
+        <option value="$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php" />
+        <option value="$PROJECT_DIR$/app/config/config.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1296" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="horariosymarcaciones" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rrhh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FullScreen" value="false" />
+    <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="com.intellij.database.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b819b0c6-3ff8-42c2-8099-2e426102c1b5" name="Default" comment="" />
+      <created>1446244936959</created>
+      <option name="number" value="Default" />
+      <updated>1446244936959</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27786753" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="765">
+          <caret line="7" column="90" selection-start-line="7" selection-start-column="90" selection-end-line="7" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="161131" max-vertical-offset="187510">
+          <caret line="9467" column="37" selection-start-line="9467" selection-start-column="37" selection-end-line="9467" selection-end-column="37" />
+          <folding>
+            <marker date="1446676118421" expanded="true" signature="434184:434251" placeholder="UPDATE horar..." />
+            <marker date="1446676118421" expanded="true" signature="535815:535867" placeholder="DELETE FROM ..." />
+            <marker date="1446676118421" expanded="true" signature="655368:655435" placeholder="UPDATE horar..." />
+            <marker date="1446676118421" expanded="true" signature="771871:771923" placeholder="DELETE FROM ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4284" max-vertical-offset="22338">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1432321993794" expanded="false" signature="42946:42964" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43024:43042" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43116:43134" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43195:43213" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43280:43298" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43368:43386" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43698:43716" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44019:44037" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44255:44273" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44512:44530" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44747:44765" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="45053:45071" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46038:46056" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46345:46363" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46581:46599" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46844:46862" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="53880:53898" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="53958:53976" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54050:54068" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54129:54147" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54214:54232" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54302:54320" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54663:54681" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55006:55024" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55278:55296" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55543:55561" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55778:55796" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="56092:56110" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="57193:57211" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="57501:57519" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="58027:58045" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="58298:58316" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="38624">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1446673629547" expanded="true" signature="44500:44511" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="45562:45573" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="46619:46630" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="47856:47867" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="48922:48933" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="49976:49987" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="95533:95545" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="95814:95853" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="96134:96152" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="96370:96409" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99533:99551" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99581:99599" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99634:99652" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99679:99697" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99736:99754" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99800:99818" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99869:99887" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99917:99935" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/oasis.horariosymarcaciones.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1282" max-vertical-offset="38947">
+          <caret line="118" column="7" selection-start-line="56" selection-start-column="4" selection-end-line="118" selection-end-column="7" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Marcaciones.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="1122">
+          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+          <folding>
+            <marker date="1446241322215" expanded="true" signature="1020:1200" placeholder="SELECT CASE ..f_obtener_marcacion_valida..." />
+            <marker date="1446241322215" expanded="true" signature="1855:1976" placeholder="SELECT * FRO..f_obtener_marcacion_valida..." />
+            <marker date="1446241322215" expanded="true" signature="2725:2854" placeholder="SELECT * FRO..f_obtener_marcacion_valida_por_id_horariolaboral..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="765">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="765">
+          <caret line="7" column="91" selection-start-line="7" selection-start-column="91" selection-end-line="7" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/ControllerBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4182">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/ControllerBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2960199" vertical-offset="102" max-vertical-offset="4182">
+          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/b7004838/339532b3-a148-482f-bbc4-5e306fc9a276/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="843">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Marcaciones.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="1122">
+          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+          <folding>
+            <marker date="1446241322215" expanded="true" signature="1020:1200" placeholder="SELECT CASE ..f_obtener_marcacion_valida..." />
+            <marker date="1446241322215" expanded="true" signature="1855:1976" placeholder="SELECT * FRO..f_obtener_marcacion_valida..." />
+            <marker date="1446241322215" expanded="true" signature="2725:2854" placeholder="SELECT * FRO..f_obtener_marcacion_valida_por_id_horariolaboral..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="22338">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1432321993794" expanded="false" signature="42946:42964" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43024:43042" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43116:43134" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43195:43213" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43280:43298" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43368:43386" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="43698:43716" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44019:44037" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44255:44273" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44512:44530" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="44747:44765" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="45053:45071" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46038:46056" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46345:46363" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46581:46599" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="46844:46862" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="53880:53898" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="53958:53976" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54050:54068" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54129:54147" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54214:54232" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54302:54320" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="54663:54681" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55006:55024" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55278:55296" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55543:55561" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="55778:55796" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="56092:56110" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="57193:57211" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="57501:57519" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="58027:58045" placeholder="..." />
+            <marker date="1432321993794" expanded="false" signature="58298:58316" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/oasis.horariosymarcaciones.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38964242" vertical-offset="1282" max-vertical-offset="38947">
+          <caret line="94" column="35" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1446069579635" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/horariosymarcaciones/oasis.horariosymarcaciones.index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1173" max-vertical-offset="39423">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1446673629547" expanded="true" signature="44500:44511" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="45562:45573" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="46619:46630" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="47856:47867" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="48922:48933" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="49976:49987" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="95533:95545" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="95814:95853" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="96134:96152" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="96370:96409" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99533:99551" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99581:99599" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99634:99652" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99679:99697" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99736:99754" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99800:99818" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99869:99887" placeholder="..." />
+            <marker date="1446673629547" expanded="true" signature="99917:99935" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/HorariosymarcacionesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.0" vertical-offset="160973" max-vertical-offset="187510">
+          <caret line="9501" column="42" selection-start-line="9501" selection-start-column="42" selection-end-line="9501" selection-end-column="42" />
+          <folding>
+            <marker date="1446676118421" expanded="true" signature="434184:434251" placeholder="UPDATE horar..." />
+            <marker date="1446676118421" expanded="true" signature="535815:535867" placeholder="DELETE FROM ..." />
+            <marker date="1446676118421" expanded="true" signature="655368:655435" placeholder="UPDATE horar..." />
+            <marker date="1446676118421" expanded="true" signature="771871:771923" placeholder="DELETE FROM ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34085214" vertical-offset="0" max-vertical-offset="798">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

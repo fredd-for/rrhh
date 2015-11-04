@@ -7046,7 +7046,7 @@ class HorariosymarcacionesController extends ControllerBase
             $idRelaboral = $_POST["id_relaboral"];
             $gestion = $_POST["gestion"];
             $mes = $_POST["mes"];
-            $fechaIni = $_POST["fecha_ini"];
+            $fechaIni = "01-".$mes."-".$gestion;
             $fechaFin = $_POST["fecha_fin"];
             $clasemarcacion = $_POST["clasemarcacion"];
             $objFCL = new Fcalendariolaboral();
@@ -7064,6 +7064,7 @@ class HorariosymarcacionesController extends ControllerBase
                 foreach($fechas as $fecha){
                     $arrFecha= explode("-",$fecha->f_ultimo_dia_mes);
                     $ultimoDia = $arrFecha[2];
+                    $fechaFin = $ultimoDia."-".$mes."-".$gestion;
                 }
             }
             $cantidadGrupos = 0;
@@ -9479,10 +9480,10 @@ class HorariosymarcacionesController extends ControllerBase
             $mes = $_POST["mes"];
             $fechaIni = $_POST["fecha_ini"];
             $arrFechaIni = explode("-", $fechaIni);
-            $primerDiaCalculo = $arrFechaIni[0];
+            $primerDiaCalculo = intval($arrFechaIni[0]);
             $fechaFin = $_POST["fecha_fin"];
             $arrFechaFin = explode("-", $fechaFin);
-            $ultimoDiaCalculo = $arrFechaFin[0];
+            $ultimoDiaCalculo = intval($arrFechaFin[0]);
             $clasemarcacion = $_POST["clasemarcacion"];
             $objFCL = new Fcalendariolaboral();
             $cantidadGrupos = 0;
@@ -9997,6 +9998,7 @@ class HorariosymarcacionesController extends ControllerBase
                          * En caso de que en el mes exista al menos un marcación cruzada Mixta Inicial es necesario crear un registro adicional al ya existente
                          */
                         if($existeMarcacionCruzadaMixtaInicialEnMes==0){
+                            $objMS = new Marcaciones();
                             #region Cálculo de las marcaciones para las salidas con cruce
                             if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                 //$diaCruzado = $dia-1;
