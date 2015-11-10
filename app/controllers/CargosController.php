@@ -109,12 +109,14 @@ class CargosController extends ControllerBase
 			);
 		$this->view->setVar('finpartida',$finpartida);
 
+		$model = new Nivelsalariales();
+        $resul = $model->listaSelect();
 		$nivelsalarial = $this->tag->select(
 			array(
 				'codigo_nivel',
-				Nivelsalariales::find(array('baja_logica=1 and activo=1',"order"=>"nivel ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)') as fullname,nivel")),
-				//Nivelsalariales::find(array('baja_logica=1','order' => 'id ASC')),
-				'using' => array('id', "fullname"),
+				//Nivelsalariales::find(array('baja_logica=1 and activo=1',"order"=>"nivel ASC","columns" => "id,CONCAT(denominacion, ' (', sueldo, ' Bs.)', ' =>(RESOLUCION ADMINISTRATIVA GESTION 2014)') as fullname,nivel")),
+				$resul,
+				'using' => array('id', "opcion"),
 				'useEmpty' => true,
 				'emptyText' => '(Selecionar)',
 				'emptyValue' => '',
