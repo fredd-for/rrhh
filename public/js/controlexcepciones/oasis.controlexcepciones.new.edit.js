@@ -45,6 +45,10 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
     $("#txtFechaFin"+sufijo).datepicker("hiden");
 
     $("#txtJustificacion"+sufijo).val(justificacion);
+
+    $("#lblObservacion"+sufijo).text("Observaciones:");
+    $("#txtObservacion"+sufijo).prop("placeholder","Observaciones...");
+
     $("#txtObservacion"+sufijo).val(observacion);
 
     var inputIni = $("#txtHoraIni"+sufijo).clockpicker({
@@ -84,6 +88,10 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
         var tipo_excepcion = "";
         if($("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=null)
             tipo_excepcion = $("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion");
+        if(tipo_excepcion=="COMISION"||tipo_excepcion=="COMISIÓN"){
+            $("#lblObservacion"+sufijo).text("Lugar *:");
+            $("#txtObservacion"+sufijo).prop("placeholder","Lugar...");
+        }
         var codigo = $("#lstExcepcion"+sufijo+" option:selected").data("codigo");
         var color = $("#lstExcepcion"+sufijo+" option:selected").data("color");
         var descuento = $("#lstExcepcion"+sufijo+" option:selected").data("descuento");
@@ -133,6 +141,13 @@ function inicializarFormularioControlExcepcionesNuevoEditar(opcion,idRelaboral,i
             var tipo_excepcion = "";
             if($("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=null)
                 tipo_excepcion = $("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion");
+            if(tipo_excepcion=="COMISIÓN"||tipo_excepcion=="COMISION"){
+                $("#lblObservacion"+sufijo).text("Lugar *:");
+                $("#txtObservacion"+sufijo).prop("placeholder","Lugar...");
+            }else {
+                $("#lblObservacion"+sufijo).text("Observaciones:");
+                $("#txtObservacion"+sufijo).prop("placeholder","Observaciones...");
+            }
             var codigo = $("#lstExcepcion"+sufijo+" option:selected").data("codigo");
             var color = $("#lstExcepcion"+sufijo+" option:selected").data("color");
             var descuento = $("#lstExcepcion"+sufijo+" option:selected").data("descuento");
@@ -242,6 +257,11 @@ function validaFormularioControlExcepciones(opcion){
     $(".msjs-alert").hide();
     limpiarMensajesErrorPorValidacionControlExcepcion(opcion);
     var enfoque = null;
+
+    var tipo_excepcion = "";
+    if($("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=''&&$("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion")!=null)
+        tipo_excepcion = $("#lstExcepcion"+sufijo+" option:selected").data("tipo_excepcion");
+
     var lstExcepcion =$("#lstExcepcion"+sufijo);
     var divExcepcion = $("#divExcepcion"+sufijo);
     var helpErrorExcepcion = $("#helpErrorExcepcion"+sufijo);
@@ -280,6 +300,12 @@ function validaFormularioControlExcepciones(opcion){
     var divJustificacion = $("#divJustificacion"+sufijo);
     var helpErrorJustificacion = $("#helpErrorJustificacion"+sufijo);
     var justificacion = $("#txtJustificacion"+sufijo).val();
+
+    var txtObservacion = $("#txtJbservacion"+sufijo);
+    var divObservacion = $("#divObservacion"+sufijo);
+    var helpErrorObservacion = $("#helpErrorObservacion"+sufijo);
+    var observacion= $("#txtObservacion"+sufijo).val();
+
 
     var lstTurno = $("#lstCompensacionTurno"+sufijo);
     var divTurno = $("#divCompensacionTurno"+sufijo);
@@ -363,6 +389,15 @@ function validaFormularioControlExcepciones(opcion){
             if (enfoque == null)enfoque = txtHoraFin;
         }
     }
+    if(tipo_excepcion=="COMISION"||tipo_excepcion=="COMISIÓN"){
+        if($("#txtObservacion"+sufijo).val()==""){
+            ok = false;
+            var msje = "Debe especificar el lugar de asignaci&oacute;n de la excepci&oacute;n.";
+            divObservacion.addClass("has-error");
+            helpErrorObservacion.html(msje);
+            if (enfoque == null)enfoque = txtObservacion;
+        }
+    }
     if (enfoque != null) {
         enfoque.focus();
     }
@@ -388,6 +423,9 @@ function limpiarMensajesErrorPorValidacionControlExcepcion(opcion) {
     $("#divHoraFin"+sufijo).removeClass("has-error");
     $("#helpErrorHoraFin"+sufijo).html("");
     $("#divJustificacion"+sufijo).removeClass("has-error");
+    $("#helpErrorJustificacion"+sufijo).html("");
+    $("#divObservacion"+sufijo).removeClass("has-error");
+    $("#helpErrorObservacion"+sufijo).html("");
     $("#divCompensacionTurno"+sufijo).removeClass("has-error");
     $("#divCompensacionEntradaSalida"+sufijo).removeClass("has-error");
     $("#helpErrorJustificacion"+sufijo).html("");

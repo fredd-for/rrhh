@@ -1,9 +1,9 @@
 <?php
 $option=1;
 switch($option){
-    case 1:$HOST="192.168.10.8";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
-    case 2:$HOST="192.168.10.158";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";
-        break;
+    case 1:$HOST="192.168.100.116";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
+    case 2:$HOST="192.168.10.158";$USERNAME="user_rrhh";$PASSWORD="pass_rrhh";$DBNAME="bd_rrhh";break;
+    case 3:$HOST="localhost";$USERNAME="oasisuser";$PASSWORD="oasispass";$DBNAME="bd_rrhh_pub";break;
     default:$HOST="localhost";$USERNAME="oasisuser";$PASSWORD="oasispass";$DBNAME="bd_rrhh";
 }
 return new \Phalcon\Config(array(
@@ -33,6 +33,9 @@ return new \Phalcon\Config(array(
         'baseUri'        => '   ',
         // Cargar librería fpdf
         'fpdf'        => __DIR__ . '/../../app/libs/fpdf/',
+        // Cargar librería PHP Mailer
+        'phpmailer'        => __DIR__ . '/../../app/libs/phpmailer/',
+        'qrlib'        => __DIR__ . '/../../app/libs/qrlib/',
         //'t_pdf'        => __DIR__ . '/../../app/libs/fpdf/',
         'baseUri'        => '',
     )

@@ -362,13 +362,14 @@ class PlanillasrefController extends ControllerBase{
                                     $objForm110ImpRef->monto_diario = $v->monto_diario;
                                     $objForm110ImpRef->importe = $v->importe;
                                     $objForm110ImpRef->impuesto = $v->rc_iva;
-                                    $rc_iva_debido = $v->total_ganado * 0.13;
+                                    /*$rc_iva_debido = $v->total_ganado * 0.13;
                                     $retencion = round($rc_iva_debido - $v->importe*0.13,0);
                                     if($retencion<0){
                                         $retencion = 0;
                                     }
-                                    //$objForm110ImpRef->retencion = $v->retencion;
                                     $objForm110ImpRef->retencion = $retencion;
+                                    */
+                                    $objForm110ImpRef->retencion = $v->retencion;
                                     $objForm110ImpRef->fecha_form = $hoy;
                                     $objForm110ImpRef->estado = 1;
                                     $objForm110ImpRef->baja_logica = 1;
@@ -392,7 +393,9 @@ class PlanillasrefController extends ControllerBase{
                                     $pagosref->dias_efectivos = $v->dias_efectivos;
                                     $pagosref->total_ganado = $v->total_ganado;
                                     $totalGanado += $v->total_ganado;
-                                    $pagosref->total_liquido = $v->total_liquido;
+                                    $retencion = 0;
+                                    if($objForm110ImpRef->retencion>0)$retencion = $objForm110ImpRef->retencion;
+                                    $pagosref->total_liquido = $v->total_ganado-$retencion;
                                     $totalLiquido += $v->total_liquido;
                                     $pagosref->estado = 1;
                                     $pagosref->baja_logica = 1;

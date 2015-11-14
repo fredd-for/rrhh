@@ -280,7 +280,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public function getOne($id_relaboral)
     {
         if($id_relaboral>0){
-            $sql = "SELECT * FROM f_relaborales() WHERE id_relaboral=".$id_relaboral;
+            $sql = "SELECT * FROM f_relaborales_por_id($id_relaboral)";
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         } else {
@@ -294,8 +294,7 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public function getAllByPerson($idPersona,$gestion=0)
     {
         if($idPersona>0){
-            $sql = "SELECT * FROM f_relaborales() WHERE id_persona=".$idPersona;
-            if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
+            $sql = "SELECT * FROM f_relaborales_por_persona_gestion($idPersona,$gestion)";
             $sql.=" ORDER BY fecha_ini DESC";
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
@@ -368,5 +367,98 @@ class Frelaborales extends \Phalcon\Mvc\Model {
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
         } else return new Resultset();
+    }
+
+    /**
+     * Función para obtener los datos laborales del inmediato superior en base al registro laboral de la persona.
+     * @param $idRelaboral
+     * @return Resultset
+     */
+    public function getInmediatoSuperiorRelaboral($idRelaboral)
+    {
+        if($idRelaboral>0){
+            $sql = "SELECT * FROM f_relaborales_inmediato_superior(".$idRelaboral.")";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
+    }
+
+    /**
+     * Función para obtener el registro de relación laboral considerando la última asignación de movilidad de personal válida.
+     * @param $idRelaboral
+     * @return Resultset
+     */
+    public function getOneRelaboralConsiderandoUltimaMovilidad($idRelaboral)
+    {
+        if($idRelaboral>0){
+            $sql = "SELECT * FROM f_relaborales_ultima_movilidad_por_id(".$idRelaboral.")";
+            $this->_db = new Frelaborales();
+            $arr = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $arr[0];
+        } else return new Resultset();
+    }
+
+    /**
+     * Función para obtener el último registro de relación laboral considerano movilidad de personal, de una determinada persona.
+     * @param $idPersona
+     * @return Resultset
+     */
+    public function getOneRelaboralConsiderandoUltimaMovilidadPorPersona($idPersona)
+    {
+        if($idPersona>0){
+            $sql = "SELECT * FROM f_relaborales_ultima_movilidad_por_id_persona(".$idPersona.")";
+            $this->_db = new Frelaborales();
+            $arr = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+            return $arr[0];
+        } else return new Resultset();
+    }
+    /**
+     * Función para la obtención de los registros de relación laboral de una determinada unidad organizacional dentro de la empresa, considerando la ejecucion de un filtro adicional
+     * de acuerdo al parámetro $where.
+     * @param $IdOrganigrama
+     * @param $where
+     * @return Resultset
+     */
+    public function getAllRelaboralesByIdOrganigramaConsiderandoUltimaMovilidad($IdOrganigrama,$where)
+    {
+        if($IdOrganigrama>0){
+            $sql = "SELECT * FROM f_relaborales_ultima_movilidad_por_organigrama(".$IdOrganigrama.",'$where')";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
+    }
+
+    /**
+     * Función para obtener el listado de periodos continuos de contratos considerando que se suman las condiciones de Contrato a Plazo Fijo y las de Contrato Indefinido.
+     * Teniendo por otro lado a los Consultores.
+     * @param $idPersona
+     * @return Resultset
+     */
+    public function getListAntiguedadPorPeriodos($idPersona)
+    {
+        if($idPersona>0){
+            $sql = "select * from f_relaborales_antiguedad_por_periodos(".$idPersona.")";
+            $this->_db = new Frelaborales();
+            return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        } else return new Resultset();
+    }
+
+    /**
+     * Función para el despliegue de registros de relación laboral considerando la entrega de ideas de negocio.
+     * @param $idRelaboral
+     * @param $idPersona
+     * @param $gestion
+     * @param $mes
+     * @param string $where
+     * @param string $group
+     * @return Resultset
+     */
+    public function getAllCountIdeas($idRelaboral,$idPersona,$gestion,$mes,$where='',$group='')
+    {
+        $sql = "SELECT * FROM f_relaborales_ultima_movilidad_control_ideas_mes($idRelaboral,$idPersona,$gestion,$mes)";
+        if($where!='')$sql .= $where;
+        if($group!='')$sql .= $group;
+        $this->_db = new Frelaborales();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 } 

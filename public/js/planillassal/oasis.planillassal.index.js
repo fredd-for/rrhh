@@ -52,8 +52,8 @@ $().ready(function () {
                 if(cantidadRegistrosValidos>0){
                     listaIdRelaborales += separador;
                     listaIdRelaborales = listaIdRelaborales.replace(separador + separador, "");
-                    desplegarPlanillaPreviaSal(listaIdRelaborales);
                     $("#btnGenerarPlanillaSal").show();
+                    desplegarPlanillaPreviaSal(listaIdRelaborales);
                 }else{
                     var msje = "Debe seleccionar al menos un registro v&aacute;lido (D&iacute;as efectivos mayor a cero) para de la Planilla Salarial.";
                     $("#divMsjePorError").html("");
@@ -389,7 +389,7 @@ function definirGrillaParaListaPlanillas() {
                     $("#viewplanrowbutton").jqxButton();
 
                     $("#hdnIdPlanillaSal").val(0);
-                    $("#hdnSwPlanillaSalCalculada").val(0);
+                    $("#btnGenerarPlanillaSal").hide();
                     /* Generar una nueva planilla salarial */
                     $("#addplanrowbutton").off();
                     $("#addplanrowbutton").on('click', function () {

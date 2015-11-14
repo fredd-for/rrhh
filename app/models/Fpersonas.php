@@ -121,8 +121,22 @@ class Fpersonas extends \Phalcon\Mvc\Model {
      */
     public function getOne($id)
     {
-        $sql = "SELECT * from f_personas() WHERE id_persona = ".$id;
+        $sql = "SELECT * from f_personas_por_id($id)";
         $this->_db = new Fpersonas();
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
+
+    /**
+     * Función para la obtención del pseudónimo correspondiente a la persona.
+     * @param $idPersona
+     * @return mixed
+     */
+    public function getPseudonimo($idPersona)
+    {   if($idPersona>0) {
+        $sql = "SELECT o_pseudonimo FROM f_obtener_pseudonimo($idPersona) ";
+        $this->_db = new Fpersonas();
+        $arr = new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+        return $arr[0]->o_pseudonimo;
+    }
     }
 } 

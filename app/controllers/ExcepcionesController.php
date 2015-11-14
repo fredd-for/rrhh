@@ -50,10 +50,23 @@ class ExcepcionesController extends ControllerBase
             $genero = $_POST["genero"];
             switch($genero){
                 case "F":
-                    $where = "WHERE genero_id IN (0,1)";
+                    $where = " WHERE genero_id IN (0,1)";
                     break;
                 case "M":
-                    $where = "WHERE genero_id IN (0,2)";
+                    $where = " WHERE genero_id IN (0,2)";
+                    break;
+            }
+        }
+        if(isset($_POST["boleta"])&&$_POST["boleta"]!=''){
+            $boleta = $_POST["boleta"];
+            if($where=="")$where=" WHERE ";
+            else $where.=" AND ";
+            switch($boleta){
+                case 1:
+                    $where .= " agrupador=1";
+                    break;
+                case 0:
+                    $where .= " agrupador=0";
                     break;
             }
         }
@@ -91,6 +104,8 @@ class ExcepcionesController extends ControllerBase
                     'estado_descripcion'=>$v->estado_descripcion,
                     'baja_logica'=>$v->baja_logica,
                     'agrupador'=>$v->agrupador,
+                    'boleta'=>$v->agrupador,
+                    'boleta_descripcion'=>($v->agrupador==1)?"SI":"NO",
                     'user_reg_id'=>$v->user_reg_id,
                     'fecha_reg'=>$v->fecha_reg,
                     'user_mod_id'=>$v->user_mod_id,
@@ -226,6 +241,7 @@ class ExcepcionesController extends ControllerBase
             $redondeo = $_POST['redondeo'];
             $horario = $_POST['horario'];
             $refrigerio = $_POST['refrigerio'];
+            $boleta = $_POST['boleta'];
             $observacion = $_POST['observacion'];
             if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$descuento!=''&&$compensatoria!=''&&$horario!=''&&$refrigerio!=''&&$idGenero>=0){
                 $objExcepciones = Excepciones::findFirst(array("id=".$_POST["id"]));
@@ -240,6 +256,7 @@ class ExcepcionesController extends ControllerBase
                         $objExcepciones->compensatoria = $compensatoria;
                         $objExcepciones->horario = $horario;
                         $objExcepciones->refrigerio = $refrigerio;
+                        $objExcepciones->agrupador = $boleta;
                         $objExcepciones->genero_id = $idGenero;
                         if($cantidad>0&&$unidad!=''){
                             $objExcepciones->cantidad = $cantidad;
@@ -291,6 +308,7 @@ class ExcepcionesController extends ControllerBase
             $redondeo = $_POST['redondeo'];
             $horario = $_POST['horario'];
             $refrigerio = $_POST['refrigerio'];
+            $boleta = $_POST['boleta'];
             $observacion = $_POST['observacion'];
             if($excepcion!=""&&$idTipoExcepcion>0&&$codigo!=''&&$color!=''&&$descuento!=''&&$compensatoria!=''&&$horario!=''&&$refrigerio!=''&&$idGenero>=0){
                 $cantMismosDatos = Excepciones::count(array("UPPER(excepcion) LIKE UPPER('".$excepcion."') AND baja_logica=1 AND estado>=0"));
@@ -315,7 +333,7 @@ class ExcepcionesController extends ControllerBase
                     $objExcepciones->observacion=$observacion;
                     $objExcepciones->estado=1;
                     $objExcepciones->baja_logica=1;
-                    $objExcepciones->agrupador=0;
+                    $objExcepciones->agrupador=$boleta;
                     $objExcepciones->user_reg_id=$user_reg_id;
                     $objExcepciones->fecha_reg=$hoy;
                     try{

@@ -379,7 +379,7 @@ function definirGrillaMarcacionesYCalculos(objParametros) {
                                     $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                     $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                     $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                                    cargarPersonasContactosControlExcepciones(2,idPersona);
+                                    cargarPersonasContactosGestionIdeas(2,idPersona);
                                     $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
 

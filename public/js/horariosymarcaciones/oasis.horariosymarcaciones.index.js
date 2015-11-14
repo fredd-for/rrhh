@@ -62,7 +62,13 @@ $().ready(function () {
                 var random = 0 + '%';
                 $(this).css('width', random).html(random);
             });
-            if(gestion>0&&mes>0&&tipo>0){
+            var fechaIni = "01-"+mes+"-"+gestion;
+            var fechaFin = "01-"+mes+"-"+gestion;
+            if(tipo==1||tipo==3){
+                fechaIni = $("#txtCalculoFechaIni").val();
+                fechaFin = $("#txtCalculoFechaFin").val();
+            }
+            if(gestion>0&&mes>0&&tipo>0&&fechaIni!=""&&fechaFin!=""){
                 $("#popupGestionMesGeneracionMarcaciones").modal("hide");
                 var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
                 var contador = 0;
@@ -73,20 +79,30 @@ $().ready(function () {
                         $("#divProgressBar").show();
                     }
                     var row = $("#divGridRelaborales").jqxGrid('getrowdata', rows[m]);
-                    var fechaIni = "01-"+mes+"-"+gestion;
-                    var fechaFin =  obtenerUltimoDiaMes(fechaIni);
+                    var fechaBaja = "";
+                    var fechaIncor = "";
+                    if (row.fecha_baja!=null&&row.fecha_baja!=""){
+                        fechaBaja = fechaConvertirAFormato(row.fecha_baja,"-")
+                        var sep='-';
+                        if(procesaTextoAFecha(fechaFin,sep)>procesaTextoAFecha(fechaBaja,sep)){
+                            fechaFin = fechaBaja;
+                        }
+                    }
+                    if (row.fecha_incor!=null&&row.fecha_incor!=""){
+                        fechaIncor = fechaConvertirAFormato(row.fecha_incor,"-")
+                    }
                     var ok1 = true;
                     var ok2 = true;
                     switch (tipo){
                         case "1":
-                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
-                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H",row.estado,fechaIncor,fechaBaja);
+                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M",row.estado,fechaIncor,fechaBaja);
                             break;
                         case "2":
-                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H");
+                            ok1 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"H",row.estado,fechaIncor,fechaBaja);
                             break;
                         case "3":
-                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M");
+                            ok2 = generarMarcacion(1,row.id_relaboral,gestion,mes,fechaIni,fechaFin,"M",row.estado,fechaIncor,fechaBaja);
                             break;
                     }
                     contador_aux++;
@@ -114,6 +130,8 @@ $().ready(function () {
                     $("#divMsjePorWarning").append(msje);
                     $("#divMsjeNotificacionWarning").jqxNotification("open");
                 }
+            }else{
+
             }
     });
     $("#btnGuardarBaja").click(function () {
@@ -477,7 +495,7 @@ function definirGrillaParaListaRelaborales() {
                     $("#calculaterowbutton").jqxButton();
                     $("#turnrowbutton").jqxButton();
                     $("#hdnIdRelaboralVista").val(0);
-
+                    $("#divCalculoFechas").hide();
                     /* Registrar nueva relación laboral.*/
                     $("#listrowbutton").off();
                     $("#listrowbutton").on('click', function () {
@@ -512,7 +530,7 @@ function definirGrillaParaListaRelaborales() {
                                     $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
                                     $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
                                     $("#imgFotoPerfil").attr("src", rutaImagen);
-                                    cargarPersonasContactosControlExcepciones(1,dataRecord.id_persona);
+                                    cargarPersonasContactosGestionIdeas(1,dataRecord.id_persona);
                                     $("#hdnIdRelaboralVista").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
@@ -540,17 +558,64 @@ function definirGrillaParaListaRelaborales() {
                             var rows = $("#divGridRelaborales").jqxGrid('selectedrowindexes');
                             if(rows.length>0) {
                                 $("#popupGestionMesGeneracionMarcaciones").modal("show");
-                                cargarGestionesDisponiblesParaGeneracionMarcaciones(0);
-                                cargarMesesDisponiblesParaGeneracionMarcaciones(0,0);
-                                cargarTiposDisponiblesParaGeneracionMarcaciones(0,0,0);
+                                $("#divCalculoFechas").hide();
+                                var d = new Date();
+                                var dia = d.getDate();
+                                var mes = d.getMonth()+1;
+                                var gestion = d.getFullYear();
+                                var fechaDefectoInicio = dia+'-'+mes+'-'+gestion;
+                                var fechaDefectoFin = dia+'-'+mes+'-'+gestion;
+                                var startDate = '01-'+mes+'-'+gestion;
+                                var endDate =  obtenerUltimoDiaMes(startDate);
+                                cargarGestionesDisponiblesParaGeneracionMarcaciones(gestion);
+                                cargarMesesDisponiblesParaGeneracionMarcaciones(gestion,mes);
+                                cargarTiposDisponiblesParaGeneracionMarcaciones(gestion,mes,0);
                                 $("#lstGestionGeneracionMarcaciones").off();
                                 $("#lstGestionGeneracionMarcaciones").on("change",function(){
                                     cargarMesesDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),0);
                                     cargarTiposDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),0,0);
+                                    $("#divCalculoFechas").hide();
                                 });
+                                $("#lstMesGeneracionMarcaciones").off();
                                 $("#lstMesGeneracionMarcaciones").on("change",function(){
                                     cargarTiposDisponiblesParaGeneracionMarcaciones($("#lstGestionGeneracionMarcaciones").val(),$("#lstMesGeneracionMarcaciones").val(),0);
+                                    $("#divCalculoFechas").hide();
                                 });
+                                $("#lstTipoGeneracionMarcaciones").off();
+                                $("#lstTipoGeneracionMarcaciones").on("change",function(){
+                                    if(this.value==1||this.value==3){
+                                        startDate = '01-'+$("#lstMesGeneracionMarcaciones").val()+'-'+$("#lstGestionGeneracionMarcaciones").val();
+                                        endDate =  obtenerUltimoDiaMes(startDate);
+                                        if($("#lstMesGeneracionMarcaciones").val()!=mes){
+                                            fechaDefectoInicio = startDate;
+                                            fechaDefectoFin = endDate;
+                                        }else {
+                                            fechaDefectoInicio = dia+'-'+mes+'-'+gestion;
+                                            fechaDefectoFin = dia+'-'+mes+'-'+gestion;
+                                        }
+                                        $("#divCalculoFechas").show();
+                                        $('#txtCalculoFechaIni').datepicker('remove');
+                                        $('#txtCalculoFechaIni').datepicker({
+                                            format:'dd-mm-yyyy',
+                                            weekStart: 1,
+                                            startDate: startDate,
+                                            endDate: endDate,
+                                            autoclose: true
+                                        });
+                                        $('#txtCalculoFechaIni').datepicker('update',fechaDefectoInicio);
+                                        $('#txtCalculoFechaFin').datepicker('remove');
+                                        $('#txtCalculoFechaFin').datepicker({
+                                            format:'dd-mm-yyyy',
+                                            weekStart: 1,
+                                            startDate: startDate,
+                                            endDate: endDate,
+                                            autoclose: true
+                                        });
+                                        $('#txtCalculoFechaFin').datepicker('update',fechaDefectoFin);
+                                        $("#txtCalculoFechaIni").focus();
+                                    }else $("#divCalculoFechas").hide();
+                                });
+                                $("#lstGestionGeneracionMarcaciones").focus();
                             }else{
                                 var msje = "Debe al menos seleccionar un registro para solicitar la generaci&oacute;n de las marcaciones previstas y efectivas.";
                                 $("#divMsjePorError").html("");
@@ -707,7 +772,7 @@ function definirGrillaParaListaRelaborales() {
                                 $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                                cargarPersonasContactosControlExcepciones(2,dataRecord.id_persona);
+                                cargarPersonasContactosGestionIdeas(2,dataRecord.id_persona);
 
                         } else {
                             var msje = "Debe seleccionar un registro necesariamente.";
