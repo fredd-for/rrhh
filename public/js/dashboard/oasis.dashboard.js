@@ -14,7 +14,10 @@ $().ready(function(){
         });
     }
     cargarDescuentosPorPersonaEnGestion($("#lstGestion").val());
+<<<<<<< HEAD
     $("#lstGestion").off();
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $("#lstGestion").on("change",function(){
         cargarDescuentosPorPersonaEnGestion($("#lstGestion").val());
     });

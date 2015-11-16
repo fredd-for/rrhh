@@ -17,7 +17,10 @@ class Fideas extends \Phalcon\Mvc\Model  {
     public $gestion;
     public $mes;
     public $mes_nombre;
+<<<<<<< HEAD
     public $numero;
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     public $titulo;
     public $resumen;
     public $descripcion;
@@ -78,7 +81,10 @@ class Fideas extends \Phalcon\Mvc\Model  {
             'gestion'=>'gestion',
             'mes'=>'mes',
             'mes_nombre'=>'mes_nombre',
+<<<<<<< HEAD
             'numero'=>'numero',
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             'titulo'=>'titulo',
             'resumen'=>'resumen',
             'descripcion'=>'descripcion',
@@ -132,9 +138,15 @@ class Fideas extends \Phalcon\Mvc\Model  {
      * @param string $group
      * @return Resultset
      */
+<<<<<<< HEAD
     public function getAllFromOnePersonByGestion($idPersona,$gestion,$mes,$estado,$where='',$group=''){
         if($idPersona>=0&&$gestion>=0){
             $sql = "SELECT * FROM f_ideas_por_persona_en_gestion(".$idPersona.",".$gestion.",".$mes.",".$estado.")";
+=======
+    public function getAllFromOnePersonByGestion($idPersona,$gestion,$where='',$group=''){
+        if($idPersona>0&&$gestion>=0){
+            $sql = "SELECT * FROM f_ideas_por_persona_en_gestion(".$idPersona.",".$gestion.")";
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             if($where!='')$sql .= $where;
             if($group!='')$sql .= $group;
             $this->_db = new Fideas();

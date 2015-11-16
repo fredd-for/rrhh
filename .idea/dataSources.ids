@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
+<<<<<<< HEAD
   <data-source name="PostgreSQL - bd_rrhh@localhost" uuid="9a5415d9-3fcb-4edf-8c78-5046a7266dc6">
     <database-info product="PostgreSQL" version="9.3.5" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
       <identifier-quote-string>&quot;</identifier-quote-string>
@@ -29586,5 +29587,9 @@
         <parameter name="returnValue" sqlType="trigger" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
+=======
+  <data-source name="PostgreSQL - bd_rrhh@localhost" uuid="339532b3-a148-482f-bbc4-5e306fc9a276">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
   </data-source>
 </component>

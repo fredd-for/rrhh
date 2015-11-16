@@ -4,9 +4,9 @@
 *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
 *   Versión:  1.0.0
 *   Usuario Creador: Lic. Javier Loza
-*   Fecha Creación:  08-06-2015
+*   Fecha Creación:  02-10-2015
 */
-
-class Controlpermisos extends \Phalcon\Mvc\Model{
+use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
+class Controlexcepcionescorrelativo extends \Phalcon\Mvc\Model {
 
 } 

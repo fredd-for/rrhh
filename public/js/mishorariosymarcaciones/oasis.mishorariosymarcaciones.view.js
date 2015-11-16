@@ -3,10 +3,17 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
+<<<<<<< HEAD
  *   Fecha Creación:  10-11-2015
  */
 
 function cargarPersonasContactosMisHorariosYMarcaciones(opcion,idPersona){
+=======
+ *   Fecha Creación:  04-03-2015
+ */
+
+function cargarPersonasContactosControlExcepciones(opcion,idPersona){
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     var sufijo = ""
     if(opcion==2){
         sufijo = "TurnAndExcept"

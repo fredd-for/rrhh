@@ -39,11 +39,15 @@ class RegisterandrecoverController extends ControllerBaseOut{
         $arrEmail = explode("@",$email);
         $dominio = $arrEmail[1];
         if(count($arrEmail)==2&&$dominio=="miteleferico.bo"){
+<<<<<<< HEAD
             $param = parametros::findFirst(array("parametro LIKE 'RUTA_APLICACION' AND estado=1 AND baja_logica=1"));
             $ruta = 'http://rrhh.local/registerandrecover/definepassword/';
             if(is_object($param)){
                 $ruta = 'http://'.$param->nivel.'/registerandrecover/definepassword/';
             }
+=======
+            $ruta = 'http://rrhh.local/registerandrecover/definepassword/';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             $operacionSolicitada=utf8_decode("Restablecimiento de Cuenta");
             if($email!=''){
 
@@ -71,12 +75,15 @@ class RegisterandrecoverController extends ControllerBaseOut{
                         $oku = $usuarioSolicitante->save();
                     }else{
                         if(is_object($contacto)&&$contacto->e_mail_inst!=''&&$contacto->e_mail_inst!=null){
+<<<<<<< HEAD
                             $fper = new Fpersonas();
                             $pseudonimo = "uta".$contacto->persona_id;
                             $pseudonimoGenerado = $fper->getPseudonimo($contacto->persona_id);
                             if($pseudonimoGenerado!=''&&$pseudonimoGenerado!=null){
                                 $pseudonimo=$pseudonimoGenerado;
                             }
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                             /**
                              * Si el usuario no existe se crea un usuario sin acceso al módulo de administradores, sólo al de consultas por ello su nivel acá será 0
                              */
@@ -84,7 +91,10 @@ class RegisterandrecoverController extends ControllerBaseOut{
                             $usuarioSolicitante->persona_id=$idPersonaSolicitante;
                             $usuarioSolicitante->username=$username;
                             $usuarioSolicitante->password=$password;
+<<<<<<< HEAD
                             $usuarioSolicitante->pseudonimo=$pseudonimo;
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                             $usuarioSolicitante->habilitado=1;
                             $usuarioSolicitante->logins=1000;
                             /**
@@ -257,6 +267,7 @@ class RegisterandrecoverController extends ControllerBaseOut{
 
                         $cuerpo .= '</body></html>';
                         if ($idRelaboralSolicitante > 0) {
+<<<<<<< HEAD
                             $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
                             $userMail = '';
                             if(is_object($parUser)){
@@ -296,6 +307,26 @@ class RegisterandrecoverController extends ControllerBaseOut{
                                     $msj = array('result' => 1, 'msj' => 'Exito! Se envi&oacute; un mensaje de correo electr&oacute;nico de confirmaci&oacute;n a su cuenta, revise su Bandeja de Entrada.');
                                 }else $msj = array('result' => 0, 'msj' => 'No se ha podido enviar el correo electr&oacute;nico, cont&aacute;ctese con personal de Recursos Humanos.');
                             }
+=======
+
+                            $mail = new phpmaileroasis();
+                            $mail->IsSMTP();
+                            $mail->SMTPAuth = true;
+                            $mail->SMTPSecure = "ssl";
+                            $mail->Host = "correo.miteleferico.bo";
+                            $mail->Port = 465;
+                            $mail->Username = "jloza@miteleferico.bo";
+                            $mail->Password = "javialex.";
+                            $mail->From = "jloza@miteleferico.bo";
+                            $mail->FromName = "Sistema de Recursos Humanos";
+                            $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada);
+                            $mail->MsgHTML($cuerpo);
+                            $mail->AddAddress($contacto->e_mail_inst, $relaboralSolicitante->nombres);
+                            $mail->IsHTML(true);
+                            if ($mail->Send()) {
+                                $msj = array('result' => 1, 'msj' => 'Exito! Se envi&oacute; un mensaje de correo electr&oacute;nico de confirmaci&oacute;n a su cuenta, revise su Bandeja de Entrada.');
+                            }else $msj = array('result' => 0, 'msj' => 'No se ha podido enviar el correo electr&oacute;nico, cont&aacute;ctese con personal de Recursos Humanos.');
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         }
                     }else $msj = array('result' => -1, 'msj' => 'Error! No se ha podido crear el usuario correspondiente, cont&acute;tese con personal de Recursos Humanos.');
                 }else $msj = array('result' => -2, 'msj' => 'Usted no tiene actualmente un registro activo de contrato en la empresa por lo que su acceso esta restringido..');
@@ -324,11 +355,16 @@ class RegisterandrecoverController extends ControllerBaseOut{
         $opcion=0;
         $oku=false;
         if(count($arrEmail)==2&&$dominio=="miteleferico.bo"){
+<<<<<<< HEAD
             $param = parametros::findFirst(array("parametro LIKE 'RUTA_APLICACION' AND estado=1 AND baja_logica=1"));
             $ruta = 'http://rrhh.local/registerandrecover/solredefinepassword/';
             if(is_object($param)){
                 $ruta = 'http://'.$param->nivel.'/registerandrecover/solredefinepassword/';
             }
+=======
+            $ruta = 'http://rrhh.local/registerandrecover/solredefinepassword/';
+            $ruta = 'http://rrhh7.miteleferico.bo/registerandrecover/solredefinepassword/';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             $contacto = personascontactos::findFirst(array("e_mail_inst=:email:",'bind' => array("email"=>$email)));
             if(is_object($contacto)){
                 $relaboral = Relaborales::findFirst(array("persona_id=:persona_id: AND estado>=1 AND baja_logica=1",'bind' => array("persona_id"=>$contacto->persona_id)));
@@ -362,17 +398,23 @@ class RegisterandrecoverController extends ControllerBaseOut{
                             /**
                              * Si el usuario no existe se crea un usuario sin acceso al módulo de administradores, sólo al de consultas por ello su nivel acá será 0
                              */
+<<<<<<< HEAD
                             $fper = new Fpersonas();
                             $pseudonimo = "uta".$contacto->persona_id;
                             $pseudonimoGenerado = $fper->getPseudonimo($contacto->persona_id);
                             if($pseudonimoGenerado!=''&&$pseudonimoGenerado!=null){
                                 $pseudonimo=$pseudonimoGenerado;
                             }
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                             $usuarioSolicitante = new usuarios();
                             $usuarioSolicitante->persona_id=$idPersonaSolicitante;
                             $usuarioSolicitante->username=$username;
                             $usuarioSolicitante->password=$password;
+<<<<<<< HEAD
                             $usuarioSolicitante->pseudonimo=$pseudonimo;
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                             $usuarioSolicitante->habilitado=1;
                             $usuarioSolicitante->logins=1000;
                             /**
@@ -560,6 +602,7 @@ class RegisterandrecoverController extends ControllerBaseOut{
                         $cuerpo .= '</body></html>';
                         if ($idRelaboralSolicitante > 0) {
 
+<<<<<<< HEAD
                             $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
                             $userMail = '';
                             if(is_object($parUser)){
@@ -599,6 +642,25 @@ class RegisterandrecoverController extends ControllerBaseOut{
                                     $msj = array('result' => 1, 'msj' => 'Exito! Se envi&oacute; un mensaje de correo electr&oacute;nico de confirmaci&oacute;n a su cuenta, revise su Bandeja de Entrada.');
                                 }else $msj = array('result' => 0, 'msj' => 'No se ha podido enviar el correo electr&oacute;nico, cont&aacute;ctese con personal de Recursos Humanos.');
                             }  else $msj = array('result' => 0, 'msj' => 'No se ha podido enviar el correo electr&oacute;nico debido a la inexistencia de la cuenta del correo electr&oacute;nico de RRHH, cont&aacute;ctese con personal de Recursos Humanos.');
+=======
+                            $mail = new phpmaileroasis();
+                            $mail->IsSMTP();
+                            $mail->SMTPAuth = true;
+                            $mail->SMTPSecure = "ssl";
+                            $mail->Host = "correo.miteleferico.bo";
+                            $mail->Port = 465;
+                            $mail->Username = "jloza@miteleferico.bo";
+                            $mail->Password = "javialex.";
+                            $mail->From = "jloza@miteleferico.bo";
+                            $mail->FromName = "Sistema de Recursos Humanos";
+                            $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada);
+                            $mail->MsgHTML($cuerpo);
+                            $mail->AddAddress($contacto->e_mail_inst, $relaboralSolicitante->nombres);
+                            $mail->IsHTML(true);
+                            if ($mail->Send()) {
+                                $msj = array('result' => 1, 'msj' => 'Exito! Se envi&oacute; un mensaje de correo electr&oacute;nico de confirmaci&oacute;n a su cuenta, revise su Bandeja de Entrada.');
+                            }else $msj = array('result' => 0, 'msj' => 'No se ha podido enviar el correo electr&oacute;nico, cont&aacute;ctese con personal de Recursos Humanos.');
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         }
                     }else $msj = array('result' => -1, 'msj' => 'Error! No se ha podido crear el usuario correspondiente, cont&acute;tese con personal de Recursos Humanos.');
                 }else $msj = array('result' => -2, 'msj' => 'Usted no tiene actualmente un registro activo de contrato en la empresa por lo que su acceso esta restringido..');
@@ -656,7 +718,11 @@ class RegisterandrecoverController extends ControllerBaseOut{
         $cuerpo .= '<body>';
         $cantidadAdmitidaDeMinutosParaCambiarElPassword = 120;
         $obj = new Fexcepciones();
+<<<<<<< HEAD
         $cantidadMinutosTranscurridos = $obj->cantidadMinutosEntreDosFechas($fechaSolicitud." ".$horaSolicitud);
+=======
+//        $cantidadMinutosTranscurridos = $obj->cantidadMinutosEntreDosFechas($fechaSolicitud." ".$horaSolicitud);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $parametro = parametros::findFirst(array("parametro LIKE 'MINUTOS_PERMITIDOS_PARA_RESTABLECIMIENTO_PASSWORD' AND estado=1 AND baja_logica=1"));
         if(is_object($parametro)){
             $cantidadAdmitidaDeMinutosParaCambiarElPassword = $parametro->nivel;
@@ -671,7 +737,11 @@ class RegisterandrecoverController extends ControllerBaseOut{
                     $cuerpo .= '</div>';
                     $cuerpo .= '<div class="col-md-4">';
                     $cuerpo .= '<div class="block">';
+<<<<<<< HEAD
                     $cuerpo .= '<h3>Restablecimiento de Contraseña<br><small id="smallRecomendacion">Al menos debe tener 8 car&aacute;cteres alfanum&eacute;ricos m&iacute;nimamente.</small></h3>';
+=======
+                    $cuerpo .= '<h3>Restablecimiento de Contraseña<br><small id="smallRecomendacion">Al menos debe tener 5 car&aacute;cteres alfanum&eacute;ricos.</small></h3>';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                     $cuerpo.='<div class="alert alert-success" id="divAlertSuccess">';
                     $cuerpo.='<h4>&Eacute;xito!</h4>';
                     $cuerpo.='<span id="spanAlertSuccess"></span>';
@@ -760,7 +830,11 @@ class RegisterandrecoverController extends ControllerBaseOut{
                         if(passA!=""&&passB!=""){
                             if(passA==passB){
                                 var n = passA.length;
+<<<<<<< HEAD
                                 if(n<8){
+=======
+                                if(n<5){
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     ok = false;
                                     $("#spanErrorPasswordA").html("La contrase&ntilde;a debe tener al menos 5 car&aacute;cteres.");
                                     $("#divPasswordA").addClass("has-error");

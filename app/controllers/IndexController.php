@@ -34,8 +34,17 @@ class IndexController extends ControllerBase
             $relaborales = Relaborales::find("estado>=1 AND finpartida_id IN (2,5,8)");
             $this->view->setVar('eventuales', $relaborales->count());
 
+<<<<<<< HEAD
             $relaborales = Relaborales::find("estado>=1 AND finpartida_id IN (3,6,9)");
             $this->view->setVar('consultores', $relaborales->count());
+=======
+        /**
+         * Procesos Pendientes de Conclusión
+         */
+        $hoy = date("Y-m-d");
+        $procesos_pendientes = Procesoscontrataciones::find("fecha_concl>='".$hoy."' AND normativamod_id IN (1,2,5,6) AND tipoconvocatoria_id=1");
+        $this->view->setVar('procesos_pendientes', $procesos_pendientes->count());
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 
             $this->assets->addJs('/js/index/oasis.index.js');
             /**

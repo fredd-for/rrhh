@@ -59,6 +59,85 @@ class MisboletasexcepcionesController extends ControllerBase {
      * a las excepciones que corresponde boleta.
      * Autor: JLM
      */
+<<<<<<< HEAD
+=======
+    public function listboletasporrelaboralbAction()
+    {
+        $this->view->disable();
+        $controlexcepciones = Array();
+        if(isset($_GET["id"])&&$_GET["id"]>0){
+            $obj = new Fcontrolexcepciones();
+            $idRelaboral = $_GET["id"];
+            $resul = $obj->getAllByOneRelaboral($idRelaboral);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $controlexcepciones[] = array(
+                        'nro_row' => 0,
+                        'id'=>$v->id_controlexcepcion,
+                        'id_relaboral'=>$v->id_relaboral,
+                        'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
+                        'hora_ini'=>$v->hora_ini,
+                        'fecha_fin' => $v->fecha_fin != "" ? date("d-m-Y", strtotime($v->fecha_fin)) : "",
+                        'hora_fin'=>$v->hora_fin,
+                        'justificacion'=>$v->justificacion,
+                        'turno'=>$v->turno,
+                        'turno_descripcion'=>$v->compensatoria==1?$v->turno!=null?$v->turno."°":null:null,
+                        'entrada_salida'=>$v->entrada_salida,
+                        'entrada_salida_descripcion'=>$v->compensatoria==1?$v->entrada_salida==0?"ENTRADA":"SALIDA":null,
+                        'controlexcepcion_observacion'=>$v->controlexcepcion_observacion,
+                        'controlexcepcion_estado'=>$v->controlexcepcion_estado,
+                        'controlexcepcion_estado_descripcion'=>$v->controlexcepcion_estado_descripcion,
+                        'controlexcepcion_user_reg_id'=>$v->controlexcepcion_user_reg_id,
+                        'controlexcepcion_user_registrador'=>$v->controlexcepcion_user_registrador,
+                        'controlexcepcion_fecha_reg'=>$v->controlexcepcion_fecha_reg != "" ? date("d-m-Y H:i:s", strtotime($v->controlexcepcion_fecha_reg)) : "",
+                        'controlexcepcion_user_ver_id'=>$v->controlexcepcion_user_ver_id,
+                        'controlexcepcion_user_verificador'=>$v->controlexcepcion_user_verificador,
+                        'controlexcepcion_fecha_ver'=>$v->controlexcepcion_fecha_ver != "" ? date("d-m-Y H:i:s", strtotime($v->controlexcepcion_fecha_ver)) : "",
+                        'controlexcepcion_user_apr_id'=>$v->controlexcepcion_user_apr_id,
+                        'controlexcepcion_user_aprobador'=>$v->controlexcepcion_user_aprobador,
+                        'controlexcepcion_fecha_apr'=>$v->controlexcepcion_fecha_apr != "" ? date("d-m-Y H:i:s", strtotime($v->controlexcepcion_fecha_apr)) : "",
+                        'controlexcepcion_user_mod_id'=>$v->controlexcepcion_user_mod_id,
+                        'controlexcepcion_user_modificador'=>$v->controlexcepcion_user_modificador,
+                        'controlexcepcion_fecha_mod'=>$v->controlexcepcion_fecha_mod != "" ? date("d-m-Y H:i:s", strtotime($v->controlexcepcion_fecha_mod)) : "",
+                        'excepcion_id'=>$v->excepcion_id,
+                        'excepcion'=>$v->excepcion,
+                        'tipoexcepcion_id'=>$v->tipoexcepcion_id,
+                        'tipo_excepcion'=>$v->tipo_excepcion,
+                        'codigo'=>$v->codigo,
+                        'color'=>$v->color,
+                        'compensatoria'=>$v->compensatoria,
+                        'compensatoria_descripcion'=>$v->compensatoria_descripcion,
+                        'genero_id'=>$v->genero_id,
+                        'genero'=>$v->genero,
+                        'cantidad'=>$v->cantidad,
+                        'unidad'=>$v->unidad,
+                        'fraccionamiento'=>$v->fraccionamiento,
+                        'frecuencia_descripcion'=>$v->frecuencia_descripcion,
+                        'redondeo'=>$v->redondeo,
+                        'redondeo_descripcion'=>$v->redondeo_descripcion,
+                        'horario'=>$v->horario,
+                        'horario_descripcion'=>$v->horario_descripcion,
+                        'refrigerio'=>$v->refrigerio,
+                        'refrigerio_descripcion'=>$v->refrigerio_descripcion,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'boleta'=>$v->agrupador,
+                        'boleta_descripcion'=>$v->agrupador==1?"SI":"NO",
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
+                }
+            }
+        }
+        echo json_encode($controlexcepciones);
+    }
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     public function listboletasporrelaboralAction()
     {
         $this->view->disable();
@@ -173,14 +252,24 @@ class MisboletasexcepcionesController extends ControllerBase {
                 }
             }
                 if($idRelaboral>0){
+<<<<<<< HEAD
                     $resul = $obj->getAllByOneRelaboral($idRelaboral,$where,"",$start,$pagesize);
                     //comprobamos si hay filas
                     if (count($resul) > 0) {
                         $cex = Controlexcepciones::find(array("relaboral_id = ".$idRelaboral." AND baja_logica=1"));
+=======
+                    $resul = $obj->getAllByOneRelaboral($idRelaboral);
+                    //comprobamos si hay filas
+                    if ($resul->count() > 0) {
+                        //$arrTotal = $obj->getCountAll($fechaIni,$fechaFin,$where,"");
+                        $cex = Controlexcepciones::find(array("relaboral_id = ".$idRelaboral." AND baja_logica=1"));
+                        //$total_rows = $arrTotal[0]->resultado;
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         $total_rows = $cex->count();
                         foreach ($resul as $v) {
                             $controlexcepciones[] = array(
                                 'nro_row' => 0,
+<<<<<<< HEAD
                                 'id'=>$v->id_controlexcepcion,
                                 'id_relaboral'=>$v->id_relaboral,
                                 'fecha_ini' => $v->fecha_ini != "" ? date("d-m-Y", strtotime($v->fecha_ini)) : "",
@@ -239,6 +328,26 @@ class MisboletasexcepcionesController extends ControllerBase {
                                 'fecha_reg'=>$v->fecha_reg,
                                 'user_mod_id'=>$v->user_mod_id,
                                 'fecha_mod'=>$v->fecha_mod
+=======
+                                'id_persona'=>$v->id_persona,
+                                'nombres'=>$v->nombres,
+                                'ci'=>$v->ci,
+                                'expd'=>$v->expd,
+                                'estado'=>$v->estado,
+                                'estado_descripcion'=>$v->estado_descripcion,
+                                'gestion'=>$v->gestion,
+                                'mes'=>$v->mes,
+                                'mes_nombre'=>$v->mes_nombre,
+                                'fecha'=>$v->fecha != "" ? date("d-m-Y", strtotime($v->fecha)) : "",
+                                'hora'=>$v->hora,
+                                'id_maquina'=>$v->id_maquina,
+                                'maquina'=>$v->maquina,
+                                'user_reg_id'=>$v->user_reg_id,
+                                'usuario'=>$v->usuario,
+                                'fecha_reg'=>$v->fecha_reg != "" ? date("d-m-Y", strtotime($v->fecha_reg)) : "",
+                                'fecha_ini_rango'=>$v->fecha_ini_rango != "" ? date("d-m-Y", strtotime($v->fecha_ini_rango)) : "",
+                                'fecha_fin_rango'=>$v->fecha_fin_rango != "" ? date("d-m-Y", strtotime($v->fecha_fin_rango)) : ""
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                             );
                         }
                     }
@@ -640,11 +749,17 @@ class MisboletasexcepcionesController extends ControllerBase {
         $estadoAprobado = 6;
         $estadoAprobacionRechazada = -2;
 
+<<<<<<< HEAD
         $param = parametros::findFirst(array("parametro LIKE 'RUTA_APLICACION' AND estado=1 AND baja_logica=1"));
         $ruta = 'http://rrhh.local/controlexcepcionesvistobueno/vistobueno/';
         if(is_object($param)){
             $ruta = 'http://'.$param->nivel.'/controlexcepcionesvistobueno/vistobueno/';
         }
+=======
+
+        $ruta = 'http://rrhh.local/controlexcepcionesvistobueno/vistobueno/';
+        $ruta = 'http://rrhh7.miteleferico.bo/controlexcepcionesvistobueno/vistobueno/';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $estadoOperacionSolicitada = 0;
         $estadoOperacionSolicitadaRechaada = 0;
         /**
@@ -1014,6 +1129,7 @@ class MisboletasexcepcionesController extends ControllerBase {
                     $cuerpoCopia  .= '</table></td></tr></table></div></br><div id="divPieMensaje"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>'.$mensajePie.'</div>';
                     $cuerpo .= '</body></html>';
                     if ($idRelaboralDestinatarioPrincipal > 0) {
+<<<<<<< HEAD
                         $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
                         $userMail = '';
                         if(is_object($parUser)){
@@ -1095,6 +1211,67 @@ class MisboletasexcepcionesController extends ControllerBase {
                                 }
                                 #endregion Error en el envío
                             }
+=======
+
+                        $mail = new phpmaileroasis();
+                        $mail->IsSMTP();
+                        $mail->SMTPAuth = true;
+                        $mail->SMTPSecure = "ssl";
+                        $mail->Host = "correo.miteleferico.bo";
+                        $mail->Port = 465;
+                        $mail->Username = "jloza@miteleferico.bo";
+                        $mail->Password = "javialex.";
+                        $mail->From = "jloza@miteleferico.bo";
+                        $mail->FromName = "Sistema de Recursos Humanos";
+                        $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada." de Excepción");
+                        $mail->MsgHTML($cuerpo);
+                        $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
+                        $mail->IsHTML(true);
+                        if ($mail->Send()) {
+                            /**
+                             * En caso de haberse enviado correctamente se envía una copia, pero sin considerar las opciones de aprobación
+                             */
+                            $mailCopia = new phpmaileroasis();
+                            $mailCopia->IsSMTP();
+                            $mailCopia->SMTPAuth = true;
+                            $mailCopia->SMTPSecure = "ssl";
+                            $mailCopia->Host = "correo.miteleferico.bo";
+                            $mailCopia->Port = 465;
+                            $mailCopia->Username = "jloza@miteleferico.bo";
+                            $mailCopia->Password = "javialex.";
+                            $mailCopia->From = "jloza@miteleferico.bo";
+                            $mailCopia->FromName = "Sistema de Recursos Humanos";
+                            $mailCopia->Subject = utf8_decode("Copia de Solicitud ".$operacionSolicitada." de Excepción");
+                            $mailCopia->MsgHTML($cuerpoCopia);
+                            $mailCopia->AddAddress($contactoRemitente->e_mail_inst, $relaboralSolicitante->nombres);
+                            /**
+                             * En caso de haberse seleccionado el envío al inmediato superior, se envía una copia
+                             */
+                            if($copiaDestinatarioSecundario==1&&$idRelaboralDestinatarioSecundario>0&&is_object($contactoDestinatarioSecundario)){
+                                $mailCopia->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
+                            }
+                            if($mailCopia->Send()){
+
+                                if(!is_object($contactoDestinatarioSecundario)&&is_object($relaboralDestinatarioSecundario)){
+                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas,'.' sin embargo, hubo problemas en el env&oacute; de la copia al destinatario secundario.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                }else{
+                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                }
+                            }else $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                        } else {
+                            #region Error en el envío
+                            $ce = Controlexcepciones::findFirstById($idControlExcepcion);
+                            $ce->user_mod_id = $user_mod_id;
+                            $ce->fecha_mod = $hoy;
+                            $ce->estado=$estadoOperacionSolicitadaError;
+                            if($ce->save()){
+                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Se volvera a reenviar en 5 minutos.','estado'=>-3);
+                            }else
+                            {
+                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Consulte con el Administrador.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                            }
+                            #endregion Error en el envío
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         }
                     } else {
                         $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a que no existe la cuenta del destinatario principal.','estado'=>$controlexcepcion->controlexcepcion_estado);

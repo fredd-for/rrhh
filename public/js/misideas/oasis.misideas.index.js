@@ -12,7 +12,10 @@ $().ready(function () {
     $('#divTabIdeas').jqxTabs('disableAt', 1);
     $('#divTabIdeas').jqxTabs('disableAt', 2);
     $('#divTabIdeas').jqxTabs('disableAt', 3);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $('#tabFichaPersonalIdeas').jqxTabs({
         theme: 'oasis',
         width: '100%',
@@ -22,11 +25,16 @@ $().ready(function () {
     var dataRecordMain = getOneRelaboralById($("#hdnIdRelaboralUsuario").val());
     cargarDatosIdeas(dataRecordMain);
 
+<<<<<<< HEAD
     $("#liIdeas").on("click",function () {
+=======
+    $("#liExcept").on("click",function () {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#divTabIdeas').jqxTabs('enableAt', 0);
         $('#divTabIdeas').jqxTabs('disableAt', 1);
         $('#divTabIdeas').jqxTabs('disableAt', 2);
         $('#divTabIdeas').jqxTabs('disableAt', 3);
+<<<<<<< HEAD
 
         $('#divTabIdeas').jqxTabs({selectedItem: 0});
     });
@@ -37,15 +45,40 @@ $().ready(function () {
         var ok = validaFormularioMisIdeas(1)
         if (ok) {
             var okk = guardaMisIdeas(1);
+=======
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    $("#liTurnAndExcept").on("click",function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('disableAt', 3);
+        $('#divTabIdeas').jqxTabs({selectedItem: 4});
+        cargarCalendarioConControlExcepciones(dataRecordMain);
+    });
+    /**
+     * Control del evento de solicitud de guardar el registro de la excepción de control.
+     */
+    $("#btnGuardarControlExcepcionNew").on("click",function () {
+        var ok = validaFormularioControlExcepciones(1)
+        if (ok) {
+            var okk = guardaMisControlExcepciones(1);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             if (okk) {
                 $('#divTabIdeas').jqxTabs('enableAt', 0);
                 $('#divTabIdeas').jqxTabs('disableAt', 1);
                 $('#divTabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
                 $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
+                $('#divTabIdeas').jqxTabs('enableAt', 3);
+                $('#divTabIdeas').jqxTabs('enableAt', 4);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 $('#divTabIdeas').jqxTabs({selectedItem: 0});
             }
         }
     });
+<<<<<<< HEAD
     /**
      * Control del evento de solicitud de guardar la modificación del registro de Idea de Negocio.
      */
@@ -53,20 +86,123 @@ $().ready(function () {
         var ok = validaFormularioMisIdeas(2);
         if (ok) {
             var okk = guardaMisIdeas(2);
+=======
+    $("#btnGuardarControlExcepcionEdit").on("click",function () {
+        var ok = validaFormularioControlExcepciones(2);
+        if (ok) {
+            var okk = guardaMisControlExcepciones(2);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             if (okk) {
                 $('#divTabIdeas').jqxTabs('enableAt', 0);
                 $('#divTabIdeas').jqxTabs('disableAt', 1);
                 $('#divTabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
                 $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
+                $('#divTabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 $('#divTabIdeas').jqxTabs({selectedItem: 0});
             }
         }
     });
+<<<<<<< HEAD
     $("#btnCancelarIdeaNew,#btnCancelarIdeaEdit,#btnCancelarIdeaView,#btnVolverAlListadoPrincipalDesdeEdit,#btnVolverAlListadoPrincipalDesdeNew,#btnVolverAlListadoPrincipalDesdeView").click(function () {
         $('#divTabIdeas').jqxTabs('enableAt', 0);
         $('#divTabIdeas').jqxTabs('disableAt', 1);
         $('#divTabIdeas').jqxTabs('disableAt', 2);
         $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
+    $("#btnEnviarSolicitudExcepcion").on("click",function () {
+        if($("#hdnIntermediacion").val()>=0){
+            var idRelSolicitante = $("#hdnIdRelSolicitante").val();
+            var chkDestinatarioSecundario = $("#chkDestinatarioSecundario").prop("checked");
+            var idRelDestSecundario = $("#hdnIdRelDestSecundario").val();
+            var idControlExcepcion = $("#hdnIdControlExcepcionEnvio").val();
+            var mensajeAdicional = $("#txtMensajeAdicional").val();
+            var copiaDestinatarioSecundario = 0;
+            if(chkDestinatarioSecundario)copiaDestinatarioSecundario=1;
+            if($("#hdnIntermediacion").val()==0||$("#hdnIntermediacion").val()==2){
+                /**
+                 * No se requiere intermediación para la verificación
+                 * @type {*|jQuery}
+                 */
+                var idRelDestPrincipal = $("#hdnIdRelDestPrincipal").val();
+                var ok = enviarMensajeSolicitudExcepcion(idRelSolicitante,idRelDestPrincipal,idRelDestSecundario,idControlExcepcion,mensajeAdicional,$("#hdnIntermediacion").val(),copiaDestinatarioSecundario);
+                if(ok){
+                    $('#divTabIdeas').jqxTabs('enableAt', 0);
+                    $('#divTabIdeas').jqxTabs('disableAt', 1);
+                    $('#divTabIdeas').jqxTabs('disableAt', 2);
+                    $('#divTabIdeas').jqxTabs('enableAt', 3);
+                    $('#divTabIdeas').jqxTabs('enableAt', 4);
+                    $('#divTabIdeas').jqxTabs({selectedItem: 0});
+                }
+            }else{
+                /**
+                 * Si se requiere intermediación para la verificación
+                 * @type {*|jQuery}
+                 */
+                var ok=false;
+                var items = $("#lstBoxDestinatariosPrincipales").jqxListBox('getCheckedItems');
+                if (items.length > 0) {
+                    var values = "";
+                    for (var i = 0; i < items.length; i++) {
+                        var idRelDestPrincipal =  items[i].value;
+                        ok = enviarMensajeSolicitudExcepcion(idRelSolicitante,idRelDestPrincipal,idRelDestSecundario,idControlExcepcion,mensajeAdicional,1,copiaDestinatarioSecundario);
+                    }
+                }else{
+                    alert("Debe seleccionar al menos un Destinatario necesariamente.")
+                }
+                if(ok){
+                    $('#divTabIdeas').jqxTabs('enableAt', 0);
+                    $('#divTabIdeas').jqxTabs('disableAt', 1);
+                    $('#divTabIdeas').jqxTabs('disableAt', 2);
+                    $('#divTabIdeas').jqxTabs('enableAt', 3);
+                    $('#divTabIdeas').jqxTabs('enableAt', 4);
+                    $('#divTabIdeas').jqxTabs({selectedItem: 0});
+                }
+            }
+        }
+    });
+    $("#btnGuardarBaja").click(function () {
+        var ok = validaFormularioPorBajaRegistro();
+        if (ok) {
+            guardarRegistroBaja();
+        }
+    });
+    $("#btnCancelarNew,#btnVolverAlListadoPrincipalDesdeEdit").click(function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('enableAt', 3);
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    $("#btnCancelarEnvioSolicitudExcepcion").click(function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('enableAt', 3);
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    $("#btnCancelarEdit").click(function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('enableAt', 3);
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    $("#btnCancelarControlExcepcionNew,#btnCancelarControlExcepcionEdit").click(function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('enableAt', 3);
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    $("#btnCancelarTurnAndExcept").click(function (){
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#divTabIdeas').jqxTabs({selectedItem: 0});
     });
 
@@ -189,6 +325,10 @@ function OperaEvento(evento) {
         $('#tabIdeas').jqxTabs('enableAt', 0);
         $('#tabIdeas').jqxTabs('disableAt', 1);
         $('#tabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
+=======
+        $('#tabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#tabIdeas').jqxTabs({selectedItem: 0});
 
         $("#popupWindowCargo").jqxWindow('close');
@@ -269,10 +409,17 @@ function fechaHoy(separador, format) {
  * @author JLM
  */
 var cellclass = function (row, columnfield, value) {
+<<<<<<< HEAD
     if (value == 'CONCLUIDO') {
         return 'verde';
     }
     else if (value == 'EN ELABORACION'||value == 'EN ELABORACI&Oacute;N') {
+=======
+    if (value == 'ACTIVO') {
+        return 'verde';
+    }
+    else if (value == 'EN PROCESO') {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         return 'amarillo';
     }
     else if (value == 'PASIVO') {
@@ -1325,7 +1472,11 @@ function cargarDatosIdeas(dataRecordMain){
     cargarPersonasContactosIdeas(2,dataRecordMain.id_persona);
     $("#hdnIdRelaboralVistaTurnAndExcept").val(dataRecordMain.id_relaboral);
     $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
+<<<<<<< HEAD
     definirGrillaParaListaMisIdeasPorPersona(dataRecordMain);
+=======
+    definirGrillaParaListaIdeasPorPersona(dataRecordMain);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 }
 /**
  * Función para mostrar el calendario con las excepciones aprobadas por persona.

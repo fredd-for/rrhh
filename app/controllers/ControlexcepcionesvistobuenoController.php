@@ -238,9 +238,12 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                         }
                     }
                     if($ok){
+<<<<<<< HEAD
                         $hoy = date("d-m-Y H:i:s");
                         $this->enviarResultadoSolicitud($idControlExcepcion,$idRelaboralSolicitante,$idRelaboralDestinatarioPrincipal,$estadoSolicitado,$hoy);
 
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         $cuerpo .= '<div style="min-height: 1020px;" id="page-content">';
                         $cuerpo .= '<div class="row">';
                         $cuerpo .= '<div class="col-md-2">';
@@ -324,8 +327,12 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                             $cuerpo .= '<div class="col-md-3">';
                             $cuerpo .= '<span>Fecha(s):</span>';
                             $cuerpo .= '</div>';
+<<<<<<< HEAD
                             $cuerpo .= '<div class="col-md-9">';
                             if($fechaIni!=$fechaFin){
+=======
+                            $cuerpo .= '<div class="col-md-9">';if($fechaIni!=$fechaFin){
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                 $cuerpo .= $fechaIni.' al '.$fechaFin;
                             }else{
                                 $cuerpo .= $fechaIni;
@@ -349,6 +356,10 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                         $cuerpo .= '<span>Fecha y Hora Operaci&oacute;n:</span>';
                         $cuerpo .= '</div>';
                         $cuerpo .= '<div class="col-md-9">';
+<<<<<<< HEAD
+=======
+                        $hoy = date("d-m-Y H:i:s");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         $cuerpo .= $hoy;
                         $cuerpo .= '</div>';
                         $cuerpo .= '</div>';
@@ -433,7 +444,11 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                 $cuerpo.='<span id="spanAlertError">Registro ya procesado, operaci&oacute;n no admisible.</span>';
                 $cuerpo.='</div>';
                 $cuerpo .= '<form action="" method="post" class="form-bordered" onsubmit="return false;">';
+<<<<<<< HEAD
                 $cuerpo .= '<div style="text-align: center" id="divContador"><span id="spanContador">La pesta&ntilde;a se cerrar&aacute; en <b id="bContador"></b> segundos.</span></div>';
+=======
+                $cuerpo .= '<div style="text-align: center" id="divContador"><span id="spanContador">La pesta&ntilde:a se cerrar&aacute; en <b id="bContador"></b> segundos.</span></div>';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 $cuerpo .= '<div class="form-group form-actions">';
                 $cuerpo .= '<button id="btnCerrarVentana" type="button" class="btn btn-sm btn-danger">Cerrar</button>';
                 $cuerpo .= '</div>';
@@ -508,6 +523,7 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
     }
 
     /**
+<<<<<<< HEAD
      * Función para el despliegue del detalle correspondiente a una boleta de excepción.
      * @param null $idControlExcepcionCodificado
      */
@@ -864,6 +880,8 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
         echo $cuerpo;
     }
     /**
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
      * Función para el envío de mensajes de correo electrónico de manera externa.
      * @throws Exception
      * @throws phpmailerException
@@ -885,11 +903,17 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
         $estadoAprobado = 6;
         $estadoAprobacionRechazada = -2;
 
+<<<<<<< HEAD
         $param = parametros::findFirst(array("parametro LIKE 'RUTA_APLICACION' AND estado=1 AND baja_logica=1"));
         $ruta = 'http://rrhh.local/controlexcepcionesvistobueno/vistobueno/';
         if(is_object($param)){
             $ruta = 'http://'.$param->nivel.'/controlexcepcionesvistobueno/vistobueno/';
         }
+=======
+
+        $ruta = 'http://rrhh.local/controlexcepcionesvistobueno/vistobueno/';
+        $ruta = 'http://rrhh7.miteleferico.bo/controlexcepcionesvistobueno/vistobueno/';
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $estadoOperacionSolicitada = 0;
         $estadoOperacionSolicitadaRechaada = 0;
         /**
@@ -1258,6 +1282,7 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                     $cuerpoCopia  .= '</table></td></tr></table></div></br><div id="divPieMensaje"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>'.$mensajePie.'</div></body></html>';
 
                     if ($idRelaboralDestinatarioPrincipal > 0) {
+<<<<<<< HEAD
                         $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
                         $userMail = '';
                         if(is_object($parUser)){
@@ -1340,6 +1365,67 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                             }
                         }else{
                             $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Consulte con el Administrador.','estado'=>$controlexcepcion->controlexcepcion_estado);
+=======
+
+                        $mail = new phpmaileroasis();
+                        $mail->IsSMTP();
+                        $mail->SMTPAuth = true;
+                        $mail->SMTPSecure = "ssl";
+                        $mail->Host = "correo.miteleferico.bo";
+                        $mail->Port = 465;
+                        $mail->Username = "jloza@miteleferico.bo";
+                        $mail->Password = "javialex.";
+                        $mail->From = "jloza@miteleferico.bo";
+                        $mail->FromName = "Sistema de Recursos Humanos";
+                        $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada." de Excepción");
+                        $mail->MsgHTML($cuerpo);
+                        $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
+                        $mail->IsHTML(true);
+                        if ($mail->Send()) {
+                            /**
+                             * En caso de haberse enviado correctamente se envía una copia, pero sin considerar las opciones de aprobación
+                             */
+                            $mailCopia = new phpmaileroasis();
+                            $mailCopia->IsSMTP();
+                            $mailCopia->SMTPAuth = true;
+                            $mailCopia->SMTPSecure = "ssl";
+                            $mailCopia->Host = "correo.miteleferico.bo";
+                            $mailCopia->Port = 465;
+                            $mailCopia->Username = "jloza@miteleferico.bo";
+                            $mailCopia->Password = "javialex.";
+                            $mailCopia->From = "jloza@miteleferico.bo";
+                            $mailCopia->FromName = "Sistema de Recursos Humanos";
+                            $mailCopia->Subject = utf8_decode("Copia de Solicitud ".$operacionSolicitada." de Excepción");
+                            $mailCopia->MsgHTML($cuerpoCopia);
+                            $mailCopia->AddAddress($contactoRemitente->e_mail_inst, $relaboralSolicitante->nombres);
+                            /**
+                             * En caso de haberse seleccionado el envío al inmediato superior, se envía una copia
+                             */
+                            if($idRelaboralDestinatarioSecundario>0&&is_object($contactoDestinatarioSecundario)){
+                                $mailCopia->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
+                            }
+                            if($mailCopia->Send()){
+
+                                if(!is_object($contactoDestinatarioSecundario)&&is_object($relaboralDestinatarioSecundario)){
+                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas,'.' sin embargo, hubo problemas en el env&oacute; de la copia al destinatario secundario.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                }else{
+                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                }
+                            }else $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                        } else {
+                            #region Error en el envío
+                            $ce = Controlexcepciones::findFirstById($idControlExcepcion);
+                            $ce->user_mod_id = $user_mod_id;
+                            $ce->fecha_mod = $hoy;
+                            $ce->estado=$estadoOperacionSolicitadaError;
+                            if($ce->save()){
+                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Se volvera a reenviar en 5 minutos.','estado'=>-3);
+                            }else
+                            {
+                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Consulte con el Administrador.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                            }
+                            #endregion Error en el envío
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         }
                     } else {
                         $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a que no existe la cuenta del destinatario principal.','estado'=>$controlexcepcion->controlexcepcion_estado);
@@ -1353,6 +1439,7 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
         }
         return $msj;
     }
+<<<<<<< HEAD
 
     public function enviarResultadoSolicitud($idControlExcepcion,$idRelaboralDestinatarioPrincipal,$idRelaboralDestinatarioSecundario,$estadoSolicitado,$hoy){
         $this->view->disable();
@@ -1688,6 +1775,8 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
         return $msj;
         }
     }
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     /**
      * Obtiene la cantidad de días de diferencia entre dos fechas.
      * @param $primera

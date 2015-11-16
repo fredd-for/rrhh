@@ -346,7 +346,11 @@ function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelabora
                                         $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                         $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                         $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
+<<<<<<< HEAD
                                         cargarPersonasContactosGestionIdeas(2,idPersona);
+=======
+                                        cargarPersonasContactosControlExcepciones(2,idPersona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                         $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
                                         $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
 
@@ -708,7 +712,11 @@ function definirGrillaParaListaControlMarcacionesDebidasYRealizadasPorIdRelabora
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
                         text: 'Sin Marcar',
+=======
+                        text: 'Omisi&oacute;n',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         filtertype: 'checkedlist',
                         datafield: 'omision',
                         width: 70,
