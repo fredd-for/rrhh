@@ -14,6 +14,7 @@ $().ready(function(){
         });
     }
     cargarDescuentosPorPersonaEnGestion($("#lstGestion").val());
+    $("#lstGestion").off();
     $("#lstGestion").on("change",function(){
         cargarDescuentosPorPersonaEnGestion($("#lstGestion").val());
     });

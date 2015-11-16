@@ -1635,27 +1635,49 @@ class ControlexcepcionesvistobuenoController  extends ControllerBaseOut{
                     $cuerpo  .= '</table></td></tr></table></div></br><div id="divPieMensaje"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>'.$mensajePie.'</div></body></html>';
 
                     if ($idRelaboralDestinatarioPrincipal > 0) {
+                        $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
+                        $userMail = '';
+                        if(is_object($parUser)){
+                            $userMail = $parUser->valor_1;
+                        }
+                        $parPass = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'PASSWORD' AND estado=1 AND baja_logica=1"));
+                        $passMail = '';
+                        if(is_object($parPass)){
+                            $passMail = $parPass->valor_1;
+                        }
+                        $parHost = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'HOST' AND estado=1 AND baja_logica=1"));
+                        $hostMail = '';
+                        if(is_object($parHost)){
+                            $hostMail = $parHost->valor_1;
+                        }
+                        $parPort = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'PORT' AND estado=1 AND baja_logica=1"));
+                        $portMail = '';
+                        if(is_object($parPort)){
+                            $portMail = $parPort->valor_1;
+                        }
+                        if($userMail!=''&&$passMail!=''&&$hostMail!=''&&$portMail!=''){
+                            $mail = new phpmaileroasis();
+                            $mail->IsSMTP();
+                            $mail->SMTPAuth = true;
+                            $mail->SMTPSecure = "ssl";
+                            $mail->Host = $hostMail;
+                            $mail->Port = $portMail;
+                            $mail->Username = $userMail;
+                            $mail->Password = $passMail;
+                            $mail->From = $userMail;
+                            $mail->FromName = "Sistema de Recursos Humanos";
+                            $mail->Subject = utf8_decode(utf8_decode($accionRealizada));
+                            $mail->MsgHTML($cuerpo);
+                            $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
+                            $mail->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
+                            $mail->IsHTML(true);
+                            if ($mail->Send()) {
+                                $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                            } else {
+                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a que no existe la cuenta del solicitante.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                            }
 
-                        $mail = new phpmaileroasis();
-                        $mail->IsSMTP();
-                        $mail->SMTPAuth = true;
-                        $mail->SMTPSecure = "ssl";
-                        $mail->Host = "correo.miteleferico.bo";
-                        $mail->Port = 465;
-                        $mail->Username = "jloza@miteleferico.bo";
-                        $mail->Password = "javialex.";
-                        $mail->From = "jloza@miteleferico.bo";
-                        $mail->FromName = "Sistema de Recursos Humanos";
-                        $mail->Subject = utf8_decode(utf8_decode($accionRealizada));
-                        $mail->MsgHTML($cuerpo);
-                        $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
-                        $mail->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
-                        $mail->IsHTML(true);
-                        if ($mail->Send()) {
-                            $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas.','estado'=>$controlexcepcion->controlexcepcion_estado);
-                    } else {
-                        $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a que no existe la cuenta del solicitante.','estado'=>$controlexcepcion->controlexcepcion_estado);
-                    }
+                        }
                 } else {
                     $msj = array('result' => 0, 'msj' => 'No se admite el env&iacute;o del mensaje de correo debido a que el registro ya se encuentra inhabilitado para la tarea solicitada ('.$controlexcepcion->controlexcepcion_estado_descripcion.').','estado'=>$controlexcepcion->controlexcepcion_estado);
                 }

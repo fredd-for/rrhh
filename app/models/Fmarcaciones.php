@@ -96,7 +96,7 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
         $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
         $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
         $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
-        $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+        $sql .= "LEFT JOIN personas pu ON pu.id=u.persona_id ";
         $sql .= "ORDER BY p.p_apellido,p.s_apellido,p.p_nombre,p.s_nombre,m.fecha,m.hora";
         if($group!='')$sql .= $group;
         $this->_db = new Fmarcaciones();
@@ -128,7 +128,7 @@ class Fmarcaciones extends \Phalcon\Mvc\Model {
         $sql .= "INNER JOIN maquinas mq ON m.maquina_id = mq.id ";
         $sql .= "INNER JOIN parametros pa ON pa.parametro LIKE 'ESTADO_REGISTRO' AND CAST(pa.nivel AS integer)=m.estado ";
         $sql .= "INNER JOIN usuarios u ON u.id =  m.user_reg_id ";
-        $sql .= "LEFT JOIN personas pu ON pu.ci=CAST(u.cedula_identidad AS character varying) ";
+        $sql .= "LEFT JOIN personas pu ON pu.id=u.persona_id";
         if($group!='')$sql .= $group;
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }

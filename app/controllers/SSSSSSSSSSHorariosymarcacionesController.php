@@ -47,6 +47,16 @@ class HorariosymarcacionesController extends ControllerBase
 
         $this->assets->addJs('/js/tagsimput/bootstrap-tagsinput.js');
         $this->assets->addCss('/js/tagsimput/bootstrap-tagsinput.css');
+        $auth = $this->session->get('auth');
+        $objUsr = new Usuarios();
+        $relaboral = $objUsr->getOneRelaboralActivo($auth['id']);
+        if(is_object($relaboral)){
+            $this->view->setVar('idRelaboral', $relaboral[0]->id_relaboral);
+            $this->view->setVar('idPersona', $relaboral[0]->id_persona);
+            $this->view->setVar('ci', $relaboral[0]->ci);
+            $this->view->setVar('nombres', $relaboral[0]->nombres);
+        }
+
     }
     /**
      * Función para la obtención del listado de registros de control de marcaciones.
@@ -156,6 +166,655 @@ class HorariosymarcacionesController extends ControllerBase
                             'user_mod_id'=>$v->user_mod_id,
                             'fecha_mod'=>$v->fecha_mod,
                         );
+                    #region sector para adicionar una fila para Excepciones
+                    if($v->modalidadmarcacion_id==6){
+                        $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
+                        if($v->calendariolaboral1_id>0){
+                            $res1 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id);
+                            if(is_object($res1)&&$res1->count()>0){
+                                foreach($res1 as $r1){
+                                    $d1 = $r1->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe1 = $obj->getFeriadosEnDia($v->gestion,$v->mes,1);
+                            if(is_object($fe1)&&$fe1->count()>0){
+                                foreach($fe1 as $f1){
+                                    $d1 .= $f1->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral2_id>0){
+                            $res2 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id);
+                            if(is_object($res2)&&$res2->count()>0){
+                                foreach($res2 as $r2){
+                                    $d2 = $r2->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe2 = $obj->getFeriadosEnDia($v->gestion,$v->mes,2);
+                            if(is_object($fe2)&&$fe2->count()>0){
+                                foreach($fe2 as $f2){
+                                    $d2 .= $f2->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral3_id>0){
+                            $res3 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id);
+                            if(is_object($res3)&&$res3->count()>0){
+                                foreach($res3 as $r3){
+                                    $d3 = $r3->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe3 = $obj->getFeriadosEnDia($v->gestion,$v->mes,3);
+                            if(is_object($fe3)&&$fe3->count()>0){
+                                foreach($fe3 as $f3){
+                                    $d3 .= $f3->f_feriados_en_dia;
+                                }
+                            }
+                        }
+
+                        if($v->calendariolaboral4_id>0){
+                            $res4 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id);
+                            if(is_object($res4)&&$res4->count()>0){
+                                foreach($res4 as $r4){
+                                    $d4 = $r4->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe4 = $obj->getFeriadosEnDia($v->gestion,$v->mes,4);
+                            if(is_object($fe4)&&$fe4->count()>0){
+                                foreach($fe4 as $f4){
+                                    $d4 .= $f4->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral5_id>0){
+                            $res5 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id);
+                            if(is_object($res5)&&$res5->count()>0){
+                                foreach($res5 as $r5){
+                                    $d5 = $r5->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe5 = $obj->getFeriadosEnDia($v->gestion,$v->mes,5);
+                            if(is_object($fe5)&&$fe5->count()>0){
+                                foreach($fe5 as $f5){
+                                    $d5 .= $f5->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral6_id>0){
+                            $res6 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id);
+                            if(is_object($res6)&&$res6->count()>0){
+                                foreach($res6 as $r6){
+                                    $d6 = $r6->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe6 = $obj->getFeriadosEnDia($v->gestion,$v->mes,6);
+                            if(is_object($fe6)&&$fe6->count()>0){
+                                foreach($fe6 as $f6){
+                                    $d6 .= $f6->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral7_id>0){
+                            $res7 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id);
+                            if(is_object($res7)&&$res7->count()>0){
+                                foreach($res7 as $r7){
+                                    $d7 = $r7->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe7 = $obj->getFeriadosEnDia($v->gestion,$v->mes,7);
+                            if(is_object($fe7)&&$fe7->count()>0){
+                                foreach($fe7 as $f7){
+                                    $d7 .= $f7->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral8_id>0){
+                            $res8 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id);
+                            if(is_object($res8)&&$res8->count()>0){
+                                foreach($res8 as $r8){
+                                    $d8 = $r8->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe8 = $obj->getFeriadosEnDia($v->gestion,$v->mes,8);
+                            if(is_object($fe8)&&$fe8->count()>0){
+                                foreach($fe8 as $f8){
+                                    $d8 .= $f8->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral9_id>0){
+                            $res9 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id);
+                            if(is_object($res9)&&$res9->count()>0){
+                                foreach($res9 as $r9){
+                                    $d9 = $r9->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe9 = $obj->getFeriadosEnDia($v->gestion,$v->mes,9);
+                            if(is_object($fe9)&&$fe9->count()>0){
+                                foreach($fe9 as $f9){
+                                    $d9 .= $f9->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral10_id>0){
+                            $res10 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id);
+                            if(is_object($res10)&&$res10->count()>0){
+                                foreach($res10 as $r10){
+                                    $d10 = $r10->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe10 = $obj->getFeriadosEnDia($v->gestion,$v->mes,10);
+                            if(is_object($fe10)&&$fe10->count()>0){
+                                foreach($fe10 as $f10){
+                                    $d10 .= $f10->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral11_id>0){
+                            $res11 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id);
+                            if(is_object($res11)&&$res11->count()>0){
+                                foreach($res11 as $r11){
+                                    $d11 = $r11->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe11 = $obj->getFeriadosEnDia($v->gestion,$v->mes,11);
+                            if(is_object($fe11)&&$fe11->count()>0){
+                                foreach($fe11 as $f11){
+                                    $d11 .= $f11->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral12_id>0){
+                            $res12 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id);
+                            if(is_object($res12)&&$res12->count()>0){
+                                foreach($res12 as $r12){
+                                    $d12 = $r12->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe12 = $obj->getFeriadosEnDia($v->gestion,$v->mes,12);
+                            if(is_object($fe12)&&$fe12->count()>0){
+                                foreach($fe12 as $f12){
+                                    $d12 .= $f12->f_feriados_en_dia;
+                                }
+                            }
+                        }
+
+                        if($v->calendariolaboral13_id>0){
+                            $res13 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id);
+                            if(is_object($res13)&&$res13->count()>0){
+                                foreach($res13 as $r13){
+                                    $d13 = $r13->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe13 = $obj->getFeriadosEnDia($v->gestion,$v->mes,13);
+                            if(is_object($fe13)&&$fe13->count()>0){
+                                foreach($fe13 as $f13){
+                                    $d13 .= $f13->f_feriados_en_dia;
+                                }
+                            }
+                        }
+
+                        if($v->calendariolaboral14_id>0){
+                            $res14 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id);
+                            if(is_object($res14)&&$res14->count()>0){
+                                foreach($res14 as $r14){
+                                    $d14 = $r14->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe14 = $obj->getFeriadosEnDia($v->gestion,$v->mes,14);
+                            if(is_object($fe14)&&$fe14->count()>0){
+                                foreach($fe14 as $f14){
+                                    $d14 .= $f14->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral15_id>0){
+                            $res15 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id);
+                            if(is_object($res15)&&$res15->count()>0){
+                                foreach($res15 as $r15){
+                                    $d15 = $r15->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe15 = $obj->getFeriadosEnDia($v->gestion,$v->mes,15);
+                            if(is_object($fe15)&&$fe15->count()>0){
+                                foreach($fe15 as $f15){
+                                    $d15 .= $f15->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral16_id>0){
+                            $res16 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id);
+                            if(is_object($res16)&&$res16->count()>0){
+                                foreach($res16 as $r16){
+                                    $d16 = $r16->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe16 = $obj->getFeriadosEnDia($v->gestion,$v->mes,16);
+                            if(is_object($fe16)&&$fe16->count()>0){
+                                foreach($fe16 as $f16){
+                                    $d16 .= $f16->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral17_id>0){
+                            $res17 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id);
+                            if(is_object($res17)&&$res17->count()>0){
+                                foreach($res17 as $r17){
+                                    $d17 = $r17->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe17 = $obj->getFeriadosEnDia($v->gestion,$v->mes,17);
+                            if(is_object($fe17)&&$fe17->count()>0){
+                                foreach($fe17 as $f17){
+                                    $d17 .= $f17->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral18_id>0){
+                            $res18 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id);
+                            if(is_object($res18)&&$res18->count()>0){
+                                foreach($res18 as $r){
+                                    $d18 = $r->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe18 = $obj->getFeriadosEnDia($v->gestion,$v->mes,18);
+                            if(is_object($fe18)&&$fe18->count()>0){
+                                foreach($fe18 as $f18){
+                                    $d18 .= $f18->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral19_id>0){
+                            $res19 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id);
+                            if(is_object($res19)&&$res19->count()>0){
+                                foreach($res19 as $r){
+                                    $d19 = $r->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe19 = $obj->getFeriadosEnDia($v->gestion,$v->mes,19);
+                            if(is_object($fe19)&&$fe19->count()>0){
+                                foreach($fe19 as $f19){
+                                    $d19 .= $f19->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral20_id>0){
+                            $res20 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id);
+                            if(is_object($res20)&&$res20->count()>0){
+                                foreach($res20 as $r){
+                                    $d20 = $r->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe20 = $obj->getFeriadosEnDia($v->gestion,$v->mes,20);
+                            if(is_object($fe20)&&$fe20->count()>0){
+                                foreach($fe20 as $f20){
+                                    $d20 .= $f20->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral21_id>0){
+                            $res21 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id);
+                            if(is_object($res21)&&$res21->count()>0){
+                                foreach($res21 as $r21){
+                                    $d21 = $r21->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe21 = $obj->getFeriadosEnDia($v->gestion,$v->mes,21);
+                            if(is_object($fe21)&&$fe21->count()>0){
+                                foreach($fe21 as $f21){
+                                    $d21 .= $f21->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral22_id>0){
+                            $res22 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id);
+                            if(is_object($res22)&&$res22->count()>0){
+                                foreach($res22 as $r22){
+                                    $d22 = $r22->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe22 = $obj->getFeriadosEnDia($v->gestion,$v->mes,22);
+                            if(is_object($fe22)&&$fe22->count()>0){
+                                foreach($fe22 as $f22){
+                                    $d22 .= $f22->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral23_id>0){
+                            $res23 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id);
+                            if(is_object($res23)&&$res23->count()>0){
+                                foreach($res23 as $r23){
+                                    $d23 = $r23->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe23 = $obj->getFeriadosEnDia($v->gestion,$v->mes,23);
+                            if(is_object($fe23)&&$fe23->count()>0){
+                                foreach($fe23 as $f23){
+                                    $d23 .= $f23->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral24_id>0){
+                            $res24 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id);
+                            if(is_object($res24)&&$res24->count()>0){
+                                foreach($res24 as $r24){
+                                    $d24 = $r24->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe24 = $obj->getFeriadosEnDia($v->gestion,$v->mes,24);
+                            if(is_object($fe24)&&$fe24->count()>0){
+                                foreach($fe24 as $f24){
+                                    $d24 .= $f24->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral25_id>0){
+                            $res25 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id);
+                            if(is_object($res25)&&$res25->count()>0){
+                                foreach($res25 as $r25){
+                                    $d25 = $r25->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe25 = $obj->getFeriadosEnDia($v->gestion,$v->mes,25);
+                            if(is_object($fe25)&&$fe25->count()>0){
+                                foreach($fe25 as $f25){
+                                    $d25 .= $f25->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral26_id>0){
+                            $res26 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id);
+                            if(is_object($res26)&&$res26->count()>0){
+                                foreach($res26 as $r26){
+                                    $d26 = $r26->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe26 = $obj->getFeriadosEnDia($v->gestion,$v->mes,26);
+                            if(is_object($fe26)&&$fe26->count()>0){
+                                foreach($fe26 as $f26){
+                                    $d26 .= $f26->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral27_id>0){
+                            $res27 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id);
+                            if(is_object($res27)&&$res27->count()>0){
+                                foreach($res27 as $r27){
+                                    $d27 = $r27->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe27 = $obj->getFeriadosEnDia($v->gestion,$v->mes,27);
+                            if(is_object($fe27)&&$fe27->count()>0){
+                                foreach($fe27 as $f27){
+                                    $d27 .= $f27->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral28_id>0){
+                            $res28 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id);
+                            if(is_object($res28)&&$res28->count()>0){
+                                foreach($res28 as $r28){
+                                    $d28 = $r28->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe28 = $obj->getFeriadosEnDia($v->gestion,$v->mes,28);
+                            if(is_object($fe28)&&$fe28->count()>0){
+                                foreach($fe28 as $f28){
+                                    $d28 .= $f28->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral29_id>0){
+                            $res29 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id);
+                            if(is_object($res29)&&$res29->count()>0){
+                                foreach($res29 as $r29){
+                                    $d29 = $r29->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe29 = $obj->getFeriadosEnDia($v->gestion,$v->mes,29);
+                            if(is_object($fe29)&&$fe29->count()>0){
+                                foreach($fe29 as $f29){
+                                    $d29 .= $f29->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral30_id>0){
+                            $res30 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id);
+                            if(is_object($res30)&&$res30->count()>0){
+                                foreach($res30 as $r30){
+                                    $d30 = $r30->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe30 = $obj->getFeriadosEnDia($v->gestion,$v->mes,30);
+                            if(is_object($fe30)&&$fe30->count()>0){
+                                foreach($fe30 as $f30){
+                                    $d30 .= $f30->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        if($v->calendariolaboral31_id>0){
+                            $res31 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id);
+                            if(is_object($res31)&&$res31->count()>0){
+                                foreach($res31 as $r31){
+                                    $d31 = $r31->f_excepciones_en_dia;
+                                }
+                            }
+                            $fe31 = $obj->getFeriadosEnDia($v->gestion,$v->mes,31);
+                            if(is_object($fe31)&&$fe31->count()>0){
+                                foreach($fe31 as $f31){
+                                    $d31 .= $f31->f_feriados_en_dia;
+                                }
+                            }
+                        }
+                        $horariosymarcaciones[] = array(
+                            'nro_row' => 0,
+                            'id'=>$v->id_horarioymarcacion,
+                            'relaboral_id'=>$v->relaboral_id,
+                            'gestion'=>$v->gestion,
+                            'mes'=>$v->mes,
+                            'mes_nombre'=>$v->mes_nombre,
+                            'turno'=>$v->turno,
+                            'grupo'=>$v->grupo,
+                            'clasemarcacion'=>"e",
+                            'clasemarcacion_descripcion'=>"EXCEPCIONES / FERIADOS",
+                            'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                            'modalidad_marcacion'=>"EXCEPCIONES / FERIADOS",
+                            'd1'=>$d1,
+                            'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                            'd2'=>$d2,
+                            'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                            'd3'=>$d3,
+                            'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                            'd4'=>$d4,
+                            'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                            'd5'=>$d5,
+                            'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                            'd6'=>$d6,
+                            'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                            'd7'=>$d7,
+                            'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                            'd8'=>$d8,
+                            'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                            'd9'=>$d9,
+                            'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                            'd10'=>$d10,
+                            'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                            'd11'=>$d11,
+                            'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                            'd12'=>$d12,
+                            'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                            'd13'=>$d13,
+                            'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                            'd14'=>$d14,
+                            'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                            'd15'=>$d15,
+                            'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                            'd16'=>$d16,
+                            'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                            'd17'=>$d17,
+                            'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                            'd18'=>$d18,
+                            'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                            'd19'=>$d19,
+                            'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                            'd20'=>$d20,
+                            'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                            'd21'=>$d21,
+                            'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                            'd22'=>$d22,
+                            'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                            'd23'=>$d23,
+                            'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                            'd24'=>$d24,
+                            'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                            'd25'=>$d25,
+                            'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                            'd26'=>$d26,
+                            'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                            'd27'=>$d27,
+                            'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                            'd28'=>$d28,
+                            'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                            'd29'=>$d29,
+                            'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                            'd30'=>$d30,
+                            'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                            'd31'=>$d31,
+                            'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                            'ultimo_dia'=>$v->ultimo_dia,
+                            'atrasos'=>null,
+                            'faltas'=>null,
+                            'abandono'=>null,
+                            'omision'=>null,
+                            'compensacion'=>null,
+                            'observacion'=>$v->observacion,
+                            'estado'=>$v->estado,
+                            'estado_descripcion'=>$v->estado_descripcion,
+                            'baja_logica'=>$v->baja_logica,
+                            'agrupador'=>$v->agrupador,
+                            'user_reg_id'=>$v->user_reg_id,
+                            'fecha_reg'=>$v->fecha_reg,
+                            'user_apr_id'=>$v->user_apr_id,
+                            'fecha_apr'=>$v->fecha_apr,
+                            'user_mod_id'=>$v->user_mod_id,
+                            'fecha_mod'=>$v->fecha_mod,
+                        );
+                    }
+                    #endregion sector para adicionar una fila para Excepciones
+                }
+            }
+        }
+        echo json_encode($horariosymarcaciones);
+    }
+
+    /**
+     * Función para la obtención del Historial de Horarios y Marcaciones por relaboral, gestión y mes.
+     */
+    public function listporrelaboralgestionmesAction()
+    {
+        $this->view->disable();
+        $horariosymarcaciones = Array();
+        if(isset($_GET["id"])&&$_GET["id"]>0){
+            $obj = new Fhorariosymarcaciones();
+            $idRelaboral = $_GET["id"];
+            $resul = $obj->getAllFromOneRelaboralGestionMes($idRelaboral,2015,8);
+            //comprobamos si hay filas
+            if ($resul->count() > 0) {
+                foreach ($resul as $v) {
+                    $horariosymarcaciones[] = array(
+                        'nro_row' => 0,
+                        'id'=>$v->id_horarioymarcacion,
+                        'relaboral_id'=>$v->relaboral_id,
+                        'gestion'=>$v->gestion,
+                        'mes'=>$v->mes,
+                        'mes_nombre'=>$v->mes_nombre,
+                        'turno'=>$v->turno,
+                        'grupo'=>$v->grupo,
+                        'clasemarcacion'=>$v->clasemarcacion,
+                        'clasemarcacion_descripcion'=>$v->clasemarcacion_descripcion,
+                        'modalidadmarcacion_id'=>$v->modalidadmarcacion_id,
+                        'modalidad_marcacion'=>$v->modalidad_marcacion,
+                        'd1'=>$v->d1,
+                        'calendariolaboral1_id'=>$v->calendariolaboral1_id,
+                        'd2'=>$v->d2,
+                        'calendariolaboral2_id'=>$v->calendariolaboral2_id,
+                        'd3'=>$v->d3,
+                        'calendariolaboral3_id'=>$v->calendariolaboral3_id,
+                        'd4'=>$v->d4,
+                        'calendariolaboral4_id'=>$v->calendariolaboral4_id,
+                        'd5'=>$v->d5,
+                        'calendariolaboral5_id'=>$v->calendariolaboral5_id,
+                        'd6'=>$v->d6,
+                        'calendariolaboral6_id'=>$v->calendariolaboral6_id,
+                        'd7'=>$v->d7,
+                        'calendariolaboral7_id'=>$v->calendariolaboral7_id,
+                        'd8'=>$v->d8,
+                        'calendariolaboral8_id'=>$v->calendariolaboral8_id,
+                        'd9'=>$v->d9,
+                        'calendariolaboral9_id'=>$v->calendariolaboral9_id,
+                        'd10'=>$v->d10,
+                        'calendariolaboral10_id'=>$v->calendariolaboral10_id,
+                        'd11'=>$v->d11,
+                        'calendariolaboral11_id'=>$v->calendariolaboral11_id,
+                        'd12'=>$v->d12,
+                        'calendariolaboral12_id'=>$v->calendariolaboral12_id,
+                        'd13'=>$v->d13,
+                        'calendariolaboral13_id'=>$v->calendariolaboral13_id,
+                        'd14'=>$v->d14,
+                        'calendariolaboral14_id'=>$v->calendariolaboral14_id,
+                        'd15'=>$v->d15,
+                        'calendariolaboral15_id'=>$v->calendariolaboral15_id,
+                        'd16'=>$v->d16,
+                        'calendariolaboral16_id'=>$v->calendariolaboral16_id,
+                        'd17'=>$v->d17,
+                        'calendariolaboral17_id'=>$v->calendariolaboral17_id,
+                        'd18'=>$v->d18,
+                        'calendariolaboral18_id'=>$v->calendariolaboral18_id,
+                        'd19'=>$v->d19,
+                        'calendariolaboral19_id'=>$v->calendariolaboral19_id,
+                        'd20'=>$v->d20,
+                        'calendariolaboral20_id'=>$v->calendariolaboral20_id,
+                        'd21'=>$v->d21,
+                        'calendariolaboral21_id'=>$v->calendariolaboral21_id,
+                        'd22'=>$v->d22,
+                        'calendariolaboral22_id'=>$v->calendariolaboral22_id,
+                        'd23'=>$v->d23,
+                        'calendariolaboral23_id'=>$v->calendariolaboral23_id,
+                        'd24'=>$v->d24,
+                        'calendariolaboral24_id'=>$v->calendariolaboral24_id,
+                        'd25'=>$v->d25,
+                        'calendariolaboral25_id'=>$v->calendariolaboral25_id,
+                        'd26'=>$v->d26,
+                        'calendariolaboral26_id'=>$v->calendariolaboral26_id,
+                        'd27'=>$v->d27,
+                        'calendariolaboral27_id'=>$v->calendariolaboral27_id,
+                        'd28'=>$v->d28,
+                        'calendariolaboral28_id'=>$v->calendariolaboral28_id,
+                        'd29'=>$v->d29,
+                        'calendariolaboral29_id'=>$v->calendariolaboral29_id,
+                        'd30'=>$v->d30,
+                        'calendariolaboral30_id'=>$v->calendariolaboral30_id,
+                        'd31'=>$v->d31,
+                        'calendariolaboral31_id'=>$v->calendariolaboral31_id,
+                        'ultimo_dia'=>$v->ultimo_dia,
+                        'atrasos'=>$v->atrasos,
+                        'faltas'=>$v->faltas,
+                        'abandono'=>$v->abandono,
+                        'omision'=>$v->omision,
+                        'lsgh'=>$v->lsgh,
+                        'compensacion'=>$v->compensacion,
+                        'observacion'=>$v->observacion,
+                        'estado'=>$v->estado,
+                        'estado_descripcion'=>$v->estado_descripcion,
+                        'baja_logica'=>$v->baja_logica,
+                        'agrupador'=>$v->agrupador,
+                        'user_reg_id'=>$v->user_reg_id,
+                        'fecha_reg'=>$v->fecha_reg,
+                        'user_apr_id'=>$v->user_apr_id,
+                        'fecha_apr'=>$v->fecha_apr,
+                        'user_mod_id'=>$v->user_mod_id,
+                        'fecha_mod'=>$v->fecha_mod,
+                    );
                     #region sector para adicionar una fila para Excepciones
                     if($v->modalidadmarcacion_id==6){
                         $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
@@ -2902,7 +3561,6 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups String con la cadena representativa de las columnas agrupadas. La separación es por comas.
      * @param $sorteds  Columnas ordenadas .
      */
-    //public function exportcalculosexcelAction($lstIdpersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     public function exportcalculosexcelAction()
     {   $this->view->disable();
         $carnetAux=$_POST["carnets"];
@@ -3012,7 +3670,7 @@ class HorariosymarcacionesController extends ControllerBase
             'atrasados' => array('title' => 'Atrasados', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
-            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'omision' => array('title' => 'Sin Marcacion', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'agrupador' => array('title' => 'Marc. Previstas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'descanso' => array('title' => 'Descanso', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
@@ -3648,443 +4306,443 @@ class HorariosymarcacionesController extends ControllerBase
                 #region Sector para adicionar una fila para Excepciones
                 if($v->modalidadmarcacion_id==3||$v->modalidadmarcacion_id==6){
                     $d1=$d2=$d3=$d4=$d5=$d6=$d7=$d8=$d9=$d10=$d11=$d12=$d13=$d14=$d15=$d16=$d17=$d18=$d19=$d20=$d21=$d22=$d23=$d24=$d25=$d26=$d27=$d28=$d29=$d30=$d30=$d31="";
-                        if($v->calendariolaboral1_id>0){
-                            $res1 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id,1);
-                            if(is_object($res1)&&$res1->count()>0){
-                                foreach($res1 as $r1){
-                                    $d1 = $r1->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe1 = $obj->getFeriadosEnDia($v->gestion,$v->mes,1,1);
-                            if(is_object($fe1)&&$fe1->count()>0){
-                                foreach($fe1 as $f1){
-                                    $d1 .= $f1->f_feriados_en_dia;
-                                }
+                    if($v->calendariolaboral1_id>0){
+                        $res1 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,1,$v->calendariolaboral1_id,1);
+                        if(is_object($res1)&&$res1->count()>0){
+                            foreach($res1 as $r1){
+                                $d1 = $r1->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral2_id>0){
-                            $res2 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
-                            if(is_object($res2)&&$res2->count()>0){
-                                foreach($res2 as $r2){
-                                    $d2 = $r2->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe2 = $obj->getFeriadosEnDia($v->gestion,$v->mes,2,1);
-                            if(is_object($fe2)&&$fe2->count()>0){
-                                foreach($fe2 as $f2){
-                                    $d2 .= $f2->f_feriados_en_dia;
-                                }
+                        $fe1 = $obj->getFeriadosEnDia($v->gestion,$v->mes,1,1);
+                        if(is_object($fe1)&&$fe1->count()>0){
+                            foreach($fe1 as $f1){
+                                $d1 .= $f1->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral3_id>0){
-                            $res3 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
-                            if(is_object($res3)&&$res3->count()>0){
-                                foreach($res3 as $r3){
-                                    $d3 = $r3->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe3 = $obj->getFeriadosEnDia($v->gestion,$v->mes,3,1);
-                            if(is_object($fe3)&&$fe3->count()>0){
-                                foreach($fe3 as $f3){
-                                    $d3 .= $f3->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral2_id>0){
+                        $res2 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,2,$v->calendariolaboral2_id,1);
+                        if(is_object($res2)&&$res2->count()>0){
+                            foreach($res2 as $r2){
+                                $d2 = $r2->f_excepciones_en_dia;
                             }
                         }
+                        $fe2 = $obj->getFeriadosEnDia($v->gestion,$v->mes,2,1);
+                        if(is_object($fe2)&&$fe2->count()>0){
+                            foreach($fe2 as $f2){
+                                $d2 .= $f2->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral3_id>0){
+                        $res3 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,3,$v->calendariolaboral3_id,1);
+                        if(is_object($res3)&&$res3->count()>0){
+                            foreach($res3 as $r3){
+                                $d3 = $r3->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe3 = $obj->getFeriadosEnDia($v->gestion,$v->mes,3,1);
+                        if(is_object($fe3)&&$fe3->count()>0){
+                            foreach($fe3 as $f3){
+                                $d3 .= $f3->f_feriados_en_dia;
+                            }
+                        }
+                    }
 
-                        if($v->calendariolaboral4_id>0){
-                            $res4 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
-                            if(is_object($res4)&&$res4->count()>0){
-                                foreach($res4 as $r4){
-                                    $d4 = $r4->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe4 = $obj->getFeriadosEnDia($v->gestion,$v->mes,4,1);
-                            if(is_object($fe4)&&$fe4->count()>0){
-                                foreach($fe4 as $f4){
-                                    $d4 .= $f4->f_feriados_en_dia;
-                                }
+                    if($v->calendariolaboral4_id>0){
+                        $res4 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,4,$v->calendariolaboral4_id,1);
+                        if(is_object($res4)&&$res4->count()>0){
+                            foreach($res4 as $r4){
+                                $d4 = $r4->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral5_id>0){
-                            $res5 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
-                            if(is_object($res5)&&$res5->count()>0){
-                                foreach($res5 as $r5){
-                                    $d5 = $r5->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe5 = $obj->getFeriadosEnDia($v->gestion,$v->mes,5,1);
-                            if(is_object($fe5)&&$fe5->count()>0){
-                                foreach($fe5 as $f5){
-                                    $d5 .= $f5->f_feriados_en_dia;
-                                }
+                        $fe4 = $obj->getFeriadosEnDia($v->gestion,$v->mes,4,1);
+                        if(is_object($fe4)&&$fe4->count()>0){
+                            foreach($fe4 as $f4){
+                                $d4 .= $f4->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral6_id>0){
-                            $res6 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
-                            if(is_object($res6)&&$res6->count()>0){
-                                foreach($res6 as $r6){
-                                    $d6 = $r6->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe6 = $obj->getFeriadosEnDia($v->gestion,$v->mes,6,1);
-                            if(is_object($fe6)&&$fe6->count()>0){
-                                foreach($fe6 as $f6){
-                                    $d6 .= $f6->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral5_id>0){
+                        $res5 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,5,$v->calendariolaboral5_id,1);
+                        if(is_object($res5)&&$res5->count()>0){
+                            foreach($res5 as $r5){
+                                $d5 = $r5->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral7_id>0){
-                            $res7 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
-                            if(is_object($res7)&&$res7->count()>0){
-                                foreach($res7 as $r7){
-                                    $d7 = $r7->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe7 = $obj->getFeriadosEnDia($v->gestion,$v->mes,7,1);
-                            if(is_object($fe7)&&$fe7->count()>0){
-                                foreach($fe7 as $f7){
-                                    $d7 .= $f7->f_feriados_en_dia;
-                                }
+                        $fe5 = $obj->getFeriadosEnDia($v->gestion,$v->mes,5,1);
+                        if(is_object($fe5)&&$fe5->count()>0){
+                            foreach($fe5 as $f5){
+                                $d5 .= $f5->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral8_id>0){
-                            $res8 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
-                            if(is_object($res8)&&$res8->count()>0){
-                                foreach($res8 as $r8){
-                                    $d8 = $r8->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe8 = $obj->getFeriadosEnDia($v->gestion,$v->mes,8,1);
-                            if(is_object($fe8)&&$fe8->count()>0){
-                                foreach($fe8 as $f8){
-                                    $d8 .= $f8->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral6_id>0){
+                        $res6 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,6,$v->calendariolaboral6_id,1);
+                        if(is_object($res6)&&$res6->count()>0){
+                            foreach($res6 as $r6){
+                                $d6 = $r6->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral9_id>0){
-                            $res9 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
-                            if(is_object($res9)&&$res9->count()>0){
-                                foreach($res9 as $r9){
-                                    $d9 = $r9->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe9 = $obj->getFeriadosEnDia($v->gestion,$v->mes,9,1);
-                            if(is_object($fe9)&&$fe9->count()>0){
-                                foreach($fe9 as $f9){
-                                    $d9 .= $f9->f_feriados_en_dia;
-                                }
+                        $fe6 = $obj->getFeriadosEnDia($v->gestion,$v->mes,6,1);
+                        if(is_object($fe6)&&$fe6->count()>0){
+                            foreach($fe6 as $f6){
+                                $d6 .= $f6->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral10_id>0){
-                            $res10 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
-                            if(is_object($res10)&&$res10->count()>0){
-                                foreach($res10 as $r10){
-                                    $d10 = $r10->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe10 = $obj->getFeriadosEnDia($v->gestion,$v->mes,10,1);
-                            if(is_object($fe10)&&$fe10->count()>0){
-                                foreach($fe10 as $f10){
-                                    $d10 .= $f10->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral7_id>0){
+                        $res7 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,7,$v->calendariolaboral7_id,1);
+                        if(is_object($res7)&&$res7->count()>0){
+                            foreach($res7 as $r7){
+                                $d7 = $r7->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral11_id>0){
-                            $res11 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
-                            if(is_object($res11)&&$res11->count()>0){
-                                foreach($res11 as $r11){
-                                    $d11 = $r11->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe11 = $obj->getFeriadosEnDia($v->gestion,$v->mes,11,1);
-                            if(is_object($fe11)&&$fe11->count()>0){
-                                foreach($fe11 as $f11){
-                                    $d11 .= $f11->f_feriados_en_dia;
-                                }
+                        $fe7 = $obj->getFeriadosEnDia($v->gestion,$v->mes,7,1);
+                        if(is_object($fe7)&&$fe7->count()>0){
+                            foreach($fe7 as $f7){
+                                $d7 .= $f7->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral12_id>0){
-                            $res12 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
-                            if(is_object($res12)&&$res12->count()>0){
-                                foreach($res12 as $r12){
-                                    $d12 = $r12->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe12 = $obj->getFeriadosEnDia($v->gestion,$v->mes,12,1);
-                            if(is_object($fe12)&&$fe12->count()>0){
-                                foreach($fe12 as $f12){
-                                    $d12 .= $f12->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral8_id>0){
+                        $res8 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,8,$v->calendariolaboral8_id,1);
+                        if(is_object($res8)&&$res8->count()>0){
+                            foreach($res8 as $r8){
+                                $d8 = $r8->f_excepciones_en_dia;
                             }
                         }
+                        $fe8 = $obj->getFeriadosEnDia($v->gestion,$v->mes,8,1);
+                        if(is_object($fe8)&&$fe8->count()>0){
+                            foreach($fe8 as $f8){
+                                $d8 .= $f8->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral9_id>0){
+                        $res9 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,9,$v->calendariolaboral9_id,1);
+                        if(is_object($res9)&&$res9->count()>0){
+                            foreach($res9 as $r9){
+                                $d9 = $r9->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe9 = $obj->getFeriadosEnDia($v->gestion,$v->mes,9,1);
+                        if(is_object($fe9)&&$fe9->count()>0){
+                            foreach($fe9 as $f9){
+                                $d9 .= $f9->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral10_id>0){
+                        $res10 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,10,$v->calendariolaboral10_id,1);
+                        if(is_object($res10)&&$res10->count()>0){
+                            foreach($res10 as $r10){
+                                $d10 = $r10->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe10 = $obj->getFeriadosEnDia($v->gestion,$v->mes,10,1);
+                        if(is_object($fe10)&&$fe10->count()>0){
+                            foreach($fe10 as $f10){
+                                $d10 .= $f10->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral11_id>0){
+                        $res11 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,11,$v->calendariolaboral11_id,1);
+                        if(is_object($res11)&&$res11->count()>0){
+                            foreach($res11 as $r11){
+                                $d11 = $r11->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe11 = $obj->getFeriadosEnDia($v->gestion,$v->mes,11,1);
+                        if(is_object($fe11)&&$fe11->count()>0){
+                            foreach($fe11 as $f11){
+                                $d11 .= $f11->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral12_id>0){
+                        $res12 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,12,$v->calendariolaboral12_id,1);
+                        if(is_object($res12)&&$res12->count()>0){
+                            foreach($res12 as $r12){
+                                $d12 = $r12->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe12 = $obj->getFeriadosEnDia($v->gestion,$v->mes,12,1);
+                        if(is_object($fe12)&&$fe12->count()>0){
+                            foreach($fe12 as $f12){
+                                $d12 .= $f12->f_feriados_en_dia;
+                            }
+                        }
+                    }
 
-                        if($v->calendariolaboral13_id>0){
-                            $res13 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
-                            if(is_object($res13)&&$res13->count()>0){
-                                foreach($res13 as $r13){
-                                    $d13 = $r13->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe13 = $obj->getFeriadosEnDia($v->gestion,$v->mes,13,1);
-                            if(is_object($fe13)&&$fe13->count()>0){
-                                foreach($fe13 as $f13){
-                                    $d13 .= $f13->f_feriados_en_dia;
-                                }
+                    if($v->calendariolaboral13_id>0){
+                        $res13 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,13,$v->calendariolaboral13_id,1);
+                        if(is_object($res13)&&$res13->count()>0){
+                            foreach($res13 as $r13){
+                                $d13 = $r13->f_excepciones_en_dia;
                             }
                         }
+                        $fe13 = $obj->getFeriadosEnDia($v->gestion,$v->mes,13,1);
+                        if(is_object($fe13)&&$fe13->count()>0){
+                            foreach($fe13 as $f13){
+                                $d13 .= $f13->f_feriados_en_dia;
+                            }
+                        }
+                    }
 
-                        if($v->calendariolaboral14_id>0){
-                            $res14 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
-                            if(is_object($res14)&&$res14->count()>0){
-                                foreach($res14 as $r14){
-                                    $d14 = $r14->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe14 = $obj->getFeriadosEnDia($v->gestion,$v->mes,14,1);
-                            if(is_object($fe14)&&$fe14->count()>0){
-                                foreach($fe14 as $f14){
-                                    $d14 .= $f14->f_feriados_en_dia;
-                                }
+                    if($v->calendariolaboral14_id>0){
+                        $res14 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,14,$v->calendariolaboral14_id,1);
+                        if(is_object($res14)&&$res14->count()>0){
+                            foreach($res14 as $r14){
+                                $d14 = $r14->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral15_id>0){
-                            $res15 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
-                            if(is_object($res15)&&$res15->count()>0){
-                                foreach($res15 as $r15){
-                                    $d15 = $r15->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe15 = $obj->getFeriadosEnDia($v->gestion,$v->mes,15,1);
-                            if(is_object($fe15)&&$fe15->count()>0){
-                                foreach($fe15 as $f15){
-                                    $d15 .= $f15->f_feriados_en_dia;
-                                }
+                        $fe14 = $obj->getFeriadosEnDia($v->gestion,$v->mes,14,1);
+                        if(is_object($fe14)&&$fe14->count()>0){
+                            foreach($fe14 as $f14){
+                                $d14 .= $f14->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral16_id>0){
-                            $res16 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
-                            if(is_object($res16)&&$res16->count()>0){
-                                foreach($res16 as $r16){
-                                    $d16 = $r16->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe16 = $obj->getFeriadosEnDia($v->gestion,$v->mes,16,1);
-                            if(is_object($fe16)&&$fe16->count()>0){
-                                foreach($fe16 as $f16){
-                                    $d16 .= $f16->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral15_id>0){
+                        $res15 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,15,$v->calendariolaboral15_id,1);
+                        if(is_object($res15)&&$res15->count()>0){
+                            foreach($res15 as $r15){
+                                $d15 = $r15->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral17_id>0){
-                            $res17 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
-                            if(is_object($res17)&&$res17->count()>0){
-                                foreach($res17 as $r17){
-                                    $d17 = $r17->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe17 = $obj->getFeriadosEnDia($v->gestion,$v->mes,17,1);
-                            if(is_object($fe17)&&$fe17->count()>0){
-                                foreach($fe17 as $f17){
-                                    $d17 .= $f17->f_feriados_en_dia;
-                                }
+                        $fe15 = $obj->getFeriadosEnDia($v->gestion,$v->mes,15,1);
+                        if(is_object($fe15)&&$fe15->count()>0){
+                            foreach($fe15 as $f15){
+                                $d15 .= $f15->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral18_id>0){
-                            $res18 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
-                            if(is_object($res18)&&$res18->count()>0){
-                                foreach($res18 as $r){
-                                    $d18 = $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe18 = $obj->getFeriadosEnDia($v->gestion,$v->mes,18,1);
-                            if(is_object($fe18)&&$fe18->count()>0){
-                                foreach($fe18 as $f18){
-                                    $d18 .= $f18->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral16_id>0){
+                        $res16 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,16,$v->calendariolaboral16_id,1);
+                        if(is_object($res16)&&$res16->count()>0){
+                            foreach($res16 as $r16){
+                                $d16 = $r16->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral19_id>0){
-                            $res19 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
-                            if(is_object($res19)&&$res19->count()>0){
-                                foreach($res19 as $r){
-                                    $d19 = $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe19 = $obj->getFeriadosEnDia($v->gestion,$v->mes,19,1);
-                            if(is_object($fe19)&&$fe19->count()>0){
-                                foreach($fe19 as $f19){
-                                    $d19 .= $f19->f_feriados_en_dia;
-                                }
+                        $fe16 = $obj->getFeriadosEnDia($v->gestion,$v->mes,16,1);
+                        if(is_object($fe16)&&$fe16->count()>0){
+                            foreach($fe16 as $f16){
+                                $d16 .= $f16->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral20_id>0){
-                            $res20 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
-                            if(is_object($res20)&&$res20->count()>0){
-                                foreach($res20 as $r){
-                                    $d20 = $r->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe20 = $obj->getFeriadosEnDia($v->gestion,$v->mes,20,1);
-                            if(is_object($fe20)&&$fe20->count()>0){
-                                foreach($fe20 as $f20){
-                                    $d20 .= $f20->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral17_id>0){
+                        $res17 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,17,$v->calendariolaboral17_id,1);
+                        if(is_object($res17)&&$res17->count()>0){
+                            foreach($res17 as $r17){
+                                $d17 = $r17->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral21_id>0){
-                            $res21 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
-                            if(is_object($res21)&&$res21->count()>0){
-                                foreach($res21 as $r21){
-                                    $d21 = $r21->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe21 = $obj->getFeriadosEnDia($v->gestion,$v->mes,21,1);
-                            if(is_object($fe21)&&$fe21->count()>0){
-                                foreach($fe21 as $f21){
-                                    $d21 .= $f21->f_feriados_en_dia;
-                                }
+                        $fe17 = $obj->getFeriadosEnDia($v->gestion,$v->mes,17,1);
+                        if(is_object($fe17)&&$fe17->count()>0){
+                            foreach($fe17 as $f17){
+                                $d17 .= $f17->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral22_id>0){
-                            $res22 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
-                            if(is_object($res22)&&$res22->count()>0){
-                                foreach($res22 as $r22){
-                                    $d22 = $r22->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe22 = $obj->getFeriadosEnDia($v->gestion,$v->mes,22,1);
-                            if(is_object($fe22)&&$fe22->count()>0){
-                                foreach($fe22 as $f22){
-                                    $d22 .= $f22->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral18_id>0){
+                        $res18 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,18,$v->calendariolaboral18_id,1);
+                        if(is_object($res18)&&$res18->count()>0){
+                            foreach($res18 as $r){
+                                $d18 = $r->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral23_id>0){
-                            $res23 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
-                            if(is_object($res23)&&$res23->count()>0){
-                                foreach($res23 as $r23){
-                                    $d23 = $r23->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe23 = $obj->getFeriadosEnDia($v->gestion,$v->mes,23,1);
-                            if(is_object($fe23)&&$fe23->count()>0){
-                                foreach($fe23 as $f23){
-                                    $d23 .= $f23->f_feriados_en_dia;
-                                }
+                        $fe18 = $obj->getFeriadosEnDia($v->gestion,$v->mes,18,1);
+                        if(is_object($fe18)&&$fe18->count()>0){
+                            foreach($fe18 as $f18){
+                                $d18 .= $f18->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral24_id>0){
-                            $res24 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
-                            if(is_object($res24)&&$res24->count()>0){
-                                foreach($res24 as $r24){
-                                    $d24 = $r24->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe24 = $obj->getFeriadosEnDia($v->gestion,$v->mes,24,1);
-                            if(is_object($fe24)&&$fe24->count()>0){
-                                foreach($fe24 as $f24){
-                                    $d24 .= $f24->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral19_id>0){
+                        $res19 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,19,$v->calendariolaboral19_id,1);
+                        if(is_object($res19)&&$res19->count()>0){
+                            foreach($res19 as $r){
+                                $d19 = $r->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral25_id>0){
-                            $res25 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
-                            if(is_object($res25)&&$res25->count()>0){
-                                foreach($res25 as $r25){
-                                    $d25 = $r25->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe25 = $obj->getFeriadosEnDia($v->gestion,$v->mes,25,1);
-                            if(is_object($fe25)&&$fe25->count()>0){
-                                foreach($fe25 as $f25){
-                                    $d25 .= $f25->f_feriados_en_dia;
-                                }
+                        $fe19 = $obj->getFeriadosEnDia($v->gestion,$v->mes,19,1);
+                        if(is_object($fe19)&&$fe19->count()>0){
+                            foreach($fe19 as $f19){
+                                $d19 .= $f19->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral26_id>0){
-                            $res26 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
-                            if(is_object($res26)&&$res26->count()>0){
-                                foreach($res26 as $r26){
-                                    $d26 = $r26->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe26 = $obj->getFeriadosEnDia($v->gestion,$v->mes,26,1);
-                            if(is_object($fe26)&&$fe26->count()>0){
-                                foreach($fe26 as $f26){
-                                    $d26 .= $f26->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral20_id>0){
+                        $res20 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,20,$v->calendariolaboral20_id,1);
+                        if(is_object($res20)&&$res20->count()>0){
+                            foreach($res20 as $r){
+                                $d20 = $r->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral27_id>0){
-                            $res27 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
-                            if(is_object($res27)&&$res27->count()>0){
-                                foreach($res27 as $r27){
-                                    $d27 = $r27->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe27 = $obj->getFeriadosEnDia($v->gestion,$v->mes,27,1);
-                            if(is_object($fe27)&&$fe27->count()>0){
-                                foreach($fe27 as $f27){
-                                    $d27 .= $f27->f_feriados_en_dia;
-                                }
+                        $fe20 = $obj->getFeriadosEnDia($v->gestion,$v->mes,20,1);
+                        if(is_object($fe20)&&$fe20->count()>0){
+                            foreach($fe20 as $f20){
+                                $d20 .= $f20->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral28_id>0){
-                            $res28 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
-                            if(is_object($res28)&&$res28->count()>0){
-                                foreach($res28 as $r28){
-                                    $d28 = $r28->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe28 = $obj->getFeriadosEnDia($v->gestion,$v->mes,28,1);
-                            if(is_object($fe28)&&$fe28->count()>0){
-                                foreach($fe28 as $f28){
-                                    $d28 .= $f28->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral21_id>0){
+                        $res21 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,21,$v->calendariolaboral21_id,1);
+                        if(is_object($res21)&&$res21->count()>0){
+                            foreach($res21 as $r21){
+                                $d21 = $r21->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral29_id>0){
-                            $res29 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
-                            if(is_object($res29)&&$res29->count()>0){
-                                foreach($res29 as $r29){
-                                    $d29 = $r29->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe29 = $obj->getFeriadosEnDia($v->gestion,$v->mes,29,1);
-                            if(is_object($fe29)&&$fe29->count()>0){
-                                foreach($fe29 as $f29){
-                                    $d29 .= $f29->f_feriados_en_dia;
-                                }
+                        $fe21 = $obj->getFeriadosEnDia($v->gestion,$v->mes,21,1);
+                        if(is_object($fe21)&&$fe21->count()>0){
+                            foreach($fe21 as $f21){
+                                $d21 .= $f21->f_feriados_en_dia;
                             }
                         }
-                        if($v->calendariolaboral30_id>0){
-                            $res30 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
-                            if(is_object($res30)&&$res30->count()>0){
-                                foreach($res30 as $r30){
-                                    $d30 = $r30->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe30 = $obj->getFeriadosEnDia($v->gestion,$v->mes,30,1);
-                            if(is_object($fe30)&&$fe30->count()>0){
-                                foreach($fe30 as $f30){
-                                    $d30 .= $f30->f_feriados_en_dia;
-                                }
+                    }
+                    if($v->calendariolaboral22_id>0){
+                        $res22 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,22,$v->calendariolaboral22_id,1);
+                        if(is_object($res22)&&$res22->count()>0){
+                            foreach($res22 as $r22){
+                                $d22 = $r22->f_excepciones_en_dia;
                             }
                         }
-                        if($v->calendariolaboral31_id>0){
-                            $res31 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
-                            if(is_object($res31)&&$res31->count()>0){
-                                foreach($res31 as $r31){
-                                    $d31 = $r31->f_excepciones_en_dia;
-                                }
-                            }
-                            $fe31 = $obj->getFeriadosEnDia($v->gestion,$v->mes,31,1);
-                            if(is_object($fe31)&&$fe31->count()>0){
-                                foreach($fe31 as $f31){
-                                    $d31 .= $f31->f_feriados_en_dia;
-                                }
+                        $fe22 = $obj->getFeriadosEnDia($v->gestion,$v->mes,22,1);
+                        if(is_object($fe22)&&$fe22->count()>0){
+                            foreach($fe22 as $f22){
+                                $d22 .= $f22->f_feriados_en_dia;
                             }
                         }
+                    }
+                    if($v->calendariolaboral23_id>0){
+                        $res23 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,23,$v->calendariolaboral23_id,1);
+                        if(is_object($res23)&&$res23->count()>0){
+                            foreach($res23 as $r23){
+                                $d23 = $r23->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe23 = $obj->getFeriadosEnDia($v->gestion,$v->mes,23,1);
+                        if(is_object($fe23)&&$fe23->count()>0){
+                            foreach($fe23 as $f23){
+                                $d23 .= $f23->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral24_id>0){
+                        $res24 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,24,$v->calendariolaboral24_id,1);
+                        if(is_object($res24)&&$res24->count()>0){
+                            foreach($res24 as $r24){
+                                $d24 = $r24->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe24 = $obj->getFeriadosEnDia($v->gestion,$v->mes,24,1);
+                        if(is_object($fe24)&&$fe24->count()>0){
+                            foreach($fe24 as $f24){
+                                $d24 .= $f24->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral25_id>0){
+                        $res25 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,25,$v->calendariolaboral25_id,1);
+                        if(is_object($res25)&&$res25->count()>0){
+                            foreach($res25 as $r25){
+                                $d25 = $r25->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe25 = $obj->getFeriadosEnDia($v->gestion,$v->mes,25,1);
+                        if(is_object($fe25)&&$fe25->count()>0){
+                            foreach($fe25 as $f25){
+                                $d25 .= $f25->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral26_id>0){
+                        $res26 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,26,$v->calendariolaboral26_id,1);
+                        if(is_object($res26)&&$res26->count()>0){
+                            foreach($res26 as $r26){
+                                $d26 = $r26->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe26 = $obj->getFeriadosEnDia($v->gestion,$v->mes,26,1);
+                        if(is_object($fe26)&&$fe26->count()>0){
+                            foreach($fe26 as $f26){
+                                $d26 .= $f26->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral27_id>0){
+                        $res27 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,27,$v->calendariolaboral27_id,1);
+                        if(is_object($res27)&&$res27->count()>0){
+                            foreach($res27 as $r27){
+                                $d27 = $r27->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe27 = $obj->getFeriadosEnDia($v->gestion,$v->mes,27,1);
+                        if(is_object($fe27)&&$fe27->count()>0){
+                            foreach($fe27 as $f27){
+                                $d27 .= $f27->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral28_id>0){
+                        $res28 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,28,$v->calendariolaboral28_id,1);
+                        if(is_object($res28)&&$res28->count()>0){
+                            foreach($res28 as $r28){
+                                $d28 = $r28->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe28 = $obj->getFeriadosEnDia($v->gestion,$v->mes,28,1);
+                        if(is_object($fe28)&&$fe28->count()>0){
+                            foreach($fe28 as $f28){
+                                $d28 .= $f28->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral29_id>0){
+                        $res29 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,29,$v->calendariolaboral29_id,1);
+                        if(is_object($res29)&&$res29->count()>0){
+                            foreach($res29 as $r29){
+                                $d29 = $r29->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe29 = $obj->getFeriadosEnDia($v->gestion,$v->mes,29,1);
+                        if(is_object($fe29)&&$fe29->count()>0){
+                            foreach($fe29 as $f29){
+                                $d29 .= $f29->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral30_id>0){
+                        $res30 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,30,$v->calendariolaboral30_id,1);
+                        if(is_object($res30)&&$res30->count()>0){
+                            foreach($res30 as $r30){
+                                $d30 = $r30->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe30 = $obj->getFeriadosEnDia($v->gestion,$v->mes,30,1);
+                        if(is_object($fe30)&&$fe30->count()>0){
+                            foreach($fe30 as $f30){
+                                $d30 .= $f30->f_feriados_en_dia;
+                            }
+                        }
+                    }
+                    if($v->calendariolaboral31_id>0){
+                        $res31 = $obj->getExcepcionesEnDia($v->relaboral_id,0,$v->gestion,$v->mes,31,$v->calendariolaboral31_id,1);
+                        if(is_object($res31)&&$res31->count()>0){
+                            foreach($res31 as $r31){
+                                $d31 = $r31->f_excepciones_en_dia;
+                            }
+                        }
+                        $fe31 = $obj->getFeriadosEnDia($v->gestion,$v->mes,31,1);
+                        if(is_object($fe31)&&$fe31->count()>0){
+                            foreach($fe31 as $f31){
+                                $d31 .= $f31->f_feriados_en_dia;
+                            }
+                        }
+                    }
 
                     $horariosymarcaciones[] = array(
                         #region Columnas de procedimiento f_relaborales()
@@ -5484,7 +6142,6 @@ class HorariosymarcacionesController extends ControllerBase
      * @param $groups Array de las agrupaciones aplicadas.
      * @param $sorteds Array de los órdenes aplicados.
      */
-    //public function exportcalculospdfAction($lstIdPersonasAux,$fechaIni,$fechaFin,$n_rows, $columns, $filtros,$groups,$sorteds)
     public function exportcalculospdfAction()
     {   $this->view->disable();
         $carnetAux=$_POST["carnets"];
@@ -5592,7 +6249,7 @@ class HorariosymarcacionesController extends ControllerBase
             'atrasados' => array('title' => 'Atrasados', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'faltas' => array('title' => 'Faltas', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'abandono' => array('title' => 'Abandono', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
-            'omision' => array('title' => 'Omision', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
+            'omision' => array('title' => 'Sin Marcacion', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'lsgh' => array('title' => 'LSGH', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'agrupador' => array('title' => 'M/Prev.', 'width' => 15, 'align' => 'C', 'type' => 'numeric','totales'=>true),
             'descanso' => array('title' => 'Descanso', 'width' => 18, 'align' => 'C', 'type' => 'numeric','totales'=>true),
@@ -7110,10 +7767,10 @@ class HorariosymarcacionesController extends ControllerBase
                                         $matrizEstados[$diaaux][$turnoaux][$grupoaux]=null;
                                         if($cantidadGrupos<$grupoaux)$cantidadGrupos=$grupoaux;
 
-                                            $matrizIdHorariosCruzados[$diaaux][1][-1]=$v->id_horariolaboral;
-                                            $matrizHorariosCruzados[$diaaux][1][-1]=$v->hora_salida;
-                                            $matrizIdCalendariosHorariosCruzados[$diaaux][1][-1]=$v->id_calendariolaboral;
-                                            $matrizEstadosCruzados[$diaaux][1][-1]=1;
+                                        $matrizIdHorariosCruzados[$diaaux][1][-1]=$v->id_horariolaboral;
+                                        $matrizHorariosCruzados[$diaaux][1][-1]=$v->hora_salida;
+                                        $matrizIdCalendariosHorariosCruzados[$diaaux][1][-1]=$v->id_calendariolaboral;
+                                        $matrizEstadosCruzados[$diaaux][1][-1]=1;
                                     }else{
                                         /**
                                          * Es necesario determinar que NO se puede tener dos perfiles en un mismo día.
@@ -7180,7 +7837,7 @@ class HorariosymarcacionesController extends ControllerBase
                     /**
                      * Se crea una consulta adicional en caso de existir un horario cruzado,
                      * es decir, que ingrese en un día y culminé este mismo turno al día siguiente.
-                    */
+                     */
                     $consultaSalidaAux = "relaboral_id=".$idRelaboral." AND ";
 
                     $consultaEntrada .= "gestion=".$gestion." AND ";
@@ -7498,351 +8155,351 @@ class HorariosymarcacionesController extends ControllerBase
                         /**
                          * Calculo de las horas para las salidas con cruce
                          */
-                            if(isset($matrizHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
+                        if(isset($matrizHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
 
-                                switch($dia){
-                                    case 1 :
-                                        /**
-                                         * Asignación momentanea
-                                         */
-                                        /*$objMSalida->calendariolaboral1_id=null;
-                                        $objMSalida->estado1=null;
-                                        $objMSalida->d1=null;*/
-                                        break;
-                                    case 2 :if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
-                                            $objMSalida->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->estado2=$matrizEstadosCruzados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d2=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
-                                        }
-                                        else{
-                                            $objMSalida->calendariolaboral2_id=null;
-                                            $objMSalida->estado2=null;
-                                            $objMSalida->d2=null;
-                                        }
-                                    }break;
-                                    case 3 :if($objMSalida->estado3 ==null||$objMSalida->estado3 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
-                                            $objMSalida->calendariolaboral3_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->estado3=$matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d3=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];}
-                                        else{
-                                            $objMSalida->calendariolaboral3_id=null;
-                                            $objMSalida->estado3=null;
-                                            $objMSalida->d3=null;
-                                        }
-                                    }break;
-                                    case 4 :if($objMSalida->estado4 ==null||$objMSalida->estado4 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral4_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado4 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d4 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral4_id = null;
-                                            $objMSalida->estado4 = null;
-                                            $objMSalida->d4 = null;
-                                        }
-                                    }break;
-                                    case 5 :if($objMSalida->estado5 ==null||$objMSalida->estado5 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral5_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado5 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d5 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral5_id = null;
-                                            $objMSalida->estado5 = null;
-                                            $objMSalida->d5 = null;
-                                        }
-                                    }break;
-                                    case 6 :if($objMSalida->estado6 ==null||$objMSalida->estado6 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral6_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado6 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d6 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral6_id = null;
-                                            $objMSalida->estado6 = null;
-                                            $objMSalida->d6 = null;
-                                        }
-                                    }break;
-                                    case 7 :if($objMSalida->estado7 ==null||$objMSalida->estado7 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral7_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado7 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d7 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral7_id = null;
-                                            $objMSalida->estado7 = null;
-                                            $objMSalida->d7 = null;
-                                        }
-                                    }break;
-                                    case 8 :if($objMSalida->estado8 ==null||$objMSalida->estado8 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral8_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado8 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d8 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral8_id = null;
-                                            $objMSalida->estado8 = null;
-                                            $objMSalida->d8 = null;
-                                        }
-                                    }break;
-                                    case 9 :if($objMSalida->estado9 ==null||$objMSalida->estado9 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral9_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado9 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d9 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral9_id = null;
-                                            $objMSalida->estado9 = null;
-                                            $objMSalida->d9 = null;
-                                        }
-                                    }break;
-                                    case 10:if($objMSalida->estado10 ==null||$objMSalida->estado10 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
-                                            $objMSalida->calendariolaboral10_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->estado10=$matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d10=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral10_id=null;
-                                            $objMSalida->estado10=null;
-                                            $objMSalida->d10=null;
-                                        }
-                                    }break;
-                                    case 11:if($objMSalida->estado11 ==null||$objMSalida->estado11 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral11_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado11 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d11 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral11_id = null;
-                                            $objMSalida->estado11 = null;
-                                            $objMSalida->d11 = null;
-                                        }
-                                    }break;
-                                    case 12:if($objMSalida->estado12 ==null||$objMSalida->estado12 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral12_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado12 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d12 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral12_id = null;
-                                            $objMSalida->estado12 = null;
-                                            $objMSalida->d12 = null;
-                                        }
-                                    }break;
-                                    case 13:if($objMSalida->estado13 ==null||$objMSalida->estado13 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral13_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado13 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d13 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral13_id = null;
-                                            $objMSalida->estado13 = null;
-                                            $objMSalida->d13 = null;
-                                        }
-                                    }break;
-                                    case 14:if($objMSalida->estado14 ==null||$objMSalida->estado14 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral14_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado14 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d14 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral14_id = null;
-                                            $objMSalida->estado14 = null;
-                                            $objMSalida->d14 = null;
-                                        }
-                                    }break;
-                                    case 15:if($objMSalida->estado15 ==null||$objMSalida->estado15 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral15_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado15 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d15 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral15_id = null;
-                                            $objMSalida->estado15 = null;
-                                            $objMSalida->d15 = null;
-                                        }
-                                    }break;
-                                    case 16:if($objMSalida->estado16 ==null||$objMSalida->estado16 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral16_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado16 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d16 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral16_id = null;
-                                            $objMSalida->estado16 = null;
-                                            $objMSalida->d16 = null;
-                                        }
-                                    }break;
-                                    case 17:if($objMSalida->estado17 ==null||$objMSalida->estado17 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral17_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado17 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d17 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral17_id = null;
-                                            $objMSalida->estado17 = null;
-                                            $objMSalida->d17 = null;
-                                        }
-                                    }break;
-                                    case 18:if($objMSalida->estado18 ==null||$objMSalida->estado18 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral18_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado18 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d18 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral18_id = null;
-                                            $objMSalida->estado18 = null;
-                                            $objMSalida->d18 = null;
-                                        }
-                                    }break;
-                                    case 19:if($objMSalida->estado19 ==null||$objMSalida->estado19 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral19_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado19 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d19 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral19_id = null;
-                                            $objMSalida->estado19 = null;
-                                            $objMSalida->d19 = null;
-                                        }
-                                    }break;
-                                    case 20:if($objMSalida->estado20 ==null||$objMSalida->estado20 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral20_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado20 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d20 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral20_id = null;
-                                            $objMSalida->estado20 = null;
-                                            $objMSalida->d20 = null;
-                                        }
-                                    }break;
-                                    case 21:if($objMSalida->estado21 ==null||$objMSalida->estado21 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral21_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado21 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d21 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral21_id = null;
-                                            $objMSalida->estado21 = null;
-                                            $objMSalida->d21 = null;
-                                        }
-                                    }break;
-                                    case 22:if($objMSalida->estado22 ==null||$objMSalida->estado22 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral22_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado22 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d22 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral22_id = null;
-                                            $objMSalida->estado22 = null;
-                                            $objMSalida->d22 = null;
-                                        }
-                                    }break;
-                                    case 23:if($objMSalida->estado23 ==null||$objMSalida->estado23 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral23_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado23 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d23 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral23_id = null;
-                                            $objMSalida->estado23 = null;
-                                            $objMSalida->d23 = null;
-                                        }
-                                    }break;
-                                    case 24:if($objMSalida->estado24 ==null||$objMSalida->estado24 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
-                                            $objMSalida->calendariolaboral24_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->estado24=$matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d24=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
-                                        }
-                                        else {
-                                            $objMSalida->calendariolaboral24_id=null;
-                                            $objMSalida->estado24=null;
-                                            $objMSalida->d24=null;
-                                        }
-                                    }break;
-                                    case 25:if($objMSalida->estado25 ==null||$objMSalida->estado25 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral25_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado25 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d25 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral25_id = null;
-                                            $objMSalida->estado25 = null;
-                                            $objMSalida->d25 = null;
-                                        }
-                                    }break;
-                                    case 26:if($objMSalida->estado26 ==null||$objMSalida->estado26 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral26_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado26 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d26 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral26_id = null;
-                                            $objMSalida->estado26 = null;
-                                            $objMSalida->d26 = null;
-                                        }
-                                    }break;
-                                    case 27:if($objMSalida->estado27 ==null||$objMSalida->estado27 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral27_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado27 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d27 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral27_id = null;
-                                            $objMSalida->estado27 = null;
-                                            $objMSalida->d27 = null;
-                                        }
-                                    }break;
-                                    case 28:if($objMSalida->estado28 ==null||$objMSalida->estado28 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral28_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado28 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d28 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral28_id = null;
-                                            $objMSalida->estado28 = null;
-                                            $objMSalida->d28 = null;
-                                        }
-                                    }break;
-                                    case 29:if($ultimoDia>=29&&($objMSalida->estado29 ==null||$objMSalida->estado29 <=1)){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado29 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d29 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral29_id = null;
-                                            $objMSalida->estado29 = null;
-                                            $objMSalida->d29 = null;
-                                        }
-                                    }break;
-                                    case 30:if($ultimoDia>=30&&($objMSalida->estado30 ==null||$objMSalida->estado30 <=1)){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado30 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d30 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral30_id = null;
-                                            $objMSalida->estado30 = null;
-                                            $objMSalida->d30 = null;
-                                        }
-                                    }break;
-                                    case 31:if($ultimoDia>=31&&($objMSalida->estado31 ==null||$objMSalida->estado31 <=1)){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
-                                            $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                            $objMSalida->estado31 = $matrizEstados[$dia-1][$turno][$grupoB];
-                                            $objMSalida->d31 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
-                                        }else{
-                                            $objMSalida->calendariolaboral31_id = null;
-                                            $objMSalida->estado31 = null;
-                                            $objMSalida->d31 = null;
-                                        }
-                                    }break;
-                                }
+                            switch($dia){
+                                case 1 :
+                                    /**
+                                     * Asignación momentanea
+                                     */
+                                    /*$objMSalida->calendariolaboral1_id=null;
+                                    $objMSalida->estado1=null;
+                                    $objMSalida->d1=null;*/
+                                    break;
+                                case 2 :if($objMSalida->estado2 ==null||$objMSalida->estado2 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado2=$matrizEstadosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d2=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                    }
+                                    else{
+                                        $objMSalida->calendariolaboral2_id=null;
+                                        $objMSalida->estado2=null;
+                                        $objMSalida->d2=null;
+                                    }
+                                }break;
+                                case 3 :if($objMSalida->estado3 ==null||$objMSalida->estado3 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral3_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado3=$matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d3=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];}
+                                    else{
+                                        $objMSalida->calendariolaboral3_id=null;
+                                        $objMSalida->estado3=null;
+                                        $objMSalida->d3=null;
+                                    }
+                                }break;
+                                case 4 :if($objMSalida->estado4 ==null||$objMSalida->estado4 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral4_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado4 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d4 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral4_id = null;
+                                        $objMSalida->estado4 = null;
+                                        $objMSalida->d4 = null;
+                                    }
+                                }break;
+                                case 5 :if($objMSalida->estado5 ==null||$objMSalida->estado5 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral5_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado5 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d5 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral5_id = null;
+                                        $objMSalida->estado5 = null;
+                                        $objMSalida->d5 = null;
+                                    }
+                                }break;
+                                case 6 :if($objMSalida->estado6 ==null||$objMSalida->estado6 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral6_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado6 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d6 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral6_id = null;
+                                        $objMSalida->estado6 = null;
+                                        $objMSalida->d6 = null;
+                                    }
+                                }break;
+                                case 7 :if($objMSalida->estado7 ==null||$objMSalida->estado7 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral7_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado7 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d7 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral7_id = null;
+                                        $objMSalida->estado7 = null;
+                                        $objMSalida->d7 = null;
+                                    }
+                                }break;
+                                case 8 :if($objMSalida->estado8 ==null||$objMSalida->estado8 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral8_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado8 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d8 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral8_id = null;
+                                        $objMSalida->estado8 = null;
+                                        $objMSalida->d8 = null;
+                                    }
+                                }break;
+                                case 9 :if($objMSalida->estado9 ==null||$objMSalida->estado9 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral9_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado9 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d9 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral9_id = null;
+                                        $objMSalida->estado9 = null;
+                                        $objMSalida->d9 = null;
+                                    }
+                                }break;
+                                case 10:if($objMSalida->estado10 ==null||$objMSalida->estado10 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral10_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado10=$matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d10=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral10_id=null;
+                                        $objMSalida->estado10=null;
+                                        $objMSalida->d10=null;
+                                    }
+                                }break;
+                                case 11:if($objMSalida->estado11 ==null||$objMSalida->estado11 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral11_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado11 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d11 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral11_id = null;
+                                        $objMSalida->estado11 = null;
+                                        $objMSalida->d11 = null;
+                                    }
+                                }break;
+                                case 12:if($objMSalida->estado12 ==null||$objMSalida->estado12 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral12_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado12 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d12 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral12_id = null;
+                                        $objMSalida->estado12 = null;
+                                        $objMSalida->d12 = null;
+                                    }
+                                }break;
+                                case 13:if($objMSalida->estado13 ==null||$objMSalida->estado13 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral13_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado13 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d13 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral13_id = null;
+                                        $objMSalida->estado13 = null;
+                                        $objMSalida->d13 = null;
+                                    }
+                                }break;
+                                case 14:if($objMSalida->estado14 ==null||$objMSalida->estado14 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral14_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado14 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d14 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral14_id = null;
+                                        $objMSalida->estado14 = null;
+                                        $objMSalida->d14 = null;
+                                    }
+                                }break;
+                                case 15:if($objMSalida->estado15 ==null||$objMSalida->estado15 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral15_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado15 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d15 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral15_id = null;
+                                        $objMSalida->estado15 = null;
+                                        $objMSalida->d15 = null;
+                                    }
+                                }break;
+                                case 16:if($objMSalida->estado16 ==null||$objMSalida->estado16 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral16_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado16 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d16 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral16_id = null;
+                                        $objMSalida->estado16 = null;
+                                        $objMSalida->d16 = null;
+                                    }
+                                }break;
+                                case 17:if($objMSalida->estado17 ==null||$objMSalida->estado17 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral17_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado17 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d17 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral17_id = null;
+                                        $objMSalida->estado17 = null;
+                                        $objMSalida->d17 = null;
+                                    }
+                                }break;
+                                case 18:if($objMSalida->estado18 ==null||$objMSalida->estado18 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral18_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado18 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d18 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral18_id = null;
+                                        $objMSalida->estado18 = null;
+                                        $objMSalida->d18 = null;
+                                    }
+                                }break;
+                                case 19:if($objMSalida->estado19 ==null||$objMSalida->estado19 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral19_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado19 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d19 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral19_id = null;
+                                        $objMSalida->estado19 = null;
+                                        $objMSalida->d19 = null;
+                                    }
+                                }break;
+                                case 20:if($objMSalida->estado20 ==null||$objMSalida->estado20 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral20_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado20 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d20 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral20_id = null;
+                                        $objMSalida->estado20 = null;
+                                        $objMSalida->d20 = null;
+                                    }
+                                }break;
+                                case 21:if($objMSalida->estado21 ==null||$objMSalida->estado21 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral21_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado21 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d21 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral21_id = null;
+                                        $objMSalida->estado21 = null;
+                                        $objMSalida->d21 = null;
+                                    }
+                                }break;
+                                case 22:if($objMSalida->estado22 ==null||$objMSalida->estado22 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral22_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado22 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d22 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral22_id = null;
+                                        $objMSalida->estado22 = null;
+                                        $objMSalida->d22 = null;
+                                    }
+                                }break;
+                                case 23:if($objMSalida->estado23 ==null||$objMSalida->estado23 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral23_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado23 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d23 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral23_id = null;
+                                        $objMSalida->estado23 = null;
+                                        $objMSalida->d23 = null;
+                                    }
+                                }break;
+                                case 24:if($objMSalida->estado24 ==null||$objMSalida->estado24 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])){
+                                        $objMSalida->calendariolaboral24_id=$matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->estado24=$matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d24=$matrizHorariosCruzados[$dia-1][$turno][$grupoB];
+                                    }
+                                    else {
+                                        $objMSalida->calendariolaboral24_id=null;
+                                        $objMSalida->estado24=null;
+                                        $objMSalida->d24=null;
+                                    }
+                                }break;
+                                case 25:if($objMSalida->estado25 ==null||$objMSalida->estado25 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral25_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado25 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d25 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral25_id = null;
+                                        $objMSalida->estado25 = null;
+                                        $objMSalida->d25 = null;
+                                    }
+                                }break;
+                                case 26:if($objMSalida->estado26 ==null||$objMSalida->estado26 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral26_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado26 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d26 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral26_id = null;
+                                        $objMSalida->estado26 = null;
+                                        $objMSalida->d26 = null;
+                                    }
+                                }break;
+                                case 27:if($objMSalida->estado27 ==null||$objMSalida->estado27 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral27_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado27 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d27 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral27_id = null;
+                                        $objMSalida->estado27 = null;
+                                        $objMSalida->d27 = null;
+                                    }
+                                }break;
+                                case 28:if($objMSalida->estado28 ==null||$objMSalida->estado28 <=1){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral28_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado28 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d28 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral28_id = null;
+                                        $objMSalida->estado28 = null;
+                                        $objMSalida->d28 = null;
+                                    }
+                                }break;
+                                case 29:if($ultimoDia>=29&&($objMSalida->estado29 ==null||$objMSalida->estado29 <=1)){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral29_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado29 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d29 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral29_id = null;
+                                        $objMSalida->estado29 = null;
+                                        $objMSalida->d29 = null;
+                                    }
+                                }break;
+                                case 30:if($ultimoDia>=30&&($objMSalida->estado30 ==null||$objMSalida->estado30 <=1)){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral30_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado30 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d30 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral30_id = null;
+                                        $objMSalida->estado30 = null;
+                                        $objMSalida->d30 = null;
+                                    }
+                                }break;
+                                case 31:if($ultimoDia>=31&&($objMSalida->estado31 ==null||$objMSalida->estado31 <=1)){
+                                    if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][$turno][$grupoB])) {
+                                        $objMSalida->calendariolaboral31_id = $matrizIdCalendariosHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                        $objMSalida->estado31 = $matrizEstados[$dia-1][$turno][$grupoB];
+                                        $objMSalida->d31 = $matrizHorariosCruzados[$dia - 1][$turno][$grupoB];
+                                    }else{
+                                        $objMSalida->calendariolaboral31_id = null;
+                                        $objMSalida->estado31 = null;
+                                        $objMSalida->d31 = null;
+                                    }
+                                }break;
                             }
+                        }
                         if($existeMarcacionCruzadaMixtaInicialEnMes==1){
 
                             if(isset($matrizHorariosCruzados[$dia][1][-1])||isset($matrizHorariosCruzados[$dia-1][1][-1])){
@@ -7870,17 +8527,17 @@ class HorariosymarcacionesController extends ControllerBase
                                         break;
                                     case 2 :
                                         if($objMSalidaAux->estado2 ==null||$objMSalidaAux->estado2 <=1){
-                                        if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])){
-                                            $objMSalidaAux->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][1][-1];
-                                            $objMSalidaAux->estado2=$matrizEstadosCruzados[$dia-1][1][-1];;
-                                            $objMSalidaAux->d2=$matrizHorariosCruzados[$dia-1][1][-1];
-                                        }
-                                        else{
-                                            $objMSalidaAux->calendariolaboral2_id=null;
-                                            $objMSalidaAux->estado2=null;
-                                            $objMSalidaAux->d2=null;
-                                        }
-                                    }break;
+                                            if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])){
+                                                $objMSalidaAux->calendariolaboral2_id=$matrizIdCalendariosHorariosCruzados[$dia-1][1][-1];
+                                                $objMSalidaAux->estado2=$matrizEstadosCruzados[$dia-1][1][-1];;
+                                                $objMSalidaAux->d2=$matrizHorariosCruzados[$dia-1][1][-1];
+                                            }
+                                            else{
+                                                $objMSalidaAux->calendariolaboral2_id=null;
+                                                $objMSalidaAux->estado2=null;
+                                                $objMSalidaAux->d2=null;
+                                            }
+                                        }break;
                                     case 3 :if($objMSalidaAux->estado3 ==null||$objMSalidaAux->estado3 <=1){
                                         if(isset($matrizIdCalendariosHorariosCruzados[$dia-1][1][-1])){
                                             $objMSalidaAux->calendariolaboral3_id=$matrizIdCalendariosHorariosCruzados[$dia-1][1][-1];
@@ -9914,91 +10571,90 @@ class HorariosymarcacionesController extends ControllerBase
                                 }else{
                                     $horaMarcacionSalida=null;
                                 }
-                                    switch($dia){
+                                switch($dia){
 
-                                        case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;
-                                            if($existeMarcacionCruzadaMixtaInicialEnMes==0){
-                                                /**
-                                                 * Cálculos para el control de marcaciones cruzadas en mes previo
-                                                 */
-                                                $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
-                                                if($ctrlMarcacion==3){
-                                                    $objHorario = new Horarioslaborales();
-                                                    $objCalHor = $objHorario->obtenerUltimoIdCalendarioYHorarioCruzadoEnDiaPrevio($idRelaboral,$dia."-".$mes."-".$gestion);
-                                                    if(is_object($objCalHor)){
-                                                        $objMSalida->estado1 = 1;
-                                                        $objMSalida->calendariolaboral1_id = $objCalHor[0]->id_calendariolaboral;
-                                                    }
-                                                }else{
-                                                    if($ctrlMarcacion==0){
-                                                        $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
-                                                        $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];
-                                                        $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB];
-                                                    }else{
-                                                        $resultS= null;
-                                                    }
+                                    case 1 :$objMEntrada->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado1 =1;$objMEntrada->d1 =$horaMarcacionEntrada;
+                                        if($existeMarcacionCruzadaMixtaInicialEnMes==0){
+                                            /**
+                                             * Cálculos para el control de marcaciones cruzadas en mes previo
+                                             */
+                                            $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
+                                            if($ctrlMarcacion==3){
+                                                $objHorario = new Horarioslaborales();
+                                                $objCalHor = $objHorario->obtenerUltimoIdCalendarioYHorarioCruzadoEnDiaPrevio($idRelaboral,$dia."-".$mes."-".$gestion);
+                                                if(is_object($objCalHor)){
+                                                    $objMSalida->estado1 = 1;
+                                                    $objMSalida->calendariolaboral1_id = $objCalHor[0]->id_calendariolaboral;
                                                 }
-                                                if(is_object($resultS)){
-                                                    foreach($resultS as $obs){
-                                                        $horaMarcacionSalida = $obs->hora;
-                                                    }
+                                            }else{
+                                                if($ctrlMarcacion==0){
+                                                    $resultS = $objMS->obtenerMarcacionValida($idRelaboral,0,$fecha,$idHorarioLaboral,1);
+                                                    $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];
+                                                    $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB];
                                                 }else{
-                                                    $horaMarcacionSalida=null;
+                                                    $resultS= null;
                                                 }
+                                            }
+                                            if(is_object($resultS)){
+                                                foreach($resultS as $obs){
+                                                    $horaMarcacionSalida = $obs->hora;
+                                                }
+                                            }else{
+                                                $horaMarcacionSalida=null;
+                                            }
+                                            $objMSalida->d1 =$horaMarcacionSalida;
+                                        }else{
+                                            $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
+
+                                            if($ctrlMarcacion==1||$ctrlMarcacion==0){
+                                                $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB];
+                                                $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];
                                                 $objMSalida->d1 =$horaMarcacionSalida;
                                             }else{
-                                                $ctrlMarcacion = $objM->controlExisteMarcacionMixta($idRelaboral,$fecha);
-
-                                                if($ctrlMarcacion==1||$ctrlMarcacion==0){
-                                                    $objMSalida->calendariolaboral1_id=$matrizIdCalendarios[$dia][$turno][$grupoB];
-                                                    $objMSalida->estado1 =$matrizEstados[$dia][$turno][$grupoB];
-                                                    $objMSalida->d1 =$horaMarcacionSalida;
-                                                }else{
-                                                    $objMSalida->calendariolaboral1_id=null;
-                                                    $objMSalida->estado1=null;
-                                                    $objMSalida->d1 =null;
-                                                }
-
+                                                $objMSalida->calendariolaboral1_id=null;
+                                                $objMSalida->estado1=null;
+                                                $objMSalida->d1 =null;
                                             }
-                                            break;
-                                        case 2 :$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d2 =$horaMarcacionSalida;}break;
-                                        case 3 :$objMEntrada->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado3 =1;$objMEntrada->d3 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado3 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d3 =$horaMarcacionSalida;}break;
-                                        case 4 :$objMEntrada->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado4 =1;$objMEntrada->d4 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado4 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d4 =$horaMarcacionSalida;}break;
-                                        case 5 :$objMEntrada->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado5 =1;$objMEntrada->d5 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado5 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d5 =$horaMarcacionSalida;}break;
-                                        case 6 :$objMEntrada->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado6 =1;$objMEntrada->d6 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado6 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d6 =$horaMarcacionSalida;}break;
-                                        case 7 :$objMEntrada->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado7 =1;$objMEntrada->d7 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado7 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d7 =$horaMarcacionSalida;}break;
-                                        case 8 :$objMEntrada->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado8 =1;$objMEntrada->d8 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado8 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d8 =$horaMarcacionSalida;}break;
-                                        case 9 :$objMEntrada->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado9 =1;$objMEntrada->d9 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado9 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d9 =$horaMarcacionSalida;}break;
-                                        case 10:$objMEntrada->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado10=1;$objMEntrada->d10=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado10=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d10=$horaMarcacionSalida;}break;
-                                        case 11:$objMEntrada->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado11=1;$objMEntrada->d11=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado11=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d11=$horaMarcacionSalida;}break;
-                                        case 12:$objMEntrada->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado12=1;$objMEntrada->d12=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado12=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d12=$horaMarcacionSalida;}break;
-                                        case 13:$objMEntrada->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado13=1;$objMEntrada->d13=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado13=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d13=$horaMarcacionSalida;}break;
-                                        case 14:$objMEntrada->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado14=1;$objMEntrada->d14=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado14=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d14=$horaMarcacionSalida;}break;
-                                        case 15:$objMEntrada->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado15=1;$objMEntrada->d15=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado15=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d15=$horaMarcacionSalida;}break;
-                                        case 16:$objMEntrada->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado16=1;$objMEntrada->d16=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado16=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d16=$horaMarcacionSalida;}break;
-                                        case 17:$objMEntrada->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado17=1;$objMEntrada->d17=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado17=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d17=$horaMarcacionSalida;}break;
-                                        case 18:$objMEntrada->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado18=1;$objMEntrada->d18=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado18=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d18=$horaMarcacionSalida;}break;
-                                        case 19:$objMEntrada->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado19=1;$objMEntrada->d19=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado19=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d19=$horaMarcacionSalida;}break;
-                                        case 20:$objMEntrada->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado20=1;$objMEntrada->d20=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado20=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d20=$horaMarcacionSalida;}break;
-                                        case 21:$objMEntrada->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado21=1;$objMEntrada->d21=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado21=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d21=$horaMarcacionSalida;}break;
-                                        case 22:$objMEntrada->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado22=1;$objMEntrada->d22=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado22=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d22=$horaMarcacionSalida;}break;
-                                        case 23:$objMEntrada->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado23=1;$objMEntrada->d23=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado23=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d23=$horaMarcacionSalida;}break;
-                                        case 24:$objMEntrada->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado24=1;$objMEntrada->d24=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado24=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d24=$horaMarcacionSalida;}break;
-                                        case 25:$objMEntrada->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado25=1;$objMEntrada->d25=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado25=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d25=$horaMarcacionSalida;}break;
-                                        case 26:$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d26=$horaMarcacionSalida;}break;
-                                        case 27:$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d27=$horaMarcacionSalida;}break;
-                                        case 28:$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d28=$horaMarcacionSalida;}break;
-                                        case 29:if($ultimoDia>=29){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$horaMarcacionSalida;}}break;
-                                        case 30:if($ultimoDia>=30){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$horaMarcacionSalida;}}break;
-                                        case 31:if($ultimoDia>=31){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$horaMarcacionSalida;}}break;
-                                    }
+
+                                        }
+                                        break;
+                                    case 2 :$objMEntrada->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado2 =1;$objMEntrada->d2 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral2_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado2 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d2 =$horaMarcacionSalida;}break;
+                                    case 3 :$objMEntrada->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado3 =1;$objMEntrada->d3 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral3_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado3 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d3 =$horaMarcacionSalida;}break;
+                                    case 4 :$objMEntrada->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado4 =1;$objMEntrada->d4 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral4_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado4 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d4 =$horaMarcacionSalida;}break;
+                                    case 5 :$objMEntrada->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado5 =1;$objMEntrada->d5 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral5_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado5 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d5 =$horaMarcacionSalida;}break;
+                                    case 6 :$objMEntrada->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado6 =1;$objMEntrada->d6 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral6_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado6 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d6 =$horaMarcacionSalida;}break;
+                                    case 7 :$objMEntrada->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado7 =1;$objMEntrada->d7 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral7_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado7 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d7 =$horaMarcacionSalida;}break;
+                                    case 8 :$objMEntrada->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado8 =1;$objMEntrada->d8 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral8_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado8 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d8 =$horaMarcacionSalida;}break;
+                                    case 9 :$objMEntrada->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoA]; $objMEntrada->estado9 =1;$objMEntrada->d9 =$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral9_id=$matrizIdCalendarios[$dia][$turno][$grupoB]; $objMSalida->estado9 =$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d9 =$horaMarcacionSalida;}break;
+                                    case 10:$objMEntrada->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado10=1;$objMEntrada->d10=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral10_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado10=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d10=$horaMarcacionSalida;}break;
+                                    case 11:$objMEntrada->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado11=1;$objMEntrada->d11=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral11_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado11=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d11=$horaMarcacionSalida;}break;
+                                    case 12:$objMEntrada->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado12=1;$objMEntrada->d12=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral12_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado12=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d12=$horaMarcacionSalida;}break;
+                                    case 13:$objMEntrada->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado13=1;$objMEntrada->d13=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral13_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado13=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d13=$horaMarcacionSalida;}break;
+                                    case 14:$objMEntrada->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado14=1;$objMEntrada->d14=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral14_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado14=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d14=$horaMarcacionSalida;}break;
+                                    case 15:$objMEntrada->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado15=1;$objMEntrada->d15=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral15_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado15=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d15=$horaMarcacionSalida;}break;
+                                    case 16:$objMEntrada->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado16=1;$objMEntrada->d16=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral16_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado16=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d16=$horaMarcacionSalida;}break;
+                                    case 17:$objMEntrada->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado17=1;$objMEntrada->d17=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral17_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado17=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d17=$horaMarcacionSalida;}break;
+                                    case 18:$objMEntrada->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado18=1;$objMEntrada->d18=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral18_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado18=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d18=$horaMarcacionSalida;}break;
+                                    case 19:$objMEntrada->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado19=1;$objMEntrada->d19=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral19_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado19=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d19=$horaMarcacionSalida;}break;
+                                    case 20:$objMEntrada->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado20=1;$objMEntrada->d20=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral20_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado20=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d20=$horaMarcacionSalida;}break;
+                                    case 21:$objMEntrada->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado21=1;$objMEntrada->d21=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral21_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado21=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d21=$horaMarcacionSalida;}break;
+                                    case 22:$objMEntrada->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado22=1;$objMEntrada->d22=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral22_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado22=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d22=$horaMarcacionSalida;}break;
+                                    case 23:$objMEntrada->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado23=1;$objMEntrada->d23=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral23_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado23=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d23=$horaMarcacionSalida;}break;
+                                    case 24:$objMEntrada->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado24=1;$objMEntrada->d24=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral24_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado24=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d24=$horaMarcacionSalida;}break;
+                                    case 25:$objMEntrada->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado25=1;$objMEntrada->d25=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral25_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado25=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d25=$horaMarcacionSalida;}break;
+                                    case 26:$objMEntrada->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado26=1;$objMEntrada->d26=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral26_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado26=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d26=$horaMarcacionSalida;}break;
+                                    case 27:$objMEntrada->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado27=1;$objMEntrada->d27=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral27_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado27=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d27=$horaMarcacionSalida;}break;
+                                    case 28:$objMEntrada->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado28=1;$objMEntrada->d28=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral28_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado28=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d28=$horaMarcacionSalida;}break;
+                                    case 29:if($ultimoDia>=29){$objMEntrada->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado29=1;$objMEntrada->d29=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral29_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado29=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d29=$horaMarcacionSalida;}}break;
+                                    case 30:if($ultimoDia>=30){$objMEntrada->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado30=1;$objMEntrada->d30=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral30_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado30=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d30=$horaMarcacionSalida;}}break;
+                                    case 31:if($ultimoDia>=31){$objMEntrada->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoA];$objMEntrada->estado31=1;$objMEntrada->d31=$horaMarcacionEntrada;if($matrizIdCalendarios[$dia][$turno][$grupoB]!=null){$objMSalida->calendariolaboral31_id=$matrizIdCalendarios[$dia][$turno][$grupoB];$objMSalida->estado31=$matrizEstados[$dia][$turno][$grupoB];$objMSalida->d31=$horaMarcacionSalida;}}break;
+                                }
                             }
                         }
                         /**
                          * En caso de que en el mes exista al menos un marcación cruzada Mixta Inicial es necesario crear un registro adicional al ya existente
                          */
                         if($existeMarcacionCruzadaMixtaInicialEnMes==0){
-                            $objMS = new Marcaciones();
                             #region Cálculo de las marcaciones para las salidas con cruce
                             if(isset($matrizIdCalendariosHorariosCruzados[$dia][$turno][$grupoB])||isset($matrizHorariosCruzados[$dia-1][$turno][$grupoB])){
                                 //$diaCruzado = $dia-1;
@@ -11027,5 +11683,15 @@ class HorariosymarcacionesController extends ControllerBase
         header('Content-Disposition: attachement; filename="' . $output_file_name . '";');
         /** Enviar el archivo al navegador para descarga */
         fpassthru($temp_memory);
+    }
+    /**
+     * Función para sumar y restar fechas.
+     * @param $fecha
+     * @param $dia
+     * @return bool|string
+     */
+    function restaSumaFecha($fecha,$dia)
+    {   list($day,$mon,$year) = explode('-',$fecha);
+        return date('d-m-Y',mktime(0,0,0,$mon,$day+$dia,$year));
     }
 } 

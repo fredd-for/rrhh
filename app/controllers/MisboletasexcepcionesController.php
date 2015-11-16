@@ -1014,66 +1014,87 @@ class MisboletasexcepcionesController extends ControllerBase {
                     $cuerpoCopia  .= '</table></td></tr></table></div></br><div id="divPieMensaje"></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>'.$mensajePie.'</div>';
                     $cuerpo .= '</body></html>';
                     if ($idRelaboralDestinatarioPrincipal > 0) {
-
-                        $mail = new phpmaileroasis();
-                        $mail->IsSMTP();
-                        $mail->SMTPAuth = true;
-                        $mail->SMTPSecure = "ssl";
-                        $mail->Host = "correo.miteleferico.bo";
-                        $mail->Port = 465;
-                        $mail->Username = "jloza@miteleferico.bo";
-                        $mail->Password = "javialex.";
-                        $mail->From = "jloza@miteleferico.bo";
-                        $mail->FromName = "Sistema de Recursos Humanos";
-                        $operacionSolicitada=str_replace("&Oacute;","Ó",$operacionSolicitada);
-                        $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada." de Excepción");
-                        $mail->MsgHTML($cuerpo);
-                        $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
-                        $mail->IsHTML(true);
-                        if ($mail->Send()) {
-                            /**
-                             * En caso de haberse enviado correctamente se envía una copia, pero sin considerar las opciones de aprobación
-                             */
-                            $mailCopia = new phpmaileroasis();
-                            $mailCopia->IsSMTP();
-                            $mailCopia->SMTPAuth = true;
-                            $mailCopia->SMTPSecure = "ssl";
-                            $mailCopia->Host = "correo.miteleferico.bo";
-                            $mailCopia->Port = 465;
-                            $mailCopia->Username = "jloza@miteleferico.bo";
-                            $mailCopia->Password = "javialex.";
-                            $mailCopia->From = "jloza@miteleferico.bo";
-                            $mailCopia->FromName = "Sistema de Recursos Humanos";
-                            $mailCopia->Subject = utf8_decode("Copia de Solicitud ".$operacionSolicitada." de Excepción");
-                            $mailCopia->MsgHTML($cuerpoCopia);
-                            $mailCopia->AddAddress($contactoRemitente->e_mail_inst, $relaboralSolicitante->nombres);
-                            /**
-                             * En caso de haberse seleccionado el envío al inmediato superior, se envía una copia
-                             */
-                            if($copiaDestinatarioSecundario==1&&$idRelaboralDestinatarioSecundario>0&&is_object($contactoDestinatarioSecundario)){
-                                $mailCopia->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
-                            }
-                            if($mailCopia->Send()){
-
-                                if(!is_object($contactoDestinatarioSecundario)&&is_object($relaboralDestinatarioSecundario)){
-                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas,'.' sin embargo, hubo problemas en el env&oacute; de la copia al destinatario secundario.','estado'=>$controlexcepcion->controlexcepcion_estado);
-                                }else{
-                                    $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                        $parUser = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'USUARIO' AND estado=1 AND baja_logica=1"));
+                        $userMail = '';
+                        if(is_object($parUser)){
+                            $userMail = $parUser->valor_1;
+                        }
+                        $parPass = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'PASSWORD' AND estado=1 AND baja_logica=1"));
+                        $passMail = '';
+                        if(is_object($parPass)){
+                            $passMail = $parPass->valor_1;
+                        }
+                        $parHost = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'HOST' AND estado=1 AND baja_logica=1"));
+                        $hostMail = '';
+                        if(is_object($parHost)){
+                            $hostMail = $parHost->valor_1;
+                        }
+                        $parPort = parametros::findFirst(array("parametro LIKE 'USUARIO_CORREO_RRHH' AND nivel LIKE 'PORT' AND estado=1 AND baja_logica=1"));
+                        $portMail = '';
+                        if(is_object($parPort)){
+                            $portMail = $parPort->valor_1;
+                        }
+                        if($userMail!=''&&$passMail!=''&&$hostMail!=''&&$portMail!=''){
+                            $mail = new phpmaileroasis();
+                            $mail->IsSMTP();
+                            $mail->SMTPAuth = true;
+                            $mail->SMTPSecure = "ssl";
+                            $mail->Host = $hostMail;
+                            $mail->Port = $portMail;
+                            $mail->Username = $userMail;
+                            $mail->Password = $passMail;
+                            $mail->From = $userMail;
+                            $mail->FromName = "Sistema de Recursos Humanos";
+                            $operacionSolicitada=str_replace("&Oacute;","Ó",$operacionSolicitada);
+                            $mail->Subject = utf8_decode("Solicitud ".$operacionSolicitada." de Excepción");
+                            $mail->MsgHTML($cuerpo);
+                            $mail->AddAddress($contactoDestinatarioPrincipal->e_mail_inst, $relaboralDestinatarioPrincipal->nombres);
+                            $mail->IsHTML(true);
+                            if ($mail->Send()) {
+                                /**
+                                 * En caso de haberse enviado correctamente se envía una copia, pero sin considerar las opciones de aprobación
+                                 */
+                                $mailCopia = new phpmaileroasis();
+                                $mailCopia->IsSMTP();
+                                $mailCopia->SMTPAuth = true;
+                                $mailCopia->SMTPSecure = "ssl";
+                                $mailCopia->Host = $hostMail;
+                                $mailCopia->Port = $portMail;
+                                $mailCopia->Username = $userMail;
+                                $mailCopia->Password = $passMail;
+                                $mailCopia->From = $userMail;
+                                $mailCopia->FromName = "Sistema de Recursos Humanos";
+                                $mailCopia->Subject = utf8_decode("Copia de Solicitud ".$operacionSolicitada." de Excepción");
+                                $mailCopia->MsgHTML($cuerpoCopia);
+                                $mailCopia->AddAddress($contactoRemitente->e_mail_inst, $relaboralSolicitante->nombres);
+                                /**
+                                 * En caso de haberse seleccionado el envío al inmediato superior, se envía una copia
+                                 */
+                                if($copiaDestinatarioSecundario==1&&$idRelaboralDestinatarioSecundario>0&&is_object($contactoDestinatarioSecundario)){
+                                    $mailCopia->AddCC($contactoDestinatarioSecundario->e_mail_inst, $relaboralDestinatarioSecundario->nombres);
                                 }
-                            }else $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
-                        } else {
-                            #region Error en el envío
-                            $ce = Controlexcepciones::findFirstById($idControlExcepcion);
-                            $ce->user_mod_id = $user_mod_id;
-                            $ce->fecha_mod = $hoy;
-                            $ce->estado=$estadoOperacionSolicitadaError;
-                            if($ce->save()){
-                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Se volvera a reenviar en 5 minutos.','estado'=>-3);
-                            }else
-                            {
-                                $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Consulte con el Administrador.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                if($mailCopia->Send()){
+
+                                    if(!is_object($contactoDestinatarioSecundario)&&is_object($relaboralDestinatarioSecundario)){
+                                        $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas,'.' sin embargo, hubo problemas en el env&oacute; de la copia al destinatario secundario.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                    }else{
+                                        $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                    }
+                                }else $msj = array('result' => 1, 'msj' => 'Envio exitoso de solicitud a las cuentas:','estado'=>$controlexcepcion->controlexcepcion_estado);
+                            } else {
+                                #region Error en el envío
+                                $ce = Controlexcepciones::findFirstById($idControlExcepcion);
+                                $ce->user_mod_id = $user_mod_id;
+                                $ce->fecha_mod = $hoy;
+                                $ce->estado=$estadoOperacionSolicitadaError;
+                                if($ce->save()){
+                                    $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Se volvera a reenviar en 5 minutos.','estado'=>-3);
+                                }else
+                                {
+                                    $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a inexistencia de la cuenta del destinatario o error en el Servidor de Correo. Consulte con el Administrador.','estado'=>$controlexcepcion->controlexcepcion_estado);
+                                }
+                                #endregion Error en el envío
                             }
-                            #endregion Error en el envío
                         }
                     } else {
                         $msj = array('result' => 0, 'msj' => 'No se pudo enviar el correo debido a que no existe la cuenta del destinatario principal.','estado'=>$controlexcepcion->controlexcepcion_estado);
