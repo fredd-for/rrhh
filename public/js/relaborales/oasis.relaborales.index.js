@@ -16,6 +16,15 @@ $().ready(function () {
     $('#jqxTabs').jqxTabs('disableAt', 3);
     $('#jqxTabs').jqxTabs('disableAt', 4);
     $('#jqxTabs').jqxTabs('disableAt', 5);
+    /**
+     * Definición de la ventana donde se ve el historial de registros de relación laboral
+     */
+    $('#HistorialSplitter').jqxSplitter({
+        theme: 'oasis',
+        width: '100%',
+        height: 480,
+        panels: [{size: '8%'}, {size: '92%'}]
+    });
 
     definirGrillaParaListaRelaborales();
     habilitarCamposParaNuevoRegistroDeRelacionLaboral();
@@ -250,15 +259,6 @@ $().ready(function () {
     });
     $('#btnDesagruparTodoMovilidad').click(function () {
         $('#jqxgridmovilidad').jqxGrid('cleargroups');
-    });
-    /**
-     * Definición de la ventana donde se ve el historial de registros de relación laboral
-     */
-    $('#HistorialSplitter').jqxSplitter({
-        theme: 'oasis',
-        width: '100%',
-        height: 480,
-        panels: [{size: '8%'}, {size: '92%'}]
     });
 
     /*

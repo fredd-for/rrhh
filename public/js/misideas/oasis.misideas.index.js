@@ -12,6 +12,10 @@ $().ready(function () {
     $('#divTabIdeas').jqxTabs('disableAt', 1);
     $('#divTabIdeas').jqxTabs('disableAt', 2);
     $('#divTabIdeas').jqxTabs('disableAt', 3);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $('#tabFichaPersonalIdeas').jqxTabs({
         theme: 'oasis',
         width: '100%',
@@ -21,11 +25,27 @@ $().ready(function () {
     var dataRecordMain = getOneRelaboralById($("#hdnIdRelaboralUsuario").val());
     cargarDatosIdeas(dataRecordMain);
 
+<<<<<<< HEAD
+    $("#liIdeas").on("click",function () {
+=======
     $("#liExcept").on("click",function () {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#divTabIdeas').jqxTabs('enableAt', 0);
         $('#divTabIdeas').jqxTabs('disableAt', 1);
         $('#divTabIdeas').jqxTabs('disableAt', 2);
         $('#divTabIdeas').jqxTabs('disableAt', 3);
+<<<<<<< HEAD
+
+        $('#divTabIdeas').jqxTabs({selectedItem: 0});
+    });
+    /**
+     * Control del evento de solicitud de guardar el registro de la Idea de Negocio.
+     */
+    $("#btnGuardarIdeaNew").on("click",function () {
+        var ok = validaFormularioMisIdeas(1)
+        if (ok) {
+            var okk = guardaMisIdeas(1);
+=======
         $('#divTabIdeas').jqxTabs({selectedItem: 0});
     });
     $("#liTurnAndExcept").on("click",function () {
@@ -43,29 +63,55 @@ $().ready(function () {
         var ok = validaFormularioControlExcepciones(1)
         if (ok) {
             var okk = guardaMisControlExcepciones(1);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             if (okk) {
                 $('#divTabIdeas').jqxTabs('enableAt', 0);
                 $('#divTabIdeas').jqxTabs('disableAt', 1);
                 $('#divTabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
+                $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
                 $('#divTabIdeas').jqxTabs('enableAt', 3);
                 $('#divTabIdeas').jqxTabs('enableAt', 4);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 $('#divTabIdeas').jqxTabs({selectedItem: 0});
             }
         }
     });
+<<<<<<< HEAD
+    /**
+     * Control del evento de solicitud de guardar la modificación del registro de Idea de Negocio.
+     */
+    $("#btnGuardarIdeaEdit").on("click",function () {
+        var ok = validaFormularioMisIdeas(2);
+        if (ok) {
+            var okk = guardaMisIdeas(2);
+=======
     $("#btnGuardarControlExcepcionEdit").on("click",function () {
         var ok = validaFormularioControlExcepciones(2);
         if (ok) {
             var okk = guardaMisControlExcepciones(2);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             if (okk) {
                 $('#divTabIdeas').jqxTabs('enableAt', 0);
                 $('#divTabIdeas').jqxTabs('disableAt', 1);
                 $('#divTabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
+                $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
                 $('#divTabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 $('#divTabIdeas').jqxTabs({selectedItem: 0});
             }
         }
     });
+<<<<<<< HEAD
+    $("#btnCancelarIdeaNew,#btnCancelarIdeaEdit,#btnCancelarIdeaView,#btnVolverAlListadoPrincipalDesdeEdit,#btnVolverAlListadoPrincipalDesdeNew,#btnVolverAlListadoPrincipalDesdeView").click(function () {
+        $('#divTabIdeas').jqxTabs('enableAt', 0);
+        $('#divTabIdeas').jqxTabs('disableAt', 1);
+        $('#divTabIdeas').jqxTabs('disableAt', 2);
+        $('#divTabIdeas').jqxTabs('disableAt', 3);
+=======
     $("#btnEnviarSolicitudExcepcion").on("click",function () {
         if($("#hdnIntermediacion").val()>=0){
             var idRelSolicitante = $("#hdnIdRelSolicitante").val();
@@ -156,6 +202,7 @@ $().ready(function () {
         $('#divTabIdeas').jqxTabs('disableAt', 1);
         $('#divTabIdeas').jqxTabs('disableAt', 2);
         $('#divTabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#divTabIdeas').jqxTabs({selectedItem: 0});
     });
 
@@ -278,7 +325,10 @@ function OperaEvento(evento) {
         $('#tabIdeas').jqxTabs('enableAt', 0);
         $('#tabIdeas').jqxTabs('disableAt', 1);
         $('#tabIdeas').jqxTabs('disableAt', 2);
+<<<<<<< HEAD
+=======
         $('#tabIdeas').jqxTabs('enableAt', 3);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $('#tabIdeas').jqxTabs({selectedItem: 0});
 
         $("#popupWindowCargo").jqxWindow('close');
@@ -359,10 +409,17 @@ function fechaHoy(separador, format) {
  * @author JLM
  */
 var cellclass = function (row, columnfield, value) {
+<<<<<<< HEAD
+    if (value == 'CONCLUIDO') {
+        return 'verde';
+    }
+    else if (value == 'EN ELABORACION'||value == 'EN ELABORACI&Oacute;N') {
+=======
     if (value == 'ACTIVO') {
         return 'verde';
     }
     else if (value == 'EN PROCESO') {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         return 'amarillo';
     }
     else if (value == 'PASIVO') {
@@ -1415,7 +1472,11 @@ function cargarDatosIdeas(dataRecordMain){
     cargarPersonasContactosIdeas(2,dataRecordMain.id_persona);
     $("#hdnIdRelaboralVistaTurnAndExcept").val(dataRecordMain.id_relaboral);
     $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
+<<<<<<< HEAD
+    definirGrillaParaListaMisIdeasPorPersona(dataRecordMain);
+=======
     definirGrillaParaListaIdeasPorPersona(dataRecordMain);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 }
 /**
  * Función para mostrar el calendario con las excepciones aprobadas por persona.

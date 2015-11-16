@@ -7,6 +7,6 @@
 *   Fecha Creación:  05-08-2015
 */
 
-class Pagosref  extends \Phalcon\Mvc\Model{
+class Pagosref extends \Phalcon\Mvc\Model{
 
 } 

@@ -3,13 +3,21 @@
  *   Empresa Estatal de Transporte por Cable "Mi Teleférico"
  *   Versión:  1.0.0
  *   Usuario Creador: Lic. Javier Loza
+<<<<<<< HEAD
+ *   Fecha Creación:  03-11-2015
+=======
  *   Fecha Creación:  03-03-2015
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
  */
 /**
  * Función para la definición de la grilla que contiene la lista de registros de control de excepciones.
  * @param dataRecord
  */
+<<<<<<< HEAD
+function definirGrillaParaListaMisIdeasPorPersona(dataRecordMain) {
+=======
 function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     var idRelaboral = dataRecordMain.id_relaboral;
     var genero = dataRecordMain.genero;
     var source =
@@ -18,6 +26,46 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
         datafields: [
             {name: 'nro_row', type: 'integer'},
             {name: 'id', type: 'integer'},
+<<<<<<< HEAD
+            {name: 'padre_id', type: 'integer'},
+            {name: 'relaboral_id', type: 'integer'},
+            {name: 'rubro_id', type: 'integer'},
+            {name: 'tipo_negocio', type: 'integer'},
+            {name: 'tipo_negocio_descripcion', type: 'string'},
+            {name: 'gestion', type: 'intege'},
+            {name: 'mes', type: 'integer'},
+            {name: 'mes_nombre', type: 'string'},
+            {name: 'numero', type: 'integer'},
+            {name: 'titulo', type: 'string'},
+            {name: 'resumen', type: 'string'},
+            {name: 'descripcion', type: 'string'},
+            {name: 'inversion', type: 'string'},
+            {name: 'beneficios', type: 'string'},
+            {name: 'puntuacion_a', type: 'numeric'},
+            {name: 'puntuacion_a_descripcion', type: 'string'},
+            {name: 'puntuacion_b', type: 'numeric'},
+            {name: 'puntuacion_b_descripcion', type: 'string'},
+            {name: 'puntuacion_c', type: 'numeric'},
+            {name: 'puntuacion_c_descripcion', type: 'string'},
+            {name: 'puntuacion_d', type: 'numeric'},
+            {name: 'puntuacion_d_descripcion', type: 'string'},
+            {name: 'puntuacion_e', type: 'numeric'},
+            {name: 'puntuacion_e_descripcion', type: 'string'},
+            {name: 'observacion', type: 'string'},
+            {name: 'estado', type: 'string'},
+            {name: 'estado_descripcion', type: 'string'},
+            {name: 'agrupador', type: 'integer'},
+            {name: 'user_reg_id', type: 'integer'},
+            {name: 'user_reg', type: 'string'},
+            {name: 'pseudonimo', type: 'string'},
+            {name: 'fecha_reg', type: 'date'},
+            {name: 'user_mod_id', type: 'integer'},
+            {name: 'user_mod', type: 'string'},
+            {name: 'fecha_mod', type: 'date'}
+        ],
+        url: '/misideas/list?id='+idRelaboral+'&gestion=0',
+        cache: false
+=======
             {name: 'fecha_ini', type: 'date'},
             {name: 'hora_ini', type: 'time'},
             {name: 'fecha_fin', type: 'date'},
@@ -85,6 +133,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
             // Actualiza la grilla y reenvia los datos actuales al servidor
             $("#divGridIdeas").jqxGrid('updatebounddata', 'sort');
         }
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeTolerancias();
@@ -115,6 +164,47 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
+<<<<<<< HEAD
+                    container.append("<button title='Actualizar Grilla' id='refreshidearowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-refresh fa-2x text-info' title='Refrescar Grilla.'/></i> Actualizar</button>");
+                    container.append("<button title='Registrar nueva Idea de Negocio.' id='addidearowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i> Nuevo</button>");
+                    container.append("<button title='Modificar registro de Idea de Negocio.' id='updateidearowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/> Modificar</button>");
+                    container.append("<button title='Concluir registro de Idea de Negocio.' id='finishidearowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Concluir registro'></i> Concluir</button>");
+                    container.append("<button title='Ver registro de Idea de Negocio.' id='viewidearowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-search-plus fa-2x text-info' title='Modificar registro.'/> Ver</button>");
+                    /*container.append("<button title='Imprimir formulario de Idea de Negocio.' id='printexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-print fa-2x text-info' title='Imprimir Control de Excepci&oacute;n.'/></i> Imprimir</button>");*/
+                    container.append("<button title='Dar de baja registro de Idea de Negocio.' id='deleteidearowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-times-circle-o fa-2x text-info' title='Dar de baja al registro.'/></i> Eliminar</button>");
+
+                    $("#refreshidearowbutton").jqxButton();
+                    $("#addidearowbutton").jqxButton();
+                    $("#updateidearowbutton").jqxButton();
+                    $("#finishidearowbutton").jqxButton();
+                    $("#viewidearowbutton").jqxButton();
+                    /*$("#printexceptrowbutton").jqxButton();*/
+                    $("#deleteidearowbutton").jqxButton();
+
+                    $("#hdnIdRelaboralNew").val(0);
+                    $("#hdnIdRelaboralEdit").val(0);
+                    $("#hdnIdRelaboralView").val(0);
+                    $("#hdnIdIdeaEdit").val(0);
+                    $("#hdnIdIdeaView").val(0);
+
+                    $("#refreshidearowbutton").off();
+                    $("#refreshidearowbutton").on('click', function () {
+                        $("#divGridIdeas").jqxGrid("updatebounddata");
+                    });
+                    /* Registrar nueva excepción */
+                    $("#addidearowbutton").off();
+                    $("#addidearowbutton").on('click', function () {
+                        inicializarFormularioMisIdeasNewEditView(1,idRelaboral,0,0,0,"","","","","",0,0,0,0,0,"");
+                        $("#hdnIdRelaboralNew").val(idRelaboral);
+                        $('#divTabIdeas').jqxTabs('enableAt', 1);
+                        $('#divTabIdeas').jqxTabs('disableAt', 2);
+                        $('#divTabIdeas').jqxTabs({selectedItem: 1});
+                        $("#txtTituloNew").focus();
+                    });
+                    /* Modificar registro.*/
+                    $("#updateidearowbutton").off();
+                    $("#updateidearowbutton").on('click', function () {
+=======
                     container.append("<button title='Actualizar Grilla' id='refreshcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-refresh fa-2x text-info' title='Refrescar Grilla.'/></i> Actualizar</button>");
                     container.append("<button title='Registrar nuevo control de excepci&oacute;n.' id='addcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i> Nuevo</button>");
                     container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/> Modificar</button>");
@@ -161,10 +251,31 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                     /* Modificar registro.*/
                     $("#updateexceptrowbutton").off();
                     $("#updateexceptrowbutton").on('click', function () {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         var selectedrowindex = $("#divGridIdeas").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridIdeas').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
+<<<<<<< HEAD
+                                $("#hdnIdIdeaEdit").val(dataRecord.id);
+                                /**
+                                 * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
+                                 */
+                                if (dataRecord.estado == 1) {
+
+                                    $("#hdnIdRelaboralEdit").val(idRelaboral);
+                                    limpiarMensajesErrorPorValidacionIdeas(2);
+                                    inicializarFormularioMisIdeasNewEditView(2,idRelaboral,dataRecord.id,dataRecord.gestion,dataRecord.mes,dataRecord.tipo_negocio,dataRecord.titulo,dataRecord.resumen,dataRecord.descripcion,dataRecord.inversion,genero,dataRecord.beneficios,dataRecord.puntuacion_a,dataRecord.puntuacion_b,dataRecord.puntuacion_c,dataRecord.puntuacion_d,dataRecord.puntuacion_e,dataRecord.observacion);
+                                    $("#txtTituloEdit").focus();
+                                    $('#divTabIdeas').jqxTabs('enableAt', 0);
+                                    $('#divTabIdeas').jqxTabs('disableAt', 1);
+                                    $('#divTabIdeas').jqxTabs('disableAt', 2);
+                                    $('#divTabIdeas').jqxTabs('enableAt', 2);
+
+                                    $('#divTabIdeas').jqxTabs({selectedItem: 2});
+                                } else {
+                                    var msje = "Debe seleccionar un registro en estado EN ELABORACION necesariamente.";
+=======
                                 $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
                                 /**
                                  * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
@@ -192,6 +303,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
 
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado EN ELABORACI&Oacute;N necesariamente.";
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -204,13 +316,27 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
+<<<<<<< HEAD
+                    /* Concluir registro.*/
+                    $("#finishidearowbutton").off();
+                    $("#finishidearowbutton").on('click', function () {
+=======
                     /*Concluir Elaboración.*/
                     $("#sendexceptrowbutton").off();
                     $("#sendexceptrowbutton").on('click', function () {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         var selectedrowindex = $("#divGridIdeas").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridIdeas').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
+<<<<<<< HEAD
+                                if (dataRecord.estado == 1) {
+                                    if (confirm("¿Esta seguro de concluir este registro? Ya no podrá realizar modificaciones sobre el registro.")) {
+                                        concluirRegistroDeIdeaDeNegocio(dataRecord.id);
+                                    }
+                                } else {
+                                    var msje = "Debe seleccionar un registro con estado EN ELABORACION para posibilitar la conclusi&oacute;n del registro";
+=======
                                 if (dataRecord.controlexcepcion_estado == 1||dataRecord.controlexcepcion_estado == 2
                                     //||dataRecord.controlexcepcion_estado == 3||dataRecord.controlexcepcion_estado == 4||dataRecord.controlexcepcion_estado == 5
                                     ||dataRecord.controlexcepcion_estado == -3||dataRecord.controlexcepcion_estado == -4
@@ -251,6 +377,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                                     }
                                 } else {
                                     var msje = "Debe seleccionar un registro con estado EN ELABORACI&Oacute;N, ELABORADO o estar en espera de reenvio debido ERROR EN LA SOLICITUD para posibilitar la aprobaci&oacute;n del registro";
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -263,7 +390,11 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
+<<<<<<< HEAD
+                    /* Imprimir de baja un registro.*/
+=======
                     /* Dar de baja un registro.*/
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                     $("#printexceptrowbutton").off();
                     $("#printexceptrowbutton").on('click', function () {
                         var selectedrowindex = $("#divGridIdeas").jqxGrid('getselectedrowindex');
@@ -296,15 +427,69 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
+<<<<<<< HEAD
+                    /* Ver registro.*/
+                    $("#viewidearowbutton").off();
+                    $("#viewidearowbutton").on('click', function () {
+                        var selectedrowindex = $("#divGridIdeas").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridIdeas').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                $("#hdnIdIdeaView").val(dataRecord.id);
+                                /**
+                                 * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
+                                 */
+                                if (dataRecord.estado >= 1) {
+
+                                    $("#hdnIdRelaboralView").val(idRelaboral);
+                                    limpiarMensajesErrorPorValidacionIdeas(3);
+                                    inicializarFormularioMisIdeasNewEditView(3,idRelaboral,dataRecord.id,dataRecord.gestion,dataRecord.mes,dataRecord.tipo_negocio,dataRecord.titulo,dataRecord.resumen,dataRecord.descripcion,dataRecord.inversion,genero,dataRecord.beneficios,dataRecord.puntuacion_a,dataRecord.puntuacion_b,dataRecord.puntuacion_c,dataRecord.puntuacion_d,dataRecord.puntuacion_e,dataRecord.observacion);
+                                    $("#lstGestionView").prop("disabled","disabled");
+                                    $("#lstMesView").prop("disabled","disabled");
+                                    $("#lstTiposDeNegocioView").prop("disabled","disabled");
+                                    $('#divTabIdeas').jqxTabs('enableAt', 0);
+                                    $('#divTabIdeas').jqxTabs('disableAt', 1);
+                                    $('#divTabIdeas').jqxTabs('disableAt', 2);
+                                    $('#divTabIdeas').jqxTabs('enableAt', 3);
+
+                                    $('#divTabIdeas').jqxTabs({selectedItem: 3});
+                                } else {
+                                    var msje = "Debe seleccionar un registro en estado EN ELABORACION necesariamente.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
+                            }
+                        } else {
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                    });
+                    /* Dar de baja un registro.*/
+                    $("#deleteidearowbutton").off();
+                    $("#deleteidearowbutton").on('click', function () {
+=======
 
                     /* Dar de baja un registro.*/
                     $("#deleteexceptrowbutton").off();
                     $("#deleteexceptrowbutton").on('click', function () {
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         var selectedrowindex = $("#divGridIdeas").jqxGrid('getselectedrowindex');
                         if (selectedrowindex >= 0) {
                             var dataRecord = $('#divGridIdeas').jqxGrid('getrowdata', selectedrowindex);
                             if (dataRecord != undefined) {
                                 /*
+<<<<<<< HEAD
+                                 *  Para dar de baja un registro, este debe estar inicialmente en estado EN ELABORACION, de otro modo no es posible
+                                 */
+                                if (dataRecord.estado == 1) {
+                                    if (confirm("¿Esta seguro de dar de baja registro de Idea de Negocio?"))
+                                        darDeBajaIdeaDeNegocio(dataRecord.id);
+                                } else {
+                                    var msje = "Para dar de baja un registro, este debe estar en estado EN ELABORACI&Oacute;N necesariamente.";
+=======
                                  *  Para dar de baja un registro, este debe estar inicialmente en estado EN PROCESO, de otro modo no es posible
                                  */
                                 if (dataRecord.controlexcepcion_estado == 1||dataRecord.controlexcepcion_estado == 2) {
@@ -319,6 +504,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                                         }
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado ELABORADO o en ELABORACI&Oacute;N necesariamente.";
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -331,6 +517,8 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                             $("#divMsjeNotificacionError").jqxNotification("open");
                         }
                     });
+<<<<<<< HEAD
+=======
                     $("#turnexceptrowbutton").off();
                     $("#turnexceptrowbutton").on("click",function(){
                             $('#divTabIdeas').jqxTabs('enableAt', 0);
@@ -365,6 +553,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                             var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignacionesPersonales(dataRecordMain,idRelaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
                             sumarTotalHorasPorSemana(arrFechasPorSemana);
                     })
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 },
                 columns: [
                     {
@@ -379,50 +568,88 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                     {
                      text: 'Estado',
                      filtertype: 'checkedlist',
+<<<<<<< HEAD
+                     datafield: 'estado_descripcion',
+                     width: 130,
+=======
                      datafield: 'controlexcepcion_estado_descripcion',
                      width: 90,
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                      cellsalign: 'center',
                      align: 'center',
                      hidden: false,
                      cellclassname: cellclass
                      },
                     {
+<<<<<<< HEAD
+                        text: 'Tipo Negocio',
+                        filtertype: 'checkedlist',
+                        datafield: 'tipo_negocio_descripcion',
+=======
                         text: 'Tipo Excepci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'tipo_excepcion',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         width: 100,
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Gesti&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'gestion',
+                        width: 50,
+                        cellsalign: 'center',
+=======
                         text: 'Excepci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'excepcion',
                         width: 200,
                         cellsalign: 'justify',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         align: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Mes',
+                        filtertype: 'checkedlist',
+                        datafield: 'mes_nombre',
+=======
                         text: 'C&oacute;digo',
                         filtertype: 'checkedlist',
                         datafield: 'codigo',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         width: 120,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: '#',
+                        datafield: 'numero',
+                        width: 30,
+=======
                         text: 'Color',
                         datafield: 'color',
                         width: 80,
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         cellsalign: 'center',
                         align: 'center',
                         hidden: false,
                         cellsrenderer: cellsrenderer
 
                     },
+<<<<<<< HEAD
+                    {
+                        text: 'T&iacute;tulo',
+                        datafield: 'titulo',
+                        width: 100,
+                        cellsalign: 'justify',
+=======
 
                     {
                         text: 'Fecha Inicio',
@@ -431,29 +658,49 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                         width: 100,
                         cellsalign: 'center',
                         cellsformat: 'dd-MM-yyyy',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         align: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Resumen',
+                        datafield: 'resumen',
+                        width: 200,
+                        cellsalign: 'justify',
+=======
                         text: 'Hora Inicio',
                         filtertype: 'checkedlist',
                         datafield: 'hora_ini',
                         width: 100,
                         cellsalign: 'center',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         align: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Planteamiento',
+                        datafield: 'descripcion',
+                        width: 400,
+                        cellsalign: 'justify',
+=======
                         text: 'Fecha Fin',
                         datafield: 'fecha_fin',
                         filtertype: 'range',
                         width: 100,
                         cellsalign: 'center',
                         cellsformat: 'dd-MM-yyyy',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         align: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Puntuaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'puntuacion_a',
+=======
                         text: 'Hora Fin',
                         filtertype: 'checkedlist',
                         datafield: 'hora_fin',
@@ -466,20 +713,33 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                         text: 'Justificaci&oacute;n',
                         filtertype: 'checkedlist',
                         datafield: 'justificacion',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         width: 100,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Puntuaci&oacute;n',
+                        filtertype: 'checkedlist',
+                        datafield: 'puntuacion_a_descripcion',
+=======
                         text: 'G&eacute;nero',
                         filtertype: 'checkedlist',
                         datafield: 'genero',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         width: 100,
                         align: 'center',
                         cellsalign: 'center',
                         hidden: false
                     },
+<<<<<<< HEAD
+                     {
+                        text: 'Fecha Reg.',
+                        filtertype: 'checkedlist',
+                        datafield: 'fecha_reg',
+=======
                     {
                         text: 'Frecuencia',
                         filtertype: 'checkedlist',
@@ -585,6 +845,7 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                         text: 'Fecha Apr.',
                         filtertype: 'checkedlist',
                         datafield: 'controlexcepcion_fecha_apr',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         width: 100,
                         align: 'center',
                         cellsformat: 'dd-MM-yyyy',
@@ -593,12 +854,20 @@ function definirGrillaParaListaIdeasPorPersona(dataRecordMain) {
                     },
                     {
                         text: 'Observaci&oacute;n',
+<<<<<<< HEAD
+                        datafield: 'observacion',
+                        width: 100,
+                        align: 'justify',
+                        hidden: false
+                    }
+=======
                         filtertype: 'checkedlist',
                         datafield: 'controlexcepcion_observacion',
                         width: 100,
                         align: 'center',
                         hidden: false
                     },
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 ]
             });
         /*var listSource = [

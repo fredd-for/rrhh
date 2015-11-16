@@ -1,7 +1,7 @@
 <?php
 $DBHOST = "localhost";$DBUSER = "user_rrhh";$DBPSW = "pass_rrhh";$DBNAME = "bd_rrhh_publicado";
 $MSQLSERVER = "192.168.10.40";$MSQLUSER = "sa";$MSQLPSW = "Sistemas2015";$MSSQLDB = "asistencia";
-$db = Conexion();
+//$db = Conexion();
 $dbms = ConexionMSql();
 ShowAllMarcaciones();
 /**

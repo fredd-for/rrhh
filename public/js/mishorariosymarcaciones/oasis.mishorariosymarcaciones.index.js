@@ -265,7 +265,11 @@ function definirGrillaParaListaRelaborales() {
                                     $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
                                     $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
                                     $("#imgFotoPerfil").attr("src", rutaImagen);
+<<<<<<< HEAD
+                                    cargarPersonasContactosGestionIdeas(1,dataRecord.id_persona);
+=======
                                     cargarPersonasContactosControlExcepciones(1,dataRecord.id_persona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     $("#hdnIdRelaboralVista").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
@@ -460,7 +464,11 @@ function definirGrillaParaListaRelaborales() {
                                 $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
+<<<<<<< HEAD
+                                cargarPersonasContactosGestionIdeas(2,dataRecord.id_persona);
+=======
                                 cargarPersonasContactosControlExcepciones(2,dataRecord.id_persona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 
                         } else {
                             var msje = "Debe seleccionar un registro necesariamente.";
@@ -2095,7 +2103,11 @@ function cargarHorariosPorPersona(dataRecord){
     $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
     $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
     $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
+<<<<<<< HEAD
+    cargarPersonasContactosMisHorariosYMarcaciones(2,dataRecord.id_persona);
+=======
     cargarPersonasContactosControlExcepciones(2,dataRecord.id_persona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 }
 /**
  * Función para la carga del formulario para el cálculo de horarios y marcaciones.
@@ -2135,7 +2147,11 @@ function cargarHistorialDeHorariosYMarcaciones(id_relaboral,id_persona,nombres,c
     $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
     $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
     $("#imgFotoPerfil").attr("src", rutaImagen);
+<<<<<<< HEAD
+    cargarPersonasContactosGestionIdeas(1,id_persona);
+=======
     cargarPersonasContactosControlExcepciones(1,id_persona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $("#hdnIdRelaboralVista").val(id_relaboral);
     $("#hdnSwPrimeraVistaHistorial").val(0);
     $("#divContent_" + id_relaboral).focus().select();

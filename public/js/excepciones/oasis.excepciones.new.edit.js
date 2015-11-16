@@ -17,8 +17,9 @@
  * @param horario
  * @param refrigerio
  * @param idGenero
+ * @param boleta
  */
-function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,descuento, compensatoria,horario,refrigerio,idGenero){
+function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcepcion,codigo,color,descuento, compensatoria,horario,refrigerio,idGenero,boleta){
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
     $("#txtColor"+sufijo).colorpicker()
@@ -33,6 +34,7 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
     $("#chkCompensatoria"+sufijo).bootstrapSwitch();
     $("#chkHorario"+sufijo).bootstrapSwitch();
     $("#chkRefrigerio"+sufijo).bootstrapSwitch();
+    $("#chkBoleta"+sufijo).bootstrapSwitch();
     $("#txtCantidad"+sufijo).numeric();
 
     $("#txtExcepcion"+sufijo).val(excepcion);
@@ -42,21 +44,24 @@ function inicializaFormularioExcepcionesNuevoEditar(opcion,excepcion,idTipoExcep
     $("#txtColor"+sufijo).css({'background-color': color,'color':color});
 
     if(descuento==1){
-        $("#chkDescuento"+sufijo).bootstrapSwitch("state",true)
-    }else $("#chkDescuento"+sufijo).bootstrapSwitch("state",false)
+        $("#chkDescuento"+sufijo).bootstrapSwitch("state",true);
+    }else $("#chkDescuento"+sufijo).bootstrapSwitch("state",false);
 
     if(compensatoria==1){
-        $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",true)
-    }else $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",false)
+        $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",true);
+    }else $("#chkCompensatoria"+sufijo).bootstrapSwitch("state",false);
 
     if(horario==1){
-        $("#chkHorario"+sufijo).bootstrapSwitch("state",true)
-    }else $("#chkHorario"+sufijo).bootstrapSwitch("state",false)
+        $("#chkHorario"+sufijo).bootstrapSwitch("state",true);
+    }else $("#chkHorario"+sufijo).bootstrapSwitch("state",false);
 
     if(refrigerio==1){
-        $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",true)
-    }else $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",false)
+        $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",true);
+    }else $("#chkRefrigerio"+sufijo).bootstrapSwitch("state",false);
 
+    if(boleta==1){
+        $("#chkBoleta"+sufijo).bootstrapSwitch("state",true);
+    }else $("#chkBoleta"+sufijo).bootstrapSwitch("state",false);
     cargarTiposGeneros(opcion,idGenero);
 }
 /**
@@ -283,6 +288,14 @@ function validaFormularioExcepcion(opcion) {
         refrigerio = "1";
     }
 
+    var chkBoleta = $("#chkBoleta"+sufijo);
+    var divBoleta = $("#divBoleta"+sufijo);
+    var helpErrorBoleta = $("#helpErrorBoleta"+sufijo);
+    var boleta = "0";
+    if($("#chkBoleta"+sufijo).bootstrapSwitch("state")){
+        boleta = "1";
+    }
+
     var lstGenero = $("#lstGenero"+sufijo);
     var divGenero = $("#divGenero"+sufijo);
     var helpErrorGenero = $("#helpErrorGenero"+sufijo);
@@ -414,6 +427,8 @@ function limpiarMensajesErrorPorValidacionExcepcion(opcion) {
     $("#helpErrorHorario"+sufijo).html("");
     $("#divRefrigerio"+sufijo).removeClass("has-error");
     $("#helpErrorRefrigerio"+sufijo).html("");
+    $("#divBoleta"+sufijo).removeClass("has-error");
+    $("#helpErrorBoleta"+sufijo).html("");
 }
 /**
  * Función para guardar el registro de la excepción.
@@ -452,6 +467,11 @@ function guardaExcepcion(opcion){
         refrigerio = 1;
     }
 
+    var boleta = 0;
+    if($("#chkBoleta"+sufijo).bootstrapSwitch("state")){
+        boleta = 1;
+    }
+
     var genero = $("#lstGenero"+sufijo).val();
     var cantidad = $("#txtCantidad"+sufijo).val();
     var unidad = $("#lstUnidad"+sufijo).val();
@@ -480,6 +500,7 @@ function guardaExcepcion(opcion){
                 redondeo:redondeo,
                 horario:horario,
                 refrigerio:refrigerio,
+                boleta:boleta,
                 observacion: observacion
             },
             success: function (data) {  //alert(data);
@@ -545,7 +566,7 @@ function inicializarDatosDuracion(opcion,cantidad,unidad,fraccionamiento){
     cargarTiposUnidades(opcion,unidad);
     var idMinima=0;
     if(opcion==2&&cantidad>0&&cantidad!=null){
-        var arrUnidades = ["MINUTO","HORA","DIA","SEMANA","MES","SEMESTRE","AÑO"];
+        var arrUnidades = ["VEZ","MINUTO","HORA","DIA","SEMANA","MES","SEMESTRE","AÑO"];
         if(unidad!=""){
             var idClave = $.inArray( unidad, arrUnidades );
             idMinima = idClave+1;

@@ -8,6 +8,17 @@
 /**
  * Función registrar la baja de un registro de control de excepción.
  */
+<<<<<<< HEAD
+function darDeBajaIdeaDeNegocio(idIdea){
+    var ok=true;
+    if(idIdea>0){
+        var ok=$.ajax({
+            url:'/misideas/down/',
+            type:'POST',
+            datatype: 'json',
+            async:false,
+            data:{id:idIdea},
+=======
 function darDeBajaControlExcepcion(idControlExcepcion){
     var ok=true;
     if(idControlExcepcion>0){
@@ -17,6 +28,7 @@ function darDeBajaControlExcepcion(idControlExcepcion){
             datatype: 'json',
             async:false,
             data:{id:idControlExcepcion},
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             success: function(data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
                 /**
@@ -27,7 +39,11 @@ function darDeBajaControlExcepcion(idControlExcepcion){
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
+<<<<<<< HEAD
+                    $("#divGridIdeas").jqxGrid("updatebounddata");
+=======
                     $("#divGridControlExcepciones").jqxGrid("updatebounddata");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 } else if(res.result==0){
                     /**
                      * En caso de haberse presentado un error al momento de registrar la baja por inconsistencia de datos.

@@ -64,7 +64,7 @@ $().ready(function () {
     $("#btnGuardarControlExcepcionNew").on("click",function () {
         var ok = validaFormularioControlExcepciones(1)
         if (ok) {
-            var okk = guardaControlExcepciones(1);
+            var okk = guardaMisControlExcepciones(1);
             if (okk) {
                 $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
                 $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
@@ -79,7 +79,7 @@ $().ready(function () {
     $("#btnGuardarControlExcepcionEdit").on("click",function () {
         var ok = validaFormularioControlExcepciones(2);
         if (ok) {
-            var okk = guardaControlExcepciones(2);
+            var okk = guardaMisControlExcepciones(2);
             if (okk) {
                 $('#divTabControlMarcaciones').jqxTabs('enableAt', 0);
                 $('#divTabControlMarcaciones').jqxTabs('enableAt', 1);
@@ -487,7 +487,7 @@ function definirGrillaParaListaRelaborales() {
                                     $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
                                     $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
                                     $("#imgFotoPerfil").attr("src", rutaImagen);
-                                    cargarPersonasContactosControlExcepciones(1,dataRecord.id_persona);
+                                    cargarPersonasContactosGestionIdeas(1,dataRecord.id_persona);
                                     $("#hdnIdRelaboralControlMarcaciones").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
@@ -665,7 +665,7 @@ function definirGrillaParaListaRelaborales() {
                                 $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                                cargarPersonasContactosControlExcepciones(2,dataRecord.id_persona);
+                                cargarPersonasContactosGestionIdeas(2,dataRecord.id_persona);
 
                         } else {
                             var msje = "Debe seleccionar un registro necesariamente.";

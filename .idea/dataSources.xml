@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
+  <component name="DataSourceManagerImpl" format="xml" hash="1352786937">
+    <data-source source="LOCAL" name="PostgreSQL - bd_rrhh@localhost" uuid="9a5415d9-3fcb-4edf-8c78-5046a7266dc6">
+=======
   <component name="DataSourceManagerImpl" format="xml" hash="3003688221">
     <data-source source="LOCAL" name="PostgreSQL - bd_rrhh@localhost" uuid="339532b3-a148-482f-bbc4-5e306fc9a276">
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

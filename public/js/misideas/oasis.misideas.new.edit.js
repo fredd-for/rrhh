@@ -23,19 +23,146 @@
  * @param puntuacion_e
  * @param observacion
  */
+<<<<<<< HEAD
+function inicializarFormularioMisIdeasNewEditView(opcion,idRelaboral,idIdea,gestion,mes,tipoNegocio,titulo,resumen,descripcion,inversion,beneficios,puntuacion_a,puntuacion_b,puntuacion_c,puntuacion_c,puntuacion_d,puntuacion_e,observacion){
+    var sufijo="New";
+    if(opcion==2) sufijo="Edit";
+    else {
+        if(opcion==3) sufijo="View";
+    }
+=======
 function inicializarFormularioIdeasNuevoEditar(opcion,idRelaboral,idIdea,titulo,resumen,descripcion,inversion,beneficios,puntuacion_a,puntuacion_b,puntuacion_c,puntuacion_c,puntuacion_d,puntuacion_e,observacion){
     var sufijo="New";
     if(opcion==2) sufijo="Edit";
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $("#txtTitulo"+sufijo).val("");
     $("#txtResumen"+sufijo).val("");
     $("#txtDescripcion"+sufijo).val("");
     $("#txtObservacion"+sufijo).val("");
+<<<<<<< HEAD
+    if(opcion==2||opcion==3){
+=======
     if(opcion==2){
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         $("#txtTitulo"+sufijo).val(titulo);
         $("#txtResumen"+sufijo).val(resumen);
         $("#txtDescripcion"+sufijo).val(descripcion);
         $("#txtObservacion"+sufijo).val(observacion);
     }
+<<<<<<< HEAD
+    var d = new Date();
+    var dia = d.getDate();
+    if (gestion == 0){
+        var gestion = d.getFullYear();
+    }
+    if(mes == 0){
+        var mes = d.getMonth()+1;
+    }
+    limpiarMensajesErrorPorValidacionIdeas(opcion);
+    cargarGestionesDisponiblesParaRegistroDeIdeas(opcion,gestion);
+    cargarMesesDisponiblesParaRegistroDeIdeas(opcion,gestion,mes);
+    cargaListaDeTiposDeNegocios(opcion,tipoNegocio);
+}
+/**
+ * Función para la carga de gestiones disponibles para la generación de marcaciones previstas y efectivas.
+ * @param option
+ * @param g
+ */
+function cargarGestionesDisponiblesParaRegistroDeIdeas(option,g){
+    var lista = "";
+    var sufijo = "New";
+    if(option==2)sufijo = "Edit";
+    else {
+        if(option==3)sufijo = "View";
+    }
+    $("#lstGestion"+sufijo).html("");
+    $("#lstGestion"+sufijo).append("<option value=''>Seleccionar</option>");
+    $("#lstGestion"+sufijo).prop("disabled",false);
+    var selected = "";
+    $.ajax({
+        url: '/perfileslaborales/getgestiones/',
+        type: "POST",
+        datatype: 'json',
+        async: false,
+        cache: false,
+        data: {id_perfillaboral:0},
+        success: function (data) {
+            var res = jQuery.parseJSON(data);
+            if (res.length > 0) {
+                $.each(res, function (key, gestion) {
+                    if(g==gestion)selected="selected";
+                    else selected = "";
+                    lista += "<option value='"+gestion+"' "+selected+">"+gestion+"</option>";
+                });
+            }
+        }
+    });
+    if(lista!='')$("#lstGestion"+sufijo).append(lista);
+    else $("#lstGestion"+sufijo).prop("disabled",true);
+}
+/**
+ * Función para la obtención del listado de meses disponibles para la generación de marcaciones previstas y efectivas.
+ * @param option
+ * @param gestion
+ * @param m
+ */
+function cargarMesesDisponiblesParaRegistroDeIdeas(option,gestion,m){
+    var sufijo = "New";
+    if(option==2)sufijo = "Edit";
+    else {
+        if(option==3)sufijo = "View";
+    }
+    $("#lstMes"+sufijo).html("");
+    $("#lstMes"+sufijo).append("<option value=''>Seleccionar</option>");
+    $("#lstMes"+sufijo).prop("disabled",false);
+    var lista = "";
+    var selected = "";
+    if(gestion>0){
+        $.ajax({
+            url: '/horariosymarcaciones/getmeses/',
+            type: "POST",
+            datatype: 'json',
+            async: false,
+            cache: false,
+            data: {gestion:gestion},
+            success: function (data) {
+                var res = jQuery.parseJSON(data);
+                if (res.length > 0) {
+                    $.each(res, function (key, val) {
+                        if(m==val.mes)selected="selected";
+                        else selected = "";
+                        lista += "<option value='"+val.mes+"' "+selected+">"+val.mes_nombre+"</option>";
+                    });
+                }
+            }
+        });
+        if(lista!='')$("#lstMes"+sufijo).append(lista);
+        else $("#lstMes"+sufijo).prop("disabled",true);
+    }else{
+        $("#lstMes"+sufijo).prop("disabled",true);
+    }
+}
+/**
+ * Función para la obtención del listado de tipos de negocio disponibles
+ * @param opcion      -- Valor que permite determinar el formulario en el que se ejecuta.
+ * @param tipoNegocio -- Identificador del tipo de negocio que debería estar seleccionada por defecto en caso de que su valor sea mayor a cero.
+ */
+function cargaListaDeTiposDeNegocios(opcion,tipoNegocio){
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    else {
+        if(opcion==3)sufijo = "View";
+    }
+    var selected = "";
+    $("#lstTiposDeNegocio"+sufijo).html("");
+    $("#lstTiposDeNegocio"+sufijo).append("<option value=''>Seleccionar..</option>");
+    $("#lstTiposDeNegocio"+sufijo).prop("disabled",true);
+    var frecuencia = "";
+    $.ajax({
+        url: '/misideas/listtiposdenegocio/',
+        type: "POST",
+        datatype: 'json',
+=======
     cargaListaDeTiposDeNegocios(opcion,idExcepcion,tipoGenero,1);
     $("#tbodyGrillaExcepciones"+sufijo).html("");
     if(opcion==1){
@@ -175,11 +302,19 @@ function cargaListaDeTiposDeNegocios(opcion,idExcepcion,tipoGenero,boleta){
         type: "POST",
         datatype: 'json',
         data:{genero:tipoGenero,boleta:boleta},
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
         async: false,
         cache: false,
         success: function (data) {  //alert(data);
             var res = jQuery.parseJSON(data);
             if(res.length>0){
+<<<<<<< HEAD
+                $("#lstTiposDeNegocio"+sufijo).prop("disabled",false);
+                $.each( res, function( key, val ) {
+                    if(tipoNegocio==val.tipo){selected="selected";
+                    }else selected="";
+                    $("#lstTiposDeNegocio"+sufijo).append("<option value='"+val.tipo+"' "+selected+">"+val.tipo_descripcion+" "+frecuencia+"</option>");
+=======
                 $("#lstExcepcion"+sufijo).prop("disabled",false);
                 $.each( res, function( key, val ) {
                     if(idExcepcion==val.id){selected="selected";
@@ -187,6 +322,7 @@ function cargaListaDeTiposDeNegocios(opcion,idExcepcion,tipoGenero,boleta){
                     if(val.frecuencia_descripcion!=''&&val.frecuencia_descripcion!=null)frecuencia = "(M&Aacute;XIMO "+val.frecuencia_descripcion+")";
                     else frecuencia = "";
                     $("#lstExcepcion"+sufijo).append("<option value='"+val.id+"' "+selected+" data-tipo_excepcion='"+val.tipo_excepcion+"' data-codigo='"+val.codigo+"' data-color='"+val.color+"' data-descuento='"+val.descuento+"' data-descuento_descripcion='"+val.descuento_descripcion+"' data-compensatoria='"+val.compensatoria+"' data-compensatoria_descripcion='"+val.compensatoria_descripcion+"' data-genero='"+val.genero+"' data-cantidad='"+val.cantidad+"' data-unidad='"+val.unidad+"' data-fraccionamiento='"+val.fraccionamiento+"' data-frecuencia_descripcion='"+val.frecuencia_descripcion+"' data-horario='"+val.horario+"' data-horario_descripcion='"+val.horario_descripcion+"' data-refrigerio='"+val.refrigerio+"' data-refrigerio_descripcion='"+val.refrigerio_descripcion+"'>"+val.excepcion+" "+frecuencia+"</option>");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 });
             }
         }, //mostramos el error
@@ -201,6 +337,73 @@ function cargaListaDeTiposDeNegocios(opcion,idExcepcion,tipoGenero,boleta){
  * Función para validar los datos del formulario de registro y edición de  control de excepciones.
  * @returns {boolean}
  */
+<<<<<<< HEAD
+function validaFormularioMisIdeas(opcion){
+    var ok = true;
+    var sufijo = "New";
+    var idIdea = 0;
+    var idRelaboral = 0;
+    if(opcion==2){
+        sufijo="Edit";
+        idIdea = $("#hdnIdIdeaEdit").val();
+    }
+    idRelaboral = $("#hdnIdRelaboral"+sufijo).val()
+    var msje = "";
+    $(".msjs-alert").hide();
+    limpiarMensajesErrorPorValidacionIdeas(opcion);
+    var enfoque = null;
+
+    var gestion = $("#lstGestion"+sufijo).val();
+    var mes = $("#lstMes"+sufijo).val();
+    var lstTiposDeNegocio = $("#lstTiposDeNegocio"+sufijo);
+    var divTiposDeNegocio = $("#divTiposDeNegocio"+sufijo);
+    var helpErrorTiposDeNegocio = $("#helpErrorTiposDeNegocio"+sufijo);
+    var tiposDeNegocio = $("#lstTiposDeNegocio"+sufijo).val();
+
+    var txtTitulo = $("#txtTitulo"+sufijo);
+    var divTitulo = $("#divTitulo"+sufijo);
+    var helpErrorTitulo = $("#helpErrorTitulo"+sufijo);
+    var titulo = $("#txtTitulo"+sufijo).val();
+
+    var txtResumen = $("#txtResumen"+sufijo);
+    var divResumen = $("#divResumen"+sufijo);
+    var helpErrorResumen = $("#helpErrorResumen"+sufijo);
+    var resumen = $("#txtResumen"+sufijo).val();
+
+    var txtDescripcion = $("#txtDescripcion"+sufijo);
+    var divDescripcion = $("#divDescripcion"+sufijo);
+    var helpErrorDescripcion = $("#helpErrorDescripcion"+sufijo);
+    var descripcion = $("#txtDescripcion"+sufijo).val();
+    if(tiposDeNegocio==''||tiposDeNegocio==0){
+        ok = false;
+        var msje = "Debe seleccionar el Tipo de Negocio necesariamente.";
+        divTiposDeNegocio.addClass("has-error");
+        helpErrorTiposDeNegocio.html(msje);
+        if (enfoque == null)enfoque = lstTiposDeNegocio;
+    }
+    if(titulo==''){
+        ok = false;
+        var msje = "Debe registrar el T&iacute;tulo para la Idea de Negocio.";
+        divTitulo.addClass("has-error");
+        helpErrorTitulo.html(msje);
+        if (enfoque == null)enfoque = txtTitulo;
+    }
+    if(resumen==''){
+        ok = false;
+        var msje = "Debe registrar el resumen de la Idea de Negocio.";
+        divResumen.addClass("has-error");
+        helpErrorResumen.html(msje);
+        if (enfoque == null)enfoque = txtResumen;
+    }
+    if(descripcion==''){
+        ok = false;
+        var msje = "Debe registrar el planteamiento o descripci&oacute;n de la Idea de Negocio.";
+        divDescripcion.addClass("has-error");
+        helpErrorDescripcion.html(msje);
+        if (enfoque == null)enfoque = txtDescripcion;
+    }
+    if(enfoque!=null)enfoque.focus();
+=======
 function validaFormularioControlExcepciones(opcion){
     var ok = true;
     var sufijo = "New";
@@ -366,12 +569,29 @@ function validaFormularioControlExcepciones(opcion){
     if(!okk)ok=false;
     var okkk = verificaFrecuencia(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,horaIni,fechaFin,horaFin,horario);
     if(!okkk)ok=false;
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     return ok;
 }
 /**
  * Función para la limpieza de los mensajes de error debido a la validación del formulario.
  * @opción Variable que identifica a que tipo de formulario se aplica la función.
  */
+<<<<<<< HEAD
+function limpiarMensajesErrorPorValidacionIdeas(opcion) {
+    var sufijo = "New";
+    if(opcion==2)sufijo = "Edit";
+    else{
+        if(opcion==3) sufijo = "View";
+    }
+    $("#divTiposDeNegocio"+sufijo).removeClass("has-error");
+    $("#helpErrorTiposDeNegocio"+sufijo).html("");
+    $("#divTitulo"+sufijo).removeClass("has-error");
+    $("#helpErrorTitulo"+sufijo).html("");
+    $("#divResumen"+sufijo).removeClass("has-error");
+    $("#helpErrorResumen"+sufijo).html("");
+    $("#divDescripcion"+sufijo).removeClass("has-error");
+    $("#helpErrorDescripcion"+sufijo).html("");
+=======
 function limpiarMensajesErrorPorValidacionControlExcepcion(opcion) {
     var sufijo = "New";
     if(opcion==2)sufijo = "Edit";
@@ -392,11 +612,33 @@ function limpiarMensajesErrorPorValidacionControlExcepcion(opcion) {
     $("#divCompensacionTurno"+sufijo).removeClass("has-error");
     $("#divCompensacionEntradaSalida"+sufijo).removeClass("has-error");
     $("#helpErrorJustificacion"+sufijo).html("");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 }
 
 /**
  * Función para el almacenamiento de los datos registrados en el formulario de control de excepciones.
  */
+<<<<<<< HEAD
+function guardaMisIdeas(opcion) {
+    var ok = false;
+    var idIdea = 0;
+    var sufijo = "New";
+    if (opcion == 2) {
+        idIdea = $("#hdnIdIdeaEdit").val();
+        sufijo = "Edit";
+    }
+    var idRelaboral = $("#hdnIdRelaboral"+sufijo).val();
+    var tipoNegocio = $("#lstTiposDeNegocio"+sufijo).val();
+    var gestion = $("#lstGestion"+sufijo).val();
+    var mes = $("#lstMes"+sufijo).val();
+    var titulo = $("#txtTitulo"+sufijo).val();
+    var resumen = $("#txtResumen"+sufijo).val();
+    var descripcion = $("#txtDescripcion"+sufijo).val();
+
+    var observacion = $("#txtObservacion"+sufijo).val();
+        $.ajax({
+            url: '/misideas/save/',
+=======
 function guardaMisControlExcepciones(opcion) {
     var ok = false;
     var idControlExcepcion = 0;
@@ -427,11 +669,23 @@ function guardaMisControlExcepciones(opcion) {
     if (idExcepcion != ''&&idExcepcion>0) {
         $.ajax({
             url: '/controlexcepciones/save/',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             type: "POST",
             datatype: 'json',
             async: false,
             cache: false,
             data: {
+<<<<<<< HEAD
+                id: idIdea,
+                relaboral_id:idRelaboral,
+                gestion:gestion,
+                mes:mes,
+                tipo_negocio:tipoNegocio,
+                titulo:titulo,
+                resumen:resumen,
+                descripcion:descripcion,
+                observacion:observacion
+=======
                 id: idControlExcepcion,
                 relaboral_id:idRelaboral,
                 excepcion_id:idExcepcion,
@@ -444,6 +698,7 @@ function guardaMisControlExcepciones(opcion) {
                 entrada_salida:entradaSalida,
                 horario:horario,
                 observacion: observacion
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
             },
             success: function (data) {  //alert(data);
                 var res = jQuery.parseJSON(data);
@@ -453,7 +708,11 @@ function guardaMisControlExcepciones(opcion) {
                     $("#divMsjePorSuccess").html("");
                     $("#divMsjePorSuccess").append(res.msj);
                     $("#divMsjeNotificacionSuccess").jqxNotification("open");
+<<<<<<< HEAD
+                    $("#divGridIdeas").jqxGrid("updatebounddata");
+=======
                     $("#divGridControlExcepciones").jqxGrid("updatebounddata");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 } else if (res.result == 0) {
                     $("#divMsjePorWarning").html("");
                     $("#divMsjePorWarning").append(res.msj);
@@ -471,6 +730,8 @@ function guardaMisControlExcepciones(opcion) {
                 $("#divMsjeNotificacionError").jqxNotification("open");
             }
         });
+<<<<<<< HEAD
+=======
     }
     return ok;
 }
@@ -640,5 +901,6 @@ function verificaFrecuencia(idControlExcepcion,idRelaboral,idExcepcion,fechaIni,
             $("#divMsjeNotificacionError").jqxNotification("open");
         }
     });
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     return ok;
 }

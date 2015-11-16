@@ -50,4 +50,27 @@ class Usuarios extends \Phalcon\Mvc\Model {
         return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
     }
 
+    /**
+     * Función para la obtención del registros de identificación de relación.
+     * @param $idUsuario
+     * @return Resultset
+     */
+    public function getOneRelaboralActivo($idUsuario){
+        $sql = "SELECT r.id AS id_relaboral,p.id AS id_persona,";
+        $sql .= "p.p_apellido||' '||";
+        $sql .= "CASE WHEN p.s_apellido IS NOT NULL THEN p.s_apellido ELSE '' END ||";
+        $sql .= "CASE WHEN p.c_apellido IS NOT NULL THEN ' '||p.c_apellido ELSE '' END ||";
+        $sql .= "CASE WHEN p.p_nombre IS NOT NULL THEN ' '||p.p_nombre ELSE '' END ||";
+        $sql .= "CASE WHEN p.s_nombre IS NOT NULL THEN ' '||p.s_nombre ELSE '' END ||";
+        $sql .= "CASE WHEN p.t_nombre IS NOT NULL THEN ' '||p.t_nombre ELSE '' END ";
+        $sql .= "AS nombres, ";
+        $sql .= "p.ci ";
+        $sql .= "FROM relaborales r ";
+        $sql .= "INNER JOIN personas p ON r.persona_id = p.id ";
+        $sql .= "INNER JOIN usuarios u ON u.persona_id = p.id ";
+        $sql .= "WHERE r.estado>=1 AND u.id=".$idUsuario." ";
+        $sql .= "LIMIT 1";
+        $this->_db = new usuarios();
+        return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
+    }
 }

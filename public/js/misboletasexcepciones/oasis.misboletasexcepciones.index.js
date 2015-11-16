@@ -267,7 +267,10 @@ $().ready(function () {
         width: '100%', position: "bottom-right", opacity: 0.9,
         autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 14000, template: "success"
     });
+<<<<<<< HEAD
+=======
 
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $(document).keypress(OperaEvento);
     $(document).keyup(OperaEvento);
 });
@@ -488,6 +491,26 @@ function ImageExist(url)
  * @returns {string}
  */
 function fechaConvertirAFormato(fecha,separador){
+<<<<<<< HEAD
+
+    try {
+        if (separador == '' || separador == undefined)separador = '-';
+        var formattedDate = fecha;
+        var d = formattedDate.getDate();
+        var m = formattedDate.getMonth();
+        m += 1;  // Los meses en JavaScript son 0-11
+        var y = formattedDate.getFullYear();
+        var ceroDia = "";
+        var ceroMes = "";
+        if (d < 10)ceroDia = "0";
+        if (m < 10)ceroMes = "0";
+        var fechaResultado = ceroDia + d + separador + ceroMes + m + separador + y;
+        return fechaResultado;
+    }
+    catch (e){
+        return fecha;
+    }
+=======
     if(separador==''||separador==undefined)separador='-';
     var formattedDate = fecha;
     var d = formattedDate.getDate();
@@ -500,6 +523,7 @@ function fechaConvertirAFormato(fecha,separador){
     if(m<10)ceroMes="0";
     var fechaResultado = ceroDia+d+separador+ceroMes+m+separador+y;
     return fechaResultado;
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
 }
 /**
  * Función para iniciar el calendario laboral de acuerdo al registro de relación laboral, turnos, excepciones y rango de fechas seleccionado.
@@ -1437,7 +1461,10 @@ function cargarCalendarioConControlExcepciones(dataRecord,dataRecordAux){
     var fechaIni = "";
     var fechaFin = "";
     var contadorPerfiles = 0;
+<<<<<<< HEAD
+=======
     //var arrHorariosRegistrados = obtenerTodosHorariosRegistradosEnCalendarioRelaboralParaVerAsignaciones(dataRecord.id_relaboral,idPerfilLaboral,tipoHorario,false,fechaIni,fechaFin,contadorPerfiles);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     var arrHorariosRegistrados = [];
     $("#calendar").html("");
     var arrFechasPorSemana = iniciarCalendarioLaboralPorRelaboralTurnosAndExcepcionesParaVerAsignacionesPersonales(dataRecord,dataRecord.id_relaboral,5,idPerfilLaboral,tipoHorario,arrHorariosRegistrados,defaultGestion,defaultMes,defaultDia);
@@ -1473,9 +1500,17 @@ function cargarCalendarioConControlExcepciones(dataRecord,dataRecordAux){
     }
     $("#ddNivelSalarialTurnAndExcept").html(dataRecord.nivelsalarial+"&nbsp;");
     $("#ddHaberTurnAndExcept").html(dataRecord.sueldo+"&nbsp;");
+<<<<<<< HEAD
+    /*$("#ddFechaIngTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_ing,"-")+"&nbsp;");*/
+    $("#ddFechaIngTurnAndExcept").html(dataRecord.fecha_ing+"&nbsp;");
+    if(dataRecord.fecha_incor!=null){
+    /*var fechaIncor = fechaConvertirAFormato(dataRecord.fecha_incor,"-");*/
+    var fechaIncor = dataRecord.fecha_incor;
+=======
     $("#ddFechaIngTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_ing,"-")+"&nbsp;");
     if(dataRecord.fecha_incor!=null){
     var fechaIncor = fechaConvertirAFormato(dataRecord.fecha_incor,"-");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     $("#dtFechaIncorTurnAndExcept").show();
     $("#ddFechaIncorTurnAndExcept").show();
     $("#ddFechaIncorTurnAndExcept").html(fechaIncor+"&nbsp;");
@@ -1483,7 +1518,12 @@ function cargarCalendarioConControlExcepciones(dataRecord,dataRecordAux){
     $("#dtFechaIncorTurnAndExcept").hide();
     $("#ddFechaIncorTurnAndExcept").hide();
     }
+<<<<<<< HEAD
+    /*$("#ddFechaIniTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_ini,"-")+"&nbsp;");*/
+    $("#ddFechaIniTurnAndExcept").html(dataRecord.fecha_ini+"&nbsp;");
+=======
     $("#ddFechaIniTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_ini,"-")+"&nbsp;");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     switch (dataRecord.tiene_item) {
     case 1:
     $("#dtFechaFinTurnAndExcept").hide();
@@ -1492,17 +1532,30 @@ function cargarCalendarioConControlExcepciones(dataRecord,dataRecordAux){
     case 0:
     $("#dtFechaFinTurnAndExcept").show();
     $("#ddFechaFinTurnAndExcept").show();
+<<<<<<< HEAD
+    /*$("#ddFechaFinTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_fin,"-")+"&nbsp;");*/
+    $("#ddFechaFinTurnAndExcept").html(dataRecord.fecha_fin+"&nbsp;");
+=======
     $("#ddFechaFinTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_fin,"-")+"&nbsp;");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     break;
     }
     $("#ddEstadoDescripcionTurnAndExcept").html(dataRecord.estado_descripcion+"&nbsp;");
     if(dataRecord.estado==0){
     $("#dtFechaBajaTurnAndExcept").show();
     $("#ddFechaBajaTurnAndExcept").show();
+<<<<<<< HEAD
+    /*$("#ddFechaBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_baja,"-")+"&nbsp;");*/
+    $("#ddFechaBajaTurnAndExcept").html(dataRecord.fecha_baja+"&nbsp;");
+    $("#dtMotivoBajaTurnAndExcept").show();
+    $("#ddMotivoBajaTurnAndExcept").show();
+    $("#ddMotivoBajaTurnAndExcept").html(dataRecord.motivo_baja+"&nbsp;");
+=======
     $("#ddFechaBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecord.fecha_baja,"-")+"&nbsp;");
     $("#dtMotivoBajaTurnAndExcept").show();
     $("#ddMotivoBajaTurnAndExcept").show();
     $("#ddMotivoBajaTurnAndExcept").html(fechaConvertirAFormato(dataRecord.motivo_baja,"-")+"&nbsp;");
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     }else{
     $("#dtFechaBajaTurnAndExcept").hide();
     $("#ddFechaBajaTurnAndExcept").hide();

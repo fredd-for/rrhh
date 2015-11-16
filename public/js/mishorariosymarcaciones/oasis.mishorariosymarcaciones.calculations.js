@@ -687,7 +687,11 @@ function definirGrillaMarcacionesYCalculosPorPersona(objParametros) {
                         hidden: false
                     },
                     {
+<<<<<<< HEAD
+                        text: 'Sin Marcaci&oacute;n',
+=======
                         text: 'Omisi&oacute;n',
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         filtertype: 'checkedlist',
                         datafield: 'omision',
                         width: 70,

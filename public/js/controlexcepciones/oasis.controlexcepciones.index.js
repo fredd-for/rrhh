@@ -419,11 +419,11 @@ function definirGrillaParaListaRelaborales() {
                                     $("#imgFotoPerfilContactoPer").attr("src", rutaImagen);
                                     $("#imgFotoPerfilContactoInst").attr("src", rutaImagen);
                                     $("#imgFotoPerfil").attr("src", rutaImagen);
-                                    cargarPersonasContactosControlExcepciones(1,dataRecord.id_persona);
+                                    cargarPersonasContactosGestionIdeas(1,dataRecord.id_persona);
                                     $("#hdnIdRelaboralVista").val(idRelaboral);
                                     $("#hdnSwPrimeraVistaHistorial").val(0);
                                     $("#divContent_" + dataRecord.id_relaboral).focus().select();
-                                    definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecord);
+                                    definirGrillaParaListaGestionIdeasPorIdRelaboral(dataRecord);
                                 } else {
                                     var msje = "Para acceder a la vista del registro, la persona debe haber tenido al menos un registro de relaci&oacute,n laboral que implica un estado ACTIVO o PASIVO.";
                                     $("#divMsjePorError").html("");
@@ -559,7 +559,7 @@ function definirGrillaParaListaRelaborales() {
                                 $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                                 $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                                cargarPersonasContactosControlExcepciones(2,dataRecord.id_persona);
+                                cargarPersonasContactosGestionIdeas(2,dataRecord.id_persona);
 
                         } else {
                             var msje = "Debe seleccionar un registro necesariamente.";

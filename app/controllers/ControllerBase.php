@@ -28,6 +28,7 @@ class ControllerBase extends Controller {
             //obtenemos la instancia del usuario
             $user_id = $auth['id'];
             $this->_user = usuarios::findFirst("id = '$user_id'");
+            $this->_user->nivel = $auth['nivel'];
             //Prepend the application name to the title
             $this->tag->setTitle('Sistema de RRHH');
 
@@ -124,16 +125,15 @@ class ControllerBase extends Controller {
              */
             $idUsuario = $this->_user->id;
             $usuario = Usuarios::findFirstById($idUsuario);
-            $ci_usuario = $usuario->cedula_identidad;
+            $persona = personas::findFirstById($usuario->persona_id);
+            $ci_usuario = $persona->ci;
+            $nombres = $persona->p_apellido.($persona->s_apellido!=''?' '.$persona->s_apellido:'').($persona->c_apellido!=''?' '.$persona->c_apellido:'').($persona->p_nombre!=''?' '.$persona->p_nombre:'').($persona->s_nombre!=''?' '.$persona->s_nombre:'');
+            $this->view->setVar('username', $usuario->username);
             $ruta = "";
             $rutaImagenesCredenciales = "/images/personal/";
             $extencionImagenesCredenciales = ".jpg";
             $num_complemento = "";
-            /*if (isset($_POST["num_complemento"])) {
-                $num_complemento = $_POST["num_complemento"];
-            }*/
             if (isset($ci_usuario)) {
-                $ruta = "";
                 $nombreImagenArchivo = $rutaImagenesCredenciales . trim($ci_usuario);
                 if ($num_complemento != "") $nombreImagenArchivo = $nombreImagenArchivo . trim($num_complemento);
                 $ruta = $nombreImagenArchivo . $extencionImagenesCredenciales;

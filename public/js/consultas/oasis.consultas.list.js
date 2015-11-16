@@ -183,7 +183,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                     $('#divTabControlExcepciones').jqxTabs({selectedItem: 3});
                                     $("#hdnIdRelaboralEdit").val(idRelaboral);
                                     $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
+<<<<<<< HEAD
+                                    limpiarMensajesErrorPorValidacionIdeas(2);
+=======
                                     limpiarMensajesErrorPorValidacionControlExcepcion(2);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                     inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.turno,dataRecord.entrada_salida,genero,dataRecord.controlexcepcion_observacion);
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado ELABORADO necesariamente.";
@@ -211,7 +215,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                  */
                                 if (dataRecord.controlexcepcion_estado == 2) {
                                     if (confirm("¿Esta seguro de dar de baja registro de control de excepción?"))
+<<<<<<< HEAD
+                                        darDeBajaIdeaDeNegocio(dataRecord.id);
+=======
                                         darDeBajaControlExcepcion(dataRecord.id);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado ELABORADO necesariamente.";
                                     $("#divMsjePorError").html("");
@@ -352,7 +360,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                         $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                         $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
+<<<<<<< HEAD
+                        cargarPersonasContactosGestionIdeas(2,idPersona);
+=======
                         cargarPersonasContactosControlExcepciones(2,idPersona);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                         $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
                         $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
                     })

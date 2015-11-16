@@ -50,13 +50,16 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
             {name: 'controlexcepcion_estado_descripcion', type: 'string'},
             {name: 'controlexcepcion_user_reg_id', type: 'numeric'},
             {name: 'controlexcepcion_user_registrador', type: 'string'},
-            {name: 'controlexcepcion_fecha_reg', type: 'date'},
+            {name: 'controlexcepcion_fecha_reg', type: 'timestamp'},
+            {name: 'controlexcepcion_user_ver_id', type: 'numeric'},
+            {name: 'controlexcepcion_user_verificador', type: 'string'},
+            {name: 'controlexcepcion_fecha_ver', type: 'timestamp'},
             {name: 'controlexcepcion_user_apr_id', type: 'numeric'},
             {name: 'controlexcepcion_user_aprobador', type: 'string'},
-            {name: 'controlexcepcion_fecha_apr', type: 'date'},
+            {name: 'controlexcepcion_fecha_apr', type: 'timestamp'},
             {name: 'controlexcepcion_user_mod_id', type: 'numeric'},
             {name: 'controlexcepcion_user_modificador', type: 'string'},
-            {name: 'controlexcepcion_fecha_mod', type: 'date'},
+            {name: 'controlexcepcion_fecha_mod', type: 'timestamp'},
             {name: 'excepcion_id', type: 'integer'},
             {name: 'excepcion', type: 'string'},
             {name: 'tipoexcepcion_id', type: 'integer'},
@@ -82,7 +85,21 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
             {name: 'estado_descripcion', type: 'string'}
         ],
         url: '/controlexcepciones/listporrelaboral?id='+idRelaboral,
-        cache: false
+        cache: false,
+        root: 'Rows',
+        beforeprocessing: function (data) {
+            source.totalrecords = data[0].TotalRows;
+        },
+        filter: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridControlExcepciones").jqxGrid('updatebounddata', 'filter');
+        },
+        sort: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridControlExcepciones").jqxGrid('updatebounddata', 'sort');
+        }
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeTolerancias();
@@ -100,6 +117,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                 columnsresize: true,
                 pageable: true,
                 pagerMode: 'advanced',
+                pagesize:10,
+                virtualmode: true,
+                rendergridrows: function (params) {
+                    return params.data;
+                },
                 showfilterrow: true,
                 filterable: true,
                 showtoolbar: true,
@@ -108,22 +130,34 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                     var me = this;
                     var container = $("<div></div>");
                     toolbar.append(container);
+                    container.append("<button title='Actualizar Grilla' id='refreshcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-refresh fa-2x text-info' title='Refrescar Grilla.'/></i></button>");
                     container.append("<button title='Registrar nuevo control de excepci&oacute;n.' id='addcontrolexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-plus-square fa-2x text-info' title='Nuevo Registro.'/></i></button>");
                     container.append("<button title='Aprobar registro de control de excepci&oacute;n.' id='approveexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-check-square fa-2x text-info' title='Aprobar registro'></i></button>");
                     container.append("<button title='Modificar registro de control de excepci&oacute;n.' id='updateexceptrowbutton'  class='btn btn-sm btn-primary' type='button' ><i class='fa fa-pencil-square fa-2x text-info' title='Modificar registro.'/></button>");
-                    container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-minus-square fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
+                    container.append("<button title='Imprimir formulario de control de excepci&oacute;n.' id='printexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-print fa-2x text-info' title='Imprimir Control de Excepci&oacute;n.'/></i></button>");
+                    container.append("<button title='Dar de baja registro de control de excepci&oacute;n.' id='deleteexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-times-circle-o fa-2x text-info' title='Dar de baja al registro.'/></i></button>");
                     container.append("<button title='Ver calendario de turnos y permisos de manera global para la persona.' id='turnexceptrowbutton' class='btn btn-sm btn-primary' type='button'><i class='fa fa-calendar fa-2x text-info' title='Vista Turnos Laborales por Perfil.'/></i></button>");
 
+                    $("#refreshcontrolexceptrowbutton").jqxButton();
                     $("#addcontrolexceptrowbutton").jqxButton();
                     $("#approveexceptrowbutton").jqxButton();
                     $("#updateexceptrowbutton").jqxButton();
+                    $("#printexceptrowbutton").jqxButton();
                     $("#deleteexceptrowbutton").jqxButton();
                     $("#turnexceptrowbutton").jqxButton();
                     var genero_id = 0;
                     $("#hdnIdControlExcepcionEdit").val(0);
                     $("#hdnIdRelaboralNew").val(0);
                     $("#hdnIdRelaboralEdit").val(0);
-
+                    $("#lblObservacionNew").text("Observaciones:");
+                    $("#lblObservacionEdit").text("Observaciones:");
+                    $("#txtObservacionNew").prop("placeholder","Observaciones...");
+                    $("#txtObservacionEdit").prop("placeholder","Observaciones...");
+                    /* Actualizar grilla */
+                    $("#refreshcontrolexceptrowbutton").off();
+                    $("#refreshcontrolexceptrowbutton").on('click', function () {
+                        $("#divGridControlExcepciones").jqxGrid("updatebounddata");
+                    });
                     /* Registrar nueva excepción */
                     $("#addcontrolexceptrowbutton").off();
                     $("#addcontrolexceptrowbutton").on('click', function () {
@@ -172,9 +206,9 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                             if (dataRecord != undefined) {
                                 $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
                                 /**
-                                 * La modificación sólo es admisible si el registro de horario laboral tiene estado EN PROCESO
+                                 * La modificación sólo es admisible si el registro de horario laboral tiene estado EN ELABORACIÓN O ELABORADO
                                  */
-                                if (dataRecord.controlexcepcion_estado == 2 || dataRecord.controlexcepcion_estado == 3) {
+                                if (dataRecord.controlexcepcion_estado == 1 || dataRecord.controlexcepcion_estado == 2) {
                                     $('#divTabControlExcepciones').jqxTabs('enableAt', 0);
                                     $('#divTabControlExcepciones').jqxTabs('enableAt', 1);
                                     $('#divTabControlExcepciones').jqxTabs('disableAt', 2);
@@ -183,10 +217,36 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                     $('#divTabControlExcepciones').jqxTabs({selectedItem: 3});
                                     $("#hdnIdRelaboralEdit").val(idRelaboral);
                                     $("#hdnIdControlExcepcionEdit").val(dataRecord.id);
-                                    limpiarMensajesErrorPorValidacionControlExcepcion(2);
+                                    limpiarMensajesErrorPorValidacionIdeas(2);
                                     inicializarFormularioControlExcepcionesNuevoEditar(2,idRelaboral,dataRecord.excepcion_id,dataRecord.fecha_ini,dataRecord.hora_ini,dataRecord.fecha_fin,dataRecord.hora_fin,dataRecord.justificacion,dataRecord.turno,dataRecord.entrada_salida,genero,dataRecord.controlexcepcion_observacion);
                                 } else {
                                     var msje = "Debe seleccionar un registro en estado ELABORADO necesariamente.";
+                                    $("#divMsjePorError").html("");
+                                    $("#divMsjePorError").append(msje);
+                                    $("#divMsjeNotificacionError").jqxNotification("open");
+                                }
+                            }
+                        } else {
+                            var msje = "Debe seleccionar un registro necesariamente.";
+                            $("#divMsjePorError").html("");
+                            $("#divMsjePorError").append(msje);
+                            $("#divMsjeNotificacionError").jqxNotification("open");
+                        }
+                    });
+                    /* Dar de baja un registro.*/
+                    $("#printexceptrowbutton").off();
+                    $("#printexceptrowbutton").on('click', function () {
+                        var selectedrowindex = $("#divGridControlExcepciones").jqxGrid('getselectedrowindex');
+                        if (selectedrowindex >= 0) {
+                            var dataRecord = $('#divGridControlExcepciones').jqxGrid('getrowdata', selectedrowindex);
+                            if (dataRecord != undefined) {
+                                /*
+                                 *  Para dar de baja un registro, este debe estar inicialmente en estado EN PROCESO, de otro modo no es posible
+                                 */
+                                if (dataRecord.controlexcepcion_estado >= 1||dataRecord.controlexcepcion_estado < 0) {
+                                    exportarFormulario(dataRecord.id);
+                                } else {
+                                    var msje = "El formulario no puede ser visible en este estado "+dataRecord.controlexcepcion_estado_descripcion+".";
                                     $("#divMsjePorError").html("");
                                     $("#divMsjePorError").append(msje);
                                     $("#divMsjeNotificacionError").jqxNotification("open");
@@ -211,7 +271,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                                  */
                                 if (dataRecord.controlexcepcion_estado == 2) {
                                     if (confirm("¿Esta seguro de dar de baja registro de control de excepción?"))
-                                        darDeBajaControlExcepcion(dataRecord.id);
+                                        darDeBajaIdeaDeNegocio(dataRecord.id);
                                 } else {
                                     var msje = "Para dar de baja un registro, este debe estar en estado ELABORADO necesariamente.";
                                     $("#divMsjePorError").html("");
@@ -352,7 +412,7 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         $("#imgFotoPerfilContactoPerTurnAndExcept").attr("src", rutaImagen);
                         $("#imgFotoPerfilContactoInstTurnAndExcept").attr("src", rutaImagen);
                         $("#imgFotoPerfilTurnAndExcept").attr("src", rutaImagen);
-                        cargarPersonasContactosControlExcepciones(2,idPersona);
+                        cargarPersonasContactosGestionIdeas(2,idPersona);
                         $("#hdnIdRelaboralVistaTurnAndExcept").val(idRelaboral);
                         $("#hdnSwPrimeraVistaHistorialTurnAndExcept").val(0);
                     })
@@ -529,6 +589,25 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboral(dataRecordRelabo
                         text: 'Fecha Sol.',
                         filtertype: 'checkedlist',
                         datafield: 'controlexcepcion_fecha_reg',
+                        width: 100,
+                        align: 'center',
+                        cellsformat: 'dd-MM-yyyy h:i:s',
+                        cellsalign: 'center',
+                        hidden: false
+                    },
+                    {
+                        text: 'Verificador',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_user_verificador',
+                        width: 100,
+                        align: 'center',
+                        cellsalign: 'justify',
+                        hidden: false
+                    },
+                    {
+                        text: 'Fecha Ver.',
+                        filtertype: 'checkedlist',
+                        datafield: 'controlexcepcion_fecha_ver',
                         width: 100,
                         align: 'center',
                         cellsformat: 'dd-MM-yyyy',

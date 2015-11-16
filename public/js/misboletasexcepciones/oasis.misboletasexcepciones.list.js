@@ -70,7 +70,25 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboralPersona(dataRecor
             {name: 'boleta_descripcion', type: 'string'}
         ],
         url: '/misboletasexcepciones/listboletasporrelaboral?id='+idRelaboral,
+<<<<<<< HEAD
+        cache: false,
+        root: 'Rows',
+        beforeprocessing: function (data) {
+            source.totalrecords = data[0].TotalRows;
+        },
+        filter: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridControlExcepciones").jqxGrid('updatebounddata', 'filter');
+        },
+        sort: function()
+        {
+            // Actualiza la grilla y reenvia los datos actuales al servidor
+            $("#divGridControlExcepciones").jqxGrid('updatebounddata', 'sort');
+        }
+=======
         cache: false
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
     };
     var dataAdapter = new $.jqx.dataAdapter(source);
     cargarRegistrosDeTolerancias();
@@ -88,6 +106,14 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboralPersona(dataRecor
                 columnsresize: true,
                 pageable: true,
                 pagerMode: 'advanced',
+<<<<<<< HEAD
+                pagesize:10,
+                virtualmode: true,
+                rendergridrows: function (params) {
+                    return params.data;
+                },
+=======
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                 showfilterrow: true,
                 filterable: true,
                 showtoolbar: true,
@@ -292,7 +318,11 @@ function definirGrillaParaListaControlExcepcionesPorIdRelaboralPersona(dataRecor
                                 if (dataRecord.controlexcepcion_estado == 1||dataRecord.controlexcepcion_estado == 2) {
                                     if (confirm("¿Esta seguro de dar de baja registro de control de excepción?"))
                                         if(dataRecord.boleta==1){
+<<<<<<< HEAD
+                                            darDeBajaIdeaDeNegocio(dataRecord.id);
+=======
                                             darDeBajaControlExcepcion(dataRecord.id);
+>>>>>>> 37e04569f085281bcf2a1c97faf404466c75efa6
                                         }else{
                                             var msje = "Usted no tiene los permisos suficientes para modificar este tipo de excepciones. Consulte con Personal de Control de Personal o el Administrador.";
                                             $("#divMsjePorError").html("");

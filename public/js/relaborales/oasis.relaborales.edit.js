@@ -123,6 +123,7 @@ var rownumberrenderer = function (row, columnfield, value, defaulthtml, columnpr
 function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
     if(idUbicacionPredeterminada=='')idUbicacionPredeterminada=0;
     $('#lstUbicacionesEditar').html("");
+    var selected = '';
     $.ajax({
         url:'/relaborales/listubicaciones',
         type:'POST',
@@ -132,8 +133,8 @@ function cargarUbicacionesParaEditar(idUbicacionPredeterminada){
         success: function(data) {
             var res = jQuery.parseJSON(data);
             $.each( res, function( key, val ) {
-                if(idUbicacionPredeterminada==val.id){$selected='selected';}else{ $selected='';}
-                $('#lstUbicacionesEditar').append("<option value="+val.id+" "+$selected+">"+val.ubicacion+"</option>");
+                if(idUbicacionPredeterminada==val.id){selected='selected';}else{ selected='';}
+                $('#lstUbicacionesEditar').append("<option value="+val.id+" "+selected+">"+val.ubicacion+"</option>");
             });
         }
     });

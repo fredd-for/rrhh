@@ -6,13 +6,14 @@
 *   Usuario Creador: Lic. Javier Loza
 *   Fecha Creación:  01-12-2014
 */
-
+require_once('../app/libs/qrlib/qrlib.php');
 class pdfoasis extends fpdf{
     public $title_rpt = '';
     public $header_title_estado_rpt = 'Estado Plurinacional de Bolivia';
     public $header_title_empresa_rpt = 'Empresa Estatal de Transporte por Cable "Mi Teleferico"';
     public $style_header_table = '';
     public $style_footer_table = '';
+    public $nombre_solicitante = '';
     var $debug;              //Valor de seguimiento 1: Hacer debug; 0: No hacer debug
     var $widths;             //Array de anchuras
     var $totalWidths;             //Array de anchuras
@@ -32,7 +33,7 @@ class pdfoasis extends fpdf{
     var $ShowLeftFooter;	 //Opción para mostrar el pie de página izquierdo.
     var $ShowNumeralLeftFooter;	//Opción para mostrar el pie de página izquierdo (Numeral).
     var $Condicion;			//Opción para conocer que tipo de condición tiene un determinado formulario
-    var $angle;             //Angulo
+    var $angle=0;             //Angulo
     var $generalConfigForAllColumns;    //Array multidimencional con todas las configuraciones necesarias para el despliegue de valores
     var $widthsSelecteds;       //Anchuras seleccionadas
     var $totalWidthsSelecteds;  //Anchuras seleccionadas para la grilla de totales
@@ -41,7 +42,40 @@ class pdfoasis extends fpdf{
     var $alignSelecteds;        //Alineaciones de la columnas seleccionadas
     var $totalAlignSelecteds;   //Alineaciones de la columnas seleccionadas para la grilla de totales
 
+    function Rotate($angle, $x=-1, $y=-1)
+    {
+        if($x==-1)
+            $x=$this->x;
+        if($y==-1)
+            $y=$this->y;
+        if($this->angle!=0)
+            $this->_out('Q');
+        $this->angle=$angle;
+        if($angle!=0)
+        {
+            $angle*=M_PI/180;
+            $c=cos($angle);
+            $s=sin($angle);
+            $cx=$x*$this->k;
+            $cy=($this->h-$y)*$this->k;
+            $this->_out(sprintf('q %.5f %.5f %.5f %.5f %.2f %.2f cm 1 0 0 1 %.2f %.2f cm', $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy));
+        }
+    }
+    function RotatedText($x, $y, $txt, $angle)
+    {
+        //Text rotated around its origin
+        $this->Rotate($angle, $x, $y);
+        $this->Text($x, $y, $txt);
+        $this->Rotate(0);
+    }
 
+    function RotatedImage($file, $x, $y, $w, $h, $angle)
+    {
+        //Image rotated around its upper-left corner
+        $this->Rotate($angle, $x, $y);
+        $this->Image($file, $x, $y, $w, $h);
+        $this->Rotate(0);
+    }
     /**
      * Función para establecer la cabecera del reporte.
      */
@@ -90,8 +124,11 @@ class pdfoasis extends fpdf{
         $this->SetAligns($this->alignTitleSelecteds);
         $this->RowTitle($this->colTitleSelecteds);
         if(($this->pageWidth-$this->tableWidth)>0)$this->SetX(($this->pageWidth-$this->tableWidth)/2);
-
     }
+
+    /**
+     * Cabecera de totales.
+     */
     function HeaderTotal()
     {   $this->Image('../public/images/escudo.jpg',10,6,20,0);
         $x_segunda_imagen = $this->pageWidth-25;
@@ -152,6 +189,437 @@ class pdfoasis extends fpdf{
         $this->SetTextColor(0,0,0);//Letras negras
     }
 
+    /**
+     * Función para establecer la cabecera del reporte.
+     * @param $tempDir
+     * @param $objR
+     * @param $objCe
+     */
+    function Body($tempDir,$objR,$objCe,$objCorr)
+    {
+        /**
+         * Sólo se muestra la marca de agua del estado en los casos en que no este aprobada la boleta
+         */
+        if($objCe->controlexcepcion_estado!==6){
+            $this->SetFont('Arial', 'B', 50);
+            $this->SetTextColor(0, 255, 0);
+            $lenght = strlen($objCe->controlexcepcion_estado_descripcion);
+            $xx=70;
+            $yy = 110;
+            $grados = 45;
+            if($lenght>10){
+                $xx=10;
+                $yy = 140;
+                $grados=30;
+            }
+            $this->RotatedText($xx, $yy, utf8_decode($objCe->controlexcepcion_estado_descripcion),$grados);
+        }else{
+            $this->SetY(29);
+            $this->SetX(180);
+            $this->SetTextColor(0, 0, 0);
+            $this->SetFont('Arial', '', 7);
+            $this->MultiCell(26,3,utf8_decode($objCe->controlexcepcion_estado_descripcion),1,'C',false);
+        }
+
+        $this->SetTextColor(0, 0, 0);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->SetY(25);
+        $this->SetX(180);
+        $this->SetFont('Arial', 'B', 7);
+        $this->Cell(12,4,utf8_decode("Código:"),'TLB',0,'L',false);
+        $this->SetFont('Arial', '', 7);
+        $gestion = substr($objCorr->gestion, -2);
+        $cant = strlen($objCorr->numero);
+        $prefijo="";
+        switch($cant){
+            case 1:$prefijo="0000";break;
+            case 2:$prefijo="000";break;
+            case 3:$prefijo="00";break;
+            case 4:$prefijo="0";break;
+        }
+        $this->Cell(14,4,$prefijo.$objCorr->numero."-".$gestion,'TRB',0,'L',false);
+        $this->SetY(29);
+        $this->SetX(180);
+
+        $this->SetTextColor(0, 0, 0);
+        $this->SetY(30);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(38,5,"Nombre del Trabajador(a):",'',0,'L',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(65,5,utf8_decode($objR->nombres),'',0,'L',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(25,5,"C. I.:",'',0,'L',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(43,5,$objR->ci." ".$objR->expd,'',0,'L',false);
+
+        $this->SetY(35);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(38,5,"Gerencia:",'',0,'L',false);
+        $this->SetFont('Arial', '', 8);
+        $gerenciaAdministrativa = str_replace("GERENCIA DE ","",$objR->gerencia_administrativa);
+        $this->Cell(65,5,utf8_decode($gerenciaAdministrativa),'',0,'L',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(25,5,"Departamento:",'',0,'L',false);
+        $this->SetFont('Arial', '', 8);
+        $departamentoAdministrativo = str_replace("DEPARTAMENTO DE ","",$objR->departamento_administrativo);
+        $this->MultiCell(65,3,utf8_decode($departamentoAdministrativo!==''?$departamentoAdministrativo:""),0,'J',false);
+
+        $this->SetY(42);
+
+        $this->SetFont('Arial', 'B', 8);
+        $lblFecha="";
+        $fecha="";
+        if($objCe->fecha_ini==$objCe->fecha_fin){
+            $lblFecha="Fecha:";
+            $fecha=$objCe->fecha_ini != "" ? date("d-m-Y", strtotime($objCe->fecha_ini)) : "";
+        }else{
+            $lblFecha="Fechas:";
+            $fecha=$objCe->fecha_ini != "" ? date("d-m-Y", strtotime($objCe->fecha_ini)) : ""." AL ".$objCe->fecha_fin != "" ? date("d-m-Y", strtotime($objCe->fecha_fin)) : "";
+        }
+        $this->Cell(38,5,$lblFecha,'',0,'L',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(65,5,$fecha,'',0,'L',false);
+
+        if($objCe->horario==1){
+            $this->SetFont('Arial', 'B', 8);
+            $this->Cell(25,5,"Salida:",'',0,'R',false);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(15,5,$objCe->hora_ini != "" ? date("H:i", strtotime($objCe->hora_ini)) : "",'LTRB',0,'C',false);
+
+            $this->SetFont('Arial', 'B', 8);
+            $this->Cell(25,5,"Retorno:",'',0,'R',false);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(15,5,$objCe->hora_fin != "" ? date("H:i", strtotime($objCe->hora_fin)) : "",'LRTB',0,'C',false);
+        }
+        /**
+         * Segunda parte
+         */
+
+        $this->SetY(48);
+        $this->SetFillColor(0, 0, 0); // Set background colour to black
+        $this->SetFont('Arial', 'B', 8);
+        $this->SetDrawColor(0,0,0); // Set the border colour to Aqua
+        $this->SetFillColor(191,191, 191);
+        $this->MultiCell(196,4,"TIPO DE PERMISO",1,'C',true);
+
+        $this->SetY(57);
+        $permisoParticularOk="";
+        $comisionOk="";
+        $ConsultaMedicaOk="";
+        switch($objCe->tipoexcepcion_id){
+            case 1:
+                $permisoParticularOk="X";
+                break;
+            case 2:
+                $comisionOk="X";
+                break;
+            case 4:
+                $ConsultaMedicaOk="X";
+                break;
+        }
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(35,5,"Comision:",'',0,'L',false);
+        $this->Cell(30,5,$comisionOk,'LRTB',0,'C',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(35,5,"Permiso particular:",'',0,'R',false);
+        $this->Cell(30,5,$permisoParticularOk,'LTRB',0,'C',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(35,5,"Consulta medica:",'',0,'R',false);
+        $this->Cell(30,5,$ConsultaMedicaOk,'LRTB',0,'C',false);
+
+        /**
+         * Tercera parte
+         */
+
+        $this->SetY(67);
+        $this->SetFillColor(0, 0, 0);
+        $this->SetFont('Arial', 'B', 8);
+        $this->SetDrawColor(31, 152, 152);
+        //$this->Cell(196,5,utf8_decode("COMISIÓN"),'LRTB',0,'C',false);
+        $this->SetDrawColor(0,0,0); // Set the border colour to Aqua
+        $this->SetFillColor(191,191, 191);
+        $this->MultiCell(196,4,utf8_decode("COMISIÓN"),1,'C',true);
+
+        $this->SetY(77);
+        $lugarComision = ".....................................................................................";
+        $justificacionComision = ".....................................................................................";
+        if($objCe->tipoexcepcion_id==2){
+            $lugarComision=$objCe->controlexcepcion_observacion;
+            $justificacionComision=$objCe->justificacion;
+        }
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(25,5,"Lugar:",'',0,'R',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(65,5,utf8_decode($lugarComision),'',0,'L',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(25,5,"Motivo:",'',0,'R',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(65,5,$justificacionComision,'',0,'L',false);
+
+        /**
+         * Cuarta parte
+         */
+
+        $this->SetY(87);
+        $this->SetDrawColor(0,0,0); // Set the border colour to Aqua
+        $this->SetFont('Arial', 'B', 8);
+
+        $this->MultiCell(98,4,utf8_decode("PERMISO PARTICULAR"),1,'C',true);
+        $this->SetY(87);
+        $this->SetX(110);
+        $this->MultiCell(96,8,utf8_decode("CONSULTA MÉDICA"),1,'C',true);
+
+
+        $this->SetY(91);
+        $this->SetX(110);
+        $this->SetFont('Arial', '', 6);
+        $this->Cell(98,5,utf8_decode("Nota: El espacio a continuación debe ser sellado por la Caja Petrolera de Salud"),'',0,'C',false);
+
+        /**
+         * Quinta parte
+         */
+        $this->SetY(97);
+        $permisoParticularMensualDosDosHorasOk="";
+        $paragrafosRipRespaldatoriosPermisos="";
+        $permisoParticularCumpleOk="";
+        if($objCe->tipoexcepcion_id==1){
+            if($objCe->excepcion==="CUMPLEAÑOS"){
+                $permisoParticularCumpleOk="X";
+            }
+            else{
+                if($objCe->cantidad==2){
+                    switch($objCe->unidad){
+                        case "HORA":$permisoParticularMensualDosDosHorasOk="X";$paragrafosRipRespaldatoriosPermisos=utf8_decode("(RIP, Par. I: ".$objCe->frecuencia_descripcion.")");break;
+                        case "DIA":$permisoParticularMensualDosDosHorasOk="X";$paragrafosRipRespaldatoriosPermisos=utf8_decode("(RIP, Par. II: ".$objCe->frecuencia_descripcion.")");break;
+                        default:break;
+                    }
+                }
+
+            }
+        }
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(53,5,"Permiso Personal (Art. 35 del RIP)",'',0,'L',false);
+        $this->Cell(10,5,$permisoParticularMensualDosDosHorasOk,'LRTB',0,'C',false);
+        $this->SetFont('Arial', '', 5);
+        $this->Cell(10,5,$paragrafosRipRespaldatoriosPermisos,'',0,'L',false);
+        /**
+         * Sexta parte
+         */
+        $this->SetY(103);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(53,5,utf8_decode("Permiso por Cumpleaños"),'',0,'L',false);
+        $this->Cell(10,5,$permisoParticularCumpleOk,'LRTB',0,'C',false);
+
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(55,5,utf8_decode("Firma y Sello del Médico:"),'',0,'R',false);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(65,5,"....................................................",'',0,'L',false);
+        /**
+         * Séptima parte
+         */
+        $valorY = 117;
+        $this->SetY($valorY);
+        $verificador="";
+        $cargoVerificador="";
+        $aprobador="";
+        $cargoAprobador = "";
+        if($objCe->controlexcepcion_user_ver_id!=null&&$objCe->controlexcepcion_estado>=4){
+            $verificador = $objCe->controlexcepcion_user_verificador;
+            $usuarioVerificador = usuarios::findFirstById($objCe->controlexcepcion_user_ver_id);
+            if(is_object($usuarioVerificador)){
+                $relaboral = relaborales::findFirst(array("persona_id=".$usuarioVerificador->persona_id." AND estado>=1"));
+                if(is_object($relaboral)){
+                    $objRelaboralVerificador = new Frelaborales();
+                    $objRV = $objRelaboralVerificador->getOneRelaboralConsiderandoUltimaMovilidad($relaboral->id);
+                    $cargoVerificador = $objRV->cargo;
+                }
+            }
+            $this->SetFont('Arial', 'B', 7);
+            $this->Cell(25,5,"Verificado por:",'',0,'L',false);
+            $this->SetFont('Arial', '', 7);
+            $this->MultiCell(140,3,utf8_decode($verificador." - ".$cargoVerificador),0,'J',false);
+            $valorY+=5;
+            $this->SetY($valorY);
+        }
+        $valorY+=7;
+        /**
+         * Se usa el valor >=6 debido a que se ha solicitado la agregación de un séptimo nivel donde
+         * se establece la recepción del formulario en el Departamento de Recursos Humanos.
+         */
+        if($objCe->controlexcepcion_user_apr_id!=null&&$objCe->controlexcepcion_estado>=6){
+            /**
+             * Octava parte
+             */
+
+            $aprobador = $objCe->controlexcepcion_user_aprobador;
+            $usuarioAprobador = usuarios::findFirstById($objCe->controlexcepcion_user_apr_id);
+            if(is_object($usuarioAprobador)){
+                $relaboral = relaborales::findFirst(array("persona_id=".$usuarioAprobador->persona_id." AND estado>=1"));
+                if(is_object($relaboral)){
+                    $objRelaboralAprobador = new Frelaborales();
+                    $objRA = $objRelaboralAprobador->getOneRelaboralConsiderandoUltimaMovilidad($relaboral->id);
+                    $cargoAprobador = $objRA->cargo;
+                }
+            }
+            $this->SetFont('Arial', 'B', 7);
+            $this->Cell(25,5,"Aprobado por :",'',0,'L',false);
+            $this->SetFont('Arial', '', 7);
+            $this->MultiCell(133,3,utf8_decode($aprobador." - ".$cargoAprobador),0,'J',false);
+        }
+        $this->SetY($valorY);
+        $this->SetFont('Arial', '', 6);
+        $this->SetDrawColor(0,0,0); // Set the border colour to Aqua
+        $this->SetFillColor(191,191, 191);
+        $leyenda = "Nota: El presente formulario (no debe contener borrones o información falsa) deberá ser presentado: un día antes, el mismo día o un día después  al permiso o ";
+        $leyenda .= "licencia, posteriormente no será tomada en cuenta, a la hora de hacer planillas. El encargado de Control de Personal, será  el responsable de verificar que se ";
+        $leyenda .= "cumplió con las horas y fechas señaladas. Para solicitud de permisos iguales o mayores a 24 horas, deberán emitirse memorándums de designación en comisión ";
+        $leyenda .= "y/o solicitud de licencias sin goce de haberes de acuerdo a lo establecido en el RIP.";
+        $leyenda = utf8_decode($leyenda);
+        $this->MultiCell(157,3,$leyenda,1,'J',true);
+        $imgname = $objCe->id_controlexcepcion.'.png';
+        $this->Image($tempDir.$imgname ,168,102,40);
+    }
+    /**
+     * Función para la creación de la imagen con el código QR de acuerdo a los datos del registro de Control de Excepciones.
+     * @param $tempDir
+     * @param $objR
+     * @param $objCe
+     */
+    function crearCodigoConDatosQR($tempDir,$objR,$objCe,$objCorr){
+        $nombreTrabajador=utf8_decode($objR->nombres);
+        $ciTrabajador=$objR->ci." ".$objR->expd;
+        $gerenciaSolicitante=utf8_decode(str_replace("GERENCIA DE ","",$objR->gerencia_administrativa));
+        $departamentoSolicitante=utf8_decode(str_replace("DEPARTAMENTO DE ","",$objR->departamento_administrativo!==""?$objR->departamento_administrativo:""));
+        $horaSalida=$objCe->hora_ini;
+        $horaRetorno=$objCe->hora_fin;
+        $fechaVerificacion="";
+        $fechaAprobacion="";
+        $gestion = substr($objCorr->gestion, -2);
+        $cant = strlen($objCorr->numero);
+        $prefijo="";
+        switch($cant){
+            case 1:$prefijo="0000";break;
+            case 2:$prefijo="000";break;
+            case 3:$prefijo="00";break;
+            case 4:$prefijo="0";break;
+        }
+
+
+        $codeContents="Código: ".$prefijo.$objCorr->numero."-".$gestion."\n";
+        $codeContents.="Nombre: ".$nombreTrabajador."\n";
+        $codeContents.="C. I.: ".$ciTrabajador."\n";
+        /*$codeContents.="Gerencia: ".$gerenciaSolicitante."\n";
+        $codeContents.="Departamento: ".$departamentoSolicitante."\n";*/
+
+
+        if($objCe->fecha_ini==$objCe->fecha_fin){
+            $lblFecha="Fecha: ";
+            $fecha=$objCe->fecha_ini != "" ? date("d-m-Y", strtotime($objCe->fecha_ini)) : "";
+        }else{
+            $lblFecha="Fechas: ";
+            $fecha=$objCe->fecha_ini != "" ? date("d-m-Y", strtotime($objCe->fecha_ini)) : ""." AL ".$objCe->fecha_fin != "" ? date("d-m-Y", strtotime($objCe->fecha_fin)) : "";
+        }
+        $codeContents.=$lblFecha.$fecha."\n";
+        if($objCe->horario==1){
+            $horaSalida = $horaSalida != "" ? date("H:i", strtotime($horaSalida)):"";
+            $horaRetorno = $horaSalida != "" ? date("H:i", strtotime($horaRetorno)):"";
+            $codeContents.="Salida: ".$horaSalida."\n";
+            $codeContents.="Retorno: ".$horaRetorno."\n";
+        }
+        $codeContents.="Tipo de Permiso: ".utf8_decode($objCe->tipo_excepcion)."\n";
+        switch($objCe->tipoexcepcion_id){
+            case 1:
+                if($objCe->excepcion==="CUMPLEAÑOS"){
+
+                    $tipoPermisoParticular=utf8_decode("Permiso por Cumpleaños");
+                }
+                else{
+                    $tipoPermisoParticular=utf8_decode("Permiso Personal (Art. 35 del RIP)");
+                }
+                $codeContents.="(".utf8_decode($tipoPermisoParticular).")\n";
+                break;
+            case 2:
+                $codeContents.="Lugar: ".utf8_decode($objCe->observacion)."\n";
+                $codeContents.="Motivo: ".utf8_decode($objCe->justificacion)."\n";
+                break;
+            case 3:
+
+                break;
+        }
+        if($objCe->controlexcepcion_estado>0){
+            $verificador="";
+            $cargoVerificador="";
+            $aprobador="";
+            $cargoAprobador = "";
+            if($objCe->controlexcepcion_user_ver_id!=null){
+                $verificador = $objCe->controlexcepcion_user_verificador;
+                $usuarioVerificador = usuarios::findFirstById($objCe->controlexcepcion_user_ver_id);
+                if(is_object($usuarioVerificador)){
+                    $relaboral = relaborales::findFirst(array("persona_id=".$usuarioVerificador->persona_id." AND estado>=1"));
+                    if(is_object($relaboral)){
+                        $objRelaboralVerificador = new Frelaborales();
+                        $objRV = $objRelaboralVerificador->getOneRelaboralConsiderandoUltimaMovilidad($relaboral->id);
+                        $cargoVerificador = $objRV->cargo;
+                        $fechaVerificacion=$objCe->controlexcepcion_fecha_ver != "" ? date("d-m-Y H:i:s", strtotime($objCe->controlexcepcion_fecha_ver)) : "";
+                    }
+                }
+                $codeContents.="Verificador: ".utf8_decode($verificador)."\n";
+                $codeContents.="Cargo Verificador: ".utf8_decode($cargoVerificador)."\n";
+                $codeContents.="Fecha Verificación: ".utf8_decode($fechaVerificacion)."\n";
+            }
+            $aprobador = $objCe->controlexcepcion_user_aprobador;
+            $usuarioAprobador = usuarios::findFirstById($objCe->controlexcepcion_user_apr_id);
+            if(is_object($usuarioAprobador)){
+                $relaboral = relaborales::findFirst(array("persona_id=".$usuarioAprobador->persona_id." AND estado>=1"));
+                if(is_object($relaboral)){
+                    $objRelaboralAprobador = new Frelaborales();
+                    $objRA = $objRelaboralAprobador->getOneRelaboralConsiderandoUltimaMovilidad($relaboral->id);
+                    $cargoAprobador = $objRA->cargo;
+                    $fechaAprobacion=$objCe->controlexcepcion_fecha_apr != "" ? date("d-m-Y H:i:s", strtotime($objCe->controlexcepcion_fecha_apr)) : "";
+                }
+                $codeContents.="Aprobador: ".utf8_decode($aprobador)."\n";
+                $codeContents.="Cargo Aprobador: ".utf8_decode($cargoAprobador)."\n";
+                $codeContents.="Fecha Aprobación: ".utf8_decode($fechaAprobacion)."\n";
+            }
+        }
+        $codeContents.=utf8_decode("Excepción: ".$objCe->excepcion)."\n";
+        $codeContents.=utf8_decode("Estado: ".$objCe->controlexcepcion_estado_descripcion)."\n";
+        /**
+         * Inicialmente se elimina la imagen pre-existente debido a que puede contener datos desactualizados
+         */
+        if (file_exists($tempDir.$objCe->id_controlexcepcion.'.png'))
+        unlink($tempDir.$objCe->id_controlexcepcion.'.png');
+        QRcode::png($codeContents, $tempDir.$objCe->id_controlexcepcion.'.png', QR_ECLEVEL_L, 3);
+    }
+
+    /**
+     * Función para la creación del código QR que sólo almacena la URL para que el sistema pueda mostrarle los datos de la boleta.
+     * @param $tempDir
+     * @param $objR
+     * @param $objCe
+     * @param $objCorr
+     */
+    function crearCodigoConUrlQR($tempDir,$objR,$objCe,$objCorr){
+        if($objCe->id_controlexcepcion>0){
+            $idControlExcepcionCodificado = rtrim(strtr(base64_encode($objCe->id_controlexcepcion), '+/', '-_'), '=');
+            $param = parametros::findFirst(array("parametro LIKE 'RUTA_APLICACION' AND estado=1 AND baja_logica=1"));
+            $ruta = 'http://rrhh.local/controlexcepcionesvistobueno/vistobueno/';
+            if(is_object($param)){
+                $ruta = 'http://'.$param->nivel.'/controlexcepcionesvistobueno/details/';
+            }
+            $codeContents=$ruta.$idControlExcepcionCodificado;
+            if (file_exists($tempDir.$objCe->id_controlexcepcion.'.png'))
+                unlink($tempDir.$objCe->id_controlexcepcion.'.png');
+            QRcode::png($codeContents, $tempDir.$objCe->id_controlexcepcion.'.png', QR_ECLEVEL_L, 3);
+        }
+    }
     /*
      *  Función para definir el pie del reporte
      */
