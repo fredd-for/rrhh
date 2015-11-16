@@ -294,8 +294,16 @@ class Frelaborales extends \Phalcon\Mvc\Model {
     public function getAllByPerson($idPersona,$gestion=0)
     {
         if($idPersona>0){
+<<<<<<< HEAD
             $sql = "SELECT * FROM f_relaborales() WHERE id_persona=".$idPersona;
             if($gestion>0)$sql.=" AND EXTRACT(YEAR FROM fecha_ini)::int = ".$gestion;
+=======
+<<<<<<< HEAD
+            $sql = "select * from f_relaborales_por_persona_gestion($idPersona,$gestion)";
+=======
+            $sql = "SELECT * FROM f_relaborales_por_persona_gestion($idPersona,$gestion)";
+>>>>>>> 519cf890f534488856fe8c7949fa2fabfefa958b
+>>>>>>> 08c448ca0736a452ddabf7f1676d17909727fc32
             $sql.=" ORDER BY fecha_ini DESC";
             $this->_db = new Frelaborales();
             return new Resultset(null, $this->_db, $this->_db->getReadConnection()->query($sql));
